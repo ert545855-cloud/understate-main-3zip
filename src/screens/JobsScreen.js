@@ -31,7 +31,7 @@ const FACTORY_JOB_ROLES = {
 };
 
 const KARIYER_ICONS  = { textile:'👕', food:'🍞', steel:'⚙️', electronics:'💻', auto:'🚗', mermi:'🔴', weapon:'🔫' };
-const KARIYER_COLORS = { textile:'#8B5CF6', food:'#C9A227', steel:'#6B7280', electronics:'#C9A227', auto:'#C24B43', mermi:'#F97316', weapon:'#C24B43' };
+const KARIYER_COLORS = { textile:'#C9A227', food:'#C9A227', steel:'#6B7280', electronics:'#C9A227', auto:'#C24B43', mermi:'#F97316', weapon:'#C24B43' };
 
 function KariyerCalismaPage({ profile, setProfile, showNotif }) {
   const { dark } = useTheme();
@@ -635,7 +635,7 @@ function CityBuildPage({ profile, setProfile, showNotif }) {
   const [tick, setTick] = useState(0);
   useEffect(() => { const t = setInterval(() => setTick(p=>p+1), 2000); return () => clearInterval(t); }, []);
 
-  const effectColors = { happiness:'#EC4899', health:'#4C9A6B', education:'#C9A227', security:'#C9A227', economy:'#4C9A6B', infrastructure:'#8B5CF6' };
+  const effectColors = { happiness:'#C24B43', health:'#4C9A6B', education:'#C9A227', security:'#C9A227', economy:'#4C9A6B', infrastructure:'#C9A227' };
   const effectLabels = { happiness:'Mutluluk', health:'Sağlık', education:'Eğitim', security:'Güvenlik', economy:'Ekonomi', infrastructure:'Altyapı' };
 
   const cityStats = useMemo(() => {
@@ -1595,8 +1595,8 @@ function TerritoryMapPage({ profile, showNotif }) {
                 ['🌑','Yeraltı',fmtWord(selected.illegalIncome||0),'#C24B43'],
                 ['🔪','Suç Oranı',`%${selected.crime}`,'#C9A227'],
                 ['👮','Alarm Seviyesi',`%${selected.alarm}`,'#C9A227'],
-                ['❤️','Halk Desteği',`%${selected.support}`,'#EC4899'],
-                ['⚡','Nüfuz Puanı',`%${selected.influence}`,'#8B5CF6'],
+                ['❤️','Halk Desteği',`%${selected.support}`,'#C24B43'],
+                ['⚡','Nüfuz Puanı',`%${selected.influence}`,'#C9A227'],
               ].map(([ic,lb,v,c])=>(
                 <div key={lb} style={{background:'rgba(255,255,255,0.025)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'0.45rem 0.5rem'}}>
                   <div style={{fontSize:'0.53rem',color:'#0A2A1A',textTransform:'uppercase',marginBottom:'1px'}}>{ic} {lb}</div>
@@ -1616,7 +1616,7 @@ function TerritoryMapPage({ profile, showNotif }) {
                 </div>
               </div>
             )}
-            {[['Halk Desteği',selected.support,'#EC4899'],['Güvenlik Skoru',100-selected.alarm,'#C9A227'],['Ekonomik Güç',Math.min(100,Math.round((selected.income||0)/3000)),'#4C9A6B']].map(([lb,v,c])=>(
+            {[['Halk Desteği',selected.support,'#C24B43'],['Güvenlik Skoru',100-selected.alarm,'#C9A227'],['Ekonomik Güç',Math.min(100,Math.round((selected.income||0)/3000)),'#4C9A6B']].map(([lb,v,c])=>(
               <div key={lb} style={{marginBottom:'0.28rem'}}>
                 <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.55rem',color:'#0A2A1A',marginBottom:'2px'}}><span>{lb}</span><span>{v}%</span></div>
                 <div style={{height:'3px',background:'rgba(237,231,218,0.05)',borderRadius:'2px'}}>
@@ -1895,7 +1895,7 @@ function TournamentPage({ profile, setProfile, showNotif }) {
     return sorted.findIndex(u=>u?.id===profile?.id)+1;
   };
 
-  const catColor = {Ekonomi:'#4C9A6B',İş:'#C9A227',Ticaret:'#C9A227',Genel:'#C9A227',Eğlence:'#8B5CF6',Dövüş:'#C24B43'};
+  const catColor = {Ekonomi:'#4C9A6B',İş:'#C9A227',Ticaret:'#C9A227',Genel:'#C9A227',Eğlence:'#C9A227',Dövüş:'#C24B43'};
 
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>

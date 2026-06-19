@@ -55,4 +55,12 @@ window.LANG_TR = {
   // === Errors ===
   errRequired:'Bu alan zorunludur', errShortPassword:'Şifre en az 6 karakter olmalı',
   errPasswordMatch:'Şifreler eşleşmiyor', errConnection:'Bağlantı hatası',
+
+  // === Header ticker ===
+  tickerOnline:'çevrimiçi',
+  tickerParliament:'Parlamento: Anayasa oylaması',
+  tickerConflict:'Aktif çatışma: Kuzey bölgesi',
+  tickerUniversity:'Yeni üniversite kuruldu',
+  tickerElection:'Seçim: 30 gün kaldı',
+  tickerMarket:'Borsa rekor: 10 yılın zirvesi',
 };

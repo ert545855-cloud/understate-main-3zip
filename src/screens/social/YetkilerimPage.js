@@ -177,7 +177,7 @@ function YetkilerimPage({ profile, setProfile, showNotif }) {
       ]
     },
     'Meclis Başkanı': {
-      icon: '🏛️', color: '#8B5CF6',
+      icon: '🏛️', color: '#C9A227',
       powers: [
         { key:'open_session', label:'🗳️ Meclis Oturumu Aç', desc:'Yasa oylaması başlat — 81 milletvekili oy kullanır (+300 XP)', cd:3*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+300};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); const evts=JSON.parse(localStorage.getItem('rep_gameEvents')||'[]'); evts.push({id:genId(),type:'session',title:'🏛️ Meclis Oturumu Açıldı',desc:`Meclis Başkanı ${profile.username} yasa oylaması başlattı!`,ts:Date.now()}); localStorage.setItem('rep_gameEvents',JSON.stringify(evts.slice(-50))); showNotif('🏛️ Meclis oturumu açıldı! +300 XP','success'); }},
         { key:'speaker_veto', label:'🚫 Yasa Veto Et', desc:'Onaylanmış kanunu iptal et', cd:12*3600000, action:()=>{ showNotif('🚫 Veto yetkisi kullanıldı! Yasa iptal edildi.','success'); }},
@@ -247,17 +247,17 @@ function YetkilerimPage({ profile, setProfile, showNotif }) {
   if (myPositions.length === 0) {
     return (
       <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>
-        <div style={{background:'rgba(139,92,246,0.08)',border:'1px solid rgba(139,92,246,0.2)',borderRadius:'14px',padding:'2rem',textAlign:'center'}}>
+        <div style={{background:'rgba(201,162,39,0.08)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'14px',padding:'2rem',textAlign:'center'}}>
           <div style={{fontSize:'3rem',marginBottom:'0.75rem'}}>🏛️</div>
-          <div style={{fontWeight:800,color:'#A78BFA',fontSize:'1rem',marginBottom:'0.5rem'}}>Henüz Makamın Yok</div>
+          <div style={{fontWeight:800,color:'#C9A227',fontSize:'1rem',marginBottom:'0.5rem'}}>Henüz Makamın Yok</div>
           <div style={{color:'#8893A1',fontSize:'0.82rem',lineHeight:1.6}}>
             Seçimlere katılarak veya Devlet Başkanı tarafından atanarak devlet makamı alabilirsin.<br/>
             Seçim sayfasına giderek aday ol!
           </div>
         </div>
         {/* ── Etki Puanı Kazan (tüm oyuncular) ── */}
-        <div style={{background:'rgba(139,92,246,0.06)',border:'1px solid rgba(139,92,246,0.2)',borderRadius:'14px',padding:'1rem',marginTop:'0.75rem',marginBottom:'0.75rem'}}>
-          <div style={{fontWeight:800,color:'#A78BFA',fontSize:'0.88rem',marginBottom:'0.2rem'}}>⚡ Etki Puanı Kazan</div>
+        <div style={{background:'rgba(201,162,39,0.06)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'14px',padding:'1rem',marginTop:'0.75rem',marginBottom:'0.75rem'}}>
+          <div style={{fontWeight:800,color:'#C9A227',fontSize:'0.88rem',marginBottom:'0.2rem'}}>⚡ Etki Puanı Kazan</div>
           <div style={{fontSize:'0.7rem',color:'#8893A1',marginBottom:'0.65rem'}}>Oyun parası harcayarak etki puanı (liyakat) kazan. Az ücretliden çok ücretliye.</div>
           {[
             {key:'inf_local',   label:'📣 Yerel Etkinlik',     cost:5000,   merit:5,   cd:2*3600000},
@@ -277,7 +277,7 @@ function YetkilerimPage({ profile, setProfile, showNotif }) {
                 ),
                 canAct
                   ? canAfford
-                    ? React.createElement('button',{onClick:()=>yetkiAction(act.key,act.cd,()=>{setProfile(p=>{const np={...p,money:(p.money||0)-act.cost,meritPoints:(p.meritPoints||0)+act.merit};localStorage.setItem('rep_userProfile',JSON.stringify(np));try{const _tk=localStorage.getItem('rep_token');if(_tk)fetch('/api/save',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+_tk},body:JSON.stringify({money:np.money,xp:np.xp||0,level:np.level||1,meritPoints:np.meritPoints||0})}).catch(()=>{});}catch(e){}return np;});showNotif(`${act.label} başarılı! +${act.merit} Etki Puanı`,'success');}),style:{background:'rgba(139,92,246,0.15)',border:'1px solid rgba(139,92,246,0.3)',borderRadius:'8px',padding:'5px 12px',color:'#A78BFA',cursor:'pointer',fontSize:'0.7rem',fontWeight:700,flexShrink:0}},'Kazan')
+                    ? React.createElement('button',{onClick:()=>yetkiAction(act.key,act.cd,()=>{setProfile(p=>{const np={...p,money:(p.money||0)-act.cost,meritPoints:(p.meritPoints||0)+act.merit};localStorage.setItem('rep_userProfile',JSON.stringify(np));try{const _tk=localStorage.getItem('rep_token');if(_tk)fetch('/api/save',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+_tk},body:JSON.stringify({money:np.money,xp:np.xp||0,level:np.level||1,meritPoints:np.meritPoints||0})}).catch(()=>{});}catch(e){}return np;});showNotif(`${act.label} başarılı! +${act.merit} Etki Puanı`,'success');}),style:{background:'rgba(201,162,39,0.15)',border:'1px solid rgba(201,162,39,0.3)',borderRadius:'8px',padding:'5px 12px',color:'#C9A227',cursor:'pointer',fontSize:'0.7rem',fontWeight:700,flexShrink:0}},'Kazan')
                     : React.createElement('span',{style:{color:'#C24B43',fontSize:'0.65rem',flexShrink:0,fontWeight:700}},'Yetersiz ₺')
                   : React.createElement('span',{style:{color:'#8893A1',fontSize:'0.65rem',flexShrink:0}},`⏳ ${Math.ceil(rem/3600000)}s`)
               )
@@ -305,8 +305,8 @@ function YetkilerimPage({ profile, setProfile, showNotif }) {
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>
       {/* ── Etki Puanı Kazan ── */}
-      <div style={{background:'rgba(139,92,246,0.06)',border:'1px solid rgba(139,92,246,0.2)',borderRadius:'14px',padding:'1rem',marginBottom:'0.75rem'}}>
-        <div style={{fontWeight:800,color:'#A78BFA',fontSize:'0.88rem',marginBottom:'0.2rem'}}>⚡ Etki Puanı Kazan</div>
+      <div style={{background:'rgba(201,162,39,0.06)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'14px',padding:'1rem',marginBottom:'0.75rem'}}>
+        <div style={{fontWeight:800,color:'#C9A227',fontSize:'0.88rem',marginBottom:'0.2rem'}}>⚡ Etki Puanı Kazan</div>
         <div style={{fontSize:'0.7rem',color:'#8893A1',marginBottom:'0.65rem'}}>Oyun parası harcayarak etki puanı (liyakat) kazan.</div>
         {[
           {key:'inf_local',   label:'📣 Yerel Etkinlik',     cost:5000,   merit:5,   cd:2*3600000},
@@ -326,7 +326,7 @@ function YetkilerimPage({ profile, setProfile, showNotif }) {
               ),
               canAct
                 ? canAfford
-                  ? React.createElement('button',{onClick:()=>yetkiAction(act.key,act.cd,()=>{setProfile(p=>{const np={...p,money:(p.money||0)-act.cost,meritPoints:(p.meritPoints||0)+act.merit};localStorage.setItem('rep_userProfile',JSON.stringify(np));try{const _tk=localStorage.getItem('rep_token');if(_tk)fetch('/api/save',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+_tk},body:JSON.stringify({money:np.money,xp:np.xp||0,level:np.level||1,meritPoints:np.meritPoints||0})}).catch(()=>{});}catch(e){}return np;});showNotif(`${act.label} başarılı! +${act.merit} Etki Puanı`,'success');}),style:{background:'rgba(139,92,246,0.15)',border:'1px solid rgba(139,92,246,0.3)',borderRadius:'8px',padding:'5px 12px',color:'#A78BFA',cursor:'pointer',fontSize:'0.7rem',fontWeight:700,flexShrink:0}},'Kazan')
+                  ? React.createElement('button',{onClick:()=>yetkiAction(act.key,act.cd,()=>{setProfile(p=>{const np={...p,money:(p.money||0)-act.cost,meritPoints:(p.meritPoints||0)+act.merit};localStorage.setItem('rep_userProfile',JSON.stringify(np));try{const _tk=localStorage.getItem('rep_token');if(_tk)fetch('/api/save',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+_tk},body:JSON.stringify({money:np.money,xp:np.xp||0,level:np.level||1,meritPoints:np.meritPoints||0})}).catch(()=>{});}catch(e){}return np;});showNotif(`${act.label} başarılı! +${act.merit} Etki Puanı`,'success');}),style:{background:'rgba(201,162,39,0.15)',border:'1px solid rgba(201,162,39,0.3)',borderRadius:'8px',padding:'5px 12px',color:'#C9A227',cursor:'pointer',fontSize:'0.7rem',fontWeight:700,flexShrink:0}},'Kazan')
                   : React.createElement('span',{style:{color:'#C24B43',fontSize:'0.65rem',flexShrink:0,fontWeight:700}},'Yetersiz ₺')
                 : React.createElement('span',{style:{color:'#8893A1',fontSize:'0.65rem',flexShrink:0}},`⏳ ${Math.ceil(rem/3600000)}s`)
             )
@@ -585,7 +585,7 @@ function YetkilerimPage({ profile, setProfile, showNotif }) {
                     <div style={{maxHeight:'160px',overflowY:'auto',scrollbarWidth:'none'}}>
                       {taxCityData.map(r=>(
                         <div key={r.city} style={{display:'grid',gridTemplateColumns:'auto 1fr 1fr 1fr',gap:'2px 6px',fontSize:'0.65rem',padding:'2px 0',borderBottom:'1px solid rgba(255,255,255,0.03)'}}>
-                          <span style={{color:'#A78BFA',fontWeight:700,whiteSpace:'nowrap'}}>{r.city}</span>
+                          <span style={{color:'#C9A227',fontWeight:700,whiteSpace:'nowrap'}}>{r.city}</span>
                           <span style={{color:'#4C9A6B',textAlign:'center',fontWeight:600}}>%{r.income_tax_rate}</span>
                           <span style={{color:'#C9A227',textAlign:'center',fontWeight:600}}>%{r.trade_tax_rate}</span>
                           <span style={{color:'#C9A227',textAlign:'center',fontWeight:600}}>%{r.property_tax_rate}</span>
@@ -602,7 +602,7 @@ function YetkilerimPage({ profile, setProfile, showNotif }) {
                 const rem = pw.cd > 0 ? Math.max(0, pw.cd - (Date.now() - (actionCooldowns[pw.key]||0))) : 0;
                 return (
                   <button key={pw.key} onClick={()=>pw.cd>0?yetkiAction(pw.key,pw.cd,pw.action):pw.action()} disabled={rem>0}
-                    style={{padding:'0.6rem 0.5rem',background:rem>0?'rgba(255,255,255,0.03)':`rgba(${def.color==='#C9A227'?'245,158,11':def.color==='#C24B43'?'239,68,68':def.color==='#4C9A6B'?'16,185,129':def.color==='#8B5CF6'?'139,92,246':def.color==='#C9A227'?'59,130,246':def.color==='#C9A227'?'6,182,212':'245,200,66'},0.1)`,border:`1px solid ${rem>0?'rgba(255,255,255,0.07)':`${def.color}30`}`,borderRadius:'10px',color:rem>0?'#3B4E63':def.color,cursor:rem>0?'not-allowed':'pointer',fontWeight:700,fontSize:'0.72rem',fontFamily:"'Inter',sans-serif",textAlign:'center',lineHeight:1.3}}>
+                    style={{padding:'0.6rem 0.5rem',background:rem>0?'rgba(255,255,255,0.03)':`rgba(${def.color==='#C9A227'?'245,158,11':def.color==='#C24B43'?'239,68,68':def.color==='#4C9A6B'?'16,185,129':def.color==='#C9A227'?'139,92,246':def.color==='#C9A227'?'59,130,246':def.color==='#C9A227'?'6,182,212':'245,200,66'},0.1)`,border:`1px solid ${rem>0?'rgba(255,255,255,0.07)':`${def.color}30`}`,borderRadius:'10px',color:rem>0?'#3B4E63':def.color,cursor:rem>0?'not-allowed':'pointer',fontWeight:700,fontSize:'0.72rem',fontFamily:"'Inter',sans-serif",textAlign:'center',lineHeight:1.3}}>
                     {pw.label}
                     <div style={{fontSize:'0.6rem',color:'#8893A1',marginTop:'2px'}}>{pw.desc}</div>
                     {rem>0&&<div style={{fontSize:'0.58rem',marginTop:'2px',color:'#8893A1'}}>⏳{Math.ceil(rem/3600000)}s</div>}

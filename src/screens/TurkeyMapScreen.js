@@ -39,7 +39,7 @@ const TR_REGION_MAP = {
 
 const TR_REGION_COLORS = {
   marmara:   '#C9A227',
-  ege:       '#8B5CF6',
+  ege:       '#C9A227',
   akdeniz:   '#C9A227',
   i_anadolu: '#6B7280',
   karadeniz: '#4C9A6B',
@@ -312,7 +312,7 @@ window.TurkeyMapScreen = function TurkeyMapScreen({ profile, gangs, families, sh
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.4rem', marginBottom: '0.7rem' }}>
         {[
           { l: 'Benim Bölgem', v: myProvinces.length, c: '#4C9A6B', ic: '🏴' },
-          { l: 'Aile Bölgesi', v: familyCtrl,         c: '#A78BFA', ic: '👨‍👩‍👧' },
+          { l: 'Aile Bölgesi', v: familyCtrl,         c: '#C9A227', ic: '👨‍👩‍👧' },
           { l: 'Çete Bölgesi', v: gangCtrl,            c: '#C24B43', ic: '⚔️' },
         ].map(s => (
           <div key={s.l} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 10, padding: '0.5rem', textAlign: 'center' }}>
@@ -390,7 +390,7 @@ window.TurkeyMapScreen = function TurkeyMapScreen({ profile, gangs, families, sh
                 <>
                   {myFamily && (
                     <button className="btn btn-primary" style={{ width: '100%' }}
-                      onClick={() => claimProvince(selected.name, myFamily.name, 'family', '#A78BFA')}>
+                      onClick={() => claimProvince(selected.name, myFamily.name, 'family', '#C9A227')}>
                       👨‍👩‍👧 Aile Adına Talep Et (₺2M kasadan)
                     </button>
                   )}

@@ -47,4 +47,12 @@ window.LANG_DE = {
   doRegister:'→ Konto erstellen', orContinueWith:'oder',
   errRequired:'Dieses Feld ist erforderlich', errShortPassword:'Passwort mindestens 6 Zeichen',
   errPasswordMatch:'Passwörter stimmen nicht überein', errConnection:'Verbindungsfehler',
+
+  // === Header ticker ===
+  tickerOnline:'online',
+  tickerParliament:'Parlament: Verfassungsabstimmung',
+  tickerConflict:'Aktiver Konflikt: Nordregion',
+  tickerUniversity:'Neue Universität gegründet',
+  tickerElection:'Wahl: Noch 30 Tage',
+  tickerMarket:'Börsenrekord: 10-Jahres-Hoch',
 };

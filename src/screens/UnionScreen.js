@@ -178,7 +178,7 @@ window.UnionScreen = function UnionScreen({ cu, allUsers, families, setCurrentPa
                 {[
                   {l:"Rolüm",v:myUnionRole,c:"#4C9A6B"},
                   {l:"Üye Sayısı",v:(myUnion.members||[]).length,c:"#C9A227"},
-                  {l:"Etki",v:myUnion.influence||0,c:"#A78BFA"},
+                  {l:"Etki",v:myUnion.influence||0,c:"#C9A227"},
                 ].map(s=>(
                   <div key={s.l} style={{background:"rgba(255,255,255,0.03)",borderRadius:8,padding:"0.4rem",textAlign:"center"}}>
                     <div style={{fontWeight:700,fontSize:"0.85rem",color:s.c}}>{s.v}</div>
@@ -255,7 +255,7 @@ window.UnionScreen = function UnionScreen({ cu, allUsers, families, setCurrentPa
                   {[
                     {l:"Üyeler",v:memberCount,c:"#C9A227"},
                     {l:"Kasa",v:fmtMoney(u.treasury||0),c:"#4C9A6B"},
-                    {l:"Etki",v:u.influence||0,c:"#A78BFA"},
+                    {l:"Etki",v:u.influence||0,c:"#C9A227"},
                   ].map(s=>(
                     <div key={s.l} style={{background:"rgba(255,255,255,0.03)",borderRadius:7,padding:"0.35rem",textAlign:"center"}}>
                       <div style={{fontWeight:700,fontSize:"0.8rem",color:s.c}}>{s.v}</div>

@@ -82,8 +82,8 @@ function StorePage({ profile, setProfile, showNotif }) {
       <div style={{background:'linear-gradient(135deg,#0f0c29,#302b63,#24243e)',border:'1px solid rgba(236,72,153,0.3)',borderRadius:'14px',padding:'1.25rem',textAlign:'center',marginBottom:'0.75rem'}}>
         <div style={{fontSize:'2rem',marginBottom:'0.4rem'}}>🛒</div>
         <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.2rem',fontWeight:900,color:'#EDE7DA'}}>UNDERSTATE MARKET</div>
-        <div style={{fontSize:'0.72rem',color:'#C4B5FD',marginTop:'0.25rem'}}>VIP üyelik ve UnderCoin satın al</div>
-        {profile?.premium && <div style={{marginTop:'0.5rem',display:'inline-block',background:'rgba(167,139,250,0.2)',border:'1px solid rgba(167,139,250,0.4)',borderRadius:'8px',padding:'0.25rem 0.75rem',fontSize:'0.7rem',color:'#A78BFA',fontWeight:700}}>✅ Aktif VIP Üye</div>}
+        <div style={{fontSize:'0.72rem',color:'#EDE7DA',marginTop:'0.25rem'}}>VIP üyelik ve UnderCoin satın al</div>
+        {profile?.premium && <div style={{marginTop:'0.5rem',display:'inline-block',background:'rgba(167,139,250,0.2)',border:'1px solid rgba(201,162,39,0.35)',borderRadius:'8px',padding:'0.25rem 0.75rem',fontSize:'0.7rem',color:'#C9A227',fontWeight:700}}>✅ Aktif VIP Üye</div>}
       </div>
 
       <div style={{display:'flex',gap:'4px',marginBottom:'0.75rem'}}>
@@ -125,27 +125,27 @@ function StorePage({ profile, setProfile, showNotif }) {
         <div>
           <div style={{fontSize:'0.7rem',color:'#8893A1',marginBottom:'0.5rem',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.07em'}}>💎 VIP Üyelik Planları</div>
           {vipPlans.map(plan => (
-            <div key={plan.id} style={{...card,border:`1px solid ${plan.popular?'rgba(167,139,250,0.45)':'rgba(255,255,255,0.07)'}`,background:plan.popular?'linear-gradient(135deg,rgba(139,92,246,0.1),rgba(11,21,39,0.9))':'rgba(11,21,39,0.9)',marginBottom:'0.65rem'}}>
+            <div key={plan.id} style={{...card,border:`1px solid ${plan.popular?'rgba(167,139,250,0.45)':'rgba(255,255,255,0.07)'}`,background:plan.popular?'linear-gradient(135deg,rgba(201,162,39,0.1),rgba(11,21,39,0.9))':'rgba(11,21,39,0.9)',marginBottom:'0.65rem'}}>
               <div style={{display:'flex',alignItems:'flex-start',gap:'0.75rem',marginBottom:'0.65rem'}}>
                 <div style={{fontSize:'1.8rem',flexShrink:0}}>{plan.badge}</div>
                 <div style={{flex:1}}>
                   <div style={{display:'flex',alignItems:'center',gap:'0.4rem',flexWrap:'wrap'}}>
                     <span style={{fontWeight:900,color:'#EDE7DA',fontSize:'0.95rem'}}>{plan.label}</span>
-                    {plan.popular && <span style={{background:'rgba(139,92,246,0.25)',border:'1px solid rgba(167,139,250,0.4)',borderRadius:'6px',padding:'1px 6px',fontSize:'0.6rem',color:'#A78BFA',fontWeight:700}}>En Popüler</span>}
+                    {plan.popular && <span style={{background:'rgba(201,162,39,0.20)',border:'1px solid rgba(201,162,39,0.35)',borderRadius:'6px',padding:'1px 6px',fontSize:'0.6rem',color:'#C9A227',fontWeight:700}}>En Popüler</span>}
                     {plan.save && <span style={{background:'rgba(76,154,107,0.12)',border:'1px solid rgba(76,154,107,0.25)',borderRadius:'6px',padding:'1px 6px',fontSize:'0.6rem',color:'#4C9A6B',fontWeight:700}}>{plan.save}</span>}
                   </div>
-                  <div style={{fontWeight:900,color:'#A78BFA',fontSize:'1.25rem',marginTop:'0.15rem'}}>₺{plan.price.toLocaleString('tr-TR', {minimumFractionDigits:2})}</div>
+                  <div style={{fontWeight:900,color:'#C9A227',fontSize:'1.25rem',marginTop:'0.15rem'}}>₺{plan.price.toLocaleString('tr-TR', {minimumFractionDigits:2})}</div>
                   <div style={{fontSize:'0.65rem',color:'#8893A1'}}>{plan.days} gün VIP üyelik</div>
                 </div>
               </div>
               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.3rem',marginBottom:'0.65rem'}}>
                 {plan.features.map(f => (
                   <div key={f} style={{fontSize:'0.68rem',color:'#8893A1',display:'flex',alignItems:'center',gap:'0.3rem'}}>
-                    <span style={{color:'#A78BFA'}}>✓</span>{f}
+                    <span style={{color:'#C9A227'}}>✓</span>{f}
                   </div>
                 ))}
               </div>
-              <button onClick={()=>handleBuyVIP(plan)} disabled={buying===plan.id} style={{width:'100%',padding:'0.65rem',borderRadius:'12px',border:'none',background:'linear-gradient(135deg,#7C3AED,#A855F7)',color:'#EDE7DA',fontWeight:700,fontSize:'0.85rem',cursor:buying?'not-allowed':'pointer',letterSpacing:'0.03em',opacity:buying===plan.id?0.6:1}}>
+              <button onClick={()=>handleBuyVIP(plan)} disabled={buying===plan.id} style={{width:'100%',padding:'0.65rem',borderRadius:'12px',border:'none',background:'linear-gradient(135deg,#C24B43,#A855F7)',color:'#EDE7DA',fontWeight:700,fontSize:'0.85rem',cursor:buying?'not-allowed':'pointer',letterSpacing:'0.03em',opacity:buying===plan.id?0.6:1}}>
                 {buying===plan.id ? '⏳ İşleniyor...' : `💎 ${plan.label} Satın Al`}
               </button>
             </div>
@@ -164,42 +164,42 @@ function StorePage({ profile, setProfile, showNotif }) {
 
       {tab==='edu' && (
         <div>
-          <div style={{background:'linear-gradient(135deg,rgba(139,92,246,0.15),rgba(11,21,39,0.97))',border:'1px solid rgba(139,92,246,0.35)',borderRadius:'10px',padding:'1.25rem',textAlign:'center',marginBottom:'0.75rem'}}>
+          <div style={{background:'linear-gradient(135deg,rgba(201,162,39,0.15),rgba(11,21,39,0.97))',border:'1px solid rgba(201,162,39,0.35)',borderRadius:'10px',padding:'1.25rem',textAlign:'center',marginBottom:'0.75rem'}}>
             <div style={{fontSize:'2rem',marginBottom:'0.4rem'}}>📚</div>
-            <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:900,color:'#C4B5FD'}}>EĞİTİM PAKETİ</div>
-            <div style={{fontSize:'0.72rem',color:'#8B5CF6',marginTop:'0.2rem'}}>Eğitim tıklamalarında 12 saatlik bekleme süresi (normal: 5 dk)</div>
+            <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA'}}>EĞİTİM PAKETİ</div>
+            <div style={{fontSize:'0.72rem',color:'#C9A227',marginTop:'0.2rem'}}>Eğitim tıklamalarında 12 saatlik bekleme süresi (normal: 5 dk)</div>
             {(profile?.packages?.edu || profile?.eduPackage) && (
               <div style={{marginTop:'0.5rem',display:'inline-block',background:'rgba(76,154,107,0.12)',border:'1px solid rgba(76,154,107,0.4)',borderRadius:'8px',padding:'0.25rem 0.75rem',fontSize:'0.7rem',color:'#4C9A6B',fontWeight:700}}>✅ Aktif Paketiniz Var</div>
             )}
           </div>
 
-          <div style={{background:'linear-gradient(135deg,rgba(139,92,246,0.08),rgba(11,21,39,0.95))',border:'1px solid rgba(139,92,246,0.35)',borderRadius:'10px',padding:'1rem',marginBottom:'0.65rem'}}>
+          <div style={{background:'linear-gradient(135deg,rgba(201,162,39,0.08),rgba(11,21,39,0.95))',border:'1px solid rgba(201,162,39,0.35)',borderRadius:'10px',padding:'1rem',marginBottom:'0.65rem'}}>
             <div style={{display:'flex',alignItems:'flex-start',gap:'0.75rem',marginBottom:'0.75rem'}}>
               <div style={{fontSize:'2rem',flexShrink:0}}>📦</div>
               <div style={{flex:1}}>
                 <div style={{display:'flex',alignItems:'center',gap:'0.4rem',flexWrap:'wrap'}}>
-                  <span style={{fontWeight:900,color:'#C4B5FD',fontSize:'1rem'}}>30 Günlük Eğitim Paketi</span>
+                  <span style={{fontWeight:900,color:'#EDE7DA',fontSize:'1rem'}}>30 Günlük Eğitim Paketi</span>
                   <span style={{background:'rgba(76,154,107,0.12)',border:'1px solid rgba(76,154,107,0.25)',borderRadius:'6px',padding:'1px 6px',fontSize:'0.62rem',color:'#4C9A6B',fontWeight:700}}>🔥 Popüler</span>
                 </div>
-                <div style={{fontWeight:900,color:'#A78BFA',fontSize:'1.4rem',marginTop:'0.1rem'}}>₺1.199,99</div>
+                <div style={{fontWeight:900,color:'#C9A227',fontSize:'1.4rem',marginTop:'0.1rem'}}>₺1.199,99</div>
                 <div style={{fontSize:'0.65rem',color:'#8893A1'}}>30 gün geçerli eğitim paketi</div>
               </div>
             </div>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.3rem',marginBottom:'0.75rem'}}>
               {['📚 Her tıklama: 12 saat bekle','⚡ Normal: 5 dakika bekleme','🎓 Daha hızlı diploma kazan','🏆 Ekstra XP bonusu yok'].map(f=>(
                 <div key={f} style={{fontSize:'0.68rem',color:'#8893A1',display:'flex',alignItems:'center',gap:'0.3rem'}}>
-                  <span style={{color:'#A78BFA'}}>✓</span>{f}
+                  <span style={{color:'#C9A227'}}>✓</span>{f}
                 </div>
               ))}
             </div>
             <button onClick={()=>showNotif('💳 Eğitim Paketi (₺1.199,99) için ödeme sayfasına yönlendiriliyor...','gold')}
-              style={{width:'100%',padding:'0.7rem',borderRadius:'12px',border:'none',background:'linear-gradient(135deg,#7C3AED,#A855F7)',color:'#EDE7DA',fontWeight:700,fontSize:'0.85rem',cursor:'pointer',letterSpacing:'0.03em'}}>
+              style={{width:'100%',padding:'0.7rem',borderRadius:'12px',border:'none',background:'linear-gradient(135deg,#C24B43,#A855F7)',color:'#EDE7DA',fontWeight:700,fontSize:'0.85rem',cursor:'pointer',letterSpacing:'0.03em'}}>
               📚 Eğitim Paketi Al — ₺1.199,99
             </button>
           </div>
 
           <div style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'12px',padding:'0.75rem',fontSize:'0.7rem',color:'#8893A1',lineHeight:1.7}}>
-            💡 <strong style={{color:'#C4B5FD'}}>Eğitim Paketi</strong> ile her eğitim tıklaması sonrası <strong style={{color:'#A78BFA'}}>12 saat</strong> beklersin (5 dk yerine). Admin veya admin panelinden da verilebilir.
+            💡 <strong style={{color:'#EDE7DA'}}>Eğitim Paketi</strong> ile her eğitim tıklaması sonrası <strong style={{color:'#C9A227'}}>12 saat</strong> beklersin (5 dk yerine). Admin veya admin panelinden da verilebilir.
           </div>
         </div>
       )}

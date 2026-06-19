@@ -130,7 +130,7 @@ function CasinoPage({ profile, setProfile, showNotif }) {
     {label:'₺50,000',icon:'💰',type:'money',value:50000,color:'#4C9A6B',weight:12},
     {label:'₺200,000',icon:'💎',type:'money',value:200000,color:'#4C9A6B',weight:4},
     {label:'20 UC',icon:'🪙',type:'uc',value:20,color:'#FFB800',weight:20},
-    {label:'100 UC',icon:'💎',type:'uc',value:100,color:'#A78BFA',weight:5},
+    {label:'100 UC',icon:'💎',type:'uc',value:100,color:'#C9A227',weight:5},
     {label:'+10 HP',icon:'❤️',type:'hp',value:10,color:'#C24B43',weight:18},
     {label:'+10🏅',icon:'🏅',type:'merit',value:10,color:'#C9A227',weight:10},
     {label:'JACKPOT!',icon:'👑',type:'money',value:1000000,color:'#C9A227',weight:1},
@@ -262,13 +262,13 @@ function CasinoPage({ profile, setProfile, showNotif }) {
       </div>}
 
       {tab==='poker'&&<div style={{maxWidth:400,margin:'0 auto'}}>
-        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:700,color:'#A78BFA',marginBottom:'0.75rem',textAlign:'center'}}>♠️ Video Poker (Jacks or Better)</div>
+        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:700,color:'#C9A227',marginBottom:'0.75rem',textAlign:'center'}}>♠️ Video Poker (Jacks or Better)</div>
         <div style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'0.75rem',marginBottom:'0.75rem',display:'flex',alignItems:'center',gap:'0.5rem'}}>
           <span style={{fontSize:'0.82rem',color:'#999'}}>Bahis:</span>
           <input type="number" value={betAmt} onChange={e=>setBetAmt(Math.max(5000,parseInt(e.target.value)||5000))} style={{flex:1,padding:'0.4rem 0.5rem',background:'rgba(237,231,218,0.05)',border:'1px solid rgba(255,255,255,0.12)',borderRadius:'6px',color:'#EDE7DA',fontSize:'0.9rem',outline:'none',fontFamily:'inherit'}} />
         </div>
         {!pokerState&&<div>
-          <button onClick={startPoker} style={{width:'100%',padding:'0.7rem',background:'rgba(167,139,250,0.12)',border:'1px solid rgba(167,139,250,0.3)',borderRadius:'10px',color:'#A78BFA',cursor:'pointer',fontWeight:700,fontFamily:'inherit',fontSize:'1rem'}}>♠️ Poker Başlat</button>
+          <button onClick={startPoker} style={{width:'100%',padding:'0.7rem',background:'rgba(201,162,39,0.10)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'10px',color:'#C9A227',cursor:'pointer',fontWeight:700,fontFamily:'inherit',fontSize:'1rem'}}>♠️ Poker Başlat</button>
           <div style={{marginTop:'0.75rem',display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.3rem'}}>
             {[{h:'Royal Flush',p:'800x'},{h:'Straight Flush',p:'50x'},{h:'Four of a Kind',p:'25x'},{h:'Full House',p:'9x'},{h:'Flush',p:'6x'},{h:'Straight',p:'4x'},{h:'Three of a Kind',p:'3x'},{h:'Two Pair',p:'2x'},{h:'Jacks or Better',p:'1x'}].map(r=>(
               <div key={r.h} style={{display:'flex',justifyContent:'space-between',padding:'0.25rem 0.5rem',background:'rgba(237,231,218,0.02)',borderRadius:'5px',fontSize:'0.72rem'}}>
@@ -288,7 +288,7 @@ function CasinoPage({ profile, setProfile, showNotif }) {
               </div>
             ))}
           </div>
-          {pokerState.phase==='hold'&&<button onClick={pokerDraw} style={{width:'100%',padding:'0.65rem',background:'rgba(167,139,250,0.15)',border:'1px solid rgba(167,139,250,0.35)',borderRadius:'10px',color:'#A78BFA',cursor:'pointer',fontWeight:700,fontFamily:'inherit',fontSize:'0.95rem'}}>🃏 Kartları Dağıt</button>}
+          {pokerState.phase==='hold'&&<button onClick={pokerDraw} style={{width:'100%',padding:'0.65rem',background:'rgba(201,162,39,0.12)',border:'1px solid rgba(167,139,250,0.35)',borderRadius:'10px',color:'#C9A227',cursor:'pointer',fontWeight:700,fontFamily:'inherit',fontSize:'0.95rem'}}>🃏 Kartları Dağıt</button>}
           {pokerState.phase==='result'&&<div>
             <div style={{textAlign:'center',padding:'0.75rem',background:pokerState.win>0?'rgba(76,154,107,0.1)':'rgba(194,75,67,0.1)',border:`1px solid ${pokerState.win>0?'rgba(76,154,107,0.3)':'rgba(194,75,67,0.3)'}`,borderRadius:'10px',marginBottom:'0.5rem'}}>
               <div style={{fontWeight:700,color:pokerState.win>0?'#4C9A6B':'#C24B43',fontSize:'0.95rem'}}>{pokerState.result} {pokerState.win>0?`+₺${pokerState.win.toLocaleString()}`:'Kazanmadın!'}</div>
@@ -352,8 +352,8 @@ function GameEventTicker({ events, onNavigate }) {
   })() : '';
 
   const CAT_COLORS = {
-    seçim:'#A78BFA', savaş:'#C24B43', ihale:'#C9A227', grev:'#F97316',
-    parti:'#8B5CF6', çete:'#C24B43', aile:'#C9A227', ohal:'#C24B43',
+    seçim:'#C9A227', savaş:'#C24B43', ihale:'#C9A227', grev:'#F97316',
+    parti:'#C9A227', çete:'#C24B43', aile:'#C9A227', ohal:'#C24B43',
     duyuru:'#4C9A6B', sendika:'#C9A227', genel:'#8893A1',
   };
   const color = CAT_COLORS[evt.category] || '#8893A1';

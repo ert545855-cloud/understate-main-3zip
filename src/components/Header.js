@@ -56,7 +56,7 @@ function Header({ profile, notifCount, onNotif, page, onNavigate }) {
           animation:'ticker 35s linear infinite',
           paddingLeft:'100%',
         }}>
-          🟢 {onlineCnt} çevrimiçi &nbsp;•&nbsp; 💰 TECH +2.4% &nbsp;ENERGY -1.1% &nbsp;BANK +3.2% &nbsp;•&nbsp; 🏛️ Parlamento: Anayasa değişikliği oylaması &nbsp;•&nbsp; ⚔️ Aktif çatışma: Kuzey bölgesi &nbsp;•&nbsp; 🎓 Yeni üniversite kuruldu &nbsp;•&nbsp; 💼 İşsizlik %12.4 &nbsp;•&nbsp; 📈 Borsa rekor: 10 yılın zirvesi &nbsp;•&nbsp; 🗳️ Seçim: 30 gün kaldı &nbsp;•&nbsp; 🟢 {onlineCnt} çevrimiçi &nbsp;•&nbsp; 💰 TECH +2.4%
+          🟢 {onlineCnt} {T('tickerOnline')} &nbsp;•&nbsp; 💰 TECH +2.4% &nbsp;ENERGY -1.1% &nbsp;BANK +3.2% &nbsp;•&nbsp; 🏛️ {T('tickerParliament')} &nbsp;•&nbsp; ⚔️ {T('tickerConflict')} &nbsp;•&nbsp; 🎓 {T('tickerUniversity')} &nbsp;•&nbsp; 📈 {T('tickerMarket')} &nbsp;•&nbsp; 🗳️ {T('tickerElection')} &nbsp;•&nbsp; 🟢 {onlineCnt} {T('tickerOnline')} &nbsp;•&nbsp; 💰 TECH +2.4%
         </div>
       </div>
 

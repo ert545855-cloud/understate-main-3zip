@@ -94,7 +94,7 @@ function FactoryPage({ profile, setProfile, showNotif }) {
     showNotif(`🏚️ Fabrika yıkıldı. +₺${refund.toLocaleString()} iade`, 'info');
   };
 
-  const CAT_COLOR = { devlet: '#C9A227', ozel: '#A78BFA' };
+  const CAT_COLOR = { devlet: '#C9A227', ozel: '#C9A227' };
   const CAT_LABEL = { devlet: '🏛️ Devlet Fabrikaları', ozel: '⚙️ Özel Fabrikalar' };
 
   return (
@@ -134,7 +134,7 @@ function FactoryPage({ profile, setProfile, showNotif }) {
             const cycles  = Math.floor(elapsed / myFact.prodTime);
             const rem     = Math.max(0, myFact.prodTime - (elapsed % myFact.prodTime));
             const pct     = cycles > 0 ? 100 : Math.round(((elapsed % myFact.prodTime) / myFact.prodTime) * 100);
-            const catColor = myFact.category === 'devlet' ? '#C9A227' : '#A78BFA';
+            const catColor = myFact.category === 'devlet' ? '#C9A227' : '#C9A227';
             const isMermi  = myFact.product === 'Mermi';
             return (
               <div>
@@ -177,7 +177,7 @@ function FactoryPage({ profile, setProfile, showNotif }) {
 
                   <div style={{ display: 'flex', gap: '0.5rem' }}>
                     <button onClick={collectIncome} style={{ flex: 1, padding: '0.55rem', background: 'rgba(76,154,107,0.12)', border: '1px solid rgba(76,154,107,0.3)', borderRadius: 8, color: '#4C9A6B', cursor: 'pointer', fontWeight: 700, fontFamily: 'inherit', fontSize: '0.82rem' }}>💰 Topla</button>
-                    <button onClick={upgradeFactory} style={{ flex: 1, padding: '0.55rem', background: 'rgba(167,139,250,0.1)', border: '1px solid rgba(167,139,250,0.25)', borderRadius: 8, color: '#A78BFA', cursor: 'pointer', fontWeight: 700, fontFamily: 'inherit', fontSize: '0.82rem' }}>⬆️ Geliştir (₺{(myFact.level * 250000).toLocaleString()})</button>
+                    <button onClick={upgradeFactory} style={{ flex: 1, padding: '0.55rem', background: 'rgba(167,139,250,0.1)', border: '1px solid rgba(167,139,250,0.25)', borderRadius: 8, color: '#C9A227', cursor: 'pointer', fontWeight: 700, fontFamily: 'inherit', fontSize: '0.82rem' }}>⬆️ Geliştir (₺{(myFact.level * 250000).toLocaleString()})</button>
                   </div>
                 </div>
 
@@ -239,7 +239,7 @@ function FactoryPage({ profile, setProfile, showNotif }) {
           {/* Factory type list */}
           {(buildCat === 'devlet' ? DEVLET_TYPES : OZEL_TYPES).map(type => {
             const canAfford = (cu.money || 0) >= type.cost;
-            const accentCol = buildCat === 'devlet' ? '#C9A227' : '#A78BFA';
+            const accentCol = buildCat === 'devlet' ? '#C9A227' : '#C9A227';
             const isMermi   = type.product === 'Mermi';
             return (
               <div key={type.id} style={{
@@ -293,7 +293,7 @@ function FactoryPage({ profile, setProfile, showNotif }) {
           )}
           {factories.map(f => {
             const isDevlet  = f.category === 'devlet';
-            const catColor  = isDevlet ? '#C9A227' : '#A78BFA';
+            const catColor  = isDevlet ? '#C9A227' : '#C9A227';
             const isMermi   = f.product === 'Mermi';
             const elapsed   = now - f.lastProd;
             const cycles    = Math.floor(elapsed / f.prodTime);

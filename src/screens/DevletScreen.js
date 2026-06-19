@@ -226,7 +226,7 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
 
       {/* Parti bilgisi */}
       {myParty ? (
-        <div style={{background:'rgba(167,139,250,0.08)',border:'1px solid rgba(167,139,250,0.3)',borderRadius:'12px',padding:'0.65rem',marginBottom:'0.75rem',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+        <div style={{background:'rgba(167,139,250,0.08)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'12px',padding:'0.65rem',marginBottom:'0.75rem',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
           <div>
             <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.85rem'}}>{myParty.name}</div>
             <div style={{fontSize:'0.65rem',color:'#8893A1'}}>Senin partin</div>
@@ -325,7 +325,7 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
                 ) : !canAfford ? (
                   <span style={{fontSize:'0.62rem',color:'#C24B43',fontWeight:700}}>Yetersiz ₺</span>
                 ) : (
-                  <button onClick={()=>doAction(act)} style={{background:'rgba(167,139,250,0.15)',border:'1px solid rgba(201,162,39,0.3)',borderRadius:'8px',padding:'5px 12px',color:'#EDE7DA',cursor:'pointer',fontWeight:700,fontSize:'0.72rem',whiteSpace:'nowrap'}}>Yap</button>
+                  <button onClick={()=>doAction(act)} style={{background:'rgba(201,162,39,0.12)',border:'1px solid rgba(201,162,39,0.3)',borderRadius:'8px',padding:'5px 12px',color:'#EDE7DA',cursor:'pointer',fontWeight:700,fontSize:'0.72rem',whiteSpace:'nowrap'}}>Yap</button>
                 )}
               </div>
             </div>

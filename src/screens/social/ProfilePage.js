@@ -265,11 +265,11 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
               ['💰','Nakit',fmtM(profile?.money),'#4C9A6B'],
               ['🏦','Banka',fmtM(profile?.bank),'#C9A227'],
               ['🪙','UnderCoin',fmtUC(profile?.underCoin),'#C9A227'],
-              ['🏅','Liyakat',fmt(profile?.meritPoints),'#8B5CF6'],
+              ['🏅','Liyakat',fmt(profile?.meritPoints),'#C9A227'],
               ['🤝','Ticaret Puanı',fmt(profile?.tradePoints),'#C9A227'],
               ['🎓','Eğitim',EDU_LEVELS.find(e=>e.id===(profile?.education?.diploma||'ilkokul'))?.label||'İlkokul','#C9A227'],
               ['❤️','Sağlık',`${profile?.health||100}%`,'#C24B43'],
-              ['😊','Mutluluk',`${profile?.happiness||80}%`,'#EC4899'],
+              ['😊','Mutluluk',`${profile?.happiness||80}%`,'#C24B43'],
               ['⚡','Enerji',`${profile?.energy||100}%`,'#C9A227'],
               ['📊','Seviye',`Lv.${profile?.level||1}`,'#C9A227'],
             ].map(([ic,lb,v,c])=>(
@@ -295,19 +295,19 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
             const sortedTrade=[...allU].sort((a,b)=>(b.tradePoints||0)-(a.tradePoints||0));
             const tradeRank=sortedTrade.findIndex(u=>u.id===profile?.id)+1;
             const tradeBonus=tradeRank===1?6:tradeRank===2?4:tradeRank<=5?3:tradeRank<=50?2:1;
-            const tradeColor=tradeBonus>=6?'#C9A227':tradeBonus>=4?'#FB923C':tradeBonus>=3?'#A78BFA':tradeBonus>=2?'#C9A227':'#8893A1';
+            const tradeColor=tradeBonus>=6?'#C9A227':tradeBonus>=4?'#FB923C':tradeBonus>=3?'#C9A227':tradeBonus>=2?'#C9A227':'#8893A1';
             const tradeLabel=tradeBonus===6?'🏆 1. Sıra':tradeBonus===4?'🥈 2. Sıra':tradeBonus===3?'🥉 3-5. Sıra':tradeBonus===2?'📈 6-50. Sıra':'51+. Sıra';
             // Eğitim sıralaması
             const sortedEdu=[...allU].sort((a,b)=>(b.educationProgress||0)-(a.educationProgress||0));
             const eduRank=sortedEdu.findIndex(u=>u.id===profile?.id)+1;
             const eduBonus=eduRank===1?3:eduRank<=3?2:eduRank<=10?1:0;
-            const eduColor=eduBonus>=3?'#C9A227':eduBonus>=2?'#A78BFA':eduBonus>=1?'#C9A227':'#8893A1';
+            const eduColor=eduBonus>=3?'#C9A227':eduBonus>=2?'#C9A227':eduBonus>=1?'#C9A227':'#8893A1';
             const eduLabel=eduBonus===3?'🏆 1. Sıra':eduBonus===2?'🥈 2-3. Sıra':eduBonus===1?'🥉 4-10. Sıra':'—';
             // UC katsayısı
             const ucBonus=profile?.voteMultiplier||0;
             // Toplam
             const total=tradeBonus+eduBonus+ucBonus;
-            const totalColor=total>=8?'#C9A227':total>=5?'#A78BFA':total>=3?'#C9A227':'#4C9A6B';
+            const totalColor=total>=8?'#C9A227':total>=5?'#C9A227':total>=3?'#C9A227':'#4C9A6B';
             return (
               <Card style={{marginTop:'0.5rem',background:'rgba(201,162,39,0.04)',border:'1px solid rgba(201,162,39,0.18)'}}>
                 <div style={{fontSize:'0.72rem',color:'#8893A1',fontWeight:700,textTransform:'uppercase',marginBottom:'0.6rem'}}>🗳️ Oy Katsayısı Detayı</div>
@@ -492,7 +492,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
               <div style={{textAlign:'center',marginBottom:'0.6rem'}}>
                 <img src={twoFASetup.qrCode} alt="QR" style={{width:'150px',height:'150px',borderRadius:'8px',background:'#1B212B',padding:'4px'}} />
               </div>
-              <div style={{background:'rgba(17,21,28,0.6)',borderRadius:'6px',padding:'0.4rem 0.6rem',marginBottom:'0.6rem',fontFamily:"'JetBrains Mono',monospace",fontSize:'0.68rem',color:'#A78BFA',textAlign:'center',wordBreak:'break-all'}}>
+              <div style={{background:'rgba(17,21,28,0.6)',borderRadius:'6px',padding:'0.4rem 0.6rem',marginBottom:'0.6rem',fontFamily:"'JetBrains Mono',monospace",fontSize:'0.68rem',color:'#C9A227',textAlign:'center',wordBreak:'break-all'}}>
                 {twoFASetup.secret}
               </div>
               <input type="text" inputMode="numeric" value={twoFAToken} onChange={e=>setTwoFAToken(e.target.value.replace(/\D/g,'').slice(0,6))}
@@ -529,37 +529,37 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
 
           {profile?.premium ? (
             <>
-              <Card style={{marginBottom:'0.65rem',background:'linear-gradient(135deg,rgba(139,92,246,0.08),rgba(11,21,39,0.95))'}}>
-                <div style={{fontWeight:700,color:'#A78BFA',marginBottom:'0.55rem',fontSize:'0.85rem'}}>💎 VIP Çerçeve Stili</div>
+              <Card style={{marginBottom:'0.65rem',background:'linear-gradient(135deg,rgba(201,162,39,0.08),rgba(11,21,39,0.95))'}}>
+                <div style={{fontWeight:700,color:'#C9A227',marginBottom:'0.55rem',fontSize:'0.85rem'}}>💎 VIP Çerçeve Stili</div>
                 <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'0.35rem',marginBottom:'0.5rem'}}>
                   {[{id:'rainbow',label:'🌈 Gökkuşağı'},{id:'fire',label:'🔥 Ateş'},{id:'ice',label:'❄️ Buz'},{id:'gold',label:'✨ Altın'},{id:'neon',label:'💚 Neon'},{id:'violet',label:'💜 Mor'},{id:'heart',label:'💗 Kalp'},{id:'',label:'⭕ Yok'}].map(({id,label})=>(
                     <button key={id||'none'} onClick={()=>saveVipFrame(id)}
-                      style={{padding:'0.4rem 0.15rem',borderRadius:'8px',border:`2px solid ${(profile?.vipFrame||'')===(id)?'#A78BFA':'rgba(255,255,255,0.08)'}`,background:(profile?.vipFrame||'')===(id)?'rgba(139,92,246,0.2)':'rgba(255,255,255,0.02)',color:(profile?.vipFrame||'')===(id)?'#A78BFA':'#8893A1',cursor:'pointer',fontSize:'0.6rem',fontWeight:700,fontFamily:"'Inter',sans-serif",textAlign:'center',lineHeight:1.3}}>
+                      style={{padding:'0.4rem 0.15rem',borderRadius:'8px',border:`2px solid ${(profile?.vipFrame||'')===(id)?'#C9A227':'rgba(255,255,255,0.08)'}`,background:(profile?.vipFrame||'')===(id)?'rgba(201,162,39,0.2)':'rgba(255,255,255,0.02)',color:(profile?.vipFrame||'')===(id)?'#C9A227':'#8893A1',cursor:'pointer',fontSize:'0.6rem',fontWeight:700,fontFamily:"'Inter',sans-serif",textAlign:'center',lineHeight:1.3}}>
                       {label}
                     </button>
                   ))}
                 </div>
-                <div style={{fontSize:'0.65rem',color:'#8893A1'}}>Seçili: <span style={{color:'#A78BFA',fontWeight:700}}>{profile?.vipFrame||'Yok'}</span></div>
+                <div style={{fontSize:'0.65rem',color:'#8893A1'}}>Seçili: <span style={{color:'#C9A227',fontWeight:700}}>{profile?.vipFrame||'Yok'}</span></div>
               </Card>
 
-              <Card style={{marginBottom:'0.65rem',background:'linear-gradient(135deg,rgba(139,92,246,0.08),rgba(11,21,39,0.95))'}}>
-                <div style={{fontWeight:700,color:'#A78BFA',marginBottom:'0.3rem',fontSize:'0.85rem'}}>🎭 GIF / Animasyonlu Avatar URL</div>
+              <Card style={{marginBottom:'0.65rem',background:'linear-gradient(135deg,rgba(201,162,39,0.08),rgba(11,21,39,0.95))'}}>
+                <div style={{fontWeight:700,color:'#C9A227',marginBottom:'0.3rem',fontSize:'0.85rem'}}>🎭 GIF / Animasyonlu Avatar URL</div>
                 <div style={{fontSize:'0.68rem',color:'#8893A1',marginBottom:'0.5rem'}}>Animasyonlu avatar (GIF desteği mevcut)</div>
                 <input value={avatarUrlInput} onChange={e=>setAvatarUrlInput(e.target.value)} placeholder="https://i.giphy.com/xxxx.gif" style={inputSt}/>
                 <Btn variant='ghost' size='full' onClick={saveAvatarUrl} style={{marginTop:'0.5rem'}}>✅ Kaydet</Btn>
               </Card>
 
-              <Card style={{background:'linear-gradient(135deg,rgba(139,92,246,0.08),rgba(11,21,39,0.95))'}}>
-                <div style={{fontWeight:700,color:'#A78BFA',marginBottom:'0.3rem',fontSize:'0.85rem'}}>🖼️ Profil Banner / Arka Plan</div>
+              <Card style={{background:'linear-gradient(135deg,rgba(201,162,39,0.08),rgba(11,21,39,0.95))'}}>
+                <div style={{fontWeight:700,color:'#C9A227',marginBottom:'0.3rem',fontSize:'0.85rem'}}>🖼️ Profil Banner / Arka Plan</div>
                 <div style={{fontSize:'0.68rem',color:'#8893A1',marginBottom:'0.5rem'}}>Profil kartı arka plan görseli (GIF veya resim URL)</div>
                 <input value={bannerUrlInput} onChange={e=>setBannerUrlInput(e.target.value)} placeholder="https://example.com/banner.gif" style={inputSt}/>
                 <Btn variant='ghost' size='full' onClick={saveBannerUrl} style={{marginTop:'0.5rem'}}>✅ Kaydet</Btn>
               </Card>
             </>
           ) : (
-            <Card style={{textAlign:'center',padding:'1.75rem 1rem',background:'linear-gradient(135deg,rgba(139,92,246,0.08),rgba(11,21,39,0.95))'}}>
+            <Card style={{textAlign:'center',padding:'1.75rem 1rem',background:'linear-gradient(135deg,rgba(201,162,39,0.08),rgba(11,21,39,0.95))'}}>
               <div style={{fontSize:'2.2rem',marginBottom:'0.5rem'}}>💎</div>
-              <div style={{fontWeight:800,color:'#A78BFA',fontSize:'0.95rem',marginBottom:'0.3rem'}}>VIP Özelleştirme</div>
+              <div style={{fontWeight:800,color:'#C9A227',fontSize:'0.95rem',marginBottom:'0.3rem'}}>VIP Özelleştirme</div>
               <div style={{fontSize:'0.75rem',color:'#8893A1',marginBottom:'0.75rem'}}>Çerçeve, GIF avatar ve profil banner için VIP üyelik gereklidir</div>
               <Btn variant='ghost' onClick={()=>showNotif('Premium sayfasına yönlendiriliyor... 💎','gold')}>💎 VIP Ol</Btn>
             </Card>

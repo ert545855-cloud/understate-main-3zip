@@ -8,7 +8,7 @@ function DuyurularPage({ profile }) {
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
   const [announcements] = useLs('announcements', []);
   const [selected, setSelected] = useState(null);
-  const catColor = {Siyaset:'#C24B43',Ekonomi:'#C9A227',Hukuk:'#C9A227',Etkinlik:'#4C9A6B',Sistem:'#8B5CF6'};
+  const catColor = {Siyaset:'#C24B43',Ekonomi:'#C9A227',Hukuk:'#C9A227',Etkinlik:'#4C9A6B',Sistem:'#C9A227'};
   const defaultAnn = [
     {id:'ann1',title:'Seçim Krizi!',body:'Seçim sonuçları tartışmalı, siyasi gerilim tırmanıyor. Tüm partiler acil toplantıya çağrıldı.',category:'Siyaset',icon:'🏛️',ts:Date.now()-3600000},
     {id:'ann2',title:'Ekonomi Uyarısı',body:'Merkez Bankası faiz kararı açıkladı. Piyasalarda dalgalanma bekleniyor.',category:'Ekonomi',icon:'💰',ts:Date.now()-7200000},

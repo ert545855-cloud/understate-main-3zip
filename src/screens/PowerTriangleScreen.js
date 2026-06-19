@@ -145,7 +145,7 @@ window.PowerTriangleScreen = function PowerTriangleScreen({ cu, families, gangs,
               {[
                 {label:"Aileler",val:totalFamilyPower,color:"#C9A227",icon:"👪"},
                 {label:"Çeteler",val:totalGangPower,color:"#C24B43",icon:"🔫"},
-                {label:"Partiler",val:totalPartySeats*100,color:"#A78BFA",icon:"⚑"},
+                {label:"Partiler",val:totalPartySeats*100,color:"#C9A227",icon:"⚑"},
               ].map(item => {
                 const maxVal = Math.max(totalFamilyPower, totalGangPower, totalPartySeats*100, 1);
                 const h = Math.max(20, Math.round((item.val/maxVal)*80));
@@ -163,12 +163,12 @@ window.PowerTriangleScreen = function PowerTriangleScreen({ cu, families, gangs,
           <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:"0.45rem",marginBottom:"0.75rem"}}>
             {statBox("👪","Aile Sayısı",fams.length,"#C9A227")}
             {statBox("🔫","Çete Sayısı",gangsArr.length,"#C24B43")}
-            {statBox("⚑","Parti Sayısı",partyArr.length,"#A78BFA")}
+            {statBox("⚑","Parti Sayısı",partyArr.length,"#C9A227")}
           </div>
           <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:"0.45rem",marginBottom:"0.75rem"}}>
             {statBox("💰","Aile Kasası",fmtMoney(totalFamilyBank),"#4C9A6B")}
             {statBox("💰","Çete Kasası",fmtMoney(totalGangBank),"#C9A227")}
-            {statBox("💰","Parti Kasası",fmtMoney(totalPartyBank),"#8B5CF6")}
+            {statBox("💰","Parti Kasası",fmtMoney(totalPartyBank),"#C9A227")}
           </div>
 
           {/* Kabul Edilen Anlaşmalar */}
@@ -179,7 +179,7 @@ window.PowerTriangleScreen = function PowerTriangleScreen({ cu, families, gangs,
                 <div key={p.id} style={{display:"flex",flexDirection:"column",gap:"0.2rem",padding:"0.5rem 0",borderBottom:"1px solid rgba(255,255,255,0.04)"}}>
                   <div style={{display:"flex",justifyContent:"space-between",fontSize:"0.8rem"}}>
                     <span style={{color:"#EDE7DA",fontWeight:700}}>{p.fromName} → {p.toName}</span>
-                    <span style={{fontSize:"0.65rem",color:p.type==="party_family"?"#A78BFA":p.type==="family_gang"?"#C9A227":"#C24B43"}}>{p.type==="party_family"?"⚑→👪":p.type==="family_gang"?"👪→🔫":"🔫→👪"}</span>
+                    <span style={{fontSize:"0.65rem",color:p.type==="party_family"?"#C9A227":p.type==="family_gang"?"#C9A227":"#C24B43"}}>{p.type==="party_family"?"⚑→👪":p.type==="family_gang"?"👪→🔫":"🔫→👪"}</span>
                   </div>
                   <div style={{fontSize:"0.7rem",color:"#8BA0B5"}}>{p.terms}</div>
                   {p.offer && <div style={{fontSize:"0.68rem",color:"#4C9A6B"}}>💰 {p.offer}</div>}
@@ -193,7 +193,7 @@ window.PowerTriangleScreen = function PowerTriangleScreen({ cu, families, gangs,
             <div style={{display:"flex",flexDirection:"column",gap:"0.5rem",marginTop:"0.5rem"}}>
               {[
                 {from:"👪 Aile",to:"🔫 Çete",rel:"Koruma Ücreti Öder",color:"#C9A227",arrow:"→"},
-                {from:"👪 Aile",to:"⚑ Parti",rel:"Siyasi Fon Sağlar",color:"#A78BFA",arrow:"→"},
+                {from:"👪 Aile",to:"⚑ Parti",rel:"Siyasi Fon Sağlar",color:"#C9A227",arrow:"→"},
                 {from:"⚑ Parti",to:"👪 Aile",rel:"Yasal Ayrıcalık Verir",color:"#4C9A6B",arrow:"→"},
                 {from:"⚑ Parti",to:"🔫 Çete",rel:"Polis Baskını Yapar",color:"#C24B43",arrow:"→"},
                 {from:"🔫 Çete",to:"👪 Aile",rel:"Güvenlik Sağlar",color:"#C9A227",arrow:"→"},
@@ -388,7 +388,7 @@ window.PowerTriangleScreen = function PowerTriangleScreen({ cu, families, gangs,
                   <div style={{fontSize:"0.7rem",color:"#5E7390"}}>Lider: {p.leaderName||p.leader} · {(Array.isArray(p.members)?p.members:[]).length} üye · %{p.support||0} destek</div>
                 </div>
                 <div style={{textAlign:"right"}}>
-                  <div style={{fontWeight:900,color:"#A78BFA",fontSize:"0.9rem"}}>{p.influencePoints||0} ⚡</div>
+                  <div style={{fontWeight:900,color:"#C9A227",fontSize:"0.9rem"}}>{p.influencePoints||0} ⚡</div>
                   <div style={{fontSize:"0.6rem",color:"#5E7390"}}>ETKİ</div>
                 </div>
               </div>

@@ -50,10 +50,10 @@ function SpyPage({ profile, setProfile, showNotif }) {
 
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>
-      <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#A78BFA',marginBottom:'1rem'}}>🕵️ İstihbarat Servisi</div>
+      <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#C9A227',marginBottom:'1rem'}}>🕵️ İstihbarat Servisi</div>
       <div style={{display:'flex',gap:'0.4rem',marginBottom:'1rem'}}>
         {[{k:'ops',l:'🕵️ Operasyonlar'},{k:'log',l:'📋 Geçmiş'}].map(t=>(
-          <button key={t.k} onClick={()=>setTab(t.k)} style={{padding:'0.4rem 1rem',borderRadius:'2rem',border:`1px solid ${tab===t.k?'#A78BFA':'rgba(255,255,255,0.12)'}`,background:tab===t.k?'rgba(167,139,250,0.15)':'transparent',color:tab===t.k?'#A78BFA':'#999',cursor:'pointer',fontWeight:tab===t.k?700:400,fontSize:'0.83rem',fontFamily:'inherit'}}>{t.l}</button>
+          <button key={t.k} onClick={()=>setTab(t.k)} style={{padding:'0.4rem 1rem',borderRadius:'2rem',border:`1px solid ${tab===t.k?'#C9A227':'rgba(255,255,255,0.12)'}`,background:tab===t.k?'rgba(201,162,39,0.12)':'transparent',color:tab===t.k?'#C9A227':'#999',cursor:'pointer',fontWeight:tab===t.k?700:400,fontSize:'0.83rem',fontFamily:'inherit'}}>{t.l}</button>
         ))}
       </div>
 
@@ -77,10 +77,10 @@ function SpyPage({ profile, setProfile, showNotif }) {
               </div>
               <div style={{fontSize:'0.75rem',color:'#888',marginBottom:'0.5rem'}}>{op.desc}</div>
               <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                <div style={{fontSize:'0.7rem',color:'#A78BFA'}}>Başarı: %{Math.round(op.successRate*100)} · +{op.reward.merit}🏅</div>
+                <div style={{fontSize:'0.7rem',color:'#C9A227'}}>Başarı: %{Math.round(op.successRate*100)} · +{op.reward.merit}🏅</div>
                 {!ready && <span style={{fontSize:'0.68rem',color:'#C9A227'}}>⏳ {rem>3600000?`${Math.ceil(rem/3600000)}sa`:`${Math.ceil(rem/60000)}dk`}</span>}
               </div>
-              <button onClick={()=>doOp(op)} disabled={!ready||(cu.money||0)<op.cost} style={{width:'100%',marginTop:'0.5rem',padding:'0.45rem',borderRadius:'8px',border:'none',background:ready&&(cu.money||0)>=op.cost?'rgba(167,139,250,0.2)':'rgba(255,255,255,0.04)',color:ready&&(cu.money||0)>=op.cost?'#A78BFA':'#555',cursor:ready&&(cu.money||0)>=op.cost?'pointer':'not-allowed',fontWeight:700,fontSize:'0.8rem',fontFamily:'inherit'}}>
+              <button onClick={()=>doOp(op)} disabled={!ready||(cu.money||0)<op.cost} style={{width:'100%',marginTop:'0.5rem',padding:'0.45rem',borderRadius:'8px',border:'none',background:ready&&(cu.money||0)>=op.cost?'rgba(167,139,250,0.2)':'rgba(255,255,255,0.04)',color:ready&&(cu.money||0)>=op.cost?'#C9A227':'#555',cursor:ready&&(cu.money||0)>=op.cost?'pointer':'not-allowed',fontWeight:700,fontSize:'0.8rem',fontFamily:'inherit'}}>
                 {ready?`${op.icon} Operasyonu Başlat`:'Bekleniyor…'}
               </button>
             </div>

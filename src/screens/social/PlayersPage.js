@@ -108,7 +108,7 @@ function PlayersPage({ profile, onNavigate, onlinePlayers = [] }) {
               <div style={{display:'flex',alignItems:'center',gap:'0.35rem'}}>
                 <span style={{fontWeight:800,color:'#EDE7DA',fontSize:'0.9rem'}}>{op.username}</span>
                 <span style={{background:'rgba(76,154,107,0.12)',color:'#4C9A6B',fontSize:'0.5rem',fontWeight:800,padding:'1px 5px',borderRadius:'8px'}}>CANLI</span>
-                {pData.premium && <span style={{background:'linear-gradient(90deg,#A78BFA,#7C3AED)',color:'#EDE7DA',fontSize:'0.5rem',fontWeight:800,padding:'1px 5px',borderRadius:'8px'}}>VIP</span>}
+                {pData.premium && <span style={{background:'linear-gradient(90deg,#C9A227,#C24B43)',color:'#EDE7DA',fontSize:'0.5rem',fontWeight:800,padding:'1px 5px',borderRadius:'8px'}}>VIP</span>}
               </div>
               <div style={{fontSize:'0.68rem',color:'#8893A1'}}>{op.city||'?'} • Lv.{op.level||1}</div>
             </div>
@@ -153,7 +153,7 @@ function PlayersPage({ profile, onNavigate, onlinePlayers = [] }) {
                 ? <span style={{background:'rgba(76,154,107,0.12)',color:'#4C9A6B',fontSize:'0.5rem',fontWeight:800,padding:'1px 5px',borderRadius:'8px'}}>● ÇEVRİMİÇİ</span>
                 : <span style={{background:'rgba(237,231,218,0.04)',color:'#8893A1',fontSize:'0.5rem',fontWeight:700,padding:'1px 5px',borderRadius:'8px'}}>ÇEVRİMDIŞI</span>
               }
-              {p.premium && <span style={{background:'linear-gradient(90deg,#A78BFA,#7C3AED)',color:'#EDE7DA',fontSize:'0.5rem',fontWeight:800,padding:'1px 5px',borderRadius:'8px'}}>VIP</span>}
+              {p.premium && <span style={{background:'linear-gradient(90deg,#C9A227,#C24B43)',color:'#EDE7DA',fontSize:'0.5rem',fontWeight:800,padding:'1px 5px',borderRadius:'8px'}}>VIP</span>}
               {p.role==='admin' && <span style={{background:'rgba(201,162,39,0.1)',color:'#C9A227',fontSize:'0.5rem',fontWeight:800,padding:'1px 5px',borderRadius:'8px'}}>ADMIN</span>}
               {p.username===profile?.username && <span style={{background:'rgba(201,162,39,0.1)',color:'#C9A227',fontSize:'0.5rem',fontWeight:800,padding:'1px 5px',borderRadius:'8px'}}>SEN</span>}
             </div>
@@ -197,7 +197,7 @@ function PlayersPage({ profile, onNavigate, onlinePlayers = [] }) {
               </div>
               <div style={{fontWeight:800,fontSize:'1.05rem',color:'#EDE7DA',marginTop:'0.4rem',display:'flex',alignItems:'center',justifyContent:'center',gap:'0.4rem'}}>
                 {sp.username}
-                {sp.premium && <span style={{background:'linear-gradient(90deg,#A78BFA,#7C3AED)',color:'#EDE7DA',fontSize:'0.5rem',fontWeight:800,padding:'2px 6px',borderRadius:'8px'}}>VIP</span>}
+                {sp.premium && <span style={{background:'linear-gradient(90deg,#C9A227,#C24B43)',color:'#EDE7DA',fontSize:'0.5rem',fontWeight:800,padding:'2px 6px',borderRadius:'8px'}}>VIP</span>}
                 {sp.role==='admin' && <span style={{background:'rgba(201,162,39,0.1)',color:'#C9A227',fontSize:'0.5rem',fontWeight:800,padding:'2px 6px',borderRadius:'8px'}}>ADMIN</span>}
                 {isMe && <span style={{background:'rgba(201,162,39,0.1)',color:'#C9A227',fontSize:'0.5rem',fontWeight:800,padding:'2px 6px',borderRadius:'8px'}}>SEN</span>}
               </div>
@@ -217,7 +217,7 @@ function PlayersPage({ profile, onNavigate, onlinePlayers = [] }) {
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.45rem',marginBottom:'0.75rem'}}>
               {[
                 ['💰','Para',fmtM(sp.money||0),'#4C9A6B'],
-                ['🪙','UnderCoin',fmt(sp.underCoin||0)+' UC','#A78BFA'],
+                ['🪙','UnderCoin',fmt(sp.underCoin||0)+' UC','#C9A227'],
                 ['📊','XP',fmt(sp.xp||0)+' XP','#C9A227'],
                 ['🏙️','Şehir',sp.city||'?','#94A3B8'],
               ].map(([ic,lb,v,clr])=>(
@@ -235,7 +235,7 @@ function PlayersPage({ profile, onNavigate, onlinePlayers = [] }) {
                 <span>{spLvl.pct}%</span>
               </div>
               <div style={{height:'5px',background:'rgba(237,231,218,0.05)',borderRadius:'3px',overflow:'hidden'}}>
-                <div style={{height:'100%',width:`${spLvl.pct}%`,background:'linear-gradient(90deg,#C9A227,#8B5CF6)',borderRadius:'3px',transition:'width 0.5s'}} />
+                <div style={{height:'100%',width:`${spLvl.pct}%`,background:'linear-gradient(90deg,#C9A227,#C9A227)',borderRadius:'3px',transition:'width 0.5s'}} />
               </div>
             </div>
 

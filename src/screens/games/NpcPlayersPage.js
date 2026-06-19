@@ -6,7 +6,7 @@ const NPC_DEFS = [
   {id:'npc2',name:'Av. Avcı',    icon:'⚖️',role:'Avukat',      city:'Ankara',  desc:'Her davayı kazanan soğuk kanlı',trait:'Hesaplı',  color:'#C9A227'},
   {id:'npc3',name:'Çakal Mete',  icon:'🎯',role:'Sokak Lideri',city:'İzmir',   desc:'Sokakların tartışmasız efendisi',trait:'Saldırgan',color:'#C9A227'},
   {id:'npc4',name:'Büyükanne',   icon:'👵',role:'Bilge',       city:'Bursa',   desc:'Her şeyi bilen gizemli yaşlı kadın',trait:'Bilge',color:'#4C9A6B'},
-  {id:'npc5',name:'Korsan Hakan',icon:'🏴‍☠️',role:'Kaptan',  city:'Trabzon', desc:'Karadenizin efsanevi kaptanı',  trait:'Cesur',    color:'#8B5CF6'},
+  {id:'npc5',name:'Korsan Hakan',icon:'🏴‍☠️',role:'Kaptan',  city:'Trabzon', desc:'Karadenizin efsanevi kaptanı',  trait:'Cesur',    color:'#C9A227'},
   {id:'npc6',name:'Dr. Yılmaz',  icon:'🔬',role:'Bilim İnsanı',city:'İzmir',  desc:'Tehlikeli bilginin sahibi',     trait:'Gizemli',  color:'#C9A227'},
   {id:'npc7',name:'General Fırat',icon:'⚔️',role:'Subay',     city:'Ankara',  desc:'Darbe planlarıyla ünlü general',trait:'Otoriter', color:'#C24B43'},
   {id:'npc8',name:'Hacı Murat',  icon:'🕌',role:'Esnaf',       city:'Konya',   desc:'Çarşının gizli patronu',        trait:'Güvenilmez',color:'#C9A227'},

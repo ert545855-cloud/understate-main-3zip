@@ -58,7 +58,7 @@ function SocialPage({ profile, showNotif }) {
 
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>
-      <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#A78BFA',marginBottom:'1rem'}}>📱 Sosyal Medya</div>
+      <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#C9A227',marginBottom:'1rem'}}>📱 Sosyal Medya</div>
       <div style={{background:'rgba(167,139,250,0.05)',border:'1px solid rgba(167,139,250,0.2)',borderRadius:'12px',padding:'1rem',marginBottom:'1rem'}}>
         <textarea value={newPost} onChange={e=>setNewPost(e.target.value)} placeholder={`${cu.username||'Oyuncu'} olarak ne düşünüyorsun?`} rows={3}
           style={{width:'100%',background:'transparent',border:'none',outline:'none',color:'#EDE7DA',fontSize:'0.9rem',resize:'none',fontFamily:'inherit',marginBottom:'0.5rem'}} />
@@ -82,7 +82,7 @@ function SocialPage({ profile, showNotif }) {
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:'0.4rem'}}>
           <div style={{display:'flex',gap:'0.4rem',alignItems:'center'}}>
             <button onClick={()=>setShowGifPicker(v=>!v)} title="GIF ekle"
-              style={{background:showGifPicker?'rgba(167,139,250,0.2)':'rgba(255,255,255,0.05)',border:`1px solid ${showGifPicker?'rgba(167,139,250,0.5)':'rgba(255,255,255,0.1)'}`,borderRadius:'8px',padding:'0.3rem 0.55rem',color:showGifPicker?'#A78BFA':'#666',cursor:'pointer',fontSize:'0.8rem',fontWeight:700}}>
+              style={{background:showGifPicker?'rgba(167,139,250,0.2)':'rgba(255,255,255,0.05)',border:`1px solid ${showGifPicker?'rgba(167,139,250,0.5)':'rgba(255,255,255,0.1)'}`,borderRadius:'8px',padding:'0.3rem 0.55rem',color:showGifPicker?'#C9A227':'#666',cursor:'pointer',fontSize:'0.8rem',fontWeight:700}}>
               🎞️ GIF
             </button>
             <input value={postImage} onChange={e=>setPostImage(e.target.value)} placeholder="Resim URL..."
@@ -90,7 +90,7 @@ function SocialPage({ profile, showNotif }) {
           </div>
           <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
             <span style={{fontSize:'0.7rem',color:newPost.length>480?'#C24B43':'#666'}}>{newPost.length}/500</span>
-            <button onClick={()=>publishPost()} style={{padding:'0.45rem 1.1rem',background:'rgba(167,139,250,0.15)',border:'1px solid rgba(167,139,250,0.35)',borderRadius:'8px',color:'#A78BFA',cursor:'pointer',fontWeight:700,fontFamily:'inherit',fontSize:'0.85rem'}}>📢 Paylaş</button>
+            <button onClick={()=>publishPost()} style={{padding:'0.45rem 1.1rem',background:'rgba(201,162,39,0.12)',border:'1px solid rgba(167,139,250,0.35)',borderRadius:'8px',color:'#C9A227',cursor:'pointer',fontWeight:700,fontFamily:'inherit',fontSize:'0.85rem'}}>📢 Paylaş</button>
           </div>
         </div>
       </div>
@@ -102,7 +102,7 @@ function SocialPage({ profile, showNotif }) {
           <div key={p.id} style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'12px',padding:'1rem',marginBottom:'0.75rem'}}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:'0.5rem'}}>
               <div>
-                <div style={{fontWeight:700,color:'#A78BFA',fontSize:'0.88rem'}}>{p.author}</div>
+                <div style={{fontWeight:700,color:'#C9A227',fontSize:'0.88rem'}}>{p.author}</div>
                 <div style={{fontSize:'0.65rem',color:'#666'}}>{p.city} · {p.date} {p.time}</div>
               </div>
               {p.author===cu.username&&<button onClick={()=>deletePost(p.id)} style={{background:'none',border:'none',color:'#C24B43',cursor:'pointer',fontSize:'0.85rem'}}>🗑️</button>}

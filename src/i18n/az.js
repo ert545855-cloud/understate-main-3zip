@@ -47,4 +47,12 @@ window.LANG_AZ = {
   doRegister:'→ Hesab Yarat', orContinueWith:'və ya',
   errRequired:'Bu sahə mütləqdir', errShortPassword:'Şifrə ən az 6 simvol olmalıdır',
   errPasswordMatch:'Şifrələr uyğun gəlmir', errConnection:'Bağlantı xətası',
+
+  // === Header ticker ===
+  tickerOnline:'onlayn',
+  tickerParliament:'Parlament: Konstitusiya səsvermə',
+  tickerConflict:'Aktiv münaqişə: Şimal bölgəsi',
+  tickerUniversity:'Yeni universitet açıldı',
+  tickerElection:'Seçki: 30 gün qaldı',
+  tickerMarket:'Birja rekord: 10 illik zirvə',
 };

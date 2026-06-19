@@ -18,7 +18,7 @@ function EventsPage({ profile, setProfile, showNotif }) {
   }, []);
 
   const EVENT_ICONS = { security_crisis:'🚨', money_printed:'💸', war_declared:'⚔️', coup_rumors:'🎖️', monopoly:'🏭', corruption:'⚠️', election_win:'🏆', default:'📢' };
-  const EVENT_COLORS = { security_crisis:'#C24B43', money_printed:'#C9A227', war_declared:'#C24B43', coup_rumors:'#8B5CF6', monopoly:'#C9A227', corruption:'#C9A227', election_win:'#4C9A6B', default:'#8893A1' };
+  const EVENT_COLORS = { security_crisis:'#C24B43', money_printed:'#C9A227', war_declared:'#C24B43', coup_rumors:'#C9A227', monopoly:'#C9A227', corruption:'#C9A227', election_win:'#4C9A6B', default:'#8893A1' };
 
   const respondToEvent = (eventId, response) => {
     setMyResponses(prev => ({ ...prev, [eventId]: response }));

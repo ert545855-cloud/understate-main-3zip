@@ -47,4 +47,12 @@ window.LANG_EN = {
   doRegister:'→ Create Account', orContinueWith:'or',
   errRequired:'This field is required', errShortPassword:'Password must be at least 6 characters',
   errPasswordMatch:'Passwords do not match', errConnection:'Connection error',
+
+  // === Header ticker ===
+  tickerOnline:'online',
+  tickerParliament:'Parliament: Constitution vote',
+  tickerConflict:'Active conflict: Northern region',
+  tickerUniversity:'New university founded',
+  tickerElection:'Election: 30 days left',
+  tickerMarket:'Stock market record: 10-year high',
 };

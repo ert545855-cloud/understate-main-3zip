@@ -146,7 +146,7 @@ function HomePage({ profile, onNavigate }) {
     { text:'Şehirde yeni bir bina inşa edildi', color:'#C9A227', time:'5dk' },
     { text:'Çete savaşı başladı', color:'#C24B43', time:'12dk' },
     { text:`Lv.${playerLevel} — ${lvl.title}`, color:'#4C9A6B', time:'1sa' },
-    { text:'Borsa: TECH +2.4%', color:'#8B5CF6', time:'2sa' },
+    { text:'Borsa: TECH +2.4%', color:'#C9A227', time:'2sa' },
   ];
   const recentActivity = (Array.isArray(activity) && activity.length > 0 ? activity : dynamicActivity).slice(0, 5);
 
@@ -155,7 +155,7 @@ function HomePage({ profile, onNavigate }) {
     {id:'ann2',title:'Ekonomi Uyarısı',body:'Merkez Bankası faiz kararı açıkladı.',category:'Ekonomi',icon:'💰',ts:Date.now()-7200000},
   ];
   const annList = [...announcements, ...defaultAnn].slice(0,5);
-  const catColor = {Siyaset:'#C24B43',Ekonomi:'#C9A227',Hukuk:'#C9A227',Etkinlik:'#4C9A6B',Sistem:'#8B5CF6'};
+  const catColor = {Siyaset:'#C24B43',Ekonomi:'#C9A227',Hukuk:'#C9A227',Etkinlik:'#4C9A6B',Sistem:'#C9A227'};
 
   const allAchievements = 16;
   const earnedAch = (() => {
@@ -525,7 +525,7 @@ function AdminElectionTab({ elections_multi, setElections_multi, setMsg, cs, inp
       username: p.leaderName || p.name,
       id: p.leaderId || p.id,
       partyName: p.name,
-      partyColor: p.color || '#8B5CF6',
+      partyColor: p.color || '#C9A227',
     }));
     const votes = {};
     cands.forEach(c => { votes[c.username] = 0; });
@@ -610,8 +610,8 @@ function AdminElectionTab({ elections_multi, setElections_multi, setMsg, cs, inp
             </div>
             {PARTY_BASED_KEYS.includes(pos.key) ? (
               <div style={{marginBottom:'0.4rem'}}>
-                <div style={{fontSize:'0.65rem',color:'#A78BFA',marginBottom:'0.35rem',fontWeight:700}}>⚑ Parti Bazlı Seçim — İlk 10 Parti Otomatik Aday</div>
-                <button onClick={()=>loadPartyCandidates(pos.key)} style={{padding:'0.38rem 0.75rem',borderRadius:'8px',border:'1px solid rgba(167,139,250,0.4)',background:'rgba(167,139,250,0.1)',color:'#A78BFA',cursor:'pointer',fontWeight:700,fontSize:'0.73rem',minHeight:32}}>🔄 Parti Liderlerini Yükle</button>
+                <div style={{fontSize:'0.65rem',color:'#C9A227',marginBottom:'0.35rem',fontWeight:700}}>⚑ Parti Bazlı Seçim — İlk 10 Parti Otomatik Aday</div>
+                <button onClick={()=>loadPartyCandidates(pos.key)} style={{padding:'0.38rem 0.75rem',borderRadius:'8px',border:'1px solid rgba(201,162,39,0.35)',background:'rgba(167,139,250,0.1)',color:'#C9A227',cursor:'pointer',fontWeight:700,fontSize:'0.73rem',minHeight:32}}>🔄 Parti Liderlerini Yükle</button>
               </div>
             ) : (
               <div style={{display:'flex',gap:'0.35rem',marginBottom:'0.4rem'}}>
@@ -711,14 +711,14 @@ function AdminMakamlarTab({ allUsers, setAllUsersRaw, setMsg, cs, inp }) {
           </div>
         );
       })}
-      <div style={{...cs,borderColor:'rgba(167,139,250,0.3)',marginTop:'0.75rem'}}>
-        <div style={{fontWeight:800,color:'#A78BFA',fontSize:'0.82rem',marginBottom:'0.6rem'}}>💎 VIP & Paket Ver</div>
+      <div style={{...cs,borderColor:'rgba(201,162,39,0.25)',marginTop:'0.75rem'}}>
+        <div style={{fontWeight:800,color:'#C9A227',fontSize:'0.82rem',marginBottom:'0.6rem'}}>💎 VIP & Paket Ver</div>
         {[...allUsers].filter(u=>!u.isBot).slice(0,20).map(u=>(
           <div key={u.id} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0.38rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
             <div style={{fontSize:'0.78rem',color:'#EDE7DA',fontWeight:600}}>{u.username}</div>
             <div style={{display:'flex',gap:'0.3rem'}}>
               <button onClick={()=>giveVIP(u)} style={{padding:'0.2rem 0.5rem',borderRadius:'6px',border:'1px solid rgba(236,72,153,0.4)',background:'rgba(236,72,153,0.1)',color:'#F472B6',cursor:'pointer',fontSize:'0.65rem',fontWeight:700}}>💎 VIP</button>
-              <button onClick={()=>giveEdu(u)} style={{padding:'0.2rem 0.5rem',borderRadius:'6px',border:'1px solid rgba(139,92,246,0.4)',background:'rgba(139,92,246,0.1)',color:'#A78BFA',cursor:'pointer',fontSize:'0.65rem',fontWeight:700}}>📚 Edu</button>
+              <button onClick={()=>giveEdu(u)} style={{padding:'0.2rem 0.5rem',borderRadius:'6px',border:'1px solid rgba(201,162,39,0.35)',background:'rgba(201,162,39,0.1)',color:'#C9A227',cursor:'pointer',fontSize:'0.65rem',fontWeight:700}}>📚 Edu</button>
             </div>
           </div>
         ))}
@@ -1122,7 +1122,7 @@ function AdminPage({ profile, showNotif, onNavigate }) {
               ['🚫','Banlı', bannedCount, '#C24B43'],
               ['⭐','Admin', adminCount, '#C9A227'],
               ['💰','Toplam Servet', fmtM(totalMoney), '#4C9A6B'],
-              ['🎮','Sürüm', 'v8.0', '#8B5CF6'],
+              ['🎮','Sürüm', 'v8.0', '#C9A227'],
             ].map(([ic,lbl,val,c]) => (
               <div key={lbl} style={{...cs,textAlign:'center',padding:'0.75rem'}}>
                 <div style={{fontSize:'1.3rem',marginBottom:'0.1rem'}}>{ic}</div>
@@ -1282,7 +1282,7 @@ function AdminPage({ profile, showNotif, onNavigate }) {
                     ↺ Sıfırla
                   </button>
                   <button onClick={()=>giveEduPackage(selectedUser)}
-                    style={{padding:'0.45rem 0.85rem',borderRadius:'10px',border:'1px solid rgba(139,92,246,0.4)',background:'rgba(139,92,246,0.15)',color:'#A78BFA',fontWeight:700,fontSize:'0.78rem',cursor:'pointer'}}>
+                    style={{padding:'0.45rem 0.85rem',borderRadius:'10px',border:'1px solid rgba(201,162,39,0.35)',background:'rgba(201,162,39,0.15)',color:'#C9A227',fontWeight:700,fontSize:'0.78rem',cursor:'pointer'}}>
                     🎓 Edu Paketi
                   </button>
                   <button onClick={()=>giveMaxEdu(selectedUser)}
@@ -1404,7 +1404,7 @@ function AdminPage({ profile, showNotif, onNavigate }) {
               {[
                 ['💰','Toplam Para', fmtM(totalMoney), '#4C9A6B'],
                 ['📊','Ort. Bakiye', fmtM(allUsers.length>0?Math.floor(totalMoney/allUsers.length):0), '#C9A227'],
-                ['💎','Toplam VIP', allUsers.filter(u=>u.premium).length, '#A78BFA'],
+                ['💎','Toplam VIP', allUsers.filter(u=>u.premium).length, '#C9A227'],
                 ['🪙','Toplam UC', allUsers.reduce((s,u)=>s+(u.underCoin||0),0).toLocaleString('tr-TR'), '#C9A227'],
               ].map(([ic,lbl,val,c]) => (
                 <div key={lbl} style={{...cs,textAlign:'center',padding:'0.75rem',marginBottom:0}}>
@@ -1419,7 +1419,7 @@ function AdminPage({ profile, showNotif, onNavigate }) {
               ? <div style={{color:'#8893A1',fontSize:'0.78rem',textAlign:'center',padding:'0.75rem'}}>Henüz VIP üye yok</div>
               : allUsers.filter(u=>u.premium).map(u=>(
                 <div key={u.id} style={{display:'flex',justifyContent:'space-between',padding:'0.35rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)',fontSize:'0.78rem'}}>
-                  <span style={{color:'#A78BFA',fontWeight:700}}>💎 {u.username}</span>
+                  <span style={{color:'#C9A227',fontWeight:700}}>💎 {u.username}</span>
                   <span style={{color:'#8893A1'}}>{fmtM(u.money||0)}</span>
                 </div>
               ))
@@ -1455,7 +1455,7 @@ function AdminPage({ profile, showNotif, onNavigate }) {
               const gangs = JSON.parse(localStorage.getItem('rep_gangs')||'[]');
               return (
                 <div>
-                  {[['🏛️','Parti Sayısı',parties.length,'#A78BFA'],['🔫','Çete/Aile',gangs.length,'#C24B43']].map(([ic,lbl,val,c])=>(
+                  {[['🏛️','Parti Sayısı',parties.length,'#C9A227'],['🔫','Çete/Aile',gangs.length,'#C24B43']].map(([ic,lbl,val,c])=>(
                     <div key={lbl} style={{display:'flex',justifyContent:'space-between',padding:'0.4rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)',fontSize:'0.78rem'}}>
                       <span style={{color:'#8893A1'}}>{ic} {lbl}</span>
                       <span style={{color:c,fontWeight:700}}>{val}</span>
@@ -1463,7 +1463,7 @@ function AdminPage({ profile, showNotif, onNavigate }) {
                   ))}
                   {parties.slice(0,5).map(p=>(
                     <div key={p.id} style={{display:'flex',justifyContent:'space-between',padding:'0.3rem 0',borderBottom:'1px solid rgba(255,255,255,0.03)',fontSize:'0.72rem'}}>
-                      <span style={{color:'#A78BFA'}}>🏛️ {p.name}</span>
+                      <span style={{color:'#C9A227'}}>🏛️ {p.name}</span>
                       <span style={{color:'#8893A1'}}>{p.memberCount||0} üye • ₺{(p.treasury||0).toLocaleString('tr-TR')} hazine</span>
                     </div>
                   ))}
@@ -1527,7 +1527,7 @@ function AdminPage({ profile, showNotif, onNavigate }) {
             <div style={{fontWeight:800,color:'#EDE7DA',marginBottom:'0.75rem',fontSize:'0.85rem'}}>🛠️ Sistem Araçları</div>
             <div style={{display:'grid',gap:'0.5rem'}}>
               {[
-                ['↻ Oyunu Yenile', '#8B5CF6', ()=>window.location.reload()],
+                ['↻ Oyunu Yenile', '#C9A227', ()=>window.location.reload()],
                 ['👤 Profilime Git', '#C9A227', ()=>onNavigate('profile')],
                 ['🏠 Ana Sayfaya Git', '#4C9A6B', ()=>onNavigate('home')],
                 ['🧹 Yerel Veriyi Temizle (DİKKAT!)', '#C24B43', ()=>{ if(window.confirm('TÜM yerel veriler silinecek! Emin misin?')){localStorage.clear();window.location.reload();} }],

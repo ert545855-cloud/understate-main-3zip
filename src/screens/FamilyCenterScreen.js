@@ -15,7 +15,7 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
   const [fams, setFams]               = React.useState(readFams);
   const [tab, setTab]                 = React.useState('genel');
   const [createModal, setCreateModal] = React.useState(false);
-  const [fForm, setFForm]             = React.useState({ name:'', desc:'', color:'#7C3AED' });
+  const [fForm, setFForm]             = React.useState({ name:'', desc:'', color:'#C9A227' });
   const [inviteUser, setInviteUser]   = React.useState('');
   const [depositAmt, setDepositAmt]   = React.useState('');
   const [withdrawAmt, setWithdrawAmt] = React.useState('');
@@ -42,7 +42,7 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
     { id:'boss',      label:'👑 Boss',            color:'#C9A227', perms:['invite','kick','promote','factory','treasury','heir','disband'] },
     { id:'underboss', label:'⚔️ Underboss',       color:'#F97316', perms:['invite','factory','treasury'] },
     { id:'kasaci',    label:'💰 Kasa Yöneticisi', color:'#4C9A6B', perms:['treasury'] },
-    { id:'yonetici',  label:'🏛️ Yönetici',        color:'#A78BFA', perms:['factory'] },
+    { id:'yonetici',  label:'🏛️ Yönetici',        color:'#C9A227', perms:['factory'] },
     { id:'uye',       label:'👤 Üye',              color:'#C9A227', perms:[] },
   ];
 
@@ -77,7 +77,7 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
     const np = {...profile, money:(profile.money||0)-FAMILY_CREATE_COST, family:family.id};
     localStorage.setItem('rep_userProfile', JSON.stringify(np));
     setCreateModal(false);
-    setFForm({ name:'', desc:'', color:'#7C3AED' });
+    setFForm({ name:'', desc:'', color:'#C9A227' });
     showMsg(`👨‍👩‍👧 ${family.name} ailesi kuruldu!`, 'success');
   };
 
@@ -227,7 +227,7 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
         {fams.slice(0,8).map(f=>(
           <div key={f.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.5rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
             <div>
-              <span style={{width:10,height:10,borderRadius:'50%',background:f.color||'#7C3AED',display:'inline-block',marginRight:6,verticalAlign:'middle'}}/>
+              <span style={{width:10,height:10,borderRadius:'50%',background:f.color||'#C9A227',display:'inline-block',marginRight:6,verticalAlign:'middle'}}/>
               <span style={{fontWeight:700,color:'#ddd',fontSize:'0.88rem'}}>{f.name}</span>
               <span style={{marginLeft:8,fontSize:'0.7rem',color:'#5E7390'}}>Boss: {f.leader}</span>
             </div>
@@ -240,7 +240,7 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
       {createModal && (
         <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.7)',zIndex:999,display:'flex',alignItems:'center',justifyContent:'center',padding:'1rem'}} onClick={e=>{if(e.target===e.currentTarget)setCreateModal(false)}}>
           <div style={{background:'#151C26',borderRadius:18,padding:'1.5rem',width:'100%',maxWidth:400,border:'1px solid rgba(237,231,218,0.1)'}}>
-            <div style={{fontFamily:'Syne,sans-serif',fontWeight:900,fontSize:'1.1rem',marginBottom:'1rem',color:'#A78BFA'}}>👨‍👩‍👧 Yeni Aile Kur</div>
+            <div style={{fontFamily:'Syne,sans-serif',fontWeight:900,fontSize:'1.1rem',marginBottom:'1rem',color:'#C9A227'}}>👨‍👩‍👧 Yeni Aile Kur</div>
             <div style={{display:'flex',flexDirection:'column',gap:'0.6rem'}}>
               <input style={inp} placeholder="Aile adı *" value={fForm.name} onChange={e=>setFForm(p=>({...p,name:e.target.value}))}/>
               <input style={inp} placeholder="Kısa açıklama" value={fForm.desc} onChange={e=>setFForm(p=>({...p,desc:e.target.value}))}/>
@@ -266,7 +266,7 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
   // ═══════════════════════════════════════════════════════
   // AİLE MEVCUT
   // ═══════════════════════════════════════════════════════
-  const accentColor = myFamily.color||'#7C3AED';
+  const accentColor = myFamily.color||'#C9A227';
 
   return (
     <div>
@@ -309,7 +309,7 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
                 {l:'Üyeler',   v:(myFamily.members||[]).length, c:'#C9A227'},
                 {l:'Kasa',     v:fmt(myFamily.treasury||0),     c:'#4C9A6B'},
                 {l:'Fabrika',  v:serverFactories.length||familyFactories.length, c:'#C9A227'},
-                {l:'Etki',     v:myFamily.influence||0,         c:'#A78BFA'},
+                {l:'Etki',     v:myFamily.influence||0,         c:'#C9A227'},
               ].map(s=>(
                 <div key={s.l} style={{background:'rgba(237,231,218,0.03)',borderRadius:8,padding:'0.4rem',textAlign:'center'}}>
                   <div style={{fontWeight:700,fontSize:'0.85rem',color:s.c}}>{s.v}</div>
