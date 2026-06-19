@@ -213,12 +213,12 @@ function HomePage({ profile, onNavigate }) {
             <div>
               <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.2rem',fontWeight:600}}>{T('playerProfile')}</div>
               <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.35rem',fontWeight:900,color:'#EDE7DA'}}>{profile?.username||'Oyuncu'}</div>
-              <div style={{fontSize:'0.65rem',color:'#8893A1',marginTop:'0.1rem'}}>{lvl.title} • {lvl.pct}% sonraki seviye</div>
+              <div style={{fontSize:'0.65rem',color:'#8893A1',marginTop:'0.1rem'}}>{lvl.title} • {lvl.pct}% {T('nextLevel')}</div>
             </div>
             {!profile?.bannerUrl && (
               <div onClick={()=>onNavigate('profile')} style={{cursor:'pointer',display:'flex',flexDirection:'column',alignItems:'center',gap:'0.3rem'}}>
                 <Avatar profile={profile} size={62} />
-                <div style={{fontSize:'0.58rem',color:'rgba(255,255,255,0.45)',fontWeight:600}}>Profili Gör</div>
+                <div style={{fontSize:'0.58rem',color:'rgba(255,255,255,0.45)',fontWeight:600}}>{T('viewProfile')}</div>
               </div>
             )}
           </div>
@@ -249,18 +249,21 @@ function HomePage({ profile, onNavigate }) {
       {/* ── 2-column stat cards ── */}
       <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.55rem',marginBottom:'0.75rem'}}>
         {[
-          {icon:'🔔',label:'Bildirimler',value:unreadCount||0,sub:unreadCount>0?`${unreadCount} okunmamış`:'Hepsi okundu',color:'#C9A227',page:'chat'},
-          {icon:'🏆',label:'Başarımlar',value:`${earnedAch}/${allAchievements}`,sub:`%${Math.round(earnedAch/allAchievements*100)} tamamlandı`,color:'#C9A227',page:'achievements'},
-          {icon:'📈',label:'Ekonomi',value:portfolioChange,sub:'Portföy değeri',color:'#4C9A6B',positive:true,page:'economy'},
-          {icon:'⚡',label:'Aktivite',value:onlineCnt||0,sub:'Online oyuncu',color:'#C9A227',page:'players'},
+          {icon:'🔔',label:T('notifications'),value:unreadCount||0,sub:unreadCount>0?`${unreadCount} ${T('unread')}`:T('allClaimed'),color:'#C9A227',page:'chat'},
+          {icon:'🏆',label:T('achievements'),value:`${earnedAch}/${allAchievements}`,sub:`%${Math.round(earnedAch/(allAchievements||1)*100)} tamamlandı`,color:'#C9A227',page:'achievements'},
+          {icon:'📈',label:T('economy'),value:portfolioChange,sub:T('portfolio'),color:'#4C9A6B',positive:true,page:'economy'},
+          {icon:'⚡',label:T('players'),value:onlineCnt||0,sub:T('online'),color:'#C9A227',page:'players'},
         ].map((item)=>(
           <div key={item.label} onClick={()=>onNavigate(item.page)}
-            style={{background:'#1B212B',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'0.9rem 0.85rem',boxShadow:'none',cursor:'pointer',transition:'all 0.15s',WebkitTapHighlightColor:'transparent'}}>
+            style={{background:'#1B212B',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'0.9rem 0.85rem',cursor:'pointer',transition:'all 0.15s',WebkitTapHighlightColor:'transparent'}}>
             <div style={{display:'flex',alignItems:'center',gap:'0.35rem',marginBottom:'0.35rem'}}>
               <span style={{fontSize:'1rem'}}>{item.icon}</span>
               <span style={{fontSize:'0.65rem',fontWeight:700,color:'#8893A1',textTransform:'uppercase',letterSpacing:'0.05em'}}>{item.label}</span>
             </div>
-            <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'1.3rem',fontWeight:900,color:item.positive?'#4C9A6B':'#EDE7DA',lineHeight:1,marginBottom:'0.2rem'}}>{item.value}</div>
+            {(() => { const LV = window.LedgerValue; return LV
+              ? React.createElement(LV, {value:item.value, prefix:false, color:item.positive?'#4C9A6B':'#EDE7DA', style:{alignItems:'flex-start',background:'none',border:'none',padding:'0',marginBottom:'0.2rem'}})
+              : React.createElement('div',{style:{fontFamily:"'JetBrains Mono',monospace",fontSize:'1.3rem',fontWeight:900,color:item.positive?'#4C9A6B':'#EDE7DA',lineHeight:1,marginBottom:'0.2rem'}},item.value);
+            })()}
             <div style={{fontSize:'0.63rem',color:'#8893A1'}}>{item.sub}</div>
           </div>
         ))}

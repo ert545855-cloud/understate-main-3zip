@@ -204,24 +204,32 @@ function BottomNav({ page, onChange, items, notifMap={} }) {
                 style={{
                   flex:1, display:'flex', flexDirection:'column',
                   alignItems:'center', justifyContent:'center', gap:'3px',
-                  border:'none',
+                  border:'none', borderTop:'none',
                   background: isOpen ? 'rgba(201,162,39,0.07)' : 'transparent',
                   cursor:'pointer', WebkitTapHighlightColor:'transparent',
                   position:'relative', transition:'background 0.15s',
-                  borderTop: lit ? `2px solid ${GOLD}` : '2px solid transparent',
+                  paddingBottom:'2px',
                 }}
               >
+                {/* Bottom underline indicator */}
+                <span style={{
+                  position:'absolute', bottom:0, left:'15%', right:'15%',
+                  height:'2px', borderRadius:'1px',
+                  background: lit ? GOLD : 'transparent',
+                  transition:'background 0.15s',
+                  boxShadow: lit ? `0 0 6px rgba(201,162,39,0.6)` : 'none',
+                }} />
                 {group.svgIcon
                   ? <SvgIcon name={group.svgIcon} size={21}
                       style={{
-                        transform: lit ? 'scale(1.1)' : 'scale(1)',
+                        transform: lit ? 'scale(1.12)' : 'scale(1)',
                         transition: 'transform 0.15s',
                         filter: lit ? `drop-shadow(0 0 5px rgba(201,162,39,0.65))` : 'none',
                       }}
                     />
                   : <span style={{
                       fontSize:'1.22rem', lineHeight:1,
-                      transform: lit ? 'scale(1.1)' : 'scale(1)',
+                      transform: lit ? 'scale(1.12)' : 'scale(1)',
                       transition: 'transform 0.15s',
                       filter: lit ? `drop-shadow(0 0 5px rgba(201,162,39,0.65))` : 'none',
                       display:'inline-block',

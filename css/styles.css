@@ -29,7 +29,7 @@
         --gold2:   #A07D1C;
         --red:     #C24B43;
         --red2:    #A03830;
-        --violet:  #8B5CF6;
+        --violet:  #8B5CF6; /* VIP/premium/election badge only — do not use for interactive states */
         --pink:    #EC4899;
         --orange:  #D97316;
 
@@ -46,15 +46,14 @@
 
     /* ═══════ THEMES ═══════ */
     body.theme-gold {
-        --accent:#C9A227; --accent-dark:#A07D1C; --accent-light:#E5C14B;
-        --accent-rgb:201,162,39; --accent-glow:rgba(201,162,39,0.15);
+        --accent:#C9A227; --accent-dark:#A07D1C; --accent-light:#E5C14B; --accent-rgb:201,162,39; --accent-glow:rgba(201,162,39,0.15);
     }
     body.theme-dark {
         --accent:#A78BFA; --accent-dark:#7C3AED; --accent-light:#C4B5FD;
         --accent-rgb:167,139,250; --accent-glow:rgba(167,139,250,0.15);
     }
     body.theme-blue {
-        --accent:#C9A227; --accent-dark:#2563EB; --accent-light:#93C5FD;
+        --accent:#C9A227; --accent-dark:#A07D1C; --accent-light:#E5C14B;
         --accent-rgb:96,165,250; --accent-glow:rgba(96,165,250,0.15);
     }
     body.theme-red {
@@ -294,9 +293,9 @@
     }
     .btn::after { content:''; position:absolute; inset:0; background:linear-gradient(to bottom,rgba(255,255,255,0.05),transparent); pointer-events:none; }
     /* Primary — ana eylem (kirmizi) */
-    .btn-primary { background:#D00000; color:#fff; border:none; box-shadow:0 4px 16px rgba(208,0,0,0.35); }
-    .btn-primary:not(:disabled):hover { box-shadow:0 6px 24px rgba(208,0,0,0.55); }
-    .btn-primary:not(:disabled):active { box-shadow:0 2px 8px rgba(208,0,0,0.3); }
+    .btn-primary { background:#C9A227; color:#11151C; border:none; box-shadow:0 4px 16px rgba(201,162,39,0.35); font-weight:700; }
+    .btn-primary:not(:disabled):hover { background:#DEB12D; box-shadow:0 6px 24px rgba(201,162,39,0.55); }
+    .btn-primary:not(:disabled):active { background:#A07D1C; box-shadow:0 2px 8px rgba(201,162,39,0.3); }
     /* White — acik tema CTA */
     .btn-white  { background:#fff; color:#11151C; border:none; box-shadow:0 2px 8px rgba(0,0,0,0.15); }
     .btn-white:not(:disabled):hover { background:#F1F5F9; box-shadow:0 4px 16px rgba(0,0,0,0.2); }
@@ -307,7 +306,7 @@
     .btn-green  { background:linear-gradient(135deg,#4C9A6B,#059669); color:#fff; border:none; box-shadow:0 4px 16px rgba(16,185,129,0.3); }
     .btn-green:not(:disabled):hover { box-shadow:0 6px 20px rgba(16,185,129,0.5); }
     /* Blue — notrol bilgi eylemi */
-    .btn-blue   { background:linear-gradient(135deg,#C9A227,#2563EB); color:#fff; border:none; box-shadow:0 4px 16px rgba(59,130,246,0.3); }
+    .btn-blue   { background:linear-gradient(135deg,#C9A227,#A07D1C); color:#11151C; border:none; box-shadow:0 4px 16px rgba(201,162,39,0.3); }
     .btn-blue:not(:disabled):hover { box-shadow:0 6px 20px rgba(59,130,246,0.5); }
     /* Gray — pasif / iptal */
     .btn-gray   { background:rgba(255,255,255,0.06); color:var(--text); border:1px solid rgba(255,255,255,0.12); }
@@ -1478,7 +1477,7 @@ body.night-mode .ministry-header {
     border-color: rgba(0,0,0,0.12) !important;
 }
 body.night-mode .card-title {
-    color: #2563EB !important;
+    color: #C9A227 !important;
 }
 body.night-mode .stat-box {
     background: #F0F4F8 !important;
@@ -1487,7 +1486,7 @@ body.night-mode .stat-box {
 body.night-mode .stat-box .val { color: #EDE7DA !important; }
 body.night-mode .stat-box .lbl { color: #4B6080 !important; }
 body.night-mode .btn { color: #EDE7DA !important; }
-body.night-mode .btn-primary { background: #2563EB !important; color: #fff !important; border-color: #2563EB !important; }
+body.night-mode .btn-primary { background: #C9A227 !important; color: #11151C !important; border-color: #C9A227 !important; }
 body.night-mode .btn-green { background: #4C9A6B !important; color: #fff !important; }
 body.night-mode input, body.night-mode textarea, body.night-mode select {
     background: #F0F4F8 !important;
@@ -1497,7 +1496,7 @@ body.night-mode input, body.night-mode textarea, body.night-mode select {
 body.night-mode .info-box {
     background: rgba(0,100,255,0.06) !important;
     border-color: rgba(0,100,255,0.15) !important;
-    color: #2563EB !important;
+    color: #C9A227 !important;
 }
 body.night-mode .top-bar {
     background: rgba(240,244,248,0.97) !important;

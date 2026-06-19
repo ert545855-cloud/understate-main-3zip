@@ -1,5 +1,6 @@
 function AuthScreen({ onLogin }) {
   const [tab, setTab] = useState('login');
+  const T = useT();
   const [f, setF] = useState({ username:'', password:'', email:'', city:'İstanbul', gender:'male', inviteCode:'' });
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState('');
@@ -368,7 +369,7 @@ function AuthScreen({ onLogin }) {
 
             {/* Tabs */}
             <div style={{display:'flex',gap:'8px',marginBottom:'1.5rem'}}>
-              {[['login','→ Giriş Yap'],['register','Kayıt Ol']].map(([v,l]) => (
+              {[['login','→ '+T('loginTab')],['register',T('registerTab')]].map(([v,l]) => (
                 <button key={v} type="button" onClick={() => {setTab(v);setErr('');}}
                   style={{
                     flex:1, padding:'0.7rem', borderRadius:'8px',
@@ -393,7 +394,7 @@ function AuthScreen({ onLogin }) {
               <input style={inputStyle} type="text" placeholder="Kullanıcı adı veya e-posta" value={f.username} onChange={e=>u('username',e.target.value)} autoComplete="username" />
             </div>
             <div style={{marginBottom:'1.25rem',position:'relative'}}>
-              <input style={inputStyle} type={showPw?'text':'password'} placeholder={tab==='register'?'Şifre (en az 6 karakter)':'Şifre'} value={f.password} onChange={e=>u('password',e.target.value)} autoComplete={tab==='register'?'new-password':'current-password'} />
+              <input style={inputStyle} type={showPw?'text':'password'} placeholder={tab==='register'?T('password')+' (min 6)':T('password')} value={f.password} onChange={e=>u('password',e.target.value)} autoComplete={tab==='register'?'new-password':'current-password'} />
               <button type="button" onClick={()=>setShowPw(p=>!p)} style={{position:'absolute',right:'1rem',top:'50%',transform:'translateY(-50%)',background:'none',border:'none',color:'#8893A1',cursor:'pointer',fontSize:'1rem',padding:'4px'}}>{showPw?'🙈':'👁️'}</button>
             </div>
 
@@ -425,7 +426,7 @@ function AuthScreen({ onLogin }) {
               {loading ? <>
                 <div style={{width:'18px',height:'18px',border:'2.5px solid rgba(255,255,255,0.2)',borderTopColor:'rgba(255,255,255,0.7)',borderRadius:'50%',animation:'spin 0.7s linear infinite'}} />
                 <span>Lütfen bekleyin...</span>
-              </> : (tab==='login' ? '→ Giriş Yap' : '→ Hesap Oluştur')}
+              </> : (tab==='login' ? T('doLogin') : T('doRegister'))}
             </button>
 
           
