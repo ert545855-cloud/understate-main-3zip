@@ -56,6 +56,7 @@ function HomePage({ profile, onNavigate }) {
   };
   const money = profile?.money || 0;
   const { dark } = useTheme();
+  const T = useT();
   const playerLevel = profile?.level || 1;
   const uid = profile?.uid || profile?.id;
 
@@ -210,9 +211,9 @@ function HomePage({ profile, onNavigate }) {
         <div style={{background:'#1B212B',padding:'1.2rem',paddingTop: profile?.bannerUrl ? '1.5rem' : '1.2rem'}}>
           <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'0.75rem'}}>
             <div>
-              <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.2rem',fontWeight:600}}>Oyuncu Profili</div>
+              <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.2rem',fontWeight:600}}>{T('playerProfile')}</div>
               <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.35rem',fontWeight:900,color:'#EDE7DA'}}>{profile?.username||'Oyuncu'}</div>
-              <div style={{fontSize:'0.65rem',color:'#6B7785',marginTop:'0.1rem'}}>{lvl.title} • {lvl.pct}% sonraki seviye</div>
+              <div style={{fontSize:'0.65rem',color:'#8893A1',marginTop:'0.1rem'}}>{lvl.title} • {lvl.pct}% sonraki seviye</div>
             </div>
             {!profile?.bannerUrl && (
               <div onClick={()=>onNavigate('profile')} style={{cursor:'pointer',display:'flex',flexDirection:'column',alignItems:'center',gap:'0.3rem'}}>
@@ -222,7 +223,7 @@ function HomePage({ profile, onNavigate }) {
             )}
           </div>
         <div style={{marginBottom:'0.6rem'}}>
-          <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.6rem',color:'#6B7785',marginBottom:'4px'}}>
+          <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.6rem',color:'#8893A1',marginBottom:'4px'}}>
             <span>{lvl.xp?.toLocaleString()} XP</span><span>→ {lvl.next?.xp?.toLocaleString()} XP</span>
           </div>
           <div style={{height:'4px',background:'rgba(237,231,218,0.07)',borderRadius:'2px',overflow:'hidden'}}>
@@ -231,13 +232,13 @@ function HomePage({ profile, onNavigate }) {
         </div>
         <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'0.5rem'}}>
           {[
-            {label:'Seviye',value:lvl.lvl,icon:'⭐'},
-            {label:'Prestij',value:fmtShort(profile?.meritPoints||0),icon:'🏅'},
-            {label:'Para',value:'₺'+fmtShort(money),icon:'💰'},
+            {label:T('levelLabel'),value:lvl.lvl,icon:'⭐'},
+            {label:T('prestigeLabel'),value:fmtShort(profile?.meritPoints||0),icon:'🏅'},
+            {label:T('moneyLabel'),value:'₺'+fmtShort(money),icon:'💰'},
           ].map(({label,value,icon})=>(
             <div key={label} style={{textAlign:'center',background:'rgba(237,231,218,0.05)',borderRadius:'10px',padding:'0.5rem 0.2rem'}}>
               <div style={{fontSize:'0.75rem',marginBottom:'0.1rem'}}>{icon}</div>
-              <div style={{fontSize:'0.52rem',color:'#6B7785',textTransform:'uppercase',letterSpacing:'0.07em',fontWeight:700,marginBottom:'0.1rem'}}>{label}</div>
+              <div style={{fontSize:'0.52rem',color:'#8893A1',textTransform:'uppercase',letterSpacing:'0.07em',fontWeight:700,marginBottom:'0.1rem'}}>{label}</div>
               <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'1rem',fontWeight:900,color:'#EDE7DA'}}>{value}</div>
             </div>
           ))}
@@ -289,7 +290,7 @@ function HomePage({ profile, onNavigate }) {
                   {streakClaiming ? '⏳' : `🎁 +₺${todayReward.toLocaleString('tr-TR')}`}
                 </button>
               ) : (
-                <div style={{fontSize:'0.72rem',color:'#4C9A6B',fontWeight:700}}>✅ Bugün alındı</div>
+                <div style={{fontSize:'0.72rem',color:'#4C9A6B',fontWeight:700}}>✅ {T('claimedToday')}</div>
               )}
             </div>
             <div style={{display:'flex',gap:'4px'}}>
@@ -301,7 +302,7 @@ function HomePage({ profile, onNavigate }) {
                 );
               })}
             </div>
-            {!claimed && <div style={{fontSize:'0.62rem',color:'#6B7785',marginTop:'0.4rem'}}>Yarın: +₺{nextReward.toLocaleString('tr-TR')} • Zinciri kırma!</div>}
+            {!claimed && <div style={{fontSize:'0.62rem',color:'#8893A1',marginTop:'0.4rem'}}>Yarın: +₺{nextReward.toLocaleString('tr-TR')} • Zinciri kırma!</div>}
           </div>
         );
       })()}
@@ -309,7 +310,7 @@ function HomePage({ profile, onNavigate }) {
       {/* ── Daily Tasks ── */}
       <div style={{background:'#1B212B',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'1rem',marginBottom:'0.75rem',boxShadow:'none'}}>
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.8rem'}}>
-          <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1rem',fontWeight:800,color:'#EDE7DA'}}>📅 Günlük Görevler</div>
+          <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1rem',fontWeight:800,color:'#EDE7DA'}}>{T('dailyTasks')}</div>
           <span style={{fontSize:'0.65rem',color:'#8893A1',fontWeight:600}}>{todayKey}</span>
         </div>
         {taskList.map((task,i)=>{
@@ -347,7 +348,7 @@ function HomePage({ profile, onNavigate }) {
       {/* ── Announcements (açılır pencereli) ── */}
       <div style={{background:'#1B212B',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'1rem',marginBottom:'0.75rem',boxShadow:'none'}}>
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.7rem'}}>
-          <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1rem',fontWeight:800,color:'#EDE7DA'}}>📢 Duyurular</div>
+          <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1rem',fontWeight:800,color:'#EDE7DA'}}>{T('announcements2')}</div>
           <button onClick={()=>onNavigate('duyurular')} style={{fontSize:'0.68rem',color:'#C9A227',fontWeight:700,background:'none',border:'none',cursor:'pointer'}}>Tümü →</button>
         </div>
         {annList.slice(0,3).map(a=>(
@@ -356,7 +357,7 @@ function HomePage({ profile, onNavigate }) {
             <span style={{fontSize:'1.2rem',flexShrink:0}}>{a.icon||'📣'}</span>
             <div style={{flex:1,overflow:'hidden'}}>
               <div style={{fontSize:'0.82rem',fontWeight:700,color:'#EDE7DA',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{a.title}</div>
-              <div style={{fontSize:'0.68rem',color:catColor[a.category]||'#7A8FA6',fontWeight:600}}>{a.category} • {timeAgo(a.ts)}</div>
+              <div style={{fontSize:'0.68rem',color:catColor[a.category]||'#8893A1',fontWeight:600}}>{a.category} • {timeAgo(a.ts)}</div>
             </div>
             <span style={{fontSize:'0.7rem',color:'#8893A1',flexShrink:0}}>›</span>
           </button>
@@ -452,7 +453,7 @@ function HomePage({ profile, onNavigate }) {
                 <textarea value={supportText} onChange={e=>setSupportText(e.target.value)}
                   placeholder="Sorununuzu veya talebinizi yazın..."
                   rows={4}
-                  style={{width:'100%',padding:'0.75rem',border:'1.5px solid rgba(201,162,39,0.25)',borderRadius:'12px',fontFamily:"'Inter',sans-serif",fontSize:'0.9rem',color:'#EDE7DA',resize:'none',outline:'none',boxSizing:'border-box',background:'#F8FAFC'}}
+                  style={{width:'100%',padding:'0.75rem',border:'1.5px solid rgba(201,162,39,0.25)',borderRadius:'12px',fontFamily:"'Inter',sans-serif",fontSize:'0.9rem',color:'#EDE7DA',resize:'none',outline:'none',boxSizing:'border-box',background:'#1B212B'}}
                 />
                 <button onClick={sendSupportMsg} disabled={!supportText.trim()}
                   style={{width:'100%',padding:'0.8rem',borderRadius:'14px',border:'none',background:supportText.trim()?'#C24B43':'#E2E8F0',color:supportText.trim()?'#fff':'#94A3B8',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.92rem',cursor:supportText.trim()?'pointer':'default',marginTop:'0.65rem',transition:'all 0.15s'}}>
@@ -472,7 +473,7 @@ function HomePage({ profile, onNavigate }) {
               <span style={{fontSize:'2rem'}}>{annModal.icon||'📣'}</span>
               <div>
                 <div style={{fontSize:'1rem',fontWeight:800,color:'#EDE7DA'}}>{annModal.title}</div>
-                <div style={{fontSize:'0.72rem',color:catColor[annModal.category]||'#7A8FA6',fontWeight:700}}>{annModal.category} • {timeAgo(annModal.ts)}</div>
+                <div style={{fontSize:'0.72rem',color:catColor[annModal.category]||'#8893A1',fontWeight:700}}>{annModal.category} • {timeAgo(annModal.ts)}</div>
               </div>
             </div>
             <div style={{fontSize:'0.88rem',color:'#334155',lineHeight:'1.65',marginBottom:'1.25rem'}}>{annModal.body||annModal.text}</div>

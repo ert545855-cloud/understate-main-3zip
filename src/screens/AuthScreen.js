@@ -323,7 +323,7 @@ function AuthScreen({ onLogin }) {
 
             <button
               onClick={() => { setUnverifiedUser(null); setResendMsg(''); }}
-              style={{background:'none',border:'none',color:'#6B7785',fontSize:'0.78rem',cursor:'pointer',fontFamily:"'Inter',sans-serif",textDecoration:'underline',padding:'4px 8px'}}>
+              style={{background:'none',border:'none',color:'#8893A1',fontSize:'0.78rem',cursor:'pointer',fontFamily:"'Inter',sans-serif",textDecoration:'underline',padding:'4px 8px'}}>
               ← Farklı hesapla giriş yap
             </button>
           </div>
@@ -394,7 +394,7 @@ function AuthScreen({ onLogin }) {
             </div>
             <div style={{marginBottom:'1.25rem',position:'relative'}}>
               <input style={inputStyle} type={showPw?'text':'password'} placeholder={tab==='register'?'Şifre (en az 6 karakter)':'Şifre'} value={f.password} onChange={e=>u('password',e.target.value)} autoComplete={tab==='register'?'new-password':'current-password'} />
-              <button type="button" onClick={()=>setShowPw(p=>!p)} style={{position:'absolute',right:'1rem',top:'50%',transform:'translateY(-50%)',background:'none',border:'none',color:'#6B7785',cursor:'pointer',fontSize:'1rem',padding:'4px'}}>{showPw?'🙈':'👁️'}</button>
+              <button type="button" onClick={()=>setShowPw(p=>!p)} style={{position:'absolute',right:'1rem',top:'50%',transform:'translateY(-50%)',background:'none',border:'none',color:'#8893A1',cursor:'pointer',fontSize:'1rem',padding:'4px'}}>{showPw?'🙈':'👁️'}</button>
             </div>
 
             {tab==='register' && <>

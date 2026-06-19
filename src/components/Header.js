@@ -16,11 +16,14 @@ function Header({ profile, notifCount, onNotif, page, onNavigate }) {
   const lvl       = getLevelInfo(profile?.xp || 0);
   const T         = useT();
   const lang      = useContext(LangCtx);
-  const [parties] = useLs('parties', []);
-  const [gangs]   = useLs('gangs', []);
+  const [_parties] = useLs('parties', []);
+  const [_gangs]   = useLs('gangs', []);
+  // Normalize: DB/socket may return object maps; ensure arrays before .find()
+  const parties = Array.isArray(_parties) ? _parties : Object.values(_parties || {});
+  const gangs   = Array.isArray(_gangs)   ? _gangs   : Object.values(_gangs   || {});
   const uid     = profile?.uid || profile?.id;
-  const myParty = uid ? parties.find(p => p.leaderId===uid || (p.members||[]).includes(uid)) : null;
-  const myGang  = uid ? gangs.find(g => g.leaderId===uid || (g.members||[]).includes(uid)) : null;
+  const myParty = uid ? parties.find(p => p && (p.leaderId===uid || (Array.isArray(p.members) ? p.members.includes(uid) : false))) : null;
+  const myGang  = uid ? gangs.find(g  => g  && (g.leaderId===uid  || (Array.isArray(g.members) ? g.members.includes(uid)  : false))) : null;
   const orgLabel = myParty ? `🏛️ ${myParty.name}` : myGang ? `💀 ${myGang.name}` : null;
 
   const [showLangMenu, setShowLangMenu] = useState(false);
