@@ -12,7 +12,7 @@ function MiningPage({ profile, setProfile, showNotif }) {
   const RESOURCES = [
     {id:'coal',   name:'Kömür', icon:'🪨', cd:1800000,   yield:[5,15],  price:500,   color:'#6B7280'},
     {id:'iron',   name:'Demir', icon:'⚙️',  cd:2*3600000, yield:[3,10],  price:1200,  color:'#9CA3AF'},
-    {id:'gold',   name:'Altın', icon:'✨',  cd:4*3600000, yield:[1,5],   price:5000,  color:'#FFD700'},
+    {id:'gold',   name:'Altın', icon:'✨',  cd:4*3600000, yield:[1,5],   price:5000,  color:'#C9A227'},
     {id:'oil',    name:'Petrol',icon:'🛢️', cd:6*3600000, yield:[2,8],   price:3000,  color:'#1F2937'},
     {id:'diamond',name:'Elmas', icon:'💎', cd:12*3600000,yield:[1,3],   price:20000, color:'#7DD3FC'},
   ];
@@ -93,8 +93,8 @@ function MiningPage({ profile, setProfile, showNotif }) {
 
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>
-      <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#F59E0B',marginBottom:'0.5rem'}}>⛏️ Madencilik</div>
-      <div style={{fontSize:'0.82rem',color:'#999',marginBottom:'1rem',background:'rgba(245,158,11,0.07)',borderRadius:'8px',padding:'0.5rem 0.75rem',border:'1px solid rgba(245,158,11,0.2)'}}>
+      <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#C9A227',marginBottom:'0.5rem'}}>⛏️ Madencilik</div>
+      <div style={{fontSize:'0.82rem',color:'#999',marginBottom:'1rem',background:'rgba(201,162,39,0.07)',borderRadius:'8px',padding:'0.5rem 0.75rem',border:'1px solid rgba(201,162,39,0.2)'}}>
         ⛏️ Her kaynak türünün bekleme süresi var. Kazıp satarak para kazan!
       </div>
       <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.75rem',marginBottom:'1rem'}}>
@@ -108,7 +108,7 @@ function MiningPage({ profile, setProfile, showNotif }) {
               <div style={{fontSize:'1.5rem',marginBottom:'0.25rem'}}>{res.icon}</div>
               <div style={{fontWeight:700,fontSize:'0.9rem',marginBottom:'0.15rem'}}>{res.name}</div>
               <div style={{fontSize:'0.7rem',color:'#888',marginBottom:'0.4rem'}}>Stok: {myResources[res.id]||0} · ₺{res.price.toLocaleString()}/adet</div>
-              {!ready && <div style={{fontSize:'0.65rem',color:'#F59E0B',marginBottom:'0.3rem'}}>⏳ {Math.ceil(rem/60000)}dk</div>}
+              {!ready && <div style={{fontSize:'0.65rem',color:'#C9A227',marginBottom:'0.3rem'}}>⏳ {Math.ceil(rem/60000)}dk</div>}
               <button onClick={()=>mine(res)} disabled={!ready} style={{width:'100%',padding:'0.35rem',borderRadius:'6px',border:'none',background:ready?res.color:'rgba(255,255,255,0.05)',color:ready?'#fff':'#555',cursor:ready?'pointer':'not-allowed',fontWeight:700,fontSize:'0.75rem',fontFamily:'inherit'}}>
                 {ready?'⛏️ Kaz':'Bekle'}
               </button>
@@ -116,13 +116,13 @@ function MiningPage({ profile, setProfile, showNotif }) {
           );
         })}
       </div>
-      <div style={{background:'rgba(245,158,11,0.07)',border:'1px solid rgba(245,158,11,0.2)',borderRadius:'12px',padding:'0.75rem',marginBottom:'1rem'}}>
-        <div style={{fontWeight:700,color:'#F59E0B',marginBottom:'0.4rem',fontSize:'0.85rem'}}>💰 Toplam Değer</div>
-        <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:'1.2rem',fontWeight:900,color:'#F59E0B'}}>
+      <div style={{background:'rgba(201,162,39,0.07)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'12px',padding:'0.75rem',marginBottom:'1rem'}}>
+        <div style={{fontWeight:700,color:'#C9A227',marginBottom:'0.4rem',fontSize:'0.85rem'}}>💰 Toplam Değer</div>
+        <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:'1.2rem',fontWeight:900,color:'#C9A227'}}>
           ₺{RESOURCES.reduce((a,r)=>(a+(myResources[r.id]||0)*r.price),0).toLocaleString()}
         </div>
       </div>
-      <button onClick={sellAll} style={{width:'100%',padding:'0.75rem',borderRadius:'10px',border:'none',background:'linear-gradient(135deg,#F59E0B,#D97706)',color:'#fff',fontWeight:900,fontSize:'0.9rem',cursor:'pointer',fontFamily:'Syne,sans-serif'}}>
+      <button onClick={sellAll} style={{width:'100%',padding:'0.75rem',borderRadius:'10px',border:'none',background:'#C9A227',color:'#EDE7DA',fontWeight:900,fontSize:'0.9rem',cursor:'pointer',fontFamily:'Syne,sans-serif'}}>
         💰 Tümünü Sat
       </button>
     </div>

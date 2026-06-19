@@ -123,7 +123,7 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
     <div>
       <div className="ministry-header">🏗️ Devlet İhaleleri</div>
       <p style={{fontSize:"0.82rem",color:"#6B7C93",marginBottom:"0.6rem"}}>
-        İhaleler sistem tarafından otomatik oluşturulur. <strong style={{color:"#F59E0B"}}>Devlet Başkanı ihaleleri duyurur</strong>, aileler teklif verir, kazanan projeyi üstlenir.
+        İhaleler sistem tarafından otomatik oluşturulur. <strong style={{color:"#C9A227"}}>Devlet Başkanı ihaleleri duyurur</strong>, aileler teklif verir, kazanan projeyi üstlenir.
       </p>
 
       <div style={{background:"rgba(99,102,241,0.08)",border:"1px solid rgba(99,102,241,0.2)",borderRadius:10,padding:"0.55rem 0.75rem",marginBottom:"0.75rem",fontSize:"0.75rem",color:"#818CF8",lineHeight:1.5}}>
@@ -131,7 +131,7 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
       </div>
 
       {msg&&(
-        <div style={{padding:"0.6rem 0.85rem",borderRadius:10,marginBottom:"0.75rem",background:msg.type==="success"?"rgba(16,185,129,0.12)":msg.type==="error"?"rgba(239,68,68,0.12)":"rgba(59,130,246,0.12)",border:`1px solid ${msg.type==="success"?"rgba(16,185,129,0.3)":msg.type==="error"?"rgba(239,68,68,0.3)":"rgba(59,130,246,0.3)"}`,color:msg.type==="success"?"#10B981":msg.type==="error"?"#EF4444":"#60A5FA",fontSize:"0.82rem",fontWeight:600}}>
+        <div style={{padding:"0.6rem 0.85rem",borderRadius:10,marginBottom:"0.75rem",background:msg.type==="success"?"rgba(76,154,107,0.12)":msg.type==="error"?"rgba(194,75,67,0.12)":"rgba(201,162,39,0.12)",border:`1px solid ${msg.type==="success"?"rgba(76,154,107,0.3)":msg.type==="error"?"rgba(194,75,67,0.3)":"rgba(201,162,39,0.3)"}`,color:msg.type==="success"?"#4C9A6B":msg.type==="error"?"#C24B43":"#C9A227",fontSize:"0.82rem",fontWeight:600}}>
           {msg.text}
         </div>
       )}
@@ -149,14 +149,14 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
             <div style={{...card,textAlign:"center",padding:"2rem"}}>
               <div style={{fontSize:"2rem",marginBottom:"0.5rem"}}>🏗️</div>
               <div style={{color:"#5E7390",fontSize:"0.85rem",marginBottom:"0.5rem"}}>Henüz duyurulan ihale yok.</div>
-              <div style={{color:"#5A7089",fontSize:"0.75rem"}}>Devlet Başkanı sistem havuzundan ihale duyurduğunda burada görünür.</div>
+              <div style={{color:"#8893A1",fontSize:"0.75rem"}}>Devlet Başkanı sistem havuzundan ihale duyurduğunda burada görünür.</div>
             </div>
           )}
           {tenders.map(tender=>{
             const remaining = tender.endsAt - now;
             const isOpen = tender.status==="open" && remaining>0;
             const isWinner = tender.currentBidder===cu?.username;
-            const statusColor = isOpen?"#10B981":tender.status==="active"?"#F59E0B":"#5E7390";
+            const statusColor = isOpen?"#4C9A6B":tender.status==="active"?"#C9A227":"#5E7390";
             const statusText  = isOpen?"Açık":tender.status==="active"?"Aktif Proje":tender.status==="completed"?"Tamamlandı":"Kapandı";
             return (
               <div key={tender.id} style={{...card,border:isWinner?"1px solid rgba(255,184,0,0.3)":"1px solid rgba(255,255,255,0.07)"}}>
@@ -167,7 +167,7 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
                     </div>
                     <div style={{fontWeight:700,color:"#fff",fontSize:"0.95rem"}}>{tender.title}</div>
                     {tender.description && <div style={{fontSize:"0.72rem",color:"#5E7390",marginTop:"0.1rem",lineHeight:1.4}}>{tender.description}</div>}
-                    <div style={{fontSize:"0.65rem",color:"#5A7089",marginTop:"0.15rem"}}>
+                    <div style={{fontSize:"0.65rem",color:"#8893A1",marginTop:"0.15rem"}}>
                       Duyuran: {tender.relayedBy ? `🏛️ ${tender.relayedBy}` : "⚙️ Sistem"}
                     </div>
                   </div>
@@ -176,8 +176,8 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
                 <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:"0.4rem",marginBottom:"0.65rem"}}>
                   {[
                     {l:"Mevcut Teklif",v:fmtMoney(tender.currentBid),c:"#FFB800"},
-                    {l:"Teklif Veren", v:tender.currentBidder||"—",c:"#60A5FA"},
-                    {l:"Kalan Süre",   v:fmtTime(remaining),c:remaining<3600000?"#EF4444":"#10B981"},
+                    {l:"Teklif Veren", v:tender.currentBidder||"—",c:"#C9A227"},
+                    {l:"Kalan Süre",   v:fmtTime(remaining),c:remaining<3600000?"#C24B43":"#4C9A6B"},
                   ].map(s=>(
                     <div key={s.l} style={{background:"rgba(255,255,255,0.03)",borderRadius:8,padding:"0.4rem",textAlign:"center"}}>
                       <div style={{fontWeight:700,fontSize:"0.82rem",color:s.c,fontFamily:"JetBrains Mono,monospace",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{s.v}</div>
@@ -204,7 +204,7 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
                 )}
                 {isWinner && tender.status==="active" && (
                   <div>
-                    <div style={{background:"rgba(245,158,11,0.08)",border:"1px solid rgba(245,158,11,0.25)",borderRadius:8,padding:"0.5rem",marginBottom:"0.4rem",fontSize:"0.78rem",color:"#F59E0B"}}>
+                    <div style={{background:"rgba(201,162,39,0.08)",border:"1px solid rgba(201,162,39,0.25)",borderRadius:8,padding:"0.5rem",marginBottom:"0.4rem",fontSize:"0.78rem",color:"#C9A227"}}>
                       ⚠️ {tender.data?.lastControl ? `Son kontrol: ${new Date(tender.data.lastControl).toLocaleTimeString("tr-TR")}` : "Henüz kontrol yapılmadı!"} · Kaçırılan: {tender.data?.missedControls||0}
                     </div>
                     <button className="btn btn-primary" style={{width:"100%"}} onClick={()=>doControl(tender.id)} disabled={loading}>✅ Proje Kontrolü Yap</button>
@@ -235,7 +235,7 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
               <div style={{fontSize:"1.5rem",marginBottom:"0.5rem"}}>🏆</div>
               <div style={{fontSize:"0.85rem"}}>Henüz teklif verdiğiniz veya kazandığınız ihale yok.</div>
               {!isFamilyLeader && (
-                <div style={{marginTop:"0.75rem",fontSize:"0.75rem",color:"#5A7089"}}>Teklif verebilmek için bir aile lideri olmanız gerekiyor.</div>
+                <div style={{marginTop:"0.75rem",fontSize:"0.75rem",color:"#8893A1"}}>Teklif verebilmek için bir aile lideri olmanız gerekiyor.</div>
               )}
             </div>
           )}
@@ -254,8 +254,8 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
       {/* DEVLET BAŞKANI — SİSTEM İHALESİ DUYUR */}
       {tab==="relay" && isPresident && (
         <div>
-          <div style={{...card,border:"1px solid rgba(245,158,11,0.3)",marginBottom:"0.75rem"}}>
-            <div style={{fontWeight:700,color:"#F59E0B",fontSize:"0.85rem",marginBottom:"0.5rem"}}>📢 Devlet Başkanı İhale İletme Paneli</div>
+          <div style={{...card,border:"1px solid rgba(201,162,39,0.3)",marginBottom:"0.75rem"}}>
+            <div style={{fontWeight:700,color:"#C9A227",fontSize:"0.85rem",marginBottom:"0.5rem"}}>📢 Devlet Başkanı İhale İletme Paneli</div>
             <p style={{fontSize:"0.78rem",color:"#8BA0B5",lineHeight:1.5,margin:"0 0 0.65rem 0"}}>
               Sistem tarafından hazırlanmış ihalelerden birini seçip duyurun. İhaleyi kendiniz oluşturamazsınız.
             </p>
@@ -286,7 +286,7 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
                   {item.category && (
                     <span style={{background:"rgba(99,102,241,0.15)",border:"1px solid rgba(99,102,241,0.25)",borderRadius:5,padding:"0.1rem 0.45rem",fontSize:"0.6rem",fontWeight:700,color:"#818CF8",display:"inline-block",marginBottom:"0.25rem"}}>{item.category}</span>
                   )}
-                  <div style={{fontWeight:700,color:"#E8EDF2",fontSize:"0.95rem"}}>{item.title}</div>
+                  <div style={{fontWeight:700,color:"#EDE7DA",fontSize:"0.95rem"}}>{item.title}</div>
                   <div style={{fontSize:"0.72rem",color:"#5E7390",marginTop:"0.1rem",lineHeight:1.4}}>{item.description}</div>
                 </div>
               </div>

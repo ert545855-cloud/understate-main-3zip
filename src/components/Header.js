@@ -1,72 +1,226 @@
 "use strict";
 // ═══════════════════════════════════════════════════════
-// HEADER BİLEŞENİ
+// HEADER BİLEŞENİ — Design System v9
+// Note: hooks (useState/useEffect/useContext) come from app.js global scope at call time
 // ═══════════════════════════════════════════════════════
-// Not: useState/useEffect/useContext app.js global scope'undan gelir
+
+const _HEADER_LANGS = [
+  { code:'tr', flag:'🇹🇷', label:'TR' },
+  { code:'en', flag:'🇬🇧', label:'EN' },
+  { code:'az', flag:'🇦🇿', label:'AZ' },
+  { code:'de', flag:'🇩🇪', label:'DE' },
+];
 
 function Header({ profile, notifCount, onNotif, page, onNavigate }) {
   const onlineCnt = useOnlineCount();
-  const lvl = getLevelInfo(profile?.xp || 0);
-  const { dark, toggle } = useTheme();
-  const T = useT();
+  const lvl       = getLevelInfo(profile?.xp || 0);
+  const T         = useT();
+  const lang      = useContext(LangCtx);
   const [parties] = useLs('parties', []);
-  const [gangs] = useLs('gangs', []);
-  const uid = profile?.uid || profile?.id;
+  const [gangs]   = useLs('gangs', []);
+  const uid     = profile?.uid || profile?.id;
   const myParty = uid ? parties.find(p => p.leaderId===uid || (p.members||[]).includes(uid)) : null;
   const myGang  = uid ? gangs.find(g => g.leaderId===uid || (g.members||[]).includes(uid)) : null;
   const orgLabel = myParty ? `🏛️ ${myParty.name}` : myGang ? `💀 ${myGang.name}` : null;
 
+  const [showLangMenu, setShowLangMenu] = useState(false);
+
+  const changeLang = (code) => {
+    localStorage.setItem('rep_uiLang', code);
+    window.dispatchEvent(new CustomEvent('lang-change', { detail: { lang: code } }));
+    setShowLangMenu(false);
+  };
+
+  const currentLang = _HEADER_LANGS.find(l => l.code === (lang||'tr')) || _HEADER_LANGS[0];
+
   return (
-    <div style={{position:'sticky',top:0,zIndex:100,background: dark ? '#0F172A' : '#FFFFFF',borderBottom: dark ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(0,0,0,0.08)',boxShadow: dark ? '0 1px 8px rgba(0,0,0,0.4)' : '0 1px 8px rgba(0,0,0,0.06)'}} >
-      {/* Ticker */}
-      <div style={{height:'22px',background:'rgba(0,0,0,0.4)',borderBottom:'1px solid rgba(255,255,255,0.04)',overflow:'hidden',display:'flex',alignItems:'center'}}>
-        <div style={{whiteSpace:'nowrap',fontSize:'0.58rem',fontFamily:"'JetBrains Mono',monospace",color:'#94A3B8',animation:'ticker 35s linear infinite',paddingLeft:'100%'}}>
-          🟢 {onlineCnt} çevrimiçi oyuncu &nbsp;•&nbsp; 💰 TECH +2.4% ENERGY -1.1% BANK +3.2% &nbsp;•&nbsp; 🏛️ Parlamento: Anayasa değişikliği oylaması &nbsp;•&nbsp; ⚔️ Aktif çatışma: Kuzey bölgesi &nbsp;•&nbsp; 🕵️ İstihbarat: Gizli holding soruşturması &nbsp;•&nbsp; 🎓 Yeni üniversite kuruldu: Başvurular açık &nbsp;•&nbsp; 💼 İşsizlik oranı %12.4 &nbsp;•&nbsp; 🏗️ İstanbul'da 3 yeni inşaat ruhsatı &nbsp;•&nbsp; 👨‍👩‍👧 Yeni bir aile kuruldu &nbsp;•&nbsp; 🗳️ Seçim tarihi yaklaşıyor: 30 gün kaldı &nbsp;•&nbsp; 📈 Borsa rekor kırdı: 10 yılın en yüksek değeri &nbsp;•&nbsp; 🚔 Organize suç soruşturması genişledi &nbsp;•&nbsp; 🟢 {onlineCnt} çevrimiçi oyuncu &nbsp;•&nbsp; 💰 TECH +2.4% ENERGY -1.1%
+    <div style={{
+      position:'sticky', top:0, zIndex:100,
+      background:'#11151C',
+      borderBottom:'1px solid rgba(237,231,218,0.08)',
+      boxShadow:'0 2px 16px rgba(0,0,0,0.5)',
+    }}>
+      {/* News ticker */}
+      <div style={{
+        height:'20px', background:'rgba(0,0,0,0.28)',
+        borderBottom:'1px solid rgba(237,231,218,0.05)',
+        overflow:'hidden', display:'flex', alignItems:'center',
+      }}>
+        <div style={{
+          whiteSpace:'nowrap', fontSize:'0.56rem',
+          fontFamily:"'JetBrains Mono',monospace",
+          color:'#8893A1',
+          animation:'ticker 35s linear infinite',
+          paddingLeft:'100%',
+        }}>
+          🟢 {onlineCnt} çevrimiçi &nbsp;•&nbsp; 💰 TECH +2.4% &nbsp;ENERGY -1.1% &nbsp;BANK +3.2% &nbsp;•&nbsp; 🏛️ Parlamento: Anayasa değişikliği oylaması &nbsp;•&nbsp; ⚔️ Aktif çatışma: Kuzey bölgesi &nbsp;•&nbsp; 🎓 Yeni üniversite kuruldu &nbsp;•&nbsp; 💼 İşsizlik %12.4 &nbsp;•&nbsp; 📈 Borsa rekor: 10 yılın zirvesi &nbsp;•&nbsp; 🗳️ Seçim: 30 gün kaldı &nbsp;•&nbsp; 🟢 {onlineCnt} çevrimiçi &nbsp;•&nbsp; 💰 TECH +2.4%
         </div>
       </div>
-      {/* Main header */}
-      <div style={{display:'flex',alignItems:'center',padding:'0.4rem 0.75rem',gap:'0.55rem'}}>
-        {/* Avatar + İsim */}
-        <div onClick={()=>onNavigate&&onNavigate('profile')} style={{display:'flex',alignItems:'center',gap:'0.5rem',flex:1,minWidth:0,cursor:'pointer',WebkitTapHighlightColor:'transparent'}}>
-          <Avatar profile={profile} size={38} />
+
+      {/* Main header row */}
+      <div style={{display:'flex',alignItems:'center',padding:'0.36rem 0.75rem',gap:'0.4rem'}}>
+
+        {/* Avatar + name */}
+        <div
+          onClick={()=>onNavigate&&onNavigate('profile')}
+          style={{display:'flex',alignItems:'center',gap:'0.42rem',flex:1,minWidth:0,cursor:'pointer',WebkitTapHighlightColor:'transparent'}}
+        >
+          <Avatar profile={profile} size={34} />
           <div style={{display:'flex',flexDirection:'column',justifyContent:'center',minWidth:0}}>
-            <div style={{fontFamily:"'DM Sans',sans-serif",fontSize:'0.78rem',fontWeight:700,color: dark ? '#E2E8F0' : '#1E293B',lineHeight:1.2,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>
+            <div style={{
+              fontFamily:"'Inter',sans-serif", fontSize:'0.77rem', fontWeight:700,
+              color:'#EDE7DA', lineHeight:1.2,
+              whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis',
+            }}>
               {profile?.username || '—'}
             </div>
-            <div style={{display:'flex',alignItems:'center',gap:'0.3rem',flexWrap:'nowrap',overflow:'hidden'}}>
-              <span style={{fontSize:'0.57rem',color:'#F59E0B',fontWeight:700,whiteSpace:'nowrap'}}>{lvl.title}</span>
+            <div style={{display:'flex',alignItems:'center',gap:'0.28rem',flexWrap:'nowrap',overflow:'hidden'}}>
+              <span style={{fontSize:'0.55rem',color:'#C9A227',fontWeight:700,whiteSpace:'nowrap',fontFamily:"'Inter',sans-serif"}}>
+                {lvl.title}
+              </span>
               {orgLabel && <>
-                <span style={{fontSize:'0.5rem',color: dark ? '#475569' : '#94A3B8'}}>•</span>
-                <span style={{fontSize:'0.57rem',color: dark ? '#94A3B8' : '#64748B',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{orgLabel}</span>
+                <span style={{fontSize:'0.48rem',color:'rgba(237,231,218,0.2)'}}>•</span>
+                <span style={{fontSize:'0.55rem',color:'#8893A1',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',fontFamily:"'Inter',sans-serif"}}>
+                  {orgLabel}
+                </span>
               </>}
             </div>
           </div>
         </div>
-        {/* Para */}
-        <div style={{textAlign:'center',padding:'0.18rem 0.45rem',background: dark ? 'rgba(16,185,129,0.1)' : 'rgba(16,185,129,0.08)',border:'1px solid rgba(16,185,129,0.25)',borderRadius:'8px',flexShrink:0}}>
-          <div style={{fontSize:'0.42rem',color:'#6EE7B7',textTransform:'uppercase',letterSpacing:'0.06em',fontWeight:700}}>{T('money')}</div>
-          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.67rem',fontWeight:700,color:'#10B981',lineHeight:1.3}}>{fmtWord(profile?.money)}</div>
+
+        {/* Money ledger */}
+        <div style={{
+          textAlign:'center', padding:'0.15rem 0.38rem',
+          background:'rgba(76,154,107,0.07)',
+          border:'1px solid rgba(76,154,107,0.18)',
+          borderTop:'2px solid #4C9A6B',
+          borderRadius:'8px', flexShrink:0,
+        }}>
+          <div style={{fontSize:'0.39rem',color:'#4C9A6B',textTransform:'uppercase',letterSpacing:'0.06em',fontWeight:700,fontFamily:"'Inter',sans-serif"}}>
+            {T('money')}
+          </div>
+          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.64rem',fontWeight:700,color:'#4C9A6B',lineHeight:1.3}}>
+            {fmtWord(profile?.money)}
+          </div>
         </div>
-        {/* UnderCoin */}
-        <div style={{textAlign:'center',padding:'0.18rem 0.45rem',background: dark ? 'rgba(139,92,246,0.1)' : 'rgba(139,92,246,0.08)',border:'1px solid rgba(139,92,246,0.3)',borderRadius:'8px',flexShrink:0}}>
-          <div style={{fontSize:'0.42rem',color:'#C4B5FD',textTransform:'uppercase',letterSpacing:'0.06em',fontWeight:700}}>{T('uc')}</div>
-          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.67rem',fontWeight:700,color:'#A78BFA',lineHeight:1.3}}>{fmt(profile?.underCoin||0)}</div>
+
+        {/* UC ledger */}
+        <div style={{
+          textAlign:'center', padding:'0.15rem 0.38rem',
+          background:'rgba(201,162,39,0.07)',
+          border:'1px solid rgba(201,162,39,0.18)',
+          borderTop:'2px solid #C9A227',
+          borderRadius:'8px', flexShrink:0,
+        }}>
+          <div style={{fontSize:'0.39rem',color:'#C9A227',textTransform:'uppercase',letterSpacing:'0.06em',fontWeight:700,fontFamily:"'Inter',sans-serif"}}>
+            {T('uc')}
+          </div>
+          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.64rem',fontWeight:700,color:'#C9A227',lineHeight:1.3}}>
+            {fmt(profile?.underCoin||0)}
+          </div>
         </div>
-        {/* Tema */}
-        <button onClick={toggle} title={dark?'Aydınlık mod':'Karanlık mod'} style={{background:'rgba(255,255,255,0.05)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:'10px',padding:'0.32rem 0.48rem',cursor:'pointer',fontSize:'0.9rem',color:'#8BA0B5',flexShrink:0}}>
-          {dark ? '☀️' : '🌙'}
-        </button>
-        {/* Online sayısı */}
-        <div onClick={()=>onNavigate&&onNavigate('players')} style={{display:'flex',alignItems:'center',gap:'3px',padding:'0.18rem 0.4rem',background:'rgba(74,222,128,0.08)',border:'1px solid rgba(74,222,128,0.2)',borderRadius:'8px',cursor:'pointer',flexShrink:0}} title="Çevrimiçi oyuncular">
-          <span style={{width:'6px',height:'6px',borderRadius:'50%',background:'#4ADE80',display:'inline-block',boxShadow:'0 0 5px #4ADE80'}}/>
-          <span style={{fontSize:'0.6rem',color:'#4ADE80',fontWeight:700,fontFamily:"'JetBrains Mono',monospace"}}>{onlineCnt}</span>
+
+        {/* Language selector */}
+        <div style={{position:'relative',flexShrink:0}}>
+          <button
+            onClick={()=>setShowLangMenu(p=>!p)}
+            style={{
+              background:'rgba(237,231,218,0.05)',
+              border:'1px solid rgba(237,231,218,0.1)',
+              borderRadius:'8px', padding:'0.28rem 0.4rem',
+              cursor:'pointer', fontSize:'0.78rem',
+              color:'#8893A1', display:'flex', alignItems:'center',
+              gap:'2px', lineHeight:1,
+              fontFamily:"'Inter',sans-serif",
+            }}
+            title={T('language')||'Dil'}
+          >
+            <span>{currentLang.flag}</span>
+          </button>
+          {showLangMenu && (
+            <div style={{
+              position:'absolute', top:'calc(100% + 4px)', right:0,
+              background:'#1B212B', border:'1px solid rgba(237,231,218,0.12)',
+              borderRadius:'10px', padding:'4px', zIndex:200,
+              display:'flex', flexDirection:'column', gap:'2px',
+              boxShadow:'0 8px 24px rgba(0,0,0,0.6)',
+              minWidth:'80px',
+            }}>
+              {_HEADER_LANGS.map(l => (
+                <button key={l.code}
+                  onClick={()=>changeLang(l.code)}
+                  style={{
+                    background: l.code===(lang||'tr') ? 'rgba(201,162,39,0.15)' : 'transparent',
+                    border: l.code===(lang||'tr') ? '1px solid rgba(201,162,39,0.3)' : '1px solid transparent',
+                    borderRadius:'7px', padding:'5px 8px',
+                    cursor:'pointer', display:'flex', alignItems:'center', gap:'6px',
+                    color: l.code===(lang||'tr') ? '#C9A227' : '#EDE7DA',
+                    fontSize:'0.75rem', fontFamily:"'Inter',sans-serif", fontWeight:600,
+                    whiteSpace:'nowrap',
+                  }}
+                >
+                  <span>{l.flag}</span>
+                  <span>{l.label}</span>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
-        {/* Bildirim */}
-        <button onClick={onNotif} style={{position:'relative',background:'rgba(255,255,255,0.05)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:'10px',padding:'0.32rem 0.48rem',cursor:'pointer',fontSize:'0.9rem',color:'#8BA0B5',flexShrink:0}}>
+
+        {/* Online count */}
+        <div
+          onClick={()=>onNavigate&&onNavigate('players')}
+          style={{
+            display:'flex', alignItems:'center', gap:'3px',
+            padding:'0.15rem 0.36rem',
+            background:'rgba(76,154,107,0.06)',
+            border:'1px solid rgba(76,154,107,0.16)',
+            borderRadius:'8px', cursor:'pointer', flexShrink:0,
+          }}
+          title="Çevrimiçi oyuncular"
+        >
+          <span style={{width:'5px',height:'5px',borderRadius:'50%',background:'#4C9A6B',display:'inline-block',boxShadow:'0 0 4px #4C9A6B'}}/>
+          <span style={{fontSize:'0.57rem',color:'#4C9A6B',fontWeight:700,fontFamily:"'JetBrains Mono',monospace"}}>
+            {onlineCnt}
+          </span>
+        </div>
+
+        {/* Notifications bell */}
+        <button
+          onClick={onNotif}
+          style={{
+            position:'relative',
+            background:'rgba(237,231,218,0.05)',
+            border:'1px solid rgba(237,231,218,0.1)',
+            borderRadius:'8px', padding:'0.28rem 0.42rem',
+            cursor:'pointer', fontSize:'0.86rem',
+            color:'#8893A1', flexShrink:0,
+          }}
+        >
           🔔
-          {notifCount > 0 && <span style={{position:'absolute',top:'-4px',right:'-4px',background:'#EF4444',color:'#fff',fontSize:'0.52rem',fontWeight:900,minWidth:'14px',height:'14px',borderRadius:'7px',display:'flex',alignItems:'center',justifyContent:'center',padding:'0 2px',border:'2px solid #06080F'}}>{notifCount}</span>}
+          {notifCount > 0 && (
+            <span style={{
+              position:'absolute', top:'-3px', right:'-3px',
+              background:'#C24B43', color:'#EDE7DA',
+              fontSize:'0.49rem', fontWeight:900,
+              minWidth:'13px', height:'13px', borderRadius:'7px',
+              display:'flex', alignItems:'center', justifyContent:'center',
+              padding:'0 2px', border:'2px solid #11151C',
+            }}>
+              {notifCount}
+            </span>
+          )}
         </button>
       </div>
+
+      {/* Close lang menu when clicking outside */}
+      {showLangMenu && (
+        <div
+          onClick={()=>setShowLangMenu(false)}
+          style={{position:'fixed',inset:0,zIndex:199}}
+        />
+      )}
+
       <style>{`@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}`}</style>
     </div>
   );

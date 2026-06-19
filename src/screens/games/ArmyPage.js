@@ -14,14 +14,14 @@ function ArmyPage({ profile, setProfile, showNotif }) {
     return (
       <div style={{padding:'1rem',background:bg,minHeight:'100%',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',textAlign:'center'}}>
         <div style={{fontSize:'4rem',marginBottom:'1rem'}}>🔒</div>
-        <div style={{fontFamily:"'Syne',sans-serif",fontWeight:900,color:'#EF4444',fontSize:'1.2rem',marginBottom:'0.5rem'}}>Erişim Kısıtlı</div>
-        <div style={{color:'#5A7089',fontSize:'0.85rem',lineHeight:1.6,maxWidth:'280px'}}>
-          Ordu Yönetim Merkezi yalnızca <strong style={{color:'#F59E0B'}}>Genelkurmay Başkanı</strong> tarafından erişilebilir.
+        <div style={{fontFamily:"'Syne',sans-serif",fontWeight:900,color:'#C24B43',fontSize:'1.2rem',marginBottom:'0.5rem'}}>Erişim Kısıtlı</div>
+        <div style={{color:'#8893A1',fontSize:'0.85rem',lineHeight:1.6,maxWidth:'280px'}}>
+          Ordu Yönetim Merkezi yalnızca <strong style={{color:'#C9A227'}}>Genelkurmay Başkanı</strong> tarafından erişilebilir.
           <br/><br/>Seçimlerle Genelkurmay Başkanlığına seçildiğinde bu ekranı görebilirsin.
         </div>
-        <div style={{marginTop:'1.5rem',background:'rgba(239,68,68,0.08)',border:'1px solid rgba(239,68,68,0.2)',borderRadius:'12px',padding:'0.85rem 1.5rem'}}>
-          <div style={{fontSize:'0.72rem',color:'#F87171',fontWeight:700}}>⚔️ Mevcut Genelkurmay Başkanı</div>
-          <div style={{fontWeight:800,color:'#E8EDF2',marginTop:'0.25rem'}}>{cabinet['Genelkurmay Başkanı'] || '— Atanmamış —'}</div>
+        <div style={{marginTop:'1.5rem',background:'rgba(194,75,67,0.08)',border:'1px solid rgba(194,75,67,0.2)',borderRadius:'12px',padding:'0.85rem 1.5rem'}}>
+          <div style={{fontSize:'0.72rem',color:'#E08C87',fontWeight:700}}>⚔️ Mevcut Genelkurmay Başkanı</div>
+          <div style={{fontWeight:800,color:'#EDE7DA',marginTop:'0.25rem'}}>{cabinet['Genelkurmay Başkanı'] || '— Atanmamış —'}</div>
         </div>
       </div>
     );
@@ -88,31 +88,31 @@ function ArmyPage({ profile, setProfile, showNotif }) {
 
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>
-      <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#EF4444',marginBottom:'1rem'}}>⚔️ Ordu Yönetimi</div>
+      <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#C24B43',marginBottom:'1rem'}}>⚔️ Ordu Yönetimi</div>
       <div style={{display:'flex',gap:'0.4rem',marginBottom:'1rem',flexWrap:'wrap'}}>
         {[{k:'overview',l:'📊 Genel Bakış'},{k:'recruit',l:'🪖 Asker Al'},{k:'weapons',l:'🔫 Silahlar'},{k:'battle',l:'⚔️ Savaş'}].map(t=>(
-          <button key={t.k} onClick={()=>setTab(t.k)} style={{padding:'0.4rem 0.9rem',borderRadius:'2rem',border:`1px solid ${tab===t.k?'#EF4444':'rgba(255,255,255,0.12)'}`,background:tab===t.k?'rgba(239,68,68,0.15)':'transparent',color:tab===t.k?'#EF4444':'#999',cursor:'pointer',fontWeight:tab===t.k?700:400,fontSize:'0.83rem',fontFamily:'inherit'}}>{t.l}</button>
+          <button key={t.k} onClick={()=>setTab(t.k)} style={{padding:'0.4rem 0.9rem',borderRadius:'2rem',border:`1px solid ${tab===t.k?'#C24B43':'rgba(255,255,255,0.12)'}`,background:tab===t.k?'rgba(194,75,67,0.15)':'transparent',color:tab===t.k?'#C24B43':'#999',cursor:'pointer',fontWeight:tab===t.k?700:400,fontSize:'0.83rem',fontFamily:'inherit'}}>{t.l}</button>
         ))}
       </div>
 
       {tab==='overview'&&<div>
-        <div style={{background:'linear-gradient(135deg,rgba(239,68,68,0.08),rgba(0,0,0,0))',border:'1px solid rgba(239,68,68,0.25)',borderRadius:'12px',padding:'1rem',marginBottom:'1rem'}}>
+        <div style={{background:'linear-gradient(135deg,rgba(194,75,67,0.08),rgba(0,0,0,0))',border:'1px solid rgba(194,75,67,0.25)',borderRadius:'12px',padding:'1rem',marginBottom:'1rem'}}>
           <div style={{display:'flex',justifyContent:'space-between',marginBottom:'0.75rem'}}>
-            <div><div style={{fontWeight:700,color:'#EF4444',fontSize:'1.1rem'}}>🪖 {cu.username} Ordusu</div><div style={{fontSize:'0.78rem',color:'#F59E0B',marginTop:'0.1rem'}}>🎖️ {currentRank}</div></div>
-            <div style={{textAlign:'right'}}><div style={{fontWeight:700,color:'#60A5FA',fontSize:'1.2rem'}}>{totalStrength}</div><div style={{fontSize:'0.65rem',color:'#666'}}>TOPLAM GÜÇ</div></div>
+            <div><div style={{fontWeight:700,color:'#C24B43',fontSize:'1.1rem'}}>🪖 {cu.username} Ordusu</div><div style={{fontSize:'0.78rem',color:'#C9A227',marginTop:'0.1rem'}}>🎖️ {currentRank}</div></div>
+            <div style={{textAlign:'right'}}><div style={{fontWeight:700,color:'#C9A227',fontSize:'1.2rem'}}>{totalStrength}</div><div style={{fontSize:'0.65rem',color:'#666'}}>TOPLAM GÜÇ</div></div>
           </div>
           <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'0.5rem',marginBottom:'0.5rem'}}>
             {[{l:'Savaş',v:myArmy.battles||0},{l:'Galibiyet',v:myArmy.wins||0},{l:'Mağlubiyet',v:(myArmy.battles||0)-(myArmy.wins||0)}].map(s=>(
-              <div key={s.l} style={{background:'rgba(255,255,255,0.04)',borderRadius:'8px',padding:'0.5rem',textAlign:'center'}}><div style={{fontWeight:700,fontSize:'1rem'}}>{s.v}</div><div style={{fontSize:'0.62rem',color:'#666'}}>{s.l}</div></div>
+              <div key={s.l} style={{background:'rgba(237,231,218,0.03)',borderRadius:'8px',padding:'0.5rem',textAlign:'center'}}><div style={{fontWeight:700,fontSize:'1rem'}}>{s.v}</div><div style={{fontSize:'0.62rem',color:'#666'}}>{s.l}</div></div>
             ))}
           </div>
         </div>
-        <div style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:'12px',padding:'1rem'}}>
+        <div style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'12px',padding:'1rem'}}>
           <div style={{fontWeight:700,marginBottom:'0.5rem',color:'#aaa'}}>🪖 Birlikler</div>
           {UNITS.map(u2=>(
-            <div key={u2.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.4rem 0.5rem',borderRadius:'6px',marginBottom:'0.25rem',background:'rgba(255,255,255,0.03)'}}>
+            <div key={u2.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.4rem 0.5rem',borderRadius:'6px',marginBottom:'0.25rem',background:'rgba(237,231,218,0.02)'}}>
               <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}><span style={{fontSize:'1.1rem'}}>{u2.icon}</span><span style={{fontWeight:600,fontSize:'0.85rem'}}>{u2.name}</span></div>
-              <div style={{display:'flex',gap:'0.75rem',alignItems:'center'}}><span style={{fontWeight:700,color:'#60A5FA',fontSize:'0.9rem'}}>{myArmy[u2.id]||0}x</span><span style={{fontSize:'0.7rem',color:'#999'}}>Güç: {(myArmy[u2.id]||0)*u2.strength}</span></div>
+              <div style={{display:'flex',gap:'0.75rem',alignItems:'center'}}><span style={{fontWeight:700,color:'#C9A227',fontSize:'0.9rem'}}>{myArmy[u2.id]||0}x</span><span style={{fontSize:'0.7rem',color:'#999'}}>Güç: {(myArmy[u2.id]||0)*u2.strength}</span></div>
             </div>
           ))}
         </div>
@@ -120,44 +120,44 @@ function ArmyPage({ profile, setProfile, showNotif }) {
 
       {tab==='recruit'&&<div>
         {UNITS.map(unit=>(
-          <div key={unit.id} style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:'12px',padding:'1rem',marginBottom:'0.75rem'}}>
+          <div key={unit.id} style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'12px',padding:'1rem',marginBottom:'0.75rem'}}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.5rem'}}>
               <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}><span style={{fontSize:'1.5rem'}}>{unit.icon}</span><div><div style={{fontWeight:700,fontSize:'0.9rem'}}>{unit.name}</div><div style={{fontSize:'0.7rem',color:'#999'}}>Güç: {unit.strength} · Bakım: ₺{unit.upkeep.toLocaleString()}/gün · Adet: {myArmy[unit.id]||0}</div></div></div>
-              <div style={{color:'#EF4444',fontWeight:700}}>₺{unit.cost.toLocaleString()}</div>
+              <div style={{color:'#C24B43',fontWeight:700}}>₺{unit.cost.toLocaleString()}</div>
             </div>
-            <button onClick={()=>recruit(unit)} style={{width:'100%',padding:'0.5rem',background:'rgba(239,68,68,0.1)',border:'1px solid rgba(239,68,68,0.25)',borderRadius:'8px',color:'#EF4444',cursor:'pointer',fontWeight:700,fontFamily:'inherit',fontSize:'0.85rem'}}>🪖 Askere Al (₺{unit.cost.toLocaleString()})</button>
+            <button onClick={()=>recruit(unit)} style={{width:'100%',padding:'0.5rem',background:'rgba(194,75,67,0.08)',border:'1px solid rgba(194,75,67,0.25)',borderRadius:'8px',color:'#C24B43',cursor:'pointer',fontWeight:700,fontFamily:'inherit',fontSize:'0.85rem'}}>🪖 Askere Al (₺{unit.cost.toLocaleString()})</button>
           </div>
         ))}
       </div>}
 
       {tab==='weapons'&&<div>
-        <div style={{background:'linear-gradient(135deg,rgba(239,68,68,0.08),rgba(0,0,0,0))',border:'1px solid rgba(239,68,68,0.2)',borderRadius:'12px',padding:'1rem',marginBottom:'1rem'}}>
-          <div style={{fontWeight:700,color:'#EF4444',marginBottom:'0.4rem',fontSize:'0.9rem'}}>🔫 Ordu Silah Deposu</div>
+        <div style={{background:'linear-gradient(135deg,rgba(194,75,67,0.08),rgba(0,0,0,0))',border:'1px solid rgba(194,75,67,0.2)',borderRadius:'12px',padding:'1rem',marginBottom:'1rem'}}>
+          <div style={{fontWeight:700,color:'#C24B43',marginBottom:'0.4rem',fontSize:'0.9rem'}}>🔫 Ordu Silah Deposu</div>
           <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:'0.4rem',marginBottom:'0.5rem'}}>
             {[['⚡','Silah Gücü',weaponStrength],['🗡️','Toplam Güç',totalStrength]].map(([ic,lb,v])=>(
-              <div key={lb} style={{background:'rgba(255,255,255,0.04)',borderRadius:'8px',padding:'0.5rem',textAlign:'center'}}>
+              <div key={lb} style={{background:'rgba(237,231,218,0.03)',borderRadius:'8px',padding:'0.5rem',textAlign:'center'}}>
                 <div style={{fontSize:'0.85rem'}}>{ic}</div>
-                <div style={{fontWeight:800,color:'#E8EDF2',fontSize:'0.9rem'}}>{v}</div>
-                <div style={{fontSize:'0.58rem',color:'#5A7089',textTransform:'uppercase'}}>{lb}</div>
+                <div style={{fontWeight:800,color:'#EDE7DA',fontSize:'0.9rem'}}>{v}</div>
+                <div style={{fontSize:'0.58rem',color:'#8893A1',textTransform:'uppercase'}}>{lb}</div>
               </div>
             ))}
           </div>
-          <div style={{fontSize:'0.68rem',color:'#5A7089'}}>⚡ Silah gücü şehir savunmasına ve savaşa doğrudan yansır — sınırsız</div>
+          <div style={{fontSize:'0.68rem',color:'#8893A1'}}>⚡ Silah gücü şehir savunmasına ve savaşa doğrudan yansır — sınırsız</div>
         </div>
         {ARMY_WEAPONS.map(weapon=>(
-          <div key={weapon.id} style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:'12px',padding:'1rem',marginBottom:'0.75rem'}}>
+          <div key={weapon.id} style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'12px',padding:'1rem',marginBottom:'0.75rem'}}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.5rem'}}>
               <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
                 <span style={{fontSize:'1.5rem'}}>{weapon.icon}</span>
                 <div>
                   <div style={{fontWeight:700,fontSize:'0.9rem'}}>{weapon.name}</div>
                   <div style={{fontSize:'0.7rem',color:'#999'}}>+{weapon.strength} güç · Adet: {armyWeapons[weapon.id]||0} · Toplam: +{(armyWeapons[weapon.id]||0)*weapon.strength}</div>
-                  <div style={{fontSize:'0.65rem',color:'#5A7089'}}>{weapon.desc}</div>
+                  <div style={{fontSize:'0.65rem',color:'#8893A1'}}>{weapon.desc}</div>
                 </div>
               </div>
-              <div style={{color:'#EF4444',fontWeight:700,fontSize:'0.9rem'}}>₺{weapon.cost.toLocaleString()}</div>
+              <div style={{color:'#C24B43',fontWeight:700,fontSize:'0.9rem'}}>₺{weapon.cost.toLocaleString()}</div>
             </div>
-            <button onClick={()=>buyArmyWeapon(weapon)} style={{width:'100%',padding:'0.5rem',background:'rgba(239,68,68,0.1)',border:'1px solid rgba(239,68,68,0.25)',borderRadius:'8px',color:'#EF4444',cursor:'pointer',fontWeight:700,fontFamily:'inherit',fontSize:'0.85rem'}}>
+            <button onClick={()=>buyArmyWeapon(weapon)} style={{width:'100%',padding:'0.5rem',background:'rgba(194,75,67,0.08)',border:'1px solid rgba(194,75,67,0.25)',borderRadius:'8px',color:'#C24B43',cursor:'pointer',fontWeight:700,fontFamily:'inherit',fontSize:'0.85rem'}}>
               {weapon.icon} Satın Al (₺{weapon.cost.toLocaleString()})
             </button>
           </div>
@@ -165,15 +165,15 @@ function ArmyPage({ profile, setProfile, showNotif }) {
       </div>}
 
       {tab==='battle'&&<div>
-        <div style={{background:'linear-gradient(135deg,rgba(239,68,68,0.07),rgba(0,0,0,0))',border:'1px solid rgba(239,68,68,0.2)',borderRadius:'12px',padding:'1.25rem',marginBottom:'1rem',textAlign:'center'}}>
+        <div style={{background:'linear-gradient(135deg,rgba(194,75,67,0.07),rgba(0,0,0,0))',border:'1px solid rgba(194,75,67,0.2)',borderRadius:'12px',padding:'1.25rem',marginBottom:'1rem',textAlign:'center'}}>
           <div style={{fontSize:'3rem',marginBottom:'0.5rem'}}>⚔️</div>
-          <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.2rem',fontWeight:700,color:'#EF4444',marginBottom:'0.25rem'}}>Savaş Meydanı</div>
-          <div style={{fontSize:'0.82rem',color:'#999',marginBottom:'1rem'}}>Toplam Gücün: <strong style={{color:'#60A5FA'}}>{totalStrength}</strong> · Kazanma şansın: <strong style={{color:'#10B981'}}>~%55</strong></div>
-          <div style={{background:'rgba(255,255,255,0.04)',borderRadius:'8px',padding:'0.75rem',marginBottom:'1rem',textAlign:'left'}}>
+          <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.2rem',fontWeight:700,color:'#C24B43',marginBottom:'0.25rem'}}>Savaş Meydanı</div>
+          <div style={{fontSize:'0.82rem',color:'#999',marginBottom:'1rem'}}>Toplam Gücün: <strong style={{color:'#C9A227'}}>{totalStrength}</strong> · Kazanma şansın: <strong style={{color:'#4C9A6B'}}>~%55</strong></div>
+          <div style={{background:'rgba(237,231,218,0.03)',borderRadius:'8px',padding:'0.75rem',marginBottom:'1rem',textAlign:'left'}}>
             <div style={{fontSize:'0.78rem',color:'#999',marginBottom:'0.25rem'}}>💰 Kazanç: Güç × ₺100</div>
             <div style={{fontSize:'0.78rem',color:'#999'}}>💔 Kayıp: Kaybedince bazı piyadeler düşer</div>
           </div>
-          <button onClick={battle} style={{width:'100%',padding:'0.8rem',background:'linear-gradient(135deg,#DC2626,#EF4444)',border:'none',borderRadius:'10px',color:'#fff',cursor:'pointer',fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:'1rem'}}>⚔️ SAVAŞA GİR!</button>
+          <button onClick={battle} style={{width:'100%',padding:'0.8rem',background:'linear-gradient(135deg,#C24B43,#C24B43)',border:'none',borderRadius:'10px',color:'#EDE7DA',cursor:'pointer',fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:'1rem'}}>⚔️ SAVAŞA GİR!</button>
         </div>
       </div>}
     </div>

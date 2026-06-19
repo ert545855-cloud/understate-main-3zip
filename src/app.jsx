@@ -13600,7 +13600,7 @@ Onaylamak için 'SİFİRLA' yazın:","SİFİRLA");
                         border:"none",
                         borderBottom:isActive?"2px solid "+tabAccent:"2px solid transparent",
                         color:isActive?tabAccent:"#888",
-                        fontFamily:"DM Sans,sans-serif",fontSize:"0.8rem",fontWeight:700,
+                        fontFamily:"Inter,sans-serif",fontSize:"0.8rem",fontWeight:700,
                         cursor:"pointer",transition:"all 0.15s"
                       };
                       return (<button key={t.id} onClick={()=>setPpTab(t.id)} style={btnStyle}>{t.icon} {t.label}</button>);
@@ -13663,7 +13663,7 @@ Onaylamak için 'SİFİRLA' yazın:","SİFİRLA");
                           </div>
                           <button
                             onClick={()=>doTask(tIdx,task)}
-                            style={{marginTop:"0.2rem",padding:"0.4rem",borderRadius:8,border:"none",background:ready?`${color}22`:"rgba(255,255,255,0.05)",color:ready?color:"#555",fontWeight:700,fontSize:"0.73rem",cursor:ready?"pointer":"not-allowed",fontFamily:"DM Sans,sans-serif",transition:"all 0.15s",width:"100%"}}>
+                            style={{marginTop:"0.2rem",padding:"0.4rem",borderRadius:8,border:"none",background:ready?`${color}22`:"rgba(255,255,255,0.05)",color:ready?color:"#555",fontWeight:700,fontSize:"0.73rem",cursor:ready?"pointer":"not-allowed",fontFamily:"Inter,sans-serif",transition:"all 0.15s",width:"100%"}}>
                             {ready?"▶ "+("₺"+(task.cost/1000).toFixed(0)+"K ile Başlat"):"⏳ "+fmtTime(remaining)}
                           </button>
                         </div>

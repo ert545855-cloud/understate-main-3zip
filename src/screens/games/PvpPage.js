@@ -85,33 +85,33 @@ function PvpPage({ profile, setProfile, showNotif }) {
 
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>
-      <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#EF4444',marginBottom:'1rem'}}>⚔️ PvP Savaş Alanı</div>
-      <div style={{background:'rgba(239,68,68,0.07)',border:'1px solid rgba(239,68,68,0.2)',borderRadius:'12px',padding:'1rem',marginBottom:'1rem'}}>
+      <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#C24B43',marginBottom:'1rem'}}>⚔️ PvP Savaş Alanı</div>
+      <div style={{background:'rgba(194,75,67,0.07)',border:'1px solid rgba(194,75,67,0.2)',borderRadius:'12px',padding:'1rem',marginBottom:'1rem'}}>
         <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'0.5rem'}}>
-          {[{l:'Can',v:`${cu.hp||100}/100`,c:(cu.hp||100)>50?'#10B981':(cu.hp||100)>20?'#F59E0B':'#EF4444'},{l:'Galibiyet',v:wins,c:'#10B981'},{l:'Toplam Savaş',v:myBattles.length,c:'#60A5FA'}].map(s=>(
-            <div key={s.l} style={{background:'rgba(255,255,255,0.04)',borderRadius:'8px',padding:'0.5rem',textAlign:'center'}}><div style={{fontWeight:700,color:s.c,fontSize:'0.95rem'}}>{s.v}</div><div style={{fontSize:'0.62rem',color:'#666'}}>{s.l}</div></div>
+          {[{l:'Can',v:`${cu.hp||100}/100`,c:(cu.hp||100)>50?'#4C9A6B':(cu.hp||100)>20?'#C9A227':'#C24B43'},{l:'Galibiyet',v:wins,c:'#4C9A6B'},{l:'Toplam Savaş',v:myBattles.length,c:'#C9A227'}].map(s=>(
+            <div key={s.l} style={{background:'rgba(237,231,218,0.03)',borderRadius:'8px',padding:'0.5rem',textAlign:'center'}}><div style={{fontWeight:700,color:s.c,fontSize:'0.95rem'}}>{s.v}</div><div style={{fontSize:'0.62rem',color:'#666'}}>{s.l}</div></div>
           ))}
         </div>
       </div>
-      <div style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:'12px',padding:'1rem',marginBottom:'1rem'}}>
+      <div style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'12px',padding:'1rem',marginBottom:'1rem'}}>
         <div style={{fontWeight:700,color:'#aaa',marginBottom:'0.75rem',fontSize:'0.9rem'}}>🎯 Saldırı Hedefleri {loadingTargets && <span style={{fontSize:'0.7rem',color:'#666'}}>yükleniyor…</span>}</div>
         {targets.length===0 && !loadingTargets && <div style={{color:'#555',textAlign:'center',padding:'1rem'}}>Başka oyuncu bulunamadı.</div>}
         {targets.slice(0,15).map(t=>(
-          <div key={t.id||t.username} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.5rem 0.6rem',background:'rgba(255,255,255,0.03)',borderRadius:'8px',marginBottom:'0.3rem',border:'1px solid rgba(255,255,255,0.06)'}}>
+          <div key={t.id||t.username} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.5rem 0.6rem',background:'rgba(237,231,218,0.02)',borderRadius:'8px',marginBottom:'0.3rem',border:'1px solid rgba(237,231,218,0.08)'}}>
             <div>
               <div style={{fontWeight:600,fontSize:'0.85rem'}}>{t.username}</div>
               <div style={{fontSize:'0.7rem',color:'#999'}}>Lv.{t.level||1} · ₺{(((t.money||0))/1000).toFixed(0)}K</div>
             </div>
-            <button onClick={()=>attack(t)} style={{padding:'0.35rem 0.8rem',background:'rgba(239,68,68,0.12)',border:'1px solid rgba(239,68,68,0.3)',borderRadius:'6px',color:'#EF4444',cursor:'pointer',fontWeight:700,fontSize:'0.78rem',fontFamily:'inherit'}}>⚔️ Saldır</button>
+            <button onClick={()=>attack(t)} style={{padding:'0.35rem 0.8rem',background:'rgba(194,75,67,0.12)',border:'1px solid rgba(194,75,67,0.25)',borderRadius:'6px',color:'#C24B43',cursor:'pointer',fontWeight:700,fontSize:'0.78rem',fontFamily:'inherit'}}>⚔️ Saldır</button>
           </div>
         ))}
       </div>
-      {myBattles.length>0&&<div style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:'12px',padding:'1rem'}}>
+      {myBattles.length>0&&<div style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'12px',padding:'1rem'}}>
         <div style={{fontWeight:700,color:'#aaa',marginBottom:'0.5rem',fontSize:'0.9rem'}}>📋 Savaş Geçmişi</div>
         {myBattles.slice(0,10).map(b=>(
-          <div key={b.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.4rem 0.5rem',borderRadius:'6px',marginBottom:'0.25rem',background:'rgba(255,255,255,0.03)',border:`1px solid ${b.result==='win'&&b.attacker===cu.username?'rgba(16,185,129,0.2)':'rgba(239,68,68,0.15)'}`}}>
+          <div key={b.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.4rem 0.5rem',borderRadius:'6px',marginBottom:'0.25rem',background:'rgba(237,231,218,0.02)',border:`1px solid ${b.result==='win'&&b.attacker===cu.username?'rgba(76,154,107,0.2)':'rgba(194,75,67,0.15)'}`}}>
             <div style={{fontSize:'0.8rem'}}>{b.attacker===cu.username?'⚔️':'🛡️'} <strong>{b.attacker===cu.username?b.defender:b.attacker}</strong></div>
-            <div style={{fontSize:'0.78rem',fontWeight:700,color:(b.result==='win'&&b.attacker===cu.username)?'#10B981':'#EF4444'}}>{(b.result==='win'&&b.attacker===cu.username)?`+₺${(b.stolen||0).toLocaleString()}`:'💔'}</div>
+            <div style={{fontSize:'0.78rem',fontWeight:700,color:(b.result==='win'&&b.attacker===cu.username)?'#4C9A6B':'#C24B43'}}>{(b.result==='win'&&b.attacker===cu.username)?`+₺${(b.stolen||0).toLocaleString()}`:'💔'}</div>
           </div>
         ))}
       </div>}

@@ -281,8 +281,8 @@ function AuthScreen({ onLogin }) {
 
   const inputStyle = {
     width:'100%', padding:'0.85rem 1rem', borderRadius:'14px',
-    border:'1px solid rgba(255,255,255,0.12)', background:'rgba(0,0,0,0.45)',
-    color:'#E8EDF2', fontFamily:"'DM Sans',sans-serif", fontSize:'1rem',
+    border:'1px solid rgba(237,231,218,0.1)', background:'rgba(27,33,43,0.8)',
+    color:'#EDE7DA', fontFamily:"'Inter',sans-serif", fontSize:'1rem',
     outline:'none', boxSizing:'border-box', backdropFilter:'blur(8px)',
     WebkitAppearance:'none'
   };
@@ -294,16 +294,16 @@ function AuthScreen({ onLogin }) {
         <div style={{position:'fixed',inset:0,backgroundImage:'url(understate-bg.jpg)',backgroundSize:'cover',backgroundPosition:'center top',backgroundRepeat:'no-repeat',zIndex:0}} />
         <div style={{position:'fixed',inset:0,background:'linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.75) 45%, rgba(0,0,0,0.92) 100%)',zIndex:1}} />
         <div style={{position:'relative',zIndex:2,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',minHeight:'100dvh',padding:'2rem 1rem'}}>
-          <div style={{width:'100%',maxWidth:'420px',background:'rgba(5,10,20,0.88)',border:'1px solid rgba(245,158,11,0.3)',borderRadius:'24px',padding:'2rem 1.5rem',backdropFilter:'blur(24px)',boxShadow:'0 24px 80px rgba(0,0,0,0.7)',textAlign:'center'}}>
+          <div style={{width:'100%',maxWidth:'420px',background:'rgba(27,33,43,0.92)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'10px',padding:'2rem 1.5rem',backdropFilter:'blur(24px)',boxShadow:'0 24px 80px rgba(0,0,0,0.7)',textAlign:'center'}}>
             <div style={{fontSize:'3rem',marginBottom:'0.75rem'}}>📧</div>
-            <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.15rem',fontWeight:800,color:'#F59E0B',marginBottom:'0.5rem',letterSpacing:'0.04em'}}>E-POSTANI DOĞRULA</div>
-            <div style={{color:'rgba(255,255,255,0.6)',fontSize:'0.85rem',lineHeight:1.6,marginBottom:'1.5rem'}}>
-              <span style={{color:'#E8EDF2',fontWeight:600}}>{profile.email}</span> adresine bir doğrulama bağlantısı gönderdik.<br/>
+            <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.15rem',fontWeight:800,color:'#C9A227',marginBottom:'0.5rem',letterSpacing:'0.04em'}}>E-POSTANI DOĞRULA</div>
+            <div style={{color:'#8893A1',fontSize:'0.85rem',lineHeight:1.6,marginBottom:'1.5rem'}}>
+              <span style={{color:'#EDE7DA',fontWeight:600}}>{profile.email}</span> adresine bir doğrulama bağlantısı gönderdik.<br/>
               Maili açıp bağlantıya tıkladıktan sonra giriş yapabilirsin.
             </div>
 
             {resendMsg && (
-              <div style={{background: resendMsg.startsWith('✅') ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)', border: `1px solid ${resendMsg.startsWith('✅') ? 'rgba(16,185,129,0.3)' : 'rgba(239,68,68,0.3)'}`, borderRadius:'10px', padding:'0.6rem 0.8rem', marginBottom:'1rem', fontSize:'0.82rem', color: resendMsg.startsWith('✅') ? '#6EE7B7' : '#FCA5A5'}}>
+              <div style={{background: resendMsg.startsWith('✅') ? 'rgba(76,154,107,0.1)' : 'rgba(194,75,67,0.1)', border: `1px solid ${resendMsg.startsWith('✅') ? 'rgba(76,154,107,0.3)' : 'rgba(194,75,67,0.3)'}`, borderRadius:'10px', padding:'0.6rem 0.8rem', marginBottom:'1rem', fontSize:'0.82rem', color: resendMsg.startsWith('✅') ? '#4C9A6B' : '#E08C87'}}>
                 {resendMsg}
               </div>
             )}
@@ -311,19 +311,19 @@ function AuthScreen({ onLogin }) {
             <button
               onClick={() => doResendVerify(token)}
               disabled={resendLoading}
-              style={{width:'100%',padding:'0.9rem',borderRadius:'12px',border:'none',background:resendLoading?'rgba(245,158,11,0.3)':'rgba(245,158,11,0.2)',color:'#F59E0B',fontFamily:"'DM Sans',sans-serif",fontWeight:700,fontSize:'0.95rem',cursor:resendLoading?'not-allowed':'pointer',marginBottom:'0.75rem',border:'1px solid rgba(245,158,11,0.35)',display:'flex',alignItems:'center',justifyContent:'center',gap:'0.5rem',transition:'all 0.2s'}}>
-              {resendLoading ? <><div style={{width:16,height:16,border:'2px solid rgba(245,158,11,0.3)',borderTopColor:'#F59E0B',borderRadius:'50%',animation:'spin 0.7s linear infinite'}} /> Gönderiliyor...</> : '📨 Tekrar Gönder'}
+              style={{width:'100%',padding:'0.9rem',borderRadius:'12px',border:'none',background:resendLoading?'rgba(201,162,39,0.25)':'rgba(201,162,39,0.12)',color:'#C9A227',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.95rem',cursor:resendLoading?'not-allowed':'pointer',marginBottom:'0.75rem',border:'1px solid rgba(201,162,39,0.3)',display:'flex',alignItems:'center',justifyContent:'center',gap:'0.5rem',transition:'all 0.2s'}}>
+              {resendLoading ? <><div style={{width:16,height:16,border:'2px solid rgba(201,162,39,0.3)',borderTopColor:'#C9A227',borderRadius:'50%',animation:'spin 0.7s linear infinite'}} /> Gönderiliyor...</> : '📨 Tekrar Gönder'}
             </button>
 
             <button
               onClick={() => { _setupSocket(profile); onLogin(profile); }}
-              style={{width:'100%',padding:'0.9rem',borderRadius:'12px',border:'1px solid rgba(255,255,255,0.1)',background:'rgba(255,255,255,0.05)',color:'rgba(255,255,255,0.5)',fontFamily:"'DM Sans',sans-serif",fontWeight:600,fontSize:'0.88rem',cursor:'pointer',marginBottom:'0.75rem',transition:'all 0.2s'}}>
+              style={{width:'100%',padding:'0.9rem',borderRadius:'12px',border:'1px solid rgba(237,231,218,0.1)',background:'rgba(237,231,218,0.04)',color:'#8893A1',fontFamily:"'Inter',sans-serif",fontWeight:600,fontSize:'0.88rem',cursor:'pointer',marginBottom:'0.75rem',transition:'all 0.2s'}}>
               Şimdilik Atla →
             </button>
 
             <button
               onClick={() => { setUnverifiedUser(null); setResendMsg(''); }}
-              style={{background:'none',border:'none',color:'rgba(255,255,255,0.3)',fontSize:'0.78rem',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",textDecoration:'underline',padding:'4px 8px'}}>
+              style={{background:'none',border:'none',color:'#6B7785',fontSize:'0.78rem',cursor:'pointer',fontFamily:"'Inter',sans-serif",textDecoration:'underline',padding:'4px 8px'}}>
               ← Farklı hesapla giriş yap
             </button>
           </div>
@@ -347,16 +347,16 @@ function AuthScreen({ onLogin }) {
         <div style={{textAlign:'center',marginBottom:'1.5rem',width:'100%',padding:'0 1.5rem'}}>
           {/* Logo görseli */}
           <div style={{display:'flex',justifyContent:'center',marginBottom:'0.5rem'}}>
-            <img src="favicon.jpg" alt="UnderState" style={{width:'clamp(90px,22vw,140px)',height:'clamp(90px,22vw,140px)',objectFit:'contain',borderRadius:'50%',boxShadow:'0 0 40px rgba(59,130,246,0.4)',border:'3px solid rgba(255,255,255,0.12)'}} />
+            <img src="favicon.jpg" alt="UnderState" style={{width:'clamp(90px,22vw,140px)',height:'clamp(90px,22vw,140px)',objectFit:'contain',borderRadius:'50%',boxShadow:'0 0 32px rgba(201,162,39,0.3)',border:'3px solid rgba(255,255,255,0.12)'}} />
           </div>
-          <div style={{fontFamily:"'Syne',sans-serif",fontSize:'clamp(1.4rem,5vw,2.2rem)',fontWeight:900,letterSpacing:'0.15em',color:'#fff',textShadow:'0 2px 24px rgba(0,0,0,0.8)',textTransform:'uppercase',marginBottom:'0.4rem'}}>
+          <div style={{fontFamily:"'Syne',sans-serif",fontSize:'clamp(1.4rem,5vw,2.2rem)',fontWeight:900,letterSpacing:'0.15em',color:'#EDE7DA',textShadow:'0 2px 24px rgba(0,0,0,0.8)',textTransform:'uppercase',marginBottom:'0.4rem'}}>
             UNDERSTATE
           </div>
           {/* Animated loading bar */}
-          <div style={{width:'100%',maxWidth:'320px',margin:'0 auto',height:'3px',background:'rgba(255,255,255,0.15)',borderRadius:'2px',overflow:'hidden'}}>
-            <div style={{height:'100%',width:loading?`${barProgress}%`:'0%',background:'linear-gradient(90deg,#3B82F6,#fff,#3B82F6)',borderRadius:'2px',transition:loading?'width 1.8s cubic-bezier(0.4,0,0.2,1)':'none',boxShadow:'0 0 8px rgba(59,130,246,0.8)'}} />
+          <div style={{width:'100%',maxWidth:'320px',margin:'0 auto',height:'3px',background:'rgba(237,231,218,0.12)',borderRadius:'2px',overflow:'hidden'}}>
+            <div style={{height:'100%',width:loading?`${barProgress}%`:'0%',background:'linear-gradient(90deg,#C9A227,#E5C14B,#C9A227)',borderRadius:'2px',transition:loading?'width 1.8s cubic-bezier(0.4,0,0.2,1)':'none',boxShadow:'0 0 8px rgba(201,162,39,0.8)'}} />
           </div>
-          <div style={{color:'rgba(255,255,255,0.35)',fontSize:'0.65rem',letterSpacing:'0.15em',textTransform:'uppercase',fontFamily:"'DM Sans',sans-serif",marginTop:'0.4rem'}}>
+          <div style={{color:'#8893A1',fontSize:'0.65rem',letterSpacing:'0.15em',textTransform:'uppercase',fontFamily:"'Inter',sans-serif",marginTop:'0.4rem'}}>
             Şehir & Devlet Simülasyonu • v{APP_V}
           </div>
         </div>
@@ -364,7 +364,7 @@ function AuthScreen({ onLogin }) {
         {/* Panel — full width on mobile */}
         <div style={{width:'100%',maxWidth:'480px',padding:'0 1rem'}}>
           <form onSubmit={e=>{e.preventDefault();tab==='login'?doLogin():doRegister();}} autoComplete="on">
-          <div style={{background:'rgba(5,10,20,0.82)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'24px',padding:'1.75rem 1.5rem',backdropFilter:'blur(24px)',boxShadow:'0 24px 80px rgba(0,0,0,0.7)'}}>
+          <div style={{background:'rgba(17,21,28,0.9)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'1.75rem 1.5rem',backdropFilter:'blur(24px)',boxShadow:'0 24px 80px rgba(0,0,0,0.7)'}}>
 
             {/* Tabs */}
             <div style={{display:'flex',gap:'8px',marginBottom:'1.5rem'}}>
@@ -372,13 +372,13 @@ function AuthScreen({ onLogin }) {
                 <button key={v} type="button" onClick={() => {setTab(v);setErr('');}}
                   style={{
                     flex:1, padding:'0.7rem', borderRadius:'8px',
-                    cursor:'pointer', fontFamily:"'DM Sans',sans-serif",
+                    cursor:'pointer', fontFamily:"'Inter',sans-serif",
                     fontWeight:700, fontSize:'0.88rem', letterSpacing:'0.03em',
                     position:'relative', overflow:'hidden',
-                    border: tab===v ? '1.5px solid #00C9FF' : '1px solid rgba(255,255,255,0.1)',
-                    background: tab===v ? 'rgba(0,201,255,0.12)' : 'rgba(255,255,255,0.04)',
-                    color: tab===v ? '#00C9FF' : 'rgba(255,255,255,0.4)',
-                    boxShadow: tab===v ? '0 2px 14px rgba(0,201,255,0.2)' : 'none',
+                    border: tab===v ? '1.5px solid #C9A227' : '1px solid rgba(237,231,218,0.1)',
+                    background: tab===v ? 'rgba(201,162,39,0.12)' : 'rgba(237,231,218,0.04)',
+                    color: tab===v ? '#C9A227' : 'rgba(237,231,218,0.4)',
+                    boxShadow: tab===v ? '0 2px 14px rgba(201,162,39,0.2)' : 'none',
                   }}>
                   {l}
                 </button>
@@ -386,7 +386,7 @@ function AuthScreen({ onLogin }) {
             </div>
 
             {/* Error */}
-            {err && <div style={{background:'rgba(239,68,68,0.1)',border:'1px solid rgba(239,68,68,0.3)',borderRadius:'12px',padding:'0.7rem 1rem',color:'#FCA5A5',fontSize:'0.85rem',marginBottom:'1rem',display:'flex',alignItems:'center',gap:'0.5rem'}}>⚠️ {err}</div>}
+            {err && <div style={{background:'rgba(194,75,67,0.1)',border:'1px solid rgba(194,75,67,0.25)',borderRadius:'12px',padding:'0.7rem 1rem',color:'#E08C87',fontSize:'0.85rem',marginBottom:'1rem',display:'flex',alignItems:'center',gap:'0.5rem'}}>⚠️ {err}</div>}
 
             {/* Login fields */}
             <div style={{marginBottom:'1rem'}}>
@@ -394,7 +394,7 @@ function AuthScreen({ onLogin }) {
             </div>
             <div style={{marginBottom:'1.25rem',position:'relative'}}>
               <input style={inputStyle} type={showPw?'text':'password'} placeholder={tab==='register'?'Şifre (en az 6 karakter)':'Şifre'} value={f.password} onChange={e=>u('password',e.target.value)} autoComplete={tab==='register'?'new-password':'current-password'} />
-              <button type="button" onClick={()=>setShowPw(p=>!p)} style={{position:'absolute',right:'1rem',top:'50%',transform:'translateY(-50%)',background:'none',border:'none',color:'rgba(255,255,255,0.4)',cursor:'pointer',fontSize:'1rem',padding:'4px'}}>{showPw?'🙈':'👁️'}</button>
+              <button type="button" onClick={()=>setShowPw(p=>!p)} style={{position:'absolute',right:'1rem',top:'50%',transform:'translateY(-50%)',background:'none',border:'none',color:'#6B7785',cursor:'pointer',fontSize:'1rem',padding:'4px'}}>{showPw?'🙈':'👁️'}</button>
             </div>
 
             {tab==='register' && <>
@@ -403,8 +403,8 @@ function AuthScreen({ onLogin }) {
               </div>
               <div style={{marginBottom:'1rem'}}>
                 <select value={f.city} onChange={e=>u('city',e.target.value)}
-                  style={{...inputStyle,color:f.city?'#E8EDF2':'rgba(255,255,255,0.4)'}}>
-                  {CITIES.map(c=><option key={c} value={c} style={{background:'#0B1527'}}>{c}</option>)}
+                  style={{...inputStyle,color:f.city?'#EDE7DA':'rgba(255,255,255,0.4)'}}>
+                  {CITIES.map(c=><option key={c} value={c} style={{background:'#1B212B'}}>{c}</option>)}
                 </select>
               </div>
               <div style={{marginBottom:'1rem'}}>
@@ -413,7 +413,7 @@ function AuthScreen({ onLogin }) {
               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.75rem',marginBottom:'1.25rem'}}>
                 {[['male','👨 Erkek'],['female','👩 Kadın']].map(([v,l])=>(
                   <button key={v} type="button" onClick={()=>u('gender',v)}
-                    style={{padding:'0.75rem',borderRadius:'14px',border:`1px solid ${f.gender===v?'rgba(255,255,255,0.3)':'rgba(255,255,255,0.08)'}`,background:f.gender===v?'rgba(255,255,255,0.12)':'rgba(255,255,255,0.03)',color:f.gender===v?'#fff':'rgba(255,255,255,0.4)',fontFamily:"'DM Sans',sans-serif",fontWeight:700,cursor:'pointer',fontSize:'0.9rem',transition:'all 0.15s'}}>
+                    style={{padding:'0.75rem',borderRadius:'14px',border:`1px solid ${f.gender===v?'rgba(255,255,255,0.3)':'rgba(255,255,255,0.08)'}`,background:f.gender===v?'rgba(255,255,255,0.12)':'rgba(255,255,255,0.03)',color:f.gender===v?'#fff':'rgba(255,255,255,0.4)',fontFamily:"'Inter',sans-serif",fontWeight:700,cursor:'pointer',fontSize:'0.9rem',transition:'all 0.15s'}}>
                     {l}
                   </button>
                 ))}
@@ -421,7 +421,7 @@ function AuthScreen({ onLogin }) {
             </>}
 
             <button type="submit" disabled={loading}
-              style={{width:'100%',padding:'1rem',borderRadius:'8px',border:'2px solid transparent',background:loading?'rgba(208,0,0,0.3)':'#D00000',color:'#fff',fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:'1rem',letterSpacing:'0.08em',cursor:loading?'not-allowed':'pointer',transition:'all 0.2s ease',textTransform:'uppercase',boxShadow:loading?'none':'0 4px 24px rgba(208,0,0,0.4)',display:'flex',alignItems:'center',justifyContent:'center',gap:'0.5rem'}}>
+              style={{width:'100%',padding:'1rem',borderRadius:'8px',border:'2px solid transparent',background:loading?'rgba(201,162,39,0.25)':'#C9A227',color:'#11151C',fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:'1rem',letterSpacing:'0.08em',cursor:loading?'not-allowed':'pointer',transition:'all 0.2s ease',textTransform:'uppercase',boxShadow:loading?'none':'0 4px 24px rgba(201,162,39,0.4)',display:'flex',alignItems:'center',justifyContent:'center',gap:'0.5rem'}}>
               {loading ? <>
                 <div style={{width:'18px',height:'18px',border:'2.5px solid rgba(255,255,255,0.2)',borderTopColor:'rgba(255,255,255,0.7)',borderRadius:'50%',animation:'spin 0.7s linear infinite'}} />
                 <span>Lütfen bekleyin...</span>
@@ -433,7 +433,7 @@ function AuthScreen({ onLogin }) {
               <div style={{textAlign:'center',marginTop:'1rem'}}>
                 <button type="button"
                   onClick={()=>{ if(window._USForgot) window._USForgot.open(); }}
-                  style={{background:'none',border:'none',color:'rgba(255,255,255,0.35)',fontSize:'0.8rem',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",textDecoration:'underline',textDecorationColor:'rgba(255,255,255,0.15)',letterSpacing:'0.02em',padding:'4px 8px'}}
+                  style={{background:'none',border:'none',color:'#8893A1',fontSize:'0.8rem',cursor:'pointer',fontFamily:"'Inter',sans-serif",textDecoration:'underline',textDecorationColor:'rgba(255,255,255,0.15)',letterSpacing:'0.02em',padding:'4px 8px'}}
                   onMouseOver={e=>e.target.style.color='rgba(255,255,255,0.7)'}
                   onMouseOut={e=>e.target.style.color='rgba(255,255,255,0.35)'}>
                   Sifremi unuttum?
@@ -449,12 +449,12 @@ function AuthScreen({ onLogin }) {
           {[['🇹🇷','tr'],['🇬🇧','en'],['🇩🇪','de'],['🇦🇿','az']].map(([flag,code])=>(
             <button key={code} type="button"
               onClick={()=>{ try { const p=JSON.parse(localStorage.getItem('rep_userProfile')||'{}'); p.lang=code; localStorage.setItem('rep_userProfile',JSON.stringify(p)); } catch(e){} localStorage.setItem('rep_uiLang',code); window.dispatchEvent(new CustomEvent('lang-change',{detail:{lang:code}})); }}
-              style={{width:'38px',height:'38px',borderRadius:'50%',border:'2px solid rgba(255,255,255,0.15)',background:'rgba(0,0,0,0.4)',fontSize:'1.3rem',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',transition:'all 0.15s',backdropFilter:'blur(4px)'}}
+              style={{width:'38px',height:'38px',borderRadius:'50%',border:'2px solid rgba(255,255,255,0.15)',background:'rgba(17,21,28,0.7)',fontSize:'1.3rem',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',transition:'all 0.15s',backdropFilter:'blur(4px)'}}
               title={code.toUpperCase()}
             >{flag}</button>
           ))}
         </div>
-        <div style={{marginTop:'0.75rem',color:'rgba(255,255,255,0.2)',fontSize:'0.68rem',textAlign:'center',position:'relative',zIndex:1,letterSpacing:'0.08em'}}>
+        <div style={{marginTop:'0.75rem',color:'rgba(237,231,218,0.2)',fontSize:'0.68rem',textAlign:'center',position:'relative',zIndex:1,letterSpacing:'0.08em'}}>
           🔒 UnderState • Güvenli Giriş
         </div>
       </div>
@@ -463,21 +463,21 @@ function AuthScreen({ onLogin }) {
       {/* ── Forgot Password Modal ─────────────────────────────────── */}
       {showForgot && (
         <div style={{position:'fixed',inset:0,zIndex:200,display:'flex',alignItems:'center',justifyContent:'center',padding:'1.25rem',background:'rgba(0,0,0,0.7)',backdropFilter:'blur(8px)'}}>
-          <div style={{background:'linear-gradient(135deg,#0B1527,#0F1F36)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:'20px',padding:'1.75rem 1.5rem',width:'100%',maxWidth:'380px',boxShadow:'0 24px 64px rgba(0,0,0,0.6)'}}>
+          <div style={{background:'#1B212B',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'14px',padding:'1.75rem 1.5rem',width:'100%',maxWidth:'380px',boxShadow:'0 24px 64px rgba(0,0,0,0.6)'}}>
             <div style={{textAlign:'center',marginBottom:'1.25rem'}}>
               <div style={{fontSize:'2rem',marginBottom:'0.35rem'}}>🔑</div>
-              <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,color:'#E8EDF2',fontSize:'1.2rem',marginBottom:'0.25rem'}}>Şifremi Unuttum</div>
-              <div style={{fontSize:'0.78rem',color:'#5A7089'}}>E-posta adresinize sıfırlama bağlantısı göndereceğiz</div>
+              <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,color:'#EDE7DA',fontSize:'1.2rem',marginBottom:'0.25rem'}}>Şifremi Unuttum</div>
+              <div style={{fontSize:'0.78rem',color:'#8893A1'}}>E-posta adresinize sıfırlama bağlantısı göndereceğiz</div>
             </div>
             {forgotMsg && (
-              <div style={{background:forgotMsg.startsWith('✅')?'rgba(16,185,129,0.1)':'rgba(239,68,68,0.1)',border:`1px solid ${forgotMsg.startsWith('✅')?'rgba(16,185,129,0.3)':'rgba(239,68,68,0.3)'}`,borderRadius:'10px',padding:'0.6rem 0.85rem',marginBottom:'0.85rem',fontSize:'0.82rem',color:forgotMsg.startsWith('✅')?'#6EE7B7':'#FCA5A5',textAlign:'center'}}>
+              <div style={{background:forgotMsg.startsWith('✅')?'rgba(76,154,107,0.1)':'rgba(194,75,67,0.1)',border:`1px solid ${forgotMsg.startsWith('✅')?'rgba(76,154,107,0.3)':'rgba(194,75,67,0.3)'}`,borderRadius:'10px',padding:'0.6rem 0.85rem',marginBottom:'0.85rem',fontSize:'0.82rem',color:forgotMsg.startsWith('✅')?'#4C9A6B':'#E08C87',textAlign:'center'}}>
                 {forgotMsg}
               </div>
             )}
             <input
               type="email" value={forgotEmail} onChange={e=>setForgotEmail(e.target.value)}
               placeholder="E-posta adresiniz"
-              style={{width:'100%',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'10px',padding:'0.75rem 1rem',color:'#E8EDF2',fontFamily:"'DM Sans',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box',marginBottom:'0.75rem'}}
+              style={{width:'100%',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'0.75rem 1rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box',marginBottom:'0.75rem'}}
               onKeyDown={e=>{ if(e.key==='Enter') doForgot(); }}
             />
             <button disabled={forgotLoading || forgotMsg.startsWith('✅')} onClick={async()=>{
@@ -489,10 +489,10 @@ function AuthScreen({ onLogin }) {
                 setForgotMsg(d.success?'✅ Sıfırlama bağlantısı gönderildi! E-postanı kontrol et.':'⚠️ '+(d.message||'Hata oluştu'));
               }catch{setForgotMsg('⚠️ Bağlantı hatası');}
               setForgotLoading(false);
-            }} style={{width:'100%',padding:'0.85rem',borderRadius:'10px',border:'none',background:forgotLoading?'rgba(59,130,246,0.3)':'rgba(59,130,246,0.9)',color:'#fff',fontFamily:"'DM Sans',sans-serif",fontWeight:700,fontSize:'0.95rem',cursor:forgotLoading?'not-allowed':'pointer',marginBottom:'0.5rem',transition:'all 0.2s'}}>
+            }} style={{width:'100%',padding:'0.85rem',borderRadius:'10px',border:'none',background:forgotLoading?'rgba(201,162,39,0.25)':'#C9A227',color:'#11151C',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.95rem',cursor:forgotLoading?'not-allowed':'pointer',marginBottom:'0.5rem',transition:'all 0.2s'}}>
               {forgotLoading ? 'Gönderiliyor...' : '📨 Bağlantı Gönder'}
             </button>
-            <button onClick={()=>setShowForgot(false)} style={{width:'100%',padding:'0.65rem',borderRadius:'10px',border:'1px solid rgba(255,255,255,0.08)',background:'transparent',color:'#5A7089',fontFamily:"'DM Sans',sans-serif",fontWeight:600,fontSize:'0.9rem',cursor:'pointer'}}>
+            <button onClick={()=>setShowForgot(false)} style={{width:'100%',padding:'0.65rem',borderRadius:'10px',border:'1px solid rgba(237,231,218,0.08)',background:'transparent',color:'#8893A1',fontFamily:"'Inter',sans-serif",fontWeight:600,fontSize:'0.9rem',cursor:'pointer'}}>
               İptal
             </button>
           </div>
@@ -502,26 +502,26 @@ function AuthScreen({ onLogin }) {
       {/* ── Reset Password Modal ──────────────────────────────────── */}
       {showReset && (
         <div style={{position:'fixed',inset:0,zIndex:200,display:'flex',alignItems:'center',justifyContent:'center',padding:'1.25rem',background:'rgba(0,0,0,0.7)',backdropFilter:'blur(8px)'}}>
-          <div style={{background:'linear-gradient(135deg,#0B1527,#0F1F36)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:'20px',padding:'1.75rem 1.5rem',width:'100%',maxWidth:'380px',boxShadow:'0 24px 64px rgba(0,0,0,0.6)'}}>
+          <div style={{background:'#1B212B',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'14px',padding:'1.75rem 1.5rem',width:'100%',maxWidth:'380px',boxShadow:'0 24px 64px rgba(0,0,0,0.6)'}}>
             <div style={{textAlign:'center',marginBottom:'1.25rem'}}>
               <div style={{fontSize:'2rem',marginBottom:'0.35rem'}}>🔒</div>
-              <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,color:'#E8EDF2',fontSize:'1.2rem',marginBottom:'0.25rem'}}>Yeni Şifre Belirle</div>
-              <div style={{fontSize:'0.78rem',color:'#5A7089'}}>Güçlü bir şifre seçin (min 8 karakter)</div>
+              <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,color:'#EDE7DA',fontSize:'1.2rem',marginBottom:'0.25rem'}}>Yeni Şifre Belirle</div>
+              <div style={{fontSize:'0.78rem',color:'#8893A1'}}>Güçlü bir şifre seçin (min 8 karakter)</div>
             </div>
             {resetMsg && (
-              <div style={{background:resetMsg.startsWith('✅')?'rgba(16,185,129,0.1)':'rgba(239,68,68,0.1)',border:`1px solid ${resetMsg.startsWith('✅')?'rgba(16,185,129,0.3)':'rgba(239,68,68,0.3)'}`,borderRadius:'10px',padding:'0.6rem 0.85rem',marginBottom:'0.85rem',fontSize:'0.82rem',color:resetMsg.startsWith('✅')?'#6EE7B7':'#FCA5A5',textAlign:'center'}}>
+              <div style={{background:resetMsg.startsWith('✅')?'rgba(76,154,107,0.1)':'rgba(194,75,67,0.1)',border:`1px solid ${resetMsg.startsWith('✅')?'rgba(76,154,107,0.3)':'rgba(194,75,67,0.3)'}`,borderRadius:'10px',padding:'0.6rem 0.85rem',marginBottom:'0.85rem',fontSize:'0.82rem',color:resetMsg.startsWith('✅')?'#4C9A6B':'#E08C87',textAlign:'center'}}>
                 {resetMsg}
               </div>
             )}
             <input
               type="password" value={resetPw} onChange={e=>setResetPw(e.target.value)}
               placeholder="Yeni şifre" autoComplete="new-password"
-              style={{width:'100%',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'10px',padding:'0.75rem 1rem',color:'#E8EDF2',fontFamily:"'DM Sans',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box',marginBottom:'0.5rem'}}
+              style={{width:'100%',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'0.75rem 1rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box',marginBottom:'0.5rem'}}
             />
             <input
               type="password" value={resetPw2} onChange={e=>setResetPw2(e.target.value)}
               placeholder="Yeni şifre (tekrar)" autoComplete="new-password"
-              style={{width:'100%',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'10px',padding:'0.75rem 1rem',color:'#E8EDF2',fontFamily:"'DM Sans',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box',marginBottom:'0.75rem'}}
+              style={{width:'100%',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'0.75rem 1rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box',marginBottom:'0.75rem'}}
             />
             <button disabled={resetLoading||resetMsg.startsWith('✅')} onClick={async()=>{
               if(!resetPw||resetPw.length<6){setResetMsg('⚠️ Şifre en az 6 karakter olmalı');return;}
@@ -534,10 +534,10 @@ function AuthScreen({ onLogin }) {
                 else setResetMsg('⚠️ '+(d.message||'Hata oluştu'));
               }catch{setResetMsg('⚠️ Bağlantı hatası');}
               setResetLoading(false);
-            }} style={{width:'100%',padding:'0.85rem',borderRadius:'10px',border:'none',background:resetLoading?'rgba(59,130,246,0.3)':'rgba(59,130,246,0.9)',color:'#fff',fontFamily:"'DM Sans',sans-serif",fontWeight:700,fontSize:'0.95rem',cursor:resetLoading?'not-allowed':'pointer',marginBottom:'0.5rem',transition:'all 0.2s'}}>
+            }} style={{width:'100%',padding:'0.85rem',borderRadius:'10px',border:'none',background:resetLoading?'rgba(201,162,39,0.3)':'#C9A227',color:'#11151C',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.95rem',cursor:resetLoading?'not-allowed':'pointer',marginBottom:'0.5rem',transition:'all 0.2s'}}>
               {resetLoading ? 'Güncelleniyor...' : '🔒 Şifreyi Kaydet'}
             </button>
-            <button onClick={()=>setShowReset(false)} style={{width:'100%',padding:'0.65rem',borderRadius:'10px',border:'1px solid rgba(255,255,255,0.08)',background:'transparent',color:'#5A7089',fontFamily:"'DM Sans',sans-serif",fontWeight:600,fontSize:'0.9rem',cursor:'pointer'}}>
+            <button onClick={()=>setShowReset(false)} style={{width:'100%',padding:'0.65rem',borderRadius:'10px',border:'1px solid rgba(237,231,218,0.08)',background:'transparent',color:'#8893A1',fontFamily:"'Inter',sans-serif",fontWeight:600,fontSize:'0.9rem',cursor:'pointer'}}>
               İptal
             </button>
           </div>

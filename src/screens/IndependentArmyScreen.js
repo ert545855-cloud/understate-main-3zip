@@ -184,14 +184,14 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
     <div>
       <div className="ministry-header">🪖 Bağımsız Ordu</div>
       {msg&&(
-        <div style={{padding:"0.6rem 0.85rem",borderRadius:10,marginBottom:"0.75rem",background:msg.type==="success"?"rgba(16,185,129,0.12)":msg.type==="error"?"rgba(239,68,68,0.12)":"rgba(59,130,246,0.12)",border:`1px solid ${msg.type==="success"?"rgba(16,185,129,0.3)":msg.type==="error"?"rgba(239,68,68,0.3)":"rgba(59,130,246,0.3)"}`,color:msg.type==="success"?"#10B981":msg.type==="error"?"#EF4444":"#60A5FA",fontSize:"0.82rem",fontWeight:600}}>
+        <div style={{padding:"0.6rem 0.85rem",borderRadius:10,marginBottom:"0.75rem",background:msg.type==="success"?"rgba(76,154,107,0.12)":msg.type==="error"?"rgba(194,75,67,0.12)":"rgba(201,162,39,0.12)",border:`1px solid ${msg.type==="success"?"rgba(76,154,107,0.3)":msg.type==="error"?"rgba(194,75,67,0.3)":"rgba(201,162,39,0.3)"}`,color:msg.type==="success"?"#4C9A6B":msg.type==="error"?"#C24B43":"#C9A227",fontSize:"0.82rem",fontWeight:600}}>
           {msg.text}
         </div>
       )}
 
       {/* Örgüt uyarısı */}
       {myOrg&&(
-        <div style={{background:"rgba(239,68,68,0.08)",border:"1px solid rgba(239,68,68,0.3)",borderRadius:12,padding:"0.75rem",marginBottom:"0.75rem",fontSize:"0.8rem",color:"#EF4444",fontWeight:600}}>
+        <div style={{background:"rgba(194,75,67,0.08)",border:"1px solid rgba(194,75,67,0.3)",borderRadius:12,padding:"0.75rem",marginBottom:"0.75rem",fontSize:"0.8rem",color:"#C24B43",fontWeight:600}}>
           ⚠️ {myOrg} üyesisiniz. Subay adayları ve aktif askerler hiçbir örgüte bağlı olamaz. Üyeliğinizden ayrılmadan görev yapamazsınız.
         </div>
       )}
@@ -212,9 +212,9 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
         <div>
           <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:"0.45rem",marginBottom:"0.75rem"}}>
             {[
-              {l:"Toplam Asker",v:allSoldierList.length,c:"#60A5FA",icon:"🪖"},
-              {l:"General Sayısı",v:generals.length,c:"#F59E0B",icon:"⭐⭐⭐"},
-              {l:"Aktif Operasyon",v:operations.filter(o=>o.status==="active").length,c:"#EF4444",icon:"⚔️"},
+              {l:"Toplam Asker",v:allSoldierList.length,c:"#C9A227",icon:"🪖"},
+              {l:"General Sayısı",v:generals.length,c:"#C9A227",icon:"⭐⭐⭐"},
+              {l:"Aktif Operasyon",v:operations.filter(o=>o.status==="active").length,c:"#C24B43",icon:"⚔️"},
             ].map(s=>(
               <div key={s.l} style={{background:"rgba(255,255,255,0.04)",border:`1px solid ${s.c}22`,borderRadius:10,padding:"0.6rem",textAlign:"center"}}>
                 <div style={{fontSize:"1rem"}}>{s.icon}</div>
@@ -228,19 +228,19 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
           <div style={card}>
             <div className="card-title">🎖️ Komuta Zinciri</div>
             {chief?(
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"0.5rem",background:"rgba(245,158,11,0.08)",border:"1px solid rgba(245,158,11,0.2)",borderRadius:10,marginBottom:"0.5rem"}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"0.5rem",background:"rgba(201,162,39,0.08)",border:"1px solid rgba(201,162,39,0.2)",borderRadius:10,marginBottom:"0.5rem"}}>
                 <div>
-                  <div style={{fontSize:"0.85rem",fontWeight:700,color:"#F59E0B"}}>🎖️ Genelkurmay Başkanı</div>
+                  <div style={{fontSize:"0.85rem",fontWeight:700,color:"#C9A227"}}>🎖️ Genelkurmay Başkanı</div>
                   <div style={{fontSize:"0.72rem",color:"#8899AA"}}>{chief.username}</div>
                 </div>
-                <div style={{fontSize:"0.72rem",color:"#F59E0B",fontWeight:700}}>{(chief.mp||0).toLocaleString()} MP</div>
+                <div style={{fontSize:"0.72rem",color:"#C9A227",fontWeight:700}}>{(chief.mp||0).toLocaleString()} MP</div>
               </div>
             ):(
               <div style={{textAlign:"center",color:"#5E7390",fontSize:"0.78rem",padding:"0.5rem"}}>Henüz Genelkurmay Başkanı yok</div>
             )}
             {generals.filter(g=>g.username!==chief?.username).slice(0,3).map((g,i)=>(
               <div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"0.4rem 0",borderBottom:"1px solid rgba(255,255,255,0.04)"}}>
-                <span style={{fontSize:"0.8rem",color:"#E8EDF2"}}>⭐⭐⭐ {g.username}</span>
+                <span style={{fontSize:"0.8rem",color:"#EDE7DA"}}>⭐⭐⭐ {g.username}</span>
                 <span style={{fontSize:"0.7rem",color:"#5E7390"}}>{(g.mp||0).toLocaleString()} MP</span>
               </div>
             ))}
@@ -252,7 +252,7 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
               🪖 {myOrg?`Önce ${myOrg} Üyeliğinden Çık`:"Orduya Katıl"}
             </button>
           ):(
-            <button className="btn" style={{width:"100%",border:"1px solid rgba(239,68,68,0.3)",color:"#EF4444"}} onClick={discharge}>
+            <button className="btn" style={{width:"100%",border:"1px solid rgba(194,75,67,0.3)",color:"#C24B43"}} onClick={discharge}>
               Terhis Ol
             </button>
           )}
@@ -273,11 +273,11 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
           ):(
             <div>
               {/* Rütbe kartı */}
-              <div style={{...card,background:"linear-gradient(135deg,rgba(239,68,68,0.1),rgba(0,0,0,0))"}}>
+              <div style={{...card,background:"linear-gradient(135deg,rgba(194,75,67,0.1),rgba(0,0,0,0))"}}>
                 <div style={{textAlign:"center",padding:"0.5rem"}}>
                   <div style={{fontSize:"2rem"}}>{myRankData.icon}</div>
-                  <div style={{fontFamily:"Syne,sans-serif",fontWeight:900,fontSize:"1.2rem",color:"#E8EDF2",marginTop:"0.3rem"}}>{myRankData.label}</div>
-                  <div style={{fontFamily:"JetBrains Mono,monospace",fontSize:"0.9rem",color:"#EF4444",fontWeight:700}}>{(mySoldier.mp||0).toLocaleString()} MP</div>
+                  <div style={{fontFamily:"Syne,sans-serif",fontWeight:900,fontSize:"1.2rem",color:"#EDE7DA",marginTop:"0.3rem"}}>{myRankData.label}</div>
+                  <div style={{fontFamily:"JetBrains Mono,monospace",fontSize:"0.9rem",color:"#C24B43",fontWeight:700}}>{(mySoldier.mp||0).toLocaleString()} MP</div>
                 </div>
                 {nextRank&&(
                   <div style={{marginTop:"0.75rem"}}>
@@ -286,7 +286,7 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
                       <span>{progress}%</span>
                     </div>
                     <div style={{height:6,background:"rgba(255,255,255,0.08)",borderRadius:3,overflow:"hidden"}}>
-                      <div style={{height:"100%",width:`${progress}%`,background:"linear-gradient(90deg,#EF4444,#F59E0B)",borderRadius:3,transition:"width 0.3s"}}/>
+                      <div style={{height:"100%",width:`${progress}%`,background:"linear-gradient(90deg,#C24B43,#C9A227)",borderRadius:3,transition:"width 0.3s"}}/>
                     </div>
                     <div style={{fontSize:"0.65rem",color:"#5E7390",marginTop:"0.2rem"}}>
                       {(mySoldier.mp||0).toLocaleString()} / {nextRank.minMP.toLocaleString()} MP
@@ -298,9 +298,9 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
               {/* İstatistikler */}
               <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:"0.45rem",marginBottom:"0.75rem"}}>
                 {[
-                  {l:"Haftalık Maaş",v:fmtMoney(myRankData.salary),c:"#10B981",icon:"💰"},
-                  {l:"Görev Sayısı",v:mySoldier.missions||0,c:"#60A5FA",icon:"🎯"},
-                  {l:"Komuta Seviyesi",v:myRankData.commandLevel,c:"#F59E0B",icon:"⭐"},
+                  {l:"Haftalık Maaş",v:fmtMoney(myRankData.salary),c:"#4C9A6B",icon:"💰"},
+                  {l:"Görev Sayısı",v:mySoldier.missions||0,c:"#C9A227",icon:"🎯"},
+                  {l:"Komuta Seviyesi",v:myRankData.commandLevel,c:"#C9A227",icon:"⭐"},
                 ].map(s=>(
                   <div key={s.l} style={{background:"rgba(255,255,255,0.04)",border:`1px solid ${s.c}22`,borderRadius:10,padding:"0.6rem",textAlign:"center"}}>
                     <div style={{fontSize:"1rem"}}>{s.icon}</div>
@@ -312,13 +312,13 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
 
               {/* Aktif görev */}
               {missionActive&&(
-                <div style={{...card,border:"1px solid rgba(245,158,11,0.3)"}}>
+                <div style={{...card,border:"1px solid rgba(201,162,39,0.3)"}}>
                   <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                     <div>
-                      <div style={{fontWeight:700,fontSize:"0.88rem",color:"#F59E0B"}}>⏳ {myMission.title}</div>
+                      <div style={{fontWeight:700,fontSize:"0.88rem",color:"#C9A227"}}>⏳ {myMission.title}</div>
                       <div style={{fontSize:"0.72rem",color:"#5E7390",marginTop:"0.1rem"}}>+{myMission.rewardMP} MP · {fmtMoney(myMission.rewardMoney)}</div>
                     </div>
-                    <div style={{fontFamily:"JetBrains Mono,monospace",fontSize:"0.88rem",color:"#F59E0B",fontWeight:700}}>
+                    <div style={{fontFamily:"JetBrains Mono,monospace",fontSize:"0.88rem",color:"#C9A227",fontWeight:700}}>
                       {fmtTime(myMission.end-now)}
                     </div>
                   </div>
@@ -332,10 +332,10 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
 
               {/* Genelkurmay adaylığı */}
               {canBecomeChief&&!chief&&(
-                <div style={{...card,border:"1px solid rgba(245,158,11,0.4)"}}>
-                  <div className="card-title" style={{color:"#F59E0B"}}>🎖️ Genelkurmay Başkanlığı</div>
+                <div style={{...card,border:"1px solid rgba(201,162,39,0.4)"}}>
+                  <div className="card-title" style={{color:"#C9A227"}}>🎖️ Genelkurmay Başkanlığı</div>
                   <div style={{fontSize:"0.78rem",color:"#8899AA",marginBottom:"0.75rem"}}>Yeterli askeri puanınız var! Bağımsız aday olabilirsiniz. Seçim oylamasıyla belirlenir.</div>
-                  <button className="btn" style={{width:"100%",border:"1px solid rgba(245,158,11,0.4)",color:"#F59E0B"}} onClick={applyChief}>
+                  <button className="btn" style={{width:"100%",border:"1px solid rgba(201,162,39,0.4)",color:"#C9A227"}} onClick={applyChief}>
                     🎖️ Adaylık Başvurusu Yap
                   </button>
                 </div>
@@ -350,27 +350,27 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
         <div>
           {!isEnlisted&&<div style={{...card,textAlign:"center",color:"#5E7390",padding:"1.5rem"}}>Görev yapmak için önce orduya katılın.</div>}
           {missionActive&&(
-            <div style={{...card,border:"1px solid rgba(245,158,11,0.3)",background:"rgba(245,158,11,0.06)"}}>
-              <div style={{fontWeight:700,color:"#F59E0B",marginBottom:"0.25rem"}}>⏳ Aktif Görev: {myMission.title}</div>
+            <div style={{...card,border:"1px solid rgba(201,162,39,0.3)",background:"rgba(201,162,39,0.06)"}}>
+              <div style={{fontWeight:700,color:"#C9A227",marginBottom:"0.25rem"}}>⏳ Aktif Görev: {myMission.title}</div>
               <div style={{fontSize:"0.75rem",color:"#8899AA"}}>Tamamlanma: {fmtTime(myMission.end-now)}</div>
             </div>
           )}
           {missionDone&&(
-            <div style={{...card,border:"1px solid rgba(16,185,129,0.3)",background:"rgba(16,185,129,0.06)"}}>
-              <div style={{fontWeight:700,color:"#10B981",marginBottom:"0.5rem"}}>✅ Görev Tamamlandı: {myMission.title}</div>
+            <div style={{...card,border:"1px solid rgba(76,154,107,0.3)",background:"rgba(76,154,107,0.06)"}}>
+              <div style={{fontWeight:700,color:"#4C9A6B",marginBottom:"0.5rem"}}>✅ Görev Tamamlandı: {myMission.title}</div>
               <button className="btn btn-primary" style={{width:"100%"}} onClick={collectMission}>🎖️ Ödülü Topla (+{myMission.rewardMP} MP)</button>
             </div>
           )}
           {MISSIONS.map(m=>(
-            <div key={m.id} style={{...card,borderLeft:`3px solid ${!missionActive&&!missionDone&&isEnlisted?"#EF4444":"rgba(255,255,255,0.1)"}`}}>
+            <div key={m.id} style={{...card,borderLeft:`3px solid ${!missionActive&&!missionDone&&isEnlisted?"#C24B43":"rgba(255,255,255,0.1)"}`}}>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:"0.4rem"}}>
                 <div>
-                  <div style={{fontWeight:700,fontSize:"0.88rem",color:"#E8EDF2"}}>{m.icon} {m.title}</div>
+                  <div style={{fontWeight:700,fontSize:"0.88rem",color:"#EDE7DA"}}>{m.icon} {m.title}</div>
                   <div style={{fontSize:"0.68rem",color:"#5E7390",marginTop:"0.1rem"}}>Süre: {Math.floor(m.dur/3600000)}s · Tüm rütbeler</div>
                 </div>
                 <div style={{textAlign:"right"}}>
-                  <div style={{fontSize:"0.75rem",color:"#EF4444",fontWeight:700}}>+{m.rewardMP} MP</div>
-                  <div style={{fontSize:"0.68rem",color:"#10B981"}}>{fmtMoney(m.rewardMoney)}</div>
+                  <div style={{fontSize:"0.75rem",color:"#C24B43",fontWeight:700}}>+{m.rewardMP} MP</div>
+                  <div style={{fontSize:"0.68rem",color:"#4C9A6B"}}>{fmtMoney(m.rewardMoney)}</div>
                 </div>
               </div>
               {isEnlisted&&!missionActive&&!missionDone&&(
@@ -393,15 +393,15 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
               const rankData = RANKS.find(r=>r.id===s.rank)||RANKS[0];
               const isMe = s.username===cu?.username;
               return (
-                <div key={s.username} style={{display:"flex",alignItems:"center",gap:"0.65rem",padding:"0.6rem",borderRadius:10,marginBottom:"0.3rem",background:isMe?"rgba(239,68,68,0.08)":"rgba(255,255,255,0.02)",border:`1px solid ${isMe?"rgba(239,68,68,0.25)":"rgba(255,255,255,0.04)"}`}}>
-                  <span style={{fontFamily:"JetBrains Mono,monospace",fontWeight:700,color:i===0?"#FFD700":i===1?"#C0C0C0":i===2?"#CD7F32":"#5E7390",minWidth:24,fontSize:"0.75rem"}}>#{i+1}</span>
+                <div key={s.username} style={{display:"flex",alignItems:"center",gap:"0.65rem",padding:"0.6rem",borderRadius:10,marginBottom:"0.3rem",background:isMe?"rgba(194,75,67,0.08)":"rgba(255,255,255,0.02)",border:`1px solid ${isMe?"rgba(194,75,67,0.25)":"rgba(255,255,255,0.04)"}`}}>
+                  <span style={{fontFamily:"JetBrains Mono,monospace",fontWeight:700,color:i===0?"#C9A227":i===1?"#C0C0C0":i===2?"#CD7F32":"#5E7390",minWidth:24,fontSize:"0.75rem"}}>#{i+1}</span>
                   <span style={{fontSize:"1rem"}}>{rankData.icon}</span>
                   <div style={{flex:1}}>
-                    <div style={{fontWeight:700,color:isMe?"#FCA5A5":"#E8EDF2",fontSize:"0.85rem"}}>{s.username}{isMe?" (sen)":""}</div>
+                    <div style={{fontWeight:700,color:isMe?"#E08C87":"#EDE7DA",fontSize:"0.85rem"}}>{s.username}{isMe?" (sen)":""}</div>
                     <div style={{fontSize:"0.65rem",color:"#5E7390"}}>{rankData.label} · {s.missions||0} görev</div>
                   </div>
                   <div style={{textAlign:"right"}}>
-                    <div style={{fontWeight:700,color:"#EF4444",fontSize:"0.82rem",fontFamily:"JetBrains Mono,monospace"}}>{(s.mp||0).toLocaleString()}</div>
+                    <div style={{fontWeight:700,color:"#C24B43",fontSize:"0.82rem",fontFamily:"JetBrains Mono,monospace"}}>{(s.mp||0).toLocaleString()}</div>
                     <div style={{fontSize:"0.55rem",color:"#5E7390"}}>MP</div>
                   </div>
                 </div>
@@ -409,8 +409,8 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
             })}
           </div>
           {isEnlisted&&(
-            <div style={{...card,background:"rgba(239,68,68,0.05)",border:"1px solid rgba(239,68,68,0.2)"}}>
-              <div style={{fontSize:"0.8rem",color:"#FCA5A5",fontWeight:700,marginBottom:"0.25rem"}}>📊 Senin Sıran</div>
+            <div style={{...card,background:"rgba(194,75,67,0.05)",border:"1px solid rgba(194,75,67,0.2)"}}>
+              <div style={{fontSize:"0.8rem",color:"#E08C87",fontWeight:700,marginBottom:"0.25rem"}}>📊 Senin Sıran</div>
               <div style={{fontSize:"0.72rem",color:"#8899AA"}}>
                 #{allSoldierList.sort((a,b)=>(b.mp||0)-(a.mp||0)).findIndex(s=>s.username===cu.username)+1} / {allSoldierList.length} asker ·{" "}
                 {(mySoldier.mp||0).toLocaleString()} MP · {myRankData.label}
@@ -423,14 +423,14 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
       {/* KOMUTA */}
       {tab==="command"&&(
         <div>
-          <div style={{...card,border:"1px solid rgba(239,68,68,0.2)"}}>
-            <div className="card-title" style={{color:"#EF4444"}}>⚔️ Çete Operasyonları</div>
+          <div style={{...card,border:"1px solid rgba(194,75,67,0.2)"}}>
+            <div className="card-title" style={{color:"#C24B43"}}>⚔️ Çete Operasyonları</div>
             <div style={{fontSize:"0.78rem",color:"#8899AA",marginBottom:"0.75rem",lineHeight:1.5}}>
               General rütbesine ulaşan, hiçbir örgütle bağı olmayan subaylar çete operasyonu başlatabilir.<br/>
-              <span style={{color:"#F59E0B"}}>Koşul:</span> Hedef çetenin suç puanı ≥50 veya son 24s içinde saldırı kaydı olmalı.
+              <span style={{color:"#C9A227"}}>Koşul:</span> Hedef çetenin suç puanı ≥50 veya son 24s içinde saldırı kaydı olmalı.
             </div>
             {isGeneral&&!myOrg?(
-              <button className="btn" style={{width:"100%",border:"1px solid rgba(239,68,68,0.4)",color:"#EF4444"}} onClick={launchOp}>
+              <button className="btn" style={{width:"100%",border:"1px solid rgba(194,75,67,0.4)",color:"#C24B43"}} onClick={launchOp}>
                 ⚔️ Çete Operasyonu Başlat
               </button>
             ):(
@@ -447,10 +447,10 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
               {operations.filter(o=>o.status==="active").map((o,i)=>(
                 <div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"0.4rem 0",borderBottom:"1px solid rgba(255,255,255,0.04)"}}>
                   <div>
-                    <div style={{fontSize:"0.82rem",fontWeight:700,color:"#E8EDF2"}}>🔫 {o.gangName}</div>
+                    <div style={{fontSize:"0.82rem",fontWeight:700,color:"#EDE7DA"}}>🔫 {o.gangName}</div>
                     <div style={{fontSize:"0.65rem",color:"#5E7390"}}>Komutan: {o.commander}</div>
                   </div>
-                  <span style={{background:"rgba(239,68,68,0.1)",border:"1px solid rgba(239,68,68,0.3)",borderRadius:6,padding:"0.2rem 0.4rem",fontSize:"0.65rem",color:"#EF4444",fontWeight:700}}>Aktif</span>
+                  <span style={{background:"rgba(194,75,67,0.1)",border:"1px solid rgba(194,75,67,0.3)",borderRadius:6,padding:"0.2rem 0.4rem",fontSize:"0.65rem",color:"#C24B43",fontWeight:700}}>Aktif</span>
                 </div>
               ))}
             </div>
@@ -458,13 +458,13 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
 
           {/* ÖNEMLİ kural kutusu */}
           <div style={{...card,border:"1px solid rgba(96,165,250,0.2)"}}>
-            <div className="card-title" style={{color:"#60A5FA"}}>🛡️ Çete-Ordu Kuralları</div>
+            <div className="card-title" style={{color:"#C9A227"}}>🛡️ Çete-Ordu Kuralları</div>
             {[
-              {icon:"✓",text:"Ordu çetelere saldırabilir (koşullar sağlandığında)",color:"#10B981"},
-              {icon:"✗",text:"Çeteler orduya SALDIRAMAZLAR",color:"#EF4444"},
-              {icon:"✗",text:"Siyasi makamlar orduya atama yapamaz",color:"#EF4444"},
-              {icon:"✓",text:"Ordu, saldırı altındaki aile varlıklarını koruyabilir",color:"#10B981"},
-              {icon:"✓",text:"Devlet her hafta orduya maaş ödemek zorunda",color:"#10B981"},
+              {icon:"✓",text:"Ordu çetelere saldırabilir (koşullar sağlandığında)",color:"#4C9A6B"},
+              {icon:"✗",text:"Çeteler orduya SALDIRAMAZLAR",color:"#C24B43"},
+              {icon:"✗",text:"Siyasi makamlar orduya atama yapamaz",color:"#C24B43"},
+              {icon:"✓",text:"Ordu, saldırı altındaki aile varlıklarını koruyabilir",color:"#4C9A6B"},
+              {icon:"✓",text:"Devlet her hafta orduya maaş ödemek zorunda",color:"#4C9A6B"},
             ].map((r,i)=>(
               <div key={i} style={{display:"flex",gap:"0.4rem",padding:"0.3rem 0",borderBottom:i<4?"1px solid rgba(255,255,255,0.04)":"none",fontSize:"0.75rem"}}>
                 <span style={{color:r.color,fontWeight:700,flexShrink:0}}>{r.icon}</span>
@@ -478,10 +478,10 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
       {/* BÜTÇE */}
       {tab==="budget"&&(
         <div>
-          <div style={{...card,background:"linear-gradient(135deg,rgba(16,185,129,0.08),rgba(0,0,0,0))"}}>
+          <div style={{...card,background:"linear-gradient(135deg,rgba(76,154,107,0.08),rgba(0,0,0,0))"}}>
             <div style={{textAlign:"center",padding:"0.5rem"}}>
               <div style={{fontSize:"0.72rem",color:"#5E7390",marginBottom:"0.2rem",textTransform:"uppercase",letterSpacing:"0.07em"}}>Haftalık Toplam Maaş Fonu</div>
-              <div style={{fontFamily:"JetBrains Mono,monospace",fontWeight:900,fontSize:"1.6rem",color:"#10B981"}}>{fmtMoney(totalWeeklySalary)}</div>
+              <div style={{fontFamily:"JetBrains Mono,monospace",fontWeight:900,fontSize:"1.6rem",color:"#4C9A6B"}}>{fmtMoney(totalWeeklySalary)}</div>
               <div style={{fontSize:"0.68rem",color:"#5E7390",marginTop:"0.15rem"}}>Devlet hazinesinden karşılanmalı</div>
             </div>
           </div>
@@ -495,12 +495,12 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
                   <div style={{display:"flex",alignItems:"center",gap:"0.4rem"}}>
                     <span style={{fontSize:"0.85rem"}}>{r.icon}</span>
                     <div>
-                      <div style={{fontSize:"0.78rem",color:"#E8EDF2",fontWeight:600}}>{r.label}</div>
+                      <div style={{fontSize:"0.78rem",color:"#EDE7DA",fontWeight:600}}>{r.label}</div>
                       <div style={{fontSize:"0.6rem",color:"#5E7390"}}>{count} asker</div>
                     </div>
                   </div>
                   <div style={{textAlign:"right"}}>
-                    <div style={{fontSize:"0.75rem",fontWeight:700,color:"#10B981"}}>{fmtMoney(r.salary)}/hf</div>
+                    <div style={{fontSize:"0.75rem",fontWeight:700,color:"#4C9A6B"}}>{fmtMoney(r.salary)}/hf</div>
                     {count>0&&<div style={{fontSize:"0.6rem",color:"#5E7390"}}>Toplam: {fmtMoney(r.salary*count)}</div>}
                   </div>
                 </div>
@@ -517,7 +517,7 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
               payroll.slice(-5).reverse().map((p,i)=>(
                 <div key={i} style={{display:"flex",justifyContent:"space-between",fontSize:"0.78rem",padding:"0.35rem 0",borderBottom:"1px solid rgba(255,255,255,0.04)"}}>
                   <span style={{color:"#8899AA"}}>{new Date(p.date).toLocaleDateString("tr-TR")}</span>
-                  <span style={{color:"#10B981",fontWeight:700}}>{fmtMoney(p.amount)}</span>
+                  <span style={{color:"#4C9A6B",fontWeight:700}}>{fmtMoney(p.amount)}</span>
                 </div>
               ))
             )}
@@ -534,25 +534,25 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
               "Subay ve komutanlar hiçbir örgüte üye olamaz — üye olurlarsa rütbeleri düşer",
               "Siyasi makamlar (Devlet Başkanı dahil) orduya atama yapamaz",
               "Genelkurmay Başkanı, askeri puana göre seçilir — politikacı değil, asker olmalı",
-            ],color:"#60A5FA"},
+            ],color:"#C9A227"},
             {title:"⭐ Genelkurmay Adaylığı",items:[
               `Minimum ${(800000).toLocaleString()} MP (askeri puan) şart`,
               "Herhangi bir örgütle bağlantısı olmamalı",
               "Adaylar arasından oylama yapılır",
               "Seçilen kişi tüm örgütlerden otomatik çıkarılır",
-            ],color:"#F59E0B"},
+            ],color:"#C9A227"},
             {title:"⚔️ Operasyon Koşulları",items:[
               "Çeteye saldırmak için General veya üstü rütbe gerekli",
               "Hedef çetenin suç puanı ≥50 VEYA son 24 saat içinde aktif saldırısı olmalı",
               "Çeteler orduda bulunanları/olanlara karşı saldırı başlatamaz",
               "Ordu, aktif bir saldırı varsa aile varlıklarını korumak için devreye girebilir",
-            ],color:"#EF4444"},
+            ],color:"#C24B43"},
             {title:"💰 Devlet-Ordu Finansmanı",items:[
               "Devlet hazinesi her hafta ordu maaşını ödemek zorunda",
               "Ödeme yapılmazsa ordunun savaş kapasitesi düşer",
               "Maliye Bakanı ödeme onaylar, ancak ordu üzerinde komuta yetkisi yoktur",
               "Ordu kendi kasasına sahip değil — devlet bütçesine bağımlı",
-            ],color:"#10B981"},
+            ],color:"#4C9A6B"},
           ].map(section=>(
             <div key={section.title} style={{...card,borderLeft:`3px solid ${section.color}`}}>
               <div className="card-title" style={{color:section.color}}>{section.title}</div>

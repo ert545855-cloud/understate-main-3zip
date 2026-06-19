@@ -93,7 +93,7 @@ function AlliancePage({ profile, setProfile, showNotif }) {
   };
 
   const filtered = alliances.filter(a => !searchQ || a.name.toLowerCase().includes(searchQ.toLowerCase()) || a.tag.toLowerCase().includes(searchQ.toLowerCase()));
-  const inpSt = {width:'100%',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#E8EDF2',fontFamily:"'DM Sans',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box'};
+  const inpSt = {width:'100%',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box'};
   const subItems = myAlliance
     ? [{id:'list',label:'🤝 Liste'},{id:'management',label:'⚙️ Yönetim'}]
     : [{id:'list',label:'🤝 İttifaklar'}];
@@ -103,7 +103,7 @@ function AlliancePage({ profile, setProfile, showNotif }) {
       <div style={{display:'flex',gap:'4px',padding:'0.5rem 0.7rem',overflowX:'auto',scrollbarWidth:'none',background:'rgba(6,12,24,0.97)',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
         {subItems.map(s=>(
           <button key={s.id} onClick={()=>setSub(s.id)}
-            style={{padding:'0.38rem 0.75rem',borderRadius:'8px',border:`1px solid ${sub===s.id?'rgba(16,185,129,0.4)':'rgba(255,255,255,0.07)'}`,background:sub===s.id?'rgba(16,185,129,0.12)':'rgba(255,255,255,0.03)',color:sub===s.id?'#6EE7B7':'#5A7089',fontFamily:"'DM Sans',sans-serif",fontWeight:700,fontSize:'0.76rem',cursor:'pointer',whiteSpace:'nowrap',flexShrink:0}}>
+            style={{padding:'0.38rem 0.75rem',borderRadius:'8px',border:`1px solid ${sub===s.id?'rgba(76,154,107,0.4)':'rgba(255,255,255,0.07)'}`,background:sub===s.id?'rgba(76,154,107,0.12)':'rgba(255,255,255,0.03)',color:sub===s.id?'#4C9A6B':'#8893A1',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.76rem',cursor:'pointer',whiteSpace:'nowrap',flexShrink:0}}>
             {s.label}
           </button>
         ))}
@@ -113,18 +113,18 @@ function AlliancePage({ profile, setProfile, showNotif }) {
         {sub==='list' && (
           <div>
             {myAlliance && (
-              <Card style={{marginBottom:'0.75rem',background:'linear-gradient(135deg,rgba(16,185,129,0.08),rgba(11,21,39,0.9))',border:'1px solid rgba(16,185,129,0.2)'}}>
+              <Card style={{marginBottom:'0.75rem',background:'linear-gradient(135deg,rgba(76,154,107,0.08),rgba(11,21,39,0.9))',border:'1px solid rgba(76,154,107,0.2)'}}>
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:'0.5rem'}}>
                   <div>
                     <div style={{display:'flex',alignItems:'center',gap:'0.4rem',marginBottom:'0.2rem'}}>
-                      <div style={{background:'rgba(16,185,129,0.15)',border:'1px solid rgba(16,185,129,0.3)',borderRadius:'6px',padding:'2px 7px',fontWeight:900,fontSize:'0.75rem',color:'#10B981'}}>[{myAlliance.tag}]</div>
+                      <div style={{background:'rgba(76,154,107,0.12)',border:'1px solid rgba(76,154,107,0.25)',borderRadius:'6px',padding:'2px 7px',fontWeight:900,fontSize:'0.75rem',color:'#4C9A6B'}}>[{myAlliance.tag}]</div>
                       {isAllianceLeader && <Tag color='gold'>👑 Lider</Tag>}
                     </div>
-                    <div style={{fontWeight:900,fontSize:'1.05rem',color:'#E8EDF2'}}>{myAlliance.name}</div>
-                    <div style={{fontSize:'0.72rem',color:'#5A7089'}}>{myAlliance.memberCount} üye • Lv.{myAlliance.level||1} • {fmtWord(myAlliance.treasury)} kasa</div>
+                    <div style={{fontWeight:900,fontSize:'1.05rem',color:'#EDE7DA'}}>{myAlliance.name}</div>
+                    <div style={{fontSize:'0.72rem',color:'#8893A1'}}>{myAlliance.memberCount} üye • Lv.{myAlliance.level||1} • {fmtWord(myAlliance.treasury)} kasa</div>
                   </div>
                 </div>
-                <div style={{fontSize:'0.78rem',color:'#8BA0B5',marginBottom:'0.5rem'}}>{myAlliance.desc}</div>
+                <div style={{fontSize:'0.78rem',color:'#8893A1',marginBottom:'0.5rem'}}>{myAlliance.desc}</div>
                 <div style={{display:'flex',gap:'0.4rem',flexWrap:'wrap'}}>
                   <Btn variant='green' size='sm' onClick={()=>setSub('management')}>⚙️ Yönet</Btn>
                   <Btn variant='ghost' size='sm' onClick={()=>setDonateModal(true)}>💰 Kasa Yatır</Btn>
@@ -133,49 +133,49 @@ function AlliancePage({ profile, setProfile, showNotif }) {
               </Card>
             )}
             <div style={{display:'flex',gap:'0.5rem',marginBottom:'0.75rem'}}>
-              <div style={{flex:1,display:'flex',alignItems:'center',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'10px',padding:'0 0.75rem'}}>
-                <span style={{color:'#5A7089',marginRight:'0.4rem'}}>🔍</span>
+              <div style={{flex:1,display:'flex',alignItems:'center',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'0 0.75rem'}}>
+                <span style={{color:'#8893A1',marginRight:'0.4rem'}}>🔍</span>
                 <input value={searchQ} onChange={e=>setSearchQ(e.target.value)} placeholder="İttifak ara..."
-                  style={{flex:1,background:'none',border:'none',outline:'none',color:'#E8EDF2',fontFamily:"'DM Sans',sans-serif",fontSize:'16px',padding:'0.55rem 0'}} />
+                  style={{flex:1,background:'none',border:'none',outline:'none',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'16px',padding:'0.55rem 0'}} />
               </div>
               {!myAlliance && <Btn variant='primary' size='sm' onClick={()=>setCreateModal(true)}>+ Kur</Btn>}
             </div>
-            <div style={{fontSize:'0.68rem',color:'#5A7089',fontWeight:700,textTransform:'uppercase',marginBottom:'0.5rem',letterSpacing:'0.08em'}}>Tüm İttifaklar ({filtered.length})</div>
+            <div style={{fontSize:'0.68rem',color:'#8893A1',fontWeight:700,textTransform:'uppercase',marginBottom:'0.5rem',letterSpacing:'0.08em'}}>Tüm İttifaklar ({filtered.length})</div>
             {filtered.map(a => (
-              <Card key={a.id} style={{marginBottom:'0.5rem',padding:'0.85rem',border:`1px solid ${a.id===myAlliance?.id?'rgba(16,185,129,0.3)':'rgba(255,255,255,0.06)'}`}}>
+              <Card key={a.id} style={{marginBottom:'0.5rem',padding:'0.85rem',border:`1px solid ${a.id===myAlliance?.id?'rgba(76,154,107,0.3)':'rgba(255,255,255,0.06)'}`}}>
                 <div style={{display:'flex',alignItems:'center',gap:'0.75rem'}}>
-                  <div style={{background:'rgba(59,130,246,0.15)',border:'1px solid rgba(59,130,246,0.3)',borderRadius:'8px',padding:'0.4rem 0.6rem',fontWeight:900,fontSize:'0.8rem',color:'#60A5FA',flexShrink:0}}>[{a.tag}]</div>
+                  <div style={{background:'rgba(201,162,39,0.1)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'8px',padding:'0.4rem 0.6rem',fontWeight:900,fontSize:'0.8rem',color:'#C9A227',flexShrink:0}}>[{a.tag}]</div>
                   <div style={{flex:1,minWidth:0}}>
-                    <div style={{fontWeight:800,color:'#E8EDF2',fontSize:'0.92rem'}}>{a.name}</div>
-                    <div style={{fontSize:'0.68rem',color:'#5A7089'}}>{a.memberCount||0} üye • Lv.{a.level||1} • {a.type==='open'?'🔓 Açık':'🔒 Kapalı'}</div>
+                    <div style={{fontWeight:800,color:'#EDE7DA',fontSize:'0.92rem'}}>{a.name}</div>
+                    <div style={{fontSize:'0.68rem',color:'#8893A1'}}>{a.memberCount||0} üye • Lv.{a.level||1} • {a.type==='open'?'🔓 Açık':'🔒 Kapalı'}</div>
                   </div>
                   {!myAlliance && a.type==='open' && <Btn variant='primary' size='sm' onClick={()=>joinAlliance(a)}>Katıl</Btn>}
                   {a.id===myAlliance?.id && <Tag color='green'>Üyesin</Tag>}
                 </div>
               </Card>
             ))}
-            {filtered.length===0 && <div style={{textAlign:'center',color:'#5A7089',padding:'2rem',fontSize:'0.85rem'}}>İttifak bulunamadı. İlk sen kur! 🤝</div>}
+            {filtered.length===0 && <div style={{textAlign:'center',color:'#8893A1',padding:'2rem',fontSize:'0.85rem'}}>İttifak bulunamadı. İlk sen kur! 🤝</div>}
           </div>
         )}
 
         {sub==='management' && (
           <div>
             {!myAlliance ? (
-              <Card style={{textAlign:'center',padding:'2rem'}}><div style={{fontSize:'2rem',marginBottom:'0.5rem'}}>🤝</div><div style={{color:'#5A7089',fontSize:'0.85rem'}}>Yönetim için bir ittifaka katıl</div></Card>
+              <Card style={{textAlign:'center',padding:'2rem'}}><div style={{fontSize:'2rem',marginBottom:'0.5rem'}}>🤝</div><div style={{color:'#8893A1',fontSize:'0.85rem'}}>Yönetim için bir ittifaka katıl</div></Card>
             ) : (
               <div>
-                <Card style={{marginBottom:'0.65rem',background:'linear-gradient(135deg,rgba(16,185,129,0.08),rgba(11,21,39,0.95))'}}>
+                <Card style={{marginBottom:'0.65rem',background:'linear-gradient(135deg,rgba(76,154,107,0.08),rgba(11,21,39,0.95))'}}>
                   <div style={{display:'flex',alignItems:'center',gap:'0.5rem',marginBottom:'0.65rem'}}>
-                    <div style={{background:'rgba(16,185,129,0.15)',border:'1px solid rgba(16,185,129,0.3)',borderRadius:'6px',padding:'2px 7px',fontWeight:900,fontSize:'0.8rem',color:'#10B981'}}>[{myAlliance.tag}]</div>
-                    <div style={{fontWeight:900,color:'#E8EDF2',fontSize:'1rem'}}>{myAlliance.name}</div>
+                    <div style={{background:'rgba(76,154,107,0.12)',border:'1px solid rgba(76,154,107,0.25)',borderRadius:'6px',padding:'2px 7px',fontWeight:900,fontSize:'0.8rem',color:'#4C9A6B'}}>[{myAlliance.tag}]</div>
+                    <div style={{fontWeight:900,color:'#EDE7DA',fontSize:'1rem'}}>{myAlliance.name}</div>
                     {isAllianceLeader&&<Tag color='gold'>👑 Lider</Tag>}
                   </div>
                   <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'0.35rem',marginBottom:'0.5rem'}}>
                     {[['👥','Üye',myAlliance.memberCount||1],['⭐','Seviye',myAlliance.level||1],['⚡','Güç',myAlliance.power||10],['💰','Kasa',fmtWord(myAlliance.treasury||0)]].map(([ic,lb,v])=>(
-                      <div key={lb} style={{background:'rgba(255,255,255,0.04)',borderRadius:'8px',padding:'0.4rem',textAlign:'center'}}>
+                      <div key={lb} style={{background:'rgba(237,231,218,0.03)',borderRadius:'8px',padding:'0.4rem',textAlign:'center'}}>
                         <div style={{fontSize:'0.8rem'}}>{ic}</div>
-                        <div style={{fontWeight:700,color:'#E8EDF2',fontSize:'0.7rem'}}>{v}</div>
-                        <div style={{fontSize:'0.52rem',color:'#5A7089',textTransform:'uppercase'}}>{lb}</div>
+                        <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.7rem'}}>{v}</div>
+                        <div style={{fontSize:'0.52rem',color:'#8893A1',textTransform:'uppercase'}}>{lb}</div>
                       </div>
                     ))}
                   </div>
@@ -186,8 +186,8 @@ function AlliancePage({ profile, setProfile, showNotif }) {
                 </Card>
 
                 {isAllianceLeader && (
-                  <Card style={{marginBottom:'0.65rem',border:'1px solid rgba(16,185,129,0.2)'}}>
-                    <div style={{fontWeight:700,color:'#6EE7B7',marginBottom:'0.65rem',fontSize:'0.82rem',textTransform:'uppercase',letterSpacing:'0.06em'}}>👑 Lider Yetkileri</div>
+                  <Card style={{marginBottom:'0.65rem',border:'1px solid rgba(76,154,107,0.2)'}}>
+                    <div style={{fontWeight:700,color:'#4C9A6B',marginBottom:'0.65rem',fontSize:'0.82rem',textTransform:'uppercase',letterSpacing:'0.06em'}}>👑 Lider Yetkileri</div>
                     <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.4rem',marginBottom:'0.5rem'}}>
                       {[
                         {id:'operasyon',label:'🎯 Ortak Operasyon',cd:4*3600000,fn:()=>{const xp=Math.floor((myAlliance.memberCount||1)*80);setProfile(pr=>{const np={...pr,xp:(pr.xp||0)+xp};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;});setAlliances(prev=>prev.map(a=>a.id===myAlliance.id?{...a,xp:(a.xp||0)+xp,power:(a.power||10)+1}:a));showNotif(`🎯 Operasyon tamamlandı! +${xp} XP +1 güç`,'success');}},
@@ -199,8 +199,8 @@ function AlliancePage({ profile, setProfile, showNotif }) {
                         const rem=Math.max(0,a.cd-(Date.now()-(allianceCooldowns[key]||0)));
                         return (
                           <button key={a.id} onClick={()=>allianceAction(a.id,a.cd,a.fn)} disabled={rem>0}
-                            style={{padding:'0.55rem 0.4rem',background:rem>0?'rgba(255,255,255,0.03)':'rgba(16,185,129,0.08)',border:`1px solid ${rem>0?'rgba(255,255,255,0.07)':'rgba(16,185,129,0.2)'}`,borderRadius:'10px',color:rem>0?'#3B4E63':'#6EE7B7',cursor:rem>0?'not-allowed':'pointer',fontWeight:700,fontSize:'0.72rem',fontFamily:"'DM Sans',sans-serif",textAlign:'center',lineHeight:1.3}}>
-                            {a.label}{rem>0&&<div style={{fontSize:'0.6rem',marginTop:'2px',color:'#5A7089'}}>⏳{Math.ceil(rem/3600000)}s</div>}
+                            style={{padding:'0.55rem 0.4rem',background:rem>0?'rgba(255,255,255,0.03)':'rgba(76,154,107,0.08)',border:`1px solid ${rem>0?'rgba(255,255,255,0.07)':'rgba(76,154,107,0.2)'}`,borderRadius:'10px',color:rem>0?'#3B4E63':'#4C9A6B',cursor:rem>0?'not-allowed':'pointer',fontWeight:700,fontSize:'0.72rem',fontFamily:"'Inter',sans-serif",textAlign:'center',lineHeight:1.3}}>
+                            {a.label}{rem>0&&<div style={{fontSize:'0.6rem',marginTop:'2px',color:'#8893A1'}}>⏳{Math.ceil(rem/3600000)}s</div>}
                           </button>
                         );
                       })}
@@ -213,17 +213,17 @@ function AlliancePage({ profile, setProfile, showNotif }) {
                 )}
 
                 <Card>
-                  <div style={{fontWeight:700,color:'#E8EDF2',marginBottom:'0.65rem',fontSize:'0.85rem'}}>👥 Üyeler ({myAlliance.memberCount||1})</div>
+                  <div style={{fontWeight:700,color:'#EDE7DA',marginBottom:'0.65rem',fontSize:'0.85rem'}}>👥 Üyeler ({myAlliance.memberCount||1})</div>
                   {(myAlliance.members||[]).map((muid,i)=>(
                     <div key={muid} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0.45rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
                       <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
-                        <div style={{width:'28px',height:'28px',borderRadius:'50%',background:'rgba(16,185,129,0.15)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.85rem'}}>{muid===myAlliance.leaderId?'👑':'👤'}</div>
-                        <div style={{fontSize:'0.82rem',fontWeight:700,color:muid===uid?'#6EE7B7':'#E8EDF2'}}>
+                        <div style={{width:'28px',height:'28px',borderRadius:'50%',background:'rgba(76,154,107,0.12)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.85rem'}}>{muid===myAlliance.leaderId?'👑':'👤'}</div>
+                        <div style={{fontSize:'0.82rem',fontWeight:700,color:muid===uid?'#4C9A6B':'#EDE7DA'}}>
                           {muid===uid?profile?.username:`Üye #${i+1}`}{muid===myAlliance.leaderId&&<span style={{marginLeft:'0.3rem'}}><Tag color='gold'>Lider</Tag></span>}
                         </div>
                       </div>
                       {isAllianceLeader&&muid!==myAlliance.leaderId&&(
-                        <button onClick={()=>kickAllianceMember(muid)} style={{background:'rgba(239,68,68,0.1)',border:'1px solid rgba(239,68,68,0.2)',borderRadius:'6px',padding:'2px 8px',color:'#FCA5A5',cursor:'pointer',fontSize:'0.68rem',fontWeight:700}}>Çıkar</button>
+                        <button onClick={()=>kickAllianceMember(muid)} style={{background:'rgba(194,75,67,0.08)',border:'1px solid rgba(194,75,67,0.2)',borderRadius:'6px',padding:'2px 8px',color:'#E08C87',cursor:'pointer',fontSize:'0.68rem',fontWeight:700}}>Çıkar</button>
                       )}
                     </div>
                   ))}
@@ -238,23 +238,23 @@ function AlliancePage({ profile, setProfile, showNotif }) {
         <Modal title="🤝 İttifak Kur" onClose={()=>{setCreateModal(false);setAForm({name:'',tag:'',desc:'',type:'open'});}}>
           {[['name','İttifak Adı','İttifak adını girin',false],['tag','Etiket (Max 5)','ORG',false],['desc','Açıklama','Kısa bir açıklama...',true]].map(([k,l,ph,ta])=>(
             <div key={k} style={{marginBottom:'0.85rem'}}>
-              <div style={{fontSize:'0.72rem',color:'#5A7089',marginBottom:'0.4rem',fontWeight:700}}>{l}</div>
+              <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.4rem',fontWeight:700}}>{l}</div>
               {ta ? <textarea value={aForm[k]} onChange={e=>setAForm(p=>({...p,[k]:e.target.value}))} placeholder={ph} rows={2}
-                style={{width:'100%',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#E8EDF2',fontFamily:"'DM Sans',sans-serif",fontSize:'14px',outline:'none',resize:'none',boxSizing:'border-box'}} />
+                style={{width:'100%',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'14px',outline:'none',resize:'none',boxSizing:'border-box'}} />
               : <input value={aForm[k]} onChange={e=>setAForm(p=>({...p,[k]:e.target.value}))} placeholder={ph} style={inpSt} />}
             </div>
           ))}
           <div style={{marginBottom:'1rem'}}>
-            <div style={{fontSize:'0.72rem',color:'#5A7089',marginBottom:'0.4rem',fontWeight:700}}>Katılım Tipi</div>
+            <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.4rem',fontWeight:700}}>Katılım Tipi</div>
             <div style={{display:'flex',gap:'0.5rem'}}>
               {[['open','🔓 Açık'],['invite','🔒 Davet']].map(([v,l])=>(
-                <button key={v} onClick={()=>setAForm(p=>({...p,type:v}))} style={{flex:1,padding:'0.55rem',borderRadius:'10px',border:`1px solid ${aForm.type===v?'rgba(16,185,129,0.4)':'rgba(255,255,255,0.08)'}`,background:aForm.type===v?'rgba(16,185,129,0.12)':'rgba(255,255,255,0.03)',color:aForm.type===v?'#10B981':'#5A7089',fontFamily:"'DM Sans',sans-serif",fontWeight:700,cursor:'pointer'}}>
+                <button key={v} onClick={()=>setAForm(p=>({...p,type:v}))} style={{flex:1,padding:'0.55rem',borderRadius:'10px',border:`1px solid ${aForm.type===v?'rgba(76,154,107,0.4)':'rgba(255,255,255,0.08)'}`,background:aForm.type===v?'rgba(76,154,107,0.12)':'rgba(255,255,255,0.03)',color:aForm.type===v?'#4C9A6B':'#8893A1',fontFamily:"'Inter',sans-serif",fontWeight:700,cursor:'pointer'}}>
                   {l}
                 </button>
               ))}
             </div>
           </div>
-          <div style={{background:'rgba(245,158,11,0.08)',border:'1px solid rgba(245,158,11,0.2)',borderRadius:'10px',padding:'0.6rem',fontSize:'0.78rem',color:'#F59E0B',marginBottom:'1rem'}}>
+          <div style={{background:'rgba(201,162,39,0.06)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'10px',padding:'0.6rem',fontSize:'0.78rem',color:'#C9A227',marginBottom:'1rem'}}>
             💡 Kurmak {fmtWord(ALLIANCE_COST)} gerektirir. Bakiye: {fmtWord(profile?.money)}
           </div>
           <Btn variant='primary' size='full' onClick={createAlliance}>🤝 İttifak Kur</Btn>
@@ -264,10 +264,10 @@ function AlliancePage({ profile, setProfile, showNotif }) {
       {donateModal&&(
         <Modal title="💰 Kasaya Para Yatır" onClose={()=>{setDonateModal(false);setDonateAmt('');}}>
           <div style={{marginBottom:'1rem'}}>
-            <div style={{fontSize:'0.72rem',color:'#5A7089',marginBottom:'0.4rem',fontWeight:700}}>Tutar</div>
+            <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.4rem',fontWeight:700}}>Tutar</div>
             <input type="number" value={donateAmt} onChange={e=>setDonateAmt(e.target.value)} placeholder="₺ Tutar" style={inpSt} />
             <div style={{display:'flex',gap:'0.4rem',marginTop:'0.5rem',flexWrap:'wrap'}}>
-              {[10000,25000,50000,100000].map(n=><button key={n} onClick={()=>setDonateAmt(String(n))} style={{padding:'0.3rem 0.65rem',borderRadius:'8px',border:'1px solid rgba(255,255,255,0.1)',background:'rgba(255,255,255,0.04)',color:'#8BA0B5',fontSize:'0.72rem',cursor:'pointer',fontWeight:700}}>{fmtWord(n)}</button>)}
+              {[10000,25000,50000,100000].map(n=><button key={n} onClick={()=>setDonateAmt(String(n))} style={{padding:'0.3rem 0.65rem',borderRadius:'8px',border:'1px solid rgba(237,231,218,0.1)',background:'rgba(237,231,218,0.03)',color:'#8893A1',fontSize:'0.72rem',cursor:'pointer',fontWeight:700}}>{fmtWord(n)}</button>)}
             </div>
           </div>
           <Btn variant='primary' size='full' onClick={donateToAlliance}>💰 Yatır</Btn>
@@ -276,11 +276,11 @@ function AlliancePage({ profile, setProfile, showNotif }) {
 
       {transferModal&&(
         <Modal title="🔄 Liderliği Devret" onClose={()=>{setTransferModal(false);setTransferTarget('');}}>
-          <div style={{background:'rgba(245,158,11,0.08)',border:'1px solid rgba(245,158,11,0.2)',borderRadius:'10px',padding:'0.65rem',fontSize:'0.78rem',color:'#F59E0B',marginBottom:'1rem'}}>
+          <div style={{background:'rgba(201,162,39,0.06)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'10px',padding:'0.65rem',fontSize:'0.78rem',color:'#C9A227',marginBottom:'1rem'}}>
             ⚠️ Liderliği devrettikten sonra artık lider yetkilerine sahip olmayacaksın.
           </div>
           <div style={{marginBottom:'1rem'}}>
-            <div style={{fontSize:'0.72rem',color:'#5A7089',marginBottom:'0.4rem',fontWeight:700}}>Yeni Lider Kullanıcı Adı</div>
+            <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.4rem',fontWeight:700}}>Yeni Lider Kullanıcı Adı</div>
             <input value={transferTarget} onChange={e=>setTransferTarget(e.target.value)} placeholder="İttifak üyesinin kullanıcı adı" style={inpSt} />
           </div>
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.5rem'}}>
@@ -292,7 +292,7 @@ function AlliancePage({ profile, setProfile, showNotif }) {
 
       {disbandConfirm&&(
         <Modal title="🗑️ İttifakı Feshet" onClose={()=>setDisbandConfirm(false)}>
-          <div style={{background:'rgba(239,68,68,0.08)',border:'1px solid rgba(239,68,68,0.2)',borderRadius:'10px',padding:'0.65rem',fontSize:'0.78rem',color:'#FCA5A5',marginBottom:'1rem'}}>
+          <div style={{background:'rgba(194,75,67,0.08)',border:'1px solid rgba(194,75,67,0.2)',borderRadius:'10px',padding:'0.65rem',fontSize:'0.78rem',color:'#E08C87',marginBottom:'1rem'}}>
             ⚠️ Bu işlem geri alınamaz! <strong>{myAlliance?.name}</strong> ittifakı kalıcı olarak feshedilecek.
           </div>
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.5rem'}}>

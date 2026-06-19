@@ -31,12 +31,12 @@ const FACTORY_JOB_ROLES = {
 };
 
 const KARIYER_ICONS  = { textile:'👕', food:'🍞', steel:'⚙️', electronics:'💻', auto:'🚗', mermi:'🔴', weapon:'🔫' };
-const KARIYER_COLORS = { textile:'#8B5CF6', food:'#F59E0B', steel:'#6B7280', electronics:'#3B82F6', auto:'#EF4444', mermi:'#F97316', weapon:'#EF4444' };
+const KARIYER_COLORS = { textile:'#8B5CF6', food:'#C9A227', steel:'#6B7280', electronics:'#C9A227', auto:'#C24B43', mermi:'#F97316', weapon:'#C24B43' };
 
 function KariyerCalismaPage({ profile, setProfile, showNotif }) {
   const { dark } = useTheme();
   const bg    = dark ? '#0F172A' : '#F8FAFC';
-  const card  = dark ? 'rgba(255,255,255,0.04)' : '#FFFFFF';
+  const card  = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
   const bord  = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
 
   const [activeWork, setActiveWork] = useState(null);
@@ -161,47 +161,47 @@ function KariyerCalismaPage({ profile, setProfile, showNotif }) {
 
   return (
     <div style={{ padding: '1rem', background: bg, minHeight: '100%' }}>
-      <div style={{ fontFamily: "'Syne',sans-serif", fontSize: '1.1rem', fontWeight: 800, color: '#F59E0B', letterSpacing: '0.06em', marginBottom: '0.25rem' }}>
+      <div style={{ fontFamily: "'Syne',sans-serif", fontSize: '1.1rem', fontWeight: 800, color: '#C9A227', letterSpacing: '0.06em', marginBottom: '0.25rem' }}>
         🏗️ KARİYER ÇALIŞMA
       </div>
-      <div style={{ fontSize: '0.75rem', color: '#5A7089', marginBottom: '1.25rem' }}>
+      <div style={{ fontSize: '0.75rem', color: '#8893A1', marginBottom: '1.25rem' }}>
         Fabrikalarda iş al, maaş kazan. Aynı anda yalnızca bir işte çalışabilirsin.
       </div>
 
       {/* AKTİF İŞ KARTI */}
       {activeWork && (
-        <div style={{ background: done ? 'rgba(16,185,129,0.08)' : 'rgba(245,158,11,0.07)', border: `1px solid ${done ? 'rgba(16,185,129,0.35)' : 'rgba(245,158,11,0.3)'}`, borderRadius: '18px', padding: '1.1rem', marginBottom: '1.25rem' }}>
+        <div style={{ background: done ? 'rgba(76,154,107,0.08)' : 'rgba(201,162,39,0.07)', border: `1px solid ${done ? 'rgba(76,154,107,0.35)' : 'rgba(201,162,39,0.3)'}`, borderRadius: '18px', padding: '1.1rem', marginBottom: '1.25rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.75rem' }}>
             <span style={{ fontSize: '2rem' }}>{activeWork.factoryIcon}</span>
             <div style={{ flex: 1 }}>
-              <div style={{ fontWeight: 800, color: dark ? '#E8EDF2' : '#1E293B', fontSize: '0.95rem' }}>{activeWork.roleName}</div>
-              <div style={{ fontSize: '0.72rem', color: '#5A7089' }}>{activeWork.factoryName} · Sahip: {activeWork.factoryOwner}</div>
+              <div style={{ fontWeight: 800, color: dark ? '#EDE7DA' : '#1E293B', fontSize: '0.95rem' }}>{activeWork.roleName}</div>
+              <div style={{ fontSize: '0.72rem', color: '#8893A1' }}>{activeWork.factoryName} · Sahip: {activeWork.factoryOwner}</div>
             </div>
             <div style={{ textAlign: 'right' }}>
-              <div style={{ fontWeight: 800, color: '#10B981', fontSize: '1rem' }}>{fmtWord(activeWork.salary)}</div>
-              <div style={{ fontSize: '0.65rem', color: '#5A7089' }}>maaş</div>
+              <div style={{ fontWeight: 800, color: '#4C9A6B', fontSize: '1rem' }}>{fmtWord(activeWork.salary)}</div>
+              <div style={{ fontSize: '0.65rem', color: '#8893A1' }}>maaş</div>
             </div>
           </div>
 
           <div style={{ marginBottom: '0.7rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.68rem', color: '#5A7089', marginBottom: '4px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.68rem', color: '#8893A1', marginBottom: '4px' }}>
               <span>İlerleme</span>
-              <span style={{ fontWeight: 700, color: done ? '#10B981' : '#F59E0B' }}>
+              <span style={{ fontWeight: 700, color: done ? '#4C9A6B' : '#C9A227' }}>
                 {done ? '✅ Tamamlandı!' : fmtTime(activeWork.endsAt - now) + ' kaldı'}
               </span>
             </div>
             <div style={{ height: '6px', background: 'rgba(255,255,255,0.07)', borderRadius: '4px', overflow: 'hidden' }}>
-              <div style={{ height: '100%', width: `${pct}%`, background: done ? 'linear-gradient(90deg,#10B981,#34D399)' : 'linear-gradient(90deg,#F59E0B,#FBBF24)', borderRadius: '4px', transition: 'width 1s linear' }} />
+              <div style={{ height: '100%', width: `${pct}%`, background: done ? 'linear-gradient(90deg,#4C9A6B,#6BC48B)' : 'linear-gradient(90deg,#C9A227,#C9A227)', borderRadius: '4px', transition: 'width 1s linear' }} />
             </div>
           </div>
 
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             <button onClick={collectSalary} disabled={!done}
-              style={{ flex: 2, padding: '0.6rem', borderRadius: '12px', border: 'none', background: done ? 'linear-gradient(135deg,#10B981,#059669)' : 'rgba(255,255,255,0.05)', color: done ? '#fff' : '#3B4E63', fontFamily: "'DM Sans',sans-serif", fontWeight: 800, fontSize: '0.85rem', cursor: done ? 'pointer' : 'not-allowed' }}>
+              style={{ flex: 2, padding: '0.6rem', borderRadius: '12px', border: 'none', background: done ? 'linear-gradient(135deg,#4C9A6B,#4C9A6B)' : 'rgba(255,255,255,0.05)', color: done ? '#fff' : '#3B4E63', fontFamily: "'Inter',sans-serif", fontWeight: 800, fontSize: '0.85rem', cursor: done ? 'pointer' : 'not-allowed' }}>
               {done ? '💰 Maaşı Topla' : '⏳ Bekle...'}
             </button>
             <button onClick={cancelWork}
-              style={{ flex: 1, padding: '0.6rem', borderRadius: '12px', border: '1px solid rgba(239,68,68,0.3)', background: 'rgba(239,68,68,0.07)', color: '#EF4444', fontFamily: "'DM Sans',sans-serif", fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer' }}>
+              style={{ flex: 1, padding: '0.6rem', borderRadius: '12px', border: '1px solid rgba(194,75,67,0.3)', background: 'rgba(194,75,67,0.07)', color: '#C24B43', fontFamily: "'Inter',sans-serif", fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer' }}>
               İptal
             </button>
           </div>
@@ -210,11 +210,11 @@ function KariyerCalismaPage({ profile, setProfile, showNotif }) {
 
       {/* KENDİ FABRİKASI */}
       {myFactory && !activeWork && (
-        <div style={{ background: 'rgba(245,158,11,0.05)', border: '1px solid rgba(245,158,11,0.2)', borderRadius: '12px', padding: '0.8rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+        <div style={{ background: 'rgba(201,162,39,0.05)', border: '1px solid rgba(201,162,39,0.2)', borderRadius: '12px', padding: '0.8rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
           <span style={{ fontSize: '1.4rem' }}>{myFactory.icon || '🏭'}</span>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#F59E0B' }}>{myFactory.name}</div>
-            <div style={{ fontSize: '0.68rem', color: '#5A7089' }}>Bu senin fabrikandır — kendi fabrikanda çalışamazsın.</div>
+            <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#C9A227' }}>{myFactory.name}</div>
+            <div style={{ fontSize: '0.68rem', color: '#8893A1' }}>Bu senin fabrikandır — kendi fabrikanda çalışamazsın.</div>
           </div>
         </div>
       )}
@@ -222,7 +222,7 @@ function KariyerCalismaPage({ profile, setProfile, showNotif }) {
       {/* FABRİKA LİSTESİ */}
       {!activeWork && (
         <div>
-          <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#5A7089', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.6rem' }}>
+          <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#8893A1', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.6rem' }}>
             {availableFactories.length === 0 ? 'Henüz başka fabrika yok' : `${availableFactories.length} Fabrika Mevcut`}
           </div>
 
@@ -236,16 +236,16 @@ function KariyerCalismaPage({ profile, setProfile, showNotif }) {
 
           {availableFactories.map(factory => {
             const roles = FACTORY_JOB_ROLES[factory.type] || [];
-            const color = KARIYER_COLORS[factory.type] || '#5A7089';
+            const color = KARIYER_COLORS[factory.type] || '#8893A1';
             const expanded = selFactory === factory.id;
             return (
-              <div key={factory.id} style={{ background: card, border: `1px solid ${expanded ? color + '44' : bord}`, borderRadius: '16px', marginBottom: '0.65rem', overflow: 'hidden' }}>
+              <div key={factory.id} style={{ background: card, border: `1px solid ${expanded ? color + '44' : bord}`, borderRadius: '10px', marginBottom: '0.65rem', overflow: 'hidden' }}>
                 <button onClick={() => setSelFactory(expanded ? null : factory.id)}
                   style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '0.7rem', padding: '0.85rem', background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left' }}>
                   <span style={{ fontSize: '1.7rem' }}>{factory.icon || KARIYER_ICONS[factory.type] || '🏭'}</span>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 800, color: dark ? '#E8EDF2' : '#1E293B', fontSize: '0.9rem' }}>{factory.name}</div>
-                    <div style={{ fontSize: '0.68rem', color: '#5A7089', marginTop: '2px' }}>
+                    <div style={{ fontWeight: 800, color: dark ? '#EDE7DA' : '#1E293B', fontSize: '0.9rem' }}>{factory.name}</div>
+                    <div style={{ fontSize: '0.68rem', color: '#8893A1', marginTop: '2px' }}>
                       <span>Sahip: {factory.owner}</span>
                       <span style={{ marginLeft: '0.5rem', color: color, fontWeight: 700 }}>Lv.{factory.level}</span>
                       <span style={{ marginLeft: '0.5rem' }}>{roles.length} iş rolü</span>
@@ -256,7 +256,7 @@ function KariyerCalismaPage({ profile, setProfile, showNotif }) {
 
                 {expanded && (
                   <div style={{ borderTop: `1px solid ${bord}`, padding: '0.75rem' }}>
-                    <div style={{ fontSize: '0.68rem', color: '#5A7089', marginBottom: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Mevcut İş Rolleri</div>
+                    <div style={{ fontSize: '0.68rem', color: '#8893A1', marginBottom: '0.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Mevcut İş Rolleri</div>
                     {roles.map(role => {
                       const playerLevel = cu.level || 1;
                       const locked = playerLevel < role.level;
@@ -264,15 +264,15 @@ function KariyerCalismaPage({ profile, setProfile, showNotif }) {
                         <div key={role.id} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', padding: '0.6rem 0.5rem', borderRadius: '10px', background: locked ? 'rgba(255,255,255,0.01)' : 'rgba(255,255,255,0.03)', marginBottom: '0.4rem', opacity: locked ? 0.55 : 1 }}>
                           <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>{role.icon}</span>
                           <div style={{ flex: 1, minWidth: 0 }}>
-                            <div style={{ fontSize: '0.82rem', fontWeight: 700, color: dark ? '#E8EDF2' : '#1E293B' }}>{role.name}</div>
-                            <div style={{ fontSize: '0.65rem', color: '#5A7089', marginTop: '2px', display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
-                              <span style={{ color: '#10B981', fontWeight: 700 }}>💰 {fmtWord(role.salary)}</span>
+                            <div style={{ fontSize: '0.82rem', fontWeight: 700, color: dark ? '#EDE7DA' : '#1E293B' }}>{role.name}</div>
+                            <div style={{ fontSize: '0.65rem', color: '#8893A1', marginTop: '2px', display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
+                              <span style={{ color: '#4C9A6B', fontWeight: 700 }}>💰 {fmtWord(role.salary)}</span>
                               <span>⏱ {fmtTime(role.duration)}</span>
-                              {locked && <span style={{ color: '#EF4444', fontWeight: 700 }}>🔒 Lv.{role.level}</span>}
+                              {locked && <span style={{ color: '#C24B43', fontWeight: 700 }}>🔒 Lv.{role.level}</span>}
                             </div>
                           </div>
                           <button onClick={() => !locked && startWork(factory, role)} disabled={locked}
-                            style={{ padding: '0.4rem 0.85rem', borderRadius: '10px', border: 'none', background: locked ? 'rgba(255,255,255,0.04)' : `${color}22`, color: locked ? '#3B4E63' : color, fontFamily: "'DM Sans',sans-serif", fontWeight: 800, fontSize: '0.75rem', cursor: locked ? 'not-allowed' : 'pointer', flexShrink: 0, border: `1px solid ${locked ? 'transparent' : color + '44'}` }}>
+                            style={{ padding: '0.4rem 0.85rem', borderRadius: '10px', border: 'none', background: locked ? 'rgba(255,255,255,0.04)' : `${color}22`, color: locked ? '#3B4E63' : color, fontFamily: "'Inter',sans-serif", fontWeight: 800, fontSize: '0.75rem', cursor: locked ? 'not-allowed' : 'pointer', flexShrink: 0, border: `1px solid ${locked ? 'transparent' : color + '44'}` }}>
                             {locked ? '🔒' : 'Başla'}
                           </button>
                         </div>
@@ -287,9 +287,9 @@ function KariyerCalismaPage({ profile, setProfile, showNotif }) {
       )}
 
       {/* BİLGİ KUTUSU */}
-      <div style={{ background: 'rgba(59,130,246,0.06)', border: '1px solid rgba(59,130,246,0.15)', borderRadius: '12px', padding: '0.8rem', marginTop: '1rem' }}>
-        <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#3B82F6', marginBottom: '0.35rem' }}>ℹ️ Nasıl Çalışır?</div>
-        <div style={{ fontSize: '0.68rem', color: '#5A7089', lineHeight: 1.6 }}>
+      <div style={{ background: 'rgba(201,162,39,0.06)', border: '1px solid rgba(201,162,39,0.15)', borderRadius: '12px', padding: '0.8rem', marginTop: '1rem' }}>
+        <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#C9A227', marginBottom: '0.35rem' }}>ℹ️ Nasıl Çalışır?</div>
+        <div style={{ fontSize: '0.68rem', color: '#8893A1', lineHeight: 1.6 }}>
           • Bir fabrikayı seç ve iş rolü başlat<br/>
           • Aynı anda sadece bir iş yapabilirsin<br/>
           • Süre dolunca maaşını topla<br/>
@@ -322,7 +322,7 @@ const JOBS_LIST = [
 function JobsPage({ profile, setProfile, showNotif }) {
   const { dark } = useTheme();
   const bg = dark ? '#0F172A' : '#F8FAFC';
-  const card = dark ? 'rgba(255,255,255,0.04)' : '#FFFFFF';
+  const card = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
   const [cooldowns, setCooldowns] = useState({});
   const [loading, setLoading] = useState(false);
@@ -407,8 +407,8 @@ function JobsPage({ profile, setProfile, showNotif }) {
 
   return (
     <div style={{padding:'1rem', background:bg, minHeight:'100%'}}>
-      <div style={{fontFamily:"'Syne',sans-serif", fontSize:'1.1rem', fontWeight:800, color:'#10B981', letterSpacing:'0.08em', marginBottom:'0.25rem'}}>💼 İŞLER</div>
-      <div style={{fontSize:'0.75rem', color:'#5A7089', marginBottom:'1rem'}}>Butona bas, para kazan. Her iş için bekleme süresi var.</div>
+      <div style={{fontFamily:"'Syne',sans-serif", fontSize:'1.1rem', fontWeight:800, color:'#4C9A6B', letterSpacing:'0.08em', marginBottom:'0.25rem'}}>💼 İŞLER</div>
+      <div style={{fontSize:'0.75rem', color:'#8893A1', marginBottom:'1rem'}}>Butona bas, para kazan. Her iş için bekleme süresi var.</div>
       <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'0.65rem'}}>
         {JOBS_LIST.map(job => {
           const lastDone = cooldowns[job.id] || 0;
@@ -417,31 +417,31 @@ function JobsPage({ profile, setProfile, showNotif }) {
           const locked = playerLevel < job.minLevel;
           const pct = onCd ? Math.round(((job.cd - remaining) / job.cd) * 100) : 100;
           return (
-            <div key={job.id} style={{background:locked?'rgba(255,255,255,0.02)':card, border:`1px solid ${locked?border:onCd?'rgba(245,158,11,0.25)':'rgba(16,185,129,0.25)'}`, borderRadius:'16px', padding:'0.85rem', opacity:locked?0.5:1, display:'flex', flexDirection:'column', gap:'0.4rem', boxShadow:!locked&&!onCd?'0 2px 8px rgba(16,185,129,0.08)':'none'}}>
+            <div key={job.id} style={{background:locked?'rgba(255,255,255,0.02)':card, border:`1px solid ${locked?border:onCd?'rgba(201,162,39,0.25)':'rgba(76,154,107,0.25)'}`, borderRadius:'10px', padding:'0.85rem', opacity:locked?0.5:1, display:'flex', flexDirection:'column', gap:'0.4rem', boxShadow:!locked&&!onCd?'0 2px 8px rgba(76,154,107,0.08)':'none'}}>
               <div style={{display:'flex', alignItems:'center', gap:'0.5rem'}}>
                 {job.svgIcon
-                  ? <SvgIcon name={job.svgIcon} size={32} style={{filter:'drop-shadow(0 0 4px rgba(16,185,129,0.3))'}} />
+                  ? <SvgIcon name={job.svgIcon} size={32} style={{filter:'drop-shadow(0 0 4px rgba(76,154,107,0.3))'}} />
                   : <span style={{fontSize:'1.75rem'}}>{job.emoji}</span>}
                 <div style={{flex:1}}>
-                  <div style={{fontSize:'0.83rem', fontWeight:800, color:dark?'#E8EDF2':'#1E293B'}}>{job.name}</div>
-                  <div style={{fontSize:'0.7rem', color:'#10B981', fontWeight:700}}>+{fmtWord(job.earn)}</div>
+                  <div style={{fontSize:'0.83rem', fontWeight:800, color:dark?'#EDE7DA':'#1E293B'}}>{job.name}</div>
+                  <div style={{fontSize:'0.7rem', color:'#4C9A6B', fontWeight:700}}>+{fmtWord(job.earn)}</div>
                 </div>
               </div>
-              <div style={{fontSize:'0.62rem', color:'#5A7089', display:'flex', gap:'0.3rem', flexWrap:'wrap', alignItems:'center'}}>
+              <div style={{fontSize:'0.62rem', color:'#8893A1', display:'flex', gap:'0.3rem', flexWrap:'wrap', alignItems:'center'}}>
                 <span>⏱ {job.desc}</span>
-                {job.req && <span style={{color:'#F59E0B', fontWeight:600}}>🔑 {job.req}</span>}
-                {locked && <span style={{color:'#EF4444', fontWeight:700}}>🔒 Lv.{job.minLevel}</span>}
+                {job.req && <span style={{color:'#C9A227', fontWeight:600}}>🔑 {job.req}</span>}
+                {locked && <span style={{color:'#C24B43', fontWeight:700}}>🔒 Lv.{job.minLevel}</span>}
               </div>
               {onCd && (
                 <div>
-                  <div style={{height:'3px', background:'rgba(255,255,255,0.07)', borderRadius:'2px', overflow:'hidden', marginBottom:'2px'}}>
-                    <div style={{height:'100%', width:`${pct}%`, background:'linear-gradient(90deg,#F59E0B,#FBBF24)', borderRadius:'2px', transition:'width 1s linear'}}/>
+                  <div style={{height:'3px', background:'rgba(237,231,218,0.06)', borderRadius:'2px', overflow:'hidden', marginBottom:'2px'}}>
+                    <div style={{height:'100%', width:`${pct}%`, background:'linear-gradient(90deg,#C9A227,#C9A227)', borderRadius:'2px', transition:'width 1s linear'}}/>
                   </div>
-                  <div style={{fontSize:'0.62rem', color:'#F59E0B', fontWeight:700}}>⏳ {fmtCd(remaining)} kaldı</div>
+                  <div style={{fontSize:'0.62rem', color:'#C9A227', fontWeight:700}}>⏳ {fmtCd(remaining)} kaldı</div>
                 </div>
               )}
               <button onClick={() => !locked && doWork(job)} disabled={locked||onCd}
-                style={{padding:'0.5rem', borderRadius:'10px', border:'none', background:locked?'rgba(255,255,255,0.04)':onCd?'rgba(245,158,11,0.1)':'linear-gradient(135deg,#10B981,#059669)', color:locked?'#3B4E63':onCd?'#F59E0B':'#fff', fontFamily:"'DM Sans',sans-serif", fontWeight:800, fontSize:'0.8rem', cursor:locked||onCd?'not-allowed':'pointer', transition:'all 0.15s', letterSpacing:'0.05em', opacity:onCd?0.8:1}}>
+                style={{padding:'0.5rem', borderRadius:'10px', border:'none', background:locked?'rgba(255,255,255,0.04)':onCd?'rgba(201,162,39,0.1)':'linear-gradient(135deg,#4C9A6B,#4C9A6B)', color:locked?'#3B4E63':onCd?'#C9A227':'#fff', fontFamily:"'Inter',sans-serif", fontWeight:800, fontSize:'0.8rem', cursor:locked||onCd?'not-allowed':'pointer', transition:'all 0.15s', letterSpacing:'0.05em', opacity:onCd?0.8:1}}>
                 {locked ? '🔒 KİLİTLİ' : onCd ? 'BEKLE...' : 'ÇALIŞ'}
               </button>
             </div>
@@ -456,15 +456,15 @@ function JobsPage({ profile, setProfile, showNotif }) {
 // ORTAKLI İŞLER BÖLÜMü
 // ═══════════════════════════════════════════════════════
 const PARTNER_JOBS = [
-  { cat:'LOJİSTİK', icon:'🚛', color:'#3B82F6', jobs:[
+  { cat:'LOJİSTİK', icon:'🚛', color:'#C9A227', jobs:[
     { id:'city_log',  name:'Şehir İçi Lojistik',      dur:'Anında', cdLabel:'3 dk',  cdMs:3*60*1000,  slots:3, earn:50000,  tp:50,  minLevel:1 },
     { id:'inter_log', name:'Şehirlerarası Taşıma',    dur:'Anında', cdLabel:'5 dk',  cdMs:5*60*1000,  slots:2, earn:120000, tp:110, minLevel:1 },
   ]},
-  { cat:'ÜRETİM', icon:'⚙️', color:'#F59E0B', jobs:[
+  { cat:'ÜRETİM', icon:'⚙️', color:'#C9A227', jobs:[
     { id:'sub_prod',  name:'Taşeron Üretim Siparişi', dur:'Anında', cdLabel:'4 dk',  cdMs:4*60*1000,  slots:2, earn:125000, tp:120, minLevel:1 },
     { id:'factory_s', name:'Fabrika Vardiyası',        dur:'Anında', cdLabel:'8 dk',  cdMs:8*60*1000,  slots:2, earn:280000, tp:250, minLevel:1 },
   ]},
-  { cat:'DIŞ TİCARET', icon:'🌐', color:'#10B981', jobs:[
+  { cat:'DIŞ TİCARET', icon:'🌐', color:'#4C9A6B', jobs:[
     { id:'customs',   name:'Gümrük Beyannamesi Onayı', dur:'Anında', cdLabel:'6 dk',  cdMs:6*60*1000,  slots:2, earn:220000, tp:200, minLevel:1 },
     { id:'export',    name:'İhracat Anlaşması',         dur:'Anında', cdLabel:'10 dk', cdMs:10*60*1000, slots:1, earn:500000, tp:450, minLevel:1 },
   ]},
@@ -472,7 +472,7 @@ const PARTNER_JOBS = [
 
 function PartnerJobsSection({ profile, setProfile, showNotif }) {
   const { dark } = useTheme();
-  const card = dark ? 'rgba(255,255,255,0.04)' : '#FFFFFF';
+  const card = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
   const [cooldowns, setCooldowns] = useState(() => { try { return JSON.parse(localStorage.getItem('partnerJobCd')||'{}'); } catch { return {}; } });
   const [tick, setTick] = useState(0);
@@ -519,11 +519,11 @@ function PartnerJobsSection({ profile, setProfile, showNotif }) {
 
   return (
     <div style={{paddingBottom:'1rem'}}>
-      <div style={{background:'linear-gradient(135deg,rgba(245,158,11,0.1),rgba(16,185,129,0.1))', border:'1px solid rgba(245,158,11,0.2)', borderRadius:'14px', padding:'0.85rem', marginBottom:'1rem', display:'flex', alignItems:'center', gap:'0.75rem'}}>
+      <div style={{background:'linear-gradient(135deg,rgba(201,162,39,0.1),rgba(76,154,107,0.1))', border:'1px solid rgba(201,162,39,0.2)', borderRadius:'14px', padding:'0.85rem', marginBottom:'1rem', display:'flex', alignItems:'center', gap:'0.75rem'}}>
         <span style={{fontSize:'1.8rem'}}>🤝</span>
         <div>
-          <div style={{fontWeight:800, color:'#F59E0B', fontSize:'0.9rem'}}>Ortaklı İşler</div>
-          <div style={{fontSize:'0.72rem', color:'#5A7089'}}>Arkadaşlarınla iş yaparak karşılıklı para ve ticaret puanı kazan.</div>
+          <div style={{fontWeight:800, color:'#C9A227', fontSize:'0.9rem'}}>Ortaklı İşler</div>
+          <div style={{fontSize:'0.72rem', color:'#8893A1'}}>Arkadaşlarınla iş yaparak karşılıklı para ve ticaret puanı kazan.</div>
         </div>
       </div>
       {PARTNER_JOBS.map(cat => (
@@ -542,23 +542,23 @@ function PartnerJobsSection({ profile, setProfile, showNotif }) {
                 <div key={job.id} style={{background:card, border:`1px solid ${border}`, borderRadius:'14px', padding:'0.85rem'}}>
                   <div style={{display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:'0.5rem'}}>
                     <div>
-                      <div style={{fontSize:'0.85rem', fontWeight:700, color:dark?'#E8EDF2':'#1E293B'}}>{job.name}</div>
-                      <div style={{fontSize:'0.65rem', color:'#5A7089', marginTop:'2px', display:'flex', gap:'0.5rem'}}>
+                      <div style={{fontSize:'0.85rem', fontWeight:700, color:dark?'#EDE7DA':'#1E293B'}}>{job.name}</div>
+                      <div style={{fontSize:'0.65rem', color:'#8893A1', marginTop:'2px', display:'flex', gap:'0.5rem'}}>
                         <span>⏱ {job.dur}</span>
                         <span>🔄 CD: {job.cdLabel}</span>
                         <span>👥 Kapasite: {job.slots}</span>
                       </div>
                     </div>
-                    {onCd && <span style={{fontSize:'0.65rem', color:'#F59E0B', fontWeight:700, flexShrink:0}}>⏳ {fmtRem(remaining)}</span>}
-                    {!onCd && !locked && <span style={{fontSize:'0.65rem', color:'#10B981', fontWeight:700, background:'rgba(16,185,129,0.1)', padding:'2px 7px', borderRadius:'6px', flexShrink:0}}>✓ Müsait</span>}
-                    {locked && <span style={{fontSize:'0.65rem', color:'#EF4444', fontWeight:700, flexShrink:0}}>🔒 Kilitli</span>}
+                    {onCd && <span style={{fontSize:'0.65rem', color:'#C9A227', fontWeight:700, flexShrink:0}}>⏳ {fmtRem(remaining)}</span>}
+                    {!onCd && !locked && <span style={{fontSize:'0.65rem', color:'#4C9A6B', fontWeight:700, background:'rgba(76,154,107,0.08)', padding:'2px 7px', borderRadius:'6px', flexShrink:0}}>✓ Müsait</span>}
+                    {locked && <span style={{fontSize:'0.65rem', color:'#C24B43', fontWeight:700, flexShrink:0}}>🔒 Kilitli</span>}
                   </div>
                   <div style={{display:'flex', gap:'0.75rem', marginBottom:'0.6rem'}}>
-                    <span style={{fontSize:'0.75rem', color:'#10B981', fontWeight:700}}>💰 {fmtWord(job.earn)}</span>
-                    <span style={{fontSize:'0.75rem', color:'#06B6D4', fontWeight:700}}>🤝 {job.tp} TP</span>
+                    <span style={{fontSize:'0.75rem', color:'#4C9A6B', fontWeight:700}}>💰 {fmtWord(job.earn)}</span>
+                    <span style={{fontSize:'0.75rem', color:'#C9A227', fontWeight:700}}>🤝 {job.tp} TP</span>
                   </div>
                   <button onClick={() => !locked && !onCd && setPartnerModal({job, cat})} disabled={locked||onCd}
-                    style={{width:'100%', padding:'0.5rem', borderRadius:'10px', border:`1px solid ${locked||onCd?border:`${cat.color}44`}`, background:locked||onCd?'rgba(255,255,255,0.03)':`${cat.color}15`, color:locked||onCd?'#3B4E63':cat.color, fontFamily:"'DM Sans',sans-serif", fontWeight:700, fontSize:'0.8rem', cursor:locked||onCd?'not-allowed':'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:'0.4rem'}}>
+                    style={{width:'100%', padding:'0.5rem', borderRadius:'10px', border:`1px solid ${locked||onCd?border:`${cat.color}44`}`, background:locked||onCd?'rgba(255,255,255,0.03)':`${cat.color}15`, color:locked||onCd?'#3B4E63':cat.color, fontFamily:"'Inter',sans-serif", fontWeight:700, fontSize:'0.8rem', cursor:locked||onCd?'not-allowed':'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:'0.4rem'}}>
                     {locked ? '🔒 Kilitli' : onCd ? '⏳ Bekleniyor' : '👥 Ortak Seç & Gönder'}
                   </button>
                 </div>
@@ -569,34 +569,34 @@ function PartnerJobsSection({ profile, setProfile, showNotif }) {
       ))}
 
       {partnerModal && (
-        <div onClick={()=>setPartnerModal(null)} style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.6)',zIndex:1000,display:'flex',alignItems:'flex-end'}}>
+        <div onClick={()=>setPartnerModal(null)} style={{position:'fixed',inset:0,background:'rgba(17,21,28,0.9)',zIndex:1000,display:'flex',alignItems:'flex-end'}}>
           <div onClick={e=>e.stopPropagation()} style={{width:'100%',maxWidth:'480px',margin:'0 auto',background:dark?'#1E293B':'#fff',borderRadius:'20px 20px 0 0',padding:'1.25rem',maxHeight:'70vh',overflowY:'auto'}}>
-            <div style={{width:'32px',height:'3px',background:'rgba(255,255,255,0.1)',borderRadius:'2px',margin:'0 auto 1rem'}}/>
-            <div style={{fontWeight:800,color:dark?'#E8EDF2':'#1E293B',marginBottom:'0.3rem'}}>👥 Ortak Seç</div>
-            <div style={{fontSize:'0.75rem',color:'#5A7089',marginBottom:'0.65rem'}}>{partnerModal.job.name} — Her iki oyuncu da {fmtWord(Math.floor(partnerModal.job.earn/2))} + {Math.floor(partnerModal.job.tp/2)} TP kazanır.</div>
+            <div style={{width:'32px',height:'3px',background:'rgba(237,231,218,0.09)',borderRadius:'2px',margin:'0 auto 1rem'}}/>
+            <div style={{fontWeight:800,color:dark?'#EDE7DA':'#1E293B',marginBottom:'0.3rem'}}>👥 Ortak Seç</div>
+            <div style={{fontSize:'0.75rem',color:'#8893A1',marginBottom:'0.65rem'}}>{partnerModal.job.name} — Her iki oyuncu da {fmtWord(Math.floor(partnerModal.job.earn/2))} + {Math.floor(partnerModal.job.tp/2)} TP kazanır.</div>
             <input
               value={partnerSearch}
               onChange={e=>setPartnerSearch(e.target.value)}
               placeholder="🔍 Oyuncu adı veya şehir ara..."
-              style={{width:'100%',padding:'0.55rem 0.75rem',background:'rgba(255,255,255,0.05)',border:'1px solid rgba(255,255,255,0.12)',borderRadius:'10px',color:dark?'#E8EDF2':'#1E293B',fontSize:'0.82rem',outline:'none',marginBottom:'0.65rem',fontFamily:"'DM Sans',sans-serif",boxSizing:'border-box'}}
+              style={{width:'100%',padding:'0.55rem 0.75rem',background:'rgba(237,231,218,0.04)',border:'1px solid rgba(255,255,255,0.12)',borderRadius:'10px',color:dark?'#EDE7DA':'#1E293B',fontSize:'0.82rem',outline:'none',marginBottom:'0.65rem',fontFamily:"'Inter',sans-serif",boxSizing:'border-box'}}
             />
-            {otherUsers.length === 0 && <div style={{color:'#5A7089',fontSize:'0.82rem',textAlign:'center',padding:'1rem'}}>{partnerSearch.trim() ? 'Sonuç bulunamadı.' : 'Kayıtlı başka oyuncu yok.'}</div>}
+            {otherUsers.length === 0 && <div style={{color:'#8893A1',fontSize:'0.82rem',textAlign:'center',padding:'1rem'}}>{partnerSearch.trim() ? 'Sonuç bulunamadı.' : 'Kayıtlı başka oyuncu yok.'}</div>}
             {otherUsers.map(u => (
               <button key={u.id} onClick={() => startJob(partnerModal.job, u.id)}
                 style={{width:'100%',display:'flex',alignItems:'center',gap:'0.6rem',padding:'0.65rem',border:`1px solid ${border}`,borderRadius:'12px',background:'transparent',cursor:'pointer',marginBottom:'0.4rem',textAlign:'left'}}>
-                <div style={{width:'34px',height:'34px',borderRadius:'50%',background:'rgba(59,130,246,0.15)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1rem',flexShrink:0}}>
+                <div style={{width:'34px',height:'34px',borderRadius:'50%',background:'rgba(201,162,39,0.1)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1rem',flexShrink:0}}>
                   {u.gender==='kadin'?'👩':'👨'}
                 </div>
                 <div>
-                  <div style={{fontSize:'0.85rem',fontWeight:700,color:dark?'#E8EDF2':'#1E293B'}}>{u.username}</div>
-                  <div style={{fontSize:'0.67rem',color:'#5A7089'}}>Lv.{u.level||1} • {u.city||'?'}</div>
+                  <div style={{fontSize:'0.85rem',fontWeight:700,color:dark?'#EDE7DA':'#1E293B'}}>{u.username}</div>
+                  <div style={{fontSize:'0.67rem',color:'#8893A1'}}>Lv.{u.level||1} • {u.city||'?'}</div>
                 </div>
-                <span style={{marginLeft:'auto',fontSize:'0.72rem',color:'#10B981',fontWeight:700}}>→ Gönder</span>
+                <span style={{marginLeft:'auto',fontSize:'0.72rem',color:'#4C9A6B',fontWeight:700}}>→ Gönder</span>
               </button>
             ))}
             {otherUsers.length === 0 && (
               <button onClick={() => startJob(partnerModal.job, 'npc')}
-                style={{width:'100%',padding:'0.65rem',border:'1px solid rgba(99,102,241,0.3)',borderRadius:'12px',background:'rgba(99,102,241,0.08)',color:'#818CF8',fontFamily:"'DM Sans',sans-serif",fontWeight:700,fontSize:'0.85rem',cursor:'pointer'}}>
+                style={{width:'100%',padding:'0.65rem',border:'1px solid rgba(99,102,241,0.3)',borderRadius:'12px',background:'rgba(99,102,241,0.08)',color:'#818CF8',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.85rem',cursor:'pointer'}}>
                 🤖 NPC ile Çalış
               </button>
             )}
@@ -628,14 +628,14 @@ const CITY_BUILDINGS = [
 function CityBuildPage({ profile, setProfile, showNotif }) {
   const { dark } = useTheme();
   const bg = dark ? '#0F172A' : '#F8FAFC';
-  const card = dark ? 'rgba(255,255,255,0.04)' : '#FFFFFF';
+  const card = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
   const [buildings, setBuildings] = useLs('cityBuildings', {});
   const [constructions, setConstructions] = useLs('cityConstructions', {});
   const [tick, setTick] = useState(0);
   useEffect(() => { const t = setInterval(() => setTick(p=>p+1), 2000); return () => clearInterval(t); }, []);
 
-  const effectColors = { happiness:'#EC4899', health:'#10B981', education:'#3B82F6', security:'#F59E0B', economy:'#10B981', infrastructure:'#8B5CF6' };
+  const effectColors = { happiness:'#EC4899', health:'#4C9A6B', education:'#C9A227', security:'#C9A227', economy:'#4C9A6B', infrastructure:'#8B5CF6' };
   const effectLabels = { happiness:'Mutluluk', health:'Sağlık', education:'Eğitim', security:'Güvenlik', economy:'Ekonomi', infrastructure:'Altyapı' };
 
   const cityStats = useMemo(() => {
@@ -653,11 +653,11 @@ function CityBuildPage({ profile, setProfile, showNotif }) {
   const overallScore = () => {
     const vals = Object.values(cityStats);
     const avg = Math.round(vals.reduce((a,b)=>a+b,0)/vals.length);
-    if (avg>=90) return {grade:'S',color:'#FFD700'};
-    if (avg>=80) return {grade:'A',color:'#10B981'};
-    if (avg>=70) return {grade:'B',color:'#3B82F6'};
-    if (avg>=60) return {grade:'C',color:'#F59E0B'};
-    return {grade:'D',color:'#EF4444'};
+    if (avg>=90) return {grade:'S',color:'#C9A227'};
+    if (avg>=80) return {grade:'A',color:'#4C9A6B'};
+    if (avg>=70) return {grade:'B',color:'#C9A227'};
+    if (avg>=60) return {grade:'C',color:'#C9A227'};
+    return {grade:'D',color:'#C24B43'};
   };
   const { grade, color } = overallScore();
 
@@ -689,23 +689,23 @@ function CityBuildPage({ profile, setProfile, showNotif }) {
 
   return (
     <div style={{padding:'1rem', background:bg, minHeight:'100%'}}>
-      <div style={{fontFamily:"'Syne',sans-serif", fontSize:'1.1rem', fontWeight:800, color:'#F59E0B', letterSpacing:'0.08em', marginBottom:'1rem'}}>🏗️ ŞEHİR İNŞAAT</div>
+      <div style={{fontFamily:"'Syne',sans-serif", fontSize:'1.1rem', fontWeight:800, color:'#C9A227', letterSpacing:'0.08em', marginBottom:'1rem'}}>🏗️ ŞEHİR İNŞAAT</div>
 
       {/* Şehir İstatistik Paneli */}
-      <div style={{background:'linear-gradient(135deg,#1A2744,#0F1C38)', borderRadius:'16px', padding:'1rem', marginBottom:'1rem', border:'1px solid rgba(59,130,246,0.15)'}}>
+      <div style={{background:'#1B212B', borderRadius:'10px', padding:'1rem', marginBottom:'1rem', border:'1px solid rgba(201,162,39,0.15)'}}>
         <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'0.75rem'}}>
-          <div style={{fontSize:'0.72rem', color:'#60A5FA', fontWeight:800, textTransform:'uppercase', letterSpacing:'0.1em'}}>📊 Şehir İstatistikleri</div>
+          <div style={{fontSize:'0.72rem', color:'#C9A227', fontWeight:800, textTransform:'uppercase', letterSpacing:'0.1em'}}>📊 Şehir İstatistikleri</div>
           <div style={{background:`${color}20`, border:`1px solid ${color}50`, borderRadius:'10px', padding:'0.25rem 0.75rem', fontSize:'1.1rem', fontWeight:900, color}}>{grade} Sınıfı</div>
         </div>
         <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'0.45rem'}}>
           {Object.entries(cityStats).map(([k,v]) => (
             <div key={k}>
               <div style={{display:'flex', justifyContent:'space-between', fontSize:'0.62rem', marginBottom:'2px'}}>
-                <span style={{color:'rgba(255,255,255,0.5)'}}>{effectLabels[k]||k}</span>
+                <span style={{color:'#8893A1'}}>{effectLabels[k]||k}</span>
                 <span style={{color:effectColors[k]||'#fff', fontWeight:700}}>{v}/100</span>
               </div>
-              <div style={{height:'4px', background:'rgba(255,255,255,0.07)', borderRadius:'2px', overflow:'hidden'}}>
-                <div style={{height:'100%', width:`${v}%`, background:effectColors[k]||'#3B82F6', borderRadius:'2px', transition:'width 0.5s'}}/>
+              <div style={{height:'4px', background:'rgba(237,231,218,0.06)', borderRadius:'2px', overflow:'hidden'}}>
+                <div style={{height:'100%', width:`${v}%`, background:effectColors[k]||'#C9A227', borderRadius:'2px', transition:'width 0.5s'}}/>
               </div>
             </div>
           ))}
@@ -724,35 +724,35 @@ function CityBuildPage({ profile, setProfile, showNotif }) {
           const locked = b.minLevel && (profile?.level||1) < b.minLevel;
 
           return (
-            <div key={b.id} style={{background:built?`${effectColors[b.effect]}08`:card, border:`1px solid ${built?effectColors[b.effect]+'44':border}`, borderRadius:'16px', padding:'0.85rem', display:'flex', flexDirection:'column', gap:'0.4rem', opacity:locked&&!built?0.5:1}}>
+            <div key={b.id} style={{background:built?`${effectColors[b.effect]}08`:card, border:`1px solid ${built?effectColors[b.effect]+'44':border}`, borderRadius:'10px', padding:'0.85rem', display:'flex', flexDirection:'column', gap:'0.4rem', opacity:locked&&!built?0.5:1}}>
               <div style={{display:'flex', alignItems:'center', gap:'0.4rem'}}>
                 <span style={{fontSize:'1.6rem'}}>{b.emoji}</span>
                 <div style={{flex:1}}>
-                  <div style={{fontSize:'0.8rem', fontWeight:800, color:dark?'#E8EDF2':'#1E293B'}}>{b.name}</div>
-                  <div style={{fontSize:'0.65rem', color:effectColors[b.effect]||'#10B981', fontWeight:700}}>{b.bonus}</div>
+                  <div style={{fontSize:'0.8rem', fontWeight:800, color:dark?'#EDE7DA':'#1E293B'}}>{b.name}</div>
+                  <div style={{fontSize:'0.65rem', color:effectColors[b.effect]||'#4C9A6B', fontWeight:700}}>{b.bonus}</div>
                 </div>
               </div>
-              <div style={{fontSize:'0.62rem', color:'#5A7089'}}>{b.desc}</div>
+              <div style={{fontSize:'0.62rem', color:'#8893A1'}}>{b.desc}</div>
 
               {built && (
                 <div style={{padding:'0.35rem 0.5rem', borderRadius:'8px', background:`${effectColors[b.effect]}15`, border:`1px solid ${effectColors[b.effect]}33`, fontSize:'0.7rem', fontWeight:700, color:effectColors[b.effect], textAlign:'center'}}>✅ İnşa Edildi</div>
               )}
               {inProgress && (
                 <div>
-                  <div style={{height:'4px', background:'rgba(255,255,255,0.07)', borderRadius:'2px', overflow:'hidden', marginBottom:'3px'}}>
-                    <div style={{height:'100%', width:`${pct}%`, background:'#F59E0B', borderRadius:'2px', transition:'width 2s linear'}}/>
+                  <div style={{height:'4px', background:'rgba(237,231,218,0.06)', borderRadius:'2px', overflow:'hidden', marginBottom:'3px'}}>
+                    <div style={{height:'100%', width:`${pct}%`, background:'#C9A227', borderRadius:'2px', transition:'width 2s linear'}}/>
                   </div>
-                  <div style={{fontSize:'0.62rem', color:'#F59E0B', fontWeight:700}}>🏗️ {fmtTime(remaining)} kaldı</div>
+                  <div style={{fontSize:'0.62rem', color:'#C9A227', fontWeight:700}}>🏗️ {fmtTime(remaining)} kaldı</div>
                 </div>
               )}
               {done && (
-                <button onClick={() => collect(b)} style={{padding:'0.45rem', borderRadius:'9px', border:'1px solid rgba(16,185,129,0.4)', background:'rgba(16,185,129,0.12)', color:'#10B981', fontFamily:"'DM Sans',sans-serif", fontWeight:700, fontSize:'0.78rem', cursor:'pointer'}}>
+                <button onClick={() => collect(b)} style={{padding:'0.45rem', borderRadius:'9px', border:'1px solid rgba(76,154,107,0.4)', background:'rgba(76,154,107,0.12)', color:'#4C9A6B', fontFamily:"'Inter',sans-serif", fontWeight:700, fontSize:'0.78rem', cursor:'pointer'}}>
                   ✅ Teslim Al
                 </button>
               )}
               {!built && !cons && (
                 <button onClick={() => !locked && build(b)} disabled={!!locked}
-                  style={{padding:'0.45rem', borderRadius:'9px', border:`1px solid ${locked?border:'rgba(245,158,11,0.4)'}`, background:locked?'rgba(255,255,255,0.03)':'rgba(245,158,11,0.1)', color:locked?'#3B4E63':'#F59E0B', fontFamily:"'DM Sans',sans-serif", fontWeight:700, fontSize:'0.72rem', cursor:locked?'not-allowed':'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:'0.3rem'}}>
+                  style={{padding:'0.45rem', borderRadius:'9px', border:`1px solid ${locked?border:'rgba(201,162,39,0.4)'}`, background:locked?'rgba(255,255,255,0.03)':'rgba(201,162,39,0.1)', color:locked?'#3B4E63':'#C9A227', fontFamily:"'Inter',sans-serif", fontWeight:700, fontSize:'0.72rem', cursor:locked?'not-allowed':'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:'0.3rem'}}>
                   {locked ? `🔒 Lv.${b.minLevel}` : `🏗️ ${fmtWord(b.cost)}`}
                 </button>
               )}
@@ -792,22 +792,22 @@ function WikiPage({ profile }) {
   const cats = [...new Set(articles.map(a=>a.cat))];
   return (
     <div style={{padding:'0.7rem',paddingBottom:'5rem'}}>
-      <div style={{background:'linear-gradient(135deg,rgba(59,130,246,0.12),rgba(11,21,39,0.97))',border:'1px solid rgba(59,130,246,0.25)',borderRadius:'18px',padding:'1.2rem',marginBottom:'0.75rem',textAlign:'center'}}>
+      <div style={{background:'linear-gradient(135deg,rgba(201,162,39,0.12),rgba(11,21,39,0.97))',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'12px',padding:'1.2rem',marginBottom:'0.75rem',textAlign:'center'}}>
         <div style={{fontSize:'2rem',marginBottom:'0.3rem'}}>📚</div>
-        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.15rem',fontWeight:900,color:'#E8EDF2'}}>WİKİ</div>
-        <div style={{fontSize:'0.72rem',color:'#5A7089',marginTop:'0.2rem'}}>Oyun hakkında her şeyi öğren</div>
+        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.15rem',fontWeight:900,color:'#EDE7DA'}}>WİKİ</div>
+        <div style={{fontSize:'0.72rem',color:'#8893A1',marginTop:'0.2rem'}}>Oyun hakkında her şeyi öğren</div>
       </div>
       <div style={{marginBottom:'0.75rem'}}>
         <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="🔍 Ara..."
-          style={{width:'100%',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'12px',padding:'0.65rem 1rem',color:'#E8EDF2',fontFamily:"'DM Sans',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box'}} />
+          style={{width:'100%',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'12px',padding:'0.65rem 1rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box'}} />
       </div>
       {selected ? (
         <div>
-          <button onClick={()=>setSelected(null)} style={{background:'rgba(59,130,246,0.1)',border:'1px solid rgba(59,130,246,0.25)',borderRadius:'8px',padding:'0.4rem 0.8rem',color:'#60A5FA',cursor:'pointer',marginBottom:'0.75rem',fontSize:'0.82rem',fontWeight:700,fontFamily:'inherit'}}>← Geri</button>
-          <div style={{background:'rgba(11,21,39,0.95)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:'14px',padding:'1.1rem'}}>
+          <button onClick={()=>setSelected(null)} style={{background:'rgba(201,162,39,0.08)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'8px',padding:'0.4rem 0.8rem',color:'#C9A227',cursor:'pointer',marginBottom:'0.75rem',fontSize:'0.82rem',fontWeight:700,fontFamily:'inherit'}}>← Geri</button>
+          <div style={{background:'rgba(11,21,39,0.95)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'14px',padding:'1.1rem'}}>
             <div style={{fontSize:'2rem',marginBottom:'0.35rem'}}>{selected.icon}</div>
-            <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,color:'#E8EDF2',fontSize:'1.05rem',marginBottom:'0.25rem'}}>{selected.title}</div>
-            <div style={{display:'inline-block',background:'rgba(59,130,246,0.15)',border:'1px solid rgba(59,130,246,0.3)',borderRadius:'6px',padding:'2px 8px',fontSize:'0.65rem',color:'#60A5FA',fontWeight:700,marginBottom:'0.75rem'}}>{selected.cat}</div>
+            <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,color:'#EDE7DA',fontSize:'1.05rem',marginBottom:'0.25rem'}}>{selected.title}</div>
+            <div style={{display:'inline-block',background:'rgba(201,162,39,0.1)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'6px',padding:'2px 8px',fontSize:'0.65rem',color:'#C9A227',fontWeight:700,marginBottom:'0.75rem'}}>{selected.cat}</div>
             <div style={{fontSize:'0.85rem',color:'#CBD5E1',lineHeight:1.7,whiteSpace:'pre-line'}}>{selected.content}</div>
           </div>
         </div>
@@ -818,21 +818,21 @@ function WikiPage({ profile }) {
             if (!catArticles.length) return null;
             return (
               <div key={cat} style={{marginBottom:'1rem'}}>
-                <div style={{fontSize:'0.65rem',fontWeight:800,color:'#5A7089',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.4rem'}}>{cat}</div>
+                <div style={{fontSize:'0.65rem',fontWeight:800,color:'#8893A1',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.4rem'}}>{cat}</div>
                 {catArticles.map(a=>(
-                  <button key={a.id} onClick={()=>setSelected(a)} style={{width:'100%',display:'flex',alignItems:'center',gap:'0.75rem',padding:'0.75rem',background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:'12px',cursor:'pointer',marginBottom:'0.35rem',textAlign:'left',fontFamily:"'DM Sans',sans-serif"}}>
+                  <button key={a.id} onClick={()=>setSelected(a)} style={{width:'100%',display:'flex',alignItems:'center',gap:'0.75rem',padding:'0.75rem',background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'12px',cursor:'pointer',marginBottom:'0.35rem',textAlign:'left',fontFamily:"'Inter',sans-serif"}}>
                     <span style={{fontSize:'1.4rem',flexShrink:0}}>{a.icon}</span>
                     <div style={{flex:1}}>
-                      <div style={{fontWeight:700,color:'#E8EDF2',fontSize:'0.88rem'}}>{a.title}</div>
-                      <div style={{fontSize:'0.67rem',color:'#5A7089',marginTop:'1px',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{a.content.split('\n')[0]}</div>
+                      <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.88rem'}}>{a.title}</div>
+                      <div style={{fontSize:'0.67rem',color:'#8893A1',marginTop:'1px',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{a.content.split('\n')[0]}</div>
                     </div>
-                    <span style={{color:'#5A7089',flexShrink:0}}>›</span>
+                    <span style={{color:'#8893A1',flexShrink:0}}>›</span>
                   </button>
                 ))}
               </div>
             );
           })}
-          {filtered.length === 0 && <div style={{textAlign:'center',color:'#5A7089',padding:'2rem'}}>Arama sonucu bulunamadı.</div>}
+          {filtered.length === 0 && <div style={{textAlign:'center',color:'#8893A1',padding:'2rem'}}>Arama sonucu bulunamadı.</div>}
         </div>
       )}
     </div>
@@ -913,44 +913,44 @@ function LivestockSection({ profile, setProfile, showNotif }) {
   return (
     <div>
       {/* Ahır Bilgi & Geliştirme */}
-      <div style={{background:'linear-gradient(135deg,rgba(16,185,129,0.12),rgba(11,21,39,0.97))',border:'1px solid rgba(16,185,129,0.3)',borderRadius:'14px',padding:'0.9rem',marginBottom:'0.75rem'}}>
+      <div style={{background:'linear-gradient(135deg,rgba(76,154,107,0.12),rgba(11,21,39,0.97))',border:'1px solid rgba(76,154,107,0.25)',borderRadius:'14px',padding:'0.9rem',marginBottom:'0.75rem'}}>
         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'0.5rem'}}>
           <div>
-            <div style={{fontWeight:800,color:'#10B981',fontSize:'0.9rem'}}>🏚️ {barnInfo.label}</div>
-            <div style={{fontSize:'0.7rem',color:'#5A7089',marginTop:'0.1rem'}}>Kapasite: {animals.length} / {capacity} hayvan</div>
+            <div style={{fontWeight:800,color:'#4C9A6B',fontSize:'0.9rem'}}>🏚️ {barnInfo.label}</div>
+            <div style={{fontSize:'0.7rem',color:'#8893A1',marginTop:'0.1rem'}}>Kapasite: {animals.length} / {capacity} hayvan</div>
           </div>
           <div style={{textAlign:'right'}}>
-            <div style={{fontSize:'0.6rem',color:'#5A7089',marginBottom:'0.2rem'}}>Ahır Lv.{barnLvl}</div>
+            <div style={{fontSize:'0.6rem',color:'#8893A1',marginBottom:'0.2rem'}}>Ahır Lv.{barnLvl}</div>
             {nextBarn ? (
-              <button onClick={upgradeBarn} style={{padding:'0.35rem 0.75rem',background:'rgba(245,158,11,0.15)',border:'1px solid rgba(245,158,11,0.35)',borderRadius:'8px',color:'#F59E0B',cursor:'pointer',fontWeight:700,fontSize:'0.72rem',fontFamily:'inherit',whiteSpace:'nowrap'}}>
+              <button onClick={upgradeBarn} style={{padding:'0.35rem 0.75rem',background:'rgba(201,162,39,0.1)',border:'1px solid rgba(201,162,39,0.35)',borderRadius:'8px',color:'#C9A227',cursor:'pointer',fontWeight:700,fontSize:'0.72rem',fontFamily:'inherit',whiteSpace:'nowrap'}}>
                 ⬆️ Lv.{barnLvl+1} • {fmtWord(nextBarn.upgradeCost)}
               </button>
             ) : (
-              <span style={{fontSize:'0.65rem',color:'#10B981',fontWeight:700}}>✅ MAX</span>
+              <span style={{fontSize:'0.65rem',color:'#4C9A6B',fontWeight:700}}>✅ MAX</span>
             )}
           </div>
         </div>
         {/* Kapasite bar */}
-        <div style={{height:'5px',background:'rgba(255,255,255,0.06)',borderRadius:'3px',overflow:'hidden'}}>
-          <div style={{height:'100%',width:`${Math.min(100,Math.round(animals.length/capacity*100))}%`,background:animals.length>=capacity?'#EF4444':'#10B981',borderRadius:'3px',transition:'width 0.5s'}} />
+        <div style={{height:'5px',background:'rgba(237,231,218,0.05)',borderRadius:'3px',overflow:'hidden'}}>
+          <div style={{height:'100%',width:`${Math.min(100,Math.round(animals.length/capacity*100))}%`,background:animals.length>=capacity?'#C24B43':'#4C9A6B',borderRadius:'3px',transition:'width 0.5s'}} />
         </div>
       </div>
       {/* Satın al */}
-      <div style={{fontSize:'0.68rem',fontWeight:700,color:'#5A7089',textTransform:'uppercase',letterSpacing:'0.07em',marginBottom:'0.4rem'}}>Hayvan Satın Al {animals.length>=capacity && <span style={{color:'#EF4444'}}>— Ahır Dolu!</span>}</div>
+      <div style={{fontSize:'0.68rem',fontWeight:700,color:'#8893A1',textTransform:'uppercase',letterSpacing:'0.07em',marginBottom:'0.4rem'}}>Hayvan Satın Al {animals.length>=capacity && <span style={{color:'#C24B43'}}>— Ahır Dolu!</span>}</div>
       <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.4rem',marginBottom:'0.75rem'}}>
         {LIVESTOCK_TYPES.map(type=>(
           <button key={type.id} onClick={()=>buyAnimal(type)}
-            style={{padding:'0.7rem',background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:'10px',cursor:'pointer',textAlign:'center',fontFamily:"'DM Sans',sans-serif"}}>
+            style={{padding:'0.7rem',background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',cursor:'pointer',textAlign:'center',fontFamily:"'Inter',sans-serif"}}>
             <div style={{fontSize:'1.5rem',marginBottom:'0.2rem'}}>{type.icon}</div>
-            <div style={{fontWeight:700,color:'#E8EDF2',fontSize:'0.8rem'}}>{type.label}</div>
-            <div style={{fontSize:'0.65rem',color:'#EF4444'}}>{fmtWord(type.cost)}</div>
-            <div style={{fontSize:'0.62rem',color:'#10B981'}}>{type.product}: {fmtWord(type.productValue)}</div>
+            <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.8rem'}}>{type.label}</div>
+            <div style={{fontSize:'0.65rem',color:'#C24B43'}}>{fmtWord(type.cost)}</div>
+            <div style={{fontSize:'0.62rem',color:'#4C9A6B'}}>{type.product}: {fmtWord(type.productValue)}</div>
           </button>
         ))}
       </div>
       {/* Ahır */}
-      <div style={{fontSize:'0.68rem',fontWeight:700,color:'#5A7089',textTransform:'uppercase',letterSpacing:'0.07em',marginBottom:'0.4rem'}}>Ahırım ({animals.length} hayvan)</div>
-      {animals.length === 0 && <div style={{textAlign:'center',color:'#5A7089',padding:'1.5rem',fontSize:'0.85rem'}}>Henüz hayvanın yok. Yukarıdan satın al!</div>}
+      <div style={{fontSize:'0.68rem',fontWeight:700,color:'#8893A1',textTransform:'uppercase',letterSpacing:'0.07em',marginBottom:'0.4rem'}}>Ahırım ({animals.length} hayvan)</div>
+      {animals.length === 0 && <div style={{textAlign:'center',color:'#8893A1',padding:'1.5rem',fontSize:'0.85rem'}}>Henüz hayvanın yok. Yukarıdan satın al!</div>}
       {animals.map(animal => {
         const type = LIVESTOCK_TYPES.find(t=>t.id===animal.typeId);
         if (!type) return null;
@@ -959,20 +959,20 @@ function LivestockSection({ profile, setProfile, showNotif }) {
         const rem = Math.max(0, animal.mature - now);
         const remStr = rem < 60000 ? `${Math.ceil(rem/1000)}sn` : `${Math.floor(rem/60000)}dk`;
         return (
-          <div key={animal.id} style={{background:'rgba(11,21,39,0.9)',border:`1px solid ${isMature?'rgba(16,185,129,0.35)':'rgba(255,255,255,0.06)'}`,borderRadius:'12px',padding:'0.75rem',marginBottom:'0.4rem'}}>
+          <div key={animal.id} style={{background:'rgba(11,21,39,0.9)',border:`1px solid ${isMature?'rgba(76,154,107,0.35)':'rgba(255,255,255,0.06)'}`,borderRadius:'12px',padding:'0.75rem',marginBottom:'0.4rem'}}>
             <div style={{display:'flex',alignItems:'center',gap:'0.65rem'}}>
               <div style={{fontSize:'1.75rem',flexShrink:0}}>{type.icon}</div>
               <div style={{flex:1}}>
-                <div style={{fontWeight:700,color:'#E8EDF2',fontSize:'0.85rem'}}>{type.label}</div>
-                <div style={{height:'4px',background:'rgba(255,255,255,0.06)',borderRadius:'2px',margin:'0.3rem 0'}}>
-                  <div style={{height:'100%',width:`${pct}%`,background:isMature?'#10B981':'#F59E0B',borderRadius:'2px',transition:'width 0.5s'}} />
+                <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.85rem'}}>{type.label}</div>
+                <div style={{height:'4px',background:'rgba(237,231,218,0.05)',borderRadius:'2px',margin:'0.3rem 0'}}>
+                  <div style={{height:'100%',width:`${pct}%`,background:isMature?'#4C9A6B':'#C9A227',borderRadius:'2px',transition:'width 0.5s'}} />
                 </div>
-                <div style={{fontSize:'0.65rem',color:'#5A7089'}}>{isMature ? `✅ ${type.product} hazır!` : `⏳ ${remStr} kaldı`}</div>
+                <div style={{fontSize:'0.65rem',color:'#8893A1'}}>{isMature ? `✅ ${type.product} hazır!` : `⏳ ${remStr} kaldı`}</div>
               </div>
               <div style={{display:'flex',flexDirection:'column',gap:'0.3rem'}}>
-                {isMature && <button onClick={()=>collectProduct(animal)} style={{padding:'0.3rem 0.55rem',background:'rgba(16,185,129,0.15)',border:'1px solid rgba(16,185,129,0.35)',borderRadius:'7px',color:'#10B981',cursor:'pointer',fontWeight:700,fontSize:'0.7rem',fontFamily:'inherit',whiteSpace:'nowrap'}}>Topla</button>}
-                <button onClick={()=>feedAnimal(animal)} style={{padding:'0.3rem 0.55rem',background:'rgba(245,158,11,0.1)',border:'1px solid rgba(245,158,11,0.25)',borderRadius:'7px',color:'#F59E0B',cursor:'pointer',fontWeight:700,fontSize:'0.7rem',fontFamily:'inherit'}}>🌾 Besle</button>
-                <button onClick={()=>sellAnimal(animal)} style={{padding:'0.3rem 0.55rem',background:'rgba(239,68,68,0.08)',border:'1px solid rgba(239,68,68,0.2)',borderRadius:'7px',color:'#F87171',cursor:'pointer',fontWeight:700,fontSize:'0.7rem',fontFamily:'inherit'}}>Sat</button>
+                {isMature && <button onClick={()=>collectProduct(animal)} style={{padding:'0.3rem 0.55rem',background:'rgba(76,154,107,0.12)',border:'1px solid rgba(76,154,107,0.35)',borderRadius:'7px',color:'#4C9A6B',cursor:'pointer',fontWeight:700,fontSize:'0.7rem',fontFamily:'inherit',whiteSpace:'nowrap'}}>Topla</button>}
+                <button onClick={()=>feedAnimal(animal)} style={{padding:'0.3rem 0.55rem',background:'rgba(201,162,39,0.08)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'7px',color:'#C9A227',cursor:'pointer',fontWeight:700,fontSize:'0.7rem',fontFamily:'inherit'}}>🌾 Besle</button>
+                <button onClick={()=>sellAnimal(animal)} style={{padding:'0.3rem 0.55rem',background:'rgba(194,75,67,0.08)',border:'1px solid rgba(194,75,67,0.2)',borderRadius:'7px',color:'#E08C87',cursor:'pointer',fontWeight:700,fontSize:'0.7rem',fontFamily:'inherit'}}>Sat</button>
               </div>
             </div>
           </div>
@@ -1094,30 +1094,30 @@ function DirectMessagesPage({ profile, setProfile, showNotif }) {
     <div style={{padding:'0.7rem',paddingBottom:'5rem'}}>
       {convWith ? (
         <div>
-          <div style={{display:'flex',alignItems:'center',gap:'0.75rem',marginBottom:'0.75rem',padding:'0.65rem 0.85rem',background:'rgba(11,21,39,0.95)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:'14px'}}>
-            <button onClick={()=>setConvWith(null)} style={{background:'rgba(59,130,246,0.1)',border:'1px solid rgba(59,130,246,0.25)',borderRadius:'8px',padding:'0.3rem 0.65rem',color:'#60A5FA',cursor:'pointer',fontWeight:700,fontSize:'0.78rem',fontFamily:'inherit',flexShrink:0}}>←</button>
-            <div style={{width:'36px',height:'36px',borderRadius:'50%',background:'linear-gradient(135deg,#3B82F6,#6366F1)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1rem',flexShrink:0}}>{convWith.gender==='kadin'?'👩':'👨'}</div>
+          <div style={{display:'flex',alignItems:'center',gap:'0.75rem',marginBottom:'0.75rem',padding:'0.65rem 0.85rem',background:'rgba(11,21,39,0.95)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'14px'}}>
+            <button onClick={()=>setConvWith(null)} style={{background:'rgba(201,162,39,0.08)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'8px',padding:'0.3rem 0.65rem',color:'#C9A227',cursor:'pointer',fontWeight:700,fontSize:'0.78rem',fontFamily:'inherit',flexShrink:0}}>←</button>
+            <div style={{width:'36px',height:'36px',borderRadius:'50%',background:'linear-gradient(135deg,#C9A227,#6366F1)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1rem',flexShrink:0}}>{convWith.gender==='kadin'?'👩':'👨'}</div>
             <div style={{flex:1}}>
-              <div style={{fontWeight:700,color:'#E8EDF2',fontSize:'0.88rem'}}>{convWith.username}</div>
-              <div style={{fontSize:'0.62rem',color:'#5A7089'}}>Lv.{convWith.level||1} · {convWith.city||'—'}</div>
+              <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.88rem'}}>{convWith.username}</div>
+              <div style={{fontSize:'0.62rem',color:'#8893A1'}}>Lv.{convWith.level||1} · {convWith.city||'—'}</div>
             </div>
           </div>
           <div style={{minHeight:'240px',maxHeight:'42vh',overflowY:'auto',display:'flex',flexDirection:'column',gap:'0.4rem',marginBottom:'0.5rem',padding:'0.1rem 0'}}>
-            {convMsgs.length===0 && <div style={{textAlign:'center',color:'#5A7089',padding:'2rem',fontSize:'0.82rem'}}>İlk mesajı sen gönder! 💬</div>}
+            {convMsgs.length===0 && <div style={{textAlign:'center',color:'#8893A1',padding:'2rem',fontSize:'0.82rem'}}>İlk mesajı sen gönder! 💬</div>}
             {convMsgs.map(m=>{
               const mine = m.from===cu.id;
               const gifMatch = m.text?.match(gifRx);
               return (
                 <div key={m.id} style={{display:'flex',justifyContent:mine?'flex-end':'flex-start'}}>
                   {gifMatch ? (
-                    <div style={{maxWidth:'78%',borderRadius:mine?'14px 14px 4px 14px':'14px 14px 14px 4px',overflow:'hidden',border:`1px solid ${mine?'rgba(59,130,246,0.3)':'rgba(255,255,255,0.08)'}`}}>
-                      <img src={gifMatch[0]} alt="gif" style={{maxWidth:'220px',maxHeight:'200px',display:'block'}} onError={e=>e.target.parentElement.innerHTML='<div style="padding:0.5rem;color:#EF4444;font-size:0.75rem">⚠️ GIF yüklenemedi</div>'}/>
-                      <div style={{fontSize:'0.55rem',color:'#5A7089',padding:'2px 6px',textAlign:mine?'right':'left'}}>{new Date(m.ts).toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})}</div>
+                    <div style={{maxWidth:'78%',borderRadius:mine?'14px 14px 4px 14px':'14px 14px 14px 4px',overflow:'hidden',border:`1px solid ${mine?'rgba(201,162,39,0.3)':'rgba(255,255,255,0.08)'}`}}>
+                      <img src={gifMatch[0]} alt="gif" style={{maxWidth:'220px',maxHeight:'200px',display:'block'}} onError={e=>e.target.parentElement.innerHTML='<div style="padding:0.5rem;color:#C24B43;font-size:0.75rem">⚠️ GIF yüklenemedi</div>'}/>
+                      <div style={{fontSize:'0.55rem',color:'#8893A1',padding:'2px 6px',textAlign:mine?'right':'left'}}>{new Date(m.ts).toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})}</div>
                     </div>
                   ) : (
-                    <div style={{maxWidth:'78%',padding:'0.55rem 0.85rem',borderRadius:mine?'14px 14px 4px 14px':'14px 14px 14px 4px',background:mine?'rgba(59,130,246,0.22)':'rgba(255,255,255,0.06)',border:`1px solid ${mine?'rgba(59,130,246,0.35)':'rgba(255,255,255,0.08)'}`,color:'#E8EDF2',fontSize:'0.85rem',lineHeight:1.45}}>
+                    <div style={{maxWidth:'78%',padding:'0.55rem 0.85rem',borderRadius:mine?'14px 14px 4px 14px':'14px 14px 14px 4px',background:mine?'rgba(201,162,39,0.22)':'rgba(255,255,255,0.06)',border:`1px solid ${mine?'rgba(201,162,39,0.35)':'rgba(255,255,255,0.08)'}`,color:'#EDE7DA',fontSize:'0.85rem',lineHeight:1.45}}>
                       {m.text}
-                      <div style={{fontSize:'0.58rem',color:'#5A7089',marginTop:'0.2rem',textAlign:mine?'right':'left'}}>{new Date(m.ts).toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})}</div>
+                      <div style={{fontSize:'0.58rem',color:'#8893A1',marginTop:'0.2rem',textAlign:mine?'right':'left'}}>{new Date(m.ts).toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})}</div>
                     </div>
                   )}
                 </div>
@@ -1128,62 +1128,62 @@ function DirectMessagesPage({ profile, setProfile, showNotif }) {
 
           {/* GIF Picker - DM */}
           {showGifPicker && (
-            <div style={{background:'rgba(6,12,24,0.98)',border:'1px solid rgba(59,130,246,0.25)',borderRadius:'14px',padding:'0.6rem',marginBottom:'0.5rem'}}>
+            <div style={{background:'rgba(6,12,24,0.98)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'14px',padding:'0.6rem',marginBottom:'0.5rem'}}>
               <div style={{display:'flex',gap:'0.4rem',marginBottom:'0.4rem'}}>
                 <input value={gifSearch} onChange={e=>setGifSearch(e.target.value)} placeholder="GIF ara..."
-                  style={{flex:1,background:'rgba(255,255,255,0.06)',border:'1px solid rgba(59,130,246,0.2)',borderRadius:'10px',padding:'0.4rem 0.7rem',color:'#E8EDF2',fontFamily:"'DM Sans',sans-serif",fontSize:'14px',outline:'none'}} />
-                <button onClick={()=>setShowGifPicker(false)} style={{background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:'8px',padding:'0.4rem 0.55rem',color:'#5A7089',cursor:'pointer',fontSize:'0.8rem'}}>✕</button>
+                  style={{flex:1,background:'rgba(237,231,218,0.05)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'10px',padding:'0.4rem 0.7rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'14px',outline:'none'}} />
+                <button onClick={()=>setShowGifPicker(false)} style={{background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'8px',padding:'0.4rem 0.55rem',color:'#8893A1',cursor:'pointer',fontSize:'0.8rem'}}>✕</button>
               </div>
-              {giphyLoading && <div style={{textAlign:'center',color:'#60A5FA',fontSize:'0.72rem'}}>🔄 Yükleniyor...</div>}
+              {giphyLoading && <div style={{textAlign:'center',color:'#C9A227',fontSize:'0.72rem'}}>🔄 Yükleniyor...</div>}
               <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'0.3rem',maxHeight:'140px',overflowY:'auto',scrollbarWidth:'none'}}>
                 {dmDisplayGifs.map((g,i)=>(
                   <img key={i} src={g} alt="gif" onClick={()=>sendMessage(g)}
-                    style={{height:'64px',width:'100%',objectFit:'cover',borderRadius:'7px',cursor:'pointer',border:'1px solid rgba(59,130,246,0.15)'}}
+                    style={{height:'64px',width:'100%',objectFit:'cover',borderRadius:'7px',cursor:'pointer',border:'1px solid rgba(201,162,39,0.15)'}}
                     onError={e=>e.target.style.display='none'} />
                 ))}
               </div>
-              <div style={{fontSize:'0.54rem',color:'#5A7089',textAlign:'right',marginTop:'0.2rem'}}>Powered by GIPHY</div>
+              <div style={{fontSize:'0.54rem',color:'#8893A1',textAlign:'right',marginTop:'0.2rem'}}>Powered by GIPHY</div>
             </div>
           )}
 
           <div style={{display:'flex',gap:'0.5rem'}}>
             <button onClick={()=>setShowGifPicker(v=>!v)}
-              style={{background:showGifPicker?'rgba(59,130,246,0.18)':'rgba(255,255,255,0.04)',border:`1px solid ${showGifPicker?'rgba(59,130,246,0.4)':'rgba(255,255,255,0.08)'}`,borderRadius:'12px',padding:'0.6rem 0.65rem',color:showGifPicker?'#60A5FA':'#8BA0B5',cursor:'pointer',fontSize:'0.95rem',flexShrink:0}}>
+              style={{background:showGifPicker?'rgba(201,162,39,0.18)':'rgba(255,255,255,0.04)',border:`1px solid ${showGifPicker?'rgba(201,162,39,0.4)':'rgba(255,255,255,0.08)'}`,borderRadius:'12px',padding:'0.6rem 0.65rem',color:showGifPicker?'#C9A227':'#8BA0B5',cursor:'pointer',fontSize:'0.95rem',flexShrink:0}}>
               🎞️
             </button>
             <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==='Enter'&&sendMessage()} placeholder="Mesaj yaz..."
-              style={{flex:1,background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'12px',padding:'0.65rem 1rem',color:'#E8EDF2',fontFamily:"'DM Sans',sans-serif",fontSize:'16px',outline:'none'}} />
-            <button onClick={()=>sendMessage()} style={{padding:'0.65rem 1rem',background:'rgba(59,130,246,0.2)',border:'1px solid rgba(59,130,246,0.35)',borderRadius:'12px',color:'#60A5FA',cursor:'pointer',fontWeight:700,fontSize:'1rem',fontFamily:'inherit',flexShrink:0}}>➤</button>
+              style={{flex:1,background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'12px',padding:'0.65rem 1rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none'}} />
+            <button onClick={()=>sendMessage()} style={{padding:'0.65rem 1rem',background:'rgba(201,162,39,0.14)',border:'1px solid rgba(201,162,39,0.35)',borderRadius:'12px',color:'#C9A227',cursor:'pointer',fontWeight:700,fontSize:'1rem',fontFamily:'inherit',flexShrink:0}}>➤</button>
           </div>
         </div>
       ) : (
         <div>
-          <div style={{background:'linear-gradient(135deg,rgba(96,165,250,0.12),rgba(11,21,39,0.97))',border:'1px solid rgba(96,165,250,0.25)',borderRadius:'18px',padding:'1.2rem',marginBottom:'0.75rem',textAlign:'center'}}>
+          <div style={{background:'linear-gradient(135deg,rgba(96,165,250,0.12),rgba(11,21,39,0.97))',border:'1px solid rgba(96,165,250,0.25)',borderRadius:'12px',padding:'1.2rem',marginBottom:'0.75rem',textAlign:'center'}}>
             <div style={{fontSize:'2rem',marginBottom:'0.3rem'}}>📬</div>
-            <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:900,color:'#E8EDF2'}}>ÖZEL MESAJLAR</div>
-            {totalUnread>0 && <div style={{background:'rgba(59,130,246,0.15)',border:'1px solid rgba(59,130,246,0.3)',borderRadius:'20px',padding:'0.2rem 0.75rem',display:'inline-block',fontSize:'0.72rem',color:'#60A5FA',marginTop:'0.3rem',fontWeight:700}}>{totalUnread} okunmamış</div>}
+            <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA'}}>ÖZEL MESAJLAR</div>
+            {totalUnread>0 && <div style={{background:'rgba(201,162,39,0.1)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'14px',padding:'0.2rem 0.75rem',display:'inline-block',fontSize:'0.72rem',color:'#C9A227',marginTop:'0.3rem',fontWeight:700}}>{totalUnread} okunmamış</div>}
           </div>
           {/* Kişi Arama */}
-          <div style={{display:'flex',alignItems:'center',gap:'0.5rem',marginBottom:'0.6rem',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'12px',padding:'0 0.85rem'}}>
-            <span style={{color:'#5A7089'}}>🔍</span>
+          <div style={{display:'flex',alignItems:'center',gap:'0.5rem',marginBottom:'0.6rem',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'12px',padding:'0 0.85rem'}}>
+            <span style={{color:'#8893A1'}}>🔍</span>
             <input value={dmSearch} onChange={e=>setDmSearch(e.target.value)} placeholder="Oyuncu ara..."
-              style={{flex:1,background:'none',border:'none',outline:'none',color:'#E8EDF2',fontFamily:"'DM Sans',sans-serif",fontSize:'15px',padding:'0.6rem 0'}} />
-            {dmSearch && <button onClick={()=>setDmSearch('')} style={{background:'none',border:'none',color:'#5A7089',cursor:'pointer',fontSize:'1rem',padding:'2px'}}>✕</button>}
+              style={{flex:1,background:'none',border:'none',outline:'none',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'15px',padding:'0.6rem 0'}} />
+            {dmSearch && <button onClick={()=>setDmSearch('')} style={{background:'none',border:'none',color:'#8893A1',cursor:'pointer',fontSize:'1rem',padding:'2px'}}>✕</button>}
           </div>
-          {contacts.filter(u=>!dmSearch||u.username?.toLowerCase().includes(dmSearch.toLowerCase())||u.city?.toLowerCase().includes(dmSearch.toLowerCase())).length===0&&<div style={{textAlign:'center',color:'#5A7089',padding:'2rem',fontSize:'0.85rem'}}>Oyuncu bulunamadı.</div>}
+          {contacts.filter(u=>!dmSearch||u.username?.toLowerCase().includes(dmSearch.toLowerCase())||u.city?.toLowerCase().includes(dmSearch.toLowerCase())).length===0&&<div style={{textAlign:'center',color:'#8893A1',padding:'2rem',fontSize:'0.85rem'}}>Oyuncu bulunamadı.</div>}
           {contacts.filter(u=>!dmSearch||u.username?.toLowerCase().includes(dmSearch.toLowerCase())||u.city?.toLowerCase().includes(dmSearch.toLowerCase())).map(user=>{
             const lastMsg = getConvMsgs(user.id).slice(-1)[0];
             const u = unread(user.id);
             return (
               <button key={user.id} onClick={()=>openConv(user)}
-                style={{width:'100%',display:'flex',alignItems:'center',gap:'0.75rem',padding:'0.8rem',background:u?'rgba(59,130,246,0.07)':'rgba(255,255,255,0.03)',border:`1px solid ${u?'rgba(59,130,246,0.25)':'rgba(255,255,255,0.06)'}`,borderRadius:'13px',cursor:'pointer',marginBottom:'0.35rem',textAlign:'left',fontFamily:"'DM Sans',sans-serif"}}>
-                <div style={{width:'40px',height:'40px',borderRadius:'50%',background:'linear-gradient(135deg,#3B82F6,#6366F1)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.15rem',flexShrink:0}}>{user.gender==='kadin'?'👩':'👨'}</div>
+                style={{width:'100%',display:'flex',alignItems:'center',gap:'0.75rem',padding:'0.8rem',background:u?'rgba(201,162,39,0.07)':'rgba(255,255,255,0.03)',border:`1px solid ${u?'rgba(201,162,39,0.25)':'rgba(255,255,255,0.06)'}`,borderRadius:'13px',cursor:'pointer',marginBottom:'0.35rem',textAlign:'left',fontFamily:"'Inter',sans-serif"}}>
+                <div style={{width:'40px',height:'40px',borderRadius:'50%',background:'linear-gradient(135deg,#C9A227,#6366F1)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.15rem',flexShrink:0}}>{user.gender==='kadin'?'👩':'👨'}</div>
                 <div style={{flex:1,overflow:'hidden'}}>
-                  <div style={{fontWeight:700,color:'#E8EDF2',fontSize:'0.88rem'}}>{user.username}</div>
-                  <div style={{fontSize:'0.68rem',color:'#5A7089',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{lastMsg?lastMsg.text:'Mesajlaşmaya başla...'}</div>
+                  <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.88rem'}}>{user.username}</div>
+                  <div style={{fontSize:'0.68rem',color:'#8893A1',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{lastMsg?lastMsg.text:'Mesajlaşmaya başla...'}</div>
                 </div>
-                {u>0 && <div style={{background:'#3B82F6',borderRadius:'50%',minWidth:'22px',height:'22px',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.65rem',fontWeight:800,color:'#fff',flexShrink:0,padding:'0 4px'}}>{u}</div>}
-                <span style={{color:'#5A7089',flexShrink:0}}>›</span>
+                {u>0 && <div style={{background:'#C9A227',borderRadius:'50%',minWidth:'22px',height:'22px',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.65rem',fontWeight:800,color:'#EDE7DA',flexShrink:0,padding:'0 4px'}}>{u}</div>}
+                <span style={{color:'#8893A1',flexShrink:0}}>›</span>
               </button>
             );
           })}
@@ -1246,61 +1246,61 @@ function TaxMunicipalityPage({ profile, setProfile, showNotif }) {
 
   return (
     <div style={{padding:'0.7rem',paddingBottom:'5rem'}}>
-      <div style={{background:'linear-gradient(135deg,rgba(245,158,11,0.12),rgba(11,21,39,0.97))',border:'1px solid rgba(245,158,11,0.25)',borderRadius:'18px',padding:'1.2rem',marginBottom:'0.75rem'}}>
-        <div style={{fontSize:'0.6rem',color:'#F59E0B',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.2rem'}}>🏙️ {userCity.toUpperCase()} — ŞEHİR YÖNETİMİ</div>
-        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:900,color:'#E8EDF2',marginBottom:'0.1rem'}}>Vergi & Belediye</div>
-        <div style={{fontSize:'0.7rem',color:'#5A7089'}}>{isMayor ? '👑 Belediye Başkanı olarak yönetiyorsunuz' : 'Hizmetleri görüntüleyin — yönetim için Belediye Başkanı gerekli'}</div>
-        {cityMayor && <div style={{marginTop:'0.4rem',fontSize:'0.65rem',color:'#F59E0B'}}>Belediye Başkanı: <span style={{fontWeight:700}}>@{cityMayor.username}</span></div>}
+      <div style={{background:'linear-gradient(135deg,rgba(201,162,39,0.12),rgba(11,21,39,0.97))',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'12px',padding:'1.2rem',marginBottom:'0.75rem'}}>
+        <div style={{fontSize:'0.6rem',color:'#C9A227',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.2rem'}}>🏙️ {userCity.toUpperCase()} — ŞEHİR YÖNETİMİ</div>
+        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA',marginBottom:'0.1rem'}}>Vergi & Belediye</div>
+        <div style={{fontSize:'0.7rem',color:'#8893A1'}}>{isMayor ? '👑 Belediye Başkanı olarak yönetiyorsunuz' : 'Hizmetleri görüntüleyin — yönetim için Belediye Başkanı gerekli'}</div>
+        {cityMayor && <div style={{marginTop:'0.4rem',fontSize:'0.65rem',color:'#C9A227'}}>Belediye Başkanı: <span style={{fontWeight:700}}>@{cityMayor.username}</span></div>}
       </div>
 
       {/* Hazine */}
-      <div style={{background:'rgba(245,158,11,0.07)',border:'1px solid rgba(245,158,11,0.2)',borderRadius:'14px',padding:'0.9rem',marginBottom:'0.6rem'}}>
-        <div style={{fontSize:'0.62rem',color:'#F59E0B',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.07em',marginBottom:'0.4rem'}}>🏦 ŞEHİR HAZİNESİ</div>
-        <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'1.6rem',fontWeight:800,color:'#F59E0B',marginBottom:'0.35rem'}}>{fmtM(treasury.balance||0)}</div>
+      <div style={{background:'rgba(201,162,39,0.07)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'14px',padding:'0.9rem',marginBottom:'0.6rem'}}>
+        <div style={{fontSize:'0.62rem',color:'#C9A227',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.07em',marginBottom:'0.4rem'}}>🏦 ŞEHİR HAZİNESİ</div>
+        <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'1.6rem',fontWeight:800,color:'#C9A227',marginBottom:'0.35rem'}}>{fmtM(treasury.balance||0)}</div>
         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:'0.5rem'}}>
-          <div style={{fontSize:'0.72rem',color:'#5A7089'}}>Vergi Oranı: <span style={{color:'#F59E0B',fontWeight:700}}>%{taxRate}</span></div>
+          <div style={{fontSize:'0.72rem',color:'#8893A1'}}>Vergi Oranı: <span style={{color:'#C9A227',fontWeight:700}}>%{taxRate}</span></div>
           {isMayor ? (
             <button onClick={collectTaxes} disabled={!canCollect}
-              style={{padding:'0.35rem 0.85rem',borderRadius:'9px',border:`1px solid ${canCollect?'rgba(245,158,11,0.4)':'rgba(255,255,255,0.06)'}`,background:canCollect?'rgba(245,158,11,0.15)':'rgba(255,255,255,0.03)',color:canCollect?'#F59E0B':'#3B4E63',cursor:canCollect?'pointer':'default',fontWeight:700,fontSize:'0.75rem',fontFamily:'inherit'}}>
+              style={{padding:'0.35rem 0.85rem',borderRadius:'9px',border:`1px solid ${canCollect?'rgba(201,162,39,0.4)':'rgba(255,255,255,0.06)'}`,background:canCollect?'rgba(201,162,39,0.15)':'rgba(255,255,255,0.03)',color:canCollect?'#C9A227':'#3B4E63',cursor:canCollect?'pointer':'default',fontWeight:700,fontSize:'0.75rem',fontFamily:'inherit'}}>
               {canCollect ? '💰 Vergi Topla' : `⏳ ${remH}s ${remM}dk`}
             </button>
           ) : (
-            <div style={{fontSize:'0.65rem',color:'#5A7089'}}>🔒 Belediye Başkanı yetkisi gerekli</div>
+            <div style={{fontSize:'0.65rem',color:'#8893A1'}}>🔒 Belediye Başkanı yetkisi gerekli</div>
           )}
         </div>
       </div>
 
       {/* Vergi oranı slider */}
       {isMayor && (
-        <div style={{background:'rgba(11,21,39,0.9)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:'12px',padding:'0.75rem',marginBottom:'0.6rem'}}>
-          <div style={{fontSize:'0.62rem',color:'#5A7089',fontWeight:700,textTransform:'uppercase',marginBottom:'0.5rem'}}>📊 VERGİ ORANI: %{taxRate}</div>
+        <div style={{background:'rgba(11,21,39,0.9)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'12px',padding:'0.75rem',marginBottom:'0.6rem'}}>
+          <div style={{fontSize:'0.62rem',color:'#8893A1',fontWeight:700,textTransform:'uppercase',marginBottom:'0.5rem'}}>📊 VERGİ ORANI: %{taxRate}</div>
           <input type="range" min={5} max={50} value={taxRate} onChange={e=>setTaxRate(Number(e.target.value))}
-            style={{width:'100%',marginBottom:'0.25rem',accentColor:'#F59E0B'}} />
-          <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.62rem',color:'#5A7089'}}>
+            style={{width:'100%',marginBottom:'0.25rem',accentColor:'#C9A227'}} />
+          <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.62rem',color:'#8893A1'}}>
             <span>%5 Düşük</span><span>%50 Yüksek</span>
           </div>
         </div>
       )}
 
       {/* Şehir hizmetleri */}
-      <div style={{fontSize:'0.62rem',color:'#5A7089',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.07em',marginBottom:'0.4rem'}}>🏙️ ŞEHİR HİZMETLERİ</div>
+      <div style={{fontSize:'0.62rem',color:'#8893A1',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.07em',marginBottom:'0.4rem'}}>🏙️ ŞEHİR HİZMETLERİ</div>
       {Object.entries(services).map(([key, svc]) => {
         const upgCost = svc.cost * (svc.level+1);
         const canUpg = isCouncil && (treasury.balance||0) >= upgCost;
         const stars = Math.min(svc.level, 5);
         return (
-          <div key={key} style={{background:'rgba(11,21,39,0.9)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:'12px',padding:'0.75rem',marginBottom:'0.35rem',display:'flex',alignItems:'center',gap:'0.75rem'}}>
+          <div key={key} style={{background:'rgba(11,21,39,0.9)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'12px',padding:'0.75rem',marginBottom:'0.35rem',display:'flex',alignItems:'center',gap:'0.75rem'}}>
             <div style={{fontSize:'1.6rem',flexShrink:0}}>{svc.icon}</div>
             <div style={{flex:1}}>
-              <div style={{fontWeight:700,color:'#E8EDF2',fontSize:'0.85rem'}}>{svc.name}</div>
-              <div style={{fontSize:'0.63rem',color:'#5A7089'}}>{svc.effect}</div>
+              <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.85rem'}}>{svc.name}</div>
+              <div style={{fontSize:'0.63rem',color:'#8893A1'}}>{svc.effect}</div>
               <div style={{display:'flex',gap:'1px',marginTop:'0.2rem'}}>
-                {[...Array(5)].map((_,i)=><span key={i} style={{fontSize:'0.65rem',color:i<stars?'#F59E0B':'#3B4E63'}}>★</span>)}
-                <span style={{fontSize:'0.6rem',color:'#5A7089',marginLeft:'4px'}}>Lv.{svc.level}</span>
+                {[...Array(5)].map((_,i)=><span key={i} style={{fontSize:'0.65rem',color:i<stars?'#C9A227':'#3B4E63'}}>★</span>)}
+                <span style={{fontSize:'0.6rem',color:'#8893A1',marginLeft:'4px'}}>Lv.{svc.level}</span>
               </div>
             </div>
             <button onClick={()=>upgradeService(key)}
-              style={{padding:'0.3rem 0.6rem',borderRadius:'8px',border:`1px solid ${canUpg?'rgba(245,158,11,0.4)':'rgba(255,255,255,0.06)'}`,background:canUpg?'rgba(245,158,11,0.12)':'rgba(255,255,255,0.03)',color:canUpg?'#F59E0B':'#3B4E63',cursor:canUpg?'pointer':'default',fontSize:'0.65rem',fontWeight:700,fontFamily:'inherit',flexShrink:0,whiteSpace:'nowrap'}}>
+              style={{padding:'0.3rem 0.6rem',borderRadius:'8px',border:`1px solid ${canUpg?'rgba(201,162,39,0.4)':'rgba(255,255,255,0.06)'}`,background:canUpg?'rgba(201,162,39,0.12)':'rgba(255,255,255,0.03)',color:canUpg?'#C9A227':'#3B4E63',cursor:canUpg?'pointer':'default',fontSize:'0.65rem',fontWeight:700,fontFamily:'inherit',flexShrink:0,whiteSpace:'nowrap'}}>
               {canUpg ? `↑ ${fmtM(upgCost)}` : '🔒'}
             </button>
           </div>
@@ -1310,11 +1310,11 @@ function TaxMunicipalityPage({ profile, setProfile, showNotif }) {
       {/* Vergi geçmişi */}
       {taxLog.length > 0 && (
         <div style={{marginTop:'0.6rem'}}>
-          <div style={{fontSize:'0.62rem',color:'#5A7089',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.07em',marginBottom:'0.4rem'}}>📋 VERGİ GEÇMİŞİ</div>
+          <div style={{fontSize:'0.62rem',color:'#8893A1',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.07em',marginBottom:'0.4rem'}}>📋 VERGİ GEÇMİŞİ</div>
           {taxLog.slice(0,5).map(log=>(
             <div key={log.id} style={{display:'flex',justifyContent:'space-between',padding:'0.4rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)',fontSize:'0.73rem'}}>
-              <span style={{color:'#5A7089'}}>{log.date} · %{log.rate} · {log.collector}</span>
-              <span style={{color:'#F59E0B',fontWeight:700}}>+{fmtM(log.amount)}</span>
+              <span style={{color:'#8893A1'}}>{log.date} · %{log.rate} · {log.collector}</span>
+              <span style={{color:'#C9A227',fontWeight:700}}>+{fmtM(log.amount)}</span>
             </div>
           ))}
         </div>
@@ -1322,16 +1322,16 @@ function TaxMunicipalityPage({ profile, setProfile, showNotif }) {
 
       {/* Maliye Bakanlığı Destek Talebi */}
       {isMayor && (
-        <div style={{marginTop:'0.75rem',background:'rgba(16,185,129,0.06)',border:'1px solid rgba(16,185,129,0.2)',borderRadius:'14px',padding:'0.9rem'}}>
-          <div style={{fontSize:'0.62rem',color:'#10B981',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.07em',marginBottom:'0.5rem'}}>🏦 MALİYE BAKANLIĞI — HAZİNE TALEBİ</div>
-          <div style={{fontSize:'0.72rem',color:'#5A7089',marginBottom:'0.6rem'}}>
+        <div style={{marginTop:'0.75rem',background:'rgba(76,154,107,0.06)',border:'1px solid rgba(76,154,107,0.2)',borderRadius:'14px',padding:'0.9rem'}}>
+          <div style={{fontSize:'0.62rem',color:'#4C9A6B',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.07em',marginBottom:'0.5rem'}}>🏦 MALİYE BAKANLIĞI — HAZİNE TALEBİ</div>
+          <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.6rem'}}>
             Şehir geliştirme projeleri için Maliye Bakanlığı'ndan ek kaynak talep edebilirsiniz. Maliye Bakanı talebi inceleyip onaylayabilir.
           </div>
           {(()=>{
             const reqs = JSON.parse(localStorage.getItem('rep_treasuryRequests')||'[]');
             const pending = reqs.filter(r=>r.city===userCity&&r.status==='bekliyor');
             if(pending.length>0){
-              return <div style={{fontSize:'0.72rem',color:'#F59E0B',padding:'0.5rem',background:'rgba(245,158,11,0.08)',borderRadius:'8px'}}>⏳ {pending.length} adet onay bekleyen talebiniz var.</div>;
+              return <div style={{fontSize:'0.72rem',color:'#C9A227',padding:'0.5rem',background:'rgba(201,162,39,0.06)',borderRadius:'8px'}}>⏳ {pending.length} adet onay bekleyen talebiniz var.</div>;
             }
             return (
               <button onClick={()=>{
@@ -1344,7 +1344,7 @@ function TaxMunicipalityPage({ profile, setProfile, showNotif }) {
                 reqs2.unshift({id:Date.now(),city:userCity,mayor:cu.username,amount:v,reason,status:'bekliyor',date:new Date().toLocaleString('tr-TR')});
                 localStorage.setItem('rep_treasuryRequests',JSON.stringify(reqs2.slice(0,50)));
                 showNotif('✅ Maliye Bakanlığı\'na talep iletildi!','success');
-              }} style={{width:'100%',padding:'0.55rem',borderRadius:'10px',border:'1px solid rgba(16,185,129,0.35)',background:'rgba(16,185,129,0.1)',color:'#10B981',fontWeight:700,fontSize:'0.78rem',cursor:'pointer'}}>
+              }} style={{width:'100%',padding:'0.55rem',borderRadius:'10px',border:'1px solid rgba(76,154,107,0.35)',background:'rgba(76,154,107,0.08)',color:'#4C9A6B',fontWeight:700,fontSize:'0.78rem',cursor:'pointer'}}>
                 💰 Maliye'den Para Talep Et
               </button>
             );
@@ -1381,35 +1381,35 @@ function TerritoryMapPage({ profile, showNotif }) {
   const getColor = (d, mode) => {
     const a = 0.70;
     if (mode==='political') {
-      if (d.controlBy==='Ordu') return `rgba(239,68,68,${a})`;
-      if (d.controlBy==='Şirketler') return `rgba(16,185,129,${a})`;
-      if (d.controlBy==='Aydınlar') return `rgba(59,130,246,${a})`;
+      if (d.controlBy==='Ordu') return `rgba(194,75,67,${a})`;
+      if (d.controlBy==='Şirketler') return `rgba(76,154,107,${a})`;
+      if (d.controlBy==='Aydınlar') return `rgba(201,162,39,${a})`;
       if (d.controlBy==='Tüccarlar') return `rgba(234,179,8,${a})`;
-      if (d.controlBy==='Asi Grup') return `rgba(245,158,11,${a})`;
+      if (d.controlBy==='Asi Grup') return `rgba(201,162,39,${a})`;
       return `rgba(55,65,81,${a})`;
     }
     if (mode==='crime') {
-      if (d.crime>70) return `rgba(239,68,68,${a})`;
-      if (d.crime>50) return `rgba(245,158,11,${a})`;
+      if (d.crime>70) return `rgba(194,75,67,${a})`;
+      if (d.crime>50) return `rgba(201,162,39,${a})`;
       if (d.crime>30) return `rgba(234,179,8,${a*0.75})`;
-      return `rgba(16,185,129,${a})`;
+      return `rgba(76,154,107,${a})`;
     }
     if (mode==='police') {
-      if (d.alarm>65) return `rgba(59,130,246,${a})`;
+      if (d.alarm>65) return `rgba(201,162,39,${a})`;
       if (d.alarm>40) return `rgba(96,165,250,${a*0.7})`;
       return `rgba(30,58,138,${a*0.45})`;
     }
     if (mode==='economic') {
-      if (d.income>150000) return `rgba(16,185,129,${a})`;
+      if (d.income>150000) return `rgba(76,154,107,${a})`;
       if (d.income>80000)  return `rgba(234,179,8,${a})`;
-      if (d.income>50000)  return `rgba(245,158,11,${a*0.8})`;
-      return `rgba(239,68,68,${a*0.65})`;
+      if (d.income>50000)  return `rgba(201,162,39,${a*0.8})`;
+      return `rgba(194,75,67,${a*0.65})`;
     }
     if (mode==='revolt') {
       const risk = (100-d.support)*0.6 + d.crime*0.4;
-      if (risk>60) return `rgba(239,68,68,${a})`;
-      if (risk>40) return `rgba(245,158,11,${a})`;
-      return `rgba(16,185,129,${a})`;
+      if (risk>60) return `rgba(194,75,67,${a})`;
+      if (risk>40) return `rgba(201,162,39,${a})`;
+      return `rgba(76,154,107,${a})`;
     }
     return `rgba(55,65,81,${a})`;
   };
@@ -1481,11 +1481,11 @@ function TerritoryMapPage({ profile, showNotif }) {
   React.useEffect(() => () => cancelAnimationFrame(rafRef.current), []);
 
   const LEGEND = {
-    political:[['#6B7280','Halk'],['#EF4444','Ordu/Güç'],['#10B981','Şirket'],['#3B82F6','Aydınlar'],['#EAB308','Tüccarlar'],['#F59E0B','İsyancı']],
-    crime:[['#10B981','Düşük <30'],['#EAB308','Orta 30-50'],['#F59E0B','Yüksek 50-70'],['#EF4444','Kritik >70']],
-    police:[['#1E3A8A','Güvenli'],['#60A5FA','Devriye'],['#3B82F6','Yüksek Alarm']],
-    economic:[['#EF4444','Düşük <50K'],['#F59E0B','Orta 50-80K'],['#EAB308','İyi 80-150K'],['#10B981','Zengin >150K']],
-    revolt:[['#10B981','Stabil'],['#F59E0B','Gergin'],['#EF4444','İsyan Riski']],
+    political:[['#6B7280','Halk'],['#C24B43','Ordu/Güç'],['#4C9A6B','Şirket'],['#C9A227','Aydınlar'],['#EAB308','Tüccarlar'],['#C9A227','İsyancı']],
+    crime:[['#4C9A6B','Düşük <30'],['#EAB308','Orta 30-50'],['#C9A227','Yüksek 50-70'],['#C24B43','Kritik >70']],
+    police:[['#1E3A8A','Güvenli'],['#C9A227','Devriye'],['#C9A227','Yüksek Alarm']],
+    economic:[['#C24B43','Düşük <50K'],['#C9A227','Orta 50-80K'],['#EAB308','İyi 80-150K'],['#4C9A6B','Zengin >150K']],
+    revolt:[['#4C9A6B','Stabil'],['#C9A227','Gergin'],['#C24B43','İsyan Riski']],
   };
 
   return (
@@ -1493,12 +1493,12 @@ function TerritoryMapPage({ profile, showNotif }) {
       {/* Mode Bar */}
       <div style={{position:'absolute',top:0,left:0,right:0,zIndex:20,display:'flex',gap:'4px',padding:'0.4rem 0.5rem',background:'rgba(2,9,18,0.96)',backdropFilter:'blur(12px)',borderBottom:'1px solid rgba(0,255,80,0.08)',overflowX:'auto',scrollbarWidth:'none',flexShrink:0}}>
         {MAP_MODES.map(m=>(
-          <button key={m.id} onClick={()=>setMapMode(m.id)} style={{padding:'0.28rem 0.55rem',borderRadius:'8px',border:`1px solid ${mapMode===m.id?'rgba(0,255,80,0.5)':'rgba(255,255,255,0.06)'}`,background:mapMode===m.id?'rgba(0,255,80,0.1)':'rgba(255,255,255,0.02)',color:mapMode===m.id?'#00FF64':'#1A3028',fontFamily:"'DM Sans',sans-serif",fontWeight:700,fontSize:'0.64rem',cursor:'pointer',whiteSpace:'nowrap',flexShrink:0}}>
+          <button key={m.id} onClick={()=>setMapMode(m.id)} style={{padding:'0.28rem 0.55rem',borderRadius:'8px',border:`1px solid ${mapMode===m.id?'rgba(0,255,80,0.5)':'rgba(255,255,255,0.06)'}`,background:mapMode===m.id?'rgba(0,255,80,0.1)':'rgba(255,255,255,0.02)',color:mapMode===m.id?'#00FF64':'#1A3028',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.64rem',cursor:'pointer',whiteSpace:'nowrap',flexShrink:0}}>
             {m.label}
           </button>
         ))}
         <div style={{flex:1}}/>
-        <button onClick={()=>{setTx(0);setTy(0);setScale(1);}} title="Sıfırla" style={{padding:'0.28rem 0.55rem',borderRadius:'8px',border:'1px solid rgba(255,255,255,0.06)',background:'rgba(255,255,255,0.02)',color:'#1A3028',fontSize:'0.78rem',cursor:'pointer',flexShrink:0,fontFamily:"'DM Sans',sans-serif"}}>⊡</button>
+        <button onClick={()=>{setTx(0);setTy(0);setScale(1);}} title="Sıfırla" style={{padding:'0.28rem 0.55rem',borderRadius:'8px',border:'1px solid rgba(237,231,218,0.08)',background:'rgba(237,231,218,0.02)',color:'#1A3028',fontSize:'0.78rem',cursor:'pointer',flexShrink:0,fontFamily:"'Inter',sans-serif"}}>⊡</button>
       </div>
 
       {/* SVG Map */}
@@ -1535,24 +1535,24 @@ function TerritoryMapPage({ profile, showNotif }) {
             return (
               <g key={d.id} onClick={(e)=>clickDistrict(d,e)} style={{cursor:'pointer'}}>
                 <polygon points={pts} fill={fill}
-                  stroke={isSel?'#00FF64':hasRiot?'rgba(239,68,68,0.7)':hasCartel?'rgba(245,158,11,0.5)':'rgba(0,180,60,0.22)'}
+                  stroke={isSel?'#00FF64':hasRiot?'rgba(194,75,67,0.7)':hasCartel?'rgba(201,162,39,0.5)':'rgba(0,180,60,0.22)'}
                   strokeWidth={isSel?2.5:1}
                   filter={isSel?'url(#dGlow)':undefined}
                 />
                 {isSel && <polygon points={pts} fill="rgba(0,255,80,0.07)" stroke="none"/>}
                 {(hasRiot||hasCartel) && (
-                  <polygon points={pts} fill="none" stroke={hasRiot?'rgba(239,68,68,0.7)':'rgba(245,158,11,0.6)'} strokeWidth="1.5">
+                  <polygon points={pts} fill="none" stroke={hasRiot?'rgba(194,75,67,0.7)':'rgba(201,162,39,0.6)'} strokeWidth="1.5">
                     <animate attributeName="stroke-opacity" values="0.15;0.9;0.15" dur="1.3s" repeatCount="indefinite"/>
                   </polygon>
                 )}
                 {hasPoliceDeploy && !hasRiot && (
-                  <polygon points={pts} fill="rgba(59,130,246,0.08)" stroke="none">
+                  <polygon points={pts} fill="rgba(201,162,39,0.08)" stroke="none">
                     <animate attributeName="fill-opacity" values="0.04;0.18;0.04" dur="2s" repeatCount="indefinite"/>
                   </polygon>
                 )}
                 <text x={ctr.x} y={ctr.y-1} textAnchor="middle" dominantBaseline="middle"
                   fill={isSel?'#00FF64':'rgba(190,225,230,0.88)'} fontSize="8.5" fontWeight="700"
-                  fontFamily="DM Sans,sans-serif" style={{pointerEvents:'none',textShadow:'0 1px 3px #000'}}>
+                  fontFamily="Inter,sans-serif" style={{pointerEvents:'none',textShadow:'none'}}>
                   {d.name}
                 </text>
                 {isSel && <circle cx={ctr.x} cy={ctr.y+11} r="2.2" fill="#00FF64" filter="url(#dGlowSm)"><animate attributeName="r" values="1.5;3.5;1.5" dur="1s" repeatCount="indefinite"/></circle>}
@@ -1576,9 +1576,9 @@ function TerritoryMapPage({ profile, showNotif }) {
 
       {/* Selected district detail panel */}
       {selected && (
-        <div onClick={()=>setSelected(null)} style={{position:'absolute',inset:0,zIndex:30,background:'rgba(0,0,0,0.5)',backdropFilter:'blur(3px)'}}>
+        <div onClick={()=>setSelected(null)} style={{position:'absolute',inset:0,zIndex:30,background:'rgba(17,21,28,0.8)',backdropFilter:'blur(3px)'}}>
           <div onClick={e=>e.stopPropagation()} style={{position:'absolute',bottom:0,left:0,right:0,background:'rgba(3,12,24,0.99)',backdropFilter:'blur(24px)',border:'1px solid rgba(0,255,80,0.18)',borderBottom:'none',borderRadius:'22px 22px 0 0',padding:'1rem',boxShadow:'0 -30px 80px rgba(0,0,0,0.65)',maxHeight:'70vh',overflowY:'auto',animation:'slideUp 0.22s ease'}}>
-            <div style={{width:'32px',height:'3px',borderRadius:'2px',background:'rgba(255,255,255,0.08)',margin:'0 auto 0.7rem'}}/>
+            <div style={{width:'32px',height:'3px',borderRadius:'2px',background:'rgba(237,231,218,0.07)',margin:'0 auto 0.7rem'}}/>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:'0.7rem'}}>
               <div>
                 <div style={{fontWeight:900,color:'#00FF64',fontSize:'1.05rem',fontFamily:"'Syne',sans-serif",textShadow:'0 0 12px rgba(0,255,80,0.5)',marginBottom:'0.12rem'}}>{selected.name}</div>
@@ -1587,39 +1587,39 @@ function TerritoryMapPage({ profile, showNotif }) {
                   <span style={{fontSize:'0.66rem',color:'#2A4A3A'}}>{selected.controlBy} • {(selected.population||0).toLocaleString('tr-TR')} nüfus</span>
                 </div>
               </div>
-              <button onClick={()=>setSelected(null)} style={{background:'rgba(255,255,255,0.05)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:'50%',width:'26px',height:'26px',color:'#2A4A3A',cursor:'pointer',fontSize:'0.8rem',display:'flex',alignItems:'center',justifyContent:'center'}}>✕</button>
+              <button onClick={()=>setSelected(null)} style={{background:'rgba(237,231,218,0.04)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'50%',width:'26px',height:'26px',color:'#2A4A3A',cursor:'pointer',fontSize:'0.8rem',display:'flex',alignItems:'center',justifyContent:'center'}}>✕</button>
             </div>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.35rem',marginBottom:'0.6rem'}}>
               {[
-                ['💰','Yasal Gelir',fmtWord(selected.legalIncome||0),'#10B981'],
-                ['🌑','Yeraltı',fmtWord(selected.illegalIncome||0),'#EF4444'],
-                ['🔪','Suç Oranı',`%${selected.crime}`,'#F59E0B'],
-                ['👮','Alarm Seviyesi',`%${selected.alarm}`,'#3B82F6'],
+                ['💰','Yasal Gelir',fmtWord(selected.legalIncome||0),'#4C9A6B'],
+                ['🌑','Yeraltı',fmtWord(selected.illegalIncome||0),'#C24B43'],
+                ['🔪','Suç Oranı',`%${selected.crime}`,'#C9A227'],
+                ['👮','Alarm Seviyesi',`%${selected.alarm}`,'#C9A227'],
                 ['❤️','Halk Desteği',`%${selected.support}`,'#EC4899'],
                 ['⚡','Nüfuz Puanı',`%${selected.influence}`,'#8B5CF6'],
               ].map(([ic,lb,v,c])=>(
-                <div key={lb} style={{background:'rgba(255,255,255,0.025)',border:'1px solid rgba(255,255,255,0.06)',borderRadius:'10px',padding:'0.45rem 0.5rem'}}>
+                <div key={lb} style={{background:'rgba(255,255,255,0.025)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'0.45rem 0.5rem'}}>
                   <div style={{fontSize:'0.53rem',color:'#0A2A1A',textTransform:'uppercase',marginBottom:'1px'}}>{ic} {lb}</div>
                   <div style={{fontWeight:800,color:c,fontSize:'0.82rem',fontFamily:"'JetBrains Mono',monospace"}}>{v}</div>
                 </div>
               ))}
             </div>
             {selected.conflicts?.length>0 && (
-              <div style={{background:'rgba(239,68,68,0.07)',border:'1px solid rgba(239,68,68,0.18)',borderRadius:'8px',padding:'0.5rem',marginBottom:'0.5rem'}}>
-                <div style={{fontSize:'0.65rem',fontWeight:800,color:'#FCA5A5',marginBottom:'0.2rem'}}>⚡ Aktif Olaylar</div>
+              <div style={{background:'rgba(194,75,67,0.07)',border:'1px solid rgba(194,75,67,0.18)',borderRadius:'8px',padding:'0.5rem',marginBottom:'0.5rem'}}>
+                <div style={{fontSize:'0.65rem',fontWeight:800,color:'#E08C87',marginBottom:'0.2rem'}}>⚡ Aktif Olaylar</div>
                 <div style={{display:'flex',gap:'0.3rem',flexWrap:'wrap'}}>
                   {selected.conflicts.map(c=>(
-                    <span key={c} style={{padding:'2px 6px',borderRadius:'6px',background:'rgba(239,68,68,0.12)',border:'1px solid rgba(239,68,68,0.2)',color:'#FCA5A5',fontSize:'0.65rem',fontWeight:700}}>
+                    <span key={c} style={{padding:'2px 6px',borderRadius:'6px',background:'rgba(194,75,67,0.12)',border:'1px solid rgba(194,75,67,0.2)',color:'#E08C87',fontSize:'0.65rem',fontWeight:700}}>
                       {c==='riot'?'🔥 İsyan':c==='cartel'?'💀 Kartel':c==='police'?'👮 Operasyon':'⚡ '+c}
                     </span>
                   ))}
                 </div>
               </div>
             )}
-            {[['Halk Desteği',selected.support,'#EC4899'],['Güvenlik Skoru',100-selected.alarm,'#3B82F6'],['Ekonomik Güç',Math.min(100,Math.round((selected.income||0)/3000)),'#10B981']].map(([lb,v,c])=>(
+            {[['Halk Desteği',selected.support,'#EC4899'],['Güvenlik Skoru',100-selected.alarm,'#C9A227'],['Ekonomik Güç',Math.min(100,Math.round((selected.income||0)/3000)),'#4C9A6B']].map(([lb,v,c])=>(
               <div key={lb} style={{marginBottom:'0.28rem'}}>
                 <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.55rem',color:'#0A2A1A',marginBottom:'2px'}}><span>{lb}</span><span>{v}%</span></div>
-                <div style={{height:'3px',background:'rgba(255,255,255,0.06)',borderRadius:'2px'}}>
+                <div style={{height:'3px',background:'rgba(237,231,218,0.05)',borderRadius:'2px'}}>
                   <div style={{height:'100%',width:`${v}%`,background:`linear-gradient(90deg,${c}80,${c})`,borderRadius:'2px',transition:'width 0.5s'}}/>
                 </div>
               </div>
@@ -1629,7 +1629,7 @@ function TerritoryMapPage({ profile, showNotif }) {
       )}
 
       {!selected && (
-        <div style={{position:'absolute',bottom:'10px',left:'50%',transform:'translateX(-50%)',background:'rgba(2,9,18,0.85)',backdropFilter:'blur(8px)',border:'1px solid rgba(0,255,80,0.1)',borderRadius:'20px',padding:'0.28rem 0.85rem',fontSize:'0.6rem',color:'#0A3020',fontWeight:700,zIndex:10,pointerEvents:'none',whiteSpace:'nowrap'}}>
+        <div style={{position:'absolute',bottom:'10px',left:'50%',transform:'translateX(-50%)',background:'rgba(2,9,18,0.85)',backdropFilter:'blur(8px)',border:'1px solid rgba(0,255,80,0.1)',borderRadius:'14px',padding:'0.28rem 0.85rem',fontSize:'0.6rem',color:'#0A3020',fontWeight:700,zIndex:10,pointerEvents:'none',whiteSpace:'nowrap'}}>
           👆 Bölgeye dokun → Detay &nbsp;•&nbsp; 🤏 Sıkıştır → Zoom
         </div>
       )}
@@ -1656,7 +1656,7 @@ const DAILY_TASK_DEFS = [
 function DailyTasksPage({ profile, setProfile, showNotif, onNavigate }) {
   const { dark } = useTheme();
   const bg = dark ? '#0F172A' : '#F8FAFC';
-  const card = dark ? 'rgba(255,255,255,0.04)' : '#FFFFFF';
+  const card = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
 
   const today = new Date().toDateString();
@@ -1711,15 +1711,15 @@ function DailyTasksPage({ profile, setProfile, showNotif, onNavigate }) {
 
   return (
     <div style={{padding:'1rem', background:bg, minHeight:'100%'}}>
-      <div style={{background:'linear-gradient(135deg,rgba(245,158,11,0.15),rgba(11,21,39,0.97))',border:'1px solid rgba(245,158,11,0.25)',borderRadius:'18px',padding:'1.2rem',marginBottom:'0.75rem'}}>
-        <div style={{fontSize:'0.6rem',color:'#F59E0B',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.2rem'}}>📅 GÜNLÜK GÖREVLER</div>
-        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:900,color:'#E8EDF2',marginBottom:'0.2rem'}}>Her gün yenilenir</div>
-        <div style={{fontSize:'0.7rem',color:'#5A7089'}}>
-          <span style={{color:'#F59E0B',fontWeight:700}}>{completedCount}/{DAILY_TASK_DEFS.length}</span> görev tamamlandı •
-          Toplam ödül: <span style={{color:'#10B981',fontWeight:700}}>{fmtWord(totalReward)}</span>
+      <div style={{background:'linear-gradient(135deg,rgba(201,162,39,0.15),rgba(11,21,39,0.97))',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'12px',padding:'1.2rem',marginBottom:'0.75rem'}}>
+        <div style={{fontSize:'0.6rem',color:'#C9A227',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.2rem'}}>📅 GÜNLÜK GÖREVLER</div>
+        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA',marginBottom:'0.2rem'}}>Her gün yenilenir</div>
+        <div style={{fontSize:'0.7rem',color:'#8893A1'}}>
+          <span style={{color:'#C9A227',fontWeight:700}}>{completedCount}/{DAILY_TASK_DEFS.length}</span> görev tamamlandı •
+          Toplam ödül: <span style={{color:'#4C9A6B',fontWeight:700}}>{fmtWord(totalReward)}</span>
         </div>
-        <div style={{marginTop:'0.6rem',height:'6px',background:'rgba(255,255,255,0.07)',borderRadius:'3px',overflow:'hidden'}}>
-          <div style={{height:'100%',width:`${(completedCount/DAILY_TASK_DEFS.length)*100}%`,background:'linear-gradient(90deg,#F59E0B,#FBBF24)',borderRadius:'3px',transition:'width 0.4s'}} />
+        <div style={{marginTop:'0.6rem',height:'6px',background:'rgba(237,231,218,0.06)',borderRadius:'3px',overflow:'hidden'}}>
+          <div style={{height:'100%',width:`${(completedCount/DAILY_TASK_DEFS.length)*100}%`,background:'linear-gradient(90deg,#C9A227,#C9A227)',borderRadius:'3px',transition:'width 0.4s'}} />
         </div>
       </div>
 
@@ -1730,25 +1730,25 @@ function DailyTasksPage({ profile, setProfile, showNotif, onNavigate }) {
         const got = isClaimed(task);
         const pct = Math.round((prog/target)*100);
         return (
-          <div key={task.id} style={{background:got?`rgba(16,185,129,0.05)`:card,border:`1px solid ${got?'rgba(16,185,129,0.25)':done?'rgba(245,158,11,0.3)':border}`,borderRadius:'14px',padding:'0.85rem',marginBottom:'0.5rem',display:'flex',alignItems:'center',gap:'0.75rem'}}>
+          <div key={task.id} style={{background:got?`rgba(76,154,107,0.05)`:card,border:`1px solid ${got?'rgba(76,154,107,0.25)':done?'rgba(201,162,39,0.3)':border}`,borderRadius:'14px',padding:'0.85rem',marginBottom:'0.5rem',display:'flex',alignItems:'center',gap:'0.75rem'}}>
             <div style={{fontSize:'1.6rem',flexShrink:0}}>{task.icon}</div>
             <div style={{flex:1,minWidth:0}}>
-              <div style={{fontWeight:800,color:dark?'#E8EDF2':'#1E293B',fontSize:'0.85rem'}}>{task.title}</div>
-              <div style={{fontSize:'0.65rem',color:'#5A7089',marginBottom:'0.3rem'}}>{task.desc}</div>
+              <div style={{fontWeight:800,color:dark?'#EDE7DA':'#1E293B',fontSize:'0.85rem'}}>{task.title}</div>
+              <div style={{fontSize:'0.65rem',color:'#8893A1',marginBottom:'0.3rem'}}>{task.desc}</div>
               {!task.auto && (
                 <div>
-                  <div style={{height:'3px',background:'rgba(255,255,255,0.07)',borderRadius:'2px',overflow:'hidden',marginBottom:'2px'}}>
-                    <div style={{height:'100%',width:`${pct}%`,background:done?'#10B981':'#F59E0B',borderRadius:'2px',transition:'width 0.3s'}} />
+                  <div style={{height:'3px',background:'rgba(237,231,218,0.06)',borderRadius:'2px',overflow:'hidden',marginBottom:'2px'}}>
+                    <div style={{height:'100%',width:`${pct}%`,background:done?'#4C9A6B':'#C9A227',borderRadius:'2px',transition:'width 0.3s'}} />
                   </div>
-                  <div style={{fontSize:'0.6rem',color:'#5A7089'}}>{prog}/{target}</div>
+                  <div style={{fontSize:'0.6rem',color:'#8893A1'}}>{prog}/{target}</div>
                 </div>
               )}
-              <div style={{fontSize:'0.62rem',color:'#10B981',fontWeight:700,marginTop:'0.2rem'}}>
+              <div style={{fontSize:'0.62rem',color:'#4C9A6B',fontWeight:700,marginTop:'0.2rem'}}>
                 +{fmtWord(task.reward.money)} • +{task.reward.xp}XP{task.reward.uc?` • +${task.reward.uc}UC`:''}
               </div>
             </div>
             <button onClick={()=>claimTask(task)} disabled={got||!done}
-              style={{padding:'0.4rem 0.7rem',borderRadius:'10px',border:'none',background:got?'rgba(16,185,129,0.15)':done?'linear-gradient(135deg,#F59E0B,#D97706)':'rgba(255,255,255,0.04)',color:got?'#10B981':done?'#000':'#3B4E63',fontWeight:800,fontSize:'0.72rem',cursor:got||!done?'default':'pointer',flexShrink:0}}>
+              style={{padding:'0.4rem 0.7rem',borderRadius:'10px',border:'none',background:got?'rgba(76,154,107,0.15)':done?'linear-gradient(135deg,#C9A227,#A07D1C)':'rgba(255,255,255,0.04)',color:got?'#4C9A6B':done?'#000':'#3B4E63',fontWeight:800,fontSize:'0.72rem',cursor:got||!done?'default':'pointer',flexShrink:0}}>
               {got?'✅':'Al'}
             </button>
           </div>
@@ -1773,7 +1773,7 @@ const TRADE_ROUTES = [
 
 function IntlTradePage({ profile, setProfile, showNotif }) {
   const { dark } = useTheme();
-  const card = dark ? 'rgba(255,255,255,0.04)' : '#FFFFFF';
+  const card = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
   const [activeRoutes, setActiveRoutes] = useLs('intlTradeRoutes', {});
   const [tick, setTick] = useState(0);
@@ -1814,9 +1814,9 @@ function IntlTradePage({ profile, setProfile, showNotif }) {
 
   return (
     <div>
-      <div style={{background:'linear-gradient(135deg,rgba(16,185,129,0.12),rgba(11,21,39,0.95))',border:'1px solid rgba(16,185,129,0.2)',borderRadius:'14px',padding:'1rem',marginBottom:'0.75rem'}}>
-        <div style={{fontSize:'0.72rem',color:'#10B981',fontWeight:800,textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.2rem'}}>🌍 ULUSLARARASI TİCARET</div>
-        <div style={{fontSize:'0.72rem',color:'#5A7089'}}>Ticaret Puanı: <span style={{color:'#06B6D4',fontWeight:700}}>{profile?.tradePoints||0} TP</span> • Her 100 TP → %1 oy katsayısı</div>
+      <div style={{background:'linear-gradient(135deg,rgba(76,154,107,0.12),rgba(11,21,39,0.95))',border:'1px solid rgba(76,154,107,0.2)',borderRadius:'14px',padding:'1rem',marginBottom:'0.75rem'}}>
+        <div style={{fontSize:'0.72rem',color:'#4C9A6B',fontWeight:800,textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.2rem'}}>🌍 ULUSLARARASI TİCARET</div>
+        <div style={{fontSize:'0.72rem',color:'#8893A1'}}>Ticaret Puanı: <span style={{color:'#C9A227',fontWeight:700}}>{profile?.tradePoints||0} TP</span> • Her 100 TP → %1 oy katsayısı</div>
       </div>
       {TRADE_ROUTES.map(route => {
         const active = activeRoutes[route.id];
@@ -1825,27 +1825,27 @@ function IntlTradePage({ profile, setProfile, showNotif }) {
         const done = active && remaining === 0;
         const pct = active ? Math.round(((active.duration-(active.finishAt-Date.now()))/active.duration)*100) : 0;
         return (
-          <div key={route.id} style={{background:locked?'rgba(255,255,255,0.02)':done?'rgba(16,185,129,0.06)':card,border:`1px solid ${locked?border:done?'rgba(16,185,129,0.3)':active?'rgba(59,130,246,0.25)':border}`,borderRadius:'14px',padding:'0.85rem',marginBottom:'0.5rem',opacity:locked?0.5:1}}>
+          <div key={route.id} style={{background:locked?'rgba(255,255,255,0.02)':done?'rgba(76,154,107,0.06)':card,border:`1px solid ${locked?border:done?'rgba(76,154,107,0.3)':active?'rgba(201,162,39,0.25)':border}`,borderRadius:'14px',padding:'0.85rem',marginBottom:'0.5rem',opacity:locked?0.5:1}}>
             <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:'0.5rem',marginBottom:'0.4rem'}}>
               <div>
-                <div style={{fontWeight:800,color:dark?'#E8EDF2':'#1E293B',fontSize:'0.85rem'}}>{route.from} → {route.to}</div>
-                <div style={{fontSize:'0.65rem',color:'#5A7089'}}>{route.goods} • Süre: {fmtTime(route.duration)}</div>
-                <div style={{fontSize:'0.62rem',color:'#10B981',fontWeight:700,marginTop:'0.2rem'}}>
+                <div style={{fontWeight:800,color:dark?'#EDE7DA':'#1E293B',fontSize:'0.85rem'}}>{route.from} → {route.to}</div>
+                <div style={{fontSize:'0.65rem',color:'#8893A1'}}>{route.goods} • Süre: {fmtTime(route.duration)}</div>
+                <div style={{fontSize:'0.62rem',color:'#4C9A6B',fontWeight:700,marginTop:'0.2rem'}}>
                   -{fmtWord(route.cost)} • +{fmtWord(route.earn)} • +{route.tp}TP
                 </div>
               </div>
               {locked
-                ? <span style={{color:'#EF4444',fontSize:'0.7rem',fontWeight:700,flexShrink:0}}>🔒 Lv.{route.minLevel}</span>
+                ? <span style={{color:'#C24B43',fontSize:'0.7rem',fontWeight:700,flexShrink:0}}>🔒 Lv.{route.minLevel}</span>
                 : done
-                  ? <button onClick={()=>collectRoute(route)} style={{padding:'0.4rem 0.75rem',borderRadius:'10px',border:'none',background:'linear-gradient(135deg,#10B981,#059669)',color:'#fff',fontWeight:800,fontSize:'0.75rem',cursor:'pointer',flexShrink:0}}>Topla!</button>
+                  ? <button onClick={()=>collectRoute(route)} style={{padding:'0.4rem 0.75rem',borderRadius:'10px',border:'none',background:'linear-gradient(135deg,#4C9A6B,#4C9A6B)',color:'#EDE7DA',fontWeight:800,fontSize:'0.75rem',cursor:'pointer',flexShrink:0}}>Topla!</button>
                   : active
-                    ? <span style={{fontSize:'0.68rem',color:'#60A5FA',fontWeight:700,flexShrink:0}}>⏳ {fmtTime(remaining)}</span>
-                    : <button onClick={()=>startRoute(route)} style={{padding:'0.4rem 0.75rem',borderRadius:'10px',border:'none',background:'linear-gradient(135deg,#3B82F6,#2563EB)',color:'#fff',fontWeight:800,fontSize:'0.75rem',cursor:'pointer',flexShrink:0}}>Başlat</button>
+                    ? <span style={{fontSize:'0.68rem',color:'#C9A227',fontWeight:700,flexShrink:0}}>⏳ {fmtTime(remaining)}</span>
+                    : <button onClick={()=>startRoute(route)} style={{padding:'0.4rem 0.75rem',borderRadius:'10px',border:'none',background:'linear-gradient(135deg,#C9A227,#C9A227)',color:'#EDE7DA',fontWeight:800,fontSize:'0.75rem',cursor:'pointer',flexShrink:0}}>Başlat</button>
               }
             </div>
             {active && !done && (
-              <div style={{height:'3px',background:'rgba(255,255,255,0.07)',borderRadius:'2px',overflow:'hidden'}}>
-                <div style={{height:'100%',width:`${Math.min(100,pct)}%`,background:'linear-gradient(90deg,#3B82F6,#60A5FA)',borderRadius:'2px',transition:'width 5s linear'}} />
+              <div style={{height:'3px',background:'rgba(237,231,218,0.06)',borderRadius:'2px',overflow:'hidden'}}>
+                <div style={{height:'100%',width:`${Math.min(100,pct)}%`,background:'linear-gradient(90deg,#C9A227,#E5C14B)',borderRadius:'2px',transition:'width 5s linear'}} />
               </div>
             )}
           </div>
@@ -1870,7 +1870,7 @@ const TOURNAMENTS = [
 function TournamentPage({ profile, setProfile, showNotif }) {
   const { dark } = useTheme();
   const bg = dark ? '#0F172A' : '#F8FAFC';
-  const card = dark ? 'rgba(255,255,255,0.04)' : '#FFFFFF';
+  const card = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
   const [allUsers] = useLs('rep_users', []);
   const [tab, setTab] = useState('active');
@@ -1895,20 +1895,20 @@ function TournamentPage({ profile, setProfile, showNotif }) {
     return sorted.findIndex(u=>u?.id===profile?.id)+1;
   };
 
-  const catColor = {Ekonomi:'#10B981',İş:'#3B82F6',Ticaret:'#06B6D4',Genel:'#F59E0B',Eğlence:'#8B5CF6',Dövüş:'#EF4444'};
+  const catColor = {Ekonomi:'#4C9A6B',İş:'#C9A227',Ticaret:'#C9A227',Genel:'#C9A227',Eğlence:'#8B5CF6',Dövüş:'#C24B43'};
 
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>
-      <div style={{background:'linear-gradient(135deg,rgba(239,68,68,0.15),rgba(11,21,39,0.97))',border:'1px solid rgba(239,68,68,0.25)',borderRadius:'18px',padding:'1.2rem',marginBottom:'0.75rem'}}>
-        <div style={{fontSize:'0.6rem',color:'#EF4444',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.2rem'}}>🎯 TURNUVALAR & ETKİNLİKLER</div>
-        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:900,color:'#E8EDF2',marginBottom:'0.1rem'}}>Rekabet Et, Kazan</div>
-        <div style={{fontSize:'0.7rem',color:'#5A7089'}}>Her hafta yenilenen turnuvalar • Birinci büyük ödül kazanır</div>
+      <div style={{background:'linear-gradient(135deg,rgba(194,75,67,0.15),rgba(11,21,39,0.97))',border:'1px solid rgba(194,75,67,0.25)',borderRadius:'12px',padding:'1.2rem',marginBottom:'0.75rem'}}>
+        <div style={{fontSize:'0.6rem',color:'#C24B43',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.2rem'}}>🎯 TURNUVALAR & ETKİNLİKLER</div>
+        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA',marginBottom:'0.1rem'}}>Rekabet Et, Kazan</div>
+        <div style={{fontSize:'0.7rem',color:'#8893A1'}}>Her hafta yenilenen turnuvalar • Birinci büyük ödül kazanır</div>
       </div>
 
       <div style={{display:'flex',gap:'4px',marginBottom:'0.75rem'}}>
         {[['active','⚡ Aktif'],['my','🏆 Katıldıklarım']].map(([v,l])=>(
           <button key={v} onClick={()=>setTab(v)}
-            style={{flex:1,padding:'0.5rem',borderRadius:'10px',border:`1px solid ${tab===v?'rgba(239,68,68,0.4)':border}`,background:tab===v?'rgba(239,68,68,0.12)':'transparent',color:tab===v?'#F87171':'#5A7089',fontFamily:"'DM Sans',sans-serif",fontWeight:700,fontSize:'0.8rem',cursor:'pointer'}}>
+            style={{flex:1,padding:'0.5rem',borderRadius:'10px',border:`1px solid ${tab===v?'rgba(194,75,67,0.4)':border}`,background:tab===v?'rgba(194,75,67,0.12)':'transparent',color:tab===v?'#E08C87':'#8893A1',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.8rem',cursor:'pointer'}}>
             {l}
           </button>
         ))}
@@ -1918,43 +1918,43 @@ function TournamentPage({ profile, setProfile, showNotif }) {
         const isJoined = !!joined[t.id];
         const rank = myRank(t);
         const leaders = getLeaders(t);
-        const cc = catColor[t.category]||'#5A7089';
+        const cc = catColor[t.category]||'#8893A1';
         return (
-          <div key={t.id} style={{background:card,border:`1px solid ${isJoined?'rgba(239,68,68,0.25)':border}`,borderRadius:'14px',padding:'0.9rem',marginBottom:'0.6rem'}}>
+          <div key={t.id} style={{background:card,border:`1px solid ${isJoined?'rgba(194,75,67,0.25)':border}`,borderRadius:'14px',padding:'0.9rem',marginBottom:'0.6rem'}}>
             <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',marginBottom:'0.5rem'}}>
               <div style={{display:'flex',gap:'0.6rem',alignItems:'center'}}>
                 <span style={{fontSize:'1.75rem'}}>{t.icon}</span>
                 <div>
-                  <div style={{fontWeight:800,color:dark?'#E8EDF2':'#1E293B',fontSize:'0.88rem'}}>{t.title}</div>
-                  <div style={{fontSize:'0.65rem',color:'#5A7089'}}>{t.desc}</div>
+                  <div style={{fontWeight:800,color:dark?'#EDE7DA':'#1E293B',fontSize:'0.88rem'}}>{t.title}</div>
+                  <div style={{fontSize:'0.65rem',color:'#8893A1'}}>{t.desc}</div>
                   <span style={{fontSize:'0.6rem',fontWeight:700,color:cc,background:`${cc}18`,border:`1px solid ${cc}30`,borderRadius:'6px',padding:'0.1rem 0.4rem'}}>{t.category}</span>
                 </div>
               </div>
               <button onClick={()=>join(t)} disabled={isJoined}
-                style={{padding:'0.35rem 0.7rem',borderRadius:'9px',border:'none',background:isJoined?'rgba(16,185,129,0.15)':'linear-gradient(135deg,#EF4444,#DC2626)',color:isJoined?'#10B981':'#fff',fontWeight:700,fontSize:'0.72rem',cursor:isJoined?'default':'pointer',flexShrink:0}}>
+                style={{padding:'0.35rem 0.7rem',borderRadius:'9px',border:'none',background:isJoined?'rgba(76,154,107,0.15)':'linear-gradient(135deg,#C24B43,#C24B43)',color:isJoined?'#4C9A6B':'#fff',fontWeight:700,fontSize:'0.72rem',cursor:isJoined?'default':'pointer',flexShrink:0}}>
                 {isJoined?'✅ Katıldın':'Katıl'}
               </button>
             </div>
 
             <div style={{display:'flex',gap:'0.5rem',marginBottom:'0.5rem'}}>
               {[['💰',fmtWord(t.reward.money)],['💎',`${t.reward.uc}UC`],['⭐',`${t.reward.xp}XP`]].map(([ic,v])=>(
-                <div key={ic} style={{flex:1,textAlign:'center',background:'rgba(239,68,68,0.07)',border:'1px solid rgba(239,68,68,0.15)',borderRadius:'8px',padding:'0.3rem 0'}}>
-                  <div style={{fontSize:'0.6rem',color:'#F87171',fontWeight:700}}>{ic} {v}</div>
+                <div key={ic} style={{flex:1,textAlign:'center',background:'rgba(194,75,67,0.07)',border:'1px solid rgba(194,75,67,0.15)',borderRadius:'8px',padding:'0.3rem 0'}}>
+                  <div style={{fontSize:'0.6rem',color:'#E08C87',fontWeight:700}}>{ic} {v}</div>
                 </div>
               ))}
             </div>
 
             {isJoined && (
               <div>
-                <div style={{fontSize:'0.65rem',color:'#5A7089',fontWeight:700,marginBottom:'0.3rem'}}>🏆 Liderler ({t.duration} gün)</div>
+                <div style={{fontSize:'0.65rem',color:'#8893A1',fontWeight:700,marginBottom:'0.3rem'}}>🏆 Liderler ({t.duration} gün)</div>
                 {leaders.map((u,i)=>(
                   <div key={i} style={{display:'flex',alignItems:'center',gap:'0.5rem',padding:'0.25rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
-                    <span style={{fontSize:'0.7rem',color:i===0?'#FFD700':i===1?'#C0C0C0':i===2?'#CD7F32':'#5A7089',fontWeight:800,width:'18px'}}>{i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}.`}</span>
-                    <span style={{flex:1,fontSize:'0.72rem',color:u?.id===profile?.id?'#60A5FA':'#E8EDF2',fontWeight:u?.id===profile?.id?800:400}}>{u?.username||'?'}</span>
-                    <span style={{fontSize:'0.7rem',color:'#10B981',fontWeight:700}}>{fmt(u?.[t.key]||0)}</span>
+                    <span style={{fontSize:'0.7rem',color:i===0?'#C9A227':i===1?'#C0C0C0':i===2?'#CD7F32':'#8893A1',fontWeight:800,width:'18px'}}>{i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}.`}</span>
+                    <span style={{flex:1,fontSize:'0.72rem',color:u?.id===profile?.id?'#C9A227':'#EDE7DA',fontWeight:u?.id===profile?.id?800:400}}>{u?.username||'?'}</span>
+                    <span style={{fontSize:'0.7rem',color:'#4C9A6B',fontWeight:700}}>{fmt(u?.[t.key]||0)}</span>
                   </div>
                 ))}
-                <div style={{marginTop:'0.35rem',fontSize:'0.65rem',color:'#60A5FA',fontWeight:700}}>Sıran: #{rank}</div>
+                <div style={{marginTop:'0.35rem',fontSize:'0.65rem',color:'#C9A227',fontWeight:700}}>Sıran: #{rank}</div>
               </div>
             )}
           </div>

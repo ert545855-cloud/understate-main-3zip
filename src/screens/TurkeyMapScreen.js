@@ -38,12 +38,12 @@ const TR_REGION_MAP = {
 };
 
 const TR_REGION_COLORS = {
-  marmara:   '#3B82F6',
+  marmara:   '#C9A227',
   ege:       '#8B5CF6',
-  akdeniz:   '#F59E0B',
+  akdeniz:   '#C9A227',
   i_anadolu: '#6B7280',
-  karadeniz: '#10B981',
-  d_anadolu: '#EF4444',
+  karadeniz: '#4C9A6B',
+  d_anadolu: '#C24B43',
   g_dogu:    '#F97316',
 };
 
@@ -120,7 +120,7 @@ window.TurkeyProvinceMap = function TurkeyProvinceMap({ controlData, highlightOw
           const isHov = hovered === n;
           const r = isHov ? 12 : isHighlighted ? 11 : owned ? 9 : 6;
           const security = ctrl?.security ?? 50;
-          const secColor = security >= 70 ? '#10B981' : security >= 40 ? '#F59E0B' : '#EF4444';
+          const secColor = security >= 70 ? '#4C9A6B' : security >= 40 ? '#C9A227' : '#C24B43';
 
           return (
             <g key={n}
@@ -188,7 +188,7 @@ window.TurkeyProvinceMap = function TurkeyProvinceMap({ controlData, highlightOw
         }}>
           {hovered}
           {controlData?.[hovered] && (
-            <span style={{ color: controlData[hovered].color || '#10B981', marginLeft: 6 }}>
+            <span style={{ color: controlData[hovered].color || '#4C9A6B', marginLeft: 6 }}>
               — {controlData[hovered].ownerName}
             </span>
           )}
@@ -304,16 +304,16 @@ window.TurkeyMapScreen = function TurkeyMapScreen({ profile, gangs, families, sh
   return (
     <div style={{ padding: '0.75rem' }}>
       {/* Header */}
-      <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 900, fontSize: '1.15rem', color: '#60A5FA', marginBottom: '0.75rem', letterSpacing: '0.04em' }}>
+      <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 900, fontSize: '1.15rem', color: '#C9A227', marginBottom: '0.75rem', letterSpacing: '0.04em' }}>
         🗺️ Türkiye Bölge Haritası
       </div>
 
       {/* Stats bar */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.4rem', marginBottom: '0.7rem' }}>
         {[
-          { l: 'Benim Bölgem', v: myProvinces.length, c: '#10B981', ic: '🏴' },
+          { l: 'Benim Bölgem', v: myProvinces.length, c: '#4C9A6B', ic: '🏴' },
           { l: 'Aile Bölgesi', v: familyCtrl,         c: '#A78BFA', ic: '👨‍👩‍👧' },
-          { l: 'Çete Bölgesi', v: gangCtrl,            c: '#EF4444', ic: '⚔️' },
+          { l: 'Çete Bölgesi', v: gangCtrl,            c: '#C24B43', ic: '⚔️' },
         ].map(s => (
           <div key={s.l} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 10, padding: '0.5rem', textAlign: 'center' }}>
             <div style={{ fontWeight: 900, fontSize: '1.15rem', color: s.c }}>{s.ic} {s.v}</div>
@@ -327,7 +327,7 @@ window.TurkeyMapScreen = function TurkeyMapScreen({ profile, gangs, families, sh
         {[['all', '🌍 Tümü'], ['family', '👨‍👩‍👧 Aile'], ['gang', '⚔️ Çete']].map(([id, lbl]) => (
           <button key={id} onClick={() => setViewMode(id)} style={{
             padding: '0.3rem 0.75rem', borderRadius: 8, border: 'none',
-            background: viewMode === id ? '#3B82F6' : 'rgba(255,255,255,0.06)',
+            background: viewMode === id ? '#C9A227' : 'rgba(255,255,255,0.06)',
             color: viewMode === id ? '#fff' : '#6B84A0',
             fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
           }}>{lbl}</button>
@@ -352,13 +352,13 @@ window.TurkeyMapScreen = function TurkeyMapScreen({ profile, gangs, families, sh
             {/* Header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.85rem' }}>
               <div>
-                <div style={{ fontFamily: 'Syne,sans-serif', fontWeight: 900, fontSize: '1.15rem', color: '#E8EDF2' }}>{selected.name}</div>
+                <div style={{ fontFamily: 'Syne,sans-serif', fontWeight: 900, fontSize: '1.15rem', color: '#EDE7DA' }}>{selected.name}</div>
                 <div style={{ fontSize: '0.72rem', color: '#5E7390', marginTop: 2 }}>
                   {TR_REGION_LABELS[TR_REGION_MAP[selected.name] || 'i_anadolu'] || ''} Bölgesi
                 </div>
               </div>
               {selected.ctrl ? (
-                <span style={{ background: (selected.ctrl.color || '#10B981') + '22', border: `1px solid ${(selected.ctrl.color || '#10B981')}44`, borderRadius: 8, padding: '0.25rem 0.6rem', fontSize: '0.7rem', fontWeight: 700, color: selected.ctrl.color || '#10B981' }}>
+                <span style={{ background: (selected.ctrl.color || '#4C9A6B') + '22', border: `1px solid ${(selected.ctrl.color || '#4C9A6B')}44`, borderRadius: 8, padding: '0.25rem 0.6rem', fontSize: '0.7rem', fontWeight: 700, color: selected.ctrl.color || '#4C9A6B' }}>
                   {selected.ctrl.ownerType === 'family' ? '👨‍👩‍👧' : '⚔️'} {selected.ctrl.ownerName}
                 </span>
               ) : (
@@ -370,8 +370,8 @@ window.TurkeyMapScreen = function TurkeyMapScreen({ profile, gangs, families, sh
             {selected.ctrl && (
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem', marginBottom: '0.85rem' }}>
                 {[
-                  { l: '🛡️ Güvenlik', v: selected.ctrl.security ?? 50, c: '#60A5FA' },
-                  { l: '💚 Refah',    v: selected.ctrl.welfare  ?? 50, c: '#10B981' },
+                  { l: '🛡️ Güvenlik', v: selected.ctrl.security ?? 50, c: '#C9A227' },
+                  { l: '💚 Refah',    v: selected.ctrl.welfare  ?? 50, c: '#4C9A6B' },
                 ].map(s => (
                   <div key={s.l} style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 8, padding: '0.5rem' }}>
                     <div style={{ fontSize: '0.7rem', color: '#8899AA', marginBottom: '0.25rem' }}>{s.l}</div>
@@ -396,7 +396,7 @@ window.TurkeyMapScreen = function TurkeyMapScreen({ profile, gangs, families, sh
                   )}
                   {myGang && (
                     <button className="btn btn-red" style={{ width: '100%' }}
-                      onClick={() => claimProvince(selected.name, myGang.name, 'gang', '#EF4444')}>
+                      onClick={() => claimProvince(selected.name, myGang.name, 'gang', '#C24B43')}>
                       ⚔️ Çete Adına Ele Geçir (50 Güç)
                     </button>
                   )}
@@ -418,7 +418,7 @@ window.TurkeyMapScreen = function TurkeyMapScreen({ profile, gangs, families, sh
                     </button>
                   </div>
                   <button onClick={() => releaseProvince(selected.name)}
-                    style={{ width: '100%', padding: '0.5rem', borderRadius: 10, border: '1px solid rgba(239,68,68,0.3)', background: 'rgba(239,68,68,0.06)', color: '#EF4444', cursor: 'pointer', fontWeight: 700, fontSize: '0.8rem', fontFamily: 'inherit' }}>
+                    style={{ width: '100%', padding: '0.5rem', borderRadius: 10, border: '1px solid rgba(194,75,67,0.3)', background: 'rgba(194,75,67,0.06)', color: '#C24B43', cursor: 'pointer', fontWeight: 700, fontSize: '0.8rem', fontFamily: 'inherit' }}>
                     🏳️ Bölgeyi Bırak
                   </button>
                 </>
@@ -431,7 +431,7 @@ window.TurkeyMapScreen = function TurkeyMapScreen({ profile, gangs, families, sh
                     if (totalPower < 30 + s) return showNotif(`Bu bölge için ${30 + s} çete gücü gerekli (şu an: ${totalPower})`, 'error');
                     const updated = {
                       ...control,
-                      [selected.name]: { ownerName: myGang.name, ownerType: 'gang', color: '#EF4444', security: Math.max(20, s - 20), welfare: selected.ctrl.welfare ?? 50, claimedAt: Date.now() }
+                      [selected.name]: { ownerName: myGang.name, ownerType: 'gang', color: '#C24B43', security: Math.max(20, s - 20), welfare: selected.ctrl.welfare ?? 50, claimedAt: Date.now() }
                     };
                     saveControl(updated);
                     showNotif(`⚔️ ${selected.name} çetenize geçti!`, 'success');
@@ -452,7 +452,7 @@ window.TurkeyMapScreen = function TurkeyMapScreen({ profile, gangs, families, sh
       {/* My provinces list */}
       {myProvinces.length > 0 && (
         <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '0.85rem' }}>
-          <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#60A5FA', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
+          <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#C9A227', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
             🏴 Kontrolündeki Bölgeler ({myProvinces.length})
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
@@ -461,7 +461,7 @@ window.TurkeyMapScreen = function TurkeyMapScreen({ profile, gangs, families, sh
               return (
                 <button key={name}
                   onClick={() => setSelected({ name, ctrl: c })}
-                  style={{ background: (c.color || '#10B981') + '18', border: `1px solid ${(c.color || '#10B981')}44`, borderRadius: 8, padding: '0.25rem 0.55rem', fontSize: '0.72rem', fontWeight: 700, color: c.color || '#10B981', cursor: 'pointer' }}>
+                  style={{ background: (c.color || '#4C9A6B') + '18', border: `1px solid ${(c.color || '#4C9A6B')}44`, borderRadius: 8, padding: '0.25rem 0.55rem', fontSize: '0.72rem', fontWeight: 700, color: c.color || '#4C9A6B', cursor: 'pointer' }}>
                   {name} 🛡️{c.security ?? 50}%
                 </button>
               );

@@ -22,7 +22,7 @@ function KlanChatPage({ profile }) {
   const endRef = useRef(null);
   const rtdbRef = useRef(null);
   const bg = dark ? '#0F172A' : '#F8FAFC';
-  const card = dark ? 'rgba(255,255,255,0.04)' : '#FFFFFF';
+  const card = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
   const rooms = ['Genel', 'Liderler', 'Savaş Planı', 'Ticaret'];
 
@@ -172,8 +172,8 @@ function KlanChatPage({ profile }) {
         <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
           {historyLoading && <span style={{fontSize:'0.62rem',color:'#A78BFA'}}>⏳</span>}
           <button onClick={()=>loadHistory(room)} style={{background:'rgba(139,92,246,0.1)',border:'1px solid rgba(139,92,246,0.25)',borderRadius:'8px',padding:'0.25rem 0.6rem',color:'#A78BFA',fontSize:'0.65rem',fontWeight:700,cursor:'pointer'}}>🔄</button>
-          <div style={{display:'flex',alignItems:'center',gap:'0.35rem',fontSize:'0.7rem',color:online?'#10B981':'#5A7089',fontWeight:700}}>
-            <div style={{width:'6px',height:'6px',borderRadius:'50%',background:online?'#10B981':'#5A7089',boxShadow:online?'0 0 6px #10B981':'none'}}/>
+          <div style={{display:'flex',alignItems:'center',gap:'0.35rem',fontSize:'0.7rem',color:online?'#4C9A6B':'#8893A1',fontWeight:700}}>
+            <div style={{width:'6px',height:'6px',borderRadius:'50%',background:online?'#4C9A6B':'#8893A1',boxShadow:online?'0 0 6px #4C9A6B':'none'}}/>
             {online?'Canlı':'Çevrimdışı'}
           </div>
         </div>
@@ -181,13 +181,13 @@ function KlanChatPage({ profile }) {
       <div style={{display:'flex',gap:'0.5rem',flexWrap:'wrap'}}>
         {rooms.map(r => (
           <button key={r} onClick={()=>setRoom(r)}
-            style={{padding:'0.35rem 0.85rem',borderRadius:'20px',border:`1px solid ${room===r?'rgba(139,92,246,0.5)':border}`,background:room===r?'rgba(139,92,246,0.15)':'transparent',color:room===r?'#A78BFA':dark?'#64748B':'#94A3B8',fontSize:'0.78rem',fontWeight:700,cursor:'pointer',transition:'all 0.15s'}}>
+            style={{padding:'0.35rem 0.85rem',borderRadius:'14px',border:`1px solid ${room===r?'rgba(139,92,246,0.5)':border}`,background:room===r?'rgba(139,92,246,0.15)':'transparent',color:room===r?'#A78BFA':dark?'#64748B':'#94A3B8',fontSize:'0.78rem',fontWeight:700,cursor:'pointer',transition:'all 0.15s'}}>
             {r}
           </button>
         ))}
       </div>
-      <div style={{flex:1,background:card,border:`1px solid ${border}`,borderRadius:'16px',padding:'0.75rem',overflowY:'auto',maxHeight:'48vh',display:'flex',flexDirection:'column',gap:'0.5rem'}}>
-        {roomMsgs.length===0 && <div style={{color:'#5A7089',fontSize:'0.85rem',textAlign:'center',marginTop:'2rem'}}>{online?'Bu odada henüz mesaj yok. İlk mesajı gönder!':'🔄 Bağlanıyor...'}</div>}
+      <div style={{flex:1,background:card,border:`1px solid ${border}`,borderRadius:'10px',padding:'0.75rem',overflowY:'auto',maxHeight:'48vh',display:'flex',flexDirection:'column',gap:'0.5rem'}}>
+        {roomMsgs.length===0 && <div style={{color:'#8893A1',fontSize:'0.85rem',textAlign:'center',marginTop:'2rem'}}>{online?'Bu odada henüz mesaj yok. İlk mesajı gönder!':'🔄 Bağlanıyor...'}</div>}
         {roomMsgs.map(m => {
           const isMe = m.author === cu.username;
           const gifMatch = m.text?.match(gifRx);
@@ -203,14 +203,14 @@ function KlanChatPage({ profile }) {
                 {!isMe && <div style={{fontSize:'0.62rem',color:'#A78BFA',fontWeight:700,marginBottom:'2px',paddingLeft:'4px'}}>{m.author}{m.city&&` · ${m.city}`}</div>}
                 {isGif ? (
                   <div style={{borderRadius:isMe?'12px 12px 3px 12px':'12px 12px 12px 3px',overflow:'hidden',border:`1px solid ${isMe?'rgba(139,92,246,0.3)':'rgba(255,255,255,0.08)'}`}}>
-                    <img src={gifMatch[0]} alt="gif" style={{maxWidth:'220px',maxHeight:'200px',display:'block'}} onError={e=>e.target.parentElement.innerHTML='<div style="padding:0.5rem;color:#EF4444;font-size:0.75rem">⚠️ GIF yüklenemedi</div>'}/>
+                    <img src={gifMatch[0]} alt="gif" style={{maxWidth:'220px',maxHeight:'200px',display:'block'}} onError={e=>e.target.parentElement.innerHTML='<div style="padding:0.5rem;color:#C24B43;font-size:0.75rem">⚠️ GIF yüklenemedi</div>'}/>
                   </div>
                 ) : (
-                  <div style={{padding:'0.5rem 0.75rem',borderRadius:isMe?'12px 12px 3px 12px':'12px 12px 12px 3px',background:isMe?'rgba(139,92,246,0.18)':'rgba(255,255,255,0.05)',border:`1px solid ${isMe?'rgba(139,92,246,0.3)':border}`,fontSize:'0.87rem',color:dark?'#E8EDF2':'#1E293B',lineHeight:1.5,wordBreak:'break-word'}}>
+                  <div style={{padding:'0.5rem 0.75rem',borderRadius:isMe?'12px 12px 3px 12px':'12px 12px 12px 3px',background:isMe?'rgba(139,92,246,0.18)':'rgba(255,255,255,0.05)',border:`1px solid ${isMe?'rgba(139,92,246,0.3)':border}`,fontSize:'0.87rem',color:dark?'#EDE7DA':'#1E293B',lineHeight:1.5,wordBreak:'break-word'}}>
                     {m.text}
                   </div>
                 )}
-                <div style={{fontSize:'0.58rem',color:'#5A7089',marginTop:'2px',textAlign:isMe?'right':'left',paddingLeft:isMe?0:'4px'}}>{timeAgo(m.ts)}</div>
+                <div style={{fontSize:'0.58rem',color:'#8893A1',marginTop:'2px',textAlign:isMe?'right':'left',paddingLeft:isMe?0:'4px'}}>{timeAgo(m.ts)}</div>
               </div>
             </div>
           );
@@ -223,8 +223,8 @@ function KlanChatPage({ profile }) {
         <div style={{background:'rgba(6,12,24,0.98)',border:'1px solid rgba(139,92,246,0.25)',borderRadius:'14px',padding:'0.65rem'}}>
           <div style={{display:'flex',gap:'0.4rem',marginBottom:'0.5rem'}}>
             <input value={gifSearch} onChange={e=>setGifSearch(e.target.value)} placeholder="GIF ara... (örn: klan, savaş, zafer)"
-              style={{flex:1,background:'rgba(255,255,255,0.06)',border:'1px solid rgba(139,92,246,0.2)',borderRadius:'10px',padding:'0.45rem 0.75rem',color:'#E8EDF2',fontFamily:"'DM Sans',sans-serif",fontSize:'14px',outline:'none'}} />
-            <button onClick={()=>setShowGifPicker(false)} style={{background:'rgba(255,255,255,0.05)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:'10px',padding:'0.45rem 0.6rem',color:'#5A7089',cursor:'pointer',fontSize:'0.8rem'}}>✕</button>
+              style={{flex:1,background:'rgba(237,231,218,0.05)',border:'1px solid rgba(139,92,246,0.2)',borderRadius:'10px',padding:'0.45rem 0.75rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'14px',outline:'none'}} />
+            <button onClick={()=>setShowGifPicker(false)} style={{background:'rgba(237,231,218,0.04)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'0.45rem 0.6rem',color:'#8893A1',cursor:'pointer',fontSize:'0.8rem'}}>✕</button>
           </div>
           {giphyLoading && <div style={{textAlign:'center',color:'#A78BFA',fontSize:'0.75rem',padding:'0.3rem'}}>🔄 Yükleniyor...</div>}
           <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'0.3rem',maxHeight:'150px',overflowY:'auto',scrollbarWidth:'none'}}>
@@ -234,7 +234,7 @@ function KlanChatPage({ profile }) {
                 onError={e=>e.target.style.display='none'} />
             ))}
           </div>
-          <div style={{fontSize:'0.56rem',color:'#5A7089',textAlign:'right',marginTop:'0.25rem'}}>Powered by GIPHY</div>
+          <div style={{fontSize:'0.56rem',color:'#8893A1',textAlign:'right',marginTop:'0.25rem'}}>Powered by GIPHY</div>
         </div>
       )}
 
@@ -245,9 +245,9 @@ function KlanChatPage({ profile }) {
         </button>
         <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==='Enter'&&send()}
           placeholder={`#${room} odasına mesaj yaz...`}
-          style={{flex:1,background:card,border:`1px solid ${border}`,borderRadius:'12px',padding:'0.7rem 1rem',color:dark?'#E8EDF2':'#1E293B',fontSize:'0.88rem',outline:'none',fontFamily:"'DM Sans',sans-serif"}} />
+          style={{flex:1,background:card,border:`1px solid ${border}`,borderRadius:'12px',padding:'0.7rem 1rem',color:dark?'#EDE7DA':'#1E293B',fontSize:'0.88rem',outline:'none',fontFamily:"'Inter',sans-serif"}} />
         <button onClick={()=>send()} disabled={sending}
-          style={{padding:'0.7rem 1rem',borderRadius:'12px',border:'none',background:sending?'rgba(139,92,246,0.08)':'rgba(139,92,246,0.2)',color:sending?'#5A7089':'#A78BFA',fontWeight:700,cursor:sending?'not-allowed':'pointer',fontSize:'0.9rem',transition:'all 0.15s'}}>
+          style={{padding:'0.7rem 1rem',borderRadius:'12px',border:'none',background:sending?'rgba(139,92,246,0.08)':'rgba(139,92,246,0.2)',color:sending?'#8893A1':'#A78BFA',fontWeight:700,cursor:sending?'not-allowed':'pointer',fontSize:'0.9rem',transition:'all 0.15s'}}>
           {sending?'…':'↑'}
         </button>
       </div>

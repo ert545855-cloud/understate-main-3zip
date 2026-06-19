@@ -39,11 +39,11 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
   const isLeader = myFamily && (myFamily.leaderId===cu?.uid || myFamily.leader===cu?.username);
 
   const RANKS = [
-    { id:'boss',      label:'👑 Boss',            color:'#FFD700', perms:['invite','kick','promote','factory','treasury','heir','disband'] },
+    { id:'boss',      label:'👑 Boss',            color:'#C9A227', perms:['invite','kick','promote','factory','treasury','heir','disband'] },
     { id:'underboss', label:'⚔️ Underboss',       color:'#F97316', perms:['invite','factory','treasury'] },
-    { id:'kasaci',    label:'💰 Kasa Yöneticisi', color:'#10B981', perms:['treasury'] },
+    { id:'kasaci',    label:'💰 Kasa Yöneticisi', color:'#4C9A6B', perms:['treasury'] },
     { id:'yonetici',  label:'🏛️ Yönetici',        color:'#A78BFA', perms:['factory'] },
-    { id:'uye',       label:'👤 Üye',              color:'#60A5FA', perms:[] },
+    { id:'uye',       label:'👤 Üye',              color:'#C9A227', perms:[] },
   ];
 
   const getMemberRank = (uname) => {
@@ -187,9 +187,9 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
   };
 
   // ── UI yardımcıları ───────────────────────────────────
-  const card = {background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:14,padding:'1rem',marginBottom:'0.75rem'};
-  const inp  = {background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.12)',borderRadius:8,padding:'0.55rem 0.75rem',color:'#fff',fontSize:'0.85rem',fontFamily:'inherit',outline:'none',width:'100%',boxSizing:'border-box'};
-  const MsgBar = () => msg ? <div style={{padding:'0.6rem 0.85rem',borderRadius:10,marginBottom:'0.75rem',background:msg.type==='success'?'rgba(16,185,129,0.12)':msg.type==='error'?'rgba(239,68,68,0.12)':'rgba(59,130,246,0.12)',border:`1px solid ${msg.type==='success'?'rgba(16,185,129,0.3)':msg.type==='error'?'rgba(239,68,68,0.3)':'rgba(59,130,246,0.3)'}`,color:msg.type==='success'?'#10B981':msg.type==='error'?'#EF4444':'#60A5FA',fontSize:'0.82rem',fontWeight:600}}>{msg.text}</div> : null;
+  const card = {background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:14,padding:'1rem',marginBottom:'0.75rem'};
+  const inp  = {background:'rgba(237,231,218,0.05)',border:'1px solid rgba(255,255,255,0.12)',borderRadius:8,padding:'0.55rem 0.75rem',color:'#EDE7DA',fontSize:'0.85rem',fontFamily:'inherit',outline:'none',width:'100%',boxSizing:'border-box'};
+  const MsgBar = () => msg ? <div style={{padding:'0.6rem 0.85rem',borderRadius:10,marginBottom:'0.75rem',background:msg.type==='success'?'rgba(76,154,107,0.12)':msg.type==='error'?'rgba(194,75,67,0.12)':'rgba(201,162,39,0.12)',border:`1px solid ${msg.type==='success'?'rgba(76,154,107,0.3)':msg.type==='error'?'rgba(194,75,67,0.3)':'rgba(201,162,39,0.3)'}`,color:msg.type==='success'?'#4C9A6B':msg.type==='error'?'#C24B43':'#C9A227',fontSize:'0.82rem',fontWeight:600}}>{msg.text}</div> : null;
   const TabBtn = ({id,lbl,icon}) => <button onClick={()=>setTab(id)} style={{flexShrink:0,padding:'0.42rem 0.85rem',borderRadius:20,border:'none',background:tab===id?'var(--accent)':'rgba(255,255,255,0.06)',color:tab===id?'#000':'#8899AA',fontSize:'0.78rem',fontWeight:700,cursor:'pointer',whiteSpace:'nowrap',fontFamily:'Syne,sans-serif',minHeight:36}}>{icon} {lbl}</button>;
 
   // ═══════════════════════════════════════════════════════
@@ -239,7 +239,7 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
       {/* Kurma Modalı */}
       {createModal && (
         <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.7)',zIndex:999,display:'flex',alignItems:'center',justifyContent:'center',padding:'1rem'}} onClick={e=>{if(e.target===e.currentTarget)setCreateModal(false)}}>
-          <div style={{background:'#151C26',borderRadius:18,padding:'1.5rem',width:'100%',maxWidth:400,border:'1px solid rgba(255,255,255,0.1)'}}>
+          <div style={{background:'#151C26',borderRadius:18,padding:'1.5rem',width:'100%',maxWidth:400,border:'1px solid rgba(237,231,218,0.1)'}}>
             <div style={{fontFamily:'Syne,sans-serif',fontWeight:900,fontSize:'1.1rem',marginBottom:'1rem',color:'#A78BFA'}}>👨‍👩‍👧 Yeni Aile Kur</div>
             <div style={{display:'flex',flexDirection:'column',gap:'0.6rem'}}>
               <input style={inp} placeholder="Aile adı *" value={fForm.name} onChange={e=>setFForm(p=>({...p,name:e.target.value}))}/>
@@ -249,7 +249,7 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
                 <input type="color" value={fForm.color} onChange={e=>setFForm(p=>({...p,color:e.target.value}))} style={{width:40,height:32,border:'none',background:'none',cursor:'pointer'}}/>
                 <span style={{fontSize:'0.78rem',color:'#5E7390'}}>({fForm.color})</span>
               </div>
-              <div style={{fontSize:'0.78rem',color:'#F59E0B',background:'rgba(245,158,11,0.08)',border:'1px solid rgba(245,158,11,0.2)',borderRadius:8,padding:'0.5rem 0.75rem'}}>
+              <div style={{fontSize:'0.78rem',color:'#C9A227',background:'rgba(201,162,39,0.06)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:8,padding:'0.5rem 0.75rem'}}>
                 💰 Kurulum ücreti: {fmt(FAMILY_CREATE_COST)}
               </div>
               <div style={{display:'flex',gap:'0.5rem',marginTop:'0.25rem'}}>
@@ -306,12 +306,12 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
             </div>
             <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'0.35rem'}}>
               {[
-                {l:'Üyeler',   v:(myFamily.members||[]).length, c:'#60A5FA'},
-                {l:'Kasa',     v:fmt(myFamily.treasury||0),     c:'#10B981'},
-                {l:'Fabrika',  v:serverFactories.length||familyFactories.length, c:'#F59E0B'},
+                {l:'Üyeler',   v:(myFamily.members||[]).length, c:'#C9A227'},
+                {l:'Kasa',     v:fmt(myFamily.treasury||0),     c:'#4C9A6B'},
+                {l:'Fabrika',  v:serverFactories.length||familyFactories.length, c:'#C9A227'},
                 {l:'Etki',     v:myFamily.influence||0,         c:'#A78BFA'},
               ].map(s=>(
-                <div key={s.l} style={{background:'rgba(255,255,255,0.04)',borderRadius:8,padding:'0.4rem',textAlign:'center'}}>
+                <div key={s.l} style={{background:'rgba(237,231,218,0.03)',borderRadius:8,padding:'0.4rem',textAlign:'center'}}>
                   <div style={{fontWeight:700,fontSize:'0.85rem',color:s.c}}>{s.v}</div>
                   <div style={{fontSize:'0.57rem',color:'#5E7390'}}>{s.l}</div>
                 </div>
@@ -322,18 +322,18 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
           {/* Halef bilgisi */}
           {myFamily.successorName && (
             <div style={{...card,background:'rgba(255,215,0,0.04)',border:'1px solid rgba(255,215,0,0.15)'}}>
-              <div style={{fontSize:'0.82rem',color:'#FFD700'}}>👑 Vasiyet / Halef: <b>{myFamily.successorName}</b></div>
+              <div style={{fontSize:'0.82rem',color:'#C9A227'}}>👑 Vasiyet / Halef: <b>{myFamily.successorName}</b></div>
               <div style={{fontSize:'0.7rem',color:'#5E7390',marginTop:2}}>Boss ayrıldığında liderlik devralacak kişi</div>
             </div>
           )}
 
-          <button className="btn" style={{width:'100%',marginBottom:'0.4rem',border:'1px solid rgba(239,68,68,0.3)',color:'#EF4444'}} onClick={()=>{if(isLeader)setConfirmDisband(true);else{const nf=fams.map(f=>f.id===myFamily.id?{...f,members:(f.members||[]).filter(m=>m!==cu?.username)}:f);saveFams(nf);const p=readProfile();localStorage.setItem('rep_userProfile',JSON.stringify({...p,family:null}));showMsg('Aileden ayrıldın','info');}}}>
+          <button className="btn" style={{width:'100%',marginBottom:'0.4rem',border:'1px solid rgba(194,75,67,0.25)',color:'#C24B43'}} onClick={()=>{if(isLeader)setConfirmDisband(true);else{const nf=fams.map(f=>f.id===myFamily.id?{...f,members:(f.members||[]).filter(m=>m!==cu?.username)}:f);saveFams(nf);const p=readProfile();localStorage.setItem('rep_userProfile',JSON.stringify({...p,family:null}));showMsg('Aileden ayrıldın','info');}}}>
             {isLeader ? '💀 Aileyi Dağıt' : '🚪 Aileden Ayrıl'}
           </button>
 
           {confirmDisband && (
-            <div style={{...card,background:'rgba(239,68,68,0.08)',border:'1px solid rgba(239,68,68,0.3)'}}>
-              <div style={{fontSize:'0.85rem',fontWeight:700,color:'#EF4444',marginBottom:'0.5rem'}}>⚠️ Aileyi dağıtmak istediğinizden emin misiniz?</div>
+            <div style={{...card,background:'rgba(194,75,67,0.08)',border:'1px solid rgba(194,75,67,0.25)'}}>
+              <div style={{fontSize:'0.85rem',fontWeight:700,color:'#C24B43',marginBottom:'0.5rem'}}>⚠️ Aileyi dağıtmak istediğinizden emin misiniz?</div>
               <div style={{display:'flex',gap:'0.5rem'}}>
                 <button className="btn btn-red" style={{flex:1}} onClick={disbandFamily}>Evet, Dağıt</button>
                 <button className="btn" style={{flex:1}} onClick={()=>setConfirmDisband(false)}>İptal</button>
@@ -352,13 +352,13 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
             return (
               <>
                 {/* Kasa Yöneticisi Kimliği */}
-                <div style={{...card,background:'rgba(16,185,129,0.05)',border:'1px solid rgba(16,185,129,0.15)'}}>
+                <div style={{...card,background:'rgba(76,154,107,0.05)',border:'1px solid rgba(76,154,107,0.15)'}}>
                   <div style={{textAlign:'center',marginBottom:'0.75rem'}}>
-                    <div style={{fontFamily:'JetBrains Mono,monospace',fontWeight:900,fontSize:'1.6rem',color:'#10B981'}}>{fmt(myFamily.treasury||0)}</div>
+                    <div style={{fontFamily:'JetBrains Mono,monospace',fontWeight:900,fontSize:'1.6rem',color:'#4C9A6B'}}>{fmt(myFamily.treasury||0)}</div>
                     <div style={{fontSize:'0.7rem',color:'#5E7390'}}>Aile Kasası</div>
                     {kasaci && (
-                      <div style={{marginTop:'0.4rem',background:'rgba(16,185,129,0.1)',border:'1px solid rgba(16,185,129,0.25)',borderRadius:8,padding:'0.3rem 0.6rem',display:'inline-block'}}>
-                        <span style={{fontSize:'0.68rem',color:'#10B981',fontWeight:700}}>💰 Kasa Yöneticisi: {kasaci}</span>
+                      <div style={{marginTop:'0.4rem',background:'rgba(76,154,107,0.08)',border:'1px solid rgba(76,154,107,0.2)',borderRadius:8,padding:'0.3rem 0.6rem',display:'inline-block'}}>
+                        <span style={{fontSize:'0.68rem',color:'#4C9A6B',fontWeight:700}}>💰 Kasa Yöneticisi: {kasaci}</span>
                       </div>
                     )}
                   </div>
@@ -390,7 +390,7 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
                     <div className="card-title">💰 Kasa Yöneticisi Ata</div>
                     <div style={{fontSize:'0.75rem',color:'#8899AA',marginBottom:'0.6rem',lineHeight:1.5}}>
                       Kasa Yöneticisi kasadan para çekip yatırabilir; diğer üyeler sadece yatırabilir.
-                      {kasaci&&<span style={{color:'#EF4444'}}> Mevcut: <b>{kasaci}</b></span>}
+                      {kasaci&&<span style={{color:'#C24B43'}}> Mevcut: <b>{kasaci}</b></span>}
                     </div>
                     <div style={{display:'flex',flexDirection:'column',gap:'0.4rem'}}>
                       {(myFamily.members||[]).filter(m=>m!==myFamily.leader).map(m=>{
@@ -399,7 +399,7 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
                         return (
                           <div key={m} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.4rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
                             <div>
-                              <span style={{fontWeight:600,color:'#E8EDF2',fontSize:'0.85rem'}}>{m}</span>
+                              <span style={{fontWeight:600,color:'#EDE7DA',fontSize:'0.85rem'}}>{m}</span>
                               <span style={{marginLeft:6,background:`${mRank.color}22`,border:`1px solid ${mRank.color}44`,borderRadius:4,padding:'0.05rem 0.3rem',fontSize:'0.58rem',fontWeight:700,color:mRank.color}}>{mRank.label}</span>
                             </div>
                             {isKasaci
@@ -429,15 +429,15 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
 
           {/* ── Fabrika Gelirleri Özeti ──────────────────── */}
           {serverFactories.length>0&&(
-            <div style={{...card,background:'rgba(245,158,11,0.05)',border:'1px solid rgba(245,158,11,0.15)'}}>
+            <div style={{...card,background:'rgba(201,162,39,0.05)',border:'1px solid rgba(201,162,39,0.15)'}}>
               <div className="card-title">🏭 Fabrika Geliri</div>
               <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.5rem'}}>
                 <div style={{fontSize:'0.78rem',color:'#8899AA'}}>Toplam Aylık</div>
-                <div style={{fontWeight:700,color:'#F59E0B',fontFamily:'JetBrains Mono,monospace'}}>{fmtM(serverFactories.reduce((a,f)=>a+(f.monthlyIncome||0),0))}</div>
+                <div style={{fontWeight:700,color:'#C9A227',fontFamily:'JetBrains Mono,monospace'}}>{fmtM(serverFactories.reduce((a,f)=>a+(f.monthlyIncome||0),0))}</div>
               </div>
               <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.5rem'}}>
                 <div style={{fontSize:'0.78rem',color:'#8899AA'}}>Toplanabilir Fabrika</div>
-                <div style={{fontWeight:700,color:'#10B981'}}>
+                <div style={{fontWeight:700,color:'#4C9A6B'}}>
                   {serverFactories.filter(f=>f.canCollect||Number(f.lastCollectedAt)===0).length}/{serverFactories.length}
                 </div>
               </div>
@@ -455,15 +455,15 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
           {/* Sunucu fabrikaları (anti-cheat: gelir toplaması server doğrulayır) */}
           {serverFactories.length>0 ? (
             <div>
-              <div style={{...card,background:'rgba(245,158,11,0.05)',border:'1px solid rgba(245,158,11,0.2)'}}>
+              <div style={{...card,background:'rgba(201,162,39,0.05)',border:'1px solid rgba(201,162,39,0.2)'}}>
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                   <div>
                     <div style={{fontSize:'0.68rem',color:'#5E7390',textTransform:'uppercase',letterSpacing:'0.06em'}}>Toplam Aylık Fabrika Geliri</div>
-                    <div style={{fontFamily:'JetBrains Mono,monospace',fontWeight:900,fontSize:'1.2rem',color:'#F59E0B'}}>{fmtM(serverFactories.reduce((a,f)=>a+(f.monthlyIncome||0),0))}</div>
+                    <div style={{fontFamily:'JetBrains Mono,monospace',fontWeight:900,fontSize:'1.2rem',color:'#C9A227'}}>{fmtM(serverFactories.reduce((a,f)=>a+(f.monthlyIncome||0),0))}</div>
                   </div>
                   <div style={{textAlign:'right'}}>
                     <div style={{fontSize:'0.62rem',color:'#5E7390'}}>Günlük</div>
-                    <div style={{fontSize:'0.85rem',fontWeight:700,color:'#10B981'}}>{fmtM(serverFactories.reduce((a,f)=>a+Math.floor((f.monthlyIncome||0)/30),0))}</div>
+                    <div style={{fontSize:'0.85rem',fontWeight:700,color:'#4C9A6B'}}>{fmtM(serverFactories.reduce((a,f)=>a+Math.floor((f.monthlyIncome||0)/30),0))}</div>
                   </div>
                 </div>
               </div>
@@ -473,19 +473,19 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
                 const rem     = Math.max(0, nextAt - Date.now());
                 const h = Math.floor(rem/3600000), m = Math.floor((rem%3600000)/60000);
                 return (
-                  <div key={f.id} style={{...card,borderLeft:'3px solid #F59E0B'}}>
+                  <div key={f.id} style={{...card,borderLeft:'3px solid #C9A227'}}>
                     <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:'0.4rem'}}>
                       <div>
-                        <div style={{fontWeight:700,color:'#E8EDF2',fontSize:'0.88rem'}}>🏭 {f.name}</div>
+                        <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.88rem'}}>🏭 {f.name}</div>
                         <div style={{fontSize:'0.68rem',color:'#5E7390'}}>{f.factoryType}</div>
                       </div>
                       <div style={{textAlign:'right',flexShrink:0,marginLeft:'0.5rem'}}>
-                        <div style={{fontSize:'0.72rem',fontWeight:700,color:'#10B981'}}>{fmtM(f.monthlyIncome)}/ay</div>
-                        <div style={{fontSize:'0.62rem',color:'#F59E0B'}}>{fmtM(Math.floor((f.monthlyIncome||0)/30))}/gün</div>
+                        <div style={{fontSize:'0.72rem',fontWeight:700,color:'#4C9A6B'}}>{fmtM(f.monthlyIncome)}/ay</div>
+                        <div style={{fontSize:'0.62rem',color:'#C9A227'}}>{fmtM(Math.floor((f.monthlyIncome||0)/30))}/gün</div>
                       </div>
                     </div>
                     <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                      <div style={{fontSize:'0.68rem',color:canColl?'#10B981':'#5E7390'}}>
+                      <div style={{fontSize:'0.68rem',color:canColl?'#4C9A6B':'#5E7390'}}>
                         {canColl?'✅ Toplanabilir':`⏳ ${h>0?h+'sa ':''}${m}dk sonra`}
                       </div>
                       <button className="btn btn-primary" disabled={!canColl}
@@ -529,7 +529,7 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
                   <div>
                     <span style={{fontWeight:700,color:'#ddd',fontSize:'0.85rem'}}>{uname}</span>
                     <span style={{marginLeft:6,background:`${rank.color}22`,border:`1px solid ${rank.color}44`,borderRadius:4,padding:'0.08rem 0.35rem',fontSize:'0.62rem',fontWeight:700,color:rank.color}}>{rank.label}</span>
-                    {uname===myFamily.successorName && <span style={{marginLeft:4,fontSize:'0.6rem',color:'#FFD700'}}>HALEF</span>}
+                    {uname===myFamily.successorName && <span style={{marginLeft:4,fontSize:'0.6rem',color:'#C9A227'}}>HALEF</span>}
                   </div>
                   {hasPerm('kick') && uname!==cu?.username && uname!==myFamily.leader && (
                     <button className="btn btn-red" style={{fontSize:'0.68rem',padding:'0.25rem 0.5rem'}} onClick={()=>kickMember(uname)}>Çıkar</button>
@@ -570,7 +570,7 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
                       <span style={{fontWeight:700,color:'#ddd',fontSize:'0.82rem'}}>{uname}</span>
                       <span style={{marginLeft:6,fontSize:'0.65rem',color:cr.color}}>{cr.label}</span>
                     </div>
-                    <select onChange={e=>changeRank(uname,e.target.value)} value={cr.id} style={{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.12)',borderRadius:6,padding:'0.3rem 0.5rem',color:'#fff',fontSize:'0.75rem',fontFamily:'inherit',outline:'none'}}>
+                    <select onChange={e=>changeRank(uname,e.target.value)} value={cr.id} style={{background:'rgba(237,231,218,0.05)',border:'1px solid rgba(255,255,255,0.12)',borderRadius:6,padding:'0.3rem 0.5rem',color:'#EDE7DA',fontSize:'0.75rem',fontFamily:'inherit',outline:'none'}}>
                       {RANKS.filter(r=>r.id!=='boss').map(r=><option key={r.id} value={r.id} style={{background:'#111'}}>{r.label}</option>)}
                     </select>
                   </div>
@@ -602,14 +602,14 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
       {tab==='halef' && isLeader && (
         <div>
           <div style={{...card,background:'rgba(255,215,0,0.04)',border:'1px solid rgba(255,215,0,0.15)'}}>
-            <div className="card-title" style={{color:'#FFD700'}}>👑 Halef / Vasiyet Sistemi</div>
+            <div className="card-title" style={{color:'#C9A227'}}>👑 Halef / Vasiyet Sistemi</div>
             <div style={{fontSize:'0.8rem',color:'#8899AA',marginBottom:'1rem',lineHeight:1.65}}>
               Boss olarak ayrılmak istediğinizde liderliği devralacak kişiyi şimdi belirleyin.
               Halef belirlenmeden ayrılırsanız aile dağılabilir.
             </div>
             {myFamily.successorName ? (
               <div style={{...card,background:'rgba(255,215,0,0.06)',margin:'0 0 0.75rem 0'}}>
-                <div style={{fontWeight:700,color:'#FFD700'}}>Mevcut Halef: {myFamily.successorName}</div>
+                <div style={{fontWeight:700,color:'#C9A227'}}>Mevcut Halef: {myFamily.successorName}</div>
                 <button className="btn btn-red" style={{width:'100%',marginTop:'0.5rem',fontSize:'0.8rem'}} onClick={()=>saveFams(fams.map(f=>f.id===myFamily.id?{...f,successorName:null}:f))}>Halefliği İptal Et</button>
               </div>
             ) : (
@@ -619,7 +619,7 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
             {(myFamily.members||[]).filter(m=>m!==cu?.username).map((uname,i)=>(
               <div key={i} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.45rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
                 <span style={{fontWeight:700,color:'#ddd',fontSize:'0.85rem'}}>{uname}</span>
-                <button className={`btn ${myFamily.successorName===uname?'btn-primary':''}`} style={{fontSize:'0.75rem',padding:'0.3rem 0.65rem',border:'1px solid rgba(255,215,0,0.3)',color:'#FFD700'}} onClick={()=>setHeir(uname)}>
+                <button className={`btn ${myFamily.successorName===uname?'btn-primary':''}`} style={{fontSize:'0.75rem',padding:'0.3rem 0.65rem',border:'1px solid rgba(255,215,0,0.3)',color:'#C9A227'}} onClick={()=>setHeir(uname)}>
                   {myFamily.successorName===uname ? '✓ Halef' : 'Halef Yap'}
                 </button>
               </div>

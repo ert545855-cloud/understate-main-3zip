@@ -110,7 +110,7 @@ window.GangTreasuryScreen = function GangTreasuryScreen({ cu, gangs, allUsers, s
     <div>
       <div className="ministry-header">💰 {myGang.name} — Kasa & Lojistik</div>
       {msg&&(
-        <div style={{padding:"0.6rem 0.85rem",borderRadius:10,marginBottom:"0.75rem",background:msg.type==="success"?"rgba(16,185,129,0.12)":msg.type==="error"?"rgba(239,68,68,0.12)":"rgba(59,130,246,0.12)",border:`1px solid ${msg.type==="success"?"rgba(16,185,129,0.3)":msg.type==="error"?"rgba(239,68,68,0.3)":"rgba(59,130,246,0.3)"}`,color:msg.type==="success"?"#10B981":msg.type==="error"?"#EF4444":"#60A5FA",fontSize:"0.82rem",fontWeight:600}}>
+        <div style={{padding:"0.6rem 0.85rem",borderRadius:10,marginBottom:"0.75rem",background:msg.type==="success"?"rgba(76,154,107,0.12)":msg.type==="error"?"rgba(194,75,67,0.12)":"rgba(201,162,39,0.12)",border:`1px solid ${msg.type==="success"?"rgba(76,154,107,0.3)":msg.type==="error"?"rgba(194,75,67,0.3)":"rgba(201,162,39,0.3)"}`,color:msg.type==="success"?"#4C9A6B":msg.type==="error"?"#C24B43":"#C9A227",fontSize:"0.82rem",fontWeight:600}}>
           {msg.text}
         </div>
       )}
@@ -123,18 +123,18 @@ window.GangTreasuryScreen = function GangTreasuryScreen({ cu, gangs, allUsers, s
 
       {tab==="treasury"&&(
         <div>
-          <div style={{...card,background:"linear-gradient(135deg,rgba(239,68,68,0.08),rgba(0,0,0,0))"}}>
+          <div style={{...card,background:"linear-gradient(135deg,rgba(194,75,67,0.08),rgba(0,0,0,0))"}}>
             <div style={{textAlign:"center",padding:"0.75rem"}}>
               <div style={{fontSize:"0.72rem",color:"#5E7390",marginBottom:"0.3rem",textTransform:"uppercase",letterSpacing:"0.07em"}}>Mevcut Kasa (Sunucu)</div>
-              <div style={{fontFamily:"JetBrains Mono,monospace",fontWeight:900,fontSize:"1.8rem",color:"#EF4444"}}>{fmtMoney(gangTreasury)}</div>
-              <div style={{fontSize:"0.72rem",color:"#5E7390",marginTop:"0.25rem"}}>Haftalık beklenen gelir: <span style={{color:"#10B981",fontWeight:700}}>{fmtMoney(weeklyIncome)}</span></div>
+              <div style={{fontFamily:"JetBrains Mono,monospace",fontWeight:900,fontSize:"1.8rem",color:"#C24B43"}}>{fmtMoney(gangTreasury)}</div>
+              <div style={{fontSize:"0.72rem",color:"#5E7390",marginTop:"0.25rem"}}>Haftalık beklenen gelir: <span style={{color:"#4C9A6B",fontWeight:700}}>{fmtMoney(weeklyIncome)}</span></div>
             </div>
           </div>
           <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:"0.45rem",marginBottom:"0.75rem"}}>
             {[
-              {l:"Toplam Güç",v:totalPower,c:"#EF4444",icon:"⚔️"},
-              {l:"Üye Sayısı",v:(myGang.members||[]).length,c:"#60A5FA",icon:"👥"},
-              {l:"Anlaşmalar",v:myContracts.length,c:"#F59E0B",icon:"📋"},
+              {l:"Toplam Güç",v:totalPower,c:"#C24B43",icon:"⚔️"},
+              {l:"Üye Sayısı",v:(myGang.members||[]).length,c:"#C9A227",icon:"👥"},
+              {l:"Anlaşmalar",v:myContracts.length,c:"#C9A227",icon:"📋"},
             ].map(s=>(
               <div key={s.l} style={{background:"rgba(255,255,255,0.04)",border:`1px solid ${s.c}22`,borderRadius:10,padding:"0.6rem",textAlign:"center"}}>
                 <div style={{fontSize:"1rem"}}>{s.icon}</div>
@@ -146,7 +146,7 @@ window.GangTreasuryScreen = function GangTreasuryScreen({ cu, gangs, allUsers, s
           {isLeader&&(
             <div style={{display:"flex",flexDirection:"column",gap:"0.4rem"}}>
               <button className="btn btn-primary" onClick={()=>setTab("weapons")}>🔫 Silah Al</button>
-              <button className="btn" style={{border:"1px solid rgba(245,158,11,0.4)",color:"#F59E0B"}} onClick={()=>setTab("contracts")}>📋 Koruma Anlaşmaları</button>
+              <button className="btn" style={{border:"1px solid rgba(201,162,39,0.4)",color:"#C9A227"}} onClick={()=>setTab("contracts")}>📋 Koruma Anlaşmaları</button>
             </div>
           )}
         </div>
@@ -163,12 +163,12 @@ window.GangTreasuryScreen = function GangTreasuryScreen({ cu, gangs, allUsers, s
               <div key={w.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"0.45rem 0",borderBottom:"1px solid rgba(255,255,255,0.04)"}}>
                 <span style={{fontSize:"0.85rem"}}>{w.icon} {w.name}</span>
                 <div style={{textAlign:"right"}}>
-                  <span style={{fontWeight:700,color:"#EF4444"}}>x{weapons[w.id]}</span>
+                  <span style={{fontWeight:700,color:"#C24B43"}}>x{weapons[w.id]}</span>
                   <span style={{fontSize:"0.68rem",color:"#5E7390",marginLeft:"0.4rem"}}>(+{(weapons[w.id]||0)*w.power} güç)</span>
                 </div>
               </div>
             ))}
-            <div style={{marginTop:"0.6rem",padding:"0.4rem",background:"rgba(239,68,68,0.06)",borderRadius:8,textAlign:"center",fontSize:"0.8rem",color:"#EF4444",fontWeight:700}}>
+            <div style={{marginTop:"0.6rem",padding:"0.4rem",background:"rgba(194,75,67,0.06)",borderRadius:8,textAlign:"center",fontSize:"0.8rem",color:"#C24B43",fontWeight:700}}>
               Toplam Silah Gücü: {totalPower}
             </div>
           </div>
@@ -213,7 +213,7 @@ window.GangTreasuryScreen = function GangTreasuryScreen({ cu, gangs, allUsers, s
                   <div style={{fontSize:"0.7rem",color:"#5E7390"}}>Haftalık: {fmtMoney(c.weeklyFee)}</div>
                 </div>
                 <div style={{display:"flex",gap:"0.3rem",alignItems:"center"}}>
-                  <span style={{background:"rgba(16,185,129,0.12)",border:"1px solid rgba(16,185,129,0.3)",borderRadius:5,padding:"0.15rem 0.4rem",fontSize:"0.62rem",fontWeight:700,color:"#10B981"}}>Aktif</span>
+                  <span style={{background:"rgba(76,154,107,0.12)",border:"1px solid rgba(76,154,107,0.3)",borderRadius:5,padding:"0.15rem 0.4rem",fontSize:"0.62rem",fontWeight:700,color:"#4C9A6B"}}>Aktif</span>
                   {isLeader&&<button className="btn btn-primary" style={{padding:"0.3rem 0.6rem",fontSize:"0.72rem",minHeight:28}} onClick={()=>collectFee(i)}>Topla</button>}
                 </div>
               </div>
@@ -249,7 +249,7 @@ window.GangTreasuryScreen = function GangTreasuryScreen({ cu, gangs, allUsers, s
                   <div style={{color:"#ddd"}}>{tx.item || tx.type}</div>
                   <div style={{fontSize:"0.65rem",color:"#5E7390"}}>{new Date(tx.timestamp).toLocaleDateString("tr-TR")}</div>
                 </div>
-                <span style={{fontWeight:700,fontFamily:"JetBrains Mono,monospace",color:(tx.amount||0)>=0?"#10B981":"#EF4444"}}>{(tx.amount||0)>=0?"+":""}{fmtMoney(tx.amount)}</span>
+                <span style={{fontWeight:700,fontFamily:"JetBrains Mono,monospace",color:(tx.amount||0)>=0?"#4C9A6B":"#C24B43"}}>{(tx.amount||0)>=0?"+":""}{fmtMoney(tx.amount)}</span>
               </div>
             ))}
           </div>

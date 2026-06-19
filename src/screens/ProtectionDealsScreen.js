@@ -207,14 +207,14 @@ window.ProtectionDealsScreen = function ProtectionDealsScreen({ cu, gangs, famil
     <button key={id} onClick={()=>setTab(id)} style={{flexShrink:0,padding:"0.42rem 0.85rem",borderRadius:20,border:"none",background:tab===id?"var(--accent)":"rgba(255,255,255,0.06)",color:tab===id?"#000":"#8899AA",fontSize:"0.78rem",fontWeight:700,cursor:"pointer",whiteSpace:"nowrap",fontFamily:"Syne,sans-serif",minHeight:36}}>{icon} {lbl}</button>
   );
 
-  const statusColor = (s) => s==="active"?"#10B981":s==="pending"?"#F59E0B":s==="rejected"?"#EF4444":"#5E7390";
+  const statusColor = (s) => s==="active"?"#4C9A6B":s==="pending"?"#C9A227":s==="rejected"?"#C24B43":"#5E7390";
   const statusLabel = (s) => s==="active"?"Aktif":s==="pending"?"Bekliyor":s==="rejected"?"Reddedildi":"Sonlandı";
 
   return (
     <div>
       <div className="ministry-header">🛡️ Koruma Anlaşmaları</div>
       {msg&&(
-        <div style={{padding:"0.6rem 0.85rem",borderRadius:10,marginBottom:"0.75rem",background:msg.type==="success"?"rgba(16,185,129,0.12)":msg.type==="error"?"rgba(239,68,68,0.12)":"rgba(59,130,246,0.12)",border:`1px solid ${msg.type==="success"?"rgba(16,185,129,0.3)":msg.type==="error"?"rgba(239,68,68,0.3)":"rgba(59,130,246,0.3)"}`,color:msg.type==="success"?"#10B981":msg.type==="error"?"#EF4444":"#60A5FA",fontSize:"0.82rem",fontWeight:600}}>
+        <div style={{padding:"0.6rem 0.85rem",borderRadius:10,marginBottom:"0.75rem",background:msg.type==="success"?"rgba(76,154,107,0.12)":msg.type==="error"?"rgba(194,75,67,0.12)":"rgba(201,162,39,0.12)",border:`1px solid ${msg.type==="success"?"rgba(76,154,107,0.3)":msg.type==="error"?"rgba(194,75,67,0.3)":"rgba(201,162,39,0.3)"}`,color:msg.type==="success"?"#4C9A6B":msg.type==="error"?"#C24B43":"#C9A227",fontSize:"0.82rem",fontWeight:600}}>
           {msg.text}
         </div>
       )}
@@ -237,27 +237,27 @@ window.ProtectionDealsScreen = function ProtectionDealsScreen({ cu, gangs, famil
               <div style={{fontSize:"2rem",marginBottom:"0.5rem"}}>🤝</div>
               <div style={{color:"#5E7390",fontSize:"0.82rem"}}>Aktif koruma anlaşması yok.</div>
               {isFamilyLeader&&(
-                <div style={{fontSize:"0.75rem",color:"#EF4444",marginTop:"0.5rem",fontWeight:600}}>
+                <div style={{fontSize:"0.75rem",color:"#C24B43",marginTop:"0.5rem",fontWeight:600}}>
                   ⚠️ Korumasız varlıklarınıza çeteler saldırabilir!
                 </div>
               )}
             </div>
           ):(
             myActiveDeals.map(d=>(
-              <div key={d.id} style={{...card,borderLeft:"3px solid #10B981"}}>
+              <div key={d.id} style={{...card,borderLeft:"3px solid #4C9A6B"}}>
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:"0.5rem"}}>
                   <div>
-                    <div style={{fontWeight:700,fontSize:"0.9rem",color:"#E8EDF2"}}>🔫 {d.gangName}</div>
+                    <div style={{fontWeight:700,fontSize:"0.9rem",color:"#EDE7DA"}}>🔫 {d.gangName}</div>
                     <div style={{fontSize:"0.68rem",color:"#5E7390",marginTop:"0.1rem"}}>👪 {d.familyName} · {COVERAGE_OPTIONS.find(c=>c.id===d.coverage)?.label||d.coverage}</div>
                   </div>
-                  <span style={{background:"rgba(16,185,129,0.1)",border:"1px solid rgba(16,185,129,0.3)",borderRadius:6,padding:"0.2rem 0.45rem",fontSize:"0.65rem",color:"#10B981",fontWeight:700}}>Aktif</span>
+                  <span style={{background:"rgba(76,154,107,0.1)",border:"1px solid rgba(76,154,107,0.3)",borderRadius:6,padding:"0.2rem 0.45rem",fontSize:"0.65rem",color:"#4C9A6B",fontWeight:700}}>Aktif</span>
                 </div>
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"0.5rem"}}>
                   <div style={{fontSize:"0.75rem",color:"#8899AA"}}>{d.schedule==="weekly"?"Haftalık":"Aylık"} ödeme</div>
-                  <div style={{fontFamily:"JetBrains Mono,monospace",fontSize:"0.82rem",color:"#EF4444",fontWeight:700}}>{fmtMoney(d.weeklyFee)}</div>
+                  <div style={{fontFamily:"JetBrains Mono,monospace",fontSize:"0.82rem",color:"#C24B43",fontWeight:700}}>{fmtMoney(d.weeklyFee)}</div>
                 </div>
                 {((isFamilyLeader&&d.familyId===myFamily?.id)||(isGangLeader&&d.gangId===myGang?.id))&&(
-                  <button onClick={()=>endDeal(d.id)} style={{width:"100%",padding:"0.35rem",borderRadius:8,border:"1px solid rgba(239,68,68,0.3)",background:"transparent",color:"#EF4444",fontSize:"0.72rem",cursor:"pointer",fontFamily:"Syne,sans-serif",fontWeight:600}}>
+                  <button onClick={()=>endDeal(d.id)} style={{width:"100%",padding:"0.35rem",borderRadius:8,border:"1px solid rgba(194,75,67,0.3)",background:"transparent",color:"#C24B43",fontSize:"0.72rem",cursor:"pointer",fontFamily:"Syne,sans-serif",fontWeight:600}}>
                     Anlaşmayı Sonlandır
                   </button>
                 )}
@@ -277,22 +277,22 @@ window.ProtectionDealsScreen = function ProtectionDealsScreen({ cu, gangs, famil
             </div>
           ):(
             myPendingOffers.map(o=>(
-              <div key={o.id} style={{...card,borderLeft:"3px solid #F59E0B"}}>
+              <div key={o.id} style={{...card,borderLeft:"3px solid #C9A227"}}>
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:"0.5rem"}}>
                   <div>
-                    <div style={{fontWeight:700,fontSize:"0.9rem",color:"#E8EDF2"}}>🔫 {o.gangName}</div>
+                    <div style={{fontWeight:700,fontSize:"0.9rem",color:"#EDE7DA"}}>🔫 {o.gangName}</div>
                     <div style={{fontSize:"0.68rem",color:"#5E7390",marginTop:"0.1rem"}}>👪 {o.familyName} · {COVERAGE_OPTIONS.find(c=>c.id===o.coverage)?.label||o.coverage}</div>
                   </div>
-                  <span style={{background:"rgba(245,158,11,0.1)",border:"1px solid rgba(245,158,11,0.3)",borderRadius:6,padding:"0.2rem 0.45rem",fontSize:"0.65rem",color:"#F59E0B",fontWeight:700}}>Bekliyor</span>
+                  <span style={{background:"rgba(201,162,39,0.1)",border:"1px solid rgba(201,162,39,0.3)",borderRadius:6,padding:"0.2rem 0.45rem",fontSize:"0.65rem",color:"#C9A227",fontWeight:700}}>Bekliyor</span>
                 </div>
                 <div style={{display:"flex",justifyContent:"space-between",marginBottom:"0.75rem"}}>
                   <div style={{fontSize:"0.75rem",color:"#8899AA"}}>{o.schedule==="weekly"?"Haftalık":"Aylık"}</div>
-                  <div style={{fontFamily:"JetBrains Mono,monospace",fontSize:"0.82rem",color:"#10B981",fontWeight:700}}>{fmtMoney(o.weeklyFee)}</div>
+                  <div style={{fontFamily:"JetBrains Mono,monospace",fontSize:"0.82rem",color:"#4C9A6B",fontWeight:700}}>{fmtMoney(o.weeklyFee)}</div>
                 </div>
                 {isFamilyLeader&&o.familyId===myFamily?.id&&(
                   <div style={{display:"flex",gap:"0.5rem"}}>
                     <button className="btn btn-primary" style={{flex:1,fontSize:"0.75rem"}} onClick={()=>acceptOffer(o.id)}>✓ Kabul Et</button>
-                    <button onClick={()=>rejectOffer(o.id)} style={{flex:1,padding:"0.45rem",borderRadius:10,border:"1px solid rgba(239,68,68,0.3)",background:"transparent",color:"#EF4444",fontSize:"0.75rem",cursor:"pointer",fontFamily:"Syne,sans-serif",fontWeight:600}}>✗ Reddet</button>
+                    <button onClick={()=>rejectOffer(o.id)} style={{flex:1,padding:"0.45rem",borderRadius:10,border:"1px solid rgba(194,75,67,0.3)",background:"transparent",color:"#C24B43",fontSize:"0.75rem",cursor:"pointer",fontFamily:"Syne,sans-serif",fontWeight:600}}>✗ Reddet</button>
                   </div>
                 )}
               </div>
@@ -307,21 +307,21 @@ window.ProtectionDealsScreen = function ProtectionDealsScreen({ cu, gangs, famil
           {!isGangManager?(
             <div style={{...card,textAlign:"center",padding:"2rem"}}>
               <div style={{fontSize:"2rem",marginBottom:"0.5rem"}}>🔒</div>
-              <div style={{color:"#EF4444",fontSize:"0.85rem",fontWeight:600}}>Yetki yok</div>
+              <div style={{color:"#C24B43",fontSize:"0.85rem",fontWeight:600}}>Yetki yok</div>
               <div style={{color:"#5E7390",fontSize:"0.78rem",marginTop:"0.5rem"}}>Koruma teklifi oluşturmak için çete liderliği veya yetkilendirme gerekli.</div>
             </div>
           ):(
             <div style={card}>
               <div className="card-title">➕ Yeni Koruma Teklifi</div>
               <div style={{display:"flex",flexDirection:"column",gap:"0.5rem"}}>
-                <select className="input-field" value={offerForm.familyId} onChange={e=>setOfferForm(p=>({...p,familyId:e.target.value}))} style={{background:"rgba(255,255,255,0.05)",color:"#E8EDF2",border:"1px solid rgba(255,255,255,0.1)",borderRadius:10,padding:"0.6rem"}}>
+                <select className="input-field" value={offerForm.familyId} onChange={e=>setOfferForm(p=>({...p,familyId:e.target.value}))} style={{background:"rgba(255,255,255,0.05)",color:"#EDE7DA",border:"1px solid rgba(255,255,255,0.1)",borderRadius:10,padding:"0.6rem"}}>
                   <option value="" style={{background:"#0a1628"}}>— Aile Seç —</option>
                   {famsArr.map(f=><option key={f.id} value={f.id} style={{background:"#0a1628"}}>{f.name}</option>)}
                 </select>
-                <select className="input-field" value={offerForm.coverage} onChange={e=>setOfferForm(p=>({...p,coverage:e.target.value}))} style={{background:"rgba(255,255,255,0.05)",color:"#E8EDF2",border:"1px solid rgba(255,255,255,0.1)",borderRadius:10,padding:"0.6rem"}}>
+                <select className="input-field" value={offerForm.coverage} onChange={e=>setOfferForm(p=>({...p,coverage:e.target.value}))} style={{background:"rgba(255,255,255,0.05)",color:"#EDE7DA",border:"1px solid rgba(255,255,255,0.1)",borderRadius:10,padding:"0.6rem"}}>
                   {COVERAGE_OPTIONS.map(c=><option key={c.id} value={c.id} style={{background:"#0a1628"}}>{c.label}</option>)}
                 </select>
-                <select className="input-field" value={offerForm.schedule} onChange={e=>setOfferForm(p=>({...p,schedule:e.target.value}))} style={{background:"rgba(255,255,255,0.05)",color:"#E8EDF2",border:"1px solid rgba(255,255,255,0.1)",borderRadius:10,padding:"0.6rem"}}>
+                <select className="input-field" value={offerForm.schedule} onChange={e=>setOfferForm(p=>({...p,schedule:e.target.value}))} style={{background:"rgba(255,255,255,0.05)",color:"#EDE7DA",border:"1px solid rgba(255,255,255,0.1)",borderRadius:10,padding:"0.6rem"}}>
                   <option value="weekly" style={{background:"#0a1628"}}>Haftalık Ödeme</option>
                   <option value="monthly" style={{background:"#0a1628"}}>Aylık Ödeme</option>
                 </select>
@@ -339,15 +339,15 @@ window.ProtectionDealsScreen = function ProtectionDealsScreen({ cu, gangs, famil
           {!isGangManager?(
             <div style={{...card,textAlign:"center",padding:"2rem"}}>
               <div style={{fontSize:"2rem",marginBottom:"0.5rem"}}>🔒</div>
-              <div style={{color:"#EF4444",fontSize:"0.85rem",fontWeight:600}}>Yetki yok</div>
+              <div style={{color:"#C24B43",fontSize:"0.85rem",fontWeight:600}}>Yetki yok</div>
               <div style={{color:"#5E7390",fontSize:"0.78rem",marginTop:"0.5rem"}}>Saldırı başlatmak için çete liderliği veya yetkilendirme gerekli.</div>
             </div>
           ):(
             <div>
-              <div style={{...card,background:"rgba(239,68,68,0.06)",border:"1px solid rgba(239,68,68,0.2)",marginBottom:"0.75rem"}}>
+              <div style={{...card,background:"rgba(194,75,67,0.06)",border:"1px solid rgba(194,75,67,0.2)",marginBottom:"0.75rem"}}>
                 <div style={{fontSize:"0.78rem",color:"#8899AA",lineHeight:1.6}}>
                   ⚔️ Korumasız varlıkları görebilir ve saldırı başlatabilirsiniz.<br/>
-                  <span style={{color:"#F59E0B"}}>Uyarı:</span> Saldırı tüm oyunculara anında bildirilir. Aynı varlığa 30 dakikada bir saldırabilirsiniz.
+                  <span style={{color:"#C9A227"}}>Uyarı:</span> Saldırı tüm oyunculara anında bildirilir. Aynı varlığa 30 dakikada bir saldırabilirsiniz.
                 </div>
               </div>
               {unprotectedTargets.length===0?(
@@ -361,23 +361,23 @@ window.ProtectionDealsScreen = function ProtectionDealsScreen({ cu, gangs, famil
                   const cooldownMs = recentAtk ? (recentAtk.timestamp+30*60*1000-Date.now()) : 0;
                   const cooldownMin = Math.ceil(cooldownMs/60000);
                   return (
-                    <div key={a.id} style={{...card,borderLeft:"3px solid #EF4444"}}>
+                    <div key={a.id} style={{...card,borderLeft:"3px solid #C24B43"}}>
                       <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:"0.5rem"}}>
                         <div>
-                          <div style={{fontWeight:700,fontSize:"0.9rem",color:"#E8EDF2"}}>{a.typeIcon} {a.name}</div>
+                          <div style={{fontWeight:700,fontSize:"0.9rem",color:"#EDE7DA"}}>{a.typeIcon} {a.name}</div>
                           <div style={{fontSize:"0.68rem",color:"#5E7390",marginTop:"0.1rem"}}>👪 {a.familyName||"Bilinmeyen"} · {a.typeLabel}</div>
                         </div>
                         <div style={{textAlign:"right"}}>
-                          <div style={{fontSize:"0.72rem",color:"#10B981",fontWeight:700}}>{a.monthlyIncome?`+${(a.monthlyIncome/1000).toFixed(0)}K/ay`:""}</div>
-                          {a.underAttack&&<span style={{fontSize:"0.62rem",color:"#EF4444",fontWeight:700}}>⚔️ Saldırı altında</span>}
+                          <div style={{fontSize:"0.72rem",color:"#4C9A6B",fontWeight:700}}>{a.monthlyIncome?`+${(a.monthlyIncome/1000).toFixed(0)}K/ay`:""}</div>
+                          {a.underAttack&&<span style={{fontSize:"0.62rem",color:"#C24B43",fontWeight:700}}>⚔️ Saldırı altında</span>}
                         </div>
                       </div>
                       {recentAtk?(
-                        <div style={{fontSize:"0.72rem",color:"#F59E0B",fontWeight:600,textAlign:"center",padding:"0.35rem",background:"rgba(245,158,11,0.08)",borderRadius:8}}>
+                        <div style={{fontSize:"0.72rem",color:"#C9A227",fontWeight:600,textAlign:"center",padding:"0.35rem",background:"rgba(201,162,39,0.08)",borderRadius:8}}>
                           ⏳ Cooldown: {cooldownMin} dk kaldı
                         </div>
                       ):(
-                        <button className="btn" style={{width:"100%",border:"1px solid rgba(239,68,68,0.5)",color:"#EF4444",fontWeight:700,fontSize:"0.78rem"}} onClick={()=>launchAttack(a)}>
+                        <button className="btn" style={{width:"100%",border:"1px solid rgba(194,75,67,0.5)",color:"#C24B43",fontWeight:700,fontSize:"0.78rem"}} onClick={()=>launchAttack(a)}>
                           ⚔️ Saldır
                         </button>
                       )}
@@ -400,10 +400,10 @@ window.ProtectionDealsScreen = function ProtectionDealsScreen({ cu, gangs, famil
             </div>
           ):(
             attackLog.slice(0,30).map((a,i)=>(
-              <div key={i} style={{...card,borderLeft:"3px solid rgba(239,68,68,0.4)"}}>
+              <div key={i} style={{...card,borderLeft:"3px solid rgba(194,75,67,0.4)"}}>
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
                   <div>
-                    <div style={{fontWeight:700,fontSize:"0.85rem",color:"#E8EDF2"}}>⚔️ {a.assetName}</div>
+                    <div style={{fontWeight:700,fontSize:"0.85rem",color:"#EDE7DA"}}>⚔️ {a.assetName}</div>
                     <div style={{fontSize:"0.68rem",color:"#5E7390",marginTop:"0.1rem"}}>
                       🔫 {a.gangName} → 👪 {a.familyName}
                     </div>
@@ -425,14 +425,14 @@ window.ProtectionDealsScreen = function ProtectionDealsScreen({ cu, gangs, famil
           <div className="card-title">📜 Koruma Sistemi Kuralları</div>
           <div style={{display:"flex",flexDirection:"column",gap:"0.5rem",fontSize:"0.8rem",lineHeight:1.6}}>
             {[
-              {icon:"✓",text:"Çete liderleri/yöneticileri aile varlıkları için teklif yapabilir",c:"#10B981"},
-              {icon:"✓",text:"Aile lideri teklifi kabul veya reddeder",c:"#10B981"},
-              {icon:"✓",text:"Haftalık veya aylık ödeme planı seçilebilir",c:"#10B981"},
-              {icon:"✓",text:"Çete lideri/yöneticisi korumasız varlıklara saldırı başlatabilir",c:"#10B981"},
-              {icon:"⚔️",text:"Saldırı anında tüm oyunculara Socket.IO ile bildirilir",c:"#F59E0B"},
-              {icon:"⏳",text:"Aynı varlığa 30 dakikada bir saldırı yapılabilir",c:"#F59E0B"},
-              {icon:"✗",text:"Ordudaki askerlere çeteler saldıramaz",c:"#EF4444"},
-              {icon:"✗",text:"Kendi ailenizin varlıklarına saldıramazsınız",c:"#EF4444"},
+              {icon:"✓",text:"Çete liderleri/yöneticileri aile varlıkları için teklif yapabilir",c:"#4C9A6B"},
+              {icon:"✓",text:"Aile lideri teklifi kabul veya reddeder",c:"#4C9A6B"},
+              {icon:"✓",text:"Haftalık veya aylık ödeme planı seçilebilir",c:"#4C9A6B"},
+              {icon:"✓",text:"Çete lideri/yöneticisi korumasız varlıklara saldırı başlatabilir",c:"#4C9A6B"},
+              {icon:"⚔️",text:"Saldırı anında tüm oyunculara Socket.IO ile bildirilir",c:"#C9A227"},
+              {icon:"⏳",text:"Aynı varlığa 30 dakikada bir saldırı yapılabilir",c:"#C9A227"},
+              {icon:"✗",text:"Ordudaki askerlere çeteler saldıramaz",c:"#C24B43"},
+              {icon:"✗",text:"Kendi ailenizin varlıklarına saldıramazsınız",c:"#C24B43"},
             ].map((r,i)=>(
               <div key={i} style={{display:"flex",gap:"0.5rem",alignItems:"flex-start"}}>
                 <span style={{color:r.c,fontWeight:700,flexShrink:0}}>{r.icon}</span>

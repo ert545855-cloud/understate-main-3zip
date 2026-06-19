@@ -252,14 +252,14 @@ const getCentroid = (pts) => {
 };
 const DEFAULT_DISTRICTS = [
   {id:'d1',  name:'Kuzey Park',    controlBy:'Halk',      controlColor:'#6B7280', crime:28, support:76, alarm:22, income:52000,  influence:65, population:42000, legalIncome:48000, illegalIncome:4000,  conflicts:[]},
-  {id:'d2',  name:'Üniversite',    controlBy:'Aydınlar',  controlColor:'#3B82F6', crime:18, support:88, alarm:14, income:55000,  influence:90, population:38000, legalIncome:50000, illegalIncome:5000,  conflicts:[]},
-  {id:'d3',  name:'Askeri Üs',     controlBy:'Ordu',      controlColor:'#EF4444', crime:10, support:62, alarm:88, income:48000,  influence:95, population:8000,  legalIncome:48000, illegalIncome:0,     conflicts:['police']},
-  {id:'d4',  name:'Sanayi',        controlBy:'Şirketler', controlColor:'#10B981', crime:52, support:55, alarm:40, income:95000,  influence:58, population:30000, legalIncome:72000, illegalIncome:23000, conflicts:[]},
+  {id:'d2',  name:'Üniversite',    controlBy:'Aydınlar',  controlColor:'#C9A227', crime:18, support:88, alarm:14, income:55000,  influence:90, population:38000, legalIncome:50000, illegalIncome:5000,  conflicts:[]},
+  {id:'d3',  name:'Askeri Üs',     controlBy:'Ordu',      controlColor:'#C24B43', crime:10, support:62, alarm:88, income:48000,  influence:95, population:8000,  legalIncome:48000, illegalIncome:0,     conflicts:['police']},
+  {id:'d4',  name:'Sanayi',        controlBy:'Şirketler', controlColor:'#4C9A6B', crime:52, support:55, alarm:40, income:95000,  influence:58, population:30000, legalIncome:72000, illegalIncome:23000, conflicts:[]},
   {id:'d5',  name:'Tarihi Merkez', controlBy:'Tüccarlar', controlColor:'#EAB308', crime:42, support:72, alarm:35, income:85000,  influence:80, population:45000, legalIncome:65000, illegalIncome:20000, conflicts:[]},
-  {id:'d6',  name:'Liman',         controlBy:'Halk',      controlColor:'#06B6D4', crime:65, support:48, alarm:55, income:120000, influence:62, population:35000, legalIncome:80000, illegalIncome:40000, conflicts:['cartel']},
-  {id:'d7',  name:'Gecekondular',  controlBy:'Asi Grup',  controlColor:'#F59E0B', crime:80, support:35, alarm:72, income:38000,  influence:52, population:68000, legalIncome:22000, illegalIncome:16000, conflicts:['riot','cartel']},
-  {id:'d8',  name:'İş Merkezi',    controlBy:'Şirketler', controlColor:'#10B981', crime:28, support:68, alarm:26, income:200000, influence:88, population:22000, legalIncome:185000,illegalIncome:15000, conflicts:[]},
-  {id:'d9',  name:'Sahil',         controlBy:'Halk',      controlColor:'#06B6D4', crime:22, support:82, alarm:18, income:90000,  influence:74, population:35000, legalIncome:82000, illegalIncome:8000,  conflicts:[]},
+  {id:'d6',  name:'Liman',         controlBy:'Halk',      controlColor:'#C9A227', crime:65, support:48, alarm:55, income:120000, influence:62, population:35000, legalIncome:80000, illegalIncome:40000, conflicts:['cartel']},
+  {id:'d7',  name:'Gecekondular',  controlBy:'Asi Grup',  controlColor:'#C9A227', crime:80, support:35, alarm:72, income:38000,  influence:52, population:68000, legalIncome:22000, illegalIncome:16000, conflicts:['riot','cartel']},
+  {id:'d8',  name:'İş Merkezi',    controlBy:'Şirketler', controlColor:'#4C9A6B', crime:28, support:68, alarm:26, income:200000, influence:88, population:22000, legalIncome:185000,illegalIncome:15000, conflicts:[]},
+  {id:'d9',  name:'Sahil',         controlBy:'Halk',      controlColor:'#C9A227', crime:22, support:82, alarm:18, income:90000,  influence:74, population:35000, legalIncome:82000, illegalIncome:8000,  conflicts:[]},
   {id:'d10', name:'Banliyö',       controlBy:'Halk',      controlColor:'#6B7280', crime:38, support:70, alarm:32, income:48000,  influence:45, population:58000, legalIncome:42000, illegalIncome:6000,  conflicts:[]},
   {id:'d11', name:'Çarşı',         controlBy:'Tüccarlar', controlColor:'#EAB308', crime:48, support:64, alarm:45, income:78000,  influence:68, population:42000, legalIncome:62000, illegalIncome:16000, conflicts:[]},
   {id:'d12', name:'Güney Kent',    controlBy:'Halk',      controlColor:'#6B7280', crime:44, support:68, alarm:38, income:58000,  influence:50, population:52000, legalIncome:50000, illegalIncome:8000,  conflicts:[]},
@@ -347,11 +347,11 @@ async function fbLogout() {
 function AuthField({ label, type='text', placeholder, value, onChange, suffix }) {
   return (
     <div style={{marginBottom:'1rem'}}>
-      <div style={{fontSize:'0.72rem',color:'#5A7089',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.4rem',fontWeight:700}}>{label}</div>
-      <div style={{display:'flex',alignItems:'center',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'12px',overflow:'hidden',transition:'all 0.2s'}}>
+      <div style={{fontSize:'0.72rem',color:'#8893A1',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.4rem',fontWeight:700}}>{label}</div>
+      <div style={{display:'flex',alignItems:'center',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'12px',overflow:'hidden',transition:'all 0.2s'}}>
         <input type={type} value={value} onChange={e=>onChange(e.target.value)} placeholder={placeholder}
           autoComplete={type==='password'?'current-password':type==='email'?'email':'username'}
-          style={{flex:1,background:'none',border:'none',outline:'none',padding:'0.75rem 1rem',color:'#E8EDF2',fontFamily:"'DM Sans',sans-serif",fontSize:'16px'}} />
+          style={{flex:1,background:'none',border:'none',outline:'none',padding:'0.75rem 1rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'16px'}} />
         {suffix && <div style={{paddingRight:'0.75rem'}}>{suffix}</div>}
       </div>
     </div>
@@ -371,8 +371,8 @@ function Modal({ title, onClose, children, maxW=440 }) {
       onClick={e => e.target===e.currentTarget && onClose()}>
       <div style={{background:'rgba(10,18,36,0.99)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:'20px 20px 0 0',padding:'1.5rem',width:'100%',maxWidth:maxW,maxHeight:'90dvh',overflowY:'auto',animation:'slideUp 0.25s ease'}}>
         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'1.25rem'}}>
-          <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.05rem',fontWeight:800,color:'#3B82F6',textTransform:'uppercase',letterSpacing:'0.06em'}}>{title}</div>
-          <button onClick={onClose} style={{background:'rgba(255,255,255,0.08)',border:'none',color:'#5A7089',borderRadius:'8px',padding:'0.3rem 0.6rem',cursor:'pointer',fontSize:'1.1rem'}}>✕</button>
+          <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.05rem',fontWeight:800,color:'#C9A227',textTransform:'uppercase',letterSpacing:'0.06em'}}>{title}</div>
+          <button onClick={onClose} style={{background:'rgba(255,255,255,0.08)',border:'none',color:'#8893A1',borderRadius:'8px',padding:'0.3rem 0.6rem',cursor:'pointer',fontSize:'1.1rem'}}>✕</button>
         </div>
         {children}
       </div>
@@ -383,12 +383,12 @@ function Modal({ title, onClose, children, maxW=440 }) {
 
 function Notif({ msg, type='info', onClose }) {
   useEffect(() => { const t=setTimeout(onClose,3500); return ()=>clearTimeout(t); }, []);
-  const colors = { info:'#3B82F6', success:'#10B981', error:'#EF4444', gold:'#F59E0B' };
+  const colors = { info:'#C9A227', success:'#4C9A6B', error:'#C24B43', gold:'#C9A227' };
   const c = colors[type] || colors.info;
   return (
-    <div style={{position:'fixed',bottom:'calc(70px + env(safe-area-inset-bottom, 0px))',left:'0.75rem',right:'0.75rem',background:'rgba(10,20,38,0.98)',border:`1px solid rgba(${c==='#3B82F6'?'59,130,246':c==='#10B981'?'16,185,129':c==='#EF4444'?'239,68,68':'245,158,11'},0.3)`,borderLeft:`3px solid ${c}`,borderRadius:'12px',padding:'0.75rem 1rem',zIndex:2000,fontSize:'0.85rem',fontWeight:600,color:'#E8EDF2',boxShadow:'0 8px 32px rgba(0,0,0,0.5)',backdropFilter:'blur(20px)',animation:'notifIn 0.25s ease',display:'flex',alignItems:'center',gap:'0.5rem'}}>
+    <div style={{position:'fixed',bottom:'calc(70px + env(safe-area-inset-bottom, 0px))',left:'0.75rem',right:'0.75rem',background:'rgba(10,20,38,0.98)',border:`1px solid rgba(${c==='#C9A227'?'59,130,246':c==='#4C9A6B'?'16,185,129':c==='#C24B43'?'239,68,68':'245,158,11'},0.3)`,borderLeft:`3px solid ${c}`,borderRadius:'12px',padding:'0.75rem 1rem',zIndex:2000,fontSize:'0.85rem',fontWeight:600,color:'#EDE7DA',boxShadow:'0 8px 32px rgba(0,0,0,0.5)',backdropFilter:'blur(20px)',animation:'notifIn 0.25s ease',display:'flex',alignItems:'center',gap:'0.5rem'}}>
       <span>{msg}</span>
-      <button onClick={onClose} style={{marginLeft:'auto',background:'none',border:'none',color:'#5A7089',cursor:'pointer',fontSize:'1rem'}}>✕</button>
+      <button onClick={onClose} style={{marginLeft:'auto',background:'none',border:'none',color:'#8893A1',cursor:'pointer',fontSize:'1rem'}}>✕</button>
       <style>{`@keyframes notifIn{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}`}</style>
     </div>
   );
@@ -413,31 +413,31 @@ function EmailVerifyBanner({ email, onDismiss }) {
   };
 
   return (
-    <div style={{background:'rgba(120,85,0,0.25)',borderBottom:'1px solid rgba(245,158,11,0.35)',padding:'0.55rem 0.9rem',display:'flex',alignItems:'center',gap:'0.5rem',flexShrink:0}}>
+    <div style={{background:'rgba(120,85,0,0.25)',borderBottom:'1px solid rgba(201,162,39,0.35)',padding:'0.55rem 0.9rem',display:'flex',alignItems:'center',gap:'0.5rem',flexShrink:0}}>
       <span style={{fontSize:'0.9rem',flexShrink:0}}>📧</span>
       <div style={{flex:1,minWidth:0}}>
         {sent
-          ? <span style={{fontSize:'0.75rem',color:'#6EE7B7',fontWeight:600}}>Doğrulama maili gönderildi — gelen kutunu kontrol et!</span>
+          ? <span style={{fontSize:'0.75rem',color:'#4C9A6B',fontWeight:600}}>Doğrulama maili gönderildi — gelen kutunu kontrol et!</span>
           : <span style={{fontSize:'0.75rem',color:'rgba(255,220,120,0.9)',fontWeight:500,lineHeight:1.3}}>
-              <span style={{fontWeight:700,color:'#FCD34D'}}>{email}</span> adresin doğrulanmamış.{' '}
+              <span style={{fontWeight:700,color:'#C9A227'}}>{email}</span> adresin doğrulanmamış.{' '}
               <button onClick={resend} disabled={sending}
-                style={{background:'none',border:'none',color:'#F59E0B',fontWeight:700,fontSize:'0.75rem',cursor:sending?'not-allowed':'pointer',padding:0,textDecoration:'underline',fontFamily:"'DM Sans',sans-serif"}}>
+                style={{background:'none',border:'none',color:'#C9A227',fontWeight:700,fontSize:'0.75rem',cursor:sending?'not-allowed':'pointer',padding:0,textDecoration:'underline',fontFamily:"'Inter',sans-serif"}}>
                 {sending ? 'Gönderiliyor…' : 'Mail gönder →'}
               </button>
             </span>
         }
       </div>
       <button onClick={onDismiss}
-        style={{background:'none',border:'none',color:'rgba(245,158,11,0.5)',fontSize:'1rem',cursor:'pointer',padding:'2px 4px',flexShrink:0,lineHeight:1}}>✕</button>
+        style={{background:'none',border:'none',color:'rgba(201,162,39,0.5)',fontSize:'1rem',cursor:'pointer',padding:'2px 4px',flexShrink:0,lineHeight:1}}>✕</button>
     </div>
   );
 }
 
 function Spinner({ size=20 }) {
-  return <div style={{width:size,height:size,border:'2.5px solid rgba(59,130,246,0.2)',borderTopColor:'#3B82F6',borderRadius:'50%',animation:'spin 0.7s linear infinite'}} />;
+  return <div style={{width:size,height:size,border:'2.5px solid rgba(201,162,39,0.2)',borderTopColor:'#C9A227',borderRadius:'50%',animation:'spin 0.7s linear infinite'}} />;
 }
 
-function ProgressBar({ pct, color='#3B82F6', h=6 }) {
+function ProgressBar({ pct, color='#C9A227', h=6 }) {
   return (
     <div style={{background:'rgba(0,0,0,0.08)',borderRadius:'100px',height:h,overflow:'hidden'}}>
       <div style={{height:'100%',width:`${Math.max(0,Math.min(100,pct))}%`,background:`linear-gradient(90deg,${color},${color}cc)`,borderRadius:'100px',transition:'width 0.5s ease'}} />
@@ -446,7 +446,7 @@ function ProgressBar({ pct, color='#3B82F6', h=6 }) {
 }
 
 function Tag({ children, color='blue' }) {
-  const map = { blue:'rgba(59,130,246,0.12) #60A5FA rgba(59,130,246,0.25)', green:'rgba(16,185,129,0.12) #10B981 rgba(16,185,129,0.25)', red:'rgba(239,68,68,0.12) #FCA5A5 rgba(239,68,68,0.25)', gold:'rgba(245,158,11,0.12) #F59E0B rgba(245,158,11,0.25)', gray:'rgba(255,255,255,0.06) #5A7089 rgba(255,255,255,0.1)', violet:'rgba(139,92,246,0.12) #A78BFA rgba(139,92,246,0.25)' };
+  const map = { blue:'rgba(201,162,39,0.12) #C9A227 rgba(201,162,39,0.25)', green:'rgba(76,154,107,0.12) #4C9A6B rgba(76,154,107,0.25)', red:'rgba(194,75,67,0.12) #E08C87 rgba(194,75,67,0.25)', gold:'rgba(201,162,39,0.12) #C9A227 rgba(201,162,39,0.25)', gray:'rgba(255,255,255,0.06) #8893A1 rgba(255,255,255,0.1)', violet:'rgba(139,92,246,0.12) #A78BFA rgba(139,92,246,0.25)' };
   const [bg, tc, bc] = (map[color]||map.blue).split(' ');
   return <span style={{display:'inline-block',padding:'2px 8px',borderRadius:'6px',fontSize:'0.67rem',fontWeight:700,background:bg,color:tc,border:`1px solid ${bc}`}}>{children}</span>;
 }
@@ -454,9 +454,9 @@ function Tag({ children, color='blue' }) {
 function Card({ children, style={}, onClick }) {
   const { dark } = useTheme();
   return <div style={{
-    background: dark ? '#1E293B' : '#FFFFFF',
+    background: dark ? '#1E293B' : '#EDE7DA',
     border: dark ? '1px solid rgba(255,255,255,0.07)' : '1px solid rgba(0,0,0,0.06)',
-    borderRadius:'16px', padding:'1rem',
+    borderRadius:'10px', padding:'1rem',
     boxShadow: dark ? '0 2px 12px rgba(0,0,0,0.35)' : '0 2px 8px rgba(0,0,0,0.06)',
     ...style
   }} onClick={onClick}>{children}</div>;
@@ -464,20 +464,20 @@ function Card({ children, style={}, onClick }) {
 
 const VIP_FRAMES = {
   rainbow: {border:'3px solid transparent',backgroundImage:'linear-gradient(#0B1527,#0B1527),linear-gradient(135deg,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)',backgroundOrigin:'border-box',backgroundClip:'padding-box,border-box',animation:'vipRainbow 3s linear infinite'},
-  fire:    {border:'3px solid transparent',backgroundImage:'linear-gradient(#0B1527,#0B1527),linear-gradient(135deg,#FF4500,#FF8C00,#FFD700)',backgroundOrigin:'border-box',backgroundClip:'padding-box,border-box',animation:'vipFire 1.5s ease-in-out infinite'},
+  fire:    {border:'3px solid transparent',backgroundImage:'linear-gradient(#0B1527,#0B1527),linear-gradient(135deg,#FF4500,#FF8C00,#C9A227)',backgroundOrigin:'border-box',backgroundClip:'padding-box,border-box',animation:'vipFire 1.5s ease-in-out infinite'},
   ice:     {border:'3px solid transparent',backgroundImage:'linear-gradient(#0B1527,#0B1527),linear-gradient(135deg,#00BFFF,#87CEEB,#E0FFFF)',backgroundOrigin:'border-box',backgroundClip:'padding-box,border-box',animation:'vipIce 2s ease-in-out infinite'},
-  gold:    {border:'3px solid transparent',backgroundImage:'linear-gradient(#0B1527,#0B1527),linear-gradient(135deg,#FFD700,#FFA500,#FFD700)',backgroundOrigin:'border-box',backgroundClip:'padding-box,border-box',animation:'vipGold 2s ease-in-out infinite'},
+  gold:    {border:'3px solid transparent',backgroundImage:'linear-gradient(#0B1527,#0B1527),linear-gradient(135deg,#C9A227,#FFA500,#C9A227)',backgroundOrigin:'border-box',backgroundClip:'padding-box,border-box',animation:'vipGold 2s ease-in-out infinite'},
   neon:    {border:'3px solid #00FF64',boxShadow:'0 0 8px #00FF64,0 0 16px rgba(0,255,100,0.4)',animation:'vipNeon 1.2s ease-in-out infinite'},
   violet:  {border:'3px solid transparent',backgroundImage:'linear-gradient(#0B1527,#0B1527),linear-gradient(135deg,#8B5CF6,#A78BFA,#7C3AED)',backgroundOrigin:'border-box',backgroundClip:'padding-box,border-box',animation:'vipViolet 2s ease-in-out infinite'},
   heart:   {border:'3px solid transparent',backgroundImage:'linear-gradient(#0B1527,#0B1527),linear-gradient(135deg,#EC4899,#F43F5E,#EC4899)',backgroundOrigin:'border-box',backgroundClip:'padding-box,border-box',animation:'vipHeart 1.5s ease-in-out infinite'},
 };
 
 function Avatar({ profile, size=40 }) {
-  if (!profile) return <div style={{width:size,height:size,borderRadius:'50%',background:'rgba(59,130,246,0.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:size*0.45,flexShrink:0}}>👤</div>;
+  if (!profile) return <div style={{width:size,height:size,borderRadius:'50%',background:'rgba(201,162,39,0.14)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:size*0.45,flexShrink:0}}>👤</div>;
   const icon = profile.gender==='female' ? '👩' : '👨';
   const photoSrc = profile.avatarUrl || profile.photoUrl || profile.avatar || null;
   const frameStyle = profile.premium && profile.vipFrame ? (VIP_FRAMES[profile.vipFrame]||{}) : {};
-  const borderDefault = profile.premium ? '2px solid rgba(245,158,11,0.5)' : '2px solid rgba(59,130,246,0.3)';
+  const borderDefault = profile.premium ? '2px solid rgba(201,162,39,0.5)' : '2px solid rgba(201,162,39,0.3)';
   return (
     <div style={{width:size,height:size,borderRadius:'50%',background:'linear-gradient(135deg,#1a3a5c,#0a1a2e)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:size*0.45,border:borderDefault,flexShrink:0,overflow:'hidden',position:'relative',...frameStyle}}>
       {photoSrc ? <img src={photoSrc} alt="avatar" style={{width:'100%',height:'100%',objectFit:'cover'}} onError={e=>{e.target.style.display='none';}} /> : icon}
@@ -493,7 +493,7 @@ function Btn({ children, onClick, variant='primary', size='md', disabled=false, 
   const hover  = hov   && !disabled && !press;
 
   const base = {
-    borderRadius:'8px', fontFamily:"'DM Sans',sans-serif", fontWeight:700,
+    borderRadius:'8px', fontFamily:"'Inter',sans-serif", fontWeight:700,
     cursor:disabled?'not-allowed':'pointer', opacity:disabled?0.45:1,
     display:'inline-flex', alignItems:'center', justifyContent:'center',
     gap:'0.35rem', letterSpacing:'0.03em', userSelect:'none', WebkitUserSelect:'none',
@@ -507,15 +507,15 @@ function Btn({ children, onClick, variant='primary', size='md', disabled=false, 
 
   const vars = {
     primary: {
-      background:'#D00000', color:'#fff',
-      boxShadow: active ? '0 1px 6px rgba(208,0,0,0.25)'
-                : hover  ? '0 8px 28px rgba(208,0,0,0.55)'
-                         : '0 4px 16px rgba(208,0,0,0.35)',
+      background: active ? '#A07D1C' : hover ? '#DEB12D' : '#C9A227', color:'#11151C',
+      boxShadow: active ? '0 1px 6px rgba(201,162,39,0.2)'
+                : hover  ? '0 8px 28px rgba(201,162,39,0.5)'
+                         : '0 4px 16px rgba(201,162,39,0.3)',
     },
     secondary: {
-      background: hover ? 'rgba(0,201,255,0.18)' : 'rgba(0,201,255,0.08)',
-      color:'#00C9FF', border:'1.5px solid #00C9FF',
-      boxShadow: hover ? '0 4px 18px rgba(0,201,255,0.3)' : 'none',
+      background: hover ? 'rgba(237,231,218,0.1)' : 'rgba(237,231,218,0.05)',
+      color:'#EDE7DA', border:`1px solid ${hover?'rgba(237,231,218,0.2)':'rgba(237,231,218,0.1)'}`,
+      boxShadow: 'none',
     },
     ghost: {
       background: hover ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.05)',
@@ -523,27 +523,27 @@ function Btn({ children, onClick, variant='primary', size='md', disabled=false, 
       border:`1px solid ${hover?'rgba(255,255,255,0.25)':'rgba(255,255,255,0.1)'}`,
     },
     gold: {
-      background:'linear-gradient(135deg,#F59E0B,#D97706)', color:'#0F172A',
-      boxShadow: active ? '0 1px 6px rgba(245,158,11,0.2)'
-                : hover  ? '0 7px 22px rgba(245,158,11,0.5)'
-                         : '0 3px 12px rgba(245,158,11,0.3)',
+      background:'linear-gradient(135deg,#C9A227,#A07D1C)', color:'#0F172A',
+      boxShadow: active ? '0 1px 6px rgba(201,162,39,0.2)'
+                : hover  ? '0 7px 22px rgba(201,162,39,0.5)'
+                         : '0 3px 12px rgba(201,162,39,0.3)',
     },
     green: {
-      background:'linear-gradient(135deg,#10B981,#059669)', color:'#fff',
-      boxShadow: active ? '0 1px 6px rgba(16,185,129,0.2)'
-                : hover  ? '0 7px 22px rgba(16,185,129,0.5)'
-                         : '0 3px 12px rgba(16,185,129,0.3)',
+      background:'linear-gradient(135deg,#4C9A6B,#4C9A6B)', color:'#EDE7DA',
+      boxShadow: active ? '0 1px 6px rgba(76,154,107,0.2)'
+                : hover  ? '0 7px 22px rgba(76,154,107,0.5)'
+                         : '0 3px 12px rgba(76,154,107,0.3)',
     },
     red: {
-      background:'linear-gradient(135deg,#EF4444,#DC2626)', color:'#fff',
-      boxShadow: active ? '0 1px 6px rgba(239,68,68,0.2)'
-                : hover  ? '0 7px 22px rgba(239,68,68,0.5)'
-                         : '0 3px 12px rgba(239,68,68,0.3)',
+      background:'linear-gradient(135deg,#C24B43,#C24B43)', color:'#EDE7DA',
+      boxShadow: active ? '0 1px 6px rgba(194,75,67,0.2)'
+                : hover  ? '0 7px 22px rgba(194,75,67,0.5)'
+                         : '0 3px 12px rgba(194,75,67,0.3)',
     },
     danger: {
-      background: hover ? 'rgba(239,68,68,0.2)' : 'rgba(239,68,68,0.1)',
-      color:'#FCA5A5',
-      border:`1px solid ${hover?'rgba(239,68,68,0.4)':'rgba(239,68,68,0.2)'}`,
+      background: hover ? 'rgba(194,75,67,0.2)' : 'rgba(194,75,67,0.1)',
+      color:'#E08C87',
+      border:`1px solid ${hover?'rgba(194,75,67,0.4)':'rgba(194,75,67,0.2)'}`,
     },
   };
 
@@ -1160,14 +1160,14 @@ function App() {
     : (NAV_ITEMS || []);
 
   const themeVal = { dark, toggle: toggleDark };
-  const pageBg = dark ? '#0F172A' : '#F0F2F5';
+  const pageBg = '#11151C';
 
   return (
     <LangCtx.Provider value={profile?.lang||uiLang||'tr'}>
     <ThemeCtx.Provider value={themeVal}>
       {/* Responsive outer wrapper — max 480px on desktop, centered */}
-      <div style={{position:'fixed',inset:0,display:'flex',alignItems:'stretch',justifyContent:'center',background: dark ? '#060C18' : '#E5E7EB'}}>
-        <div style={{position:'relative',width:'100%',maxWidth:'480px',display:'flex',flexDirection:'column',overflow:'hidden',background: dark ? '#0F172A' : '#F0F2F5',boxShadow:'0 0 60px rgba(0,0,0,0.3)'}}>
+      <div style={{position:'fixed',inset:0,display:'flex',alignItems:'stretch',justifyContent:'center',background: '#0C1017'}}>
+        <div style={{position:'relative',width:'100%',maxWidth:'480px',display:'flex',flexDirection:'column',overflow:'hidden',background: '#11151C',boxShadow:'0 0 60px rgba(0,0,0,0.3)'}}>
           <Header profile={profile} notifCount={notifCount} onNotif={()=>setNotifOpen(true)} page={page} onNavigate={setPage} />
 
           {/* Canlı Olaylar Ticker */}
@@ -1248,11 +1248,11 @@ function App() {
           {notifOpen && <NotifPanel notifications={notifications} onClose={()=>setNotifOpen(false)} onClear={()=>setNotifications([])} />}
           {showWelcome && (
             <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.82)',zIndex:9999,display:'flex',alignItems:'center',justifyContent:'center',padding:'1rem'}}>
-              <div style={{background:'linear-gradient(135deg,#0B1527,#0F1E38)',border:'1px solid rgba(59,130,246,0.3)',borderRadius:'20px',padding:'1.5rem 1.25rem',maxWidth:'380px',width:'100%',maxHeight:'85vh',overflowY:'auto',boxShadow:'0 25px 80px rgba(0,0,0,0.8)'}}>
+              <div style={{background:'#1B212B',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'14px',padding:'1.5rem 1.25rem',maxWidth:'380px',width:'100%',maxHeight:'85vh',overflowY:'auto',boxShadow:'0 25px 80px rgba(0,0,0,0.8)'}}>
                 <div style={{textAlign:'center',marginBottom:'1.25rem'}}>
                   <div style={{fontSize:'2.5rem',marginBottom:'0.4rem'}}>🏙️</div>
-                  <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#E8EDF2'}}>UnderState'e Hoş Geldin!</div>
-                  <div style={{fontSize:'0.78rem',color:'#5A7089',marginTop:'0.3rem'}}>{profile?.username||'Oyuncu'}, sana birkaç ipucu verelim 🎮</div>
+                  <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#EDE7DA'}}>UnderState'e Hoş Geldin!</div>
+                  <div style={{fontSize:'0.78rem',color:'#8893A1',marginTop:'0.3rem'}}>{profile?.username||'Oyuncu'}, sana birkaç ipucu verelim 🎮</div>
                 </div>
                 <div style={{display:'flex',flexDirection:'column',gap:'0.6rem',marginBottom:'1.25rem'}}>
                   {[
@@ -1263,19 +1263,19 @@ function App() {
                     ['5️⃣','Günlük Görevleri Bitir','Görevler sekmesindeki günlük hedefleri tamamla — XP ve para kazan.'],
                     ['6️⃣','UC Kazan','Ekonomi → Dönüşüm sayfasından UnderCoin edinebilir, oy katsayısını artırabilirsin.'],
                   ].map(([num,title,desc])=>(
-                    <div key={num} style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:'12px',padding:'0.65rem 0.8rem',display:'flex',gap:'0.65rem',alignItems:'flex-start'}}>
+                    <div key={num} style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:'12px',padding:'0.65rem 0.8rem',display:'flex',gap:'0.65rem',alignItems:'flex-start'}}>
                       <span style={{fontSize:'1.1rem',flexShrink:0}}>{num}</span>
                       <div>
-                        <div style={{fontWeight:700,color:'#E8EDF2',fontSize:'0.82rem',marginBottom:'0.15rem'}}>{title}</div>
-                        <div style={{fontSize:'0.72rem',color:'#5A7089',lineHeight:1.45}}>{desc}</div>
+                        <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.82rem',marginBottom:'0.15rem'}}>{title}</div>
+                        <div style={{fontSize:'0.72rem',color:'#8893A1',lineHeight:1.45}}>{desc}</div>
                       </div>
                     </div>
                   ))}
                 </div>
-                <div style={{background:'rgba(245,158,11,0.08)',border:'1px solid rgba(245,158,11,0.2)',borderRadius:'10px',padding:'0.6rem 0.8rem',marginBottom:'1rem',fontSize:'0.72rem',color:'#F59E0B',lineHeight:1.4}}>
+                <div style={{background:'rgba(201,162,39,0.06)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'10px',padding:'0.6rem 0.8rem',marginBottom:'1rem',fontSize:'0.72rem',color:'#C9A227',lineHeight:1.4}}>
                   💡 İpucu: Sağ üstteki destek butonuyla bize mesaj atabilirsin. Sorularını yanıtlıyoruz!
                 </div>
-                <button onClick={()=>setShowWelcome(false)} style={{width:'100%',padding:'0.85rem',borderRadius:'14px',border:'none',background:'linear-gradient(135deg,#3B82F6,#1D4ED8)',color:'#fff',fontFamily:"'DM Sans',sans-serif",fontWeight:800,fontSize:'0.92rem',cursor:'pointer'}}>
+                <button onClick={()=>setShowWelcome(false)} style={{width:'100%',padding:'0.85rem',borderRadius:'14px',border:'none',background:'#C9A227',color:'#11151C',fontFamily:"'Inter',sans-serif",fontWeight:800,fontSize:'0.92rem',cursor:'pointer'}}>
                   🚀 Oyuna Başla!
                 </button>
               </div>
@@ -1297,11 +1297,11 @@ function App() {
 const styleEl = document.createElement('style');
 styleEl.textContent = `
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #E5E7EB; color: #1A2233; font-family: 'DM Sans', sans-serif; overflow: hidden; -webkit-tap-highlight-color: transparent; }
-  body.us-dark { color: #E8EDF2 !important; background: #060C18 !important; }
+  body { background: #11151C; color: #EDE7DA; font-family: 'Inter', sans-serif; overflow: hidden; -webkit-tap-highlight-color: transparent; }
+  body.us-dark { color: #EDE7DA !important; background: #11151C !important; }
   ::-webkit-scrollbar { width: 3px; height: 3px; }
   ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: rgba(59,130,246,0.3); border-radius: 10px; }
+  ::-webkit-scrollbar-thumb { background: rgba(201,162,39,0.3); border-radius: 10px; }
   input, select, textarea { -webkit-appearance: none; font-size: 16px !important; }
   button { -webkit-tap-highlight-color: transparent; }
   .bnav { scroll-behavior: smooth; }
@@ -1313,9 +1313,9 @@ styleEl.textContent = `
   @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
   @keyframes notifIn { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
   @keyframes vipRainbow { 0%{filter:hue-rotate(0deg)} 100%{filter:hue-rotate(360deg)} }
-  @keyframes vipFire { 0%,100%{box-shadow:0 0 8px #FF4500,0 0 16px rgba(255,69,0,0.4)} 50%{box-shadow:0 0 14px #FFD700,0 0 28px rgba(255,215,0,0.5)} }
+  @keyframes vipFire { 0%,100%{box-shadow:0 0 8px #FF4500,0 0 16px rgba(255,69,0,0.4)} 50%{box-shadow:0 0 14px #C9A227,0 0 28px rgba(255,215,0,0.5)} }
   @keyframes vipIce { 0%,100%{box-shadow:0 0 8px #00BFFF,0 0 16px rgba(0,191,255,0.4)} 50%{box-shadow:0 0 14px #E0FFFF,0 0 28px rgba(224,255,255,0.6)} }
-  @keyframes vipGold { 0%,100%{box-shadow:0 0 8px #FFD700,0 0 16px rgba(255,215,0,0.4)} 50%{box-shadow:0 0 16px #FFA500,0 0 32px rgba(255,165,0,0.5)} }
+  @keyframes vipGold { 0%,100%{box-shadow:0 0 8px #C9A227,0 0 16px rgba(255,215,0,0.4)} 50%{box-shadow:0 0 16px #FFA500,0 0 32px rgba(255,165,0,0.5)} }
   @keyframes vipNeon { 0%,100%{box-shadow:0 0 8px #00FF64,0 0 16px rgba(0,255,100,0.4)} 50%{box-shadow:0 0 14px #00FF64,0 0 28px rgba(0,255,100,0.7)} }
   @keyframes vipViolet { 0%,100%{box-shadow:0 0 8px #8B5CF6,0 0 16px rgba(139,92,246,0.4)} 50%{box-shadow:0 0 14px #A78BFA,0 0 28px rgba(167,139,250,0.6)} }
   @keyframes vipHeart { 0%,100%{box-shadow:0 0 8px #EC4899,0 0 16px rgba(236,72,153,0.4)} 50%{box-shadow:0 0 14px #F43F5E,0 0 28px rgba(244,63,94,0.6)} }
@@ -1367,13 +1367,13 @@ class ErrorBoundary extends React.Component {
 
     const dark = document.body.classList.contains('us-dark');
     const bg   = dark ? '#060C18' : '#0A1628';
-    const card = dark ? '#0D1F3A' : '#0D2040';
+    const card = dark ? '#11151C' : '#0D2040';
 
     return React.createElement('div', {
       style: {
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         height: '100vh', width: '100vw', background: bg,
-        fontFamily: "'DM Sans', sans-serif", flexDirection: 'column', gap: '16px',
+        fontFamily: "'Inter', sans-serif", flexDirection: 'column', gap: '16px',
         padding: '24px', textAlign: 'center'
       }
     },
@@ -1394,14 +1394,14 @@ class ErrorBoundary extends React.Component {
         }
       },
         React.createElement('code', {
-          style: { color: '#F87171', fontSize: '11px', wordBreak: 'break-word', display: 'block' }
+          style: { color: '#E08C87', fontSize: '11px', wordBreak: 'break-word', display: 'block' }
         }, String(this.state.error?.message || this.state.error).slice(0, 200))
       ),
       React.createElement('div', { style: { display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' } },
         React.createElement('button', {
           onClick: () => this.handleRetry(),
           style: {
-            background: 'linear-gradient(135deg,#2563EB,#1D4ED8)', color: '#fff',
+            background: 'linear-gradient(135deg,#C9A227,#C9A227)', color: '#EDE7DA',
             border: 'none', borderRadius: '10px', padding: '12px 24px',
             fontSize: '14px', fontWeight: 700, cursor: 'pointer'
           }
@@ -1416,7 +1416,7 @@ class ErrorBoundary extends React.Component {
         }, '\ud83d\uddd1\ufe0f �nbelle\u011fi Temizle & Yenile')
       ),
       this.state.retryCount > 0 && React.createElement('p', {
-        style: { color: '#5A7089', fontSize: '11px' }
+        style: { color: '#8893A1', fontSize: '11px' }
       }, `${this.state.retryCount}. deneme ba\u015far\u0131s\u0131z \u2014 tam yenileme deneyebilirsin`)
     );
   }

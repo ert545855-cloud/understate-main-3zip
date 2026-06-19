@@ -109,7 +109,7 @@ window.PowerTriangleScreen = function PowerTriangleScreen({ cu, families, gangs,
       position:"relative"
     }}>
       {icon} {label}
-      {badge>0 && <span style={{position:"absolute",top:2,right:2,background:"#EF4444",color:"#fff",borderRadius:8,fontSize:"0.55rem",padding:"0.1rem 0.3rem",fontWeight:900}}>{badge}</span>}
+      {badge>0 && <span style={{position:"absolute",top:2,right:2,background:"#C24B43",color:"#fff",borderRadius:8,fontSize:"0.55rem",padding:"0.1rem 0.3rem",fontWeight:900}}>{badge}</span>}
     </button>
   );
 
@@ -121,7 +121,7 @@ window.PowerTriangleScreen = function PowerTriangleScreen({ cu, families, gangs,
       </p>
 
       {msg&&(
-        <div style={{padding:"0.55rem 0.85rem",borderRadius:10,marginBottom:"0.75rem",background:msg.type==="success"?"rgba(16,185,129,0.12)":msg.type==="error"?"rgba(239,68,68,0.12)":"rgba(59,130,246,0.12)",border:`1px solid ${msg.type==="success"?"rgba(16,185,129,0.3)":msg.type==="error"?"rgba(239,68,68,0.3)":"rgba(59,130,246,0.3)"}`,color:msg.type==="success"?"#10B981":msg.type==="error"?"#EF4444":"#60A5FA",fontSize:"0.82rem",fontWeight:600}}>
+        <div style={{padding:"0.55rem 0.85rem",borderRadius:10,marginBottom:"0.75rem",background:msg.type==="success"?"rgba(76,154,107,0.12)":msg.type==="error"?"rgba(194,75,67,0.12)":"rgba(201,162,39,0.12)",border:`1px solid ${msg.type==="success"?"rgba(76,154,107,0.3)":msg.type==="error"?"rgba(194,75,67,0.3)":"rgba(201,162,39,0.3)"}`,color:msg.type==="success"?"#4C9A6B":msg.type==="error"?"#C24B43":"#C9A227",fontSize:"0.82rem",fontWeight:600}}>
           {msg.text}
         </div>
       )}
@@ -143,8 +143,8 @@ window.PowerTriangleScreen = function PowerTriangleScreen({ cu, families, gangs,
             <div style={{fontSize:"0.75rem",color:"#5E7390",marginBottom:"0.75rem",textTransform:"uppercase",letterSpacing:"0.08em"}}>Güç Dağılımı</div>
             <div style={{display:"flex",justifyContent:"center",alignItems:"flex-end",gap:"0.5rem",height:90}}>
               {[
-                {label:"Aileler",val:totalFamilyPower,color:"#60A5FA",icon:"👪"},
-                {label:"Çeteler",val:totalGangPower,color:"#EF4444",icon:"🔫"},
+                {label:"Aileler",val:totalFamilyPower,color:"#C9A227",icon:"👪"},
+                {label:"Çeteler",val:totalGangPower,color:"#C24B43",icon:"🔫"},
                 {label:"Partiler",val:totalPartySeats*100,color:"#A78BFA",icon:"⚑"},
               ].map(item => {
                 const maxVal = Math.max(totalFamilyPower, totalGangPower, totalPartySeats*100, 1);
@@ -161,28 +161,28 @@ window.PowerTriangleScreen = function PowerTriangleScreen({ cu, families, gangs,
           </div>
 
           <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:"0.45rem",marginBottom:"0.75rem"}}>
-            {statBox("👪","Aile Sayısı",fams.length,"#60A5FA")}
-            {statBox("🔫","Çete Sayısı",gangsArr.length,"#EF4444")}
+            {statBox("👪","Aile Sayısı",fams.length,"#C9A227")}
+            {statBox("🔫","Çete Sayısı",gangsArr.length,"#C24B43")}
             {statBox("⚑","Parti Sayısı",partyArr.length,"#A78BFA")}
           </div>
           <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:"0.45rem",marginBottom:"0.75rem"}}>
-            {statBox("💰","Aile Kasası",fmtMoney(totalFamilyBank),"#10B981")}
-            {statBox("💰","Çete Kasası",fmtMoney(totalGangBank),"#F59E0B")}
+            {statBox("💰","Aile Kasası",fmtMoney(totalFamilyBank),"#4C9A6B")}
+            {statBox("💰","Çete Kasası",fmtMoney(totalGangBank),"#C9A227")}
             {statBox("💰","Parti Kasası",fmtMoney(totalPartyBank),"#8B5CF6")}
           </div>
 
           {/* Kabul Edilen Anlaşmalar */}
           {acceptedProposals.length > 0 && (
             <div style={card}>
-              <div className="card-title" style={{color:"#10B981"}}>✅ Kabul Edilen Anlaşmalar ({acceptedProposals.length})</div>
+              <div className="card-title" style={{color:"#4C9A6B"}}>✅ Kabul Edilen Anlaşmalar ({acceptedProposals.length})</div>
               {acceptedProposals.map(p=>(
                 <div key={p.id} style={{display:"flex",flexDirection:"column",gap:"0.2rem",padding:"0.5rem 0",borderBottom:"1px solid rgba(255,255,255,0.04)"}}>
                   <div style={{display:"flex",justifyContent:"space-between",fontSize:"0.8rem"}}>
-                    <span style={{color:"#E8EDF2",fontWeight:700}}>{p.fromName} → {p.toName}</span>
-                    <span style={{fontSize:"0.65rem",color:p.type==="party_family"?"#A78BFA":p.type==="family_gang"?"#60A5FA":"#EF4444"}}>{p.type==="party_family"?"⚑→👪":p.type==="family_gang"?"👪→🔫":"🔫→👪"}</span>
+                    <span style={{color:"#EDE7DA",fontWeight:700}}>{p.fromName} → {p.toName}</span>
+                    <span style={{fontSize:"0.65rem",color:p.type==="party_family"?"#A78BFA":p.type==="family_gang"?"#C9A227":"#C24B43"}}>{p.type==="party_family"?"⚑→👪":p.type==="family_gang"?"👪→🔫":"🔫→👪"}</span>
                   </div>
                   <div style={{fontSize:"0.7rem",color:"#8BA0B5"}}>{p.terms}</div>
-                  {p.offer && <div style={{fontSize:"0.68rem",color:"#10B981"}}>💰 {p.offer}</div>}
+                  {p.offer && <div style={{fontSize:"0.68rem",color:"#4C9A6B"}}>💰 {p.offer}</div>}
                 </div>
               ))}
             </div>
@@ -192,11 +192,11 @@ window.PowerTriangleScreen = function PowerTriangleScreen({ cu, families, gangs,
             <div className="card-title">🕸️ Güç İlişkileri</div>
             <div style={{display:"flex",flexDirection:"column",gap:"0.5rem",marginTop:"0.5rem"}}>
               {[
-                {from:"👪 Aile",to:"🔫 Çete",rel:"Koruma Ücreti Öder",color:"#60A5FA",arrow:"→"},
+                {from:"👪 Aile",to:"🔫 Çete",rel:"Koruma Ücreti Öder",color:"#C9A227",arrow:"→"},
                 {from:"👪 Aile",to:"⚑ Parti",rel:"Siyasi Fon Sağlar",color:"#A78BFA",arrow:"→"},
-                {from:"⚑ Parti",to:"👪 Aile",rel:"Yasal Ayrıcalık Verir",color:"#10B981",arrow:"→"},
-                {from:"⚑ Parti",to:"🔫 Çete",rel:"Polis Baskını Yapar",color:"#EF4444",arrow:"→"},
-                {from:"🔫 Çete",to:"👪 Aile",rel:"Güvenlik Sağlar",color:"#F59E0B",arrow:"→"},
+                {from:"⚑ Parti",to:"👪 Aile",rel:"Yasal Ayrıcalık Verir",color:"#4C9A6B",arrow:"→"},
+                {from:"⚑ Parti",to:"🔫 Çete",rel:"Polis Baskını Yapar",color:"#C24B43",arrow:"→"},
+                {from:"🔫 Çete",to:"👪 Aile",rel:"Güvenlik Sağlar",color:"#C9A227",arrow:"→"},
               ].map((r,i)=>(
                 <div key={i} style={{display:"flex",alignItems:"center",gap:"0.5rem",padding:"0.4rem 0.6rem",background:"rgba(255,255,255,0.02)",borderRadius:8,fontSize:"0.78rem"}}>
                   <span style={{fontWeight:700,minWidth:65}}>{r.from}</span>
@@ -215,16 +215,16 @@ window.PowerTriangleScreen = function PowerTriangleScreen({ cu, families, gangs,
         <div>
           {/* Gelen teklifler */}
           {pendingForMe.length > 0 && (
-            <div style={{...card,border:"1px solid rgba(245,158,11,0.3)"}}>
-              <div style={{fontWeight:700,color:"#F59E0B",marginBottom:"0.65rem",fontSize:"0.85rem"}}>📬 Bekleyen Teklifler ({pendingForMe.length})</div>
+            <div style={{...card,border:"1px solid rgba(201,162,39,0.3)"}}>
+              <div style={{fontWeight:700,color:"#C9A227",marginBottom:"0.65rem",fontSize:"0.85rem"}}>📬 Bekleyen Teklifler ({pendingForMe.length})</div>
               {pendingForMe.map(p=>(
-                <div key={p.id} style={{background:"rgba(255,255,255,0.03)",borderRadius:10,padding:"0.75rem",marginBottom:"0.5rem",border:"1px solid rgba(245,158,11,0.2)"}}>
+                <div key={p.id} style={{background:"rgba(255,255,255,0.03)",borderRadius:10,padding:"0.75rem",marginBottom:"0.5rem",border:"1px solid rgba(201,162,39,0.2)"}}>
                   <div style={{display:"flex",justifyContent:"space-between",marginBottom:"0.4rem"}}>
-                    <span style={{fontWeight:700,color:"#E8EDF2",fontSize:"0.85rem"}}>{p.fromName}</span>
+                    <span style={{fontWeight:700,color:"#EDE7DA",fontSize:"0.85rem"}}>{p.fromName}</span>
                     <span style={{fontSize:"0.65rem",color:"#5E7390",background:"rgba(255,255,255,0.06)",padding:"0.15rem 0.45rem",borderRadius:6}}>{p.fromType}</span>
                   </div>
                   <div style={{fontSize:"0.78rem",color:"#8BA0B5",marginBottom:"0.35rem"}}>📋 {p.terms}</div>
-                  {p.offer && <div style={{fontSize:"0.72rem",color:"#10B981",marginBottom:"0.5rem"}}>💰 {p.offer}</div>}
+                  {p.offer && <div style={{fontSize:"0.72rem",color:"#4C9A6B",marginBottom:"0.5rem"}}>💰 {p.offer}</div>}
                   <div style={{display:"flex",gap:"0.4rem"}}>
                     <button className="btn btn-primary" style={{flex:1,padding:"0.4rem"}} onClick={()=>respondProposal(p.id,"accepted")}>✅ Kabul Et</button>
                     <button className="btn btn-red" style={{flex:1,padding:"0.4rem"}} onClick={()=>respondProposal(p.id,"rejected")}>❌ Reddet</button>
@@ -237,7 +237,7 @@ window.PowerTriangleScreen = function PowerTriangleScreen({ cu, families, gangs,
           {/* Teklif gönder */}
           {(isPartyLeader || isFamilyLeader || isGangLeader) && (
             <div style={card}>
-              <div style={{fontWeight:700,color:"#E8EDF2",marginBottom:"0.65rem",fontSize:"0.85rem"}}>📤 Teklif Gönder</div>
+              <div style={{fontWeight:700,color:"#EDE7DA",marginBottom:"0.65rem",fontSize:"0.85rem"}}>📤 Teklif Gönder</div>
               {!showPropForm ? (
                 <button className="btn btn-primary" style={{width:"100%"}} onClick={()=>setShowPropForm(true)}>+ Yeni Teklif Oluştur</button>
               ) : (
@@ -278,14 +278,14 @@ window.PowerTriangleScreen = function PowerTriangleScreen({ cu, families, gangs,
           {/* Gönderilmiş teklifler */}
           {myProposals.filter(p=>p.by===cu?.username).length > 0 && (
             <div style={card}>
-              <div style={{fontWeight:700,color:"#E8EDF2",marginBottom:"0.65rem",fontSize:"0.85rem"}}>📋 Gönderdiğim Teklifler</div>
+              <div style={{fontWeight:700,color:"#EDE7DA",marginBottom:"0.65rem",fontSize:"0.85rem"}}>📋 Gönderdiğim Teklifler</div>
               {myProposals.filter(p=>p.by===cu?.username).map(p=>(
                 <div key={p.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"0.45rem 0",borderBottom:"1px solid rgba(255,255,255,0.04)",fontSize:"0.78rem"}}>
                   <div>
-                    <span style={{color:"#E8EDF2",fontWeight:600}}>{p.fromName} → {p.toName}</span>
+                    <span style={{color:"#EDE7DA",fontWeight:600}}>{p.fromName} → {p.toName}</span>
                     <div style={{fontSize:"0.65rem",color:"#5E7390",marginTop:"0.1rem"}}>{p.terms.slice(0,40)}{p.terms.length>40?"...":""}</div>
                   </div>
-                  <span style={{fontWeight:700,fontSize:"0.72rem",color:p.status==="accepted"?"#10B981":p.status==="rejected"?"#EF4444":"#F59E0B",flexShrink:0,marginLeft:"0.5rem"}}>
+                  <span style={{fontWeight:700,fontSize:"0.72rem",color:p.status==="accepted"?"#4C9A6B":p.status==="rejected"?"#C24B43":"#C9A227",flexShrink:0,marginLeft:"0.5rem"}}>
                     {p.status==="accepted"?"✅ Kabul":p.status==="rejected"?"❌ Red":"⏳ Bekliyor"}
                   </span>
                 </div>
@@ -315,7 +315,7 @@ window.PowerTriangleScreen = function PowerTriangleScreen({ cu, families, gangs,
                   <div style={{fontSize:"0.7rem",color:"#5E7390"}}>Lider: {f.leader} · {(Array.isArray(f.members)?f.members:[]).length} üye</div>
                 </div>
                 <div style={{textAlign:"right"}}>
-                  <div style={{fontWeight:900,color:"#60A5FA",fontSize:"0.9rem"}}>{(f.power||0).toLocaleString()}</div>
+                  <div style={{fontWeight:900,color:"#C9A227",fontSize:"0.9rem"}}>{(f.power||0).toLocaleString()}</div>
                   <div style={{fontSize:"0.6rem",color:"#5E7390"}}>GÜÇ</div>
                 </div>
               </div>
@@ -352,7 +352,7 @@ window.PowerTriangleScreen = function PowerTriangleScreen({ cu, families, gangs,
                   <div style={{fontSize:"0.7rem",color:"#5E7390"}}>Lider: {g.leader} · {(Array.isArray(g.members)?g.members:[]).length} üye</div>
                 </div>
                 <div style={{textAlign:"right"}}>
-                  <div style={{fontWeight:900,color:"#EF4444",fontSize:"0.9rem"}}>{(g.power||0).toLocaleString()}</div>
+                  <div style={{fontWeight:900,color:"#C24B43",fontSize:"0.9rem"}}>{(g.power||0).toLocaleString()}</div>
                   <div style={{fontSize:"0.6rem",color:"#5E7390"}}>GÜÇ</div>
                 </div>
               </div>
@@ -417,10 +417,10 @@ window.PowerTriangleScreen = function PowerTriangleScreen({ cu, families, gangs,
           <div style={card}>
             <div className="card-title">⚖️ Güç Dengesi Analizi</div>
             {[
-              {label:"Aile → Çete (Koruma Ücreti)", status: fams.length>0&&gangsArr.length>0?"Aktif":"Pasif", color:fams.length>0&&gangsArr.length>0?"#10B981":"#EF4444"},
-              {label:"Aile → Parti (Siyasi Fon)",    status: fams.length>0&&partyArr.length>0?"Aktif":"Pasif", color:fams.length>0&&partyArr.length>0?"#10B981":"#EF4444"},
-              {label:"Parti → Çete (Polis Baskını)", status: partyArr.length>0&&gangsArr.length>0?"Potansiyel":"Pasif", color:partyArr.length>0&&gangsArr.length>0?"#F59E0B":"#EF4444"},
-              {label:"Kabul Edilen Anlaşmalar",      status: acceptedProposals.length+" anlaşma", color:acceptedProposals.length>0?"#10B981":"#6B7C93"},
+              {label:"Aile → Çete (Koruma Ücreti)", status: fams.length>0&&gangsArr.length>0?"Aktif":"Pasif", color:fams.length>0&&gangsArr.length>0?"#4C9A6B":"#C24B43"},
+              {label:"Aile → Parti (Siyasi Fon)",    status: fams.length>0&&partyArr.length>0?"Aktif":"Pasif", color:fams.length>0&&partyArr.length>0?"#4C9A6B":"#C24B43"},
+              {label:"Parti → Çete (Polis Baskını)", status: partyArr.length>0&&gangsArr.length>0?"Potansiyel":"Pasif", color:partyArr.length>0&&gangsArr.length>0?"#C9A227":"#C24B43"},
+              {label:"Kabul Edilen Anlaşmalar",      status: acceptedProposals.length+" anlaşma", color:acceptedProposals.length>0?"#4C9A6B":"#6B7C93"},
             ].map((item,i)=>(
               <div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"0.5rem 0",borderBottom:"1px solid rgba(255,255,255,0.04)",fontSize:"0.82rem"}}>
                 <span style={{color:"#bbb"}}>{item.label}</span>
@@ -428,8 +428,8 @@ window.PowerTriangleScreen = function PowerTriangleScreen({ cu, families, gangs,
               </div>
             ))}
           </div>
-          <div style={{...card,border:"1px solid rgba(245,158,11,0.3)"}}>
-            <div style={{fontSize:"0.82rem",color:"#F59E0B",fontWeight:700,marginBottom:"0.5rem"}}>⚠️ Denge Uyarısı</div>
+          <div style={{...card,border:"1px solid rgba(201,162,39,0.3)"}}>
+            <div style={{fontSize:"0.82rem",color:"#C9A227",fontWeight:700,marginBottom:"0.5rem"}}>⚠️ Denge Uyarısı</div>
             <p style={{fontSize:"0.8rem",color:"#8899AA",lineHeight:1.6,margin:0}}>
               Herhangi bir grubun diğerlerine göre fazla güçlenmesi dengeyi bozar.
               Aile çeteye ödeme yapmazsa fabrikalar sabote edilir.
@@ -442,7 +442,7 @@ window.PowerTriangleScreen = function PowerTriangleScreen({ cu, families, gangs,
             <button className="btn btn-primary" onClick={()=>setCurrentPage("gang")}>🔫 Çete Sistemine Git</button>
             <button className="btn btn-primary" onClick={()=>setCurrentPage("politics")}>⚑ Parti Sistemine Git</button>
             <button className="btn" onClick={()=>setCurrentPage("tenders")} style={{border:"1px solid rgba(255,184,0,0.4)",color:"#FFB800"}}>🏗️ Devlet İhalelerine Git</button>
-            <button className="btn" onClick={()=>setCurrentPage("unions")} style={{border:"1px solid rgba(16,185,129,0.4)",color:"#10B981"}}>🏭 Sendika Sistemine Git</button>
+            <button className="btn" onClick={()=>setCurrentPage("unions")} style={{border:"1px solid rgba(76,154,107,0.4)",color:"#4C9A6B"}}>🏭 Sendika Sistemine Git</button>
           </div>
         </div>
       )}

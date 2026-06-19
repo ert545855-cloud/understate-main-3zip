@@ -72,13 +72,13 @@ function SpyPage({ profile, setProfile, showNotif }) {
                 </div>
                 <div style={{textAlign:'right',fontSize:'0.72rem',color:'#888'}}>
                   <div>Maliyet: ₺{op.cost.toLocaleString()}</div>
-                  <div style={{color:'#10B981'}}>Ödül: ₺{op.reward.money.toLocaleString()}</div>
+                  <div style={{color:'#4C9A6B'}}>Ödül: ₺{op.reward.money.toLocaleString()}</div>
                 </div>
               </div>
               <div style={{fontSize:'0.75rem',color:'#888',marginBottom:'0.5rem'}}>{op.desc}</div>
               <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                 <div style={{fontSize:'0.7rem',color:'#A78BFA'}}>Başarı: %{Math.round(op.successRate*100)} · +{op.reward.merit}🏅</div>
-                {!ready && <span style={{fontSize:'0.68rem',color:'#F59E0B'}}>⏳ {rem>3600000?`${Math.ceil(rem/3600000)}sa`:`${Math.ceil(rem/60000)}dk`}</span>}
+                {!ready && <span style={{fontSize:'0.68rem',color:'#C9A227'}}>⏳ {rem>3600000?`${Math.ceil(rem/3600000)}sa`:`${Math.ceil(rem/60000)}dk`}</span>}
               </div>
               <button onClick={()=>doOp(op)} disabled={!ready||(cu.money||0)<op.cost} style={{width:'100%',marginTop:'0.5rem',padding:'0.45rem',borderRadius:'8px',border:'none',background:ready&&(cu.money||0)>=op.cost?'rgba(167,139,250,0.2)':'rgba(255,255,255,0.04)',color:ready&&(cu.money||0)>=op.cost?'#A78BFA':'#555',cursor:ready&&(cu.money||0)>=op.cost?'pointer':'not-allowed',fontWeight:700,fontSize:'0.8rem',fontFamily:'inherit'}}>
                 {ready?`${op.icon} Operasyonu Başlat`:'Bekleniyor…'}
@@ -91,14 +91,14 @@ function SpyPage({ profile, setProfile, showNotif }) {
       {tab==='log'&&<div>
         {spyOps.length===0&&<div style={{textAlign:'center',color:'#555',padding:'2rem'}}>Henüz operasyon yok.</div>}
         {spyOps.map(op=>(
-          <div key={op.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.6rem',background:'rgba(255,255,255,0.03)',borderRadius:'8px',marginBottom:'0.4rem',border:`1px solid ${op.result==='success'?'rgba(16,185,129,0.2)':'rgba(239,68,68,0.15)'}`}}>
+          <div key={op.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.6rem',background:'rgba(237,231,218,0.02)',borderRadius:'8px',marginBottom:'0.4rem',border:`1px solid ${op.result==='success'?'rgba(76,154,107,0.2)':'rgba(194,75,67,0.15)'}`}}>
             <div>
               <div style={{fontWeight:600,fontSize:'0.85rem'}}>{op.icon} {op.op}</div>
               <div style={{fontSize:'0.68rem',color:'#888'}}>{op.date}</div>
             </div>
             <div style={{textAlign:'right'}}>
-              <div style={{fontWeight:700,color:op.result==='success'?'#10B981':'#EF4444',fontSize:'0.82rem'}}>{op.result==='success'?'✅ Başarılı':'💔 Başarısız'}</div>
-              {op.reward&&<div style={{fontSize:'0.68rem',color:'#10B981'}}>+₺{op.reward.money?.toLocaleString()}</div>}
+              <div style={{fontWeight:700,color:op.result==='success'?'#4C9A6B':'#C24B43',fontSize:'0.82rem'}}>{op.result==='success'?'✅ Başarılı':'💔 Başarısız'}</div>
+              {op.reward&&<div style={{fontSize:'0.68rem',color:'#4C9A6B'}}>+₺{op.reward.money?.toLocaleString()}</div>}
             </div>
           </div>
         ))}
