@@ -1,0 +1,21 @@
+- [UNDERSTATE stack & architecture](understate-stack.md) — Babel-standalone React monolith (src/app.js ~13700 lines), external screens as window globals in src/screens/*.js.
+- [UNDERSTATE localStorage conventions](understate-localstorage.md) — All useLs() keys use rep_ prefix; daily task state key is rep_dailyTaskState; user profile is rep_userProfile.
+- [Multiplayer Architecture](multiplayer-arch.md) — full real-time multiplayer + DB persistence layer design decisions for gangs/parties/alliances/elections/laws/announcements.
+- [Socket Emit Patterns](socket-emit-patterns.md) — where gang/party/alliance/election/law mutations emit to server in app.js; setGangs/setParties/etc. all have inline socket.emit calls.
+- [Turkey Province Map](turkey-map.md) — window.TurkeyProvinceMap + window.TurkeyMapScreen; redesigned to use TURKEY_OUTLINE_PATH + PROVINCE_MAP_DATA (app.js global); viewBox 820x360; region lookup via TR_REGION_MAP object; ammo power included in territory attack check.
+- [Ammo (Mermi) System](ammo-system.md) — gang.ammo field (number); 3 types (standart/agir/ap) bought in WeaponSystem (PoliticsScreen.js); power = base + weapons*5 + ammo*3; all 4 GangPage power displays updated; ammo job roles added to FACTORY_JOB_ROLES in JobsScreen.js.
+- [Factory Devlet/Ozel Split](factory-split.md) — FactoryPage.js redesigned; DEVLET_TYPES (cheaper, stable) vs OZEL_TYPES (expensive, higher income); both include mermi factory type; 'weapon' and 'mermi' types added to FACTORY_JOB_ROLES and KARIYER_ICONS/COLORS.
+- [Dark Mode Text Colors](dark-mode-colors.md) — #3B4E63 was invisible on dark bg (125 instances); replaced all with #5A7089. Never use #2A3A4A or #3B4E63 for text.
+- [PoliticsPage Meclis](politics-meclis.md) — meclis sub-tab REMOVED from PoliticsScreen; standalone PartyCenterScreen.js loaded via index.html, routed as party_center in Devlet nav.
+- [Score Calculation](score-calc.md) — calcScore(p) in app.js before App(); useEffect auto-updates profile.score on level/xp/money/merits/edu changes; autosave uses calcScore(p) directly.
+- [DB Proper Tables](db-proper-tables.md) — gangs/parties/alliances now use proper SQL tables (not game_state KV); getFullGameState wantedKeys excludes these three.
+- [Gangs React State](gangs-react-state.md) — app.js has top-level [gangs,setGangs] state; gameStateInit+gangUpdate both call setGangs(); pass gangs/parties state (not localStorage reads) to all external screens.
+- [Babel Global Scope Hook Clash](babel-hook-clash.md) — app.js declares useState/useEffect globally; new component files MUST NOT redeclare them. Use React.useState directly or omit the destructuring.
+- [Screen File Splits](screen-splits.md) — SocialScreen/GamesScreen bölündü; index.html SCREEN_FILES listesi güncellendi; orijinal dosyalar 1-satır stub'a döndü.
+- [Server Routes Added](server-routes-added.md) — bank.js (deposit/withdraw/interest/transfer), chat.js (history+save), familyFactory.js (/api/family-factory) registered in server/main.js.
+- [PvP/Mining/Spy/Gang Server Handlers](game-action-handlers.md) — pvp:attack, mining:mine/sell, spy:op, gang:buyWeapon/getWeapons, empire:sync/get all in gameHandler.js; updateUser whitelist includes money/hp/merit_points/game_data.
+- [GangTreasury bank→treasury bug](gang-treasury-fix.md) — GangTreasuryScreen used myGang.bank but DB/server stores myGang.treasury; fixed + weapons now load via gang:getWeapons socket event.
+- [Kasa Yöneticisi Role](kasa-yoneticisi.md) — family rank 'kasaci' (treasury perm only); boss appoints via changeRank; withdraw() allows isLeader || hasPerm('treasury').
+- [Party Rank Schema](party-rank-schema.md) — 6-tier PARTY_RANKS in PartyCenterScreen.js; partyRanks localStorage state; yonetim tab with org chart + rank assignment + kabine.
+- [Family Factory Anti-cheat](family-factory-anticheat.md) — family_factories DB table; collection timing fully server-validated; treasury deduction is client-side (families are localStorage-based); DB-backed rate limiter in dbRateLimiter.js.
+- [Security & Deploy Hardening](security-hardening.md) — JWT_SECRET + DATABASE_URL fail-fast in server/main.js AND jwt.js; render.yaml fixed (startCommand=node server/main.js, removed SUPABASE_* + MONGODB_URI); old SQL files → sql/_archive/; unused deploy files → deploy/_unused/.

@@ -1,0 +1,33 @@
+GÖREV: Mevcut bir web/mobil oyun uygulamasının (React tabanlı, build aracı/JSX derleyicisi olmayan, inline style objeleriyle yazılmış) GÖRSEL TASARIMINI, varlıklarını (asset/ikon/görsel) ve menü/navigasyon şemasını komple yeniden tasarla. OYUN MANTIĞI, ÖZELLİKLER, API ÇAĞRILARI, VERİ MODELİ DEĞİŞMEYECEK — sadece kullanıcının gördüğü/dokunduğu katman değişecek.
+
+KESİNLİKLE DOKUNMA (bunlar sabit kalacak):
+- server/ klasöründeki hiçbir dosya, hiçbir API endpoint yolu, hiçbir socket event adı
+- profile/setProfile/showNotif gibi prop isimleri ve fonksiyon imzaları
+- state alan adları (money, bankMoney, underCoin, level, xp, hp, creditScore vb.) ve bunların hesaplanma mantığı
+- oyun ekonomisi/dengesi (fiyatlar, oranlar, cooldown süreleri, ödül miktarları)
+- her ekranın iş mantığı (hangi buton hangi fonksiyonu tetikliyor, hangi koşulda hangi hata mesajı çıkıyor)
+
+DEĞİŞTİR (asıl iş burada):
+1. Tasarım dili: Şu an her ekranda hex renk kodları ve stiller satır içi (inline) ve tekrar tekrar yazılmış, merkezi bir tema/tasarım token sistemi yok. Tek bir merkezi tema dosyası/CSS değişken seti oluştur (renk paleti, tipografi, spacing, radius, shadow, ikon seti) ve tüm ekranlar bu merkezi sistemden beslensin — renk değiştirmek tek bir dosyada yapılabilsin, 80 ayrı dosyada hex kod aramak gerekmesin.
+2. İkonografi: Şu an ikonlar emoji (💰 🃏 🔫 👪 vb.). Bunun yerine tutarlı bir ikon seti (SVG ikon kütüphanesi veya özel illüstrasyon seti) kullanılsın; emoji'ler sadece destekleyici/dekoratif kalsın, fonksiyonel ikon olarak kullanılmasın.
+3. Menü/navigasyon şeması: Mevcut BottomNav + Header yapısını birebir koru zorunluluğu yok — ekranları (Ekonomi, Suç, Aile, Çete, Siyaset, Kumarhane, İşler, vb.) yeni bir bilgi mimarisiyle grupla. Gerekirse kategori/sekme yapısı, gerekirse hamburger menü + üst seviye kategoriler öner. Amaç: aynı sayıda ekran ama daha az tıklamayla, daha anlaşılır şekilde ulaşılsın.
+4. Bileşen görünümü: buton, kart, input, modal, bildirim (toast) gibi tekrar eden UI parçalarının görünümünü yeni tasarım diline göre güncelle, ama her ekrandaki mevcut buton/aksiyonların SAYISINI ve İŞLEVİNİ değiştirme — sadece nasıl göründüklerini değiştir.
+5. Görsel kimlik: Genel ton/atmosfer için bir yön belirle (örnek: koyu/neon "şehir/suç simülasyonu" teması, ya da daha temiz/kurumsal teması — sen hangisini istiyorsan onu prompt'a ekle) ve tutarlı şekilde tüm ekranlara uygula.
+
+ÇOK DİLLİ DESTEK (yeni özellik, eklenecek):
+- Şu an uygulamada hiçbir çeviri/i18n altyapısı yok, tüm metinler Türkçe olarak doğrudan kod içine yazılmış (örnek: "❌ Yetersiz bakiye!"). Bunu merkezi bir çeviri sözlüğü/i18n katmanına taşı.
+- 4 dil desteklenecek: Türkçe (varsayılan), İngilizce, Azerbaycan Türkçesi, Almanca.
+- Tüm buton metinleri, ekran başlıkları, hata/başarı bildirimleri (showNotif mesajları dahil), form etiketleri çeviri sözlüğünden gelsin; kod içinde hardcoded Türkçe metin kalmasın.
+- Header veya ayarlar menüsünde bir dil seçici (bayrak ikonlu/açılır liste) olsun, seçim localStorage'da saklansın ve sayfa yenilense de korunsun.
+- Çeviri anahtarları (key) tutarlı ve okunabilir olsun (örnek: "bank.withdraw.insufficientFunds"), çevirmeni/ileride başka dil ekleyecek kişiyi düşünerek düzenli bir yapı kur.
+- Para birimi/sayı formatı dile göre değil, oyunun kendi para birimine (₺) sabit kalsın — sadece metinler çevrilsin, oyun ekonomisi etkilenmesin.
+
+TESLİMAT BEKLENTİSİ:
+- Önce: yeni tasarım dili için bir stil rehberi/önizleme (renk paleti, tipografi, örnek 2-3 bileşen) sun, onay al.
+- Sonra: ekran ekran, mevcut işlevi bozmadan yeni tasarımı uygula.
+- i18n altyapısını tasarım değişikliğinden önce veya paralel kur, çünkü her ekranı yeniden yazarken metinleri sözlüğe taşımak aynı anda daha verimli olur.
+- Her ekran için "öncesi/sonrası" karşılaştırması mantıklı olur ama şart değil.
+
+KISITLAR:
+- Performans ve mevcut responsive/mobil davranış korunmalı.
+- Yeni bağımlılık eklenecekse (ikon kütüphanesi, i18n kütüphanesi) önce listele, ben onaylayayım.

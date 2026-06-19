@@ -1,0 +1,20 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "TEAM_ID.com.understate.game",
+        "paths": ["*"],
+        "components": [
+          { "/": "/*" }
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": ["TEAM_ID.com.understate.game"]
+  },
+  "activitycontinuation": {
+    "apps": ["TEAM_ID.com.understate.game"]
+  }
+}

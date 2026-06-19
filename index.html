@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="UNDERSTATE">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0A1628" media="(prefers-color-scheme: dark)"><meta name="theme-color" content="#F0F2F5" media="(prefers-color-scheme: light)">
+    <link rel="manifest" href="/manifest.json">
+    <title>UNDERSTATE - Şehir &amp; Devlet Simülasyonu</title>
+    <link rel="icon" href="favicon.jpg" type="image/jpeg">
+    <link rel="apple-touch-icon" href="favicon.jpg">
+    <link rel="shortcut icon" href="favicon.jpg" type="image/jpeg">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+
+    <!-- App Styles -->
+    <link rel="stylesheet" href="css/styles.css?v=205">
+</head>
+<body>
+
+<div id="root"></div>
+
+<!-- ═══ Military Order Banner ═══ -->
+<div id="mil-banner" style="
+  display:none;
+  position:fixed;
+  top:0; left:50%; transform:translateX(-50%);
+  width:min(100vw,480px);
+  z-index:9998;
+  background:linear-gradient(135deg,#1a0000 0%,#3d0000 50%,#1a0000 100%);
+  border-bottom:2px solid #EF4444;
+  box-shadow:0 4px 32px rgba(239,68,68,0.5);
+  padding:0;
+  animation:milBannerSlide 0.4s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+  font-family:'DM Sans',sans-serif;
+">
+  <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;">
+    <span id="mil-banner-icon" style="font-size:1.5rem;flex-shrink:0;">🪖</span>
+    <div style="flex:1;min-width:0;">
+      <div style="font-size:0.62rem;color:#EF4444;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1px;">⚡ ASKERİ EMİR</div>
+      <div id="mil-banner-text" style="font-size:0.85rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+      <div id="mil-banner-sub" style="font-size:0.65rem;color:#94A3B8;margin-top:1px;"></div>
+    </div>
+    <button onclick="document.getElementById('mil-banner').style.display='none'" style="
+      background:rgba(255,255,255,0.08);border:none;border-radius:8px;
+      color:#94A3B8;font-size:0.85rem;cursor:pointer;padding:4px 8px;flex-shrink:0;
+    ">✕</button>
+  </div>
+  <div id="mil-banner-bar" style="height:2px;background:#EF4444;width:100%;transform-origin:left;animation:milBannerTimer 6s linear forwards;"></div>
+</div>
+<style>
+@keyframes milBannerSlide {
+  from { transform:translateX(-50%) translateY(-100%); opacity:0; }
+  to   { transform:translateX(-50%) translateY(0);    opacity:1; }
+}
+@keyframes milBannerTimer {
+  from { transform:scaleX(1); }
+  to   { transform:scaleX(0); }
+}
+@keyframes milBannerPulse {
+  0%,100% { box-shadow:0 4px 32px rgba(239,68,68,0.5); }
+  50%      { box-shadow:0 4px 48px rgba(239,68,68,0.8); }
+}
+#mil-banner[style*="flex"] { animation:milBannerSlide 0.4s cubic-bezier(0.25,0.46,0.45,0.94) forwards, milBannerPulse 1.5s ease-in-out infinite; }
+</style>
+
+<!-- ═══ Meclis Banner ═══ -->
+<div id="mec-banner" style="
+  display:none;
+  position:fixed;
+  top:0; left:50%; transform:translateX(-50%);
+  width:min(100vw,480px);
+  z-index:9997;
+  background:linear-gradient(135deg,#050d1f 0%,#0a1f4a 50%,#050d1f 100%);
+  border-bottom:2px solid #60A5FA;
+  box-shadow:0 4px 32px rgba(96,165,250,0.45);
+  padding:0;
+  font-family:'DM Sans',sans-serif;
+">
+  <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;">
+    <span id="mec-banner-icon" style="font-size:1.5rem;flex-shrink:0;">🏛️</span>
+    <div style="flex:1;min-width:0;">
+      <div style="font-size:0.62rem;color:#60A5FA;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1px;">⚑ MECLİS KARARI</div>
+      <div id="mec-banner-text" style="font-size:0.85rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+      <div id="mec-banner-sub" style="font-size:0.65rem;color:#94A3B8;margin-top:1px;"></div>
+    </div>
+    <button onclick="document.getElementById('mec-banner').style.display='none'" style="
+      background:rgba(255,255,255,0.08);border:none;border-radius:8px;
+      color:#94A3B8;font-size:0.85rem;cursor:'pointer';padding:4px 8px;flex-shrink:0;
+    ">✕</button>
+  </div>
+  <div id="mec-banner-bar" style="height:2px;background:#60A5FA;width:100%;transform-origin:left;"></div>
+</div>
+<style>
+@keyframes mecBannerSlide {
+  from { transform:translateX(-50%) translateY(-100%); opacity:0; }
+  to   { transform:translateX(-50%) translateY(0);    opacity:1; }
+}
+@keyframes mecBannerTimer {
+  from { transform:scaleX(1); }
+  to   { transform:scaleX(0); }
+}
+@keyframes mecBannerPulse {
+  0%,100% { box-shadow:0 4px 32px rgba(96,165,250,0.45); }
+  50%      { box-shadow:0 4px 48px rgba(96,165,250,0.8); }
+}
+</style>
+
+
+
+<!-- LOADING SCREEN -->
+<div id="loading-screen" style="position:fixed;inset:0;z-index:9999;background:#050505;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;font-family:'DM Sans',sans-serif;">
+  <div style="font-family:'Syne',sans-serif;font-size:clamp(1.6rem,5vw,2.5rem);letter-spacing:0.35rem;display:flex;align-items:baseline;">
+    <span style="color:#D00000;font-weight:900;text-shadow:0 0 20px rgba(208,0,0,0.8);">[U</span><span style="color:#fff;font-weight:900;">NDER</span><span style="color:#D00000;font-weight:900;">STATE]</span>
+  </div>
+  <div id="loading-bar-wrap" style="width:200px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;">
+    <div id="loading-bar" style="height:100%;width:0%;background:#D00000;border-radius:2px;box-shadow:0 0 10px #D00000;transition:width 0.4s ease;"></div>
+  </div>
+  <div id="loading-text" style="color:#555;font-size:0.8rem;letter-spacing:0.1rem;text-transform:uppercase;">Yükleniyor...</div>
+  <div id="loading-error" style="display:none;color:#D00000;font-size:0.85rem;text-align:center;max-width:280px;line-height:1.6;"></div>
+</div>
+<style>
+  #loading-screen { transition: opacity 0.5s ease; }
+  #loading-screen.fade-out { opacity: 0; pointer-events: none; }
+
+  /* ── Ripple effect for ALL buttons ── */
+  @keyframes us-ripple {
+    0%   { transform: translate(-50%,-50%) scale(0); opacity: 0.4; }
+    100% { transform: translate(-50%,-50%) scale(5); opacity: 0; }
+  }
+  .us-ripple-el {
+    position: absolute;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    background: rgba(255,255,255,0.28);
+    pointer-events: none;
+    animation: us-ripple 0.55s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+    z-index: 10;
+  }
+</style>
+
+<script>
+/* Global ripple — works on every button in the app */
+(function() {
+  function spawnRipple(btn, x, y) {
+    if (btn.disabled) return;
+    var r   = btn.getBoundingClientRect();
+    var el  = document.createElement('span');
+    el.className = 'us-ripple-el';
+    el.style.left = (x - r.left) + 'px';
+    el.style.top  = (y - r.top)  + 'px';
+    /* make sure button clips the ripple */
+    var cs = window.getComputedStyle(btn);
+    if (cs.position === 'static')  btn.style.position = 'relative';
+    if (cs.overflow !== 'hidden')  btn.style.overflow  = 'hidden';
+    btn.appendChild(el);
+    el.addEventListener('animationend', function() { el.remove(); }, { once: true });
+  }
+  document.addEventListener('mousedown', function(e) {
+    var btn = e.target.closest('button');
+    if (btn) spawnRipple(btn, e.clientX, e.clientY);
+  }, { passive: true });
+  document.addEventListener('touchstart', function(e) {
+    var t = e.touches[0];
+    var btn = e.target.closest('button');
+    if (btn) spawnRipple(btn, t.clientX, t.clientY);
+  }, { passive: true });
+})();
+</script>
+
+<!-- Dinamik backend URL (sunucu tarafından PUBLIC_URL env var ile inject edilir) -->
+<script src="/config.js"></script>
+
+<!-- Boot Script -->
+<script>
+// ── APK / Capacitor — Socket URL ayarı ────────────────────────────────────
+// Capacitor'da window.location.origin "capacitor://localhost" döner, sunucuya ulaşamaz.
+// AWS EB / deploy için PUBLIC_URL env var set edilmeli (sunucu /config.js ile inject eder).
+(function() {
+  var isCapacitor = (
+    typeof window !== 'undefined' &&
+    (window.location.protocol === 'capacitor:' ||
+     window.location.protocol === 'ionic:' ||
+     navigator.userAgent.indexOf('wv') !== -1 || // Android WebView
+     (typeof Capacitor !== 'undefined'))
+  );
+  // Öncelik sırası:
+  // 1. /config.js ile sunucudan gelen __BACKEND_URL__ (AWS EB PUBLIC_URL env var)
+  // 2. Normal tarayıcıda mevcut origin
+  // 3. Capacitor + __BACKEND_URL__ yoksa fallback (geliştirme için)
+  var injected = (typeof window.__BACKEND_URL__ !== 'undefined' && window.__BACKEND_URL__)
+    ? window.__BACKEND_URL__ : null;
+  var backendUrl = injected || (isCapacitor ? '' : window.location.origin);
+  if (!backendUrl && isCapacitor) {
+    // Capacitor + PUBLIC_URL set edilmemişse uyarı ver
+    console.warn('[Socket] UYARI: Capacitor modunda __BACKEND_URL__ tanımsız! PUBLIC_URL env var set edin.');
+    backendUrl = window.location.origin;
+  }
+  window._SOCKET_URL = backendUrl;
+  window.__ENV__ = window.__ENV__ || {};
+  window.__ENV__.SOCKET_URL = backendUrl;
+  window.__ENV__.API_BASE    = backendUrl;
+  console.log('[Socket] URL ayarlandı:', backendUrl);
+})();
+</script>
+
+<script>
+// ── Loading helpers ────────────────────────────────────────────────────────
+var _lb = document.getElementById('loading-bar');
+var _lt = document.getElementById('loading-text');
+function _advanceBar(p, t) { _lb.style.width = p + '%'; if (t) _lt.textContent = t; }
+function _showError(msg) {
+  var el = document.getElementById('loading-error');
+  el.style.display = 'block';
+  if (msg) el.innerHTML = '&#9888;&#65039; ' + msg + '<br><button onclick="window.location.reload()" style="margin-top:0.75rem;background:#D00000;border:none;color:#fff;padding:0.5rem 1.5rem;border-radius:4px;cursor:pointer;">Yenile</button>';
+  _lt.style.display = 'none';
+}
+function _hideLoading() {
+  var ls = document.getElementById('loading-screen');
+  if (ls) { ls.classList.add('fade-out'); setTimeout(function() { ls.style.display = 'none'; }, 600); }
+}
+_advanceBar(10, 'Başlatılıyor...');
+
+// Eski IndexedDB önbelleklerini temizle (tüm kullanıcılarda stale kod kalmasın)
+try {
+  indexedDB.deleteDatabase('us_cache_v2');
+  indexedDB.deleteDatabase('us_cache_v1');
+} catch(e) {}
+
+function execCompiledCode(code) {
+  try {
+    var blob = new Blob([code], { type: 'application/javascript' });
+    var url  = URL.createObjectURL(blob);
+    var s    = document.createElement('script');
+    s.src    = url;
+    s.onload  = function() { URL.revokeObjectURL(url); };
+    s.onerror = function() { URL.revokeObjectURL(url); _showError('Kod yuklenemedi'); };
+    document.body.appendChild(s);
+  } catch(e) { _showError('Kod calistirilamadi: ' + e.message); }
+}
+
+function execCode(code) {
+  if (!window.Babel) { execCompiledCode(code); return; }
+  try {
+    var transformed = Babel.transform(code, { presets: ['react'], sourceType: 'script' }).code;
+    execCompiledCode(transformed);
+  } catch(te) {
+    console.warn('Babel transform failed:', te.message);
+    _showError('Babel derleyici hatası: ' + te.message.slice(0, 120));
+  }
+}
+
+var V = Date.now(); // Her yüklemede taze — önbellek yok
+var SCREEN_FILES = [
+  'src/components/Header.js',
+  'src/components/BottomNav.js',
+  'src/screens/AuthScreen.js',
+  'src/screens/HomeScreen.js',
+  'src/screens/EconomyScreen.js',
+  'src/screens/PoliticsScreen.js',
+  // Social sub-screens
+  'src/screens/social/YetkilerimPage.js',
+  'src/screens/social/EventsPage.js',
+  'src/screens/social/TeamWarPage.js',
+  'src/screens/social/GangPage.js',
+  'src/screens/social/AlliancePage.js',
+  'src/screens/social/PlayersPage.js',
+  'src/screens/social/ProfilePage.js',
+  'src/screens/social/PremiumPage.js',
+  'src/screens/social/StorePage.js',
+  'src/screens/DevletScreen.js',
+  'src/screens/CrimeScreen.js',
+  // Games sub-screens
+  'src/screens/games/FootballPage.js',
+  'src/screens/games/FactoryPage.js',
+  'src/screens/games/MiningPage.js',
+  'src/screens/games/ArmyPage.js',
+  'src/screens/games/SpyPage.js',
+  'src/screens/games/NewspaperPage.js',
+  'src/screens/games/PvpPage.js',
+  'src/screens/games/KlanChatPage.js',
+  'src/screens/games/NpcPlayersPage.js',
+  'src/screens/games/DuyurularPage.js',
+  'src/screens/games/LeaderboardPage.js',
+  'src/screens/games/SocialFeedPage.js',
+  'src/screens/games/AchievementsPage.js',
+  'src/screens/games/CrisisPage.js',
+  'src/screens/games/CasinoPage.js',
+  'src/screens/JobsScreen.js',
+  'src/screens/PowerTriangleScreen.js',
+  'src/screens/TenderScreen.js',
+  'src/screens/UnionScreen.js',
+  'src/screens/GangTreasuryScreen.js',
+  'src/screens/PartyCenterScreen.js',
+  'src/screens/ArmyScreen.js',
+  'src/screens/EconomicEmpireScreen.js',
+  'src/screens/FamilyCenterScreen.js',
+  'src/screens/TurkeyMapScreen.js',
+  'src/screens/ProtectionDealsScreen.js',
+  'src/screens/IndependentArmyScreen.js',
+];
+
+function _babelOne(src) {
+  if (!src || !window.Babel) return src || '';
+  try {
+    return Babel.transform(src, { presets: ['react'], sourceType: 'script' }).code;
+  } catch(te) {
+    console.warn('Babel derleme başarısız:', te.message);
+    return src;
+  }
+}
+
+function compileAndRun() {
+  _advanceBar(75, 'Dosyalar yükleniyor...');
+  var allFetches = SCREEN_FILES.map(function(f) {
+    return fetch(f + '?v=' + V)
+      .then(function(r) { return r.ok ? r.text() : ''; })
+      .catch(function() { return ''; });
+  });
+  allFetches.push(
+    fetch('src/app.js?v=' + V)
+      .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.text();
+      })
+  );
+  Promise.all(allFetches)
+    .then(function(results) {
+      _advanceBar(88, 'JSX derleniyor...');
+      var compiledParts = results.map(function(src, i) {
+        _advanceBar(88 + Math.floor(i / results.length * 8), 'Derleniyor ' + (i+1) + '/' + results.length + '...');
+        return _babelOne(src);
+      });
+      var combined = compiledParts.join('\n');
+      _advanceBar(98, 'Başlatılıyor...');
+      execCompiledCode(combined);
+    })
+    .catch(function(err) { _showError('Yükleme hatası: ' + err.message); });
+}
+
+function boot() {
+  _advanceBar(70, 'Yükleniyor...');
+  compileAndRun();
+}
+</script>
+
+<!-- Socket.IO Client -->
+<script src="/public/js/socket.io.min.js"></script>
+
+<!-- Socket.IO Oyun Köprüsü: Firebase yerine Socket.IO + Supabase REST -->
+<script>
+(function() {
+  'use strict';
+
+  var _socket = null;
+  var _socketReady = false;
+  var _pendingEmits = [];
+  var _stateFlushTimer = null;
+  var _rtFlushTimer = null;
+
+  // Tüm realtime anahtarlar (sunucuya broadcast edilecek)
+  var RT_KEYS = [
+    'globalChat','cityChats','parliamentMsgs','supportMsgs','liveNews','announcements','activityFeed','klanChat',
+    'users','economy','stockMarket','parties','gangs','holdings',
+    'laws','lawProposals','cabinet','ohal','elections','electionState',
+    'taxSystem','coupSystem','cityMap','gameEvents','prisonList',
+    'auctionItems','courtCases','realEstate','alliances','referendums',
+    'marketDemand','commodities','energyMarket','marketCrisis','cityStats','cityWelfare',
+    'inventory','cityOwnership','combatLog','electionResults','factionWars'
+  ];
+
+  function emit(event, data) {
+    if (_socket && _socketReady) {
+      _socket.emit(event, data);
+    } else {
+      _pendingEmits.push({ event, data });
+    }
+  }
+
+  function flushPending() {
+    var q = _pendingEmits.splice(0);
+    q.forEach(function(p) { _socket.emit(p.event, p.data); });
+  }
+
+  // Sunucudan gelen state güncellemesini React'e yansıt
+  function applyStateUpdate(key, value) {
+    try {
+      var incoming = JSON.stringify(value);
+      if (localStorage.getItem('rep_' + key) === incoming) return;
+      localStorage.setItem('rep_' + key, incoming);
+      window.dispatchEvent(new CustomEvent('fb-sync', { detail: { key: key, value: value } }));
+    } catch(e) {}
+  }
+
+  // Sunucudan ilk state yükle
+  function loadInitialStateFromServer() {
+    var base = window._SOCKET_URL || '';
+
+    fetch(base+'/api/game/state')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        Object.entries(data).forEach(function(entry) {
+          applyStateUpdate(entry[0], entry[1]);
+        });
+        console.log('[Socket Bridge] Sunucu state yüklendi ✓ —', Object.keys(data).length, 'anahtar');
+      })
+      .catch(function(e) { console.warn('[Socket Bridge] State yüklenemedi:', e.message); });
+
+    // Partileri yükle
+    fetch(base+'/api/game/parties')
+      .then(function(r) { return r.json(); })
+      .then(function(resp) {
+        var parties = resp.data || resp;
+        if (!parties || !parties.length) return;
+        var map = {};
+        parties.forEach(function(p) { map[p.id] = p; });
+        applyStateUpdate('parties', map);
+      }).catch(function(){});
+
+    // Çeteleri yükle
+    fetch(base+'/api/game/gangs')
+      .then(function(r) { return r.json(); })
+      .then(function(resp) {
+        var gangs = resp.data || resp;
+        if (!gangs || !gangs.length) return;
+        var map = {};
+        gangs.forEach(function(g) { map[g.id] = g; });
+        applyStateUpdate('gangs', map);
+      }).catch(function(){});
+
+    // Market listeleri
+    fetch(base+'/api/marketplace')
+      .then(function(r) { return r.json(); })
+      .then(function(resp) {
+        var market = resp.listings || resp.data || resp;
+        if (!market || !market.length) return;
+        var map = {};
+        market.forEach(function(c) { map[c.id||c.company_id] = c; });
+        applyStateUpdate('stockMarket', map);
+      }).catch(function(){});
+
+    // Şehir sahipliği (game state'ten)
+    fetch(base+'/api/game/state')
+      .then(function(r) { return r.json(); })
+      .then(function(data) { if (data && data.cityOwnership) applyStateUpdate('cityOwnership', data.cityOwnership); })
+      .catch(function(){});
+  }
+
+  function initSocketBridge() {
+    if (typeof io === 'undefined') {
+      console.warn('[Socket Bridge] socket.io henüz yüklenmedi, 500ms bekleniyor...');
+      setTimeout(initSocketBridge, 500);
+      return;
+    }
+
+    var socketUrl = window._SOCKET_URL || (window.__ENV__ && window.__ENV__.SOCKET_URL) || window.location.origin;
+    // Mixed Content önlemi: sayfa HTTPS ise socket URL de HTTPS/WSS olmalı
+    if (window.location.protocol === 'https:' && socketUrl.startsWith('http://')) {
+      socketUrl = socketUrl.replace('http://', 'https://');
+    }
+    var _jwtToken = localStorage.getItem('authToken') || localStorage.getItem('us_jwt') || '';
+
+    _socket = io(socketUrl, {
+      auth: { token: _jwtToken },
+      reconnection: true,
+      reconnectionDelay: 1000,
+      reconnectionDelayMax: 5000,
+      reconnectionAttempts: Infinity,
+      transports: ['websocket', 'polling']
+    });
+
+    window._gameSocket = _socket;
+    window._socket = _socket; // app.js ile uyumluluk
+
+    _socket.on('connect', function() {
+      _socketReady = true;
+      localStorage.setItem('us_lastSocketId', _socket.id);
+      console.log('[Socket Bridge] Bağlantı kuruldu ✓', _socket.id);
+      flushPending();
+      loadInitialStateFromServer();
+
+      // Presence kaydı
+      var userId = localStorage.getItem('rep_userId') || localStorage.getItem('userId');
+      var prof = {};
+      try { prof = JSON.parse(localStorage.getItem('rep_userProfile') || '{}'); } catch(e) {}
+      if (userId) {
+        _socket.emit('playerJoin', {
+          userId: userId,
+          username: prof.username || 'Oyuncu',
+          level: prof.level || 1,
+          city: prof.city || '',
+          gender: prof.gender || 'erkek',
+          money: prof.money || 0,
+          party: prof.party || null,
+          gang: prof.gang || null,
+          avatar: prof.avatar || null
+        });
+      }
+      window.dispatchEvent(new CustomEvent('socket-connected', { detail: { socketId: _socket.id } }));
+    });
+
+    _socket.on('disconnect', function() {
+      _socketReady = false;
+      window.dispatchEvent(new CustomEvent('socket-disconnected'));
+    });
+
+    // Sunucu oyuncuyu odaya atadığında roomId'yi sakla
+    _socket.on('roomAssigned', function(data) {
+      if (data && data.roomId) {
+        localStorage.setItem('us_roomId', data.roomId);
+        console.log('[Socket Bridge] Odaya atandı:', data.roomId, data.roomName);
+        window.dispatchEvent(new CustomEvent('room-assigned', { detail: data }));
+      }
+    });
+
+    _socket.on('reconnect', function() {
+      _socketReady = true;
+      window.dispatchEvent(new CustomEvent('socket-reconnected'));
+      // Yeni JWT ile auth güncelle
+      var newJwt = localStorage.getItem('authToken') || localStorage.getItem('us_jwt') || '';
+      if (newJwt) {
+        _socket.emit('tokenRefreshed', {
+          userId: localStorage.getItem('rep_userId'),
+          username: localStorage.getItem('rep_username')
+        });
+      }
+      // Eski socket ID ile odaya geri dön
+      var oldSocketId = localStorage.getItem('us_lastSocketId');
+      if (oldSocketId) {
+        _socket.emit('reconnectToRoom', { oldSocketId: oldSocketId });
+      }
+      // playerJoin yeniden gönder
+      var userId = localStorage.getItem('rep_userId');
+      if (userId) {
+        var prof = {};
+        try { prof = JSON.parse(localStorage.getItem('rep_userProfile') || '{}'); } catch(e) {}
+        _socket.emit('playerJoin', {
+          userId: userId,
+          username: prof.username || localStorage.getItem('rep_username') || 'Oyuncu',
+          level: prof.level || 1,
+          city: prof.city || '',
+          gender: prof.gender || 'erkek',
+          party: prof.party || null,
+          gang: prof.gang || null,
+          avatar: prof.avatar || null
+        });
+      }
+    });
+
+    // (us_lastSocketId artık yukarıdaki tek 'connect' handler'ında kaydediliyor)
+
+    // ── Sunucudan gelen eventler ─────────────────────────────────────
+    _socket.on('stateUpdate', function(data) {
+      if (data.key && data.value !== undefined) {
+        applyStateUpdate(data.key, data.value);
+      }
+    });
+
+    _socket.on('chat', function(data) {
+      try {
+        var rawChannel = data.channel || 'globalChat';
+        // Normalize mesaj formatı (app.js {text,username,ts} bekliyor)
+        var newMsg = {
+          id: data.id || Math.random().toString(36).slice(2),
+          userId: data.userId || null,
+          username: data.sender || data.username || 'Oyuncu',
+          text: data.message || data.text || '',
+          ts: data.timestamp || data.ts || Date.now(),
+          level: data.level || 1,
+          gender: data.gender || null,
+          premium: data.premium || false,
+          photoUrl: data.photoUrl || null,
+          channel: rawChannel,
+        };
+
+        if (rawChannel.startsWith('city_')) {
+          var cityKey = rawChannel.replace('city_', '');
+          var cityChats = {};
+          try { cityChats = JSON.parse(localStorage.getItem('rep_cityChats') || '{}'); } catch(e) {}
+          if (typeof cityChats !== 'object' || Array.isArray(cityChats)) cityChats = {};
+          var cityArr = Array.isArray(cityChats[cityKey]) ? cityChats[cityKey] : [];
+          if (!cityArr.find(function(m) { return m.id === newMsg.id; })) {
+            cityChats[cityKey] = cityArr.concat([newMsg]).slice(-100);
+            localStorage.setItem('rep_cityChats', JSON.stringify(cityChats));
+            window.dispatchEvent(new CustomEvent('fb-sync', { detail: { key: 'cityChats', value: cityChats } }));
+          }
+        } else if (rawChannel.startsWith('klan_')) {
+          var klanChat = [];
+          try { klanChat = JSON.parse(localStorage.getItem('rep_klanChat') || '[]'); } catch(e) {}
+          if (!Array.isArray(klanChat)) klanChat = [];
+          if (!klanChat.find(function(m) { return m.id === newMsg.id; })) {
+            klanChat = klanChat.concat([newMsg]).slice(-200);
+            localStorage.setItem('rep_klanChat', JSON.stringify(klanChat));
+            window.dispatchEvent(new CustomEvent('fb-sync', { detail: { key: 'klanChat', value: klanChat } }));
+          }
+        } else {
+          // globalChat ve diğerleri
+          var lsKey = rawChannel; // 'globalChat' → rep_globalChat
+          var current = [];
+          try { current = JSON.parse(localStorage.getItem('rep_' + lsKey) || '[]'); } catch(e) {}
+          if (!Array.isArray(current)) current = [];
+          if (!current.find(function(m) { return m.id === newMsg.id; })) {
+            current = current.concat([newMsg]).slice(-200);
+            localStorage.setItem('rep_' + lsKey, JSON.stringify(current));
+            window.dispatchEvent(new CustomEvent('fb-sync', { detail: { key: lsKey, value: current } }));
+          }
+        }
+      } catch(e) { console.warn('[Socket Bridge] Chat işleme hatası:', e); }
+    });
+
+    _socket.on('chatHistory', function(history) {
+      try {
+        if (!Array.isArray(history) || !history.length) return;
+        var channel = history[0].channel || 'global';
+        var lsKey = channel === 'global' ? 'globalChat' : ('cityChat_' + channel);
+        localStorage.setItem('rep_' + lsKey, JSON.stringify(history));
+        window.dispatchEvent(new CustomEvent('fb-sync', { detail: { key: lsKey, value: history } }));
+        console.log('[Socket Bridge] Chat geçmişi yüklendi ✓', history.length, 'mesaj');
+      } catch(e) {}
+    });
+
+    _socket.on('onlineCount', function(count) {
+      localStorage.setItem('rep_onlineCount', JSON.stringify(count));
+      window.dispatchEvent(new CustomEvent('fb-sync', { detail: { key: 'onlineCount', value: count } }));
+    });
+
+    _socket.on('onlinePlayers', function(players) {
+      localStorage.setItem('rep_onlinePlayers', JSON.stringify(players));
+      window.dispatchEvent(new CustomEvent('fb-sync', { detail: { key: 'onlinePlayers', value: players } }));
+      window.dispatchEvent(new CustomEvent('presence-updated', { detail: { count: players.length, players: players } }));
+    });
+
+    _socket.on('marketUpdate', function(data) {
+      try {
+        var market = {};
+        try { market = JSON.parse(localStorage.getItem('rep_stockMarket') || '{}'); } catch(e) {}
+        if (data.companyId) {
+          market[data.companyId] = typeof data.price !== 'undefined' ? Number(data.price) : market[data.companyId];
+        }
+        localStorage.setItem('rep_stockMarket', JSON.stringify(market));
+        window.dispatchEvent(new CustomEvent('fb-sync', { detail: { key: 'stockMarket', value: market } }));
+      } catch(e) {}
+    });
+
+    _socket.on('marketSnapshot', function(companies) {
+      try {
+        if (!Array.isArray(companies)) return;
+        var map = {};
+        companies.forEach(function(c) {
+          if (c.companyId) map[c.companyId] = typeof c.price !== 'undefined' ? Number(c.price) : 0;
+        });
+        if (Object.keys(map).length) {
+          localStorage.setItem('rep_stockMarket', JSON.stringify(map));
+          window.dispatchEvent(new CustomEvent('fb-sync', { detail: { key: 'stockMarket', value: map } }));
+        }
+      } catch(e) {}
+    });
+
+    _socket.on('partyUpdate', function(data) {
+      try {
+        if (Array.isArray(data.parties)) {
+          localStorage.setItem('rep_parties', JSON.stringify(data.parties));
+          window.dispatchEvent(new CustomEvent('fb-sync', { detail: { key: 'parties', value: data.parties } }));
+        }
+      } catch(e) {}
+    });
+
+    _socket.on('gangUpdate', function(data) {
+      try {
+        var gangs = [];
+        try {
+          var raw = JSON.parse(localStorage.getItem('rep_gangs') || '[]');
+          gangs = Array.isArray(raw) ? raw : Object.values(raw);
+        } catch(e) {}
+        if (Array.isArray(data.gangs)) {
+          gangs = data.gangs;
+        } else if (data.gang && data.gang.id) {
+          var gi = gangs.findIndex(function(g) { return g.id === data.gang.id; });
+          if (gi >= 0) { gangs[gi] = data.gang; } else { gangs.push(data.gang); }
+        } else if (data.id) {
+          var idx = gangs.findIndex(function(g) { return g.id === data.id; });
+          if (idx >= 0) { gangs[idx] = data; } else { gangs.push(data); }
+        }
+        localStorage.setItem('rep_gangs', JSON.stringify(gangs));
+        window.dispatchEvent(new CustomEvent('fb-sync', { detail: { key: 'gangs', value: gangs } }));
+      } catch(e) {}
+    });
+
+    _socket.on('electionUpdate', function(data) {
+      try {
+        if (data.elections !== undefined) {
+          localStorage.setItem('rep_elections', JSON.stringify(data.elections));
+          window.dispatchEvent(new CustomEvent('fb-sync', { detail: { key: 'elections', value: data.elections } }));
+        }
+        if (data.elections_multi !== undefined) {
+          localStorage.setItem('rep_elections_multi', JSON.stringify(data.elections_multi));
+          window.dispatchEvent(new CustomEvent('fb-sync', { detail: { key: 'elections_multi', value: data.elections_multi } }));
+        }
+      } catch(e) {}
+    });
+
+    // ── Meclis decision banner ─────────────────────────────────────────────
+    function showMeclisBanner(payload) {
+      var b = document.getElementById('mec-banner');
+      if (!b) return;
+      document.getElementById('mec-banner-icon').textContent = payload.icon || '🏛️';
+      document.getElementById('mec-banner-text').textContent = payload.title || 'Meclis Kararı';
+      document.getElementById('mec-banner-sub').textContent  = '⚑ ' + (payload.party || 'Meclis') + ' — ' + (payload.by || '');
+      // If military banner visible, push meclis banner down
+      var milB = document.getElementById('mil-banner');
+      var offset = (milB && milB.style.display !== 'none') ? (milB.offsetHeight || 64) : 0;
+      b.style.top = offset + 'px';
+      // Reset and show
+      b.style.display = 'none';
+      void b.offsetWidth;
+      b.style.animation = 'mecBannerSlide 0.4s cubic-bezier(0.25,0.46,0.45,0.94) forwards, mecBannerPulse 1.5s ease-in-out 0.4s infinite';
+      var bar = document.getElementById('mec-banner-bar');
+      bar.style.animation = 'none';
+      void bar.offsetWidth;
+      bar.style.animation = 'mecBannerTimer 5s linear forwards';
+      b.style.display = 'flex';
+      b.style.flexDirection = 'column';
+      clearTimeout(window._mecBannerTimer);
+      window._mecBannerTimer = setTimeout(function() {
+        b.style.display = 'none';
+      }, 5000);
+    }
+
+    // ── Military order banner ──────────────────────────────────────────────
+    function showMilitaryBanner(order, chief) {
+      var b = document.getElementById('mil-banner');
+      if (!b) return;
+      document.getElementById('mil-banner-icon').textContent  = order.icon || '🪖';
+      document.getElementById('mil-banner-text').textContent  = order.label || 'Askeri Emir';
+      document.getElementById('mil-banner-sub').textContent   = '🪖 Genelkurmay Başkanı ' + (chief || '?') + ' tarafından verildi';
+      // Reset animation
+      b.style.display = 'none';
+      void b.offsetWidth;
+      var bar = document.getElementById('mil-banner-bar');
+      bar.style.animation = 'none';
+      void bar.offsetWidth;
+      bar.style.animation = 'milBannerTimer 6s linear forwards';
+      b.style.display = 'flex';
+      b.style.flexDirection = 'column';
+      // Auto-dismiss after 6s
+      clearTimeout(window._milBannerTimer);
+      window._milBannerTimer = setTimeout(function() {
+        b.style.display = 'none';
+      }, 6000);
+    }
+
+    _socket.on('gameEvent', function(data) {
+      try {
+        var events = [];
+        try { events = JSON.parse(localStorage.getItem('rep_gameEvents') || '[]'); } catch(e) {}
+        events.unshift(data);
+        if (events.length > 50) events = events.slice(0, 50);
+        localStorage.setItem('rep_gameEvents', JSON.stringify(events));
+        window.dispatchEvent(new CustomEvent('fb-sync', { detail: { key: 'gameEvents', value: events } }));
+        window.dispatchEvent(new CustomEvent('new-game-event', { detail: data }));
+        // Show banner for military orders
+        if (data && data.type === 'militaryOrder' && data.payload) {
+          showMilitaryBanner(data.payload.order || {}, data.payload.chief || '');
+        }
+        // Show banner for Meclis decisions
+        if (data && data.type === 'meclisBanner' && data.payload) {
+          showMeclisBanner(data.payload);
+        }
+      } catch(e) {}
+    });
+
+    _socket.on('economyUpdate', function(data) {
+      applyStateUpdate('economy', data);
+    });
+
+    // Yeni sistemler
+    _socket.on('combatResult', function(data) {
+      window.dispatchEvent(new CustomEvent('combat-result', { detail: data }));
+      applyStateUpdate('lastCombat', data);
+    });
+
+    _socket.on('cityOwnershipUpdate', function(data) {
+      applyStateUpdate('cityOwnership', data);
+      window.dispatchEvent(new CustomEvent('city-ownership-updated', { detail: data }));
+    });
+
+    _socket.on('inventoryUpdate', function(data) {
+      if (data.userId) applyStateUpdate('inventory_' + data.userId, data.inventory);
+      window.dispatchEvent(new CustomEvent('inventory-updated', { detail: data }));
+    });
+
+    _socket.on('electionResult', function(data) {
+      applyStateUpdate('electionResults', data);
+      window.dispatchEvent(new CustomEvent('election-result', { detail: data }));
+    });
+
+    _socket.on('mafiaWarUpdate', function(data) {
+      applyStateUpdate('factionWars', data);
+      window.dispatchEvent(new CustomEvent('mafia-war-updated', { detail: data }));
+    });
+
+    _socket.on('antiCheatAlert', function(data) {
+      console.warn('[Anti-Cheat] Uyarı:', data.reason);
+      window.dispatchEvent(new CustomEvent('anti-cheat-alert', { detail: data }));
+    });
+
+    _socket.on('serverAction', function(data) {
+      if (data.key && data.value !== undefined) applyStateUpdate(data.key, data.value);
+      window.dispatchEvent(new CustomEvent('server-action', { detail: data }));
+    });
+
+    _socket.on('tradeOffer', function(data) {
+      window.dispatchEvent(new CustomEvent('trade-offer', { detail: data }));
+    });
+
+    _socket.on('tradeResponse', function(data) {
+      window.dispatchEvent(new CustomEvent('trade-response', { detail: data }));
+    });
+
+    _socket.on('dm', function(data) {
+      window.dispatchEvent(new CustomEvent('dm-received', { detail: data }));
+    });
+
+    _socket.on('playerUpdate', function(data) {
+      window.dispatchEvent(new CustomEvent('player-updated', { detail: { data: data } }));
+    });
+
+    console.log('[Socket Bridge] Başlatıldı ✓');
+  }
+
+  // ── Firebase flush'u Socket.IO'ya yönlendir ───────────────────────
+  // (Supabase bridge zaten game_state'e yazıyor, burası socket broadcast ekler)
+  function hookSocketIntoFlush() {
+    var _origSchedule = window._fbScheduleFlush;
+    window._fbScheduleFlush = function(key) {
+      // Orijinal (Supabase) flush devam etsin
+      if (_origSchedule) _origSchedule(key);
+
+      // Aynı zamanda socket üzerinden sunucuya broadcast et
+      var isRT = key && RT_KEYS.includes(key);
+      if (isRT) {
+        if (_rtFlushTimer) clearTimeout(_rtFlushTimer);
+        _rtFlushTimer = setTimeout(function() {
+          var value = window._fbPendingWrites && window._fbPendingWrites[key];
+          if (value !== undefined) {
+            emit('saveState', { key: key, value: value });
+          }
+        }, 200);
+      } else {
+        if (_stateFlushTimer) clearTimeout(_stateFlushTimer);
+        _stateFlushTimer = setTimeout(function() {
+          var pending = window._fbPendingWrites || {};
+          Object.entries(pending).forEach(function(entry) {
+            emit('saveState', { key: entry[0], value: entry[1] });
+          });
+        }, 3000);
+      }
+    };
+
+    // Presence heartbeat socket üzerinden
+    var _origHeartbeat = window._startPresenceHeartbeat;
+    window._startPresenceHeartbeat = function(userId, username) {
+      // Eski Firebase heartbeat (varsa)
+      if (_origHeartbeat) _origHeartbeat(userId, username);
+
+      // Socket heartbeat
+      if (!userId || window._socketHeartbeatTimer) return;
+      var update = function() {
+        var hbProf = {};
+        try { hbProf = JSON.parse(localStorage.getItem('rep_userProfile') || '{}'); } catch(e) {}
+        emit('heartbeat', {
+          userId:   userId,
+          username: username,
+          at:       Date.now(),
+          level:    hbProf.level || 1,
+          city:     hbProf.city  || '',
+          party:    hbProf.party || null,
+          gang:     hbProf.gang  || null,
+        });
+      };
+      update();
+      window._socketHeartbeatTimer = setInterval(update, 15000);
+      window.addEventListener('beforeunload', function() {
+        clearInterval(window._socketHeartbeatTimer);
+        if (_socket) _socket.emit('playerLeave', { userId: userId });
+      }, { once: true });
+    };
+
+    // Kullanıcı giriş olayı → socket'e bağla
+    window.addEventListener('user-logged-in', function(e) {
+      var data = e.detail || {};
+      if (!data.userId) return;
+      var prof = {};
+      try { prof = JSON.parse(localStorage.getItem('rep_userProfile') || '{}'); } catch(x) {}
+      emit('playerJoin', {
+        userId: data.userId,
+        username: data.username || prof.username || 'Oyuncu',
+        level: prof.level || 1,
+        city: prof.city || '',
+        gender: prof.gender || 'erkek',
+        money: prof.money || 0,
+        party: prof.party || null,
+        gang: prof.gang || null,
+        avatar: prof.avatar || null
+      });
+      // Kullanıcıya özgü inventory yükle
+      fetch((window._SOCKET_URL||'')+'/api/inventory/' + data.userId)
+        .then(function(r) { return r.json(); })
+        .then(function(inv) { if (inv) applyStateUpdate('inventory_' + data.userId, inv); })
+        .catch(function(){});
+    });
+
+    // Profil güncellemelerini sunucuya ilet
+    window.addEventListener('fb-sync', function(e) {
+      var key = e.detail && e.detail.key;
+      var value = e.detail && e.detail.value;
+      if (key === 'userProfile' && value && value.userId) {
+        emit('playerUpdate', {
+          userId: value.userId,
+          username: value.username,
+          level: value.level,
+          money: value.money,
+          city: value.city,
+          party: value.party,
+          gang: value.gang
+        });
+      }
+    });
+
+    console.log('[Socket Bridge] Flush hook aktif ✓');
+  }
+
+  // Sayfa hazır olunca başlat
+  // Socket.IO scripti body'de yükleniyor, DOMContentLoaded'da hazır olmayabilir
+  function startBridge() {
+    hookSocketIntoFlush();
+    initSocketBridge();
+  }
+
+  if (document.readyState === 'complete') {
+    startBridge();
+  } else {
+    window.addEventListener('load', startBridge);
+  }
+})();
+</script>
+
+<!-- Kütüphane yükleme yardımcıları (CDN öncelikli, local fallback) -->
+<script>
+function tryBoot() {
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    boot();
+  } else {
+    document.addEventListener('DOMContentLoaded', boot);
+  }
+}
+
+// local fallback — CDN başarısız olursa dener
+function _loadLocal(path, onok, onfail) {
+  var s = document.createElement('script');
+  s.src = path;
+  s.onload = onok;
+  s.onerror = onfail || function() { console.warn('[Boot] Local da yüklenemedi: ' + path); };
+  document.head.appendChild(s);
+}
+</script>
+
+<!-- Babel (JSX transform) — CDN birincil, local yedek -->
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"
+  crossorigin="anonymous"
+  onload="_advanceBar(25,'Babel ✓')"
+  onerror="_loadLocal('/public/js/babel.min.js', function(){ _advanceBar(25,'Babel ✓'); }, function(){ console.warn('Babel yüklenemedi'); })">
+</script>
+
+<!-- React 18 — CDN birincil, local yedek -->
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"
+  crossorigin="anonymous"
+  onload="_advanceBar(40,'React ✓')"
+  onerror="_loadLocal('/public/js/react.min.js', function(){ _advanceBar(40,'React ✓'); }, function(){ _showError('React yüklenemedi.'); })">
+</script>
+
+<!-- ReactDOM 18 — CDN birincil, local yedek -->
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"
+  crossorigin="anonymous"
+  onload="_advanceBar(55,'ReactDOM ✓'); tryBoot();"
+  onerror="_loadLocal('/public/js/react-dom.min.js', function(){ _advanceBar(55,'ReactDOM ✓'); tryBoot(); }, function(){ _showError('ReactDOM yüklenemedi.'); })">
+</script>
+
+<!-- Background Music -->
+<script>
+window._US_AUDIO_SRC = "audio/background.mp3";
+</script>
+
+<!-- Main Application Script is loaded dynamically via compileAndRun() above -->
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SERVICE WORKER + JWT AUTO-REFRESH + ERROR BOUNDARY + ADMOB
+     ════════════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  'use strict';
+
+  // ── Service Worker registration ─────────────────────────────────────────
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
+        .then(function(reg) {
+          console.log('[SW] Registered ✓ scope:', reg.scope);
+          reg.addEventListener('updatefound', function() {
+            var newSW = reg.installing;
+            newSW.addEventListener('statechange', function() {
+              if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
+                console.log('[SW] Update available');
+                newSW.postMessage({ type: 'SKIP_WAITING' });
+              }
+            });
+          });
+        })
+        .catch(function(err) { console.warn('[SW] Registration failed:', err); });
+
+      // Handle SW messages (e.g. background sync)
+      navigator.serviceWorker.addEventListener('message', function(evt) {
+        if (evt.data && evt.data.type === 'SYNC_REQUESTED') {
+          if (window._mongoSave) window._mongoSave();
+        }
+      });
+    });
+  }
+
+  // ── Push Bildirim Sistemi ────────────────────────────────────────────────
+  window._pushManager = (function() {
+    var _reg = null;
+
+    // Push desteği var mı?
+    function isSupported() {
+      return 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window;
+    }
+
+    // Bildirim izni iste
+    async function requestPermission() {
+      if (!isSupported()) return 'unsupported';
+      var result = await Notification.requestPermission();
+      console.log('[Push] İzin:', result);
+      return result; // 'granted' | 'denied' | 'default'
+    }
+
+    // VAPID public key al ve abone ol
+    async function subscribe() {
+      if (!isSupported()) return null;
+      try {
+        _reg = await navigator.serviceWorker.ready;
+        var vapidKey = await fetch((window._SOCKET_URL||'')+'/api/push/vapid-key').then(r => r.json()).then(d => d.publicKey || '');
+        var sub = await _reg.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: vapidKey
+        });
+        console.log('[Push] Abone olundu ✓');
+        return sub;
+      } catch(e) {
+        console.warn('[Push] Abonelik hatası:', e.message);
+        return null;
+      }
+    }
+
+    // Sunucuya subscription gönder
+    async function sendSubscriptionToServer(sub) {
+      if (!sub) return;
+      try {
+        var token = localStorage.getItem('us_jwt') || '';
+        await fetch((window._SOCKET_URL||'')+'/api/push/subscribe', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({ subscription: sub })
+        });
+        console.log('[Push] Sunucuya kaydedildi ✓');
+      } catch(e) {
+        console.warn('[Push] Sunucu kaydı hatası:', e.message);
+      }
+    }
+
+    return { isSupported, requestPermission, subscribe, sendSubscriptionToServer };
+  })();
+
+  // ── URL Param Handler (emailVerified + resetToken) ──────────────────────────
+  (function() {
+    try {
+      var params = new URLSearchParams(window.location.search);
+      if (params.get('emailVerified') === '1') {
+        window._emailVerifiedFlag = true;
+        try {
+          var p = JSON.parse(localStorage.getItem('rep_userProfile') || 'null');
+          if (p) { p.emailVerified = true; localStorage.setItem('rep_userProfile', JSON.stringify(p)); }
+        } catch(e) {}
+        history.replaceState(null, '', window.location.pathname);
+      }
+      var rt = params.get('resetToken'), ruid = params.get('userId');
+      if (rt && ruid) {
+        window._resetTokenData = { token: rt, userId: ruid };
+        history.replaceState(null, '', window.location.pathname);
+      }
+    } catch(e) {}
+  })();
+
+  // ── Notification Click Handler ─────────────────────────────────────
+  window.addEventListener('notificationclick', function(evt) {
+    evt.notification.close();
+    if (evt.action === 'open') {
+      var url = evt.notification.data?.url || '/';
+      evt.waitUntil(clients.matchAll({ type: 'window' }).then(function(clientList) {
+        for (var i = 0; i < clientList.length; i++) {
+          if (clientList[i].url === url && 'focus' in clientList[i]) {
+            return clientList[i].focus();
+          }
+        }
+        if (clients.openWindow) return clients.openWindow(url);
+      }));
+    }
+  });
+
+  // ── JWT Auto-Refresh ────────────────────────────────────────────────────
+  window._jwtRefresh = (function() {
+    var _refreshTimer = null;
+
+    function scheduleRefresh() {
+      var token = localStorage.getItem('authToken');
+      if (!token) return;
+      try {
+        var parts = token.split('.');
+        if (parts.length !== 3) return;
+        var payload = JSON.parse(atob(parts[1]));
+        var exp = payload.exp * 1000;
+        var now = Date.now();
+        var timeUntilExp = exp - now;
+        var refreshAt = timeUntilExp - 60000; // 1 dakika öncesinde refresh et
+
+        if (refreshAt > 0) {
+          if (_refreshTimer) clearTimeout(_refreshTimer);
+          _refreshTimer = setTimeout(refresh, refreshAt);
+          console.log('[JWT] Refresh zamanlandı ✓ (', Math.round(refreshAt / 1000), 's)');
+        }
+      } catch(e) {
+        console.warn('[JWT] Token parse hatası:', e.message);
+      }
+    }
+
+    function refresh() {
+      fetch((window._SOCKET_URL||'')+'/api/refresh-token', { method: 'POST' })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data.token) {
+            localStorage.setItem('authToken', data.token);
+            console.log('[JWT] Yenilendi ✓');
+            scheduleRefresh(); // Yeni zamanla
+          }
+        })
+        .catch(function(e) { console.warn('[JWT] Yenileme hatası:', e.message); });
+    }
+
+    return { scheduleRefresh, refresh };
+  })();
+
+  // Sayfa yüklenince JWT refresh'i başlat
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', window._jwtRefresh.scheduleRefresh);
+  } else {
+    window._jwtRefresh.scheduleRefresh();
+  }
+
+  // ── Genel Error Boundary (Network hatalarını yakala) ────────────────────
+  window.addEventListener('error', function(evt) {
+    console.error('[Error] Yakalanamayan hata:', evt.error?.message);
+    // Optiyonel: Hata sunucuya gönder
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon('/api/error-log', JSON.stringify({
+        message: evt.error?.message,
+        stack: evt.error?.stack,
+        url: window.location.href,
+        timestamp: new Date().toISOString()
+      }));
+    }
+  });
+
+  window.addEventListener('unhandledrejection', function(evt) {
+    console.error('[Promise Rejection]', evt.reason);
+    // Optiyonel: Reject'i sunucuya gönder
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon('/api/error-log', JSON.stringify({
+        message: 'Unhandled Promise Rejection: ' + evt.reason,
+        url: window.location.href,
+        timestamp: new Date().toISOString()
+      }));
+    }
+  });
+
+})();
+</script>
+
+</body>
+</html>
