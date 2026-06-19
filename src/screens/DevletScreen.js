@@ -1,9 +1,9 @@
 const EDU_LEVELS = [
   { id:'ilkokul',      label:'İlkokul',      icon:'📖', costPerClick:0,      clicksNeeded:50,   desc:'Temel okuma yazma',        grade:'4. Sınıf',  color:'#4C9A6B' },
   { id:'ortaokul',     label:'Ortaokul',     icon:'📓', costPerClick:500,    clicksNeeded:100,  desc:'Temel bilimler',           grade:'8. Sınıf',  color:'#C9A227' },
-  { id:'lise',         label:'Lise',         icon:'🎒', costPerClick:1000,   clicksNeeded:200,  desc:'Sosyal ve fen bilimleri',  grade:'12. Sınıf', color:'#8B5CF6' },
+  { id:'lise',         label:'Lise',         icon:'🎒', costPerClick:1000,   clicksNeeded:200,  desc:'Sosyal ve fen bilimleri',  grade:'12. Sınıf', color:'#C9A227' },
   { id:'universite',   label:'Üniversite',   icon:'🎓', costPerClick:5000,   clicksNeeded:500,  desc:'Lisans eğitimi',           grade:'Lisans',    color:'#C9A227' },
-  { id:'yukseklisans', label:'Yüksek Lisans',icon:'📜', costPerClick:20000,  clicksNeeded:1000, desc:'Uzmanlık eğitimi',         grade:'MSc/MBA',   color:'#EC4899' },
+  { id:'yukseklisans', label:'Yüksek Lisans',icon:'📜', costPerClick:20000,  clicksNeeded:1000, desc:'Uzmanlık eğitimi',         grade:'MSc/MBA',   color:'#C24B43' },
   { id:'doktora',      label:'Doktora',      icon:'🔬', costPerClick:50000,  clicksNeeded:2000, desc:'Araştırma ve akademi',     grade:'PhD',       color:'#C24B43' },
   { id:'profesor',     label:'Profesör',     icon:'🏛️', costPerClick:75000,  clicksNeeded:3000, desc:'Akademik kariyer zirvesi', grade:'Prof.Dr.',  color:'#F97316' },
 ];
@@ -207,7 +207,7 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
 
   return (
     <div style={{padding:'0.75rem',background:bg,minHeight:'100%'}}>
-      <div style={{fontWeight:800,color:'#A78BFA',fontSize:'1.05rem',marginBottom:'0.15rem',letterSpacing:'0.03em'}}>⚡ Devlet Etki Puanı</div>
+      <div style={{fontWeight:800,color:'#C9A227',fontSize:'1.05rem',marginBottom:'0.15rem',letterSpacing:'0.03em'}}>⚡ Devlet Etki Puanı</div>
       <div style={{fontSize:'0.75rem',color:'#8893A1',marginBottom:'0.75rem'}}>Faaliyetlerle partine etki puanı kazan. Eğitim ve ticaret puanın bonus verir.</div>
 
       {/* Bonus kartları */}
@@ -228,11 +228,11 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
       {myParty ? (
         <div style={{background:'rgba(167,139,250,0.08)',border:'1px solid rgba(167,139,250,0.3)',borderRadius:'12px',padding:'0.65rem',marginBottom:'0.75rem',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
           <div>
-            <div style={{fontWeight:700,color:'#C4B5FD',fontSize:'0.85rem'}}>{myParty.name}</div>
+            <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.85rem'}}>{myParty.name}</div>
             <div style={{fontSize:'0.65rem',color:'#8893A1'}}>Senin partin</div>
           </div>
           <div style={{textAlign:'right'}}>
-            <div style={{fontWeight:800,color:'#A78BFA',fontSize:'1rem'}}>{(myParty.influencePoints||0).toLocaleString()} ⚡</div>
+            <div style={{fontWeight:800,color:'#C9A227',fontSize:'1rem'}}>{(myParty.influencePoints||0).toLocaleString()} ⚡</div>
             <div style={{fontSize:'0.65rem',color:'#8893A1'}}>Etki Puanı</div>
           </div>
         </div>
@@ -313,7 +313,7 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
                 <div style={{fontSize:'0.62rem',color:'#8893A1'}}>{act.desc}</div>
                 <div style={{fontSize:'0.65rem',marginTop:'2px',display:'flex',gap:'0.5rem',flexWrap:'wrap'}}>
                   <span style={{color:'#C24B43'}}>₺{act.cost.toLocaleString('tr-TR')}</span>
-                  <span style={{color:bonusActive?'#E5C14B':'#A78BFA'}}>+{finalInf} Etki{bonusActive?` (×${mult.toFixed(1)})`:''}</span>
+                  <span style={{color:bonusActive?'#E5C14B':'#C9A227'}}>+{finalInf} Etki{bonusActive?` (×${mult.toFixed(1)})`:''}</span>
                   <span style={{color:'#6B7280'}}>+{Math.round(act.xp*mult)} XP</span>
                 </div>
               </div>
@@ -325,7 +325,7 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
                 ) : !canAfford ? (
                   <span style={{fontSize:'0.62rem',color:'#C24B43',fontWeight:700}}>Yetersiz ₺</span>
                 ) : (
-                  <button onClick={()=>doAction(act)} style={{background:'rgba(167,139,250,0.15)',border:'1px solid rgba(167,139,250,0.4)',borderRadius:'8px',padding:'5px 12px',color:'#C4B5FD',cursor:'pointer',fontWeight:700,fontSize:'0.72rem',whiteSpace:'nowrap'}}>Yap</button>
+                  <button onClick={()=>doAction(act)} style={{background:'rgba(167,139,250,0.15)',border:'1px solid rgba(201,162,39,0.3)',borderRadius:'8px',padding:'5px 12px',color:'#EDE7DA',cursor:'pointer',fontWeight:700,fontSize:'0.72rem',whiteSpace:'nowrap'}}>Yap</button>
                 )}
               </div>
             </div>
@@ -344,13 +344,13 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
           return (
             <div key={p.id} style={{display:'flex',alignItems:'center',gap:'0.6rem',padding:'0.6rem 0.75rem',borderBottom:i<allParties.length-1?`1px solid ${bdr}`:'none',background:isMe?'rgba(167,139,250,0.07)':'transparent'}}>
               <div style={{width:'24px',textAlign:'center',fontWeight:800,fontSize:i<3?'1rem':'0.78rem',color:i<3?'inherit':'#8893A1',flexShrink:0}}>{i<3?medals[i]:`#${i+1}`}</div>
-              <div style={{width:'10px',height:'10px',borderRadius:'50%',background:p.color||'#8B5CF6',flexShrink:0}}/>
+              <div style={{width:'10px',height:'10px',borderRadius:'50%',background:p.color||'#C9A227',flexShrink:0}}/>
               <div style={{flex:1,minWidth:0}}>
-                <div style={{fontWeight:isMe?800:600,color:isMe?'#C4B5FD':'#EDE7DA',fontSize:'0.82rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{p.name}{isMe&&<span style={{fontSize:'0.6rem',color:'#A78BFA',marginLeft:'4px'}}>(Senin)</span>}</div>
+                <div style={{fontWeight:isMe?800:600,color:isMe?'#EDE7DA':'#EDE7DA',fontSize:'0.82rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{p.name}{isMe&&<span style={{fontSize:'0.6rem',color:'#C9A227',marginLeft:'4px'}}>(Senin)</span>}</div>
                 <div style={{fontSize:'0.62rem',color:'#8893A1'}}>{p.memberCount||1} üye • %{p.support||0} destek</div>
               </div>
               <div style={{textAlign:'right',flexShrink:0}}>
-                <div style={{fontWeight:800,color:'#A78BFA',fontSize:'0.88rem'}}>{(p.influencePoints||0).toLocaleString()} ⚡</div>
+                <div style={{fontWeight:800,color:'#C9A227',fontSize:'0.88rem'}}>{(p.influencePoints||0).toLocaleString()} ⚡</div>
                 <div style={{fontSize:'0.6rem',color:'#8893A1'}}>etki puanı</div>
               </div>
             </div>
@@ -511,7 +511,7 @@ function EducationPage({ profile, setProfile, showNotif }) {
         <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.15rem',fontWeight:900,color:'#EDE7DA'}}>EĞİTİM SİSTEMİ</div>
         <div style={{fontSize:'0.72rem',color:'#8893A1',marginTop:'0.2rem'}}>Tıklayarak çalış, diploma kazan, yüksek makamlara ulaş</div>
         <div style={{marginTop:'0.6rem',display:'flex',alignItems:'center',justifyContent:'center',gap:'0.5rem',flexWrap:'wrap'}}>
-          <span style={{background:'rgba(167,139,250,0.2)',border:'1px solid rgba(167,139,250,0.4)',borderRadius:'8px',padding:'0.2rem 0.65rem',fontSize:'0.75rem',color:'#C4B5FD',fontWeight:800}}>
+          <span style={{background:'rgba(167,139,250,0.2)',border:'1px solid rgba(201,162,39,0.3)',borderRadius:'8px',padding:'0.2rem 0.65rem',fontSize:'0.75rem',color:'#EDE7DA',fontWeight:800}}>
             {EDU_LEVELS.find(e=>e.id===diploma)?.icon} {EDU_LEVELS.find(e=>e.id===diploma)?.label}
           </span>
           <span style={{background:'rgba(201,162,39,0.1)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'8px',padding:'0.2rem 0.65rem',fontSize:'0.72rem',color:'#C9A227',fontWeight:700}}>
@@ -603,8 +603,8 @@ function EducationPage({ profile, setProfile, showNotif }) {
         );
       })}
 
-      <div style={{...card,marginTop:'0.75rem',background:'rgba(139,92,246,0.06)',border:'1px solid rgba(139,92,246,0.2)'}}>
-        <div style={{fontWeight:800,color:'#A78BFA',marginBottom:'0.65rem',fontSize:'0.85rem'}}>🏛️ Makam Gereksinimleri</div>
+      <div style={{...card,marginTop:'0.75rem',background:'rgba(201,162,39,0.06)',border:'1px solid rgba(201,162,39,0.2)'}}>
+        <div style={{fontWeight:800,color:'#C9A227',marginBottom:'0.65rem',fontSize:'0.85rem'}}>🏛️ Makam Gereksinimleri</div>
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.35rem'}}>
           {Object.entries(EDU_POSITION_REQS).map(([pos, req]) => {
             const reqLvl = EDU_LEVELS.find(e=>e.id===req);
@@ -642,7 +642,7 @@ function EducationPage({ profile, setProfile, showNotif }) {
 // ═══════════════════════════════════════════════════════
 const CITY_POSITIONS = [
   {
-    id:'belediye_baskani', label:'Belediye Başkanı', icon:'🏙️', color:'#8B5CF6', eduReq:'lise',
+    id:'belediye_baskani', label:'Belediye Başkanı', icon:'🏙️', color:'#C9A227', eduReq:'lise',
     duties:[
       {id:'butce_onay',         label:'Bütçe Onayla',        cd:24*3600000, reward:{xp:500,  money:50000,  desc:'Yıllık bütçeyi onayla'}},
       {id:'insan_kaynagi',      label:'İK Yönetimi',         cd:12*3600000, reward:{xp:300,  money:25000,  desc:'Personel ata ve çıkar'}},
@@ -714,7 +714,7 @@ function CityGovPage({ profile, setProfile, showNotif }) {
       <div style={{background:'linear-gradient(135deg,rgba(99,102,241,0.15),rgba(11,21,39,0.97))',border:'1px solid rgba(99,102,241,0.25)',borderRadius:'12px',padding:'1.2rem',marginBottom:'0.75rem'}}>
         <div style={{fontSize:'0.6rem',color:'#818CF8',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.2rem'}}>ŞEHİR YÖNETİMİ</div>
         <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA',marginBottom:'0.1rem'}}>Makamlar & Görevler</div>
-        <div style={{fontSize:'0.7rem',color:'#8893A1'}}>Liyakat: <span style={{color:'#A78BFA',fontWeight:700}}>{profile?.meritPoints||0}</span> puan • Diploma: <span style={{color:'#C9A227',fontWeight:700}}>{EDU_LEVELS.find(e=>e.id===myDiploma)?.label}</span></div>
+        <div style={{fontSize:'0.7rem',color:'#8893A1'}}>Liyakat: <span style={{color:'#C9A227',fontWeight:700}}>{profile?.meritPoints||0}</span> puan • Diploma: <span style={{color:'#C9A227',fontWeight:700}}>{EDU_LEVELS.find(e=>e.id===myDiploma)?.label}</span></div>
       </div>
 
       {CITY_POSITIONS.map(pos => {
@@ -773,8 +773,8 @@ function CityGovPage({ profile, setProfile, showNotif }) {
         );
       })}
 
-      <div style={{...card,background:'rgba(139,92,246,0.05)',border:'1px solid rgba(139,92,246,0.15)'}}>
-        <div style={{fontWeight:800,color:'#A78BFA',marginBottom:'0.4rem',fontSize:'0.82rem'}}>📖 Makam Hakkında</div>
+      <div style={{...card,background:'rgba(201,162,39,0.05)',border:'1px solid rgba(201,162,39,0.15)'}}>
+        <div style={{fontWeight:800,color:'#C9A227',marginBottom:'0.4rem',fontSize:'0.82rem'}}>📖 Makam Hakkında</div>
         <div style={{fontSize:'0.7rem',color:'#8893A1',lineHeight:1.6}}>
           UNDERSTATE'de şehir yönetimi gerçekçi bir hiyerarşi sistemiyle çalışır. Her makamın zorunlu görevleri vardır; bu görevler yapılmazsa makam kaybedilebilir. Daha yüksek makamlara çıkmak için hem eğitim diploması hem de liyakat puanı gerekmektedir. Holding sahipleri belirli makamlara gizlice destek verebilir.
         </div>

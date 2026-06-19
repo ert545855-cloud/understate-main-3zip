@@ -241,7 +241,7 @@ window.EconomicEmpireScreen = function EconomicEmpireScreen({ cu, families, gang
             {[
               {l:"Holding",v:myHoldings.length,c:"#C9A227",icon:"🏢"},
               {l:"Fabrika",v:serverFactories.length,c:"#C9A227",icon:"🏭"},
-              {l:"Şirket",v:myCompanies.length,c:"#A78BFA",icon:"📊"},
+              {l:"Şirket",v:myCompanies.length,c:"#C9A227",icon:"📊"},
             ].map(s=>(
               <div key={s.l} style={{background:"rgba(255,255,255,0.04)",border:`1px solid ${s.c}22`,borderRadius:10,padding:"0.6rem",textAlign:"center"}}>
                 <div style={{fontSize:"1rem"}}>{s.icon}</div>
@@ -275,10 +275,10 @@ window.EconomicEmpireScreen = function EconomicEmpireScreen({ cu, families, gang
               {fundDeals.filter(d=>d.familyId===myFamily?.id).slice(0,3).map((d,i)=>(
                 <div key={i} style={{display:"flex",justifyContent:"space-between",fontSize:"0.78rem",padding:"0.35rem 0",borderBottom:"1px solid rgba(255,255,255,0.04)"}}>
                   <span style={{color:"#8899AA"}}>⚑ {d.partyName}</span>
-                  <span style={{color:"#A78BFA",fontWeight:700}}>{fmtMoney(d.amount)}</span>
+                  <span style={{color:"#C9A227",fontWeight:700}}>{fmtMoney(d.amount)}</span>
                 </div>
               ))}
-              <button className="btn" style={{border:"1px solid rgba(167,139,250,0.4)",color:"#A78BFA",width:"100%",marginTop:"0.75rem"}} onClick={fundParty}>⚑ Parti Fonla</button>
+              <button className="btn" style={{border:"1px solid rgba(201,162,39,0.3)",color:"#C9A227",width:"100%",marginTop:"0.75rem"}} onClick={fundParty}>⚑ Parti Fonla</button>
             </div>
           )}
         </div>
@@ -390,7 +390,7 @@ window.EconomicEmpireScreen = function EconomicEmpireScreen({ cu, families, gang
               {isApprovedManager&&(myHoldings.length>0||serverFactories.length>0)&&<button className="btn btn-primary" style={{marginTop:"0.75rem"}} onClick={()=>setTab("build")}>🔨 Şirket Kur</button>}
             </div>
           ):myCompanies.map(c=>(
-            <div key={c.id} style={{...card,borderLeft:"3px solid #A78BFA"}}>
+            <div key={c.id} style={{...card,borderLeft:"3px solid #C9A227"}}>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
                 <div>
                   <div style={{fontWeight:800,fontSize:"0.95rem",color:"#EDE7DA",fontFamily:"Syne,sans-serif"}}>📊 {c.name}</div>
@@ -442,7 +442,7 @@ window.EconomicEmpireScreen = function EconomicEmpireScreen({ cu, families, gang
                             <div>
                               <span style={{fontSize:"0.9rem"}}>{st.icon}</span>
                               <span style={{fontSize:"0.82rem",fontWeight:700,color:sel?"#C9A227":"#EDE7DA",marginLeft:"0.4rem"}}>{st.label}</span>
-                              {st.minInfluence>0&&<span style={{marginLeft:"0.4rem",fontSize:"0.62rem",color:"#A78BFA"}}>⭐{st.minInfluence}+ etki</span>}
+                              {st.minInfluence>0&&<span style={{marginLeft:"0.4rem",fontSize:"0.62rem",color:"#C9A227"}}>⭐{st.minInfluence}+ etki</span>}
                             </div>
                             <div style={{textAlign:"right",flexShrink:0}}>
                               <div style={{fontSize:"0.68rem",color:"#C9A227",fontWeight:700}}>{fmtMoney(st.cost)}</div>
@@ -504,12 +504,12 @@ window.EconomicEmpireScreen = function EconomicEmpireScreen({ cu, families, gang
                   <div key={p.id} style={{background:"rgba(255,255,255,0.04)",border:`1px solid rgba(167,139,250,${myFund>0?0.4:0.1})`,borderRadius:10,padding:"0.6rem"}}>
                     <div style={{fontSize:"0.82rem",fontWeight:700,color:"#EDE7DA"}}>⚑ {p.name}</div>
                     <div style={{fontSize:"0.62rem",color:"#5E7390",marginTop:"0.15rem"}}>Lider: {p.leaderName||p.leader}</div>
-                    {myFund>0&&<div style={{fontSize:"0.65rem",color:"#A78BFA",marginTop:"0.2rem",fontWeight:700}}>Fon: {fmtMoney(myFund)}</div>}
+                    {myFund>0&&<div style={{fontSize:"0.65rem",color:"#C9A227",marginTop:"0.2rem",fontWeight:700}}>Fon: {fmtMoney(myFund)}</div>}
                   </div>
                 );
               })}
             </div>
-            {isFamilyLeader&&<button className="btn" style={{border:"1px solid rgba(167,139,250,0.4)",color:"#A78BFA",width:"100%"}} onClick={fundParty}>⚑ Parti Fonla</button>}
+            {isFamilyLeader&&<button className="btn" style={{border:"1px solid rgba(201,162,39,0.3)",color:"#C9A227",width:"100%"}} onClick={fundParty}>⚑ Parti Fonla</button>}
           </div>
         </div>
       )}

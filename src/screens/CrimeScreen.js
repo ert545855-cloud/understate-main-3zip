@@ -37,7 +37,7 @@ const SUC_TYPES = [
     severity: 'yuksek',
     detail: (amt) => `${fmtWord(amt)} şüpheli para hareketi`,
     penalty: (amt) => Math.floor(amt * 0.5),
-    color: '#8B5CF6',
+    color: '#C9A227',
   },
   {
     id: 'ihale_yolsuzlugu', label: 'İhale Yolsuzluğu', icon: '🔨',
@@ -55,10 +55,10 @@ const VERDICT_INFO = {
   beraat:  { label:'Beraat',        color:'#4C9A6B', icon:'✅', desc:'Delil yetersizliğinden dava düşürüldü.' },
   para:    { label:'Para Cezası',   color:'#C9A227', icon:'💸', desc:'Para cezasına hükmedildi.' },
   hapis:   { label:'Tutukluluk',    color:'#C24B43', icon:'🔒', desc:'İşlemler 1 saat donduruldu.' },
-  agir:    { label:'Ağır Ceza',     color:'#7C3AED', icon:'⛓️', desc:'Büyük para cezası + 2 saat dondurma.' },
+  agir:    { label:'Ağır Ceza',     color:'#C24B43', icon:'⛓️', desc:'Büyük para cezası + 2 saat dondurma.' },
 };
 
-const SEVERITY_COLOR = { dusuk:'#C9A227', orta:'#C24B43', yuksek:'#7C3AED' };
+const SEVERITY_COLOR = { dusuk:'#C9A227', orta:'#C24B43', yuksek:'#C24B43' };
 const SEVERITY_LABEL = { dusuk:'Düşük', orta:'Orta', yuksek:'Yüksek' };
 
 function GangCrimePage({ profile, setProfile, showNotif }) {
@@ -144,7 +144,7 @@ function GangCrimePage({ profile, setProfile, showNotif }) {
     return `${s}s`;
   };
 
-  const riskColor = { low: '#4C9A6B', medium: '#C9A227', high: '#C24B43', extreme: '#7C3AED' };
+  const riskColor = { low: '#4C9A6B', medium: '#C9A227', high: '#C24B43', extreme: '#C24B43' };
   const riskLabel = { low: 'Düşük', medium: 'Orta', high: 'Yüksek', extreme: 'Ekstrm' };
 
   if (loading) return <div style={{textAlign:'center',padding:'2rem',color:'#8893A1'}}>⏳ Yükleniyor...</div>;
@@ -757,7 +757,7 @@ function HoldingsPage({ profile, setProfile, showNotif }) {
                         <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.58rem',color:'#8893A1',marginBottom:'2px'}}>
                           <span>Deneyim</span><span>{h.experience||0}/1000</span>
                         </div>
-                        <ProgressBar pct={((h.experience||0)/1000)*100} color='#8B5CF6' h={4} />
+                        <ProgressBar pct={((h.experience||0)/1000)*100} color='#C9A227' h={4} />
                       </div>
                       {/* Pending profit */}
                       {pendingProfit > 0 && (

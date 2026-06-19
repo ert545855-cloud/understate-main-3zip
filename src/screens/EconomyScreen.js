@@ -450,28 +450,28 @@ function EconomyPage({ profile, setProfile, showNotif, initialSub }) {
       <div style={{padding:'0.7rem'}}>
         {sub==='convert' && (
           <div>
-            <div style={{fontFamily:"'Syne',sans-serif",fontSize:'0.62rem',fontWeight:700,color:'#8B5CF6',letterSpacing:'0.12em',textTransform:'uppercase',marginBottom:'0.6rem'}}>🔄 DÖNÜŞÜM MERKEZİ</div>
+            <div style={{fontFamily:"'Syne',sans-serif",fontSize:'0.62rem',fontWeight:700,color:'#C9A227',letterSpacing:'0.12em',textTransform:'uppercase',marginBottom:'0.6rem'}}>🔄 DÖNÜŞÜM MERKEZİ</div>
 
             {/* Kur bilgisi */}
-            <div style={{background:'rgba(139,92,246,0.07)',border:'1px solid rgba(139,92,246,0.2)',borderRadius:'12px',padding:'0.8rem',marginBottom:'0.75rem',textAlign:'center'}}>
-              <div style={{fontSize:'0.7rem',color:'#A78BFA',fontWeight:700,marginBottom:'0.2rem'}}>Döviz Kuru</div>
-              <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'1.1rem',fontWeight:800,color:'#8B5CF6'}}>1 UC = {fmtWord(1000000)}</div>
+            <div style={{background:'rgba(201,162,39,0.07)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'12px',padding:'0.8rem',marginBottom:'0.75rem',textAlign:'center'}}>
+              <div style={{fontSize:'0.7rem',color:'#C9A227',fontWeight:700,marginBottom:'0.2rem'}}>Döviz Kuru</div>
+              <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'1.1rem',fontWeight:800,color:'#C9A227'}}>1 UC = {fmtWord(1000000)}</div>
               <div style={{fontSize:'0.62rem',color:'#8893A1',marginTop:'0.2rem'}}>Undercoin (UC) ↔ Türk Lirası (TL)</div>
             </div>
 
             {/* UC → TL */}
             <div style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'12px',padding:'0.85rem',marginBottom:'0.5rem'}}>
-              <div style={{fontSize:'0.65rem',color:'#A78BFA',fontWeight:700,marginBottom:'0.5rem'}}>🪙 UC → TL</div>
+              <div style={{fontSize:'0.65rem',color:'#C9A227',fontWeight:700,marginBottom:'0.5rem'}}>🪙 UC → TL</div>
               <div style={{display:'flex',gap:'0.4rem',alignItems:'center',marginBottom:'0.4rem'}}>
                 <input type="number" value={ucConvertAmt} onChange={e=>setUcConvertAmt(e.target.value)} placeholder="UC miktarı..." min="1"
-                  style={{flex:1,background:'rgba(237,231,218,0.05)',border:'1px solid rgba(139,92,246,0.3)',borderRadius:'8px',padding:'0.5rem 0.7rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'0.88rem',outline:'none'}} />
+                  style={{flex:1,background:'rgba(237,231,218,0.05)',border:'1px solid rgba(201,162,39,0.3)',borderRadius:'8px',padding:'0.5rem 0.7rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'0.88rem',outline:'none'}} />
                 <button onClick={convertUcToTl}
-                  style={{padding:'0.5rem 0.9rem',borderRadius:'8px',border:'none',background:'linear-gradient(135deg,#8B5CF6,#6D28D9)',color:'#EDE7DA',fontWeight:700,fontSize:'0.8rem',cursor:'pointer',whiteSpace:'nowrap'}}>
+                  style={{padding:'0.5rem 0.9rem',borderRadius:'8px',border:'none',background:'linear-gradient(135deg,#C9A227,#C24B43)',color:'#EDE7DA',fontWeight:700,fontSize:'0.8rem',cursor:'pointer',whiteSpace:'nowrap'}}>
                   Çevir
                 </button>
               </div>
               {ucConvertAmt>0 && <div style={{fontSize:'0.65rem',color:'#4C9A6B'}}>≈ {fmtWord((parseInt(ucConvertAmt)||0)*1000000)} alacaksın</div>}
-              <div style={{fontSize:'0.62rem',color:'#8893A1',marginTop:'0.2rem'}}>Mevcut UC: <span style={{color:'#A78BFA',fontWeight:700}}>{fmt(profile?.underCoin||0)} UC</span></div>
+              <div style={{fontSize:'0.62rem',color:'#8893A1',marginTop:'0.2rem'}}>Mevcut UC: <span style={{color:'#C9A227',fontWeight:700}}>{fmt(profile?.underCoin||0)} UC</span></div>
             </div>
 
             {/* TL → UC */}
@@ -485,7 +485,7 @@ function EconomyPage({ profile, setProfile, showNotif, initialSub }) {
                   Çevir
                 </button>
               </div>
-              {tlConvertAmt>0 && <div style={{fontSize:'0.65rem',color:'#A78BFA'}}>≈ {Math.floor((parseInt(tlConvertAmt)||0)/1000000)} UC alacaksın</div>}
+              {tlConvertAmt>0 && <div style={{fontSize:'0.65rem',color:'#C9A227'}}>≈ {Math.floor((parseInt(tlConvertAmt)||0)/1000000)} UC alacaksın</div>}
               <div style={{fontSize:'0.62rem',color:'#8893A1',marginTop:'0.2rem'}}>Mevcut Para: <span style={{color:'#4C9A6B',fontWeight:700}}>{fmtWord(profile?.money||0)}</span></div>
             </div>
 
@@ -517,10 +517,10 @@ function EconomyPage({ profile, setProfile, showNotif, initialSub }) {
               {[
                 ['💵','Nakit',fmtM(profile?.money),'#4C9A6B'],
                 ['🏦','Mevduat',fmtM(profile?.bank),'#C9A227'],
-                ['🪙','Kripto (UCP)',fmtUC(profile?.underCoin),'#8B5CF6'],
+                ['🪙','Kripto (UCP)',fmtUC(profile?.underCoin),'#C9A227'],
                 ['📊','Net Değer',fmtM((profile?.money||0)+(profile?.bank||0)),'#C9A227'],
                 ['🤝','Ticaret Puanı',`${fmt(profile?.tradePoints||0)} TP`,'#C9A227'],
-                ['💎','Liyakat (UC)',`${fmt(profile?.underCoin||0)} UC`,'#A78BFA'],
+                ['💎','Liyakat (UC)',`${fmt(profile?.underCoin||0)} UC`,'#C9A227'],
               ].map(([ic,lb,v,c])=>(
                 <div key={lb} style={{background:'rgba(237,231,218,0.02)',border:`1px solid ${c}28`,borderRadius:'10px',padding:'0.55rem 0.35rem',textAlign:'center'}}>
                   <div style={{fontSize:'0.52rem',color:'#8893A1',textTransform:'uppercase',marginBottom:'0.15rem',letterSpacing:'0.04em',lineHeight:1.2}}>{ic} {lb}</div>
@@ -558,7 +558,7 @@ function EconomyPage({ profile, setProfile, showNotif, initialSub }) {
                         ['🏛️','Hazine',`₺${fmtWord(hazine)}`,'#4C9A6B'],
                         ['📉','Enflasyon',`%${inflation.toFixed(1)}`,'#C24B43'],
                         ['💹','Faiz Oranı',`%${faiz}`,'#C9A227'],
-                        ['💰','Vergi Oranı',`%${totalTax}`,'#8B5CF6'],
+                        ['💰','Vergi Oranı',`%${totalTax}`,'#C9A227'],
                         ['⚔️','Askeri Bütçe',`₺${fmtWord(milBudget)}`,'#C24B43'],
                         ['📊','GSYİH',`₺${fmtWord(gdp)}`,'#C9A227'],
                       ].map(([ic,lb,v,c])=>(

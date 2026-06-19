@@ -23,6 +23,18 @@ const _ICON_MAP = {
   education:        'assets/icons/education.svg',
   truck:            'assets/icons/truck.svg',
   factory:          'assets/icons/factory.svg',
+  // New icons
+  home:             'assets/icons/home.svg',
+  sword:            'assets/icons/sword.svg',
+  users:            'assets/icons/users.svg',
+  chat:             'assets/icons/chat.svg',
+  shield:           'assets/icons/shield.svg',
+  newspaper:        'assets/icons/newspaper.svg',
+  trophy:           'assets/icons/trophy.svg',
+  mining:           'assets/icons/mining.svg',
+  farm:             'assets/icons/farm.svg',
+  tasks:            'assets/icons/tasks.svg',
+  // Job icons
   'job-trash':      'assets/icons/jobs/trash.svg',
   'job-chef':       'assets/icons/jobs/chef.svg',
   'job-porter':     'assets/icons/jobs/porter.svg',
@@ -245,7 +257,13 @@ const TRANSLATIONS = {
 };
 const LangCtx = createContext('tr');
 function useLang() { return useContext(LangCtx); }
-function useT() { const lang = useLang(); return (key) => (TRANSLATIONS[lang]||TRANSLATIONS.tr)[key] || (TRANSLATIONS.tr)[key] || key; }
+function useT() {
+  const lang = useLang();
+  return (key) => {
+    if (window.i18n) return window.i18n.t(key, lang);
+    return (TRANSLATIONS[lang]||TRANSLATIONS.tr)[key] || (TRANSLATIONS.tr)[key] || key;
+  };
+}
 
 // Mapping from nav item id → TRANSLATIONS key
 const NAV_ITEM_TKEYS = {
