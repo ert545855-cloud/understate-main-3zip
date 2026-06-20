@@ -125,7 +125,7 @@ function AuthScreen({ onLogin }) {
         money:999999999, bankMoney:999999999, bank:999999999, underCoin:99999,
         xp:999999, level:99, meritPoints:9999, loyaltyPoints:9999, hp:100,
         role:'admin', isAdmin:true, banned:false, premium:true, vip:true,
-        educationLevel:'Profeör', educationCompleted:true, educationProgress:4000,
+        educationLevel:'profesor', education:{diploma:'profesor',activeLevel:null,clicksDone:0,lastClick:0}, educationCompleted:true, educationProgress:4000,
         eduPackage:true, packages:{edu:true}, registeredAt:Date.now(), lastOnline:Date.now(),
         loginStreak:1, lastLoginDate:new Date().toDateString(),
         createdAt:new Date().toLocaleDateString('tr-TR'),

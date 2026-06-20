@@ -273,7 +273,7 @@ const NAV_ITEM_TKEYS = {
   education:'education', daily:'tasks', army:'army', pvp:'fight', gang:'gang',
   spy:'intelligence', tournament:'tournament', crisis:'crisis', crime:'court',
   politics:'politics', yetkilerim:'authorities', election_events:'events', teamwar:'war',
-  citygov:'governance', taxgov:'municipality', citybuild:'construction', map:'map',
+  citygov:'governance', police_ministry:'police', taxgov:'municipality', citybuild:'construction', map:'map',
   alliance:'alliance', world:'world', npcplayers:'npc', wiki:'wiki', chat:'chat',
   klanchat:'clan', dm:'messages', players:'players', social:'newsfeed',
   newspaper:'newspaper', football:'football', casino:'casino', duyurular:'announcements',
@@ -690,16 +690,26 @@ function App() {
   const [notifOpen, setNotifOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [toast, setToast] = useState(null);
-  const [dark, setDark] = useState(() => localStorage.getItem('us_theme') === 'dark');
-  const toggleDark = () => setDark(d => { const next=!d; localStorage.setItem('us_theme',next?'dark':'light'); return next; });
+  const [dark, setDark] = useState(() => localStorage.getItem('us_theme') !== 'light');
+  const toggleDark = () => setDark(d => {
+    const next = !d;
+    localStorage.setItem('us_theme', next ? 'dark' : 'light');
+    return next;
+  });
   const [uiLang, setUiLang] = useState(() => localStorage.getItem('rep_uiLang') || 'tr');
   useEffect(() => {
     const onLangChange = (e) => { if (e.detail?.lang) setUiLang(e.detail.lang); };
     window.addEventListener('lang-change', onLangChange);
     return () => window.removeEventListener('lang-change', onLangChange);
   }, []);
-  useEffect(() => { document.body.classList.toggle('us-dark', dark); }, [dark]);
-  useEffect(() => { document.body.classList.toggle('us-dark', dark); }, []);
+  useEffect(() => {
+    document.body.classList.toggle('us-dark', dark);
+    document.body.classList.toggle('mode-light', !dark);
+  }, [dark]);
+  useEffect(() => {
+    document.body.classList.toggle('us-dark', dark);
+    document.body.classList.toggle('mode-light', !dark);
+  }, []);
 
   // ── Game events state ──────────────────────────────────────────────────────
   const [gameEvents, setGameEvents] = useState(() => {
@@ -1311,6 +1321,7 @@ function App() {
             {page==='education'    && <EducationPage   {...pageProps} />}
             {page==='parti_etki'   && <PartiEtkiPage  profile={profile} setProfile={setProfile} parties={parties} setParties={setParties} showNotif={showNotif} gangs={gangs} />}
             {page==='citygov'        && <CityGovPage       {...pageProps} />}
+            {page==='police_ministry' && <PoliceMinistryPage {...pageProps} />}
             {page==='crime'          && <CrimePage         profile={profile} setProfile={setProfile} showNotif={showNotif} />}
             {page==='daily'          && <DailyTasksPage    {...pageProps} />}
             {page==='tournament'     && <TournamentPage    {...pageProps} />}

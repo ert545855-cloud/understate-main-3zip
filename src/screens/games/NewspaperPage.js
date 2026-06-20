@@ -15,6 +15,24 @@ function NewspaperPage({ profile, setProfile, showNotif }) {
     try { const u2 = JSON.parse(localStorage.getItem('rep_users')||'[]'); localStorage.setItem('rep_users', JSON.stringify(u2.map(u => u.id===next.id ? next : u))); } catch{}
   };
   const CATS = ['Gündem','Ekonomi','Siyaset','Spor','Suç','Özel'];
+  const [gameEvents, setGameEvents] = useState(() => { try { return JSON.parse(localStorage.getItem('rep_gameEvents')||'[]'); } catch { return []; } });
+  const [liveNow, setLiveNow] = useState(Date.now());
+
+  useEffect(() => {
+    const t = setInterval(() => {
+      setLiveNow(Date.now());
+      try { setGameEvents(JSON.parse(localStorage.getItem('rep_gameEvents')||'[]')); } catch{}
+    }, 5000);
+    return () => clearInterval(t);
+  }, []);
+
+  const timeAgoShort = (ts) => {
+    const d = Date.now() - ts;
+    if (d < 60000) return `${Math.floor(d/1000)}sn`;
+    if (d < 3600000) return `${Math.floor(d/60000)}dk`;
+    if (d < 86400000) return `${Math.floor(d/3600000)}sa`;
+    return `${Math.floor(d/86400000)}g`;
+  };
 
   const publish = () => {
     if (!form.title.trim()||!form.content.trim()) { showNotif('❌ Başlık ve içerik gerekli!','error'); return; }
@@ -43,10 +61,41 @@ function NewspaperPage({ profile, setProfile, showNotif }) {
     <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>
       <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#C9A227',marginBottom:'1rem'}}>📰 Gazete & Medya</div>
       <div style={{display:'flex',gap:'0.4rem',marginBottom:'1rem'}}>
-        {[{k:'read',l:'📰 Haberler'},{k:'eco',l:'📊 Ekonomi Bülteni'},{k:'write',l:'✍️ Yaz'},{k:'influence',l:'🏆 Yazarlar'}].map(t=>(
+        {[{k:'read',l:'📰 Haberler'},{k:'live',l:'🔴 Canlı'},{k:'eco',l:'📊 Bülten'},{k:'write',l:'✍️ Yaz'},{k:'influence',l:'🏆 Yazarlar'}].map(t=>(
           <button key={t.k} onClick={()=>setTab(t.k)} style={{padding:'0.4rem 1rem',borderRadius:'2rem',border:`1px solid ${tab===t.k?'#C9A227':'rgba(255,255,255,0.12)'}`,background:tab===t.k?'rgba(96,165,250,0.15)':'transparent',color:tab===t.k?'#C9A227':'#999',cursor:'pointer',fontWeight:tab===t.k?700:400,fontSize:'0.83rem',fontFamily:'inherit'}}>{t.l}</button>
         ))}
       </div>
+
+      {tab==='live'&&<div>
+        <div style={{background:'linear-gradient(135deg,rgba(194,75,67,0.1),rgba(11,21,39,0.97))',border:'1px solid rgba(194,75,67,0.25)',borderRadius:'12px',padding:'0.75rem',marginBottom:'0.75rem',display:'flex',alignItems:'center',gap:'0.5rem'}}>
+          <div style={{width:'8px',height:'8px',borderRadius:'50%',background:'#C24B43',animation:'pulse 1s infinite',flexShrink:0}}/>
+          <div>
+            <div style={{fontSize:'0.75rem',fontWeight:800,color:'#E08C87'}}>CANLI HABER AKIŞI</div>
+            <div style={{fontSize:'0.62rem',color:'#8893A1'}}>Oyundaki tüm olaylar anlık olarak burada görünür. 5sn'de bir güncellenir.</div>
+          </div>
+        </div>
+        {gameEvents.length===0&&<div style={{textAlign:'center',padding:'3rem 1rem',color:'#3B4E63'}}>
+          <div style={{fontSize:'2.5rem',marginBottom:'0.5rem'}}>📡</div>
+          <div style={{fontSize:'0.85rem'}}>Henüz canlı olay yok.</div>
+          <div style={{fontSize:'0.72rem',color:'#2A3A4A',marginTop:'0.25rem'}}>Çete savaşları, seçimler, fabrikalar başladıkça haberler burada görünecek.</div>
+        </div>}
+        {[...gameEvents].reverse().slice(0,40).map((ev,i)=>{
+          const catColor = ev.category==='çete'?'#C24B43':ev.category==='siyaset'?'#8B5CF6':ev.category==='ekonomi'?'#4C9A6B':'#C9A227';
+          return (
+            <div key={ev.id||i} style={{display:'flex',gap:'0.65rem',padding:'0.65rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
+              <div style={{fontSize:'1.5rem',width:'32px',textAlign:'center',flexShrink:0,lineHeight:1.2}}>{ev.icon||'📢'}</div>
+              <div style={{flex:1}}>
+                <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',gap:'0.4rem'}}>
+                  <div style={{fontWeight:700,fontSize:'0.83rem',color:'#EDE7DA',lineHeight:1.3}}>{ev.title}</div>
+                  <div style={{fontSize:'0.62rem',color:'#4A5A6A',flexShrink:0,marginTop:'2px'}}>{timeAgoShort(ev.timestamp||ev.ts||Date.now())}</div>
+                </div>
+                {ev.description&&<div style={{fontSize:'0.72rem',color:'#7A8A9A',marginTop:'3px',lineHeight:1.4}}>{ev.description}</div>}
+                {ev.category&&<span style={{display:'inline-block',marginTop:'4px',background:`${catColor}14`,border:`1px solid ${catColor}30`,borderRadius:'4px',padding:'1px 6px',fontSize:'0.6rem',color:catColor,fontWeight:700}}>{ev.category}</span>}
+              </div>
+            </div>
+          );
+        })}
+      </div>}
 
       {tab==='read'&&<div>
         {papers.filter(p=>!p.isAuto).length===0&&<div style={{textAlign:'center',padding:'2rem',color:'#555'}}>

@@ -911,5 +911,242 @@ function SecretFundingCard({ holding, holdings, setHoldings, parties, profile, s
 }
 
 // ═══════════════════════════════════════════════════════
+// İÇİŞLERİ BAKANLIĞI & POLİS SİSTEMİ
+// ═══════════════════════════════════════════════════════
+function PoliceMinistryPage({ profile, setProfile, showNotif }) {
+  const [policeCount, setPoliceCount] = useLs('rep_policeCount', 20);
+  const [policeDeployment, setPoliceDeployment] = useLs('rep_policeDeployment', { gangWars:10, cityProtection:10 });
+  const [policeBudget, setPoliceBudget] = useLs('rep_policeBudget', 5000000);
+  const [policeActions, setPoliceActions] = useLs('rep_policeActions', []);
+  const [gangWars, setGangWars] = useLs('rep_gangWars', []);
+  const [sub, setSub] = useState('overview');
+  const [hireModal, setHireModal] = useState(false);
+  const [hireCount, setHireCount] = useState('');
+
+  const uid = profile?.uid;
+  const cabinet = (()=>{ try{return JSON.parse(localStorage.getItem('rep_cabinet')||'{}');}catch{return {};} })();
+  const isIcisleri = cabinet?.icisleri_bakani?.uid===uid || profile?.isAdmin;
+  const isCumhurbaskani = cabinet?.cumhurbaskani?.uid===uid || profile?.isAdmin;
+  const hasAuth = isIcisleri || isCumhurbaskani;
+
+  const POLICE_COST_PER = 50000;
+  const POLICE_SALARY = 10000;
+  const gangWarsActive = gangWars.filter(w=>w.status==='active');
+
+  const hirePolice = () => {
+    const n = parseInt(hireCount)||0;
+    if (n<=0||n>100) { showNotif('1-100 arası bir sayı girin','error'); return; }
+    const cost = n*POLICE_COST_PER;
+    if (policeBudget < cost) { showNotif(`Yeterli polis bütçesi yok! (Gereken: ₺${cost.toLocaleString()})`, 'error'); return; }
+    setPoliceCount(p=>p+n);
+    setPoliceBudget(p=>p-cost);
+    const action = {id:genId(), type:'hire', count:n, cost, ts:Date.now(), by:profile?.username};
+    setPoliceActions(prev=>[action,...prev].slice(0,50));
+    setHireModal(false); setHireCount('');
+    showNotif(`✅ ${n} polis memuru işe alındı! -₺${cost.toLocaleString()} bütçe`, 'success');
+    try{window._pushGameEvent?.('polis_ise_alim','🚔 Polis İşe Alımı',`${n} yeni polis memuru göreve başladı.`,'🚔','devlet');}catch(e){}
+  };
+
+  const firePolice = (n) => {
+    if (policeCount < n) { showNotif('Bu kadar polis yok','error'); return; }
+    setPoliceCount(p=>Math.max(0,p-n));
+    const action = {id:genId(), type:'fire', count:n, ts:Date.now(), by:profile?.username};
+    setPoliceActions(prev=>[action,...prev].slice(0,50));
+    showNotif(`${n} polis görevden alındı.`, 'info');
+  };
+
+  const deployToWar = (warId, n) => {
+    const war = gangWars.find(w=>w.id===warId);
+    if (!war||war.status!=='active') { showNotif('Bu savaş artık aktif değil','error'); return; }
+    if (policeCount < n) { showNotif('Yeterli polis yok','error'); return; }
+    const powBonus = n*3;
+    setGangWars(prev=>prev.map(w=>w.id===warId?{...w,policeBonus:(w.policeBonus||0)+powBonus}:w));
+    setPoliceCount(p=>Math.max(0,p-n));
+    const action = {id:genId(), type:'deploy_war', count:n, warId, powBonus, ts:Date.now(), by:profile?.username};
+    setPoliceActions(prev=>[action,...prev].slice(0,50));
+    showNotif(`🚔 ${n} polis savaşa konuşlandırıldı! Savunmaya +${powBonus} güç katkısı`, 'success');
+    try{window._pushGameEvent?.('polis_konuslanma','🚔 Polis Konuşlanması',`${n} polis savaşa müdahil oldu! Savunmaya +${powBonus} güç.`,'🚔','devlet');}catch(e){}
+  };
+
+  const card = {background:'rgba(11,21,39,0.9)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'12px',padding:'0.85rem',marginBottom:'0.55rem'};
+
+  return (
+    <div style={{padding:'0.7rem'}}>
+      <div style={{background:'linear-gradient(135deg,rgba(59,130,246,0.12),rgba(11,21,39,0.97))',border:'1px solid rgba(59,130,246,0.25)',borderRadius:'12px',padding:'1.1rem',marginBottom:'0.75rem'}}>
+        <div style={{fontSize:'0.6rem',color:'#60A5FA',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.2rem'}}>DEVLET SİSTEMİ</div>
+        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA',marginBottom:'0.15rem'}}>🚔 İçişleri Bakanlığı</div>
+        <div style={{fontSize:'0.72rem',color:'#8893A1'}}>Polis teşkilatı yönetimi ve çete operasyonları</div>
+        {!hasAuth && <div style={{marginTop:'0.5rem',background:'rgba(194,75,67,0.08)',border:'1px solid rgba(194,75,67,0.2)',borderRadius:'8px',padding:'0.5rem',fontSize:'0.72rem',color:'#E08C87'}}>⚠️ Bu sayfayı yönetmek için İçişleri Bakanı veya Cumhurbaşkanı olmanız gerekiyor.</div>}
+      </div>
+
+      <div style={{display:'flex',gap:'4px',marginBottom:'0.75rem',overflowX:'auto',scrollbarWidth:'none'}}>
+        {[['overview','🚔 Genel'],['hire','👮 Personel'],['deploy','⚔️ Operasyonlar'],['budget','💰 Bütçe'],['log','📋 Kayıtlar']].map(([k,l])=>(
+          <button key={k} onClick={()=>setSub(k)} style={{padding:'0.38rem 0.75rem',borderRadius:'8px',border:`1px solid ${sub===k?'rgba(96,165,250,0.4)':'rgba(255,255,255,0.07)'}`,background:sub===k?'rgba(96,165,250,0.12)':'rgba(255,255,255,0.02)',color:sub===k?'#60A5FA':'#8893A1',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.74rem',cursor:'pointer',whiteSpace:'nowrap',flexShrink:0}}>
+            {l}
+          </button>
+        ))}
+      </div>
+
+      {sub==='overview'&&(
+        <div>
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'0.4rem',marginBottom:'0.75rem'}}>
+            {[
+              ['🚔','Polis Sayısı',policeCount,'#60A5FA'],
+              ['💰','Bütçe',`₺${(policeBudget/1000000).toFixed(1)}M`,'#4C9A6B'],
+              ['⚔️','Aktif Operasyon',gangWarsActive.filter(w=>(w.policeBonus||0)>0).length,'#C9A227'],
+            ].map(([ic,lb,v,c])=>(
+              <div key={lb} style={{background:`rgba(237,231,218,0.02)`,border:`1px solid ${c}22`,borderRadius:'10px',padding:'0.65rem 0.35rem',textAlign:'center'}}>
+                <div style={{fontSize:'0.58rem',color:'#8893A1',textTransform:'uppercase',marginBottom:'0.15rem',letterSpacing:'0.04em'}}>{ic} {lb}</div>
+                <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.88rem',fontWeight:800,color:c}}>{v}</div>
+              </div>
+            ))}
+          </div>
+          <div style={{...card}}>
+            <div style={{fontWeight:700,color:'#60A5FA',marginBottom:'0.5rem',fontSize:'0.82rem'}}>🏛️ POLİS GÜÇ DAĞILIMI</div>
+            <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.65rem'}}>Her polis = <strong style={{color:'#60A5FA'}}>3 savunma gücü</strong> (çete savaşlarında)</div>
+            {[
+              ['🏙️','Şehir Koruma',policeDeployment.cityProtection||0,'#4C9A6B'],
+              ['⚔️','Savaş Müdahalesi',policeCount-(policeDeployment.cityProtection||0),'#C9A227'],
+            ].map(([ic,lb,v,c])=>(
+              <div key={lb} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.3rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
+                <span style={{fontSize:'0.72rem',color:'#4A5A6A'}}>{ic} {lb}</span>
+                <span style={{fontFamily:"'JetBrains Mono',monospace",fontWeight:700,color:c,fontSize:'0.78rem'}}>{v} memur</span>
+              </div>
+            ))}
+          </div>
+          <div style={{...card,background:'rgba(194,75,67,0.04)',border:'1px solid rgba(194,75,67,0.12)'}}>
+            <div style={{fontWeight:700,color:'#E08C87',marginBottom:'0.4rem',fontSize:'0.82rem'}}>⚔️ Aktif Çete Savaşları</div>
+            {gangWarsActive.length===0&&<div style={{fontSize:'0.78rem',color:'#3B4E63'}}>Şu an aktif savaş yok.</div>}
+            {gangWarsActive.map(w=>(
+              <div key={w.id} style={{padding:'0.5rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
+                <div style={{fontSize:'0.8rem',fontWeight:700,color:'#EDE7DA'}}>{w.attackerName} ⚔️ {w.defenderName}</div>
+                <div style={{fontSize:'0.65rem',color:'#8893A1'}}>Polis Katkısı: <span style={{color:'#60A5FA',fontWeight:700}}>{w.policeBonus||0} güç</span> (savunma tarafına)</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {sub==='hire'&&(
+        <div>
+          <div style={{...card}}>
+            <div style={{fontWeight:700,color:'#EDE7DA',marginBottom:'0.4rem',fontSize:'0.85rem'}}>👮 Polis Kadrosu</div>
+            <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.65rem'}}>Mevcut polis: <strong style={{color:'#60A5FA'}}>{policeCount}</strong> memur · İşe alım maliyeti: ₺50.000/memur · Aylık maaş: ₺10.000/memur</div>
+            {hasAuth&&<button onClick={()=>setHireModal(true)} style={{width:'100%',padding:'0.65rem',borderRadius:'10px',border:'none',background:'linear-gradient(135deg,#3B82F6,#1D4ED8)',color:'#fff',fontWeight:800,fontSize:'0.85rem',cursor:'pointer',fontFamily:"'Inter',sans-serif"}}>+ Polis Personeli İşe Al</button>}
+            {hasAuth&&policeCount>0&&<div style={{marginTop:'0.5rem',display:'flex',gap:'0.4rem',flexWrap:'wrap'}}>
+              {[5,10,25].map(n=>(
+                <button key={n} onClick={()=>firePolice(n)} style={{padding:'0.35rem 0.75rem',borderRadius:'8px',border:'1px solid rgba(194,75,67,0.25)',background:'rgba(194,75,67,0.08)',color:'#E08C87',cursor:'pointer',fontSize:'0.72rem',fontWeight:700,fontFamily:"'Inter',sans-serif"}}>
+                  -{n} Memur
+                </button>
+              ))}
+            </div>}
+          </div>
+        </div>
+      )}
+
+      {sub==='deploy'&&(
+        <div>
+          <div style={{...card}}>
+            <div style={{fontWeight:700,color:'#E08C87',marginBottom:'0.4rem',fontSize:'0.85rem'}}>⚔️ Çete Savaşı Müdahalesi</div>
+            <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.65rem'}}>Polis konuşlandırarak savunan tarafın gücünü artırabilirsiniz. Her polis = <strong style={{color:'#60A5FA'}}>+3 güç</strong>.</div>
+            {!hasAuth&&<div style={{fontSize:'0.78rem',color:'#E08C87',padding:'0.5rem',background:'rgba(194,75,67,0.06)',borderRadius:'8px'}}>⚠️ Yetkiniz yok.</div>}
+            {hasAuth&&gangWarsActive.length===0&&<div style={{textAlign:'center',padding:'1.5rem',color:'#3B4E63',fontSize:'0.82rem'}}>Aktif çete savaşı yok.</div>}
+            {hasAuth&&gangWarsActive.map(w=>{
+              const remaining = Math.max(0,w.endsAt-Date.now());
+              const h=Math.floor(remaining/3600000),m=Math.floor((remaining%3600000)/60000);
+              return (
+                <div key={w.id} style={{background:'rgba(194,75,67,0.05)',border:'1px solid rgba(194,75,67,0.2)',borderRadius:'10px',padding:'0.75rem',marginBottom:'0.5rem'}}>
+                  <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:'0.4rem'}}>
+                    <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.85rem'}}>{w.attackerName} ⚔️ {w.defenderName}</div>
+                    <div style={{fontSize:'0.62rem',color:'#C24B43'}}>{h}s {m}dk kaldı</div>
+                  </div>
+                  <div style={{fontSize:'0.65rem',color:'#8893A1',marginBottom:'0.5rem'}}>Mevcut polis katkısı: <strong style={{color:'#60A5FA'}}>{w.policeBonus||0} güç</strong> (savunma)</div>
+                  <div style={{display:'flex',gap:'0.35rem',flexWrap:'wrap'}}>
+                    {[5,10,25].filter(n=>n<=policeCount).map(n=>(
+                      <button key={n} onClick={()=>deployToWar(w.id,n)} style={{padding:'0.3rem 0.65rem',borderRadius:'8px',border:'1px solid rgba(96,165,250,0.25)',background:'rgba(96,165,250,0.1)',color:'#60A5FA',cursor:'pointer',fontSize:'0.72rem',fontWeight:700,fontFamily:"'Inter',sans-serif"}}>
+                        {n} Polis (+{n*3} güç)
+                      </button>
+                    ))}
+                    {policeCount===0&&<span style={{fontSize:'0.72rem',color:'#C24B43'}}>Konuşlandırılabilir polis yok.</span>}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {sub==='budget'&&(
+        <div>
+          <div style={{...card,background:'rgba(76,154,107,0.04)',border:'1px solid rgba(76,154,107,0.15)'}}>
+            <div style={{fontWeight:700,color:'#4C9A6B',marginBottom:'0.5rem',fontSize:'0.85rem'}}>💰 Polis Bütçesi</div>
+            <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'1.4rem',fontWeight:900,color:'#4C9A6B',marginBottom:'0.5rem'}}>₺{policeBudget.toLocaleString()}</div>
+            <div style={{fontSize:'0.7rem',color:'#8893A1',lineHeight:1.5}}>
+              Mevcut kadro: {policeCount} memur<br/>
+              Aylık maaş gideri: ₺{(policeCount*POLICE_SALARY).toLocaleString()}<br/>
+              Bütçe kaynağı: Devlet hazinesi transferi
+            </div>
+            {hasAuth&&(
+              <div style={{marginTop:'0.65rem',display:'flex',gap:'0.4rem',flexWrap:'wrap'}}>
+                {[1000000,5000000,10000000].map(n=>{
+                  const treasury = JSON.parse(localStorage.getItem('rep_treasury')||'{}');
+                  const canAfford = (treasury.balance||0) >= n;
+                  return (
+                    <button key={n} onClick={()=>{
+                      if(!canAfford){showNotif('Devlet hazinesi yetersiz','error');return;}
+                      const t2=JSON.parse(localStorage.getItem('rep_treasury')||'{}');
+                      t2.balance=(t2.balance||0)-n;
+                      localStorage.setItem('rep_treasury',JSON.stringify(t2));
+                      setPoliceBudget(p=>p+n);
+                      showNotif(`✅ ₺${(n/1000000).toFixed(0)}M polis bütçesine transfer edildi`,'success');
+                    }} style={{padding:'0.35rem 0.75rem',borderRadius:'8px',border:`1px solid ${canAfford?'rgba(76,154,107,0.3)':'rgba(255,255,255,0.06)'}`,background:canAfford?'rgba(76,154,107,0.1)':'rgba(255,255,255,0.02)',color:canAfford?'#4C9A6B':'#3B4E63',cursor:canAfford?'pointer':'default',fontSize:'0.72rem',fontWeight:700,fontFamily:"'Inter',sans-serif"}}>
+                      +₺{(n/1000000).toFixed(0)}M
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {sub==='log'&&(
+        <div>
+          <div style={{fontWeight:700,color:'#8893A1',fontSize:'0.72rem',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:'0.5rem'}}>Son İşlemler</div>
+          {policeActions.length===0&&<div style={{textAlign:'center',padding:'2rem',color:'#3B4E63',fontSize:'0.82rem'}}>Henüz işlem yok.</div>}
+          {policeActions.slice(0,15).map(a=>(
+            <div key={a.id} style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',padding:'0.55rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
+              <div>
+                <div style={{fontSize:'0.8rem',fontWeight:700,color:'#EDE7DA'}}>
+                  {a.type==='hire'?`👮 +${a.count} polis işe alındı`:a.type==='fire'?`🚫 ${a.count} polis görevden alındı`:`⚔️ ${a.count} polis savaşa konuşlandırıldı`}
+                </div>
+                <div style={{fontSize:'0.62rem',color:'#8893A1'}}>{a.by||'Yönetim'} · {a.cost?`₺${a.cost.toLocaleString()} · `:''}{new Date(a.ts).toLocaleString('tr-TR',{hour:'2-digit',minute:'2-digit'})}</div>
+              </div>
+              {a.powBonus&&<div style={{fontSize:'0.7rem',color:'#60A5FA',fontWeight:700}}>+{a.powBonus} güç</div>}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {hireModal&&(
+        <div onClick={()=>setHireModal(false)} style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.7)',display:'flex',alignItems:'center',justifyContent:'center',zIndex:9999}}>
+          <div onClick={e=>e.stopPropagation()} style={{background:'#1B212B',border:'1px solid rgba(237,231,218,0.12)',borderRadius:'16px',padding:'1.25rem',width:'min(90vw,360px)'}}>
+            <div style={{fontWeight:800,color:'#EDE7DA',fontSize:'0.95rem',marginBottom:'0.75rem'}}>👮 Polis İşe Al</div>
+            <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.6rem'}}>Bütçe: ₺{policeBudget.toLocaleString()} · Her polis: ₺50.000</div>
+            <input type="number" value={hireCount} onChange={e=>setHireCount(e.target.value)} placeholder="Kaç polis? (max 100)" min="1" max="100"
+              style={{width:'100%',background:'rgba(237,231,218,0.05)',border:'1px solid rgba(96,165,250,0.3)',borderRadius:'8px',padding:'0.6rem 0.8rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'0.9rem',outline:'none',marginBottom:'0.65rem',boxSizing:'border-box'}} />
+            {hireCount>0&&<div style={{fontSize:'0.72rem',color:'#60A5FA',marginBottom:'0.65rem'}}>Toplam maliyet: ₺{((parseInt(hireCount)||0)*50000).toLocaleString()}</div>}
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.5rem'}}>
+              <button onClick={()=>{setHireModal(false);setHireCount('');}} style={{padding:'0.55rem',borderRadius:'9px',border:'1px solid rgba(255,255,255,0.08)',background:'rgba(255,255,255,0.03)',color:'#8893A1',cursor:'pointer',fontWeight:700,fontFamily:"'Inter',sans-serif"}}>İptal</button>
+              <button onClick={hirePolice} style={{padding:'0.55rem',borderRadius:'9px',border:'none',background:'linear-gradient(135deg,#3B82F6,#1D4ED8)',color:'#fff',cursor:'pointer',fontWeight:700,fontFamily:"'Inter',sans-serif"}}>İşe Al</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════
 // SUÇ / CEZA / MAHKEME SİSTEMİ
 // ═══════════════════════════════════════════════════════

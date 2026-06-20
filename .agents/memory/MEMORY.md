@@ -16,3 +16,6 @@
 - [Security & Deploy Hardening](security-hardening.md) — JWT_SECRET + DATABASE_URL fail-fast; render.yaml uses node server/main.js as startCommand.
 - [Kasa Yöneticisi Role](kasa-yoneticisi.md) — family rank 'kasaci'; boss appoints via changeRank; withdraw() allows isLeader || hasPerm('treasury').
 - [Party Rank Schema](party-rank-schema.md) — 6-tier PARTY_RANKS in PartyCenterScreen.js; yonetim tab with org chart + rank assignment + kabine.
+- [Gang Wars System](gang-wars.md) — rep_gangWars localStorage; 12h timer auto-resolve; power = base + weapons*5 + ammo*3; policeBonus adds to defender side; wars tab in GangPage.
+- [Police Ministry](police-ministry.md) — PoliceMinistryPage in DevletScreen.js; rep_policeCount / rep_policeBudget; page route police_ministry; police confer +3 defense per officer in gang wars.
+- [Live News Feed](live-news.md) — NewspaperPage 🔴 Canlı tab reads rep_gameEvents (set by window._pushGameEvent); auto-refreshes every 5s.

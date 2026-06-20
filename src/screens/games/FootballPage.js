@@ -390,6 +390,66 @@ function FootballPage({ profile, setProfile, showNotif }) {
           ))}
         </div>
 
+        {/* Aile Sponsorluğu */}
+        {myClub && (()=>{
+          const allGangs = (()=>{ try{return JSON.parse(localStorage.getItem('rep_gangs')||'[]');}catch{return[];} })();
+          const families = allGangs.filter(g=>g.type==='family');
+          const existingFamilySp = sponsors.filter(s=>s.club===myClub.name&&s.isFamily);
+          const myFamily = allGangs.find(g=>g.type==='family'&&g.members?.some(m=>m.uid===cu.uid));
+          const isLeader = myFamily && myFamily.leaderId===cu.uid;
+          const alreadyMyFamilySponsoring = existingFamilySp.find(s=>s.familyId===myFamily?.id);
+          return (
+            <div style={{background:'rgba(201,162,39,0.05)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'12px',padding:'1rem',marginBottom:'1rem'}}>
+              <div style={{fontWeight:700,color:'#C9A227',marginBottom:'0.5rem',fontSize:'0.95rem'}}>👨‍👩‍👧‍👦 Aile Sponsorluğu</div>
+              <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.65rem',lineHeight:1.4}}>
+                Aileler futbol kulüplerine sponsor olabilir. Sponsor aile itibar kazanır, kulüp bütçe ve güç bonusu alır.
+              </div>
+              {existingFamilySp.length>0&&<div style={{marginBottom:'0.5rem'}}>
+                {existingFamilySp.map(s=>(
+                  <div key={s.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.5rem 0.7rem',background:'rgba(201,162,39,0.08)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'8px',marginBottom:'0.3rem'}}>
+                    <div><div style={{fontWeight:700,color:'#C9A227',fontSize:'0.82rem'}}>👨‍👩‍👧‍👦 {s.familyName}</div><div style={{fontSize:'0.62rem',color:'#8893A1'}}>Aile Sponsoru · {s.duration} maç kaldı</div></div>
+                    <div style={{textAlign:'right'}}><div style={{color:'#4C9A6B',fontWeight:700,fontSize:'0.78rem'}}>+₺{(s.perMatch||0).toLocaleString()}/maç</div></div>
+                  </div>
+                ))}
+              </div>}
+              {families.filter(f=>!existingFamilySp.find(s=>s.familyId===f.id)).length>0&&(
+                <div>
+                  <div style={{fontSize:'0.68rem',color:'#8893A1',marginBottom:'0.4rem',fontWeight:700}}>Teklifte Bulunabilecek Aileler:</div>
+                  {families.filter(f=>!existingFamilySp.find(s=>s.familyId===f.id)).map(f=>{
+                    const imLeader = f.leaderId===cu.uid;
+                    return (
+                      <div key={f.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.5rem 0.7rem',background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.07)',borderRadius:'8px',marginBottom:'0.3rem'}}>
+                        <div>
+                          <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.82rem'}}>👨‍👩‍👧‍👦 {f.name}</div>
+                          <div style={{fontSize:'0.62rem',color:'#8893A1'}}>Kasa: ₺{(f.treasury||0).toLocaleString()} · {f.memberCount||f.members?.length||0} üye</div>
+                        </div>
+                        {imLeader&&(
+                          <button onClick={()=>{
+                            const spCost=500000;
+                            if((f.treasury||0)<spCost){showNotif('Aile kasası yetersiz (₺500.000 gerekli)','error');return;}
+                            const allG2=(()=>{ try{return JSON.parse(localStorage.getItem('rep_gangs')||'[]');}catch{return[];} })();
+                            const updG=allG2.map(g=>g.id===f.id?{...g,treasury:(g.treasury||0)-spCost}:g);
+                            localStorage.setItem('rep_gangs',JSON.stringify(updG));
+                            const newSp={id:genId(),isFamily:true,familyId:f.id,familyName:f.name,name:f.name+' Ailesi',logo:'👨‍👩‍👧‍👦',tier:'Aile',perMatch:150000,duration:15,cost:spCost,club:myClub.name,total:0};
+                            setSponsors(prev=>[...prev,newSp]);
+                            setClubs(prev=>prev.map(c=>c.id===myClub.id?{...c,budget:(c.budget||0)+spCost*0.3,rating:Math.min(99,(c.rating||70)+2)}:c));
+                            showNotif(`✅ ${f.name} Ailesi sponsor oldu! +₺150.000/maç. Aile kasasından ₺500.000 kesildi.`,'success');
+                            try{window._pushGameEvent?.('aile_sponsorluk','👨‍👩‍👧‍👦 Aile Sponsorluğu',`${f.name} ailesi ${myClub.name} kulübüne sponsor oldu!`,'⚽','spor');}catch(e){}
+                          }} style={{padding:'0.3rem 0.7rem',background:'rgba(201,162,39,0.12)',border:'1px solid rgba(201,162,39,0.3)',borderRadius:'7px',color:'#C9A227',cursor:'pointer',fontWeight:700,fontSize:'0.75rem',fontFamily:'inherit',flexShrink:0}}>
+                            Sponsor Ol (₺500K)
+                          </button>
+                        )}
+                        {!imLeader&&<span style={{fontSize:'0.62rem',color:'#3B4E63'}}>Lider gerekli</span>}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+              {families.length===0&&<div style={{fontSize:'0.78rem',color:'#3B4E63',textAlign:'center',padding:'0.75rem'}}>Oyunda henüz kurulmuş aile yok.</div>}
+            </div>
+          );
+        })()}
+
         <div style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'12px',padding:'1rem'}}>
           <div style={{fontWeight:700,color:'#C9A227',marginBottom:'0.75rem',fontSize:'0.95rem'}}>📋 Sponsor Teklifleri</div>
           {!myClub&&<div style={{color:'#C24B43',fontSize:'0.85rem'}}>Önce kulüp kur!</div>}

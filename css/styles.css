@@ -1170,224 +1170,136 @@
        Mobile-first clean design matching platform UI
        ═══════════════════════════════════════════════════════ */
 
-    @media(max-width:900px) {
-        /* ── Base ── */
-        body {
-            background: #F0F2F5 !important;
-            background-attachment: fixed !important;
-            color: #EDE7DA !important;
-        }
-
-        /* ── App wrap ── */
-        .app-wrap { background: #F0F2F5 !important; }
-
-        /* ── Mobile page ── */
-        .mobile-page { background: #F0F2F5 !important; }
-
-        /* ── Content areas ── */
-        .content, .page-content { background: #F0F2F5 !important; }
-
-        /* ── Scrollbar on light bg ── */
-        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15) !important; }
-
-        /* ── Sidebar main ── */
-        .sidebar-main { background: #F0F2F5 !important; }
-
-        /* ── Cards light ── */
-        .card {
-            background: #EDE7DA !important;
-            border: 1px solid rgba(0,0,0,0.06) !important;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.07) !important;
-            color: #EDE7DA !important;
-        }
-        .card:hover { border-color: rgba(59,130,246,0.25) !important; box-shadow: 0 4px 16px rgba(0,0,0,0.1) !important; }
-        .card-title { color: #EDE7DA !important; }
-
-        /* ── mp-section light ── */
-        .mp-section {
-            background: #EDE7DA !important;
-            border: 1px solid rgba(0,0,0,0.06) !important;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06) !important;
-        }
-        .mp-section-title { color: #C9A227 !important; }
-
-        /* ── mp-card light ── */
-        .mp-card {
-            background: #EDE7DA !important;
-            border: 1px solid rgba(0,0,0,0.07) !important;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.06) !important;
-            color: #EDE7DA !important;
-        }
-        .mp-card:active { background: rgba(59,130,246,0.06) !important; }
-        .mp-card-label { color: #EDE7DA !important; }
-        .mp-card-sub { color: #7A8FA6 !important; }
-
-        /* ── mp-stat-card light ── */
-        .mp-stat-card {
-            background: #EDE7DA !important;
-            border: 1px solid rgba(0,0,0,0.07) !important;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06) !important;
-        }
-
-        /* ── mp header light ── */
-        .mp-header {
-            background: #EDE7DA !important;
-            border-bottom: 1px solid rgba(0,0,0,0.07) !important;
-            backdrop-filter: none !important;
-        }
-        .mp-header-title { color: #EDE7DA !important; }
-        .mp-icon-btn {
-            background: #F5F7FA !important;
-            border: 1px solid rgba(0,0,0,0.1) !important;
-            color: #3B5470 !important;
-        }
-
-        /* ── mp-menu-row light ── */
-        .mp-menu-row {
-            background: #EDE7DA !important;
-            border: 1px solid rgba(0,0,0,0.07) !important;
-            color: #EDE7DA !important;
-        }
-        .mp-menu-row:hover { border-color: rgba(59,130,246,0.2) !important; background: #F8FAFF !important; }
-        .mp-menu-row-label { color: #EDE7DA !important; }
-        .mp-menu-row-arrow { color: #B0C0D0 !important; }
-
-        /* ── mp-list light ── */
-        .mp-list-row { border-bottom: 1px solid rgba(0,0,0,0.05) !important; }
-        .mp-list-name { color: #EDE7DA !important; }
-        .mp-list-sub { color: #7A8FA6 !important; }
-
-        /* ── mp-member light ── */
-        .mp-member-row { border-bottom: 1px solid rgba(0,0,0,0.05) !important; }
-        .mp-member-name { color: #EDE7DA !important; }
-
-        /* ── mp-attack-row light ── */
-        .mp-attack-row {
-            background: #EDE7DA !important;
-            border: 1px solid rgba(0,0,0,0.07) !important;
-        }
-
-        /* ── char-top-card light ── */
-        .char-top-card {
-            background: #EDE7DA !important;
-            border: 1px solid rgba(0,0,0,0.07) !important;
-        }
-
-        /* ── menu-cat light ── */
-        .menu-cat {
-            background: #EDE7DA !important;
-            border: 1px solid rgba(0,0,0,0.07) !important;
-        }
-        .menu-cat-title { color: #C9A227 !important; }
-
-        /* ── menu-btn light ── */
-        .menu-btn {
-            background: #F5F7FA !important;
-            border: 1px solid rgba(0,0,0,0.08) !important;
-            color: #EDE7DA !important;
-        }
-        .menu-btn:active { background: rgba(59,130,246,0.08) !important; }
-
-        /* ── Buttons ── */
-        .btn-gray {
-            background: #F5F7FA !important;
-            color: #3B5470 !important;
-            border: 1px solid rgba(0,0,0,0.1) !important;
-        }
-        .btn-gray:hover { background: #EAEEF3 !important; }
-
-        /* ── Tags light ── */
-        .tag-gray { background: #F5F7FA !important; color: #5E7A94 !important; border: 1px solid rgba(0,0,0,0.1) !important; }
-
-        /* ── Divider light ── */
-        .divider { border-color: rgba(0,0,0,0.07) !important; }
-
-        /* ── Progress light ── */
-        .progress-wrap { background: rgba(0,0,0,0.08) !important; }
-
-        /* ── Tab row light ── */
-        .tab-row { background: #EAEEF3 !important; border-color: rgba(0,0,0,0.07) !important; }
-        .tab-btn:not(.active) { color: #7A8FA6 !important; }
-        .tab-btn:not(.active):hover { background: rgba(0,0,0,0.04) !important; color: #3B5470 !important; }
-
-        /* ── Form inputs light ── */
-        .form-input, .form-select {
-            background: #EDE7DA !important;
-            border: 1px solid rgba(0,0,0,0.12) !important;
-            color: #EDE7DA !important;
-        }
-        .form-input:focus { border-color: rgba(59,130,246,0.6) !important; background: #FBFDFF !important; }
-        .form-input::placeholder { color: #A0B0C0 !important; }
-
-        /* ── Search bar light ── */
-        .search-bar {
-            background: #EDE7DA !important;
-            border: 1px solid rgba(0,0,0,0.1) !important;
-        }
-        .search-bar input { color: #EDE7DA !important; }
-        .search-results { background: #EDE7DA !important; }
-
-        /* ── Modal light ── */
-        .modal {
-            background: #EDE7DA !important;
-            border: 1px solid rgba(0,0,0,0.08) !important;
-        }
-
-        /* ── Notification light ── */
-        .notification {
-            background: rgba(255,255,255,0.98) !important;
-            color: #EDE7DA !important;
-            border-color: rgba(59,130,246,0.3) !important;
-            border-left-color: var(--accent) !important;
-        }
-
-        /* ── Info box light ── */
-        .info-box {
-            background: rgba(245,200,66,0.08) !important;
-            border: 1px solid rgba(245,200,66,0.25) !important;
-        }
-
-        /* ── Stat box light ── */
-        .stat-box {
-            background: #EDE7DA !important;
-            border: 1px solid rgba(0,0,0,0.07) !important;
-        }
-        .stat-box:hover { border-color: rgba(59,130,246,0.2) !important; }
-        .stat-box .lbl { color: #7A8FA6 !important; }
-
-        /* ── mp-wrap padding ── */
-        .mp-wrap { background: #F0F2F5 !important; }
+    /* ═══════════════════════════════════════════════════════
+       LIGHT MODE (body.mode-light) — Tüm temayı class ile yönet
+       ═══════════════════════════════════════════════════════ */
+    body.mode-light {
+        background: #F0F2F5 !important;
+        background-attachment: fixed !important;
+        color: #1A2332 !important;
     }
-
-    /* ═══ BOTTOM NAV — PLATFORM STYLE ═══ */
-    @media(max-width:900px) {
-        .mobile-bottom-nav {
-            background: #EDE7DA !important;
-            border-top: 1px solid rgba(0,0,0,0.08) !important;
-            box-shadow: 0 -4px 16px rgba(0,0,0,0.08) !important;
-            height: 64px !important;
-        }
-        .mbn-item {
-            border-radius: 12px !important;
-            margin: 6px 3px !important;
-            border: 1px solid transparent !important;
-            transition: all 0.18s ease !important;
-        }
-        .mbn-item.active {
-            background: rgba(59,130,246,0.08) !important;
-            border-color: rgba(59,130,246,0.18) !important;
-        }
-        .mbn-icon { font-size: 1.3rem !important; }
-        .mbn-label {
-            font-size: 0.53rem !important;
-            color: #94A3B8 !important;
-            text-transform: uppercase !important;
-            letter-spacing: 0.04em !important;
-        }
-        .mbn-item.active .mbn-label { color: var(--accent) !important; font-weight: 900 !important; }
-        .mbn-item:active { transform: scale(0.88) !important; }
-        .sidebar-main { padding-bottom: calc(90px + env(safe-area-inset-bottom, 0px)) !important; }
+    body.mode-light .app-wrap { background: #F0F2F5 !important; }
+    body.mode-light .mobile-page { background: #F0F2F5 !important; }
+    body.mode-light .content, body.mode-light .page-content { background: #F0F2F5 !important; }
+    body.mode-light ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15) !important; }
+    body.mode-light .sidebar-main { background: #F0F2F5 !important; }
+    body.mode-light .card {
+        background: #FFFFFF !important;
+        border: 1px solid rgba(0,0,0,0.06) !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.07) !important;
+        color: #1A2332 !important;
     }
+    body.mode-light .card:hover { border-color: rgba(59,130,246,0.25) !important; box-shadow: 0 4px 16px rgba(0,0,0,0.1) !important; }
+    body.mode-light .card-title { color: #1A2332 !important; }
+    body.mode-light .mp-section {
+        background: #FFFFFF !important;
+        border: 1px solid rgba(0,0,0,0.06) !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06) !important;
+    }
+    body.mode-light .mp-section-title { color: #C9A227 !important; }
+    body.mode-light .mp-card {
+        background: #FFFFFF !important;
+        border: 1px solid rgba(0,0,0,0.07) !important;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.06) !important;
+        color: #1A2332 !important;
+    }
+    body.mode-light .mp-card:active { background: rgba(59,130,246,0.06) !important; }
+    body.mode-light .mp-card-label { color: #1A2332 !important; }
+    body.mode-light .mp-card-sub { color: #7A8FA6 !important; }
+    body.mode-light .mp-stat-card {
+        background: #FFFFFF !important;
+        border: 1px solid rgba(0,0,0,0.07) !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06) !important;
+    }
+    body.mode-light .mp-header {
+        background: #FFFFFF !important;
+        border-bottom: 1px solid rgba(0,0,0,0.07) !important;
+        backdrop-filter: none !important;
+    }
+    body.mode-light .mp-header-title { color: #1A2332 !important; }
+    body.mode-light .mp-icon-btn {
+        background: #F5F7FA !important;
+        border: 1px solid rgba(0,0,0,0.1) !important;
+        color: #3B5470 !important;
+    }
+    body.mode-light .mp-menu-row {
+        background: #FFFFFF !important;
+        border: 1px solid rgba(0,0,0,0.07) !important;
+        color: #1A2332 !important;
+    }
+    body.mode-light .mp-menu-row:hover { border-color: rgba(59,130,246,0.2) !important; background: #F8FAFF !important; }
+    body.mode-light .mp-menu-row-label { color: #1A2332 !important; }
+    body.mode-light .mp-menu-row-arrow { color: #B0C0D0 !important; }
+    body.mode-light .mp-list-row { border-bottom: 1px solid rgba(0,0,0,0.05) !important; }
+    body.mode-light .mp-list-name { color: #1A2332 !important; }
+    body.mode-light .mp-list-sub { color: #7A8FA6 !important; }
+    body.mode-light .mp-member-row { border-bottom: 1px solid rgba(0,0,0,0.05) !important; }
+    body.mode-light .mp-member-name { color: #1A2332 !important; }
+    body.mode-light .mp-attack-row {
+        background: #FFFFFF !important;
+        border: 1px solid rgba(0,0,0,0.07) !important;
+    }
+    body.mode-light .char-top-card {
+        background: #FFFFFF !important;
+        border: 1px solid rgba(0,0,0,0.07) !important;
+    }
+    body.mode-light .menu-cat {
+        background: #FFFFFF !important;
+        border: 1px solid rgba(0,0,0,0.07) !important;
+    }
+    body.mode-light .menu-cat-title { color: #C9A227 !important; }
+    body.mode-light .menu-btn {
+        background: #F5F7FA !important;
+        border: 1px solid rgba(0,0,0,0.08) !important;
+        color: #1A2332 !important;
+    }
+    body.mode-light .menu-btn:active { background: rgba(59,130,246,0.08) !important; }
+    body.mode-light .btn-gray {
+        background: #F5F7FA !important;
+        color: #3B5470 !important;
+        border: 1px solid rgba(0,0,0,0.1) !important;
+    }
+    body.mode-light .btn-gray:hover { background: #EAEEF3 !important; }
+    body.mode-light .tag-gray { background: #F5F7FA !important; color: #5E7A94 !important; border: 1px solid rgba(0,0,0,0.1) !important; }
+    body.mode-light .divider { border-color: rgba(0,0,0,0.07) !important; }
+    body.mode-light .progress-wrap { background: rgba(0,0,0,0.08) !important; }
+    body.mode-light .tab-row { background: #EAEEF3 !important; border-color: rgba(0,0,0,0.07) !important; }
+    body.mode-light .tab-btn:not(.active) { color: #7A8FA6 !important; }
+    body.mode-light .tab-btn:not(.active):hover { background: rgba(0,0,0,0.04) !important; color: #3B5470 !important; }
+    body.mode-light .form-input, body.mode-light .form-select {
+        background: #FFFFFF !important;
+        border: 1px solid rgba(0,0,0,0.12) !important;
+        color: #1A2332 !important;
+    }
+    body.mode-light .form-input:focus { border-color: rgba(59,130,246,0.6) !important; background: #FBFDFF !important; }
+    body.mode-light .form-input::placeholder { color: #A0B0C0 !important; }
+    body.mode-light .search-bar {
+        background: #FFFFFF !important;
+        border: 1px solid rgba(0,0,0,0.1) !important;
+    }
+    body.mode-light .search-bar input { color: #1A2332 !important; }
+    body.mode-light .search-results { background: #FFFFFF !important; }
+    body.mode-light .modal {
+        background: #FFFFFF !important;
+        border: 1px solid rgba(0,0,0,0.08) !important;
+    }
+    body.mode-light .notification {
+        background: rgba(255,255,255,0.98) !important;
+        color: #1A2332 !important;
+        border-color: rgba(59,130,246,0.3) !important;
+        border-left-color: var(--accent) !important;
+    }
+    body.mode-light .info-box {
+        background: rgba(245,200,66,0.08) !important;
+        border: 1px solid rgba(245,200,66,0.25) !important;
+    }
+    body.mode-light .stat-box {
+        background: #FFFFFF !important;
+        border: 1px solid rgba(0,0,0,0.07) !important;
+    }
+    body.mode-light .stat-box:hover { border-color: rgba(59,130,246,0.2) !important; }
+    body.mode-light .stat-box .lbl { color: #7A8FA6 !important; }
+    body.mode-light .mp-wrap { background: #F0F2F5 !important; }
 
     /* ═══ PLATFORM WELCOME CARD — stays dark ═══ */
     .platform-welcome-card {
@@ -1447,10 +1359,9 @@
     .platform-activity-time { font-size:0.68rem; color:#9AABBA; }
 
     /* ═══ PLATFORM NAV ICON STYLE ═══ */
-    @media(max-width:900px) {
-        .platform-mini-card { background: #EDE7DA !important; }
-        .platform-section-title { color: #EDE7DA !important; }
-    }
+    body.mode-light .platform-mini-card { background: #FFFFFF !important; }
+    body.mode-light .platform-section-title { color: #1A2332 !important; }
+    body.mode-light .pmcard-value { color: #1A2332 !important; }
 
 
 /* ═══════════════════════════════════════════════

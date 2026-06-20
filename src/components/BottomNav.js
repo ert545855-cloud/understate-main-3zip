@@ -49,6 +49,7 @@ const NAV_GROUPS = [
       { id:'election_events', icon:'🚨', svgIcon:'vote',        label:'Olaylar',    rgb:'194,75,67'  },
       { id:'teamwar',         icon:'⚔️', svgIcon:'sword',       label:'Savaş',      rgb:'194,75,67'  },
       { id:'citygov',         icon:'🏙️', svgIcon:'government',  label:'Yönetim',    rgb:'136,147,161'},
+      { id:'police_ministry', icon:'🚔', svgIcon:'government',  label:'Polis',      rgb:'96,165,250' },
       { id:'taxgov',          icon:'🏦', svgIcon:'bank',        label:'Belediye',   rgb:'201,162,39' },
       { id:'citybuild',       icon:'🏗️', svgIcon:'factory',     label:'İnşaat',     rgb:'201,162,39' },
       { id:'map',             icon:'🗺️', svgIcon:'map',         label:'Harita',     rgb:'76,154,107' },
@@ -112,7 +113,7 @@ function BottomNav({ page, onChange, items, notifMap={} }) {
   const currentGroup = allGroups.find(g => g.id === openGroup);
 
   const GOLD = '#C9A227';
-  const navH = 62;
+  const navH = 66;
 
   return (
     <>
@@ -163,7 +164,7 @@ function BottomNav({ page, onChange, items, notifMap={} }) {
                       : <span style={{fontSize:'1.35rem',lineHeight:1,filter:active?`drop-shadow(0 0 5px rgba(${it.rgb},0.7))`:'none'}}>{it.icon}</span>
                     }
                     <span style={{
-                      fontSize:'0.57rem', fontWeight:700,
+                      fontSize:'0.68rem', fontWeight:700,
                       color: active ? `rgb(${it.rgb})` : '#8893A1',
                       textAlign:'center', lineHeight:1.2,
                       letterSpacing:'0.01em',
@@ -236,7 +237,7 @@ function BottomNav({ page, onChange, items, notifMap={} }) {
                     }}>{group.icon}</span>
                 }
                 <span style={{
-                  fontSize:'0.48rem', fontWeight:800,
+                  fontSize:'0.62rem', fontWeight:800,
                   letterSpacing:'0.05em', textTransform:'uppercase',
                   color: lit ? GOLD : '#8893A1',
                   transition:'color 0.15s',

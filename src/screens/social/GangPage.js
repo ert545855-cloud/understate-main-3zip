@@ -16,6 +16,86 @@ function GangPage({ profile, setProfile, showNotif, typeFilter }) {
   const [halefTarget, setHalefTarget] = useState('');
   const [rankMenuUid, setRankMenuUid] = useState(null);
 
+  // ── Çete Savaşları ──────────────────────────────────────────────────────
+  const [gangWars, setGangWars] = useLs('rep_gangWars', []);
+  const [warModal, setWarModal] = useState(false);
+  const [warTarget, setWarTarget] = useState(null);
+  const [warNow, setWarNow] = useState(Date.now());
+
+  useEffect(() => { const t = setInterval(()=>setWarNow(Date.now()), 1000); return ()=>clearInterval(t); }, []);
+
+  // Auto-resolve süresi dolan savaşlar
+  useEffect(() => {
+    const expired = gangWars.filter(w => w.status==='active' && warNow >= w.endsAt);
+    if (!expired.length) return;
+    const resolved = gangWars.map(w => {
+      if (w.status!=='active'||warNow<w.endsAt) return w;
+      // Güç hesabı: çete bazı + katılanların silah/mermi gücü
+      const atkPow = (w.attackerPower||10) + (w.attackerParticipants||[]).reduce((s,p)=>s+((p.weapons||0)*5)+((p.ammo||0)*3),0);
+      const defPow = (w.defenderPower||10) + (w.defenderParticipants||[]).reduce((s,p)=>s+((p.weapons||0)*5)+((p.ammo||0)*3),0);
+      const bonus = w.policeBonus||0; // devlet polisi savunmaya katkı
+      const totalDef = defPow + bonus;
+      const atkWinP = atkPow / (atkPow + totalDef);
+      const winner = Math.random() < atkWinP ? 'attacker' : 'defender';
+      const reward = { money: Math.floor(Math.random()*500000)+200000, territory: 1, ammo: Math.floor(Math.random()*20)+10 };
+      // Ödül/ceza: galibin çetesini güncelle
+      setGangs(prev => prev.map(g => {
+        if (g.id===w.attackerId && winner==='attacker') return {...g, treasury:(g.treasury||0)+reward.money, territory:(g.territory||0)+reward.territory, ammo:(g.ammo||0)+reward.ammo, power:(g.power||10)+5};
+        if (g.id===w.defenderId && winner==='defender') return {...g, treasury:(g.treasury||0)+Math.floor(reward.money*0.5), ammo:(g.ammo||0)+Math.floor(reward.ammo/2)};
+        if (g.id===w.attackerId && winner==='defender') return {...g, power:Math.max(5,(g.power||10)-3)};
+        return g;
+      }));
+      try {
+        window._pushGameEvent?.('cete_savasi', `⚔️ Savaş Bitti: ${w.attackerName} vs ${w.defenderName}`,
+          `${winner==='attacker'?w.attackerName:w.defenderName} galip geldi! Ödül: ₺${(reward.money).toLocaleString()}`, '⚔️', 'çete');
+      } catch(e){}
+      return {...w, status:'resolved', winner, reward, resolvedAt:Date.now(), atkFinalPow:atkPow, defFinalPow:totalDef};
+    });
+    setGangWars(resolved);
+  }, [warNow]);
+
+  const gangTotalPower = (g) => (g?.power||10) + ((g?.weapons||0)*5) + ((g?.ammo||0)*3);
+
+  const declareWar = (targetGang) => {
+    if (!myGang || !isGangLeader) { showNotif('Sadece çete lideri savaş ilan edebilir','error'); return; }
+    if (myGang.type==='family') { showNotif('Aileler savaş ilan edemez','error'); return; }
+    if (targetGang.type==='family') { showNotif('Ailelere savaş ilan edilemez','error'); return; }
+    if (targetGang.id===myGang.id) { showNotif('Kendinize savaş ilan edemezsiniz','error'); return; }
+    const existing = gangWars.find(w=>w.status==='active'&&(w.attackerId===myGang.id||w.defenderId===myGang.id));
+    if (existing) { showNotif('Zaten aktif bir savaşınız var','error'); return; }
+    if ((myGang.treasury||0) < 100000) { showNotif('Savaş ilanı için ₺100.000 kasa gerekmeli','error'); return; }
+    const war = {
+      id: genId(),
+      attackerId: myGang.id, attackerName: myGang.name, attackerPower: gangTotalPower(myGang),
+      defenderId: targetGang.id, defenderName: targetGang.name, defenderPower: gangTotalPower(targetGang),
+      startedAt: Date.now(), endsAt: Date.now() + 12*3600000,
+      status: 'active', attackerParticipants: [], defenderParticipants: [],
+      policeBonus: 0, winner: null,
+    };
+    setGangWars(prev => [war, ...prev]);
+    setGangs(prev => prev.map(g => g.id===myGang.id ? {...g, treasury:(g.treasury||0)-100000} : g));
+    setWarModal(false); setWarTarget(null);
+    showNotif(`⚔️ ${targetGang.name}'e savaş ilan edildi! 12 saat içinde sonuçlanacak.`, 'success');
+    try { window._pushGameEvent?.('cete_savasi_ilani', `⚔️ Savaş İlanı!`, `${myGang.name} → ${targetGang.name} savaş ilan etti!`, '⚔️', 'çete'); } catch(e){}
+  };
+
+  const joinWar = (war) => {
+    if (!myGang) { showNotif('Bir çeteye üye ol','error'); return; }
+    const side = war.attackerId===myGang.id ? 'attacker' : war.defenderId===myGang.id ? 'defender' : null;
+    if (!side) { showNotif('Bu savaşa katılamazsın','error'); return; }
+    const partArr = side==='attacker' ? war.attackerParticipants : war.defenderParticipants;
+    if ((partArr||[]).find(p=>p.uid===uid)) { showNotif('Zaten savaşa katıldın','info'); return; }
+    const userWeapons = profile?.weapons||0;
+    const userAmmo = profile?.ammo||0;
+    const newPart = { uid, username:profile?.username, weapons:userWeapons, ammo:userAmmo, joinedAt:Date.now() };
+    const updWar = side==='attacker'
+      ? {...war, attackerParticipants:[...(war.attackerParticipants||[]), newPart]}
+      : {...war, defenderParticipants:[...(war.defenderParticipants||[]), newPart]};
+    setGangWars(prev => prev.map(w => w.id===war.id ? updWar : w));
+    const powAdd = userWeapons*5 + userAmmo*3;
+    showNotif(`⚔️ Savaşa katıldın! Katkın: +${powAdd} güç (${userWeapons} silah + ${userAmmo} mermi)`, 'success');
+  };
+
   const uid = profile?.uid || profile?.id;
   const filteredGangs = typeFilter ? gangs.filter(g=>g.type===typeFilter) : gangs;
   const myGang = gangs.find(g => (!typeFilter || g.type===typeFilter) && (g.leaderId===uid || (g.members||[]).includes(uid)));
@@ -135,13 +215,14 @@ function GangPage({ profile, setProfile, showNotif, typeFilter }) {
 
   const inpSt = {width:'100%',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box'};
   const isFamily = typeFilter==='family';
+  const activeWar = gangWars.find(w=>w.status==='active'&&myGang&&(w.attackerId===myGang.id||w.defenderId===myGang.id));
   const subItems = isMyGangMatchFilter
     ? (isFamily
         ? [{id:'gangs',label:'👨‍👩‍👧‍👦 Liste'},{id:'management',label:'⚙️ Yönetim'}]
-        : [{id:'gangs',label:'⚔️ Liste'},{id:'management',label:'⚙️ Yönetim'},{id:'attack',label:'🥊 Suç'},{id:'territory',label:'🗺️ Bölge'},{id:'weapons',label:'🔫 Silah'}])
+        : [{id:'gangs',label:'⚔️ Liste'},{id:'management',label:'⚙️ Yönetim'},{id:'wars',label:activeWar?'⚔️ Savaş 🔴':'⚔️ Savaşlar'},{id:'attack',label:'🥊 Suç'},{id:'territory',label:'🗺️ Bölge'},{id:'weapons',label:'🔫 Silah'}])
     : (isFamily
         ? [{id:'gangs',label:'👨‍👩‍👧‍👦 Aileler'}]
-        : [{id:'gangs',label:'⚔️ Çeteler'},{id:'attack',label:'🥊 Suç'},{id:'territory',label:'🗺️ Bölge'}]);
+        : [{id:'gangs',label:'⚔️ Çeteler'},{id:'wars',label:'⚔️ Savaşlar'},{id:'attack',label:'🥊 Suç'},{id:'territory',label:'🗺️ Bölge'}]);
 
   return (
     <div>
@@ -334,6 +415,100 @@ function GangPage({ profile, setProfile, showNotif, typeFilter }) {
           </div>
         )}
 
+        {sub==='wars' && (
+          <div>
+            {/* Aktif Savaş Kartı */}
+            {activeWar && (()=>{
+              const isAttacker = activeWar.attackerId===myGang?.id;
+              const side = isAttacker ? 'attacker' : 'defender';
+              const alreadyJoined = (isAttacker ? activeWar.attackerParticipants : activeWar.defenderParticipants)||[];
+              const userJoined = alreadyJoined.find(p=>p.uid===uid);
+              const remaining = Math.max(0, activeWar.endsAt - warNow);
+              const h=Math.floor(remaining/3600000), m=Math.floor((remaining%3600000)/60000), s=Math.floor((remaining%60000)/1000);
+              const atkTotPow = (activeWar.attackerPower||10) + (activeWar.attackerParticipants||[]).reduce((s,p)=>s+((p.weapons||0)*5)+((p.ammo||0)*3),0);
+              const defTotPow = (activeWar.defenderPower||10) + (activeWar.defenderParticipants||[]).reduce((s,p)=>s+((p.weapons||0)*5)+((p.ammo||0)*3),0) + (activeWar.policeBonus||0);
+              const atkWinPct = Math.round(atkTotPow/(atkTotPow+defTotPow)*100);
+              return (
+                <div style={{background:'linear-gradient(135deg,rgba(194,75,67,0.12),rgba(11,21,39,0.97))',border:'2px solid rgba(194,75,67,0.4)',borderRadius:'14px',padding:'1rem',marginBottom:'0.75rem'}}>
+                  <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.6rem'}}>
+                    <div style={{fontWeight:900,color:'#E08C87',fontSize:'0.95rem'}}>⚔️ AKTİF SAVAŞ</div>
+                    <div style={{fontFamily:"'JetBrains Mono',monospace",color:'#C24B43',fontWeight:700,fontSize:'0.8rem'}}>{h}s {m}dk {s}sn</div>
+                  </div>
+                  <div style={{display:'flex',alignItems:'center',gap:'0.5rem',marginBottom:'0.75rem'}}>
+                    <div style={{flex:1,textAlign:'center'}}>
+                      <div style={{fontSize:'0.7rem',color:isAttacker?'#E08C87':'#8893A1',fontWeight:700}}>⚔️ SALDIRAN</div>
+                      <div style={{fontWeight:800,color:'#EDE7DA',fontSize:'0.88rem'}}>{activeWar.attackerName}</div>
+                      <div style={{fontSize:'0.68rem',color:'#4C9A6B',fontWeight:700}}>💪 {atkTotPow} güç</div>
+                      <div style={{fontSize:'0.6rem',color:'#8893A1'}}>{(activeWar.attackerParticipants||[]).length} katılımcı</div>
+                    </div>
+                    <div style={{textAlign:'center',padding:'0.5rem'}}>
+                      <div style={{fontSize:'1.5rem'}}>⚔️</div>
+                      <div style={{fontSize:'0.6rem',color:'#C9A227',fontWeight:700}}>%{atkWinPct}</div>
+                      <div style={{fontSize:'0.55rem',color:'#8893A1'}}>Atk şans</div>
+                    </div>
+                    <div style={{flex:1,textAlign:'center'}}>
+                      <div style={{fontSize:'0.7rem',color:!isAttacker?'#4C9A6B':'#8893A1',fontWeight:700}}>🛡️ SAVUNAN</div>
+                      <div style={{fontWeight:800,color:'#EDE7DA',fontSize:'0.88rem'}}>{activeWar.defenderName}</div>
+                      <div style={{fontSize:'0.68rem',color:'#4C9A6B',fontWeight:700}}>💪 {defTotPow} güç</div>
+                      <div style={{fontSize:'0.6rem',color:'#8893A1'}}>{(activeWar.defenderParticipants||[]).length} katılımcı{activeWar.policeBonus>0?` + 🚔 +${activeWar.policeBonus}`:''}</div>
+                    </div>
+                  </div>
+                  {!userJoined ? (
+                    <button onClick={()=>joinWar(activeWar)}
+                      style={{width:'100%',padding:'0.65rem',borderRadius:'10px',border:'none',background:'linear-gradient(135deg,#C24B43,#E08C87)',color:'#fff',fontWeight:800,fontSize:'0.85rem',cursor:'pointer',fontFamily:"'Inter',sans-serif"}}>
+                      {isAttacker ? '⚔️ Saldırıya Katıl' : '🛡️ Savunmaya Katıl'} (+{(profile?.weapons||0)*5+(profile?.ammo||0)*3} güç)
+                    </button>
+                  ) : (
+                    <div style={{textAlign:'center',padding:'0.5rem',background:'rgba(76,154,107,0.08)',border:'1px solid rgba(76,154,107,0.2)',borderRadius:'10px',color:'#4C9A6B',fontSize:'0.8rem',fontWeight:700}}>
+                      ✅ Katıldın! {userJoined.weapons} silah + {userJoined.ammo} mermi ile savaşıyorsun.
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+
+            {/* Savaş İlan Et */}
+            {myGang && isGangLeader && !activeWar && !isFamily && (
+              <div style={{marginBottom:'0.75rem'}}>
+                <button onClick={()=>setWarModal(true)}
+                  style={{width:'100%',padding:'0.7rem',borderRadius:'12px',border:'1px solid rgba(194,75,67,0.3)',background:'rgba(194,75,67,0.08)',color:'#E08C87',fontWeight:800,fontSize:'0.85rem',cursor:'pointer',fontFamily:"'Inter',sans-serif"}}>
+                  ⚔️ Savaş İlan Et (₺100.000 kasa)
+                </button>
+              </div>
+            )}
+
+            {/* Savaş Geçmişi */}
+            <div style={{fontWeight:700,color:'#8893A1',fontSize:'0.72rem',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:'0.5rem'}}>
+              Son Savaşlar
+            </div>
+            {gangWars.length===0 && <div style={{textAlign:'center',padding:'2rem',color:'#3B4E63',fontSize:'0.82rem'}}>Henüz savaş yok.</div>}
+            {gangWars.slice(0,10).map(w=>{
+              const isMine = myGang && (w.attackerId===myGang.id||w.defenderId===myGang.id);
+              const isWinner = w.winner && ((w.winner==='attacker'&&w.attackerId===myGang?.id)||(w.winner==='defender'&&w.defenderId===myGang?.id));
+              return (
+                <div key={w.id} style={{background:'rgba(237,231,218,0.02)',border:`1px solid ${w.status==='active'?'rgba(194,75,67,0.3)':isWinner?'rgba(76,154,107,0.25)':'rgba(255,255,255,0.06)'}`,borderRadius:'10px',padding:'0.75rem',marginBottom:'0.5rem'}}>
+                  <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start'}}>
+                    <div>
+                      <div style={{fontSize:'0.82rem',fontWeight:700,color:'#EDE7DA'}}>{w.attackerName} ⚔️ {w.defenderName}</div>
+                      <div style={{fontSize:'0.65rem',color:'#8893A1',marginTop:'2px'}}>
+                        {w.status==='active' ? '🔴 Devam ediyor' :
+                          w.winner==='attacker' ? `🏆 ${w.attackerName} kazandı` : `🛡️ ${w.defenderName} kazandı`}
+                        {w.reward && ` • Ödül: ₺${(w.reward.money).toLocaleString()}`}
+                      </div>
+                    </div>
+                    {isMine && w.status==='active' && (
+                      <div style={{background:'rgba(194,75,67,0.12)',border:'1px solid rgba(194,75,67,0.25)',borderRadius:'6px',padding:'2px 8px',color:'#E08C87',fontSize:'0.65rem',fontWeight:700}}>ÜYESİN</div>
+                    )}
+                    {w.status==='resolved' && (
+                      <div style={{fontSize:'0.65rem',color:isWinner?'#4C9A6B':'#C24B43',fontWeight:700}}>{isWinner?'🏆 GELDİ':'💀 KAYBETTİ'}</div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
         {sub==='attack' && (
           <div>
             {[['🥊','Sokak Kavgası',80,'₺500-2.000',500],['🔫','Gasp Girişimi',60,'₺2.000-8.000',3000],['💣','Banka Soygunu',30,'₺20K-100K',10000],['🚗','Araba Hırsızlığı',70,'₺5.000-15.000',2000]].map(([ic,name,rate,earn,fine])=>(
@@ -456,6 +631,47 @@ function GangPage({ profile, setProfile, showNotif, typeFilter }) {
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.5rem'}}>
             <Btn variant='ghost' size='md' onClick={()=>{setHalefModal(false);setHalefTarget('');}}>İptal</Btn>
             <Btn variant='ghost' size='md' onClick={setGangSuccessor} style={{background:'rgba(201,162,39,0.12)',border:'1px solid rgba(201,162,39,0.25)',color:'#C9A227'}}>🎖️ Halef Belirle</Btn>
+          </div>
+        </Modal>
+      )}
+
+      {/* Savaş İlan Et Modal */}
+      {warModal && (
+        <Modal title="⚔️ Savaş İlan Et" onClose={()=>{setWarModal(false);setWarTarget(null);}}>
+          <div style={{background:'rgba(194,75,67,0.08)',border:'1px solid rgba(194,75,67,0.2)',borderRadius:'10px',padding:'0.65rem',fontSize:'0.78rem',color:'#E08C87',marginBottom:'1rem',lineHeight:1.5}}>
+            ⚠️ Savaş 12 saat sürer. Kasanızdan ₺100.000 kesilir.<br/>
+            Üyeleriniz savaşa katılarak güç katkısında bulunabilir (silah × 5 + mermi × 3).<br/>
+            Galip çete: toprak +1, hazine ödülü, mermi ödülü kazanır.
+          </div>
+          <div style={{fontSize:'0.72rem',color:'#8893A1',fontWeight:700,marginBottom:'0.5rem',textTransform:'uppercase',letterSpacing:'0.06em'}}>Hedef Çete Seç</div>
+          <div style={{maxHeight:'320px',overflowY:'auto'}}>
+            {gangs.filter(g=>g.type==='gang'&&g.id!==myGang?.id&&!gangWars.find(w=>w.status==='active'&&(w.attackerId===g.id||w.defenderId===g.id))).map(g=>{
+              const isSelected = warTarget?.id===g.id;
+              return (
+                <button key={g.id} onClick={()=>setWarTarget(g)}
+                  style={{width:'100%',display:'flex',alignItems:'center',gap:'0.75rem',padding:'0.65rem',borderRadius:'10px',border:`1px solid ${isSelected?'rgba(194,75,67,0.4)':'rgba(237,231,218,0.07)'}`,background:isSelected?'rgba(194,75,67,0.1)':'rgba(237,231,218,0.02)',marginBottom:'0.4rem',cursor:'pointer',textAlign:'left'}}>
+                  <span style={{fontSize:'1.3rem'}}>⚔️</span>
+                  <div style={{flex:1}}>
+                    <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.85rem'}}>{g.name}</div>
+                    <div style={{fontSize:'0.65rem',color:'#8893A1'}}>{g.memberCount} üye • 💪 {gangTotalPower(g)} güç</div>
+                  </div>
+                  {isSelected && <span style={{color:'#E08C87',fontWeight:700}}>✓</span>}
+                </button>
+              );
+            })}
+            {gangs.filter(g=>g.type==='gang'&&g.id!==myGang?.id).length===0 && (
+              <div style={{textAlign:'center',padding:'1.5rem',color:'#3B4E63',fontSize:'0.82rem'}}>Savaş ilan edilecek başka çete yok.</div>
+            )}
+          </div>
+          {warTarget && (
+            <div style={{marginTop:'0.75rem',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'0.65rem',fontSize:'0.78rem',color:'#8893A1'}}>
+              🎯 Hedef: <strong style={{color:'#EDE7DA'}}>{warTarget.name}</strong> — {gangTotalPower(warTarget)} güç<br/>
+              🏴 Senin gücün: <strong style={{color:'#E08C87'}}>{gangTotalPower(myGang)}</strong>
+            </div>
+          )}
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.5rem',marginTop:'0.75rem'}}>
+            <Btn variant='ghost' size='md' onClick={()=>{setWarModal(false);setWarTarget(null);}}>İptal</Btn>
+            <Btn variant='danger' size='md' onClick={()=>warTarget&&declareWar(warTarget)} style={{opacity:warTarget?1:0.4}}>⚔️ Savaş İlan Et</Btn>
           </div>
         </Modal>
       )}
