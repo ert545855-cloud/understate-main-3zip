@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════════════════
 // ÇETE / AİLE SAYFASI
 // ═══════════════════════════════════════════════════════
-function GangPage({ profile, setProfile, showNotif, typeFilter }) {
+function GangPage({ profile, setProfile, showNotif, typeFilter, gangWars, setGangWars }) {
   const [gangs, setGangs] = useLs('gangs', []);
   const [sub, setSub] = useState('gangs');
   const [createModal, setCreateModal] = useState(false);
@@ -16,8 +16,7 @@ function GangPage({ profile, setProfile, showNotif, typeFilter }) {
   const [halefTarget, setHalefTarget] = useState('');
   const [rankMenuUid, setRankMenuUid] = useState(null);
 
-  // ── Çete Savaşları ──────────────────────────────────────────────────────
-  const [gangWars, setGangWars] = useLs('rep_gangWars', []);
+  // ── Çete Savaşları — state app.js'ten prop olarak gelir ─────────────────
   const [warModal, setWarModal] = useState(false);
   const [warTarget, setWarTarget] = useState(null);
   const [warNow, setWarNow] = useState(Date.now());

@@ -913,12 +913,12 @@ function SecretFundingCard({ holding, holdings, setHoldings, parties, profile, s
 // ═══════════════════════════════════════════════════════
 // İÇİŞLERİ BAKANLIĞI & POLİS SİSTEMİ
 // ═══════════════════════════════════════════════════════
-function PoliceMinistryPage({ profile, setProfile, showNotif }) {
+function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangWars }) {
   const [policeCount, setPoliceCount] = useLs('rep_policeCount', 20);
   const [policeDeployment, setPoliceDeployment] = useLs('rep_policeDeployment', { gangWars:10, cityProtection:10 });
   const [policeBudget, setPoliceBudget] = useLs('rep_policeBudget', 5000000);
   const [policeActions, setPoliceActions] = useLs('rep_policeActions', []);
-  const [gangWars, setGangWars] = useLs('rep_gangWars', []);
+  // gangWars / setGangWars — app.js'ten prop olarak gelir
   const [sub, setSub] = useState('overview');
   const [hireModal, setHireModal] = useState(false);
   const [hireCount, setHireCount] = useState('');

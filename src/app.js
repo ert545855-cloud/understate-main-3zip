@@ -874,6 +874,7 @@ function App() {
   const [incomingTrade, setIncomingTrade] = useState(null);
   const [parties, setParties] = useState(() => { try { return JSON.parse(localStorage.getItem('rep_parties') || '[]'); } catch { return []; } });
   const [gangs,   setGangs]   = useState(() => { try { return JSON.parse(localStorage.getItem('rep_gangs')   || '[]'); } catch { return []; } });
+  const [gangWars, setGangWars] = useLs('rep_gangWars', []);
 
   // ── Token auto-refresh: her 10 dakikada kontrol, 5 dakika kalmışsa yenile ──
   useEffect(() => {
@@ -1251,7 +1252,7 @@ function App() {
   const notifCount = notifications.filter(n => Date.now()-n.ts < 300000).length;
 
   const isAdmin = profile?.role === 'admin' || profile?.isAdmin === true || profile?.email === 'admin@understate.tr';
-  const pageProps = { profile, setProfile, showNotif, onNavigate: setPage };
+  const pageProps = { profile, setProfile, showNotif, onNavigate: setPage, gangWars, setGangWars };
   const navItems = isAdmin
     ? [...NAV_ITEMS, { id:'admin', icon:'⚙️', label:'Admin', rgb:'239,68,68' }]
     : (NAV_ITEMS || []);
