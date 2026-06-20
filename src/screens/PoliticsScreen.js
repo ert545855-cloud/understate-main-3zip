@@ -47,8 +47,8 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
     const eduDiploma = profile?.education?.diploma || profile?.diplomaLevel || 'ilkokul';
     const eduCycles = profile?.education?.educationCycles || 0;
     const eduOrder = ['ilkokul','ortaokul','lise','universite','yukseklisans','doktora','profesor'];
-    const hasUniversite = eduOrder.indexOf(eduDiploma) >= eduOrder.indexOf('universite');
-    if (!hasUniversite) { showNotif('Parti başkanı olmak için Üniversite diploması gerekli', 'error'); return; }
+    const hasIlkokul = eduOrder.indexOf(eduDiploma) >= eduOrder.indexOf('ilkokul');
+    if (!hasIlkokul) { showNotif('Parti başkanı olmak için İlkokul diploması gerekli', 'error'); return; }
     const party = {
       id:genId(), name:pForm.name.trim(), ideology:pForm.ideology, desc:pForm.desc,
       color:pForm.color, leaderId:profile?.uid, leaderName:profile?.username,
@@ -872,7 +872,7 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
             </div>
           </div>
           <div style={{background:'rgba(201,162,39,0.06)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'10px',padding:'0.65rem',fontSize:'0.78rem',color:'#C9A227',marginBottom:'1rem'}}>
-            💡 Parti kurmak için ₺100.000 ve Üniversite diploması gerektirir. Bakiye: {fmtWord(profile?.money||0)}
+            💡 Parti kurmak için ₺100.000 gerektirir (İlkokul mezunu herkes kurabilir). Bakiye: {fmtWord(profile?.money||0)}
           </div>
           <Btn variant='primary' size='full' onClick={createParty}>🏛️ Partiyi Kur</Btn>
         </Modal>

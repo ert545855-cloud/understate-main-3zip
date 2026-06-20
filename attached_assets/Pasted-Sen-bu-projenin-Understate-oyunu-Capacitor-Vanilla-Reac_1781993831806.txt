@@ -1,0 +1,605 @@
+Sen bu projenin (Understate oyunu — Capacitor/Vanilla React) geliştiricisisin.
+Projeye 4 yeni özellik eklenmesi gerekiyor. Her birini aşağıdaki talimatlara göre uygula.
+
+Proje yapısı:
+- Ana dosya: src/app.jsx (28.000+ satır, tüm state ve routing burada)
+- Ekran dosyaları: src/screens/social/*.js ve src/screens/*.js
+- Routing: currentPage state'i ile {currentPage==="sayfa_id" && (...)} pattern'i
+- State yönetimi: useLs() hook'u ile localStorage
+
+════════════════════════════════════════════════════
+## ÖZELLİK 1: ÇETE SAVAŞLARI SİSTEMİ
+Dosya: src/screens/social/GangPage.js
+════════════════════════════════════════════════════
+
+GangPage.js içindeki state bloğuna şunları ekle:
+```js
+const [gangWars, setGangWars] = useLs('gangWars', []);
+const [warTab, setWarTab] = useState('active');
+const [warTargetModal, setWarTargetModal] = useState(false);
+```
+
+GangPage bileşeninin sub-tab listesine "⚔️ Savaş" tab'ı ekle:
+```js
+// sub tab listesi nerede ise, 'weapons' gibi sekmelerin yanına ekle:
+{ id: 'wars', label: '⚔️ Savaş', badge: activeWars.length > 0 ? '🔴' : null }
+```
+
+Savaş ilan etme fonksiyonu ekle:
+```js
+const declareWar = (targetGang) => {
+  if (!isGangLeader) { showNotif('Sadece lider savaş ilan edebilir', 'error'); return; }
+  if ((myGang?.treasury || 0) < 100000) { showNotif('Savaş için çete kasasında ₺100.000 gerekli', 'error'); return; }
+  const existing = gangWars.find(w => 
+    w.status === 'active' && 
+    ((w.attackerId === myGang.id && w.defenderId === targetGang.id) || 
+     (w.attackerId === targetGang.id && w.defenderId === myGang.id))
+  );
+  if (existing) { showNotif('Bu çete ile zaten aktif bir savaş var', 'error'); return; }
+  const war = {
+    id: genId(),
+    attackerId: myGang.id, attackerName: myGang.name,
+    defenderId: targetGang.id, defenderName: targetGang.name,
+    attackerPower: myGang.power || 10,
+    defenderPower: targetGang.power || 10,
+    attackerParticipants: [uid],
+    defenderParticipants: [],
+    status: 'active',
+    startedAt: Date.now(),
+    endsAt: Date.now() + (12 * 60 * 60 * 1000), // 12 saat
+    prize: { money: Math.floor((myGang.treasury || 0) * 0.3), territory: 1, ammo: 50 }
+  };
+  setGangWars(prev => [...prev, war]);
+  setGangs(prev => prev.map(g => g.id === myGang.id ? {...g, treasury: (g.treasury||0) - 100000} : g));
+  try { window._pushGameEvent?.('cete_savasi', '⚔️ Çete Savaşı!', `${myGang.name} çetesi ${targetGang.name} çetesine savaş ilan etti!`, '⚔️', 'war'); } catch(e) {}
+  setWarTargetModal(false);
+  showNotif(`⚔️ ${targetGang.name}'e savaş ilan edildi! 12 saat içinde çözülecek.`, 'success');
+};
+```
+
+Savaşa katılma fonksiyonu:
+```js
+const joinWar = (warId, side) => {
+  const war = gangWars.find(w => w.id === warId);
+  if (!war || war.status !== 'active') return;
+  const alreadyIn = [...(war.attackerParticipants||[]), ...(war.defenderParticipants||[])].includes(uid);
+  if (alreadyIn) { showNotif('Zaten bu savaşa katıldın', 'error'); return; }
+  const weaponPower = ((profile?.weapons || 0) * 5) + ((profile?.ammo || 0) * 3);
+  setGangWars(prev => prev.map(w => w.id === warId ? {
+    ...w,
+    [`${side}Participants`]: [...(w[`${side}Participants`]||[]), uid],
+    [`${side}Power`]: (w[`${side}Power`] || 0) + weaponPower + 50
+  } : w));
+  showNotif(`⚔️ Savaşa katıldın! +${weaponPower + 50} güç katkısı`, 'success');
+};
+```
+
+Savaş resolve fonksiyonu (useEffect içinde, 12 saatte bir kontrol):
+```js
+useEffect(() => {
+  const interval = setInterval(() => {
+    const now = Date.now();
+    setGangWars(prev => prev.map(war => {
+      if (war.status !== 'active' || now < war.endsAt) return war;
+      // Güce dayalı olasılıkla galip seç
+      const totalPower = (war.attackerPower || 1) + (war.defenderPower || 1);
+      const rand = Math.random() * totalPower;
+      const attackerWins = rand < war.attackerPower;
+      const winnerId = attackerWins ? war.attackerId : war.defenderId;
+      const winnerName = attackerWins ? war.attackerName : war.defenderName;
+      const loserId = attackerWins ? war.defenderId : war.attackerId;
+      // Galibi ödüllendir
+      setGangs(prev2 => prev2.map(g => {
+        if (g.id === winnerId) return {...g, treasury: (g.treasury||0) + (war.prize?.money||0), territory: (g.territory||0) + 1};
+        if (g.id === loserId) return {...g, territory: Math.max(0, (g.territory||0) - 1)};
+        return g;
+      }));
+      try { window._pushGameEvent?.('cete_savasi_bitti', '🏆 Çete Savaşı Bitti!', `${winnerName} savaşı kazandı!`, '🏆', 'war'); } catch(e) {}
+      return {...war, status: 'resolved', winnerId, winnerName, resolvedAt: now};
+    }));
+  }, 30000); // 30 saniyede bir kontrol
+  return () => clearInterval(interval);
+}, []);
+```
+
+Wars sekmesi için JSX — sub==='wars' olduğunda render et:
+```jsx
+{sub === 'wars' && (
+  <div>
+    {/* Tab: Aktif / Geçmiş */}
+    <div style={{display:'flex', gap:'0.4rem', marginBottom:'0.75rem'}}>
+      {[['active','⚔️ Aktif'], ['history','📜 Geçmiş']].map(([id,lbl]) => (
+        <button key={id} onClick={()=>setWarTab(id)} style={{
+          padding:'0.35rem 0.85rem', borderRadius:'2rem',
+          border:`1px solid ${warTab===id?'rgba(194,75,67,0.5)':'rgba(237,231,218,0.1)'}`,
+          background:warTab===id?'rgba(194,75,67,0.12)':'transparent',
+          color:warTab===id?'#E08C87':'#8893A1', fontSize:'0.78rem', fontWeight:700, cursor:'pointer'
+        }}>{lbl}</button>
+      ))}
+    </div>
+
+    {/* Savaş ilan et butonu — sadece lider */}
+    {isGangLeader && (
+      <button onClick={()=>setWarTargetModal(true)} style={{
+        width:'100%', padding:'0.75rem', marginBottom:'0.75rem',
+        background:'rgba(194,75,67,0.12)', border:'1px solid rgba(194,75,67,0.35)',
+        borderRadius:'12px', color:'#E08C87', fontSize:'0.85rem',
+        fontWeight:800, cursor:'pointer', display:'flex', alignItems:'center',
+        justifyContent:'center', gap:'0.5rem'
+      }}>
+        ⚔️ Savaş İlan Et (₺100.000)
+      </button>
+    )}
+
+    {/* Aktif savaşlar */}
+    {warTab === 'active' && (() => {
+      const myWars = gangWars.filter(w => 
+        w.status === 'active' && (w.attackerId === myGang?.id || w.defenderId === myGang?.id)
+      );
+      if (myWars.length === 0) return (
+        <div style={{textAlign:'center', color:'#8893A1', padding:'2rem', fontSize:'0.85rem'}}>
+          ⚔️ Aktif savaş yok
+        </div>
+      );
+      return myWars.map(war => {
+        const amAttacker = war.attackerId === myGang?.id;
+        const myPower = amAttacker ? war.attackerPower : war.defenderPower;
+        const oppPower = amAttacker ? war.defenderPower : war.attackerPower;
+        const oppName = amAttacker ? war.defenderName : war.attackerName;
+        const timeLeft = Math.max(0, war.endsAt - Date.now());
+        const hoursLeft = Math.floor(timeLeft / 3600000);
+        const minsLeft = Math.floor((timeLeft % 3600000) / 60000);
+        const alreadyJoined = [...(war.attackerParticipants||[]), ...(war.defenderParticipants||[])].includes(uid);
+        const mySide = amAttacker ? 'attacker' : 'defender';
+        return (
+          <div key={war.id} style={{
+            background:'rgba(194,75,67,0.06)', border:'1px solid rgba(194,75,67,0.2)',
+            borderRadius:'12px', padding:'0.9rem', marginBottom:'0.6rem'
+          }}>
+            <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'0.5rem'}}>
+              <span style={{fontWeight:800, color:'#E08C87', fontSize:'0.9rem'}}>
+                {amAttacker ? '⚔️ Saldırıyorsun' : '🛡️ Savunuyorsun'}
+              </span>
+              <span style={{fontSize:'0.72rem', color:'#8893A1'}}>⏱ {hoursLeft}s {minsLeft}d</span>
+            </div>
+            <div style={{fontWeight:700, color:'#EDE7DA', marginBottom:'0.6rem', fontSize:'0.85rem'}}>
+              {amAttacker ? myGang.name : oppName} vs {amAttacker ? oppName : myGang.name}
+            </div>
+            {/* Güç barı */}
+            <div style={{marginBottom:'0.5rem'}}>
+              <div style={{display:'flex', justifyContent:'space-between', fontSize:'0.68rem', color:'#8893A1', marginBottom:'0.2rem'}}>
+                <span>Senin gücün: {myPower}</span><span>Düşman: {oppPower}</span>
+              </div>
+              <div style={{background:'rgba(237,231,218,0.06)', borderRadius:'4px', height:'6px', overflow:'hidden'}}>
+                <div style={{
+                  height:'100%', borderRadius:'4px',
+                  width:`${Math.min(95, Math.max(5, myPower/(myPower+oppPower)*100))}%`,
+                  background:'linear-gradient(90deg,#C24B43,#E08C87)'
+                }}/>
+              </div>
+            </div>
+            {!alreadyJoined && myGang && (
+              <button onClick={()=>joinWar(war.id, mySide)} style={{
+                width:'100%', padding:'0.5rem', borderRadius:'8px',
+                background:'rgba(194,75,67,0.15)', border:'1px solid rgba(194,75,67,0.35)',
+                color:'#E08C87', fontSize:'0.78rem', fontWeight:700, cursor:'pointer'
+              }}>⚔️ Savaşa Katıl</button>
+            )}
+            {alreadyJoined && (
+              <div style={{textAlign:'center', fontSize:'0.72rem', color:'#4C9A6B'}}>✅ Katıldın</div>
+            )}
+          </div>
+        );
+      });
+    })()}
+
+    {/* Geçmiş savaşlar */}
+    {warTab === 'history' && (() => {
+      const resolved = gangWars.filter(w => w.status === 'resolved' && (w.attackerId === myGang?.id || w.defenderId === myGang?.id));
+      if (resolved.length === 0) return <div style={{textAlign:'center',color:'#8893A1',padding:'2rem',fontSize:'0.85rem'}}>📜 Geçmiş savaş yok</div>;
+      return resolved.map(war => (
+        <div key={war.id} style={{
+          background: war.winnerId === myGang?.id ? 'rgba(76,154,107,0.06)' : 'rgba(194,75,67,0.06)',
+          border: `1px solid ${war.winnerId === myGang?.id ? 'rgba(76,154,107,0.2)' : 'rgba(194,75,67,0.2)'}`,
+          borderRadius:'10px', padding:'0.75rem', marginBottom:'0.45rem'
+        }}>
+          <div style={{fontWeight:700, color: war.winnerId === myGang?.id ? '#4C9A6B' : '#E08C87', fontSize:'0.85rem'}}>
+            {war.winnerId === myGang?.id ? '🏆 Kazandın' : '💀 Kaybettin'} — {war.attackerName} vs {war.defenderName}
+          </div>
+          <div style={{fontSize:'0.68rem', color:'#8893A1', marginTop:'0.2rem'}}>
+            {new Date(war.resolvedAt||war.endsAt).toLocaleString('tr-TR')}
+          </div>
+        </div>
+      ));
+    })()}
+
+    {/* Savaş hedefi seçici modal */}
+    {warTargetModal && (
+      <Modal title="⚔️ Savaş Hedefi Seç" onClose={()=>setWarTargetModal(false)}>
+        <div style={{fontSize:'0.78rem', color:'#8893A1', marginBottom:'0.75rem'}}>
+          Kasadan ₺100.000 harcanır. Kazanırsan para, toprak ve mermi kazanırsın!
+        </div>
+        <div style={{maxHeight:'55vh', overflowY:'auto'}}>
+          {gangs.filter(g => g.id !== myGang?.id && g.type === 'gang').map(target => (
+            <div key={target.id} style={{
+              display:'flex', alignItems:'center', justifyContent:'space-between',
+              padding:'0.7rem 0.85rem', background:'rgba(237,231,218,0.03)',
+              border:'1px solid rgba(237,231,218,0.08)', borderRadius:'10px', marginBottom:'0.4rem'
+            }}>
+              <div>
+                <div style={{fontWeight:700, color:'#EDE7DA', fontSize:'0.85rem'}}>⚔️ {target.name}</div>
+                <div style={{fontSize:'0.68rem', color:'#8893A1'}}>Güç: {target.power||10} · Üye: {target.memberCount||0}</div>
+              </div>
+              <button onClick={()=>declareWar(target)} style={{
+                padding:'0.4rem 0.85rem', borderRadius:'8px',
+                background:'rgba(194,75,67,0.15)', border:'1px solid rgba(194,75,67,0.3)',
+                color:'#E08C87', fontSize:'0.75rem', fontWeight:700, cursor:'pointer'
+              }}>Savaş İlan Et</button>
+            </div>
+          ))}
+        </div>
+      </Modal>
+    )}
+  </div>
+)}
+```
+
+BottomNav.js'de gang grubunun items listesine wars ekle:
+```js
+// savas grubunun items dizisine ekle:
+{ id:'gang_wars', icon:'⚔️', svgIcon:'sword', label:'Çete Savaşları', rgb:'194,75,67' },
+```
+
+app.jsx'te routing'e ekle — diğer page block'larının yanına:
+```jsx
+{currentPage==="gang_wars" && (
+  <GangPage profile={cu} setProfile={setUser} showNotif={showNotif} typeFilter="gang" />
+)}
+```
+
+════════════════════════════════════════════════════
+## ÖZELLİK 2: İÇİŞLERİ BAKANLIĞI & POLİS SİSTEMİ
+Dosya: src/screens/DevletScreen.js
+════════════════════════════════════════════════════
+
+DevletScreen.js dosyasında PoliceMinistryPage bileşeni yaz. İçeriği:
+
+```js
+function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangWars, gangs, cabinet }) {
+  const [policeState, setPoliceState] = useLs('policeState', { officers: 0, budget: 0, operations: [] });
+  const [deployModal, setDeployModal] = useState(false);
+  const [deployWarId, setDeployWarId] = useState(null);
+
+  const isBakan = cabinet?.['İçişleri Bakanı'] === profile?.username || profile?.isAdmin;
+
+  const hireOfficer = () => {
+    if (!isBakan) { showNotif('Sadece İçişleri Bakanı yönetebilir', 'error'); return; }
+    if ((policeState.budget||0) < 50000) { showNotif('Yeterli bütçe yok. ₺50.000 gerekli.', 'error'); return; }
+    setPoliceState(prev => ({
+      ...prev, officers: (prev.officers||0) + 1,
+      budget: (prev.budget||0) - 50000,
+      operations: [{id:genId(), type:'hire', desc:'1 polis memuru işe alındı', time:Date.now()}, ...(prev.operations||[])].slice(0,20)
+    }));
+    showNotif('👮 Polis memuru işe alındı! +3 savunma gücü', 'success');
+  };
+
+  const fireOfficer = () => {
+    if (!isBakan || (policeState.officers||0) < 1) return;
+    setPoliceState(prev => ({
+      ...prev, officers: (prev.officers||0) - 1,
+      operations: [{id:genId(), type:'fire', desc:'1 polis memuru çıkarıldı', time:Date.now()}, ...(prev.operations||[])].slice(0,20)
+    }));
+    showNotif('Polis memuru çıkarıldı', 'info');
+  };
+
+  const transferBudget = (amt) => {
+    if (!isBakan) return;
+    if ((profile?.money||0) < amt) { showNotif('Yeterli bakiye yok', 'error'); return; }
+    setPoliceState(prev => ({...prev, budget:(prev.budget||0)+amt}));
+    setProfile(p => ({...p, money:(p.money||0)-amt}));
+    showNotif(`₺${amt.toLocaleString('tr-TR')} bütçeye transfer edildi`, 'success');
+  };
+
+  const deployToWar = (warId) => {
+    if (!isBakan) { showNotif('Yetki yok', 'error'); return; }
+    const officers = policeState.officers || 0;
+    if (officers < 1) { showNotif('Konuşlandırılacak polis memuru yok', 'error'); return; }
+    const policeForce = officers * 3;
+    setGangWars(prev => prev.map(w => w.id === warId ? {
+      ...w, defenderPower: (w.defenderPower||0) + policeForce,
+      policeDeployed: (w.policeDeployed||0) + officers
+    } : w));
+    setPoliceState(prev => ({
+      ...prev,
+      operations: [{id:genId(), type:'deploy', desc:`${officers} polis ${warId} savaşına konuşlandırıldı (+${policeForce} savunma gücü)`, time:Date.now()}, ...(prev.operations||[])].slice(0,20)
+    }));
+    setDeployModal(false);
+    showNotif(`👮 ${officers} polis konuşlandırıldı! +${policeForce} savunma gücü`, 'success');
+  };
+
+  const activeWars = (gangWars||[]).filter(w => w.status === 'active');
+
+  return (
+    <div>
+      <div style={{fontFamily:"Syne,sans-serif",fontWeight:800,fontSize:"1rem",color:"#EDE7DA",letterSpacing:"0.06em",marginBottom:"1rem",padding:"0.75rem 0.9rem",background:"rgba(237,231,218,0.04)",borderRadius:"10px",borderLeft:"3px solid #C9A227"}}>
+        🚔 İçişleri Bakanlığı & Polis Teşkilatı
+      </div>
+
+      {!isBakan && (
+        <div style={{background:"rgba(194,75,67,0.08)",border:"1px solid rgba(194,75,67,0.2)",borderRadius:"10px",padding:"0.75rem",fontSize:"0.8rem",color:"#E08C87",marginBottom:"1rem"}}>
+          ⚠️ Bu sayfayı yalnızca İçişleri Bakanı veya yöneticiler yönetebilir.
+        </div>
+      )}
+
+      {/* İstatistik kartları */}
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:"0.5rem",marginBottom:"1rem"}}>
+        {[
+          ["👮","Polis Sayısı", policeState.officers||0, "#60A5FA"],
+          ["💰","Bütçe", `₺${((policeState.budget||0)/1000).toFixed(0)}K`, "#C9A227"],
+          ["⚔️","Aktif Savaş", activeWars.length, "#C24B43"]
+        ].map(([icon,lbl,val,clr])=>(
+          <div key={lbl} style={{background:`${clr}0a`,border:`1px solid ${clr}22`,borderRadius:10,padding:"0.6rem",textAlign:"center"}}>
+            <div style={{fontSize:"0.88rem",fontWeight:900,color:clr}}>{icon} {val}</div>
+            <div style={{fontSize:"0.55rem",color:"#8893A1",marginTop:"0.15rem",fontWeight:700}}>{lbl}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Bütçe transferi */}
+      {isBakan && (
+        <div style={{background:"rgba(237,231,218,0.03)",border:"1px solid rgba(237,231,218,0.08)",borderRadius:"12px",padding:"0.85rem",marginBottom:"0.75rem"}}>
+          <div style={{fontWeight:700,color:"#C9A227",fontSize:"0.82rem",marginBottom:"0.5rem"}}>💰 Bütçe Yönetimi</div>
+          <div style={{display:"flex",gap:"0.4rem",flexWrap:"wrap"}}>
+            {[100000,500000,1000000].map(amt=>(
+              <button key={amt} onClick={()=>transferBudget(amt)} style={{
+                padding:"0.4rem 0.75rem",borderRadius:"8px",border:"1px solid rgba(201,162,39,0.3)",
+                background:"rgba(201,162,39,0.1)",color:"#C9A227",fontSize:"0.72rem",fontWeight:700,cursor:"pointer"
+              }}>+₺{(amt/1000).toFixed(0)}K</button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Polis işe al/çıkar */}
+      {isBakan && (
+        <div style={{background:"rgba(237,231,218,0.03)",border:"1px solid rgba(237,231,218,0.08)",borderRadius:"12px",padding:"0.85rem",marginBottom:"0.75rem"}}>
+          <div style={{fontWeight:700,color:"#60A5FA",fontSize:"0.82rem",marginBottom:"0.5rem"}}>👮 Personel Yönetimi</div>
+          <div style={{fontSize:"0.72rem",color:"#8893A1",marginBottom:"0.5rem"}}>Her memur: ₺50.000 maaş, +3 savunma gücü</div>
+          <div style={{display:"flex",gap:"0.5rem"}}>
+            <button onClick={hireOfficer} style={{flex:1,padding:"0.5rem",borderRadius:"8px",background:"rgba(76,154,107,0.12)",border:"1px solid rgba(76,154,107,0.3)",color:"#4C9A6B",fontSize:"0.78rem",fontWeight:700,cursor:"pointer"}}>+ İşe Al (₺50.000)</button>
+            <button onClick={fireOfficer} disabled={(policeState.officers||0)<1} style={{flex:1,padding:"0.5rem",borderRadius:"8px",background:"rgba(194,75,67,0.1)",border:"1px solid rgba(194,75,67,0.25)",color:"#E08C87",fontSize:"0.78rem",fontWeight:700,cursor:"pointer",opacity:(policeState.officers||0)<1?0.4:1}}>- Çıkar</button>
+          </div>
+        </div>
+      )}
+
+      {/* Çete savaşlarına konuşlandır */}
+      {isBakan && activeWars.length > 0 && (
+        <div style={{background:"rgba(194,75,67,0.06)",border:"1px solid rgba(194,75,67,0.18)",borderRadius:"12px",padding:"0.85rem",marginBottom:"0.75rem"}}>
+          <div style={{fontWeight:700,color:"#E08C87",fontSize:"0.82rem",marginBottom:"0.5rem"}}>⚔️ Aktif Savaşlara Konuşlandır</div>
+          {activeWars.map(war=>(
+            <div key={war.id} style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"0.6rem",background:"rgba(237,231,218,0.03)",borderRadius:"8px",marginBottom:"0.4rem"}}>
+              <div>
+                <div style={{fontWeight:700,color:"#EDE7DA",fontSize:"0.82rem"}}>{war.attackerName} vs {war.defenderName}</div>
+                <div style={{fontSize:"0.65rem",color:"#8893A1"}}>Polis konuşlandırıldı: {war.policeDeployed||0}</div>
+              </div>
+              <button onClick={()=>deployToWar(war.id)} style={{
+                padding:"0.4rem 0.75rem",borderRadius:"8px",border:"1px solid rgba(194,75,67,0.3)",
+                background:"rgba(194,75,67,0.12)",color:"#E08C87",fontSize:"0.72rem",fontWeight:700,cursor:"pointer"
+              }}>👮 Konuşlandır</button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Operasyon geçmişi */}
+      <div style={{fontWeight:700,color:"#8893A1",fontSize:"0.78rem",marginBottom:"0.4rem"}}>📋 Son Operasyonlar</div>
+      {(policeState.operations||[]).length === 0 ? (
+        <div style={{color:"#8893A1",fontSize:"0.78rem",textAlign:"center",padding:"1rem"}}>Henüz operasyon yok</div>
+      ) : (policeState.operations||[]).map(op=>(
+        <div key={op.id} style={{padding:"0.5rem 0.75rem",background:"rgba(237,231,218,0.02)",borderBottom:"1px solid rgba(237,231,218,0.05)",fontSize:"0.75rem",color:"#8893A1"}}>
+          <span style={{color:"#EDE7DA"}}>{op.type==='hire'?'👮':op.type==='fire'?'❌':'⚔️'}</span> {op.desc}
+          <span style={{float:"right",fontSize:"0.65rem"}}>{new Date(op.time).toLocaleTimeString('tr-TR')}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+DevletScreen.js'de sub-nav listesine polis ekle:
+```js
+{ id:'police', icon:'🚔', label:'Polis' }
+```
+
+DevletScreen.js render bloğuna ekle:
+```jsx
+{devSub === 'police' && (
+  <PoliceMinistryPage
+    profile={profile} setProfile={setProfile}
+    showNotif={showNotif}
+    gangWars={gangWars} setGangWars={setGangWars}
+    gangs={gangs} cabinet={cabinet}
+  />
+)}
+```
+
+BottomNav.js devlet grubuna ekle:
+```js
+{ id:'police_ministry', icon:'🚔', svgIcon:'shield', label:'Polis', rgb:'136,147,161' },
+```
+
+════════════════════════════════════════════════════
+## ÖZELLİK 3: CANLI HABER AKIŞI (NewspaperPage)
+Dosya: app.jsx içindeki currentPage==="newspaper" bloğu
+════════════════════════════════════════════════════
+
+app.jsx'te newsTab state'i var mı kontrol et. Yoksa ekle:
+```js
+const [newsTab, setNewsTab] = useState('all');
+```
+
+Mevcut `currentPage==="newspaper"` bloğunu bul. İçindeki `allNews` array'ine `gameEvents` 
+(rep_gameEvents localStorage'ından) verisini de ekle:
+
+```js
+// allNews tanımını şöyle güncelle:
+const liveGameEvents = (() => {
+  try { return JSON.parse(localStorage.getItem('rep_gameEvents')||'[]'); } catch { return []; }
+})();
+
+const allNews = [
+  ...liveNews.map(n=>({...n,source:"auto"})),
+  ...(Array.isArray(scandals)?scandals:[]).map(s=>({id:s.id,type:"breaking",headline:s.headline,icon:"🚨",time:s.date,date:s.date,isBreaking:true,source:"scandal",color:"#EF4444"})),
+  ...liveGameEvents.map(e=>({id:`ge_${e.id||e.time}`,type:e.category||"breaking",headline:e.title||e.headline,body:e.body||e.desc,icon:e.icon||"📰",time:new Date(e.time||e.date).toLocaleString('tr-TR'),date:e.time||e.date,isBreaking:true,source:"live",color:"#F59E0B"}))
+].sort((a,b)=>(b.date||b.time||0)-(a.date||a.time||0));
+```
+
+Ayrıca bir "🔴 Canlı" sekmesi ekle — NEWS_CATEGORIES dizisinin başına:
+```js
+{id:"live", icon:"🔴", label:"Canlı"},
+```
+
+"live" tab seçildiğinde sadece gameEvents'ten gelen haberleri göster:
+```js
+const filtered = newsTab==="live" 
+  ? allNews.filter(n=>n.source==="live") 
+  : newsTab==="all" ? allNews : allNews.filter(n=>n.type===newsTab);
+```
+
+5 saniyede bir güncelleme için useEffect ekle (newspaper bloğu içinde ya da dışında):
+```js
+// Canlı haber otomatik yenileme
+useEffect(() => {
+  if (currentPage !== "newspaper") return;
+  const timer = setInterval(() => {
+    // liveNews state'ini yenile — localStorage'dan tekrar oku
+    const fresh = (() => { try{return JSON.parse(localStorage.getItem('rep_liveNews')||'[]');}catch{return[];} })();
+    setLiveNews(fresh);
+  }, 5000);
+  return () => clearInterval(timer);
+}, [currentPage]);
+```
+
+════════════════════════════════════════════════════
+## ÖZELLİK 4: AİLE SPONSORLUĞU (FootballPage)
+Dosya: app.jsx içindeki currentPage==="football" bloğu
+════════════════════════════════════════════════════
+
+app.jsx'te football bloğunu bul (footballClubs, footballLeague state'leri var).
+Bloğun tab listesine "sponsor" sekmesi ekle:
+```js
+// footballTab için mevcut tab listesine ekle:
+{id:"sponsor", label:"🤝 Sponsor"}
+```
+
+Sponsor sistemi için fonksiyonlar — football bloğu içine ya da app.jsx başına:
+```js
+const familySponsor = (clubId) => {
+  const myFamily = families.find(f => f.leaderId === (cu?.uid||cu?.id));
+  if (!myFamily) { showNotif('Sadece aile liderleri sponsor olabilir', 'error'); return; }
+  if ((myFamily.treasury||0) < 500000) { showNotif('Aile kasasında ₺500.000 gerekli', 'error'); return; }
+  const alreadySponsored = footballClubs.some(c => c.sponsorFamilyId === myFamily.id);
+  if (alreadySponsored) { showNotif('Zaten bir kulübü sponsorluyorsunuz', 'error'); return; }
+  setFootballClubs(prev => prev.map(c => c.id === clubId ? {
+    ...c,
+    sponsorFamilyId: myFamily.id,
+    sponsorFamilyName: myFamily.name,
+    budget: (c.budget||0) + 500000,
+    rating: Math.min(99, (c.rating||50) + 2)
+  } : c));
+  setFamilies(prev => prev.map(f => f.id === myFamily.id ? {
+    ...f, treasury: (f.treasury||0) - 500000,
+    sponsorIncome: 150000 // maç başına gelir
+  } : f));
+  showNotif(`🤝 ${myFamily.name} kulübü sponsorluk anlaşması imzaladı! Her maçta ₺150.000 gelir`, 'success');
+};
+
+const removeSponsor = (clubId) => {
+  const myFamily = families.find(f => f.leaderId === (cu?.uid||cu?.id));
+  if (!myFamily) return;
+  setFootballClubs(prev => prev.map(c => c.id === clubId ? {
+    ...c, sponsorFamilyId: null, sponsorFamilyName: null
+  } : c));
+  setFamilies(prev => prev.map(f => f.id === myFamily.id ? {...f, sponsorIncome: 0} : f));
+  showNotif('Sponsorluk sözleşmesi feshedildi', 'info');
+};
+```
+
+footballTab === "sponsor" olduğunda render edilecek JSX:
+```jsx
+{footballTab === "sponsor" && (
+  <div>
+    <div style={{background:"rgba(201,162,39,0.06)",border:"1px solid rgba(201,162,39,0.2)",borderRadius:"12px",padding:"0.85rem",marginBottom:"1rem"}}>
+      <div style={{fontWeight:800,color:"#C9A227",fontSize:"0.88rem",marginBottom:"0.4rem"}}>🤝 Aile Sponsorluğu</div>
+      <div style={{fontSize:"0.78rem",color:"#8893A1",lineHeight:1.5}}>
+        Aile kasanızdan ₺500.000 harcayarak bir kulübe sponsor olun.<br/>
+        Sponsor aile: Her maçta +₺150.000 gelir · Kulüp: +₺500.000 bütçe, +2 rating
+      </div>
+    </div>
+
+    {/* Aktif sponsorluklar */}
+    <div style={{fontWeight:700,color:"#8893A1",fontSize:"0.75rem",marginBottom:"0.5rem",textTransform:"uppercase",letterSpacing:"0.08em"}}>📋 Tüm Kulüpler & Sponsorlar</div>
+
+    {footballClubs.length === 0 && (
+      <div style={{textAlign:"center",color:"#8893A1",padding:"2rem",fontSize:"0.85rem"}}>
+        ⚽ Henüz kulüp yok. Önce bir kulüp kurulmalı.
+      </div>
+    )}
+
+    {footballClubs.map(club => {
+      const myFamily = families.find(f => f.leaderId === (cu?.uid||cu?.id));
+      const isMyClub = club.owner === cu?.username;
+      const isMySponsor = club.sponsorFamilyId && myFamily?.id === club.sponsorFamilyId;
+      const canSponsor = myFamily && !club.sponsorFamilyId && !families.find(f=>f.leaderId===(cu?.uid||cu?.id)&&f.sponsorIncome>0);
+      return (
+        <div key={club.id} style={{background:"rgba(237,231,218,0.03)",border:"1px solid rgba(237,231,218,0.08)",borderRadius:"12px",padding:"0.85rem",marginBottom:"0.5rem"}}>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:"0.5rem"}}>
+            <div>
+              <div style={{fontWeight:800,color:"#EDE7DA",fontSize:"0.9rem"}}>⚽ {club.name}</div>
+              <div style={{fontSize:"0.68rem",color:"#8893A1"}}>Sahibi: {club.owner} · Rating: {club.rating||50}</div>
+            </div>
+            <div style={{textAlign:"right"}}>
+              <div style={{fontSize:"0.72rem",color:"#C9A227",fontWeight:700}}>₺{((club.budget||0)/1000).toFixed(0)}K bütçe</div>
+            </div>
+          </div>
+
+          {club.sponsorFamilyId ? (
+            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"0.45rem 0.65rem",background:"rgba(76,154,107,0.08)",border:"1px solid rgba(76,154,107,0.2)",borderRadius:"8px"}}>
+              <div style={{fontSize:"0.75rem",color:"#4C9A6B",fontWeight:700}}>
+                👑 Sponsor: {club.sponsorFamilyName}
+              </div>
+              {isMySponsor && (
+                <button onClick={()=>removeSponsor(club.id)} style={{
+                  padding:"0.25rem 0.6rem",borderRadius:"6px",border:"1px solid rgba(194,75,67,0.3)",
+                  background:"rgba(194,75,67,0.1)",color:"#E08C87",fontSize:"0.68rem",fontWeight:700,cursor:"pointer"
+                }}>Feshet</button>
+              )}
+            </div>
+          ) : (
+            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"0.45rem 0.65rem",background:"rgba(237,231,218,0.02)",border:"1px solid rgba(237,231,218,0.06)",borderRadius:"8px"}}>
+              <div style={{fontSize:"0.75rem",color:"#8893A1"}}>Sponsor yok</div>
+              {canSponsor && (
+                <button onClick={()=>familySponsor(club.id)} style={{
+                  padding:"0.3rem 0.75rem",borderRadius:"8px",border:"1px solid rgba(201,162,39,0.35)",
+                  background:"rgba(201,162,39,0.12)",color:"#C9A227",fontSize:"0.72rem",fontWeight:700,cursor:"pointer"
+                }}>🤝 Sponsor Ol (₺500K)</button>
+              )}
+            </div>
+          )}
+        </div>
+      );
+    })}
+  </div>
+)}
+```
+
+════════════════════════════════════════════════════
+## SON ADIM: KONTROL
+════════════════════════════════════════════════════
+
+Tüm değişikliklerden sonra şunları doğrula:
+1. GangPage.js'te `sub` state'inin varsayılan değeri hâlâ 'gangs' mi?
+2. DevletScreen.js'te PoliceMinistryPage'e geçilen `gangWars` ve `setGangWars` prop'ları app.jsx'ten geliyor mu?
+3. footballTab state'i `useState("clubs")` ile tanımlı mı — eğer yoksa app.jsx'te ekle.
+4. `genId()` fonksiyonu GangPage.js scope'unda mevcut mu? Yoksa `Date.now().toString(36)+Math.random().toString(36).slice(2)` kullan.
+5. `useLs` hook'u GangPage.js ve DevletScreen.js'te import/mevcut mu? Eğer yoksa `useState` + `useEffect` ile localStorage oku/yaz pattern'i kullan.

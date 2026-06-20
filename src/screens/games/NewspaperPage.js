@@ -36,10 +36,10 @@ function NewspaperPage({ profile, setProfile, showNotif }) {
 
   const publish = () => {
     if (!form.title.trim()||!form.content.trim()) { showNotif('❌ Başlık ve içerik gerekli!','error'); return; }
-    if ((cu.money||0)<5000) { showNotif('❌ Yayın ücreti: ₺5,000','error'); return; }
+    if ((cu.underCoin||0)<5000) { showNotif('❌ Yayın ücreti: 5.000 UC (UnderCoin)','error'); return; }
     const paper = {id:Date.now(),title:form.title.trim(),content:form.content.trim(),category:form.category,author:cu.username,date:new Date().toLocaleDateString('tr-TR'),likes:0,views:0};
     setPapers(prev=>[paper,...prev].slice(0,100));
-    updateUser({money:(cu.money||0)-5000,meritPoints:(cu.meritPoints||0)+5});
+    updateUser({underCoin:(cu.underCoin||0)-5000,meritPoints:(cu.meritPoints||0)+5});
     setForm({title:'',content:'',category:'Gündem'});
     setTab('read');
     showNotif('✅ Makale yayınlandı! +5🏅','success');
@@ -59,7 +59,7 @@ function NewspaperPage({ profile, setProfile, showNotif }) {
 
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>
-      <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#C9A227',marginBottom:'1rem'}}>📰 Gazete & Medya</div>
+      <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#C9A227',marginBottom:'1rem'}}>📡 Haber Ajansı & Medya</div>
       <div style={{display:'flex',gap:'0.4rem',marginBottom:'1rem'}}>
         {[{k:'read',l:'📰 Haberler'},{k:'live',l:'🔴 Canlı'},{k:'eco',l:'📊 Bülten'},{k:'write',l:'✍️ Yaz'},{k:'influence',l:'🏆 Yazarlar'}].map(t=>(
           <button key={t.k} onClick={()=>setTab(t.k)} style={{padding:'0.4rem 1rem',borderRadius:'2rem',border:`1px solid ${tab===t.k?'#C9A227':'rgba(255,255,255,0.12)'}`,background:tab===t.k?'rgba(96,165,250,0.15)':'transparent',color:tab===t.k?'#C9A227':'#999',cursor:'pointer',fontWeight:tab===t.k?700:400,fontSize:'0.83rem',fontFamily:'inherit'}}>{t.l}</button>
@@ -167,7 +167,7 @@ function NewspaperPage({ profile, setProfile, showNotif }) {
 
       {tab==='write'&&<div>
         <div style={{background:'rgba(96,165,250,0.05)',border:'1px solid rgba(96,165,250,0.2)',borderRadius:'12px',padding:'1rem',marginBottom:'0.75rem'}}>
-          <div style={{fontSize:'0.8rem',color:'#C9A227',marginBottom:'0.5rem',fontWeight:700}}>📝 Makale Yayınla (₺5,000)</div>
+          <div style={{fontSize:'0.8rem',color:'#C9A227',marginBottom:'0.5rem',fontWeight:700}}>📝 Makale Yayınla (5.000 UC)</div>
           <div style={{marginBottom:'0.5rem'}}>
             <div style={{fontSize:'0.72rem',color:'#999',marginBottom:'0.25rem'}}>Kategori</div>
             <div style={{display:'flex',gap:'0.3rem',flexWrap:'wrap'}}>
@@ -176,7 +176,8 @@ function NewspaperPage({ profile, setProfile, showNotif }) {
           </div>
           <input value={form.title} onChange={e=>setForm(prev=>({...prev,title:e.target.value}))} placeholder="Makale başlığı..." style={{width:'100%',padding:'0.6rem 0.75rem',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'8px',color:'#EDE7DA',fontSize:'0.9rem',outline:'none',marginBottom:'0.5rem',fontFamily:'inherit'}} />
           <textarea value={form.content} onChange={e=>setForm(prev=>({...prev,content:e.target.value}))} placeholder="Makale içeriği... (min 50 karakter)" rows={5} style={{width:'100%',padding:'0.6rem 0.75rem',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'8px',color:'#EDE7DA',fontSize:'0.85rem',outline:'none',resize:'vertical',fontFamily:'inherit',marginBottom:'0.5rem'}} />
-          <button onClick={publish} style={{width:'100%',padding:'0.65rem',background:'rgba(96,165,250,0.15)',border:'1px solid rgba(96,165,250,0.3)',borderRadius:'8px',color:'#C9A227',cursor:'pointer',fontWeight:700,fontFamily:'inherit',fontSize:'0.9rem'}}>📰 Yayınla (₺5,000)</button>
+          <div style={{fontSize:'0.68rem',color:'#8893A1',marginBottom:'0.5rem'}}>Mevcut UC: <span style={{color:'#C9A227',fontWeight:700}}>{(cu.underCoin||0).toLocaleString()} UC</span></div>
+          <button onClick={publish} style={{width:'100%',padding:'0.65rem',background:'rgba(96,165,250,0.15)',border:'1px solid rgba(96,165,250,0.3)',borderRadius:'8px',color:'#C9A227',cursor:'pointer',fontWeight:700,fontFamily:'inherit',fontSize:'0.9rem'}}>📰 Yayınla (5.000 UC)</button>
         </div>
       </div>}
     </div>

@@ -71,7 +71,7 @@ const NAV_GROUPS = [
       { id:'dm',           icon:'📬', svgIcon:'chat',      label:'Mesaj',     rgb:'201,162,39'  },
       { id:'players',      icon:'👥', svgIcon:'users',     label:'Oyuncular', rgb:'201,162,39'  },
       { id:'social',       icon:'📱', svgIcon:'users',     label:'Sosyal',    rgb:'136,147,161' },
-      { id:'newspaper',    icon:'📰', svgIcon:'newspaper', label:'Gazete',    rgb:'201,162,39'  },
+      { id:'newspaper',    icon:'📡', svgIcon:'newspaper', label:'Haber Ajansı', rgb:'201,162,39'  },
       { id:'football',     icon:'⚽', svgIcon:'trophy',    label:'Futbol',    rgb:'76,154,107'  },
       { id:'casino',       icon:'🎰', svgIcon:'crown',     label:'Kumarhane', rgb:'201,162,39'  },
       { id:'duyurular',    icon:'📣', svgIcon:'newspaper', label:'Duyurular', rgb:'201,162,39'  },

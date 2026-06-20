@@ -8,7 +8,7 @@ window.LANG_EN = {
   municipality:'Municipality', construction:'Construction', map:'Map', alliance:'Alliance',
   world:'World', npc:'NPC', wiki:'Wiki',
   chat:'Chat', clan:'Clan', messages:'Messages', players:'Players',
-  newsfeed:'Social', newspaper:'News', football:'Football', casino:'Casino',
+  newsfeed:'Social', newspaper:'News Agency', football:'Football', casino:'Casino',
   announcements:'Announcements', leaderboard:'Leaderboard', achievements:'Achievements',
   money:'MONEY', uc:'UC', send:'Send', buy:'Buy', sell:'Sell',
   upgrade:'Upgrade', collect:'Collect', feed:'Feed', profile:'Profile',

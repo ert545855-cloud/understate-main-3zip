@@ -9,7 +9,7 @@ window.LANG_TR = {
   municipality:'Belediye', construction:'İnşaat', map:'Harita', alliance:'İttifak',
   world:'Dünya', npc:'NPC', wiki:'Wiki',
   chat:'Sohbet', clan:'Klan', messages:'Mesaj', players:'Oyuncular',
-  newsfeed:'Sosyal', newspaper:'Gazete', football:'Futbol', casino:'Kumarhane',
+  newsfeed:'Sosyal', newspaper:'Haber Ajansı', football:'Futbol', casino:'Kumarhane',
   announcements:'Duyurular', leaderboard:'Sıralama', achievements:'Başarılar',
   // === Common labels ===
   money:'PARA', uc:'UC', send:'Gönder', buy:'Satın Al', sell:'Sat',

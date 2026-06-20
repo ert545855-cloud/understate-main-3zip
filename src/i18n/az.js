@@ -8,7 +8,7 @@ window.LANG_AZ = {
   municipality:'Bələdiyyə', construction:'İnşaat', map:'Xəritə', alliance:'İttifaq',
   world:'Dünya', npc:'NPC', wiki:'Vikipediya',
   chat:'Söhbət', clan:'Klan', messages:'Mesaj', players:'Oyunçular',
-  newsfeed:'Sosial', newspaper:'Qəzet', football:'Futbol', casino:'Kazino',
+  newsfeed:'Sosial', newspaper:'Xəbər Agentliyi', football:'Futbol', casino:'Kazino',
   announcements:'Elanlar', leaderboard:'Liderlik', achievements:'Nailiyyətlər',
   money:'PUL', uc:'UC', send:'Göndər', buy:'Al', sell:'Sat',
   upgrade:'Yüksəlt', collect:'Topla', feed:'Yem ver', profile:'Profil',
