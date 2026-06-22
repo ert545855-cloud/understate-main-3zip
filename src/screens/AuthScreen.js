@@ -365,7 +365,7 @@ function AuthScreen({ onLogin }) {
         {/* Panel — full width on mobile */}
         <div style={{width:'100%',maxWidth:'480px',padding:'0 1rem'}}>
           <form onSubmit={e=>{e.preventDefault();tab==='login'?doLogin():doRegister();}} autoComplete="on">
-          <div style={{background:'rgba(17,21,28,0.9)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'1.75rem 1.5rem',backdropFilter:'blur(24px)',boxShadow:'0 24px 80px rgba(0,0,0,0.7)'}}>
+          <div style={{background:'rgba(9,14,24,0.93)',border:'1px solid rgba(201,162,39,0.16)',borderRadius:'20px',padding:'1.85rem 1.6rem',backdropFilter:'blur(30px)',WebkitBackdropFilter:'blur(30px)',boxShadow:'0 28px 80px rgba(0,0,0,0.75), 0 0 0 1px rgba(201,162,39,0.06), inset 0 1px 0 rgba(255,255,255,0.05)'}}>
 
             {/* Tabs */}
             <div style={{display:'flex',gap:'8px',marginBottom:'1.5rem'}}>
@@ -422,7 +422,7 @@ function AuthScreen({ onLogin }) {
             </>}
 
             <button type="submit" disabled={loading}
-              style={{width:'100%',padding:'1rem',borderRadius:'8px',border:'2px solid transparent',background:loading?'rgba(201,162,39,0.25)':'#C9A227',color:'#11151C',fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:'1rem',letterSpacing:'0.08em',cursor:loading?'not-allowed':'pointer',transition:'all 0.2s ease',textTransform:'uppercase',boxShadow:loading?'none':'0 4px 24px rgba(201,162,39,0.4)',display:'flex',alignItems:'center',justifyContent:'center',gap:'0.5rem'}}>
+              style={{width:'100%',padding:'1.05rem',borderRadius:'12px',border:'none',background:loading?'rgba(201,162,39,0.25)':'linear-gradient(135deg,#D4AC2E,#C9A227,#B0891A)',color:loading?'rgba(255,255,255,0.5)':'#0A0800',fontFamily:"'Syne',sans-serif",fontWeight:900,fontSize:'1rem',letterSpacing:'0.14em',cursor:loading?'not-allowed':'pointer',transition:'all 0.2s ease',textTransform:'uppercase',boxShadow:loading?'none':'0 6px 28px rgba(201,162,39,0.45), inset 0 1px 0 rgba(255,255,255,0.2)',display:'flex',alignItems:'center',justifyContent:'center',gap:'0.5rem'}}>
               {loading ? <>
                 <div style={{width:'18px',height:'18px',border:'2.5px solid rgba(255,255,255,0.2)',borderTopColor:'rgba(255,255,255,0.7)',borderRadius:'50%',animation:'spin 0.7s linear infinite'}} />
                 <span>Lütfen bekleyin...</span>
