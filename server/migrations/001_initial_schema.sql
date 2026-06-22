@@ -768,6 +768,43 @@ CREATE TABLE IF NOT EXISTS city_wars (
   created_at         TIMESTAMPTZ DEFAULT now()
 );
 
+-- ── GANG WARS ─────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS gang_wars (
+  id                   TEXT PRIMARY KEY,
+  attacker_id          TEXT NOT NULL,
+  attacker_name        TEXT,
+  defender_id          TEXT NOT NULL,
+  defender_name        TEXT,
+  attacker_power       INTEGER DEFAULT 0,
+  defender_power       INTEGER DEFAULT 0,
+  attacker_participants JSONB DEFAULT '[]',
+  defender_participants JSONB DEFAULT '[]',
+  police_deployed      INTEGER DEFAULT 0,
+  status               TEXT DEFAULT 'active',
+  winner_id            TEXT,
+  winner_name          TEXT,
+  prize                JSONB DEFAULT '{}',
+  started_at           BIGINT,
+  ends_at              BIGINT,
+  resolved_at          BIGINT,
+  created_at           TIMESTAMPTZ DEFAULT now(),
+  updated_at           TIMESTAMPTZ DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS idx_gang_wars_status ON gang_wars(status);
+CREATE INDEX IF NOT EXISTS idx_gang_wars_attacker ON gang_wars(attacker_id);
+CREATE INDEX IF NOT EXISTS idx_gang_wars_defender ON gang_wars(defender_id);
+
+-- ── POLICE STATE ──────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS police_state (
+  id              SERIAL PRIMARY KEY,
+  officer_count   INTEGER DEFAULT 0,
+  budget          BIGINT DEFAULT 0,
+  operations      JSONB DEFAULT '[]',
+  updated_at      TIMESTAMPTZ DEFAULT now()
+);
+INSERT INTO police_state (id, officer_count, budget) VALUES (1, 0, 0)
+  ON CONFLICT (id) DO NOTHING;
+
 -- ── TENDER ────────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS auction_items (
   id                TEXT PRIMARY KEY DEFAULT (gen_random_uuid())::text,

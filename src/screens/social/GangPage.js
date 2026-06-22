@@ -51,6 +51,10 @@ function GangPage({ profile, setProfile, showNotif, typeFilter, gangWars, setGan
       return {...w, status:'resolved', winner, reward, resolvedAt:Date.now(), atkFinalPow:atkPow, defFinalPow:totalDef};
     });
     setGangWars(resolved);
+    // Resolve olan savaşları sunucuya bildir
+    resolved.filter(w => w.status === 'resolved' && gangWars.find(ow => ow.id === w.id && ow.status === 'active')).forEach(w => {
+      try { window._socket?.emit('gang:war:resolve', { war: { ...w, winnerId: w.winner === 'attacker' ? w.attackerId : w.defenderId, winnerName: w.winner === 'attacker' ? w.attackerName : w.defenderName } }); } catch(e) {}
+    });
   }, [warNow]);
 
   const gangTotalPower = (g) => (g?.power||10) + ((g?.weapons||0)*5) + ((g?.ammo||0)*3);
@@ -75,6 +79,7 @@ function GangPage({ profile, setProfile, showNotif, typeFilter, gangWars, setGan
     setGangs(prev => prev.map(g => g.id===myGang.id ? {...g, treasury:(g.treasury||0)-100000} : g));
     setWarModal(false); setWarTarget(null);
     showNotif(`⚔️ ${targetGang.name}'e savaş ilan edildi! 12 saat içinde sonuçlanacak.`, 'success');
+    try { window._socket?.emit('gang:war:declare', { war }); } catch(e) {}
     try { window._pushGameEvent?.('cete_savasi_ilani', `⚔️ Savaş İlanı!`, `${myGang.name} → ${targetGang.name} savaş ilan etti!`, '⚔️', 'çete'); } catch(e){}
   };
 
@@ -93,6 +98,7 @@ function GangPage({ profile, setProfile, showNotif, typeFilter, gangWars, setGan
     setGangWars(prev => prev.map(w => w.id===war.id ? updWar : w));
     const powAdd = userWeapons*5 + userAmmo*3;
     showNotif(`⚔️ Savaşa katıldın! Katkın: +${powAdd} güç (${userWeapons} silah + ${userAmmo} mermi)`, 'success');
+    try { window._socket?.emit('gang:war:join', { warId: war.id, side, weaponPower: powAdd }); } catch(e) {}
   };
 
   const uid = profile?.uid || profile?.id;

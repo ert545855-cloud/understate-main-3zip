@@ -74,18 +74,22 @@ const PARTY_INFLUENCE_CD_MS = 3000; // 3 saniye (client ile aynı)
 async function pushInitialState(socket) {
   try {
     // Gangs, parties, alliances are now in proper SQL tables — fetch separately
-    const [state, gangs, parties, alliances, lobiler] = await Promise.all([
+    const [state, gangs, parties, alliances, lobiler, gangWars, policeState] = await Promise.all([
       db.getFullGameState(),
       db.isReady() ? db.getGangs().catch(() => [])       : [],
       db.isReady() ? db.getParties().catch(() => [])     : [],
       db.isReady() ? db.getAlliances().catch(() => [])   : [],
       db.isReady() ? db.getGameState('lobiler').catch(() => null).then(v => v || []) : [],
+      db.isReady() ? db.getGangWars().catch(() => [])   : [],
+      db.isReady() ? db.getPoliceState().catch(() => ({ officers:0, budget:0, operations:[] })) : { officers:0, budget:0, operations:[] },
     ]);
     const onlineList = Array.from(onlinePlayers.values());
     const payload = {
       gangs,
       parties,
       alliances,
+      gangWars,
+      policeState,
       elections:        state.elections       || { phase:'idle', candidates:[], votes:{} },
       elections_multi:  state.elections_multi || {},
       laws:             state.laws            || [],
@@ -400,26 +404,85 @@ function registerGameHandlers(io, socket) {
     }
   });
 
+  // ── LEGACY gang:war (backwards compat) ───────────────────────────────────
   socket.on('gang:war', async (data) => {
     if (!data || !checkEventRate(socket.id) || !isPayloadSafe(data)) return;
     if (!socket.userId) return;
     io.emit('mafiaWarUpdate', { ...data, initiator: socket.username, ts: Date.now() });
+  });
+
+  // ── GANG WAR: DECLARE ─────────────────────────────────────────────────────
+  socket.on('gang:war:declare', async (data) => {
+    if (!data?.war || !checkEventRate(socket.id) || !isPayloadSafe(data)) return;
+    if (!socket.userId) return;
+    const war = data.war;
+    if (!war.id || !war.attackerId || !war.defenderId) return;
+    if (db.isReady()) await db.upsertGangWar(war).catch(() => {});
+    const wars = db.isReady() ? await db.getGangWars().catch(() => []) : [];
+    io.emit('gangWarUpdate', { wars, action: 'declare', war, ts: Date.now() });
     broadcastNotification(io, {
       id: `notif_war_${Date.now()}`,
-      type: 'war',
-      icon: '⚔️',
-      title: 'Savaş İlanı!',
-      msg: `${socket.username}: "${data.attackerName}" — "${data.defenderName}" savaşı başladı!`,
+      type: 'war', icon: '⚔️',
+      title: '⚔️ Çete Savaşı İlan Edildi!',
+      msg: `"${war.attackerName}" çetesi "${war.defenderName}" çetesine savaş ilan etti!`,
     });
-    // #19 Gang war log
+    logger.info(`[GangWar] declare: ${war.attackerName} → ${war.defenderName} by ${socket.username}`);
+  });
+
+  // ── GANG WAR: JOIN ────────────────────────────────────────────────────────
+  socket.on('gang:war:join', async (data) => {
+    if (!data?.warId || !data?.side || !checkEventRate(socket.id)) return;
+    if (!socket.userId) return;
     if (db.isReady()) {
-      db.query(
-        `INSERT INTO gang_war_logs (attacker_gang, defender_gang, attacker_user_id, action, damage_dealt, metadata)
-         VALUES ($1,$2,$3,'war_declaration',$4,$5)`,
-        [data.attackerName || '', data.defenderName || '', socket.userId || null,
-         data.damage || 0, JSON.stringify({ initiator: socket.username, ...data })]
-      ).catch(() => {});
+      const wars = await db.getGangWars().catch(() => []);
+      const war = wars.find(w => w.id === data.warId);
+      if (!war || war.status !== 'active') return;
+      const sideKey = data.side === 'attacker' ? 'attackerParticipants' : 'defenderParticipants';
+      const powerKey = data.side === 'attacker' ? 'attackerPower' : 'defenderPower';
+      if ([...(war.attackerParticipants||[]), ...(war.defenderParticipants||[])].includes(socket.userId)) return;
+      const weaponPower = (data.weaponPower || 0);
+      const updated = {
+        ...war,
+        [sideKey]: [...(war[sideKey]||[]), socket.userId],
+        [powerKey]: (war[powerKey]||0) + weaponPower + 50,
+      };
+      await db.upsertGangWar(updated).catch(() => {});
+      const allWars = await db.getGangWars().catch(() => []);
+      io.emit('gangWarUpdate', { wars: allWars, action: 'join', warId: data.warId, userId: socket.userId, ts: Date.now() });
     }
+    logger.debug(`[GangWar] join warId=${data.warId} side=${data.side} user=${socket.username}`);
+  });
+
+  // ── GANG WAR: RESOLVE ─────────────────────────────────────────────────────
+  socket.on('gang:war:resolve', async (data) => {
+    if (!data?.war || !checkEventRate(socket.id)) return;
+    if (!socket.userId) return;
+    const war = data.war;
+    if (!war.id || war.status !== 'resolved') return;
+    if (db.isReady()) {
+      await db.upsertGangWar(war).catch(() => {});
+      const wars = await db.getGangWars().catch(() => []);
+      io.emit('gangWarUpdate', { wars, action: 'resolve', war, ts: Date.now() });
+    }
+    if (war.winnerName) {
+      broadcastNotification(io, {
+        id: `notif_war_resolve_${Date.now()}`,
+        type: 'war', icon: '🏆',
+        title: '🏆 Çete Savaşı Bitti!',
+        msg: `"${war.winnerName}" savaşı kazandı!`,
+      });
+    }
+    logger.info(`[GangWar] resolve warId=${war.id} winner=${war.winnerName}`);
+  });
+
+  // ── POLICE STATE UPDATE ───────────────────────────────────────────────────
+  socket.on('police:update', async (data) => {
+    if (!data?.state || !checkEventRate(socket.id) || !isPayloadSafe(data)) return;
+    if (!socket.userId) return;
+    const state = data.state;
+    if (db.isReady()) await db.setPoliceState(state).catch(() => {});
+    io.emit('policeStateUpdate', { state, updatedBy: socket.username, ts: Date.now() });
+    logger.debug(`[Police] update officers=${state.officers} budget=${state.budget} by ${socket.username}`);
   });
 
   socket.on('gang:attackAsset', (data) => {

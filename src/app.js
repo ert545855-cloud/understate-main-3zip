@@ -961,6 +961,7 @@ function App() {
           if (Array.isArray(data.announcements)) _syncLs('announcements', data.announcements);
           if (data.cabinet)                      _syncLs('cabinet', data.cabinet);
           if (data.gangTerritories)              _syncLs('gangTerritories', data.gangTerritories);
+          if (Array.isArray(data.gangWars))      { setGangWars(data.gangWars); localStorage.setItem('rep_gangWars', JSON.stringify(data.gangWars)); }
           // Online oyuncular — bağlanınca anında güncel liste
           if (Array.isArray(data.onlinePlayers)) {
             setOnlinePlayers(data.onlinePlayers);
@@ -976,6 +977,31 @@ function App() {
         try {
           if (Array.isArray(data.gangs)) { _syncLs('gangs', data.gangs); setGangs(data.gangs); }
           if (data.action === 'create' && data.gang) showNotif(`${data.gang.type==='family'?'👨‍👩‍👧‍👦':'⚔️'} ${data.gang.name} kuruldu!`, 'info', data.gang.type==='family'?'👨‍👩‍👧‍👦':'⚔️');
+        } catch(e){}
+      });
+
+      // ── Çete Savaşları güncellemeleri ───────────────────────────
+      s.on('gangWarUpdate', (data) => {
+        try {
+          if (Array.isArray(data.wars)) {
+            setGangWars(data.wars);
+            localStorage.setItem('rep_gangWars', JSON.stringify(data.wars));
+          }
+          if (data.action === 'declare' && data.war) {
+            showNotif(`⚔️ ${data.war.attackerName} → ${data.war.defenderName} savaş ilan etti!`, 'info', '⚔️');
+            try { window._pushGameEvent?.('cete_savasi_ilani', `⚔️ Savaş İlanı!`, `${data.war.attackerName} → ${data.war.defenderName}`, '⚔️', 'çete'); } catch(e) {}
+          }
+          if (data.action === 'resolve' && data.war?.winnerName) {
+            showNotif(`🏆 ${data.war.winnerName} çete savaşını kazandı!`, 'success', '🏆');
+            try { window._pushGameEvent?.('cete_savasi_bitti', `🏆 Çete Savaşı Bitti!`, `${data.war.winnerName} kazandı!`, '🏆', 'çete'); } catch(e) {}
+          }
+        } catch(e){}
+      });
+
+      // ── Polis güncellemeleri ─────────────────────────────────────
+      s.on('policeStateUpdate', (data) => {
+        try {
+          if (data.state) localStorage.setItem('rep_policeState_server', JSON.stringify(data.state));
         } catch(e){}
       });
 

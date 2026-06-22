@@ -938,13 +938,16 @@ function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangW
     if (n<=0||n>100) { showNotif('1-100 arası bir sayı girin','error'); return; }
     const cost = n*POLICE_COST_PER;
     if (policeBudget < cost) { showNotif(`Yeterli polis bütçesi yok! (Gereken: ₺${cost.toLocaleString()})`, 'error'); return; }
-    setPoliceCount(p=>p+n);
+    const newCount = policeCount + n;
+    setPoliceCount(newCount);
     setPoliceBudget(p=>p-cost);
     const action = {id:genId(), type:'hire', count:n, cost, ts:Date.now(), by:profile?.username};
-    setPoliceActions(prev=>[action,...prev].slice(0,50));
+    const newActions = [action,...policeActions].slice(0,50);
+    setPoliceActions(newActions);
     setHireModal(false); setHireCount('');
     showNotif(`✅ ${n} polis memuru işe alındı! -₺${cost.toLocaleString()} bütçe`, 'success');
     try{window._pushGameEvent?.('polis_ise_alim','🚔 Polis İşe Alımı',`${n} yeni polis memuru göreve başladı.`,'🚔','devlet');}catch(e){}
+    try{window._socket?.emit('police:update',{state:{officers:newCount,budget:policeBudget-cost,operations:newActions}});}catch(e){}
   };
 
   const firePolice = (n) => {
@@ -960,12 +963,17 @@ function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangW
     if (!war||war.status!=='active') { showNotif('Bu savaş artık aktif değil','error'); return; }
     if (policeCount < n) { showNotif('Yeterli polis yok','error'); return; }
     const powBonus = n*3;
-    setGangWars(prev=>prev.map(w=>w.id===warId?{...w,policeBonus:(w.policeBonus||0)+powBonus}:w));
-    setPoliceCount(p=>Math.max(0,p-n));
+    const updatedWar = {...war, policeBonus:(war.policeBonus||0)+powBonus, policeDeployed:(war.policeDeployed||0)+n, defenderPower:(war.defenderPower||0)+powBonus};
+    setGangWars(prev=>prev.map(w=>w.id===warId ? updatedWar : w));
+    const newCount2 = Math.max(0, policeCount - n);
+    setPoliceCount(newCount2);
     const action = {id:genId(), type:'deploy_war', count:n, warId, powBonus, ts:Date.now(), by:profile?.username};
-    setPoliceActions(prev=>[action,...prev].slice(0,50));
+    const newActions2 = [action,...policeActions].slice(0,50);
+    setPoliceActions(newActions2);
     showNotif(`🚔 ${n} polis savaşa konuşlandırıldı! Savunmaya +${powBonus} güç katkısı`, 'success');
     try{window._pushGameEvent?.('polis_konuslanma','🚔 Polis Konuşlanması',`${n} polis savaşa müdahil oldu! Savunmaya +${powBonus} güç.`,'🚔','devlet');}catch(e){}
+    try{window._socket?.emit('gang:war:resolve',{war:{...updatedWar,status:'active'}});}catch(e){}
+    try{window._socket?.emit('police:update',{state:{officers:newCount2,budget:policeBudget,operations:newActions2}});}catch(e){}
   };
 
   const card = {background:'rgba(11,21,39,0.9)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'12px',padding:'0.85rem',marginBottom:'0.55rem'};
