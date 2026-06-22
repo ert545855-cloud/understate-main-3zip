@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('express-async-errors'); // async route handler'larında try/catch zorunluluğunu kaldırır — hatalar global error handler'a düşer
 
 // ── Fail-fast: kritik env var kontrolü ───────────────────────────────────────
 // jwt.js da kontrol eder, ama burada erken yakalayıp net hata veriyoruz.

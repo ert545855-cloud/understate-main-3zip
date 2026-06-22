@@ -1,0 +1,101 @@
+
+<style>
+.section { margin-bottom: 1.5rem; }
+.section-header {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 500; color: var(--color-text-secondary);
+  text-transform: uppercase; letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+  padding-bottom: 6px;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+}
+.issue-card {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 0.85rem 1rem;
+  margin-bottom: 0.5rem;
+}
+.issue-title { font-size: 14px; font-weight: 500; margin: 0 0 4px; color: var(--color-text-primary); }
+.issue-detail { font-size: 13px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; }
+.badge {
+  display: inline-block; font-size: 11px; font-weight: 500;
+  padding: 2px 8px; border-radius: 99px;
+  margin-right: 6px;
+}
+.badge-danger { background: #FCEBEB; color: #A32D2D; }
+.badge-warn { background: #FAEEDA; color: #854F0B; }
+.badge-info { background: #E6F1FB; color: #185FA5; }
+.file { font-family: var(--font-mono); font-size: 12px; background: var(--color-background-secondary); padding: 1px 5px; border-radius: 4px; }
+</style>
+
+<div class="section">
+  <div class="section-header">
+    <i class="ti ti-shield-x" aria-hidden="true"></i> Güvenlik açıkları (npm audit)
+  </div>
+
+  <div class="issue-card">
+    <p class="issue-title"><span class="badge badge-danger">Yüksek</span>nodemailer ≤ 9.0.0</p>
+    <p class="issue-detail">4 ayrı CVE: CRLF enjeksiyonu, TLS sertifika doğrulama atlatma, keyfi dosya okuma (SSRF) ve disableFileAccess bypass. <br><span class="file">npm audit fix</span> ile düzeltilebilir.</p>
+  </div>
+
+  <div class="issue-card">
+    <p class="issue-title"><span class="badge badge-danger">Yüksek</span>ws 8.0.0–8.20.1 (socket.io içinde)</p>
+    <p class="issue-detail">İki CVE: başlatılmamış bellek ifşası ve küçük parçalı paketlerle bellek tüketen DoS saldırısı. <span class="file">engine.io</span> ve <span class="file">socket.io-adapter</span> da etkileniyor. <span class="file">npm audit fix</span> ile düzeltilebilir.</p>
+  </div>
+
+  <div class="issue-card">
+    <p class="issue-title"><span class="badge badge-warn">Orta</span>multer 1.x ve tar ≤ 7.5.15</p>
+    <p class="issue-detail">Multer 1.x bilinen güvenlik açıkları içeriyor (2.x'e yükselt). tar'da PAX boyutu manipülasyonuyla dosya kaçakçılığı mümkün. Her ikisi de <span class="file">npm audit fix</span> ile düzeltilebilir.</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-header">
+    <i class="ti ti-bug" aria-hidden="true"></i> Sunucu route'larında eksik hata yönetimi
+  </div>
+
+  <div class="issue-card">
+    <p class="issue-title"><span class="badge badge-danger">Kritik</span>13 route dosyasında try/catch yok</p>
+    <p class="issue-detail">
+      <span class="file">parliament.js</span>, <span class="file">diplomacy.js</span>, <span class="file">friends.js</span>, <span class="file">security.js</span>, <span class="file">marketplace.js</span>, <span class="file">loans.js</span>, <span class="file">notifications.js</span>, <span class="file">events.js</span>, <span class="file">tax.js</span>, <span class="file">messages.js</span>, <span class="file">tfa.js</span>, <span class="file">sessions.js</span> — async handler içeriyor ama hiç try/catch yok. DB hatası Express'i çökertir.
+    </p>
+  </div>
+
+  <div class="issue-card">
+    <p class="issue-title"><span class="badge badge-warn">Orta</span>leaderboard.js: 11 async handler, yalnızca 2 try/catch</p>
+    <p class="issue-detail">Kısmi koruma var ama 9 handler hâlâ korumasız.</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-header">
+    <i class="ti ti-files" aria-hidden="true"></i> Kod yapısı sorunları
+  </div>
+
+  <div class="issue-card">
+    <p class="issue-title"><span class="badge badge-warn">Orta</span>src/app.js ve src/app.jsx — çift uygulama dosyası</p>
+    <p class="issue-detail"><span class="file">index.html</span> yalnızca <span class="file">src/app.js</span>'i yüklüyor (1531 satır). <span class="file">src/app.jsx</span> ise 28.673 satır içeriyor ama kullanılmıyor. Hangi sürümün geçerli olduğu belirsiz; karışıklığa ve bakım sorununa yol açar.</p>
+  </div>
+
+  <div class="issue-card">
+    <p class="issue-title"><span class="badge badge-info">Düşük</span>js/ dizininde birden fazla firebase dosyası</p>
+    <p class="issue-detail"><span class="file">firebase-init.js</span>, <span class="file">firebase-init-v5.js</span>, <span class="file">firebase-init-v6.js</span>, <span class="file">firebase-save.js</span>, <span class="file">firebase-save-v5.js</span>, <span class="file">firebase-save-v6.js</span>, <span class="file">firebase-realtime-v7.js</span> — hiçbiri index.html'de yüklenmiyor, temizlenebilir.</p>
+  </div>
+
+  <div class="issue-card">
+    <p class="issue-title"><span class="badge badge-info">Düşük</span>zipFile.zip proje kökünde (18 MB)</p>
+    <p class="issue-detail">Proje kökünde büyük bir zip dosyası duruyor ve <span class="file">.gitignore</span>'da hariç tutulmamış. Depoya commit edilmiş olabilir.</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-header">
+    <i class="ti ti-alert-triangle" aria-hidden="true"></i> Yapılandırma uyarısı
+  </div>
+
+  <div class="issue-card">
+    <p class="issue-title"><span class="badge badge-warn">Orta</span>ALLOWED_ORIGINS=* production'da açık bırakılırsa CORS bypass</p>
+    <p class="issue-detail"><span class="file">server/main.js</span> bu durumu zaten uyarıyor. .env.example'daki varsayılan değer placeholder olarak doğru, ancak gerçek ortamda wildcard kullanılmamalı.</p>
+  </div>
+</div>

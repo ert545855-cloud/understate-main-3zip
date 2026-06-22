@@ -71,5 +71,10 @@ android/app/google-services.json
 www/
 .capacitor/
 
+# Large generated/archive files
+*.zip
+*.tar.gz
+*.tar
+
 # Scripts
 scripts/*.sh
