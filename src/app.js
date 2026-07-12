@@ -1296,7 +1296,7 @@ function App() {
     <ThemeCtx.Provider value={themeVal}>
       {/* Responsive outer wrapper — max 480px on desktop, centered */}
       <div style={{position:'fixed',inset:0,display:'flex',alignItems:'stretch',justifyContent:'center',background: '#0C1017'}}>
-        <div style={{position:'relative',width:'100%',maxWidth:'480px',display:'flex',flexDirection:'column',overflow:'hidden',background: '#11151C',boxShadow:'0 0 60px rgba(0,0,0,0.3)'}}>
+        <div style={{position:'relative',width:'100%',maxWidth:'480px',display:'flex',flexDirection:'column',overflow:'hidden',background: '#11151C',boxShadow:'0 0 60px rgba(0,0,0,0.3)',transform:'translateZ(0)',isolation:'isolate'}}>
           <Header profile={profile} notifCount={notifCount} onNotif={()=>setNotifOpen(true)} page={page} onNavigate={setPage} />
 
           {/* Canlı Olaylar Ticker */}
@@ -1311,7 +1311,8 @@ function App() {
           )}
 
           {/* Main scrollable content */}
-          <div style={{flex:1,overflowY:'auto',WebkitOverflowScrolling:'touch',paddingBottom:'calc(70px + env(safe-area-inset-bottom, 0px))',background:pageBg}}>
+          <div style={{flex:1,overflowY:'auto',WebkitOverflowScrolling:'touch',paddingBottom:'calc(70px + env(safe-area-inset-bottom, 0px))',background:pageBg,position:'relative',contain:'layout style paint',isolation:'isolate'}}>
+          <div key={page} style={{minHeight:'100%'}}>
             {page==='home'         && <HomePage        {...pageProps} />}
             {page==='chat'         && <ChatPage        profile={profile} />}
             {page==='economy'      && <EconomyPage     {...pageProps} />}
@@ -1370,6 +1371,7 @@ function App() {
             {page==='economic_empire' && window.EconomicEmpireScreen && React.createElement(window.EconomicEmpireScreen, {cu:profile||{},setCurrentPage:setPage,families:(()=>{try{return JSON.parse(localStorage.getItem('rep_families')||'[]');}catch{return [];}})(),gangs:gangs,parties:parties,allUsers:onlinePlayers||[]})}
             {page==='family_center' && window.FamilyCenterScreen && React.createElement(window.FamilyCenterScreen, {cu:profile||{},setCurrentPage:setPage,families:(()=>{try{return JSON.parse(localStorage.getItem('rep_families')||'[]');}catch{return [];}})(),gangs:gangs,parties:parties,allUsers:onlinePlayers||[]})}
             {page==='protection_deals' && window.ProtectionDealsScreen && React.createElement(window.ProtectionDealsScreen, {cu:profile||{},setCurrentPage:setPage,gangs:gangs,families:(()=>{try{return JSON.parse(localStorage.getItem('rep_families')||'[]');}catch{return [];}})(),allUsers:onlinePlayers||[]})}
+          </div>
           </div>
 
           <BottomNav page={page} onChange={setPage} items={navItems} notifMap={{ chat: notifications.filter(n=>n.type==='message'&&Date.now()-n.ts<300000).length }} />
