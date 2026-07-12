@@ -31,14 +31,23 @@ async function migrate() {
     ssl: isLocal ? false : { rejectUnauthorized: false },
   });
 
-  const schemaPath = path.join(__dirname, '../migrations/schema.sql');
-  const sql = fs.readFileSync(schemaPath, 'utf8');
+  // Sırayla uygulanır: 001 (taban şema) → 002/003 (eklemeler/düzeltmeler).
+  // schema.sql güncel değil (002/003'ü içermiyor), bu yüzden numaralı
+  // migration dosyaları tek doğru kaynak olarak kullanılır. Hepsi
+  // "IF NOT EXISTS" kullandığından tekrar tekrar çalıştırmak güvenlidir.
+  const migrationsDir = path.join(__dirname, '../migrations');
+  const files = fs.readdirSync(migrationsDir)
+    .filter(f => /^\d+.*\.sql$/.test(f))
+    .sort();
 
   console.log('[Migrate] Bağlanılıyor...');
   const client = await pool.connect();
   try {
-    console.log('[Migrate] Schema uygulanıyor...');
-    await client.query(sql);
+    for (const file of files) {
+      console.log(`[Migrate] Uygulanıyor: ${file}`);
+      const sql = fs.readFileSync(path.join(migrationsDir, file), 'utf8');
+      await client.query(sql);
+    }
     console.log('[Migrate] ✅ Tüm tablolar oluşturuldu / güncellendi.');
   } finally {
     client.release();
