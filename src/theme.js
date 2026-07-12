@@ -1,27 +1,33 @@
 "use strict";
 // ═══════════════════════════════════════════════════════
-// UNDERSTATE DESIGN TOKENS — v9
-// Palette: #11151C bg · #1B212B surface · #C9A227 gold
-//          #EDE7DA text · #8893A1 muted · #4C9A6B success · #C24B43 error
+// UNDERSTATE DESIGN TOKENS — v10 "Mayor" (navy/gold dashboard)
+// Palette: #0C1330 bg · #16224A surface · #F0B33E gold
+//          #F2F5FA text · #7C88AA muted · #3ECF7A success · #EF5350 error
 // ═══════════════════════════════════════════════════════
 const DS = {
-  bg:         '#11151C',
-  surface:    '#1B212B',
-  surfaceUp:  '#232B37',
-  gold:       '#C9A227',
-  goldDim:    'rgba(201,162,39,0.12)',
-  goldBorder: 'rgba(201,162,39,0.28)',
-  text:       '#EDE7DA',
-  muted:      '#8893A1',
-  success:    '#4C9A6B',
-  successDim: 'rgba(76,154,107,0.12)',
-  error:      '#C24B43',
-  errorDim:   'rgba(194,75,67,0.12)',
-  border:     'rgba(237,231,218,0.08)',
-  borderMid:  'rgba(237,231,218,0.15)',
-  radius:     '10px',
-  radiusSm:   '8px',
-  radiusLg:   '14px',
+  bg:         '#0C1330',
+  bgDeep:     '#080D22',
+  surface:    '#16224A',
+  surfaceUp:  '#1D2E5C',
+  gold:       '#F0B33E',
+  goldDim:    'rgba(240,179,62,0.14)',
+  goldBorder: 'rgba(240,179,62,0.35)',
+  goldDark:   '#C98A1F',
+  goldLight:  '#FFD873',
+  text:       '#F2F5FA',
+  muted:      '#8896B8',
+  success:    '#3ECF7A',
+  successDim: 'rgba(62,207,122,0.14)',
+  error:      '#EF5350',
+  errorDim:   'rgba(239,83,80,0.16)',
+  violet:     '#8B6BF2',
+  violetDim:  'rgba(139,107,242,0.16)',
+  border:     'rgba(255,255,255,0.09)',
+  borderMid:  'rgba(255,255,255,0.18)',
+  radius:     '14px',
+  radiusSm:   '10px',
+  radiusLg:   '20px',
+  radiusPill: '999px',
   fontTitle:  "'Syne', sans-serif",
   fontUI:     "'Inter', sans-serif",
   fontNum:    "'JetBrains Mono', monospace",

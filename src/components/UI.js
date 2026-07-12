@@ -4,26 +4,26 @@
 // Note: React hooks from app.js global scope at call time
 // ═══════════════════════════════════════════════════════
 
-// LedgerValue — stat tile with 2px gold top border + mono number
+// LedgerValue — rounded pill capsule stat badge (Mayor HUD style)
 function LedgerValue({ value, label, prefix='₺', color, style={} }) {
-  var c = color || (window.DS && window.DS.gold) || '#C9A227';
+  var c = color || (window.DS && window.DS.gold) || '#F0B33E';
   return (
     <div style={{
-      background: (window.DS&&window.DS.surface)||'#1B212B',
-      border: '1px solid ' + ((window.DS&&window.DS.border)||'rgba(237,231,218,0.08)'),
-      borderRadius: (window.DS&&window.DS.radius)||'10px',
-      borderTop: '2px solid ' + c,
-      padding: '0.55rem 0.75rem',
+      background: 'rgba(255,255,255,0.05)',
+      border: '1.5px solid ' + c,
+      borderRadius: (window.DS&&window.DS.radiusPill)||'999px',
+      padding: '0.4rem 0.85rem',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       minWidth: 0,
+      boxShadow: '0 2px 10px rgba(0,0,0,0.25)',
       ...style
     }}>
       <div style={{
         fontFamily: "'JetBrains Mono', monospace",
         fontSize: '0.92rem',
-        fontWeight: 700,
+        fontWeight: 800,
         color: c,
         lineHeight: 1.2,
         letterSpacing: '-0.02em',
@@ -32,12 +32,12 @@ function LedgerValue({ value, label, prefix='₺', color, style={} }) {
       </div>
       {label && (
         <div style={{
-          fontSize: '0.57rem',
-          color: '#8893A1',
+          fontSize: '0.55rem',
+          color: '#8896B8',
           textTransform: 'uppercase',
           letterSpacing: '0.06em',
-          fontWeight: 600,
-          marginTop: '2px',
+          fontWeight: 700,
+          marginTop: '1px',
           fontFamily: "'Inter', sans-serif",
           textAlign: 'center',
         }}>
@@ -67,20 +67,20 @@ function PrimaryButton({ children, onClick, disabled=false, style={}, size='md' 
       onMouseDown={()=>!disabled&&setP(true)} onMouseUp={()=>setP(false)}
       onTouchStart={()=>!disabled&&setP(true)} onTouchEnd={()=>setP(false)}
       style={{
-        background: disabled ? 'rgba(201,162,39,0.18)' : p ? '#A07D1C' : h ? '#DEB12D' : '#C9A227',
-        color: disabled ? '#8893A1' : '#11151C',
-        border: '1.5px solid transparent',
-        borderRadius: '10px',
+        background: disabled ? 'rgba(240,179,62,0.18)' : p ? 'linear-gradient(180deg,#C98A1F,#B8790F)' : h ? 'linear-gradient(180deg,#FFD873,#F0B33E)' : 'linear-gradient(180deg,#FDCB5D,#F0B33E)',
+        color: disabled ? '#8896B8' : '#241505',
+        border: '1.5px solid rgba(255,255,255,0.25)',
+        borderRadius: (window.DS&&window.DS.radiusPill)||'999px',
         fontFamily: "'Inter', sans-serif",
-        fontWeight: 700,
+        fontWeight: 800,
         cursor: disabled ? 'not-allowed' : 'pointer',
         display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem',
         transition: 'all 0.14s ease',
-        boxShadow: p || disabled ? 'none' : h ? '0 4px 18px rgba(201,162,39,0.45)' : '0 2px 8px rgba(201,162,39,0.2)',
+        boxShadow: p || disabled ? 'none' : h ? '0 6px 22px rgba(240,179,62,0.55)' : '0 4px 16px rgba(240,179,62,0.35)',
         WebkitTapHighlightColor: 'transparent',
         outline: 'none', position: 'relative', overflow: 'hidden',
         transform: p ? 'scale(0.96)' : 'none',
-        letterSpacing: '0.01em',
+        letterSpacing: '0.02em',
         ...sizes[size] || sizes.md,
         ...style,
       }}
@@ -107,12 +107,12 @@ function SecondaryButton({ children, onClick, disabled=false, style={}, size='md
       onMouseDown={()=>!disabled&&setP(true)} onMouseUp={()=>setP(false)}
       onTouchStart={()=>!disabled&&setP(true)} onTouchEnd={()=>setP(false)}
       style={{
-        background: disabled ? 'transparent' : p ? 'rgba(237,231,218,0.1)' : h ? 'rgba(237,231,218,0.06)' : 'transparent',
-        color: disabled ? '#8893A1' : '#EDE7DA',
-        border: '1px solid ' + (h&&!disabled ? 'rgba(237,231,218,0.2)' : 'rgba(237,231,218,0.1)'),
-        borderRadius: '10px',
+        background: disabled ? 'transparent' : p ? 'rgba(255,255,255,0.12)' : h ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.04)',
+        color: disabled ? '#8896B8' : '#F2F5FA',
+        border: '1px solid ' + (h&&!disabled ? 'rgba(255,255,255,0.28)' : 'rgba(255,255,255,0.14)'),
+        borderRadius: (window.DS&&window.DS.radiusPill)||'999px',
         fontFamily: "'Inter', sans-serif",
-        fontWeight: 600,
+        fontWeight: 700,
         cursor: disabled ? 'not-allowed' : 'pointer',
         display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem',
         transition: 'all 0.14s ease',
@@ -133,9 +133,10 @@ function Card({ children, style={}, onClick }) {
     <div
       onClick={onClick}
       style={{
-        background: '#1B212B',
-        border: '1px solid rgba(237,231,218,0.08)',
-        borderRadius: '10px',
+        background: '#16224A',
+        border: '1.5px solid rgba(255,255,255,0.1)',
+        borderRadius: (window.DS&&window.DS.radiusLg)||'20px',
+        boxShadow: '0 4px 18px rgba(3,6,20,0.4)',
         ...style,
       }}
     >{children}</div>
@@ -145,20 +146,20 @@ window.Card = Card;
 
 // GoldDivider — thin horizontal separator
 function GoldDivider({ style={} }) {
-  return <div style={{height:'1px',background:'rgba(201,162,39,0.2)',margin:'0.75rem 0',...style}} />;
+  return <div style={{height:'1px',background:'rgba(240,179,62,0.25)',margin:'0.75rem 0',...style}} />;
 }
 window.GoldDivider = GoldDivider;
 
-// SectionTitle — Syne uppercase heading
+// SectionTitle — Syne uppercase heading (category label above a stat card)
 function SectionTitle({ children, style={} }) {
   return (
     <div style={{
       fontFamily:"'Syne',sans-serif",
       fontWeight:800,
-      fontSize:'0.82rem',
-      color:'#EDE7DA',
-      textTransform:'uppercase',
-      letterSpacing:'0.1em',
+      fontSize:'0.85rem',
+      color:'#F2F5FA',
+      textTransform:'none',
+      letterSpacing:'0.02em',
       ...style
     }}>{children}</div>
   );

@@ -524,10 +524,15 @@ function Spinner({ size=20 }) {
   return <div style={{width:size,height:size,border:'2.5px solid rgba(201,162,39,0.2)',borderTopColor:'#C9A227',borderRadius:'50%',animation:'spin 0.7s linear infinite'}} />;
 }
 
-function ProgressBar({ pct, color='#C9A227', h=6 }) {
+function ProgressBar({ pct, color='#F0B33E', h=6 }) {
+  const p = Math.max(0, Math.min(100, pct));
   return (
-    <div style={{background:'rgba(0,0,0,0.08)',borderRadius:'100px',height:h,overflow:'hidden'}}>
-      <div style={{height:'100%',width:`${Math.max(0,Math.min(100,pct))}%`,background:`linear-gradient(90deg,${color},${color}cc)`,borderRadius:'100px',transition:'width 0.5s ease'}} />
+    <div style={{background:'rgba(255,255,255,0.08)',borderRadius:'100px',height:Math.max(h,10),overflow:'hidden',border:'1px solid rgba(255,255,255,0.1)',boxShadow:'inset 0 1px 3px rgba(0,0,0,0.35)'}}>
+      <div style={{
+        height:'100%',width:`${p}%`,borderRadius:'100px',transition:'width 0.5s ease',
+        background:`repeating-linear-gradient(-45deg, ${color}, ${color} 6px, ${color}cc 6px, ${color}cc 12px)`,
+        boxShadow:`0 0 8px ${color}88`,
+      }} />
     </div>
   );
 }
