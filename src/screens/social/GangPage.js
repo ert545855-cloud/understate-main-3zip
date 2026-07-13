@@ -1,8 +1,10 @@
 // ═══════════════════════════════════════════════════════
 // ÇETE / AİLE SAYFASI
 // ═══════════════════════════════════════════════════════
-function GangPage({ profile, setProfile, showNotif, typeFilter, gangWars, setGangWars }) {
-  const [gangs, setGangs] = useLs('gangs', []);
+function GangPage({ profile, setProfile, showNotif, typeFilter, gangWars, setGangWars, gangs, setGangs }) {
+  // NOT: gangs/setGangs artık app.js'deki merkezi (socket ile senkron) state'ten prop olarak geliyor.
+  // Önceden burada ayrı bir useLs('gangs', []) kullanılıyordu; bu, kurulan çete/ailenin
+  // sunucudan gelen güncellemelerle senkron kalmamasına ve "kurunca ekranda gözükmüyor" hatasına yol açıyordu.
   const [sub, setSub] = useState('gangs');
   const [createModal, setCreateModal] = useState(false);
   const [gForm, setGForm] = useState({ name:'', type:'gang', desc:'' });

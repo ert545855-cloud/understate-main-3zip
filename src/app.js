@@ -1283,7 +1283,7 @@ function App() {
   const notifCount = notifications.filter(n => Date.now()-n.ts < 300000).length;
 
   const isAdmin = profile?.role === 'admin' || profile?.isAdmin === true || profile?.email === 'admin@understate.tr';
-  const pageProps = { profile, setProfile, showNotif, onNavigate: setPage, gangWars, setGangWars };
+  const pageProps = { profile, setProfile, showNotif, onNavigate: setPage, gangWars, setGangWars, gangs, setGangs, parties, setParties };
   const navItems = isAdmin
     ? [...NAV_ITEMS, { id:'admin', icon:'⚙️', label:'Admin', rgb:'239,68,68' }]
     : (NAV_ITEMS || []);

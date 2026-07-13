@@ -20,3 +20,5 @@
 - [Police Ministry](police-ministry.md) — PoliceMinistryPage in DevletScreen.js; rep_policeCount / rep_policeBudget; page route police_ministry; police confer +3 defense per officer in gang wars.
 - [Live News Feed](live-news.md) — NewspaperPage 🔴 Canlı tab reads rep_gameEvents (set by window._pushGameEvent); auto-refreshes every 5s.
 - [DB schema drift vs code](db-schema-drift.md) — migrations 001/002 missing many columns/tables actual routes query; caused register/login/bank/2FA/etc failures. See 003 migration.
+- [Duplicate local state bug pattern](duplicate-local-state.md) — screens using their own useLs('gangs'/'parties',[]) instead of app.js top-level synced state silently desync from server broadcasts.
+- [Route error-handling convention](route-async-handler.md) — server/middleware/asyncHandler.js wraps async route handlers lacking inline try/catch; forwards errors to global Express error middleware.

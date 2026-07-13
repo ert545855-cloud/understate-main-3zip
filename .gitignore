@@ -78,3 +78,6 @@ www/
 
 # Scripts
 scripts/*.sh
+
+# Large/unused artifacts
+zipFile.zip

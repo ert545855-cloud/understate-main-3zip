@@ -1,5 +1,7 @@
-function PoliticsPage({ profile, setProfile, showNotif }) {
-  const [parties, setParties] = useLs('parties', []);
+function PoliticsPage({ profile, setProfile, showNotif, parties, setParties }) {
+  // NOT: parties/setParties artık app.js'deki merkezi (socket ile senkron) state'ten prop olarak geliyor.
+  // Önceden burada ayrı bir useLs('parties', []) kullanılıyordu; bu, kurulan partinin sunucudan
+  // gelen güncellemelerle senkron kalmamasına ve "kurunca ekranda gözükmüyor" hatasına yol açıyordu.
   const [laws, setLaws] = useLs('laws', []);
   const [elections, setElections] = useLs('elections', {
     phase:'idle', nextElection:Date.now()+7*24*60*60*1000, candidates:[], votes:{}, results:null

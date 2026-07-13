@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { asyncHandler } = require('../middleware/asyncHandler');
 const { getLeaderboard } = require('../services/leaderboardService');
 const monitoring = require('../services/monitoringService');
 const roomManager = require('../rooms/roomManager');
@@ -9,17 +10,17 @@ const db = require('../services/dbService');
 const VALID_TYPES = ['level', 'money', 'bank', 'score', 'gang'];
 
 // Tekli tip sorgulama
-router.get('/', async (req, res) => {
+router.get('/', asyncHandler(async (req, res) => {
   const type = VALID_TYPES.includes(req.query.type) ? req.query.type : 'level';
   const result = await getLeaderboard(type);
   res.json(result);
-});
+}));
 
 // /top alias → /all ile aynı
 router.get('/top', async (req, res, next) => { req.url = '/all'; next(); });
 
 // Tüm kategorileri tek sorguda döner (UI için kullanışlı)
-router.get('/all', async (req, res) => {
+router.get('/all', asyncHandler(async (req, res) => {
   try {
     const results = await Promise.all(VALID_TYPES.map(t => getLeaderboard(t)));
     const combined = {};
@@ -28,7 +29,7 @@ router.get('/all', async (req, res) => {
   } catch (err) {
     res.status(500).json({ success: false, message: 'Hata' });
   }
-});
+}));
 
 // Online istatistikler
 router.get('/online', (req, res) => {
@@ -47,7 +48,7 @@ router.get('/online', (req, res) => {
 // ── Extended leaderboards ────────────────────────────────────────────────────
 
 // En yüksek kredi skoru
-router.get('/extended/credit', async (req, res) => {
+router.get('/extended/credit', asyncHandler(async (req, res) => {
   if (!db.isReady()) return res.json({ success: false, data: [] });
   const limit = Math.min(parseInt(req.query.limit) || 50, 100);
   const { rows } = await db.query(
@@ -58,10 +59,10 @@ router.get('/extended/credit', async (req, res) => {
     [limit]
   ).catch(() => ({ rows: [] }));
   res.json({ success: true, type: 'credit', data: rows });
-});
+}));
 
 // En çok streak yapan oyuncular
-router.get('/extended/streak', async (req, res) => {
+router.get('/extended/streak', asyncHandler(async (req, res) => {
   if (!db.isReady()) return res.json({ success: false, data: [] });
   const limit = Math.min(parseInt(req.query.limit) || 50, 100);
   const { rows } = await db.query(
@@ -74,10 +75,10 @@ router.get('/extended/streak', async (req, res) => {
     [limit]
   ).catch(() => ({ rows: [] }));
   res.json({ success: true, type: 'streak', data: rows });
-});
+}));
 
 // En çok marketplace işlemi yapan oyuncular
-router.get('/extended/traders', async (req, res) => {
+router.get('/extended/traders', asyncHandler(async (req, res) => {
   if (!db.isReady()) return res.json({ success: false, data: [] });
   const limit = Math.min(parseInt(req.query.limit) || 50, 100);
   const { rows } = await db.query(
@@ -92,10 +93,10 @@ router.get('/extended/traders', async (req, res) => {
     [limit]
   ).catch(() => ({ rows: [] }));
   res.json({ success: true, type: 'traders', data: rows });
-});
+}));
 
 // En çok transfer yapan oyuncular
-router.get('/extended/transfers', async (req, res) => {
+router.get('/extended/transfers', asyncHandler(async (req, res) => {
   if (!db.isReady()) return res.json({ success: false, data: [] });
   const limit = Math.min(parseInt(req.query.limit) || 50, 100);
   const { rows } = await db.query(
@@ -110,10 +111,10 @@ router.get('/extended/transfers', async (req, res) => {
     [limit]
   ).catch(() => ({ rows: [] }));
   res.json({ success: true, type: 'transfers', data: rows });
-});
+}));
 
 // En güçlü portföy (son snapshot'a göre)
-router.get('/extended/portfolio', async (req, res) => {
+router.get('/extended/portfolio', asyncHandler(async (req, res) => {
   if (!db.isReady()) return res.json({ success: false, data: [] });
   const limit = Math.min(parseInt(req.query.limit) || 50, 100);
   const { rows } = await db.query(
@@ -130,10 +131,10 @@ router.get('/extended/portfolio', async (req, res) => {
     return { rows: r.rows.slice(0, limit) };
   }).catch(() => ({ rows: [] }));
   res.json({ success: true, type: 'portfolio', data: rows });
-});
+}));
 
 // En iyi kredi ödeyenler (tam ödenmiş kredi sayısı)
-router.get('/extended/loans', async (req, res) => {
+router.get('/extended/loans', asyncHandler(async (req, res) => {
   if (!db.isReady()) return res.json({ success: false, data: [] });
   const limit = Math.min(parseInt(req.query.limit) || 50, 100);
   const { rows } = await db.query(
@@ -150,10 +151,10 @@ router.get('/extended/loans', async (req, res) => {
     [limit]
   ).catch(() => ({ rows: [] }));
   res.json({ success: true, type: 'loans', data: rows });
-});
+}));
 
 // En aktif arkadaş networkleri
-router.get('/extended/social', async (req, res) => {
+router.get('/extended/social', asyncHandler(async (req, res) => {
   if (!db.isReady()) return res.json({ success: false, data: [] });
   const limit = Math.min(parseInt(req.query.limit) || 50, 100);
   const { rows } = await db.query(
@@ -168,10 +169,10 @@ router.get('/extended/social', async (req, res) => {
     [limit]
   ).catch(() => ({ rows: [] }));
   res.json({ success: true, type: 'social', data: rows });
-});
+}));
 
 // Tüm extended kategoriler tek sorguda
-router.get('/extended', async (req, res) => {
+router.get('/extended', asyncHandler(async (req, res) => {
   if (!db.isReady()) return res.json({ success: false, data: {} });
   const limit = 10;
   try {
@@ -197,6 +198,6 @@ router.get('/extended', async (req, res) => {
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
-});
+}));
 
 module.exports = router;
