@@ -1,7 +1,5 @@
-function PoliticsPage({ profile, setProfile, showNotif, parties, setParties }) {
-  // NOT: parties/setParties artık app.js'deki merkezi (socket ile senkron) state'ten prop olarak geliyor.
-  // Önceden burada ayrı bir useLs('parties', []) kullanılıyordu; bu, kurulan partinin sunucudan
-  // gelen güncellemelerle senkron kalmamasına ve "kurunca ekranda gözükmüyor" hatasına yol açıyordu.
+function PoliticsPage({ profile, setProfile, showNotif }) {
+  const [parties, setParties] = useLs('parties', []);
   const [laws, setLaws] = useLs('laws', []);
   const [elections, setElections] = useLs('elections', {
     phase:'idle', nextElection:Date.now()+7*24*60*60*1000, candidates:[], votes:{}, results:null
@@ -49,17 +47,28 @@ function PoliticsPage({ profile, setProfile, showNotif, parties, setParties }) {
     const eduDiploma = profile?.education?.diploma || profile?.diplomaLevel || 'ilkokul';
     const eduCycles = profile?.education?.educationCycles || 0;
     const eduOrder = ['ilkokul','ortaokul','lise','universite','yukseklisans','doktora','profesor'];
-    const hasIlkokul = eduOrder.indexOf(eduDiploma) >= eduOrder.indexOf('ilkokul');
-    if (!hasIlkokul) { showNotif('Parti başkanı olmak için İlkokul diploması gerekli', 'error'); return; }
+    const hasUniversite = eduOrder.indexOf(eduDiploma) >= eduOrder.indexOf('universite');
+    if (!hasUniversite) { showNotif('Parti başkanı olmak için Üniversite diploması gerekli', 'error'); return; }
     const party = {
       id:genId(), name:pForm.name.trim(), ideology:pForm.ideology, desc:pForm.desc,
       color:pForm.color, leaderId:profile?.uid, leaderName:profile?.username,
       members:[profile?.uid], memberCount:1, treasury:0,
       support:5+Math.floor(Math.random()*10), createdAt:Date.now()
     };
-    setParties(prev => { const next=[...prev, party]; try{window._socket?.emit('party:create',{party});window._socket?.emit('party:sync',{parties:next});}catch(e){}; return next; });
+    setParties(prev => [...prev, party]);
     setProfile(p => { const np={...p,party:party.id,money:(p.money||0)-PARTY_CREATE_COST}; localStorage.setItem('rep_userProfile',JSON.stringify(np)); return np; });
     setCreateModal(false);
+    try {
+      window._socket?.emit('party:create', { party });
+      // Sunucu DB'ye yazamazsa optimistic eklenen partiyi + harcanan parayı geri al —
+      // aksi halde "kuruldu görünüp sonra kayboluyor" hissi oluşuyordu.
+      window._socket?.once('party:createError', (err) => {
+        if (err?.partyId !== party.id) return;
+        setParties(prev => prev.filter(p => p.id !== party.id));
+        setProfile(p => { const np={...p,party:null,money:(p.money||0)+PARTY_CREATE_COST}; localStorage.setItem('rep_userProfile',JSON.stringify(np)); return np; });
+        showNotif('Parti kurulamadı — sunucuya kaydedilemedi, tekrar deneyin.', 'error');
+      });
+    } catch(e){}
     showNotif(`🏛️ ${pForm.name} partisi kuruldu!`, 'success');
     try { window._pushGameEvent?.('parti_kuruldu', `🏛️ ${party.name} partisi kuruldu!`, `${profile?.username||'Bir oyuncu'} "${party.name}" partisini ${party.ideology} ideolojisiyle kurdu.`, '🏛️', 'parti'); } catch(e){}
   };
@@ -874,7 +883,7 @@ function PoliticsPage({ profile, setProfile, showNotif, parties, setParties }) {
             </div>
           </div>
           <div style={{background:'rgba(201,162,39,0.06)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'10px',padding:'0.65rem',fontSize:'0.78rem',color:'#C9A227',marginBottom:'1rem'}}>
-            💡 Parti kurmak için ₺100.000 gerektirir (İlkokul mezunu herkes kurabilir). Bakiye: {fmtWord(profile?.money||0)}
+            💡 Parti kurmak için ₺100.000 ve Üniversite diploması gerektirir. Bakiye: {fmtWord(profile?.money||0)}
           </div>
           <Btn variant='primary' size='full' onClick={createParty}>🏛️ Partiyi Kur</Btn>
         </Modal>

@@ -285,14 +285,21 @@ async function getGangs() {
       createdAt: r.created_at ? new Date(r.created_at).getTime() : Date.now(),
       updatedAt: r.updated_at ? new Date(r.updated_at).getTime() : Date.now(),
     }));
-  } catch (err) { logger.warn('[DB] getGangs:', err.message); return []; }
+  } catch (err) {
+    logger.warn('[DB] getGangs:', err.message);
+    throw err; // Çağıran taraf "hata" ile "gerçekten boş" durumunu ayırt edebilsin
+  }
 }
 
 async function setGangs(gangs) {
   if (!Array.isArray(gangs)) return false;
   try {
-    for (const gang of gangs) await upsertGang(gang);
-    return true;
+    let allOk = true;
+    for (const gang of gangs) {
+      const ok = await upsertGang(gang);
+      if (!ok) allOk = false;
+    }
+    return allOk;
   } catch (err) { logger.warn('[DB] setGangs:', err.message); return false; }
 }
 
@@ -344,14 +351,21 @@ async function getParties() {
       createdAt: r.created_at ? new Date(r.created_at).getTime() : Date.now(),
       updatedAt: r.updated_at ? new Date(r.updated_at).getTime() : Date.now(),
     }));
-  } catch (err) { logger.warn('[DB] getParties:', err.message); return []; }
+  } catch (err) {
+    logger.warn('[DB] getParties:', err.message);
+    throw err; // Çağıran taraf "hata" ile "gerçekten boş" durumunu ayırt edebilsin
+  }
 }
 
 async function setParties(parties) {
   if (!Array.isArray(parties)) return false;
   try {
-    for (const party of parties) await upsertParty(party);
-    return true;
+    let allOk = true;
+    for (const party of parties) {
+      const ok = await upsertParty(party);
+      if (!ok) allOk = false;
+    }
+    return allOk;
   } catch (err) { logger.warn('[DB] setParties:', err.message); return false; }
 }
 
@@ -575,80 +589,6 @@ async function getUserCount() {
   } catch { return 0; }
 }
 
-// ── GANG WARS ─────────────────────────────────────────────────────────────────
-async function getGangWars() {
-  try {
-    const { rows } = await query('SELECT * FROM gang_wars ORDER BY created_at DESC LIMIT 100');
-    return rows.map(r => ({
-      id: r.id,
-      attackerId: r.attacker_id, attackerName: r.attacker_name,
-      defenderId: r.defender_id, defenderName: r.defender_name,
-      attackerPower: r.attacker_power || 0, defenderPower: r.defender_power || 0,
-      attackerParticipants: r.attacker_participants || [],
-      defenderParticipants: r.defender_participants || [],
-      policeDeployed: r.police_deployed || 0,
-      status: r.status || 'active',
-      winnerId: r.winner_id || null, winnerName: r.winner_name || null,
-      prize: r.prize || {},
-      startedAt: r.started_at ? Number(r.started_at) : null,
-      endsAt: r.ends_at ? Number(r.ends_at) : null,
-      resolvedAt: r.resolved_at ? Number(r.resolved_at) : null,
-    }));
-  } catch (err) { logger.warn('[DB] getGangWars:', err.message); return []; }
-}
-
-async function upsertGangWar(war) {
-  if (!war?.id) return false;
-  try {
-    await query(
-      `INSERT INTO gang_wars (id, attacker_id, attacker_name, defender_id, defender_name,
-        attacker_power, defender_power, attacker_participants, defender_participants,
-        police_deployed, status, winner_id, winner_name, prize, started_at, ends_at, resolved_at, updated_at)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,NOW())
-       ON CONFLICT (id) DO UPDATE SET
-         attacker_power=EXCLUDED.attacker_power, defender_power=EXCLUDED.defender_power,
-         attacker_participants=EXCLUDED.attacker_participants,
-         defender_participants=EXCLUDED.defender_participants,
-         police_deployed=EXCLUDED.police_deployed,
-         status=EXCLUDED.status, winner_id=EXCLUDED.winner_id, winner_name=EXCLUDED.winner_name,
-         prize=EXCLUDED.prize, resolved_at=EXCLUDED.resolved_at, updated_at=NOW()`,
-      [war.id, war.attackerId, war.attackerName, war.defenderId, war.defenderName,
-       war.attackerPower||0, war.defenderPower||0,
-       JSON.stringify(war.attackerParticipants||[]),
-       JSON.stringify(war.defenderParticipants||[]),
-       war.policeDeployed||0,
-       war.status||'active', war.winnerId||null, war.winnerName||null,
-       JSON.stringify(war.prize||{}),
-       war.startedAt||null, war.endsAt||null, war.resolvedAt||null]
-    );
-    return true;
-  } catch (err) { logger.warn('[DB] upsertGangWar:', err.message); return false; }
-}
-
-// ── POLICE STATE ──────────────────────────────────────────────────────────────
-async function getPoliceState() {
-  try {
-    const { rows } = await query('SELECT * FROM police_state WHERE id=1 LIMIT 1');
-    if (!rows.length) return { officers: 0, budget: 0, operations: [] };
-    const r = rows[0];
-    return { officers: r.officer_count||0, budget: Number(r.budget)||0, operations: r.operations||[] };
-  } catch (err) { logger.warn('[DB] getPoliceState:', err.message); return { officers:0, budget:0, operations:[] }; }
-}
-
-async function setPoliceState(state) {
-  try {
-    await query(
-      `INSERT INTO police_state (id, officer_count, budget, operations, updated_at)
-       VALUES (1,$1,$2,$3,NOW())
-       ON CONFLICT (id) DO UPDATE SET
-         officer_count=EXCLUDED.officer_count, budget=EXCLUDED.budget,
-         operations=EXCLUDED.operations, updated_at=NOW()`,
-      [state.officers||0, state.budget||0, JSON.stringify(state.operations||[])]
-    );
-    return true;
-  } catch (err) { logger.warn('[DB] setPoliceState:', err.message); return false; }
-}
-
 module.exports = {
   isReady, markConnected, query, pool,
   // Users
@@ -682,10 +622,6 @@ module.exports = {
   getGangTerritories, setGangTerritories,
   // User game data
   saveUserGameData,
-  // Gang Wars
-  getGangWars, upsertGangWar,
-  // Police State
-  getPoliceState, setPoliceState,
   // Admin
   getAllUsers, getUserCount,
   SUPABASE_URL: '',
