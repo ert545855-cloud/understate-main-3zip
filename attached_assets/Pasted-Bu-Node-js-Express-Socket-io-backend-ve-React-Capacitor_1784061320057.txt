@@ -1,0 +1,44 @@
+Bu Node.js/Express + Socket.io backend ve React/Capacitor frontend projesinde şu hataları teşhis edip düzelt:
+
+BAĞLAM:
+- server/services/supabaseService.js  → sadece auth (kayıt/giriş) için, SUPABASE_URL/SUPABASE_ANON_KEY kullanıyor
+- server/services/dbService.js + server/database/connection.js → tüm oyun verisi (parti, çete, aile, ekonomi vb.) için, DATABASE_URL kullanıyor
+- server/socket/gameHandler.js → party:create, gang:create, party:sync, gang:sync gibi event handler'lar burada
+
+SORUN 1 — Kurulan parti/aile/çete birkaç saniye sonra kayboluyor:
+- gameHandler.js içindeki 'party:create' ve 'gang:create' handler'larında, db.isReady() false ise
+  (DATABASE_URL bağlı değilse) veri hiç kaydedilmiyor, ardından db.getParties()/getGangs() boş dizi
+  dönüyor ve bu boş dizi io.emit('partyUpdate'/'gangUpdate') ile TÜM istemcilere broadcast ediliyor,
+  bu da istemcideki optimistic (yerel) eklenen kaydı siliyor.
+- Bunu düzelt: db.isReady() false ise ya (a) işlemi tamamen reddet ve istemciye açık bir hata event'i
+  gönder (ör. socket.emit('party:createError', {reason:'db_not_ready'})), ya da (b) in-memory fallback
+  store kullan (server/socket/onlineStore.js var, oraya bak) ve gerçek DB'ye yazılana kadar veriyi
+  bellekte tut, ASLA boş diziyi broadcast ederek mevcut state'i ezme.
+- Tüm .catch(() => {}) bloklarını logger.error ile logla ve mümkünse ilgili socket'e hata event'i gönder;
+  sessizce yutma.
+
+SORUN 2 — Hesap açılıyor ama sonraki işlemler hata veriyor:
+- Auth (supabaseService/SUPABASE_URL) ile oyun verisi (dbService/DATABASE_URL) FARKLI veritabanı
+  bağlantıları kullanıyor. Ortam değişkenlerini kontrol et: DATABASE_URL tanımlı mı, gerçekten
+  bağlanabiliyor mu (server/database/connection.js içindeki connectDB() log çıktısına bak).
+- Ya iki backend'i tek bir veritabanına (tercihen Supabase/Postgres tek bağlantı) birleştir, ya da
+  DATABASE_URL'i doğru şekilde ayarlayıp iki servisin de aynı veritabanına yazdığını doğrula.
+- Sunucu başlangıcında DB bağlantısı başarısızsa bunu sadece log'a değil, istemciye de
+  'dbStatus: error' event'i geldiğinde kullanıcıya görünür bir uyarı/banner göster
+  (App.js / socketClient.js tarafında bu event zaten dinleniyor mu kontrol et, yoksa ekle).
+
+SORUN 3 — Alt navigasyon çubuğu parti/aile/çete kurma alanlarını kısıtlıyor, ekrana sığmıyor:
+- css/styles.css içindeki .modal, .modal-overlay, .bottom-nav, .mobile-bottom-nav kurallarını incele.
+- Parti/Aile/Çete kurma modalinin z-index'i .bottom-nav'ın z-index'inden düşük olabilir ya da
+  modal max-height: 90dvh alt navigasyon yüksekliğini hesaba katmıyor olabilir.
+- PartyCenterScreen.js, FamilyCenterScreen.js ve GangPage.js içindeki kurma formu/modal wrapper'larını
+  bulup, safe-area / bottom-nav yüksekliği kadar padding-bottom eklendiğinden ve
+  modal-overlay'in bottom-nav'ın ÜZERİNDE (daha yüksek z-index'te) render edildiğinden emin ol.
+
+TEST:
+- DATABASE_URL'i geçici olarak kaldırıp sunucuyu başlat, parti/çete oluşturmayı dene; artık ya
+  net bir hata mesajı gösterilmeli ya da veri kaybolmadan bellek fallback'inde kalmalı — sessizce
+  kaybolmamalı.
+- Sonra DATABASE_URL'i doğru değerle geri koyup aynı testi tekrar yap, veri kalıcı olmalı.
+
+Her düzeltmeyi ayrı ayrı özetle, hangi dosyada ne değiştirdiğini belirt.

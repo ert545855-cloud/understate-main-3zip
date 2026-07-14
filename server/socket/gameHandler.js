@@ -342,8 +342,17 @@ function registerGameHandlers(io, socket) {
   socket.on('gang:create', async (data) => {
     if (!data || !checkEventRate(socket.id)) return;
     if (!socket.userId || !data.gang?.id) return;
-    if (db.isReady()) await db.upsertGang(data.gang).catch(() => {});
-    const gangs = db.isReady() ? await db.getGangs().catch(() => []) : [];
+    if (!db.isReady()) {
+      logger.error(`[Gang] create failed — DB not ready (user: ${socket.username})`);
+      socket.emit('gang:createError', { reason: 'db_not_ready', msg: 'Veritabanı bağlantısı hazır değil, lütfen tekrar deneyin.' });
+      return;
+    }
+    await db.upsertGang(data.gang).catch(e => logger.error('[Gang] upsertGang failed:', e));
+    const gangs = await db.getGangs().catch(e => { logger.error('[Gang] getGangs failed:', e); return null; });
+    if (gangs === null) {
+      socket.emit('gang:createError', { reason: 'db_read_error', msg: 'Çete kaydedildi ama liste alınamadı.' });
+      return;
+    }
     io.emit('gangUpdate', { gangs, action: 'create', gang: data.gang, ts: Date.now() });
     // Legacy gameAction relay (client listens for newGang type)
     io.emit('gameAction', { type: 'newGang', username: socket.username, payload: data.gang.name, ts: Date.now() });
@@ -581,8 +590,17 @@ function registerGameHandlers(io, socket) {
   socket.on('party:create', async (data) => {
     if (!data || !checkEventRate(socket.id)) return;
     if (!socket.userId || !data.party?.id) return;
-    if (db.isReady()) await db.upsertParty(data.party).catch(() => {});
-    const parties = db.isReady() ? await db.getParties().catch(() => []) : [];
+    if (!db.isReady()) {
+      logger.error(`[Party] create failed — DB not ready (user: ${socket.username})`);
+      socket.emit('party:createError', { reason: 'db_not_ready', msg: 'Veritabanı bağlantısı hazır değil, lütfen tekrar deneyin.' });
+      return;
+    }
+    await db.upsertParty(data.party).catch(e => logger.error('[Party] upsertParty failed:', e));
+    const parties = await db.getParties().catch(e => { logger.error('[Party] getParties failed:', e); return null; });
+    if (parties === null) {
+      socket.emit('party:createError', { reason: 'db_read_error', msg: 'Parti kaydedildi ama liste alınamadı.' });
+      return;
+    }
     io.emit('partyUpdate', { parties, action: 'create', party: data.party, ts: Date.now() });
     // Legacy gameAction relay (client listens for newParty type)
     io.emit('gameAction', { type: 'newParty', username: socket.username, payload: data.party.name, ts: Date.now() });
