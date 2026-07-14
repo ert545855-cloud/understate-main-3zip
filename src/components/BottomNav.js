@@ -4,7 +4,6 @@
 // Palette: bg=#11151C  surface=#1B212B  gold=#C9A227
 // Active: gold pill  Inactive: muted #6B7687
 // ═══════════════════════════════════════════════════════
-const { useState: useStateNav } = React;
 
 const NAV_GROUPS = [
   { id:'home', icon:'🏠', svgIcon:'home', label:'Ana Sayfa', rgb:'201,162,39', direct:true },
@@ -32,14 +31,14 @@ const NAV_GROUPS = [
       { id:'army',             icon:'⚔️', svgIcon:'sword',   label:'Ordu',        rgb:'194,75,67'  },
       { id:'pvp',              icon:'🥊', svgIcon:'weapon',  label:'Dövüş',       rgb:'194,75,67'  },
       { id:'gang',             icon:'🔫', svgIcon:'weapon',  label:'Çete',        rgb:'194,75,67'  },
-      { id:'family',           icon:'👨‍👩‍👧‍👦', svgIcon:'users',  label:'Aile',        rgb:'201,162,39' },
+      { id:'family',           icon:'👨‍👩‍👧‍👦', svgIcon:'users', label:'Aile',        rgb:'201,162,39' },
       { id:'tournament',       icon:'🎯', svgIcon:'trophy',  label:'Turnuva',     rgb:'194,75,67'  },
       { id:'crisis',           icon:'🚨', svgIcon:'shield',  label:'Kriz',        rgb:'194,75,67'  },
       { id:'army_system',      icon:'🪖', svgIcon:'shield',  label:'Genelkurmay', rgb:'194,75,67'  },
       { id:'independent_army', icon:'🪖', svgIcon:'sword',   label:'Ordu Sistemi',rgb:'194,75,67'  },
       { id:'protection_deals', icon:'🛡️', svgIcon:'shield',  label:'Koruma',      rgb:'194,75,67'  },
       { id:'gang_treasury',    icon:'💰', svgIcon:'bank',    label:'Çete Kasası', rgb:'194,75,67'  },
-      { id:'crime',            icon:'⚖️', svgIcon:'law',    label:'Mahkeme',     rgb:'194,75,67'  },
+      { id:'crime',            icon:'⚖️', svgIcon:'law',     label:'Mahkeme',     rgb:'194,75,67'  },
     ],
   },
   {
@@ -86,19 +85,16 @@ const NAV_GROUP_TKEYS = { home:'home', ekonomi:'economy', savas:'battle', devlet
 const NAV_ITEMS = NAV_GROUPS.flatMap(g => g.direct ? [{ id:g.id, icon:g.icon, label:g.label, rgb:g.rgb }] : (g.items||[]));
 window.NAV_ITEMS = NAV_ITEMS;
 
-// ── Design tokens ──────────────────────────────────────
+// ── Design tokens (namespaced to avoid global clashes) ──
 const BN_DS = {
-  bg:       'rgba(11, 15, 22, 0.97)',
-  surface:  '#1B212B',
-  border:   'rgba(201,162,39,0.18)',
-  gold:     '#C9A227',
-  goldDim:  'rgba(201,162,39,0.12)',
-  goldGlow: 'rgba(201,162,39,0.55)',
-  muted:    '#6B7687',
-  text:     '#EDE7DA',
-  red:      'rgb(194,75,67)',
-  navH:     68,
-  radius:   22,
+  bg:      'rgba(11, 15, 22, 0.97)',
+  surface: '#1B212B',
+  border:  'rgba(201,162,39,0.18)',
+  gold:    '#C9A227',
+  muted:   '#6B7687',
+  text:    '#EDE7DA',
+  navH:    68,
+  radius:  22,
 };
 
 function getActiveGroup(page) {
@@ -110,9 +106,10 @@ function getActiveGroup(page) {
   return null;
 }
 
-function BottomNav({ page, onChange, items, notifMap={} }) {
+function BottomNav({ page, onChange, items, notifMap }) {
+  notifMap = notifMap || {};
   const T = useT();
-  const [openGroup, setOpenGroup] = useStateNav(null);
+  const [openGroup, setOpenGroup] = React.useState(null);
   const activeGroup = getActiveGroup(page);
 
   const allGroupIds = new Set(NAV_GROUPS.flatMap(g => g.direct ? [g.id] : (g.items||[]).map(i=>i.id)));
@@ -128,102 +125,92 @@ function BottomNav({ page, onChange, items, notifMap={} }) {
   const handleItemClick = (itemId) => { setOpenGroup(null); onChange(itemId); };
   const currentGroup = allGroups.find(g => g.id === openGroup);
 
-  return (
-    <>
-      {/* ── Sub-menu panel ───────────────────────────────── */}
-      {openGroup && currentGroup && (
-        <>
-          {/* Backdrop */}
-          <div
-            onClick={() => setOpenGroup(null)}
-            style={{position:'fixed',inset:0,zIndex:890,background:'rgba(0,0,0,0.6)',backdropFilter:'blur(4px)'}}
-          />
-          {/* Panel */}
-          <div style={{
-            position:'fixed',
-            bottom: BN_DS.navH + 12,
-            left:'50%', transform:'translateX(-50%)',
-            width:'min(96vw, 500px)',
-            zIndex:895,
-            background: BN_DS.surface,
-            border:`1.5px solid ${BN_DS.border}`,
-            borderRadius: 20,
-            padding:'16px 14px 14px',
-            boxShadow:'0 -12px 48px rgba(0,0,0,0.75), 0 0 0 1px rgba(201,162,39,0.06)',
-            maxHeight:'62vh', overflowY:'auto',
-          }}>
-            {/* Panel header */}
-            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:14,paddingLeft:2}}>
-              <div style={{display:'flex',alignItems:'center',gap:8}}>
-                <span style={{fontSize:'1.1rem'}}>{currentGroup.icon}</span>
-                <span style={{fontSize:'0.9rem',fontWeight:800,color:BN_DS.text,fontFamily:"'Syne',sans-serif",letterSpacing:'0.04em',textTransform:'uppercase'}}>
-                  {NAV_GROUP_TKEYS[currentGroup.id] ? T(NAV_GROUP_TKEYS[currentGroup.id]) : currentGroup.label}
-                </span>
-              </div>
-              <button
-                onClick={() => setOpenGroup(null)}
-                style={{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:999,color:BN_DS.muted,fontSize:'0.8rem',cursor:'pointer',padding:'5px 12px',lineHeight:1,fontFamily:"'Inter',sans-serif",transition:'all 0.15s'}}
-              >✕</button>
-            </div>
+  return React.createElement(React.Fragment, null,
+    // ── Sub-menu panel ──────────────────────────────────
+    openGroup && currentGroup && React.createElement(React.Fragment, null,
+      // Backdrop
+      React.createElement('div', {
+        onClick: () => setOpenGroup(null),
+        style: { position:'fixed', inset:0, zIndex:890, background:'rgba(0,0,0,0.6)', backdropFilter:'blur(4px)' }
+      }),
+      // Panel
+      React.createElement('div', {
+        style: {
+          position:'fixed',
+          bottom: BN_DS.navH + 12,
+          left:'50%', transform:'translateX(-50%)',
+          width:'min(96vw, 500px)',
+          zIndex:895,
+          background: BN_DS.surface,
+          border:`1.5px solid ${BN_DS.border}`,
+          borderRadius: 20,
+          padding:'16px 14px 14px',
+          boxShadow:'0 -12px 48px rgba(0,0,0,0.75), 0 0 0 1px rgba(201,162,39,0.06)',
+          maxHeight:'58vh', overflowY:'auto',
+        }
+      },
+        // Panel header
+        React.createElement('div', {
+          style:{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:14, paddingLeft:2 }
+        },
+          React.createElement('div', { style:{ display:'flex', alignItems:'center', gap:8 } },
+            React.createElement('span', { style:{ fontSize:'1.1rem' } }, currentGroup.icon),
+            React.createElement('span', { style:{ fontSize:'0.9rem', fontWeight:800, color:BN_DS.text, fontFamily:"'Syne',sans-serif", letterSpacing:'0.04em', textTransform:'uppercase' } },
+              NAV_GROUP_TKEYS[currentGroup.id] ? T(NAV_GROUP_TKEYS[currentGroup.id]) : currentGroup.label
+            )
+          ),
+          React.createElement('button', {
+            onClick: () => setOpenGroup(null),
+            style:{ background:'rgba(255,255,255,0.06)', border:'1px solid rgba(255,255,255,0.1)', borderRadius:999, color:BN_DS.muted, fontSize:'0.8rem', cursor:'pointer', padding:'5px 12px', lineHeight:1, fontFamily:"'Inter',sans-serif" }
+          }, '✕')
+        ),
+        // Divider
+        React.createElement('div', { style:{ height:1, background:`linear-gradient(90deg,transparent,${BN_DS.border},transparent)`, marginBottom:12 } }),
+        // Grid
+        React.createElement('div', { style:{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:8 } },
+          (currentGroup.items||[]).map(it => {
+            const active = page === it.id;
+            const clr    = `rgb(${it.rgb})`;
+            return React.createElement('button', {
+              key: it.id,
+              onClick: () => handleItemClick(it.id),
+              style:{
+                display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:6,
+                padding:'13px 4px 11px',
+                borderRadius:14,
+                border:`1.5px solid ${active ? `rgba(${it.rgb},0.45)` : 'rgba(255,255,255,0.07)'}`,
+                background: active ? `rgba(${it.rgb},0.13)` : 'rgba(255,255,255,0.03)',
+                cursor:'pointer', WebkitTapHighlightColor:'transparent',
+                transition:'all 0.12s', position:'relative',
+                boxShadow: active ? `0 0 18px rgba(${it.rgb},0.18)` : 'none',
+              }
+            },
+              it.svgIcon
+                ? React.createElement(SvgIcon, { name:it.svgIcon, size:22, style:{ filter:active?`drop-shadow(0 0 6px rgba(${it.rgb},0.65))`:'none', opacity:active?1:0.65 } })
+                : React.createElement('span', { style:{ fontSize:'1.25rem', lineHeight:1, filter:active?`drop-shadow(0 0 6px rgba(${it.rgb},0.65))`:'none', display:'inline-block', opacity:active?1:0.8 } }, it.icon),
+              React.createElement('span', {
+                style:{ fontSize:'0.63rem', fontWeight:700, color: active ? clr : BN_DS.muted, textAlign:'center', lineHeight:1.25, letterSpacing:'0.01em', fontFamily:"'Inter',sans-serif" }
+              }, it.label),
+              notifMap[it.id] > 0 && React.createElement('span', {
+                style:{ position:'absolute', top:4, right:6, background:'#EF5350', color:'#fff', fontSize:'0.42rem', fontWeight:900, minWidth:'14px', height:'14px', borderRadius:7, display:'flex', alignItems:'center', justifyContent:'center', padding:'0 3px', boxShadow:'0 2px 6px rgba(239,83,80,0.5)' }
+              }, notifMap[it.id])
+            );
+          })
+        )
+      )
+    ),
 
-            {/* Divider */}
-            <div style={{height:1,background:`linear-gradient(90deg,transparent,${BN_DS.border},transparent)`,marginBottom:12}} />
-
-            {/* Grid */}
-            <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:8}}>
-              {(currentGroup.items||[]).map(it => {
-                const active = page === it.id;
-                const clr    = `rgb(${it.rgb})`;
-                return (
-                  <button key={it.id} onClick={() => handleItemClick(it.id)}
-                    style={{
-                      display:'flex', flexDirection:'column', alignItems:'center',
-                      justifyContent:'center', gap:6,
-                      padding:'13px 4px 11px',
-                      borderRadius:14,
-                      border:`1.5px solid ${active ? `rgba(${it.rgb},0.45)` : 'rgba(255,255,255,0.07)'}`,
-                      background: active ? `rgba(${it.rgb},0.13)` : 'rgba(255,255,255,0.03)',
-                      cursor:'pointer', WebkitTapHighlightColor:'transparent',
-                      transition:'all 0.12s', position:'relative',
-                      boxShadow: active ? `0 0 18px rgba(${it.rgb},0.18)` : 'none',
-                    }}
-                  >
-                    {it.svgIcon
-                      ? <SvgIcon name={it.svgIcon} size={22}
-                          style={{filter:active?`drop-shadow(0 0 6px rgba(${it.rgb},0.65))`:'none',opacity:active?1:0.65}}
-                        />
-                      : <span style={{fontSize:'1.25rem',lineHeight:1,filter:active?`drop-shadow(0 0 6px rgba(${it.rgb},0.65))`:'none',display:'inline-block',opacity:active?1:0.8}}>{it.icon}</span>
-                    }
-                    <span style={{
-                      fontSize:'0.64rem', fontWeight:700,
-                      color: active ? clr : BN_DS.muted,
-                      textAlign:'center', lineHeight:1.25,
-                      letterSpacing:'0.01em',
-                      fontFamily:"'Inter',sans-serif",
-                    }}>
-                      {T(NAV_ITEM_TKEYS&&NAV_ITEM_TKEYS[it.id]||it.id) || it.label}
-                    </span>
-                    {notifMap[it.id] > 0 && (
-                      <span style={{position:'absolute',top:4,right:6,background:'#EF5350',color:'#fff',fontSize:'0.42rem',fontWeight:900,minWidth:'14px',height:'14px',borderRadius:7,display:'flex',alignItems:'center',justifyContent:'center',padding:'0 3px',boxShadow:'0 2px 6px rgba(239,83,80,0.5)'}}>
-                        {notifMap[it.id]}
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </>
-      )}
-
-      {/* ── Main nav bar ─────────────────────────────────── */}
-      <div style={{
+    // ── Main nav bar ────────────────────────────────────
+    React.createElement('div', {
+      style:{
         position:'fixed', bottom:0, left:0, right:0, zIndex:900,
         display:'flex', justifyContent:'center',
         padding:'0 8px calc(10px + env(safe-area-inset-bottom,0px)) 8px',
         pointerEvents:'none',
-      }}>
-        <div style={{
+      }
+    },
+      React.createElement('div', {
+        style:{
           display:'flex',
           height: BN_DS.navH,
           maxWidth:520, width:'100%',
@@ -237,92 +224,71 @@ function BottomNav({ page, onChange, items, notifMap={} }) {
           gap:2,
           pointerEvents:'auto',
           overflow:'hidden',
-        }}>
-          {allGroups.map(group => {
-            const isActive = group.direct ? page===group.id : activeGroup===group.id;
-            const isOpen   = openGroup===group.id;
-            const lit      = isActive || isOpen;
-            const hasNotif = !group.direct && (group.items||[]).some(i => notifMap[i.id] > 0);
-            const groupRgb = group.rgb || '201,162,39';
+        }
+      },
+        allGroups.map(group => {
+          const isActive  = group.direct ? page===group.id : activeGroup===group.id;
+          const isOpen    = openGroup===group.id;
+          const lit       = isActive || isOpen;
+          const hasNotif  = !group.direct && (group.items||[]).some(i => notifMap[i.id] > 0);
+          const groupRgb  = group.rgb || '201,162,39';
 
-            return (
-              <button key={group.id} onClick={() => handleTabClick(group)}
-                style={{
-                  flex:1,
-                  display:'flex', flexDirection:'column',
-                  alignItems:'center', justifyContent:'center', gap:3,
-                  borderRadius: BN_DS.radius - 4,
-                  border:'none',
-                  background: lit
-                    ? `linear-gradient(160deg,rgba(${groupRgb},0.18) 0%,rgba(${groupRgb},0.09) 100%)`
-                    : 'transparent',
-                  cursor:'pointer',
-                  WebkitTapHighlightColor:'transparent',
-                  position:'relative',
-                  transition:'background 0.18s, transform 0.12s',
-                  padding:'4px 2px',
-                  outline: lit ? `1px solid rgba(${groupRgb},0.3)` : '1px solid transparent',
-                  outlineOffset:'-1px',
-                }}
-                onTouchStart={e => e.currentTarget.style.transform='scale(0.94)'}
-                onTouchEnd={e   => e.currentTarget.style.transform='scale(1)'}
-              >
-                {/* Icon */}
-                <div style={{
-                  width:32, height:32,
-                  display:'flex', alignItems:'center', justifyContent:'center',
-                  position:'relative',
-                }}>
-                  {group.svgIcon
-                    ? <SvgIcon name={group.svgIcon} size={21}
-                        style={{
-                          opacity: lit ? 1 : 0.5,
-                          filter: lit ? `drop-shadow(0 0 7px rgba(${groupRgb},0.7))` : 'none',
-                          transition:'opacity 0.18s, filter 0.18s',
-                        }}
-                      />
-                    : <span style={{
-                        fontSize:'1.2rem', lineHeight:1, display:'inline-block',
-                        opacity: lit ? 1 : 0.5,
-                        filter: lit ? `drop-shadow(0 0 7px rgba(${groupRgb},0.7))` : 'none',
-                        transition:'opacity 0.18s, filter 0.18s',
-                      }}>{group.icon}</span>
-                  }
-                  {/* Notif dot */}
-                  {hasNotif && (
-                    <span style={{position:'absolute',top:0,right:0,width:7,height:7,borderRadius:'50%',background:'#EF5350',border:'1.5px solid rgba(11,15,22,0.97)',boxShadow:'0 0 6px rgba(239,83,80,0.7)'}} />
-                  )}
-                </div>
-
-                {/* Label */}
-                <span style={{
-                  fontSize:'0.55rem',
-                  fontWeight: lit ? 800 : 500,
-                  letterSpacing:'0.01em',
-                  color: lit ? `rgb(${groupRgb})` : BN_DS.muted,
-                  transition:'color 0.18s, font-weight 0.18s',
-                  fontFamily:"'Inter',sans-serif",
-                  whiteSpace:'nowrap',
-                  lineHeight:1,
-                }}>
-                  {NAV_GROUP_TKEYS[group.id] ? T(NAV_GROUP_TKEYS[group.id]) : group.label}
-                </span>
-
-                {/* Active underline accent */}
-                {lit && (
-                  <div style={{
-                    position:'absolute',
-                    bottom:4, left:'25%', right:'25%',
-                    height:2,
-                    borderRadius:2,
-                    background:`linear-gradient(90deg,transparent,rgba(${groupRgb},0.9),transparent)`,
-                  }} />
-                )}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-    </>
+          return React.createElement('button', {
+            key: group.id,
+            onClick: () => handleTabClick(group),
+            style:{
+              flex:1,
+              display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:3,
+              borderRadius: BN_DS.radius - 4,
+              border:'none',
+              background: lit
+                ? `linear-gradient(160deg,rgba(${groupRgb},0.18) 0%,rgba(${groupRgb},0.09) 100%)`
+                : 'transparent',
+              cursor:'pointer',
+              WebkitTapHighlightColor:'transparent',
+              position:'relative',
+              transition:'background 0.18s',
+              padding:'4px 2px',
+              outline: lit ? `1px solid rgba(${groupRgb},0.3)` : '1px solid transparent',
+              outlineOffset:'-1px',
+              minHeight: 'unset',
+            }
+          },
+            // Icon container
+            React.createElement('div', {
+              style:{ width:32, height:32, display:'flex', alignItems:'center', justifyContent:'center', position:'relative' }
+            },
+              group.svgIcon
+                ? React.createElement(SvgIcon, { name:group.svgIcon, size:21, style:{ opacity: lit?1:0.5, filter: lit?`drop-shadow(0 0 7px rgba(${groupRgb},0.7))`:'none', transition:'opacity 0.18s, filter 0.18s' } })
+                : React.createElement('span', { style:{ fontSize:'1.2rem', lineHeight:1, display:'inline-block', opacity: lit?1:0.5, filter: lit?`drop-shadow(0 0 7px rgba(${groupRgb},0.7))`:'none', transition:'opacity 0.18s, filter 0.18s' } }, group.icon),
+              hasNotif && React.createElement('span', {
+                style:{ position:'absolute', top:0, right:0, width:7, height:7, borderRadius:'50%', background:'#EF5350', border:'1.5px solid rgba(11,15,22,0.97)', boxShadow:'0 0 6px rgba(239,83,80,0.7)' }
+              })
+            ),
+            // Label
+            React.createElement('span', {
+              style:{
+                fontSize:'0.55rem',
+                fontWeight: lit ? 800 : 500,
+                letterSpacing:'0.01em',
+                color: lit ? `rgb(${groupRgb})` : BN_DS.muted,
+                transition:'color 0.18s',
+                fontFamily:"'Inter',sans-serif",
+                whiteSpace:'nowrap',
+                lineHeight:1,
+              }
+            }, NAV_GROUP_TKEYS[group.id] ? T(NAV_GROUP_TKEYS[group.id]) : group.label),
+            // Active underline
+            lit && React.createElement('div', {
+              style:{
+                position:'absolute', bottom:4, left:'25%', right:'25%',
+                height:2, borderRadius:2,
+                background:`linear-gradient(90deg,transparent,rgba(${groupRgb},0.9),transparent)`,
+              }
+            })
+          );
+        })
+      )
+    )
   );
 }

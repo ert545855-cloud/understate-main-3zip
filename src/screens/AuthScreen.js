@@ -346,7 +346,7 @@ function AuthScreen({ onLogin }) {
         <div style={{textAlign:'center',marginBottom:'1.5rem',width:'100%',padding:'0 1.5rem'}}>
           {/* Logo görseli */}
           <div style={{display:'flex',justifyContent:'center',marginBottom:'0.5rem'}}>
-            <img src="favicon.jpg" alt="UnderState" style={{width:'clamp(90px,22vw,140px)',height:'clamp(90px,22vw,140px)',objectFit:'contain',borderRadius:'50%',boxShadow:'0 0 32px rgba(201,162,39,0.3)',border:'3px solid rgba(255,255,255,0.12)'}} />
+            <img src="understate-icon.png" alt="UnderState" style={{width:'clamp(90px,22vw,140px)',height:'clamp(90px,22vw,140px)',objectFit:'contain',borderRadius:'20%',boxShadow:'0 0 40px rgba(201,162,39,0.4)',border:'2px solid rgba(201,162,39,0.25)'}} />
           </div>
           <div style={{fontFamily:"'Syne',sans-serif",fontSize:'clamp(1.4rem,5vw,2.2rem)',fontWeight:900,letterSpacing:'0.15em',color:'#EDE7DA',textShadow:'0 2px 24px rgba(0,0,0,0.8)',textTransform:'uppercase',marginBottom:'0.4rem'}}>
             UNDERSTATE

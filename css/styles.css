@@ -703,8 +703,8 @@
         .card-title { font-size:0.85rem; }
         .btn { padding:0.62rem 0.95rem;font-size:0.82rem;min-height:44px;touch-action:manipulation;border-radius:10px; }
         .btn-sm { padding:0.4rem 0.7rem;font-size:0.74rem;min-height:35px; }
-        .modal-overlay { padding:0;align-items:flex-end;backdrop-filter:blur(8px); }
-        .modal { padding:1.5rem;max-width:100%;border-radius:20px 20px 0 0;max-height:calc(90dvh - 60px);overflow-y:auto;padding-bottom:calc(1.5rem + env(safe-area-inset-bottom, 0px)); }
+        .modal-overlay { padding:0;align-items:flex-end;backdrop-filter:blur(8px);padding-bottom:calc(76px + env(safe-area-inset-bottom,0px)); }
+        .modal { padding:1.5rem;max-width:100%;border-radius:20px 20px 0 0;max-height:calc(85dvh - 76px);overflow-y:auto;padding-bottom:1.5rem; }
         .modal-title { font-size:1rem; }
         .modal-btns { flex-wrap:wrap;gap:0.55rem; }
         table { font-size:0.7rem; }
