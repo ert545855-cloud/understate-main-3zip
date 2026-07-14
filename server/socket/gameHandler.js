@@ -74,22 +74,18 @@ const PARTY_INFLUENCE_CD_MS = 3000; // 3 saniye (client ile aynı)
 async function pushInitialState(socket) {
   try {
     // Gangs, parties, alliances are now in proper SQL tables — fetch separately
-    const [state, gangs, parties, alliances, lobiler, gangWars, policeState] = await Promise.all([
+    const [state, gangs, parties, alliances, lobiler] = await Promise.all([
       db.getFullGameState(),
       db.isReady() ? db.getGangs().catch(() => [])       : [],
       db.isReady() ? db.getParties().catch(() => [])     : [],
       db.isReady() ? db.getAlliances().catch(() => [])   : [],
       db.isReady() ? db.getGameState('lobiler').catch(() => null).then(v => v || []) : [],
-      db.isReady() ? db.getGangWars().catch(() => [])   : [],
-      db.isReady() ? db.getPoliceState().catch(() => ({ officers:0, budget:0, operations:[] })) : { officers:0, budget:0, operations:[] },
     ]);
     const onlineList = Array.from(onlinePlayers.values());
     const payload = {
       gangs,
       parties,
       alliances,
-      gangWars,
-      policeState,
       elections:        state.elections       || { phase:'idle', candidates:[], votes:{} },
       elections_multi:  state.elections_multi || {},
       laws:             state.laws            || [],
@@ -116,7 +112,7 @@ function sendNotification(io, targetUserId, notif) {
   }
   // Persist (best-effort)
   if (db.isReady()) {
-    db.saveNotification({ ...payload, userId: targetUserId }).catch(e => logger.error('[DB] persist failed:', e));
+    db.saveNotification({ ...payload, userId: targetUserId }).catch(() => {});
   }
 }
 
@@ -124,7 +120,7 @@ function broadcastNotification(io, notif) {
   const payload = { ...notif, ts: Date.now() };
   io.emit('notification', payload);
   if (db.isReady()) {
-    db.saveNotification(payload).catch(e => logger.error('[DB] persist failed:', e));
+    db.saveNotification(payload).catch(() => {});
   }
 }
 
@@ -334,23 +330,44 @@ function registerGameHandlers(io, socket) {
     if (!socket.userId) return;
     const gangs = Array.isArray(data.gangs) ? data.gangs : null;
     if (!gangs) return;
-    if (db.isReady()) await db.setGangs(gangs).catch(e => logger.error('[DB] persist failed:', e));
-    socket.broadcast.emit('gangUpdate', { gangs, updatedBy: socket.username, ts: Date.now() });
-    logger.debug(`[Gang] sync by ${socket.username} — ${gangs.length} çete`);
+    // Security: only sync gangs where the requesting user is the leader (member-count/
+    // power changes from join/leave/disband already go through their own dedicated,
+    // authorized handlers) — otherwise a stale local cache from any client could
+    // silently overwrite gangs/families that belong to someone else.
+    const allowedGangs = gangs.filter(g => g.leaderId === socket.userId || g.leader === socket.userId);
+    if (allowedGangs.length === 0) return;
+    if (db.isReady()) {
+      const saved = await db.setGangs(allowedGangs).catch(() => false);
+      if (!saved) {
+        socket.emit('gang:syncError', { error: 'db_write_failed' });
+        return; // DB'ye yazılamadıysa diğer istemcilere de yayma — state'i ezme
+      }
+    }
+    const all = db.isReady() ? await db.getGangs().catch(() => null) : gangs;
+    if (all === null) { socket.emit('gang:syncError', { error: 'db_read_failed' }); return; }
+    socket.broadcast.emit('gangUpdate', { gangs: all, updatedBy: socket.username, ts: Date.now() });
+    logger.debug(`[Gang] sync by ${socket.username} — ${allowedGangs.length} kendi çetesi güncellendi`);
   });
 
   socket.on('gang:create', async (data) => {
     if (!data || !checkEventRate(socket.id)) return;
     if (!socket.userId || !data.gang?.id) return;
-    if (!db.isReady()) {
-      logger.error(`[Gang] create failed — DB not ready (user: ${socket.username})`);
-      socket.emit('gang:createError', { reason: 'db_not_ready', msg: 'Veritabanı bağlantısı hazır değil, lütfen tekrar deneyin.' });
-      return;
+    if (db.isReady()) {
+      const saved = await db.upsertGang(data.gang).catch(() => false);
+      if (!saved) {
+        // DB'ye yazma başarısız oldu — boş/eksik listeyi TÜM istemcilere
+        // yayınlayıp herkesin ekranındaki mevcut çete/aile listesini silme.
+        // Sadece isteği yapan istemciye net bir hata bildir.
+        socket.emit('gang:createError', { error: 'db_write_failed', gangId: data.gang.id });
+        logger.error(`[Gang] create "${data.gang.name}" DB'ye yazılamadı (${socket.username})`);
+        return;
+      }
     }
-    await db.upsertGang(data.gang).catch(e => logger.error('[Gang] upsertGang failed:', e));
-    const gangs = await db.getGangs().catch(e => { logger.error('[Gang] getGangs failed:', e); return null; });
+    const gangs = db.isReady() ? await db.getGangs().catch(() => null) : [];
     if (gangs === null) {
-      socket.emit('gang:createError', { reason: 'db_read_error', msg: 'Çete kaydedildi ama liste alınamadı.' });
+      // Yazma başarılı ama okuma başarısız — yine de sadece gönderene bildir,
+      // diğer istemcileri boş listeyle güncelleme.
+      socket.emit('gang:createError', { error: 'db_read_failed', gangId: data.gang.id });
       return;
     }
     io.emit('gangUpdate', { gangs, action: 'create', gang: data.gang, ts: Date.now() });
@@ -371,12 +388,14 @@ function registerGameHandlers(io, socket) {
     if (!data || !checkEventRate(socket.id)) return;
     if (!socket.userId || !data.gangId) return;
     if (db.isReady()) {
-      const gangs = await db.getGangs().catch(() => []);
+      const gangs = await db.getGangs().catch(() => null);
+      if (gangs === null) { socket.emit('gang:joinError', { error: 'db_read_failed' }); return; }
       const updated = gangs.map(g => g.id === data.gangId
         ? { ...g, members: [...new Set([...(g.members||[]), socket.userId])], memberCount: Math.max((g.memberCount||0)+1, (g.members?.length||0)+1) }
         : g
       );
-      await db.setGangs(updated).catch(e => logger.error('[DB] persist failed:', e));
+      const saved = await db.setGangs(updated).catch(() => false);
+      if (!saved) { socket.emit('gang:joinError', { error: 'db_write_failed' }); return; }
       socket.broadcast.emit('gangUpdate', { gangs: updated, action: 'join', gangId: data.gangId, userId: socket.userId, username: socket.username, ts: Date.now() });
     }
   });
@@ -385,12 +404,14 @@ function registerGameHandlers(io, socket) {
     if (!data || !checkEventRate(socket.id)) return;
     if (!socket.userId || !data.gangId) return;
     if (db.isReady()) {
-      const gangs = await db.getGangs().catch(() => []);
+      const gangs = await db.getGangs().catch(() => null);
+      if (gangs === null) { socket.emit('gang:leaveError', { error: 'db_read_failed' }); return; }
       const updated = gangs.map(g => g.id === data.gangId
         ? { ...g, members: (g.members||[]).filter(m => m !== socket.userId), memberCount: Math.max(0,(g.memberCount||1)-1) }
         : g
       );
-      await db.setGangs(updated).catch(e => logger.error('[DB] persist failed:', e));
+      const saved = await db.setGangs(updated).catch(() => false);
+      if (!saved) { socket.emit('gang:leaveError', { error: 'db_write_failed' }); return; }
       socket.broadcast.emit('gangUpdate', { gangs: updated, action: 'leave', gangId: data.gangId, userId: socket.userId, ts: Date.now() });
     }
   });
@@ -400,98 +421,42 @@ function registerGameHandlers(io, socket) {
     if (!socket.userId || !data.gangId) return;
     // Security: only the gang leader may disband the gang
     if (db.isReady()) {
-      const gangs = await db.getGangs().catch(() => []);
+      const gangs = await db.getGangs().catch(() => null);
+      if (gangs === null) { socket.emit('gang:disbandError', { error: 'db_read_failed' }); return; }
       const gang = gangs.find(g => g.id === data.gangId);
       if (!gang) return;
       if (gang.leaderId !== socket.userId) {
         logger.warn(`[Security] gang:disband rejected — ${socket.username} is not leader of ${data.gangId}`);
         return;
       }
-      await db.deleteGang(data.gangId).catch(e => logger.error('[DB] persist failed:', e));
-      const updated = await db.getGangs().catch(() => []);
+      const deleted = await db.deleteGang(data.gangId).catch(() => false);
+      if (!deleted) { socket.emit('gang:disbandError', { error: 'db_write_failed' }); return; }
+      const updated = await db.getGangs().catch(() => null);
+      if (updated === null) { socket.emit('gang:disbandError', { error: 'db_read_failed' }); return; }
       io.emit('gangUpdate', { gangs: updated, action: 'disband', gangId: data.gangId, ts: Date.now() });
     }
   });
 
-  // ── LEGACY gang:war (backwards compat) ───────────────────────────────────
   socket.on('gang:war', async (data) => {
     if (!data || !checkEventRate(socket.id) || !isPayloadSafe(data)) return;
     if (!socket.userId) return;
     io.emit('mafiaWarUpdate', { ...data, initiator: socket.username, ts: Date.now() });
-  });
-
-  // ── GANG WAR: DECLARE ─────────────────────────────────────────────────────
-  socket.on('gang:war:declare', async (data) => {
-    if (!data?.war || !checkEventRate(socket.id) || !isPayloadSafe(data)) return;
-    if (!socket.userId) return;
-    const war = data.war;
-    if (!war.id || !war.attackerId || !war.defenderId) return;
-    if (db.isReady()) await db.upsertGangWar(war).catch(e => logger.error('[DB] persist failed:', e));
-    const wars = db.isReady() ? await db.getGangWars().catch(() => []) : [];
-    io.emit('gangWarUpdate', { wars, action: 'declare', war, ts: Date.now() });
     broadcastNotification(io, {
       id: `notif_war_${Date.now()}`,
-      type: 'war', icon: '⚔️',
-      title: '⚔️ Çete Savaşı İlan Edildi!',
-      msg: `"${war.attackerName}" çetesi "${war.defenderName}" çetesine savaş ilan etti!`,
+      type: 'war',
+      icon: '⚔️',
+      title: 'Savaş İlanı!',
+      msg: `${socket.username}: "${data.attackerName}" — "${data.defenderName}" savaşı başladı!`,
     });
-    logger.info(`[GangWar] declare: ${war.attackerName} → ${war.defenderName} by ${socket.username}`);
-  });
-
-  // ── GANG WAR: JOIN ────────────────────────────────────────────────────────
-  socket.on('gang:war:join', async (data) => {
-    if (!data?.warId || !data?.side || !checkEventRate(socket.id)) return;
-    if (!socket.userId) return;
+    // #19 Gang war log
     if (db.isReady()) {
-      const wars = await db.getGangWars().catch(() => []);
-      const war = wars.find(w => w.id === data.warId);
-      if (!war || war.status !== 'active') return;
-      const sideKey = data.side === 'attacker' ? 'attackerParticipants' : 'defenderParticipants';
-      const powerKey = data.side === 'attacker' ? 'attackerPower' : 'defenderPower';
-      if ([...(war.attackerParticipants||[]), ...(war.defenderParticipants||[])].includes(socket.userId)) return;
-      const weaponPower = (data.weaponPower || 0);
-      const updated = {
-        ...war,
-        [sideKey]: [...(war[sideKey]||[]), socket.userId],
-        [powerKey]: (war[powerKey]||0) + weaponPower + 50,
-      };
-      await db.upsertGangWar(updated).catch(e => logger.error('[DB] persist failed:', e));
-      const allWars = await db.getGangWars().catch(() => []);
-      io.emit('gangWarUpdate', { wars: allWars, action: 'join', warId: data.warId, userId: socket.userId, ts: Date.now() });
+      db.query(
+        `INSERT INTO gang_war_logs (attacker_gang, defender_gang, attacker_user_id, action, damage_dealt, metadata)
+         VALUES ($1,$2,$3,'war_declaration',$4,$5)`,
+        [data.attackerName || '', data.defenderName || '', socket.userId || null,
+         data.damage || 0, JSON.stringify({ initiator: socket.username, ...data })]
+      ).catch(() => {});
     }
-    logger.debug(`[GangWar] join warId=${data.warId} side=${data.side} user=${socket.username}`);
-  });
-
-  // ── GANG WAR: RESOLVE ─────────────────────────────────────────────────────
-  socket.on('gang:war:resolve', async (data) => {
-    if (!data?.war || !checkEventRate(socket.id)) return;
-    if (!socket.userId) return;
-    const war = data.war;
-    if (!war.id || war.status !== 'resolved') return;
-    if (db.isReady()) {
-      await db.upsertGangWar(war).catch(e => logger.error('[DB] persist failed:', e));
-      const wars = await db.getGangWars().catch(() => []);
-      io.emit('gangWarUpdate', { wars, action: 'resolve', war, ts: Date.now() });
-    }
-    if (war.winnerName) {
-      broadcastNotification(io, {
-        id: `notif_war_resolve_${Date.now()}`,
-        type: 'war', icon: '🏆',
-        title: '🏆 Çete Savaşı Bitti!',
-        msg: `"${war.winnerName}" savaşı kazandı!`,
-      });
-    }
-    logger.info(`[GangWar] resolve warId=${war.id} winner=${war.winnerName}`);
-  });
-
-  // ── POLICE STATE UPDATE ───────────────────────────────────────────────────
-  socket.on('police:update', async (data) => {
-    if (!data?.state || !checkEventRate(socket.id) || !isPayloadSafe(data)) return;
-    if (!socket.userId) return;
-    const state = data.state;
-    if (db.isReady()) await db.setPoliceState(state).catch(e => logger.error('[DB] persist failed:', e));
-    io.emit('policeStateUpdate', { state, updatedBy: socket.username, ts: Date.now() });
-    logger.debug(`[Police] update officers=${state.officers} budget=${state.budget} by ${socket.username}`);
   });
 
   socket.on('gang:attackAsset', (data) => {
@@ -528,7 +493,7 @@ function registerGameHandlers(io, socket) {
          VALUES ($1,$2,$3,'asset_attack',$4,$5,$6)`,
         [payload.gangName, payload.familyName, socket.userId || null,
          data.damage || 0, payload.assetName, JSON.stringify(payload)]
-      ).catch(e => logger.error('[DB] persist failed:', e));
+      ).catch(() => {});
     }
   });
 
@@ -542,11 +507,18 @@ function registerGameHandlers(io, socket) {
     const allowedParties = parties.filter(p => p.leaderId === socket.userId || p.leader === socket.userId);
     if (allowedParties.length === 0) return;
     if (db.isReady()) {
+      let allOk = true;
       for (const p of allowedParties) {
-        await db.upsertParty(p).catch(e => logger.error('[DB] persist failed:', e));
+        const ok = await db.upsertParty(p).catch(() => false);
+        if (!ok) allOk = false;
+      }
+      if (!allOk) {
+        socket.emit('party:syncError', { error: 'db_write_failed' });
+        return; // Yazma başarısızsa diğer istemcilerin local state'ini bozma
       }
     }
-    const all = db.isReady() ? await db.getParties().catch(() => []) : allowedParties;
+    const all = db.isReady() ? await db.getParties().catch(() => null) : allowedParties;
+    if (all === null) { socket.emit('party:syncError', { error: 'db_read_failed' }); return; }
     socket.broadcast.emit('partyUpdate', { parties: all, updatedBy: socket.username, ts: Date.now() });
     logger.debug(`[Party] sync by ${socket.username} — ${allowedParties.length} kendi partisi güncellendi`);
   });
@@ -590,15 +562,17 @@ function registerGameHandlers(io, socket) {
   socket.on('party:create', async (data) => {
     if (!data || !checkEventRate(socket.id)) return;
     if (!socket.userId || !data.party?.id) return;
-    if (!db.isReady()) {
-      logger.error(`[Party] create failed — DB not ready (user: ${socket.username})`);
-      socket.emit('party:createError', { reason: 'db_not_ready', msg: 'Veritabanı bağlantısı hazır değil, lütfen tekrar deneyin.' });
-      return;
+    if (db.isReady()) {
+      const saved = await db.upsertParty(data.party).catch(() => false);
+      if (!saved) {
+        socket.emit('party:createError', { error: 'db_write_failed', partyId: data.party.id });
+        logger.error(`[Party] create "${data.party.name}" DB'ye yazılamadı (${socket.username})`);
+        return;
+      }
     }
-    await db.upsertParty(data.party).catch(e => logger.error('[Party] upsertParty failed:', e));
-    const parties = await db.getParties().catch(e => { logger.error('[Party] getParties failed:', e); return null; });
+    const parties = db.isReady() ? await db.getParties().catch(() => null) : [];
     if (parties === null) {
-      socket.emit('party:createError', { reason: 'db_read_error', msg: 'Parti kaydedildi ama liste alınamadı.' });
+      socket.emit('party:createError', { error: 'db_read_failed', partyId: data.party.id });
       return;
     }
     io.emit('partyUpdate', { parties, action: 'create', party: data.party, ts: Date.now() });
@@ -618,12 +592,14 @@ function registerGameHandlers(io, socket) {
     if (!data || !checkEventRate(socket.id)) return;
     if (!socket.userId || !data.partyId) return;
     if (db.isReady()) {
-      const parties = await db.getParties().catch(() => []);
+      const parties = await db.getParties().catch(() => null);
+      if (parties === null) { socket.emit('party:joinError', { error: 'db_read_failed' }); return; }
       const updated = parties.map(p => p.id === data.partyId
         ? { ...p, members: [...new Set([...(p.members||[]), socket.userId])], memberCount: (p.memberCount||0)+1 }
         : p
       );
-      await db.setParties(updated).catch(e => logger.error('[DB] persist failed:', e));
+      const saved = await db.setParties(updated).catch(() => false);
+      if (!saved) { socket.emit('party:joinError', { error: 'db_write_failed' }); return; }
       // io.emit yerine socket.broadcast: join yapan kişiye de gönder (join yapan zaten local günceller)
       io.emit('partyUpdate', { parties: updated, action: 'join', partyId: data.partyId, userId: socket.userId, username: socket.username, ts: Date.now() });
     }
@@ -633,12 +609,14 @@ function registerGameHandlers(io, socket) {
     if (!data || !checkEventRate(socket.id)) return;
     if (!socket.userId || !data.partyId) return;
     if (db.isReady()) {
-      const parties = await db.getParties().catch(() => []);
+      const parties = await db.getParties().catch(() => null);
+      if (parties === null) { socket.emit('party:leaveError', { error: 'db_read_failed' }); return; }
       const updated = parties.map(p => p.id === data.partyId
         ? { ...p, members: (p.members||[]).filter(m => m !== socket.userId), memberCount: Math.max(0,(p.memberCount||1)-1) }
         : p
       );
-      await db.setParties(updated).catch(e => logger.error('[DB] persist failed:', e));
+      const saved = await db.setParties(updated).catch(() => false);
+      if (!saved) { socket.emit('party:leaveError', { error: 'db_write_failed' }); return; }
       io.emit('partyUpdate', { parties: updated, action: 'leave', partyId: data.partyId, userId: socket.userId, ts: Date.now() });
     }
   });
@@ -648,10 +626,10 @@ function registerGameHandlers(io, socket) {
     if (!data || !checkEventRate(socket.id)) return;
     if (!socket.userId) return;
     if (data.elections !== undefined && db.isReady()) {
-      await db.setElections(data.elections).catch(e => logger.error('[DB] persist failed:', e));
+      await db.setElections(data.elections).catch(() => {});
     }
     if (data.elections_multi !== undefined && db.isReady()) {
-      await db.setElectionsMulti(data.elections_multi).catch(e => logger.error('[DB] persist failed:', e));
+      await db.setElectionsMulti(data.elections_multi).catch(() => {});
     }
     socket.broadcast.emit('electionUpdate', { ...data, updatedBy: socket.username, ts: Date.now() });
   });
@@ -669,7 +647,7 @@ function registerGameHandlers(io, socket) {
     if (!socket.userId) return;
     const laws = Array.isArray(data.laws) ? data.laws : null;
     if (!laws) return;
-    if (db.isReady()) await db.setLaws(laws).catch(e => logger.error('[DB] persist failed:', e));
+    if (db.isReady()) await db.setLaws(laws).catch(() => {});
     socket.broadcast.emit('lawUpdate', { laws, updatedBy: socket.username, ts: Date.now() });
   });
 
@@ -679,7 +657,7 @@ function registerGameHandlers(io, socket) {
     if (db.isReady()) {
       const laws = await db.getLaws().catch(() => []);
       laws.unshift({ ...data.law, proposer: socket.username, ts: Date.now() });
-      await db.setLaws(laws.slice(0, 100)).catch(e => logger.error('[DB] persist failed:', e));
+      await db.setLaws(laws.slice(0, 100)).catch(() => {});
       socket.broadcast.emit('lawUpdate', { laws, action: 'propose', law: data.law, ts: Date.now() });
     }
     broadcastNotification(io, {
@@ -697,7 +675,7 @@ function registerGameHandlers(io, socket) {
     if (!socket.userId) return;
     const anns = Array.isArray(data.announcements) ? data.announcements : null;
     if (!anns) return;
-    if (db.isReady()) await db.setAnnouncements(anns).catch(e => logger.error('[DB] persist failed:', e));
+    if (db.isReady()) await db.setAnnouncements(anns).catch(() => {});
     socket.broadcast.emit('announcementUpdate', { announcements: anns, updatedBy: socket.username, ts: Date.now() });
   });
 
@@ -707,7 +685,7 @@ function registerGameHandlers(io, socket) {
     if (db.isReady()) {
       const anns = await db.getAnnouncements().catch(() => []);
       anns.unshift({ ...data.announcement, author: socket.username, ts: Date.now() });
-      await db.setAnnouncements(anns.slice(0, 50)).catch(e => logger.error('[DB] persist failed:', e));
+      await db.setAnnouncements(anns.slice(0, 50)).catch(() => {});
       io.emit('announcementUpdate', { announcements: anns, action: 'new', announcement: data.announcement, ts: Date.now() });
     }
     broadcastNotification(io, {
@@ -738,7 +716,7 @@ function registerGameHandlers(io, socket) {
       totalInf:        Number(l.totalInf) || 0,
       ts:              Number(l.ts) || Date.now(),
     })).filter(l => l.id && l.partyId && l.familyId);
-    if (db.isReady()) await db.setGameState('lobiler', safe).catch(e => logger.error('[DB] persist failed:', e));
+    if (db.isReady()) await db.setGameState('lobiler', safe).catch(() => {});
     socket.broadcast.emit('lobiUpdate', { lobiAnlasmalari: safe, updatedBy: socket.username, ts: Date.now() });
     logger.debug(`[Lobi] sync by ${socket.username} — ${safe.length} anlaşma`);
   });
@@ -749,7 +727,7 @@ function registerGameHandlers(io, socket) {
     if (!socket.userId) return;
     const alliances = Array.isArray(data.alliances) ? data.alliances : null;
     if (!alliances) return;
-    if (db.isReady()) await db.setAlliances(alliances).catch(e => logger.error('[DB] persist failed:', e));
+    if (db.isReady()) await db.setAlliances(alliances).catch(() => {});
     socket.broadcast.emit('allianceUpdate', { alliances, updatedBy: socket.username, ts: Date.now() });
   });
 
@@ -757,7 +735,7 @@ function registerGameHandlers(io, socket) {
   socket.on('cabinet:sync', async (data) => {
     if (!data || !checkEventRate(socket.id)) return;
     if (!socket.userId) return;
-    if (data.cabinet && db.isReady()) await db.setCabinet(data.cabinet).catch(e => logger.error('[DB] persist failed:', e));
+    if (data.cabinet && db.isReady()) await db.setCabinet(data.cabinet).catch(() => {});
     socket.broadcast.emit('cabinetUpdate', { cabinet: data.cabinet, updatedBy: socket.username, ts: Date.now() });
     if (data.newRole) {
       sendNotification(io, data.targetUserId, {
@@ -774,7 +752,7 @@ function registerGameHandlers(io, socket) {
   socket.on('territory:sync', async (data) => {
     if (!data || !checkEventRate(socket.id)) return;
     if (!socket.userId || !data.territories) return;
-    if (db.isReady()) await db.setGangTerritories(data.territories).catch(e => logger.error('[DB] persist failed:', e));
+    if (db.isReady()) await db.setGangTerritories(data.territories).catch(() => {});
     socket.broadcast.emit('territoryUpdate', { territories: data.territories, ts: Date.now() });
   });
 
@@ -798,7 +776,7 @@ function registerGameHandlers(io, socket) {
         } else {
           current[provinceId] = { gangId, gangName, color, capturedAt: Date.now(), capturedBy: socket.username };
         }
-        await db.setGangTerritories(current).catch(e => logger.error('[DB] persist failed:', e));
+        await db.setGangTerritories(current).catch(() => {});
 
         // Tüm clientlara bildir
         io.emit('territoryUpdate', {
@@ -820,7 +798,7 @@ function registerGameHandlers(io, socket) {
               `INSERT INTO gang_war_logs (attacker_id, defender_id, province_id, result, ts)
                VALUES ($1, $2, $3, 'capture', NOW()) ON CONFLICT DO NOTHING`,
               [gangId, prevGangId, provinceId]
-            ).catch(e => logger.error('[DB] persist failed:', e));
+            ).catch(() => {});
             // Yenilen çeteye bildirim
             sendNotification(io, data.defenderLeaderId || null, {
               id: `notif_territory_${Date.now()}`,
@@ -995,11 +973,11 @@ function registerGameHandlers(io, socket) {
     await Promise.all([
       db.updateUser(socket.userId, { money: newAtkMoney, hp: newAtkHp, merit_points: newAtkMerits }),
       won ? db.updateUser(data.targetId, { money: newDefMoney, hp: Math.max(0,(defender.hp||100)-defHpLost) }) : Promise.resolve(),
-    ]).catch(e => logger.error('[DB] persist failed:', e));
+    ]).catch(() => {});
     db.query(
       `INSERT INTO combat_logs (attacker_id, defender_id, result, damage, metadata) VALUES ($1,$2,$3,$4,$5) ON CONFLICT DO NOTHING`,
       [socket.userId, data.targetId, won?'win':'loss', stolen, JSON.stringify({ atkHpLost, defHpLost, ts: Date.now() })]
-    ).catch(e => logger.error('[DB] persist failed:', e));
+    ).catch(() => {});
     socket.emit('pvp:result', { ok:true, won, stolen, hpLost:atkHpLost, targetUsername:defender.username, newMoney:newAtkMoney, newHp:newAtkHp, newMerits:newAtkMerits });
     const defOnline = Array.from(onlinePlayers.values()).find(p => p.userId === data.targetId);
     if (defOnline) {
@@ -1025,7 +1003,7 @@ function registerGameHandlers(io, socket) {
     const mining = gd.mining || {};
     const cooldowns = { ...(mining.cooldowns||{}), [data.resourceId]: Date.now() };
     const resources  = { ...(mining.resources||{}),  [data.resourceId]: ((mining.resources||{})[data.resourceId]||0) + amount };
-    await db.updateUser(socket.userId, { game_data: JSON.stringify({ ...gd, mining: { cooldowns, resources } }) }).catch(e => logger.error('[DB] persist failed:', e));
+    await db.updateUser(socket.userId, { game_data: JSON.stringify({ ...gd, mining: { cooldowns, resources } }) }).catch(() => {});
     socket.emit('mining:result', { ok:true, resourceId:data.resourceId, amount, resources, cooldowns });
     logger.debug(`[Mining] ${socket.username} mined ${amount}x ${data.resourceId}`);
   });
@@ -1041,7 +1019,7 @@ function registerGameHandlers(io, socket) {
     Object.entries(MINING_RESOURCES).forEach(([id, r]) => { total += (resources[id]||0)*r.price; resources[id] = 0; });
     if (total === 0) return socket.emit('mining:sold', { ok:false, msg:'Satılacak kaynak yok' });
     const newMoney = (user.money||0) + total;
-    await db.updateUser(socket.userId, { money:newMoney, game_data: JSON.stringify({ ...gd, mining: { ...mining, resources } }) }).catch(e => logger.error('[DB] persist failed:', e));
+    await db.updateUser(socket.userId, { money:newMoney, game_data: JSON.stringify({ ...gd, mining: { ...mining, resources } }) }).catch(() => {});
     socket.emit('mining:sold', { ok:true, total, newMoney, resources });
     logger.debug(`[Mining] ${socket.username} sold ₺${total}`);
   });
@@ -1060,7 +1038,7 @@ function registerGameHandlers(io, socket) {
     const moneyDelta = success ? (op.reward.money - op.cost) : -op.cost;
     const newMoney   = Math.max(0, (user.money||0) + moneyDelta);
     const newMerits  = (user.merit_points||0) + (success ? op.reward.merit : 0);
-    await db.updateUser(socket.userId, { money:newMoney, merit_points:newMerits }).catch(e => logger.error('[DB] persist failed:', e));
+    await db.updateUser(socket.userId, { money:newMoney, merit_points:newMerits }).catch(() => {});
     socket.emit('spy:result', { ok:true, success, opId:data.opId, moneyDelta, merit:success?op.reward.merit:0, newMoney, newMerits });
     logger.debug(`[Spy] ${socket.username}: ${data.opId} → ${success?'SUCCESS':'FAIL'}`);
   });
@@ -1083,7 +1061,7 @@ function registerGameHandlers(io, socket) {
     await Promise.all([
       db.upsertGang({ ...gang, treasury:newTreasury }),
       db.setGameState(weaponKey, currentWeapons),
-    ]).catch(e => logger.error('[DB] persist failed:', e));
+    ]).catch(() => {});
     const updatedGangs = await db.getGangs().catch(() => gangs);
     io.emit('gangUpdate', { gangs:updatedGangs, ts:Date.now() });
     socket.emit('gang:weaponResult', { ok:true, gangId:data.gangId, weaponId:data.weaponId, weapons:currentWeapons, newTreasury });
@@ -1100,7 +1078,7 @@ function registerGameHandlers(io, socket) {
   socket.on('empire:sync', async (data) => {
     if (!socket.userId || !data?.familyId || !isPayloadSafe(data)) return;
     const key = `empire_${data.familyId}`;
-    await db.setGameState(key, { holdings:data.holdings||[], factories:data.factories||[], companies:data.companies||[], ts:Date.now() }).catch(e => logger.error('[DB] persist failed:', e));
+    await db.setGameState(key, { holdings:data.holdings||[], factories:data.factories||[], companies:data.companies||[], ts:Date.now() }).catch(() => {});
     socket.broadcast.emit('empire:update', { familyId:data.familyId, holdings:data.holdings, factories:data.factories, companies:data.companies, ts:Date.now() });
   });
 
