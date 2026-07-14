@@ -1192,6 +1192,23 @@ function App() {
         if (data.type==='newGang')  showNotif(`⚔️ ${data.username} yeni çete kurdu: ${data.payload}`, 'info', '⚔️');
       });
 
+      // ── DB bağlantı durumu ───────────────────────────────────────
+      s.on('dbStatus', (data) => {
+        if (data?.status === 'error') {
+          showNotif('⚠️ Sunucu veritabanına bağlanamıyor, işlemler geçici olarak devre dışı.', 'error', '⚠️');
+        } else if (data?.status === 'connected') {
+          showNotif('✅ Veritabanı bağlantısı yeniden kuruldu.', 'success', '✅');
+        }
+      });
+
+      // ── Kuruluş oluşturma hataları ───────────────────────────────
+      s.on('gang:createError', (data) => {
+        showNotif(`❌ Çete/aile oluşturulamadı: ${data?.msg || 'Sunucu hatası'}`, 'error', '❌');
+      });
+      s.on('party:createError', (data) => {
+        showNotif(`❌ Parti oluşturulamadı: ${data?.msg || 'Sunucu hatası'}`, 'error', '❌');
+      });
+
       return true;
     };
     if (!attach()) {
