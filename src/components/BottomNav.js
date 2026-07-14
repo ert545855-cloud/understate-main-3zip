@@ -1,7 +1,8 @@
 "use strict";
 // ═══════════════════════════════════════════════════════
-// ALT NAVİGASYON BİLEŞENİ — Design System v9
-// Active state: gold (#C9A227) underline + label — unified across all groups
+// ALT NAVİGASYON BİLEŞENİ — Design System v10
+// Palette: bg=#11151C  surface=#1B212B  gold=#C9A227
+// Active: gold pill  Inactive: muted #6B7687
 // ═══════════════════════════════════════════════════════
 const { useState: useStateNav } = React;
 
@@ -11,17 +12,17 @@ const NAV_GROUPS = [
     id:'ekonomi', icon:'💰', svgIcon:'money', label:'Ekonomi', rgb:'201,162,39',
     items:[
       { id:'jobs',            icon:'💼', svgIcon:'briefcase', label:'İşler',          rgb:'76,154,107'  },
-      { id:'kariyer',         icon:'🏗️', svgIcon:'factory',   label:'Kariyer Çalışma', rgb:'201,162,39' },
+      { id:'kariyer',         icon:'🏗️', svgIcon:'factory',   label:'Kariyer',        rgb:'201,162,39' },
       { id:'economy',         icon:'📊', svgIcon:'chart',     label:'Genel',          rgb:'76,154,107'  },
       { id:'farm',            icon:'🌾', svgIcon:'farm',      label:'Tarım',          rgb:'76,154,107'  },
       { id:'livestock',       icon:'🐄', svgIcon:'truck',     label:'Hayvancılık',    rgb:'76,154,107'  },
       { id:'market',          icon:'🛒', svgIcon:'money',     label:'Market',         rgb:'201,162,39'  },
       { id:'holdings',        icon:'🏢', svgIcon:'briefcase', label:'Şirketler',      rgb:'201,162,39'  },
-      { id:'economic_empire', icon:'🏢', svgIcon:'chart',     label:'İmparatorluk',   rgb:'76,154,107'  },
+      { id:'economic_empire', icon:'👑', svgIcon:'chart',     label:'İmparatorluk',   rgb:'76,154,107'  },
       { id:'factory',         icon:'🏭', svgIcon:'factory',   label:'Fabrika',        rgb:'201,162,39'  },
       { id:'mining',          icon:'⛏️', svgIcon:'mining',    label:'Maden',          rgb:'136,147,161' },
       { id:'education',       icon:'🎓', svgIcon:'education', label:'Eğitim',         rgb:'201,162,39'  },
-      { id:'unions',          icon:'🏭', svgIcon:'users',     label:'Sendikalar',     rgb:'76,154,107'  },
+      { id:'unions',          icon:'🤝', svgIcon:'users',     label:'Sendikalar',     rgb:'76,154,107'  },
       { id:'daily',           icon:'📅', svgIcon:'tasks',     label:'Görevler',       rgb:'201,162,39'  },
     ],
   },
@@ -66,17 +67,17 @@ const NAV_GROUPS = [
   {
     id:'sosyal', icon:'👥', svgIcon:'users', label:'Sosyal', rgb:'136,147,161',
     items:[
-      { id:'chat',         icon:'💬', svgIcon:'chat',      label:'Sohbet',    rgb:'136,147,161' },
-      { id:'klanchat',     icon:'🔒', svgIcon:'shield',    label:'Klan',      rgb:'136,147,161' },
-      { id:'dm',           icon:'📬', svgIcon:'chat',      label:'Mesaj',     rgb:'201,162,39'  },
-      { id:'players',      icon:'👥', svgIcon:'users',     label:'Oyuncular', rgb:'201,162,39'  },
-      { id:'social',       icon:'📱', svgIcon:'users',     label:'Sosyal',    rgb:'136,147,161' },
+      { id:'chat',         icon:'💬', svgIcon:'chat',      label:'Sohbet',       rgb:'136,147,161' },
+      { id:'klanchat',     icon:'🔒', svgIcon:'shield',    label:'Klan',         rgb:'136,147,161' },
+      { id:'dm',           icon:'📬', svgIcon:'chat',      label:'Mesaj',        rgb:'201,162,39'  },
+      { id:'players',      icon:'👥', svgIcon:'users',     label:'Oyuncular',    rgb:'201,162,39'  },
+      { id:'social',       icon:'📱', svgIcon:'users',     label:'Sosyal',       rgb:'136,147,161' },
       { id:'newspaper',    icon:'📡', svgIcon:'newspaper', label:'Haber Ajansı', rgb:'201,162,39'  },
-      { id:'football',     icon:'⚽', svgIcon:'trophy',    label:'Futbol',    rgb:'76,154,107'  },
-      { id:'casino',       icon:'🎰', svgIcon:'crown',     label:'Kumarhane', rgb:'201,162,39'  },
-      { id:'duyurular',    icon:'📣', svgIcon:'newspaper', label:'Duyurular', rgb:'201,162,39'  },
-      { id:'leaderboard',  icon:'🏆', svgIcon:'trophy',    label:'Sıralama',  rgb:'201,162,39'  },
-      { id:'achievements', icon:'🎖️', svgIcon:'crown',    label:'Başarılar', rgb:'201,162,39'  },
+      { id:'football',     icon:'⚽', svgIcon:'trophy',    label:'Futbol',       rgb:'76,154,107'  },
+      { id:'casino',       icon:'🎰', svgIcon:'crown',     label:'Kumarhane',    rgb:'201,162,39'  },
+      { id:'duyurular',    icon:'📣', svgIcon:'newspaper', label:'Duyurular',    rgb:'201,162,39'  },
+      { id:'leaderboard',  icon:'🏆', svgIcon:'trophy',    label:'Sıralama',     rgb:'201,162,39'  },
+      { id:'achievements', icon:'🎖️', svgIcon:'crown',    label:'Başarılar',    rgb:'201,162,39'  },
     ],
   },
 ];
@@ -84,6 +85,21 @@ const NAV_GROUPS = [
 const NAV_GROUP_TKEYS = { home:'home', ekonomi:'economy', savas:'battle', devlet:'state', sosyal:'social' };
 const NAV_ITEMS = NAV_GROUPS.flatMap(g => g.direct ? [{ id:g.id, icon:g.icon, label:g.label, rgb:g.rgb }] : (g.items||[]));
 window.NAV_ITEMS = NAV_ITEMS;
+
+// ── Design tokens ──────────────────────────────────────
+const BN_DS = {
+  bg:       'rgba(11, 15, 22, 0.97)',
+  surface:  '#1B212B',
+  border:   'rgba(201,162,39,0.18)',
+  gold:     '#C9A227',
+  goldDim:  'rgba(201,162,39,0.12)',
+  goldGlow: 'rgba(201,162,39,0.55)',
+  muted:    '#6B7687',
+  text:     '#EDE7DA',
+  red:      'rgb(194,75,67)',
+  navH:     68,
+  radius:   22,
+};
 
 function getActiveGroup(page) {
   if (page === 'home') return 'home';
@@ -112,68 +128,83 @@ function BottomNav({ page, onChange, items, notifMap={} }) {
   const handleItemClick = (itemId) => { setOpenGroup(null); onChange(itemId); };
   const currentGroup = allGroups.find(g => g.id === openGroup);
 
-  const GOLD = '#F0B33E';
-  const navH = 70;
-
   return (
     <>
-      {/* Sub-menu panel */}
+      {/* ── Sub-menu panel ───────────────────────────────── */}
       {openGroup && currentGroup && (
         <>
+          {/* Backdrop */}
           <div
             onClick={() => setOpenGroup(null)}
-            style={{position:'fixed',inset:0,zIndex:890,background:'rgba(0,0,0,0.55)'}}
+            style={{position:'fixed',inset:0,zIndex:890,background:'rgba(0,0,0,0.6)',backdropFilter:'blur(4px)'}}
           />
+          {/* Panel */}
           <div style={{
-            position:'fixed', bottom:navH+10,
+            position:'fixed',
+            bottom: BN_DS.navH + 12,
             left:'50%', transform:'translateX(-50%)',
-            width:'min(100vw, 480px)', zIndex:895,
-            background:'#16224A',
-            border:`1.5px solid ${GOLD}`,
-            borderRadius:'22px',
-            padding:'14px 12px 12px',
-            boxShadow:'0 -8px 40px rgba(3,6,20,0.7)',
-            maxHeight:'58vh', overflowY:'auto',
+            width:'min(96vw, 500px)',
+            zIndex:895,
+            background: BN_DS.surface,
+            border:`1.5px solid ${BN_DS.border}`,
+            borderRadius: 20,
+            padding:'16px 14px 14px',
+            boxShadow:'0 -12px 48px rgba(0,0,0,0.75), 0 0 0 1px rgba(201,162,39,0.06)',
+            maxHeight:'62vh', overflowY:'auto',
           }}>
-            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'12px',paddingLeft:'2px'}}>
-              <span style={{fontSize:'0.92rem',fontWeight:800,color:'#F2F5FA',fontFamily:"'Syne',sans-serif",letterSpacing:'0.02em'}}>
-                {currentGroup.icon}&nbsp;{NAV_GROUP_TKEYS[currentGroup.id] ? T(NAV_GROUP_TKEYS[currentGroup.id]) : currentGroup.label}
-              </span>
+            {/* Panel header */}
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:14,paddingLeft:2}}>
+              <div style={{display:'flex',alignItems:'center',gap:8}}>
+                <span style={{fontSize:'1.1rem'}}>{currentGroup.icon}</span>
+                <span style={{fontSize:'0.9rem',fontWeight:800,color:BN_DS.text,fontFamily:"'Syne',sans-serif",letterSpacing:'0.04em',textTransform:'uppercase'}}>
+                  {NAV_GROUP_TKEYS[currentGroup.id] ? T(NAV_GROUP_TKEYS[currentGroup.id]) : currentGroup.label}
+                </span>
+              </div>
               <button
                 onClick={() => setOpenGroup(null)}
-                style={{background:'rgba(255,255,255,0.08)',border:'1px solid rgba(255,255,255,0.14)',borderRadius:'999px',color:'#8896B8',fontSize:'0.88rem',cursor:'pointer',padding:'4px 10px',lineHeight:1,fontFamily:"'Inter',sans-serif"}}
+                style={{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:999,color:BN_DS.muted,fontSize:'0.8rem',cursor:'pointer',padding:'5px 12px',lineHeight:1,fontFamily:"'Inter',sans-serif",transition:'all 0.15s'}}
               >✕</button>
             </div>
-            <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'6px'}}>
+
+            {/* Divider */}
+            <div style={{height:1,background:`linear-gradient(90deg,transparent,${BN_DS.border},transparent)`,marginBottom:12}} />
+
+            {/* Grid */}
+            <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:8}}>
               {(currentGroup.items||[]).map(it => {
                 const active = page === it.id;
+                const clr    = `rgb(${it.rgb})`;
                 return (
                   <button key={it.id} onClick={() => handleItemClick(it.id)}
                     style={{
                       display:'flex', flexDirection:'column', alignItems:'center',
-                      justifyContent:'center', gap:'5px',
-                      padding:'11px 4px', borderRadius:'16px',
-                      border:`1px solid ${active ? `rgba(${it.rgb},0.5)` : 'rgba(255,255,255,0.09)'}`,
-                      background: active ? `rgba(${it.rgb},0.16)` : 'rgba(255,255,255,0.04)',
+                      justifyContent:'center', gap:6,
+                      padding:'13px 4px 11px',
+                      borderRadius:14,
+                      border:`1.5px solid ${active ? `rgba(${it.rgb},0.45)` : 'rgba(255,255,255,0.07)'}`,
+                      background: active ? `rgba(${it.rgb},0.13)` : 'rgba(255,255,255,0.03)',
                       cursor:'pointer', WebkitTapHighlightColor:'transparent',
                       transition:'all 0.12s', position:'relative',
+                      boxShadow: active ? `0 0 18px rgba(${it.rgb},0.18)` : 'none',
                     }}
                   >
                     {it.svgIcon
-                      ? <SvgIcon name={it.svgIcon} size={24} style={{filter:active?`drop-shadow(0 0 5px rgba(${it.rgb},0.7))`:'none'}} />
-                      : <span style={{fontSize:'1.35rem',lineHeight:1,filter:active?`drop-shadow(0 0 5px rgba(${it.rgb},0.7))`:'none'}}>{it.icon}</span>
+                      ? <SvgIcon name={it.svgIcon} size={22}
+                          style={{filter:active?`drop-shadow(0 0 6px rgba(${it.rgb},0.65))`:'none',opacity:active?1:0.65}}
+                        />
+                      : <span style={{fontSize:'1.25rem',lineHeight:1,filter:active?`drop-shadow(0 0 6px rgba(${it.rgb},0.65))`:'none',display:'inline-block',opacity:active?1:0.8}}>{it.icon}</span>
                     }
                     <span style={{
-                      fontSize:'0.68rem', fontWeight:700,
-                      color: active ? `rgb(${it.rgb})` : '#8896B8',
-                      textAlign:'center', lineHeight:1.2,
+                      fontSize:'0.64rem', fontWeight:700,
+                      color: active ? clr : BN_DS.muted,
+                      textAlign:'center', lineHeight:1.25,
                       letterSpacing:'0.01em',
                       fontFamily:"'Inter',sans-serif",
                     }}>
                       {T(NAV_ITEM_TKEYS&&NAV_ITEM_TKEYS[it.id]||it.id) || it.label}
                     </span>
                     {notifMap[it.id] > 0 && (
-                      <span style={{position:'absolute',top:3,right:5,background:'#EF5350',color:'#F2F5FA',fontSize:'0.44rem',fontWeight:900,minWidth:'12px',height:'12px',borderRadius:'6px',display:'flex',alignItems:'center',justifyContent:'center',padding:'0 2px'}}>
+                      <span style={{position:'absolute',top:4,right:6,background:'#EF5350',color:'#fff',fontSize:'0.42rem',fontWeight:900,minWidth:'14px',height:'14px',borderRadius:7,display:'flex',alignItems:'center',justifyContent:'center',padding:'0 3px',boxShadow:'0 2px 6px rgba(239,83,80,0.5)'}}>
                         {notifMap[it.id]}
                       </span>
                     )}
@@ -185,68 +216,107 @@ function BottomNav({ page, onChange, items, notifMap={} }) {
         </>
       )}
 
-      {/* Main nav bar — rounded pill dock (Mayor Simulator style) */}
+      {/* ── Main nav bar ─────────────────────────────────── */}
       <div style={{
         position:'fixed', bottom:0, left:0, right:0, zIndex:900,
         display:'flex', justifyContent:'center',
-        paddingBottom:'calc(10px + env(safe-area-inset-bottom,0px))',
+        padding:'0 8px calc(10px + env(safe-area-inset-bottom,0px)) 8px',
         pointerEvents:'none',
       }}>
         <div style={{
-          display:'flex', gap:'6px',
-          height:`${navH}px`, maxWidth:'480px', width:'calc(100% - 16px)',
-          margin:'0 8px', padding:'6px',
-          background:'#16224A',
-          border:'1.5px solid rgba(255,255,255,0.1)',
-          borderRadius:'999px',
-          boxShadow:'0 -6px 28px rgba(3,6,20,0.6), 0 4px 18px rgba(3,6,20,0.5)',
+          display:'flex',
+          height: BN_DS.navH,
+          maxWidth:520, width:'100%',
+          background: BN_DS.bg,
+          border:`1.5px solid ${BN_DS.border}`,
+          borderRadius: BN_DS.radius,
+          boxShadow:'0 -4px 32px rgba(0,0,0,0.65), 0 -1px 0 rgba(201,162,39,0.08), inset 0 1px 0 rgba(255,255,255,0.04)',
+          backdropFilter:'blur(28px)',
+          WebkitBackdropFilter:'blur(28px)',
+          padding:'5px 4px',
+          gap:2,
           pointerEvents:'auto',
+          overflow:'hidden',
         }}>
           {allGroups.map(group => {
             const isActive = group.direct ? page===group.id : activeGroup===group.id;
             const isOpen   = openGroup===group.id;
-            const hasNotif = !group.direct && (group.items||[]).some(i => notifMap[i.id] > 0);
             const lit      = isActive || isOpen;
+            const hasNotif = !group.direct && (group.items||[]).some(i => notifMap[i.id] > 0);
+            const groupRgb = group.rgb || '201,162,39';
 
             return (
               <button key={group.id} onClick={() => handleTabClick(group)}
                 style={{
-                  flex:1, display:'flex', flexDirection:'column',
-                  alignItems:'center', justifyContent:'center', gap:'2px',
-                  border: lit ? `1.5px solid ${GOLD}` : '1.5px solid transparent',
-                  borderRadius:'999px',
-                  background: lit ? 'rgba(240,179,62,0.16)' : 'transparent',
-                  cursor:'pointer', WebkitTapHighlightColor:'transparent',
-                  position:'relative', transition:'all 0.15s',
+                  flex:1,
+                  display:'flex', flexDirection:'column',
+                  alignItems:'center', justifyContent:'center', gap:3,
+                  borderRadius: BN_DS.radius - 4,
+                  border:'none',
+                  background: lit
+                    ? `linear-gradient(160deg,rgba(${groupRgb},0.18) 0%,rgba(${groupRgb},0.09) 100%)`
+                    : 'transparent',
+                  cursor:'pointer',
+                  WebkitTapHighlightColor:'transparent',
+                  position:'relative',
+                  transition:'background 0.18s, transform 0.12s',
+                  padding:'4px 2px',
+                  outline: lit ? `1px solid rgba(${groupRgb},0.3)` : '1px solid transparent',
+                  outlineOffset:'-1px',
                 }}
+                onTouchStart={e => e.currentTarget.style.transform='scale(0.94)'}
+                onTouchEnd={e   => e.currentTarget.style.transform='scale(1)'}
               >
-                {group.svgIcon
-                  ? <SvgIcon name={group.svgIcon} size={20}
-                      style={{
-                        transform: lit ? 'scale(1.1)' : 'scale(1)',
-                        transition: 'transform 0.15s',
-                        filter: lit ? `drop-shadow(0 0 5px rgba(240,179,62,0.65))` : 'none',
-                      }}
-                    />
-                  : <span style={{
-                      fontSize:'1.15rem', lineHeight:1,
-                      transform: lit ? 'scale(1.1)' : 'scale(1)',
-                      transition: 'transform 0.15s',
-                      filter: lit ? `drop-shadow(0 0 5px rgba(240,179,62,0.65))` : 'none',
-                      display:'inline-block',
-                    }}>{group.icon}</span>
-                }
+                {/* Icon */}
+                <div style={{
+                  width:32, height:32,
+                  display:'flex', alignItems:'center', justifyContent:'center',
+                  position:'relative',
+                }}>
+                  {group.svgIcon
+                    ? <SvgIcon name={group.svgIcon} size={21}
+                        style={{
+                          opacity: lit ? 1 : 0.5,
+                          filter: lit ? `drop-shadow(0 0 7px rgba(${groupRgb},0.7))` : 'none',
+                          transition:'opacity 0.18s, filter 0.18s',
+                        }}
+                      />
+                    : <span style={{
+                        fontSize:'1.2rem', lineHeight:1, display:'inline-block',
+                        opacity: lit ? 1 : 0.5,
+                        filter: lit ? `drop-shadow(0 0 7px rgba(${groupRgb},0.7))` : 'none',
+                        transition:'opacity 0.18s, filter 0.18s',
+                      }}>{group.icon}</span>
+                  }
+                  {/* Notif dot */}
+                  {hasNotif && (
+                    <span style={{position:'absolute',top:0,right:0,width:7,height:7,borderRadius:'50%',background:'#EF5350',border:'1.5px solid rgba(11,15,22,0.97)',boxShadow:'0 0 6px rgba(239,83,80,0.7)'}} />
+                  )}
+                </div>
+
+                {/* Label */}
                 <span style={{
-                  fontSize:'0.56rem', fontWeight:800,
-                  letterSpacing:'0.01em', textTransform:'none',
-                  color: lit ? GOLD : '#8896B8',
-                  transition:'color 0.15s',
+                  fontSize:'0.55rem',
+                  fontWeight: lit ? 800 : 500,
+                  letterSpacing:'0.01em',
+                  color: lit ? `rgb(${groupRgb})` : BN_DS.muted,
+                  transition:'color 0.18s, font-weight 0.18s',
                   fontFamily:"'Inter',sans-serif",
+                  whiteSpace:'nowrap',
+                  lineHeight:1,
                 }}>
                   {NAV_GROUP_TKEYS[group.id] ? T(NAV_GROUP_TKEYS[group.id]) : group.label}
                 </span>
-                {hasNotif && (
-                  <span style={{position:'absolute',top:2,right:'20%',width:'5px',height:'5px',borderRadius:'50%',background:'#EF5350'}} />
+
+                {/* Active underline accent */}
+                {lit && (
+                  <div style={{
+                    position:'absolute',
+                    bottom:4, left:'25%', right:'25%',
+                    height:2,
+                    borderRadius:2,
+                    background:`linear-gradient(90deg,transparent,rgba(${groupRgb},0.9),transparent)`,
+                  }} />
                 )}
               </button>
             );

@@ -155,10 +155,8 @@ function AuthScreen({ onLogin }) {
         if (data.refreshToken) localStorage.setItem('us_refresh', data.refreshToken);
         localStorage.setItem('userId', profile.id);
         localStorage.setItem('rep_userProfile', JSON.stringify(profile));
-        if (!profile.emailVerified) {
-          setUnverifiedUser({ profile, token: data.token });
-          setLoading(false); return;
-        }
+        // E-posta doğrulaması opsiyonel — doğrulanmamış kullanıcı da giriş yapabilir
+        // Doğrulanmamışsa oyun içinde yumuşak uyarı banner'ı gösterilir (app.js line ~1323)
         _setupSocket(profile);
         setLoading(false); onLogin(profile); return;
       }

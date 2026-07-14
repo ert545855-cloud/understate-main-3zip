@@ -117,14 +117,17 @@ async function register(req, res) {
     const rawVerifyToken    = crypto.randomBytes(32).toString('hex');
     const hashedVerifyToken = crypto.createHash('sha256').update(rawVerifyToken).digest('hex');
 
+    // Posta servisi yoksa kullanıcıyı anında doğrula — email doğrulaması olmadan oturum açmasına izin ver
+    const autoVerify = !mailAvailable;
+
     const userFields = {
       username:            cleanUsername,
       email:               cleanEmail,
       password_hash:       passwordHash,
       referral_code:       referralCode,
-      email_verified:      false,
-      email_verify_token:  hashedVerifyToken,
-      email_verify_expiry: new Date(Date.now() + EMAIL_VERIFY_EXPIRY_MS).toISOString(),
+      email_verified:      autoVerify,
+      email_verify_token:  autoVerify ? null : hashedVerifyToken,
+      email_verify_expiry: autoVerify ? null : new Date(Date.now() + EMAIL_VERIFY_EXPIRY_MS).toISOString(),
     };
 
     const { ok, user, error } = await sb.createUser(userFields);
