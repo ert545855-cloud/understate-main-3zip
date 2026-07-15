@@ -24,7 +24,7 @@ function PremiumPage({ profile, setProfile, showNotif }) {
       {/* Hero */}
       <div style={{background:'linear-gradient(135deg,#1a0a2e,#2d1060)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'14px',padding:'1.5rem',textAlign:'center',marginBottom:'0.75rem'}}>
         <div style={{fontSize:'2.5rem',marginBottom:'0.5rem'}}>💎</div>
-        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#EDE7DA',marginBottom:'0.25rem'}}>UNDERSTATE VIP</div>
+        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#EDE7DA',marginBottom:'0.25rem'}}>SALTANAT VIP</div>
         <div style={{fontSize:'0.78rem',color:'#EDE7DA'}}>Premium üyelik ile tüm avantajların kilidini aç</div>
         {profile?.premium && <Tag color='violet' style={{marginTop:'0.5rem'}}>✅ Aktif VIP Üye</Tag>}
       </div>

@@ -776,7 +776,7 @@ function CityGovPage({ profile, setProfile, showNotif }) {
       <div style={{...card,background:'rgba(201,162,39,0.05)',border:'1px solid rgba(201,162,39,0.15)'}}>
         <div style={{fontWeight:800,color:'#C9A227',marginBottom:'0.4rem',fontSize:'0.82rem'}}>📖 Makam Hakkında</div>
         <div style={{fontSize:'0.7rem',color:'#8893A1',lineHeight:1.6}}>
-          UNDERSTATE'de şehir yönetimi gerçekçi bir hiyerarşi sistemiyle çalışır. Her makamın zorunlu görevleri vardır; bu görevler yapılmazsa makam kaybedilebilir. Daha yüksek makamlara çıkmak için hem eğitim diploması hem de liyakat puanı gerekmektedir. Holding sahipleri belirli makamlara gizlice destek verebilir.
+          Saltanat Online'da şehir yönetimi gerçekçi bir hiyerarşi sistemiyle çalışır. Her makamın zorunlu görevleri vardır; bu görevler yapılmazsa makam kaybedilebilir. Daha yüksek makamlara çıkmak için hem eğitim diploması hem de liyakat puanı gerekmektedir. Holding sahipleri belirli makamlara gizlice destek verebilir.
         </div>
       </div>
 

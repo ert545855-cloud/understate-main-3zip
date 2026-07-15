@@ -81,7 +81,7 @@ function StorePage({ profile, setProfile, showNotif }) {
     <div style={{padding:'0.7rem'}}>
       <div style={{background:'linear-gradient(135deg,#0f0c29,#302b63,#24243e)',border:'1px solid rgba(236,72,153,0.3)',borderRadius:'14px',padding:'1.25rem',textAlign:'center',marginBottom:'0.75rem'}}>
         <div style={{fontSize:'2rem',marginBottom:'0.4rem'}}>🛒</div>
-        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.2rem',fontWeight:900,color:'#EDE7DA'}}>UNDERSTATE MARKET</div>
+        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.2rem',fontWeight:900,color:'#EDE7DA'}}>SALTANAT MARKET</div>
         <div style={{fontSize:'0.72rem',color:'#EDE7DA',marginTop:'0.25rem'}}>VIP üyelik ve UnderCoin satın al</div>
         {profile?.premium && <div style={{marginTop:'0.5rem',display:'inline-block',background:'rgba(167,139,250,0.2)',border:'1px solid rgba(201,162,39,0.35)',borderRadius:'8px',padding:'0.25rem 0.75rem',fontSize:'0.7rem',color:'#C9A227',fontWeight:700}}>✅ Aktif VIP Üye</div>}
       </div>

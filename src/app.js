@@ -1244,7 +1244,7 @@ function App() {
       try {
         if(window.Notification && Notification.permission === 'default') {
           Notification.requestPermission().then(perm=>{
-            if(perm==='granted') window._pushNotif('🎮 UnderState', 'Hoş geldin! Bildirimler açık.','welcome');
+            if(perm==='granted') window._pushNotif('🎮 Saltanat Online', 'Hoş geldin! Bildirimler açık.','welcome');
           });
         }
       } catch(e){}
@@ -1299,7 +1299,7 @@ function App() {
 
   const notifCount = notifications.filter(n => Date.now()-n.ts < 300000).length;
 
-  const isAdmin = profile?.role === 'admin' || profile?.isAdmin === true || profile?.email === 'admin@understate.tr';
+  const isAdmin = profile?.role === 'admin' || profile?.isAdmin === true || profile?.email === 'admin@saltanat.online';
   const pageProps = { profile, setProfile, showNotif, onNavigate: setPage, gangWars, setGangWars, gangs, setGangs, parties, setParties };
   const navItems = isAdmin
     ? [...NAV_ITEMS, { id:'admin', icon:'⚙️', label:'Admin', rgb:'239,68,68' }]
@@ -1400,7 +1400,7 @@ function App() {
               <div style={{background:'#1B212B',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'14px',padding:'1.5rem 1.25rem',maxWidth:'380px',width:'100%',maxHeight:'85vh',overflowY:'auto',boxShadow:'0 25px 80px rgba(0,0,0,0.8)'}}>
                 <div style={{textAlign:'center',marginBottom:'1.25rem'}}>
                   <div style={{fontSize:'2.5rem',marginBottom:'0.4rem'}}>🏙️</div>
-                  <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#EDE7DA'}}>UnderState'e Hoş Geldin!</div>
+                  <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#EDE7DA'}}>Saltanat Online'a Hoş Geldin!</div>
                   <div style={{fontSize:'0.78rem',color:'#8893A1',marginTop:'0.3rem'}}>{profile?.username||'Oyuncu'}, sana birkaç ipucu verelim 🎮</div>
                 </div>
                 <div style={{display:'flex',flexDirection:'column',gap:'0.6rem',marginBottom:'1.25rem'}}>
@@ -1489,7 +1489,7 @@ class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     this.setState({ errorInfo });
-    console.error('[UNDERSTATE ErrorBoundary] React hatas\u0131:', error, errorInfo);
+    console.error('[SALTANAT ErrorBoundary] React hatası:', error, errorInfo);
     try {
       const jwt = localStorage.getItem('us_jwt');
       if (jwt) {

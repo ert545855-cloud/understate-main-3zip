@@ -121,7 +121,7 @@ function AuthScreen({ onLogin }) {
       let adminUser = users.find(u => u.username==='admin'||u.role==='admin');
       if (!adminUser) adminUser = {
         id:'admin_001', uid:'admin_001', username:'admin', password:_hashPass('admin123'),
-        email:'admin@understate.tr', city:'Ankara', gender:'erkek',
+        email:'admin@saltanat.online', city:'Ankara', gender:'erkek',
         money:999999999, bankMoney:999999999, bank:999999999, underCoin:99999,
         xp:999999, level:99, meritPoints:9999, loyaltyPoints:9999, hp:100,
         role:'admin', isAdmin:true, banned:false, premium:true, vip:true,
@@ -349,14 +349,14 @@ function AuthScreen({ onLogin }) {
             <img src="understate-icon.png" alt="UnderState" style={{width:'clamp(90px,22vw,140px)',height:'clamp(90px,22vw,140px)',objectFit:'contain',borderRadius:'20%',boxShadow:'0 0 40px rgba(201,162,39,0.4)',border:'2px solid rgba(201,162,39,0.25)'}} />
           </div>
           <div style={{fontFamily:"'Syne',sans-serif",fontSize:'clamp(1.4rem,5vw,2.2rem)',fontWeight:900,letterSpacing:'0.15em',color:'#EDE7DA',textShadow:'0 2px 24px rgba(0,0,0,0.8)',textTransform:'uppercase',marginBottom:'0.4rem'}}>
-            UNDERSTATE
+            SALTANAT ONLİNE
           </div>
           {/* Animated loading bar */}
           <div style={{width:'100%',maxWidth:'320px',margin:'0 auto',height:'3px',background:'rgba(237,231,218,0.12)',borderRadius:'2px',overflow:'hidden'}}>
             <div style={{height:'100%',width:loading?`${barProgress}%`:'0%',background:'linear-gradient(90deg,#C9A227,#E5C14B,#C9A227)',borderRadius:'2px',transition:loading?'width 1.8s cubic-bezier(0.4,0,0.2,1)':'none',boxShadow:'0 0 8px rgba(201,162,39,0.8)'}} />
           </div>
           <div style={{color:'#8893A1',fontSize:'0.65rem',letterSpacing:'0.15em',textTransform:'uppercase',fontFamily:"'Inter',sans-serif",marginTop:'0.4rem'}}>
-            Şehir & Devlet Simülasyonu • v{APP_V}
+            Osmanlı Strateji & Rol Yapma Oyunu • v{APP_V}
           </div>
         </div>
 
@@ -454,7 +454,7 @@ function AuthScreen({ onLogin }) {
           ))}
         </div>
         <div style={{marginTop:'0.75rem',color:'rgba(237,231,218,0.2)',fontSize:'0.68rem',textAlign:'center',position:'relative',zIndex:1,letterSpacing:'0.08em'}}>
-          🔒 UnderState • Güvenli Giriş
+          🔒 Saltanat Online • Güvenli Giriş
         </div>
       </div>
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>

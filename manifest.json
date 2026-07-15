@@ -1,13 +1,13 @@
 {
-  "name": "UNDERSTATE",
-  "short_name": "UNDERSTATE",
-  "description": "Çok oyunculu şehir ve devlet simülasyon oyunu",
+  "name": "Saltanat Online",
+  "short_name": "Saltanat",
+  "description": "Osmanlı döneminde geçen çok oyunculu strateji ve rol yapma oyunu",
   "display": "standalone",
   "orientation": "portrait-primary",
   "start_url": "/",
   "scope": "/",
-  "background_color": "#0A1628",
-  "theme_color": "#0A1628",
+  "background_color": "#0F1115",
+  "theme_color": "#0F1115",
   "categories": ["games", "strategy"],
   "lang": "tr",
   "icons": [

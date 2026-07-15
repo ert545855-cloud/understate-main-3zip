@@ -1541,7 +1541,7 @@ function AdminPage({ profile, showNotif, onNavigate }) {
           <div style={cs}>
             <div style={{fontWeight:800,color:'#EDE7DA',marginBottom:'0.5rem',fontSize:'0.85rem'}}>ℹ️ Sistem Bilgisi</div>
             {[
-              ['Oyun', 'UNDERSTATE v8.0'],
+              ['Oyun', 'Saltanat Online v8.0'],
               ['Kullanıcı Sayısı', allUsers.length],
               ['Online Sayısı', onlineCnt],
               ['Banlı Kullanıcı', bannedCount],
