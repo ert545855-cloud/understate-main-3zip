@@ -252,6 +252,21 @@ function HomePage({ profile, onNavigate }) {
       </div>
       </div>
 
+      {/* ── Sadakat Puanı Banner ── */}
+      <div onClick={()=>onNavigate('sadakat')} style={{background:'linear-gradient(135deg,rgba(200,155,60,0.14),rgba(45,24,0,0.9))',border:'1px solid rgba(200,155,60,0.28)',borderRadius:'10px',padding:'0.75rem 1rem',marginBottom:'0.55rem',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'space-between',WebkitTapHighlightColor:'transparent'}}>
+        <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
+          <span style={{fontSize:'1.2rem'}}>💎</span>
+          <div>
+            <div style={{fontSize:'0.6rem',color:'#8893A1',textTransform:'uppercase',letterSpacing:'0.08em',fontWeight:700}}>Sadakat Puanı</div>
+            <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'1.15rem',fontWeight:900,color:'#C89B3C'}}>{(profile?.loyaltyPoints||0).toLocaleString('tr-TR')}</div>
+          </div>
+        </div>
+        <div style={{textAlign:'right'}}>
+          <div style={{fontSize:'0.6rem',color:'#8893A1',marginBottom:3}}>Beylik kurmak için 150.000</div>
+          <div style={{background:'rgba(200,155,60,0.15)',border:'1px solid rgba(200,155,60,0.3)',borderRadius:8,padding:'4px 10px',fontSize:'0.65rem',color:'#C89B3C',fontWeight:700}}>Görevler →</div>
+        </div>
+      </div>
+
       {/* ── 2-column stat cards ── */}
       <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.55rem',marginBottom:'0.75rem'}}>
         {[

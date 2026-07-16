@@ -35,7 +35,7 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
   const benimBeylik = beyliks.find(b => b.kurucuId === uid || (b.uyeler||[]).includes(uid));
   const isKurucu = benimBeylik?.kurucuId === uid;
 
-  const sadakat = profile?.sadakat || 0;
+  const sadakat = profile?.loyaltyPoints || profile?.sadakat || 0;
   const sikke = profile?.money || 0;
   const altin = profile?.altin || profile?.underCoin || 0;
 
@@ -82,7 +82,7 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
       money: sikke - BEYLIK_KUR_MALIYET.sikke,
       altin: altin - BEYLIK_KUR_MALIYET.altin,
       underCoin: altin - BEYLIK_KUR_MALIYET.altin,
-      sadakat: sadakat - BEYLIK_KUR_MALIYET.sadakat,
+      loyaltyPoints: sadakat - BEYLIK_KUR_MALIYET.sadakat,
       beylikId: yeniBeylik.id,
       beylikUnvan: 'bey',
     };

@@ -190,14 +190,27 @@ async function login(req, res) {
     const token        = signToken({ id: user.id, username: user.username, role: user.role });
     const newRefresh   = signRefreshToken({ id: user.id });
 
-    await sb.updateUser(user.id, {
+    const updates = {
       refresh_token: newRefresh,
       last_login:    new Date().toISOString(),
       is_online:     true,
-    });
+    };
+
+    // Admin girişinde sadakat puanını en az 5000 yap
+    const isAdmin = user.role === 'admin' || ADMIN_USERNAMES.includes(user.username);
+    if (isAdmin && (user.loyalty_points || 0) < 5000) {
+      updates.loyalty_points = 5000;
+    }
+
+    await sb.updateUser(user.id, updates);
+
+    // Güncellenmiş kullanıcıyı döndür
+    const updatedUser = isAdmin && updates.loyalty_points
+      ? { ...user, loyalty_points: updates.loyalty_points }
+      : user;
 
     logger.info(`Giriş: ${user.username}`);
-    res.json({ success: true, token, refreshToken: newRefresh, user: userToPublic(user) });
+    res.json({ success: true, token, refreshToken: newRefresh, user: userToPublic(updatedUser) });
   } catch (err) {
     logger.error('Login hatası:', err.message);
     res.status(500).json({ success: false, message: 'Sunucu hatası' });
