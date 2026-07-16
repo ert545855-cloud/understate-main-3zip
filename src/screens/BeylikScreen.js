@@ -21,15 +21,24 @@ const IDEOLOJI_LISTESI = [
   { id:'ilim',    label:'İlim Ocağı',    acik:'Bilim odaklı, XP kazanımı +10%',  renk:'#3E8C5A' },
 ];
 
-window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, allUsers }) {
+window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, allUsers, serverBeyliks, setServerBeyliks, savasIlanlari }) {
+  // Sunucudan gelen beylikler öncelikli, yoksa localStorage'dan başla
   const [beyliks, setBeyliks] = React.useState(() => {
+    if (Array.isArray(serverBeyliks) && serverBeyliks.length > 0) return serverBeyliks;
     try { return JSON.parse(localStorage.getItem('rep_beyliks') || '[]'); } catch { return []; }
   });
-  const [tab, setTab] = React.useState('liste'); // 'liste' | 'kur' | 'yonet' | 'liderlik'
+  const [tab, setTab] = React.useState('liste'); // 'liste' | 'kur' | 'yonet' | 'liderlik' | 'savas'
   const [kurForm, setKurForm] = React.useState({ ad: '', ideoloji: 'gazi', renk: '#C89B3C', motto: '' });
   const [seciliBeylik, setSeciliBeylik] = React.useState(null);
   const [katilOnay, setKatilOnay] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
+
+  // Sunucudan gelen güncellemeleri yakala
+  React.useEffect(() => {
+    if (Array.isArray(serverBeyliks)) {
+      setBeyliks(serverBeyliks);
+    }
+  }, [serverBeyliks]);
 
   const uid = profile?.uid || profile?.id;
   const benimBeylik = beyliks.find(b => b.kurucuId === uid || (b.uyeler||[]).includes(uid));
@@ -39,9 +48,11 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
   const sikke = profile?.money || 0;
   const altin = profile?.altin || profile?.underCoin || 0;
 
+  // Sunucu taraflı kaydetme — tüm oyunculara yayılır
   const kaydetBeyliks = (yeni) => {
     setBeyliks(yeni);
     localStorage.setItem('rep_beyliks', JSON.stringify(yeni));
+    if (setServerBeyliks) setServerBeyliks(yeni);
     try { window._socket?.emit('beylik:guncelle', { beyliks: yeni }); } catch(_) {}
   };
 
@@ -86,6 +97,8 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
       beylikId: yeniBeylik.id,
       beylikUnvan: 'bey',
     };
+    // Sunucuya atomik kur eventi gönder (isim çakışması sunucu kontrolünde)
+    try { window._socket?.emit('beylik:kur', { beylik: yeniBeylik }); } catch(_) {}
     kaydetBeyliks([...beyliks, yeniBeylik]);
     setProfile(np);
     localStorage.setItem('rep_userProfile', JSON.stringify(np));
@@ -98,12 +111,17 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
 
   const beyligeKatil = (beylik) => {
     if (benimBeylik) { showNotif('Zaten bir beyliğe üyesiniz', 'error'); return; }
+    // Sunucuya atomik katılım eventi — sunucu DB'ye yazar ve tüm oyunculara yayar
+    try { window._socket?.emit('beylik:katil', { beylikId: beylik.id }); } catch(_) {}
+    // Optimistik güncelleme
     const guncellenmis = beyliks.map(b =>
       b.id === beylik.id
         ? { ...b, uyeler: [...(b.uyeler||[]), uid], uyeSayisi: (b.uyeSayisi||1)+1 }
         : b
     );
-    kaydetBeyliks(guncellenmis);
+    setBeyliks(guncellenmis);
+    localStorage.setItem('rep_beyliks', JSON.stringify(guncellenmis));
+    if (setServerBeyliks) setServerBeyliks(guncellenmis);
     const np = { ...profile, beylikId: beylik.id, beylikUnvan: 'bey' };
     setProfile(np);
     localStorage.setItem('rep_userProfile', JSON.stringify(np));
@@ -115,12 +133,15 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
 
   const beyliktenAyril = () => {
     if (!benimBeylik || isKurucu) { showNotif('Kurucu çıkamaz — önce liderliği devredin', 'error'); return; }
+    try { window._socket?.emit('beylik:ayril', { beylikId: benimBeylik.id }); } catch(_) {}
     const guncellenmis = beyliks.map(b =>
       b.id === benimBeylik.id
         ? { ...b, uyeler: (b.uyeler||[]).filter(x=>x!==uid), uyeSayisi: Math.max(1,(b.uyeSayisi||1)-1) }
         : b
     );
-    kaydetBeyliks(guncellenmis);
+    setBeyliks(guncellenmis);
+    localStorage.setItem('rep_beyliks', JSON.stringify(guncellenmis));
+    if (setServerBeyliks) setServerBeyliks(guncellenmis);
     const np = { ...profile, beylikId: null, beylikUnvan: null };
     setProfile(np);
     localStorage.setItem('rep_userProfile', JSON.stringify(np));

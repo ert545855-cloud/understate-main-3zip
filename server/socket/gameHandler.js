@@ -74,18 +74,22 @@ const PARTY_INFLUENCE_CD_MS = 3000; // 3 saniye (client ile aynı)
 async function pushInitialState(socket) {
   try {
     // Gangs, parties, alliances are now in proper SQL tables — fetch separately
-    const [state, gangs, parties, alliances, lobiler] = await Promise.all([
+    const [state, gangs, parties, alliances, lobiler, beyliks, eyaletValiVerisi] = await Promise.all([
       db.getFullGameState(),
       db.isReady() ? db.getGangs().catch(() => [])       : [],
       db.isReady() ? db.getParties().catch(() => [])     : [],
       db.isReady() ? db.getAlliances().catch(() => [])   : [],
       db.isReady() ? db.getGameState('lobiler').catch(() => null).then(v => v || []) : [],
+      db.isReady() ? db.getGameState('beyliks').catch(() => null).then(v => v || []) : [],
+      db.isReady() ? db.getGameState('eyaletValiVerisi').catch(() => null).then(v => v || {}) : {},
     ]);
     const onlineList = Array.from(onlinePlayers.values());
     const payload = {
       gangs,
       parties,
       alliances,
+      beyliks,
+      eyaletValiVerisi,
       elections:        state.elections       || { phase:'idle', candidates:[], votes:{} },
       elections_multi:  state.elections_multi || {},
       laws:             state.laws            || [],
@@ -97,7 +101,7 @@ async function pushInitialState(socket) {
       onlineCount:      onlineList.length,
     };
     socket.emit('gameStateInit', payload);
-    logger.debug(`[Init] pushed to ${socket.username}: ${gangs.length} çete, ${parties.length} parti, ${alliances.length} ittifak`);
+    logger.debug(`[Init] pushed to ${socket.username}: ${gangs.length} çete, ${parties.length} parti, ${beyliks.length} beylik`);
   } catch (err) {
     logger.warn('[GameHandler] pushInitialState:', err.message);
   }
@@ -748,6 +752,127 @@ function registerGameHandlers(io, socket) {
     }
   });
 
+  // ── BEYLIK (client'tan gelen tam liste güncelleme) ────────────────────────
+  socket.on('beylik:guncelle', async (data) => {
+    if (!data || !checkEventRate(socket.id)) return;
+    if (!socket.userId || !Array.isArray(data.beyliks)) return;
+    const beyliks = data.beyliks.slice(0, 200); // maksimum 200 beylik
+    if (db.isReady()) await db.setGameState('beyliks', beyliks).catch(() => {});
+    io.emit('beylikUpdate', { beyliks, ts: Date.now() });
+    logger.debug(`[Beylik] sync by ${socket.username} — ${beyliks.length} beylik`);
+  });
+
+  // ── BEYLIK kur (atomik) ────────────────────────────────────────────────────
+  socket.on('beylik:kur', async (data) => {
+    if (!data || !checkEventRate(socket.id)) return;
+    if (!socket.userId || !data.beylik?.id) return;
+    const current = db.isReady()
+      ? (await db.getGameState('beyliks').catch(() => null)) || []
+      : [];
+    // İsim çakışması kontrolü
+    if (current.find(b => b.ad?.toLowerCase() === data.beylik.ad?.toLowerCase())) {
+      socket.emit('beylik:kurError', { error: 'Bu isimde beylik var' }); return;
+    }
+    const updated = [...current, data.beylik];
+    if (db.isReady()) await db.setGameState('beyliks', updated).catch(() => {});
+    io.emit('beylikUpdate', { beyliks: updated, action: 'kur', beylik: data.beylik, ts: Date.now() });
+    broadcastNotification(io, {
+      id: `notif_beylik_${Date.now()}`,
+      type: 'beylik',
+      icon: '⚜️',
+      title: 'Yeni Beylik Kuruldu!',
+      msg: `${socket.username} "${data.beylik.ad}" beyliğini kurdu!`,
+    });
+    logger.info(`[Beylik] "${data.beylik.ad}" kuruldu — ${socket.username}`);
+  });
+
+  // ── BEYLIK katıl ──────────────────────────────────────────────────────────
+  socket.on('beylik:katil', async (data) => {
+    if (!data || !checkEventRate(socket.id)) return;
+    if (!socket.userId || !data.beylikId) return;
+    const current = db.isReady()
+      ? (await db.getGameState('beyliks').catch(() => null)) || []
+      : [];
+    const updated = current.map(b => b.id === data.beylikId
+      ? { ...b, uyeler: [...new Set([...(b.uyeler||[]), socket.userId])], uyeSayisi: (b.uyeSayisi||1) + 1 }
+      : b
+    );
+    if (db.isReady()) await db.setGameState('beyliks', updated).catch(() => {});
+    io.emit('beylikUpdate', { beyliks: updated, action: 'katil', beylikId: data.beylikId, userId: socket.userId, ts: Date.now() });
+  });
+
+  // ── BEYLIK ayrıl ──────────────────────────────────────────────────────────
+  socket.on('beylik:ayril', async (data) => {
+    if (!data || !checkEventRate(socket.id)) return;
+    if (!socket.userId || !data.beylikId) return;
+    const current = db.isReady()
+      ? (await db.getGameState('beyliks').catch(() => null)) || []
+      : [];
+    const updated = current.map(b => b.id === data.beylikId
+      ? { ...b, uyeler: (b.uyeler||[]).filter(u => u !== socket.userId), uyeSayisi: Math.max(0, (b.uyeSayisi||1) - 1) }
+      : b
+    );
+    if (db.isReady()) await db.setGameState('beyliks', updated).catch(() => {});
+    io.emit('beylikUpdate', { beyliks: updated, action: 'ayril', beylikId: data.beylikId, userId: socket.userId, ts: Date.now() });
+  });
+
+  // ── EYALET Vali Atama (sunucu taraflı, tüm oyunculara yayın) ─────────────
+  socket.on('eyaletValiAtama', async (data) => {
+    if (!data || !checkEventRate(socket.id)) return;
+    if (!socket.userId || !data.eyaletId) return;
+    const current = db.isReady()
+      ? (await db.getGameState('eyaletValiVerisi').catch(() => null)) || {}
+      : {};
+    let updated;
+    if (data.action === 'cikart') {
+      updated = { ...current };
+      delete updated[data.eyaletId];
+    } else {
+      updated = { ...current, [data.eyaletId]: { valiId: socket.userId, valiAdi: socket.username, atamaTarihi: Date.now() } };
+    }
+    if (db.isReady()) await db.setGameState('eyaletValiVerisi', updated).catch(() => {});
+    io.emit('eyaletValiUpdate', { eyaletValiVerisi: updated, eyaletId: data.eyaletId, action: data.action, valiAdi: socket.username, ts: Date.now() });
+    if (data.action !== 'cikart') {
+      broadcastNotification(io, {
+        id: `notif_vali_${Date.now()}`,
+        type: 'eyalet',
+        icon: '👑',
+        title: 'Yeni Vali Atandı',
+        msg: `${socket.username} ${data.eyaletId} eyaletinin yeni valisi oldu!`,
+      });
+    }
+    logger.info(`[Eyalet] ${data.action} "${data.eyaletId}" — ${socket.username}`);
+  });
+
+  // ── SAVAŞ İLANI — tüm oyunculara duyurulur ───────────────────────────────
+  socket.on('savas:ilan', async (data) => {
+    if (!data || !checkEventRate(socket.id)) return;
+    if (!socket.userId || !data.hedefBeylik) return;
+    const ilanObj = {
+      id: `sav_${Date.now()}`,
+      saldiran: data.saldiranBeylik || socket.username,
+      savunan:  data.hedefBeylik,
+      sebep:    (data.sebep || 'Sınır anlaşmazlığı').slice(0, 80),
+      ts: Date.now(),
+    };
+    // Savaş loguna ekle
+    const gecmis = db.isReady()
+      ? (await db.getGameState('savasIlanlari').catch(() => null)) || []
+      : [];
+    const yeniGecmis = [ilanObj, ...gecmis].slice(0, 50);
+    if (db.isReady()) await db.setGameState('savasIlanlari', yeniGecmis).catch(() => {});
+    // Tüm oyunculara duyur
+    io.emit('savasIlanUpdate', { ilanlar: yeniGecmis, yeniIlan: ilanObj, ts: Date.now() });
+    broadcastNotification(io, {
+      id: `notif_savas_${Date.now()}`,
+      type: 'savas',
+      icon: '⚔️',
+      title: 'Savaş İlan Edildi!',
+      msg: `${ilanObj.saldiran} → ${ilanObj.savunan} — Sebep: ${ilanObj.sebep}`,
+    });
+    logger.info(`[Savaş] İlan: ${ilanObj.saldiran} → ${ilanObj.savunan}`);
+  });
+
   // ── TERRITORY sync ───────────────────────────────────────────────────────
   socket.on('territory:sync', async (data) => {
     if (!data || !checkEventRate(socket.id)) return;
@@ -1118,13 +1243,16 @@ function startPeriodicBroadcast(io) {
   _broadcastInterval = setInterval(async () => {
     try {
       if (onlinePlayers.size === 0) return;
-      const [gangs, parties] = await Promise.all([
+      const [gangs, parties, beyliks, eyaletValiVerisi] = await Promise.all([
         db.isReady() ? db.getGangs().catch(() => []) : [],
         db.isReady() ? db.getParties().catch(() => []) : [],
+        db.isReady() ? db.getGameState('beyliks').catch(() => null).then(v => v || []) : [],
+        db.isReady() ? db.getGameState('eyaletValiVerisi').catch(() => null).then(v => v || {}) : {},
       ]);
-      // Sadece değişiklik varsa broadcast et (basic check)
-      io.emit('gangUpdate',  { gangs,   ts: Date.now() });
-      io.emit('partyUpdate', { parties, ts: Date.now() });
+      io.emit('gangUpdate',   { gangs,            ts: Date.now() });
+      io.emit('partyUpdate',  { parties,           ts: Date.now() });
+      io.emit('beylikUpdate', { beyliks,           ts: Date.now() });
+      io.emit('eyaletValiUpdate', { eyaletValiVerisi, ts: Date.now() });
     } catch (e) {}
   }, 30000);
 }

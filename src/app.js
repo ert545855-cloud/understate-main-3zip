@@ -878,6 +878,10 @@ function App() {
   const [incomingDm, setIncomingDm] = useState(null);
   const [incomingTrade, setIncomingTrade] = useState(null);
   const [eyaletData, setEyaletData] = useState(() => { try { return JSON.parse(localStorage.getItem('rep_eyaletData') || '{}'); } catch { return {}; } });
+  // ── Sunucu taraflı multiplayer state ──────────────────────────────────────
+  const [serverBeyliks, setServerBeyliks] = useState(() => { try { return JSON.parse(localStorage.getItem('rep_beyliks') || '[]'); } catch { return []; } });
+  const [eyaletValiVerisi, setEyaletValiVerisi] = useState(() => { try { return JSON.parse(localStorage.getItem('rep_valiVerisi') || '{}'); } catch { return {}; } });
+  const [savasIlanlari, setSavasIlanlari] = useState([]);
 
   // ── Token auto-refresh: her 10 dakikada kontrol, 5 dakika kalmışsa yenile ──
   useEffect(() => {
@@ -961,7 +965,16 @@ function App() {
           if (Array.isArray(data.laws))          _syncLs('laws', data.laws);
           if (Array.isArray(data.announcements)) _syncLs('announcements', data.announcements);
           if (data.cabinet)                      _syncLs('cabinet', data.cabinet);
-          if (data.eyaletControl)               _syncLs('eyaletControl', data.eyaletControl);
+          if (data.eyaletControl)                _syncLs('eyaletControl', data.eyaletControl);
+          // ── Multiplayer dünya state'i ──────────────────────────
+          if (Array.isArray(data.beyliks)) {
+            setServerBeyliks(data.beyliks);
+            localStorage.setItem('rep_beyliks', JSON.stringify(data.beyliks));
+          }
+          if (data.eyaletValiVerisi && typeof data.eyaletValiVerisi === 'object') {
+            setEyaletValiVerisi(data.eyaletValiVerisi);
+            localStorage.setItem('rep_valiVerisi', JSON.stringify(data.eyaletValiVerisi));
+          }
           // Online oyuncular — bağlanınca anında güncel liste
           if (Array.isArray(data.onlinePlayers)) {
             setOnlinePlayers(data.onlinePlayers);
@@ -972,7 +985,41 @@ function App() {
         } catch(e){}
       });
 
-      // ── Eyalet güncellemeleri ────────────────────────────────────
+      // ── Beylik güncellemeleri (sunucudan tüm oyunculara) ─────────
+      s.on('beylikUpdate', (data) => {
+        try {
+          if (Array.isArray(data.beyliks)) {
+            setServerBeyliks(data.beyliks);
+            localStorage.setItem('rep_beyliks', JSON.stringify(data.beyliks));
+          }
+          if (data.action === 'kur' && data.beylik)
+            showNotif(`⚜️ ${data.beylik.ad} Beyliği kuruldu!`, 'info', '⚜️');
+        } catch(e){}
+      });
+
+      // ── Eyalet Vali güncellemeleri (sunucudan tüm oyunculara) ────
+      s.on('eyaletValiUpdate', (data) => {
+        try {
+          if (data.eyaletValiVerisi && typeof data.eyaletValiVerisi === 'object') {
+            setEyaletValiVerisi(data.eyaletValiVerisi);
+            localStorage.setItem('rep_valiVerisi', JSON.stringify(data.eyaletValiVerisi));
+            window.dispatchEvent(new CustomEvent('fb-sync', { detail: { key: 'eyaletValiVerisi', value: data.eyaletValiVerisi } }));
+          }
+          if (data.action === 'atama' && data.valiAdi)
+            showNotif(`👑 ${data.valiAdi} ${data.eyaletId} eyaletine vali atandı!`, 'info', '👑');
+        } catch(e){}
+      });
+
+      // ── Savaş ilanları (tüm oyunculara duyurulur) ────────────────
+      s.on('savasIlanUpdate', (data) => {
+        try {
+          if (Array.isArray(data.ilanlar)) setSavasIlanlari(data.ilanlar);
+          if (data.yeniIlan)
+            showNotif(`⚔️ Savaş! ${data.yeniIlan.saldiran} → ${data.yeniIlan.savunan}`, 'error', '⚔️');
+        } catch(e){}
+      });
+
+      // ── (legacy) Eyalet atama broadcast ──────────────────────────
       s.on('eyaletValiAtama', (data) => {
         try {
           if (data.eyaletId && data.action === 'atama') showNotif(`👑 ${data.valiAdi} yeni vali atandı!`, 'info', '👑');
@@ -1289,8 +1336,8 @@ function App() {
             {page==='chat'         && <ChatPage        profile={profile} />}
             {page==='economy'      && <EconomyPage     {...pageProps} />}
             {page==='market'       && <StorePage       {...pageProps} />}
-            {page==='politics'     && window.BeylikScreen && React.createElement(window.BeylikScreen, {...pageProps, allUsers:onlinePlayers||[]})}
-            {page==='beylik_kur'   && window.BeylikScreen && React.createElement(window.BeylikScreen, {...pageProps, allUsers:onlinePlayers||[]})}
+            {page==='politics'     && window.BeylikScreen && React.createElement(window.BeylikScreen, {...pageProps, allUsers:onlinePlayers||[], serverBeyliks, setServerBeyliks, savasIlanlari})}
+            {page==='beylik_kur'   && window.BeylikScreen && React.createElement(window.BeylikScreen, {...pageProps, allUsers:onlinePlayers||[], serverBeyliks, setServerBeyliks, savasIlanlari})}
             {page==='holdings'     && <HoldingsPage    {...pageProps} />}
             {page==='alliance'     && <AlliancePage    {...pageProps} />}
             {page==='world'        && <WorldPage       profile={profile} onNavigate={setPage} />}
@@ -1323,8 +1370,8 @@ function App() {
             {page==='duyurular'    && <DuyurularPage   profile={profile} />}
             {page==='leaderboard'  && <LeaderboardPage {...pageProps} />}
             {page==='education'    && <EducationPage   {...pageProps} />}
-            {page==='eyalet_harita' && window.OttomanMapScreen && React.createElement(window.OttomanMapScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
-            {page==='eyalet_liste'  && window.OttomanEyaletScreen && React.createElement(window.OttomanEyaletScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
+            {page==='eyalet_harita' && window.OttomanMapScreen && React.createElement(window.OttomanMapScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[],eyaletValiVerisi})}
+            {page==='eyalet_liste'  && window.OttomanEyaletScreen && React.createElement(window.OttomanEyaletScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[],eyaletValiVerisi})}
             {page==='valilik'      && window.VaililikEkrani && React.createElement(window.VaililikEkrani, {cu:profile||{},setCurrentPage:setPage})}
             {page==='oyun_ayarlari' && window.GameSettingsScreen && React.createElement(window.GameSettingsScreen, {cu:profile||{},setCurrentPage:setPage,onLogout:()=>{localStorage.removeItem('us_jwt');window.location.reload();}})}
             {page==='sadakat'       && window.SadakatScreen && React.createElement(window.SadakatScreen, {profile:profile||{},setProfile,setCurrentPage:setPage,showNotif})}

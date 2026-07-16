@@ -52,13 +52,33 @@ const BOLGE_RENKLERI = {
   'Adalar':       '#38BDF8',
 };
 
-window.OttomanEyaletScreen = function OttomanEyaletScreen({ cu, setCurrentPage, allUsers }) {
+window.OttomanEyaletScreen = function OttomanEyaletScreen({ cu, setCurrentPage, allUsers, eyaletValiVerisi: serverValiVerisi }) {
   const [aktifBolge, setAktifBolge] = React.useState('hepsi');
   const [seciliEyalet, setSeciliEyalet] = React.useState(null);
+  // Sunucudan gelen vali verisi öncelikli
   const [valiVerisi, setValiVerisi] = React.useState(() => {
+    if (serverValiVerisi && Object.keys(serverValiVerisi).length > 0) return serverValiVerisi;
     try { return JSON.parse(localStorage.getItem('rep_valiVerisi') || '{}'); } catch { return {}; }
   });
   const [atamaBekliyor, setAtamaBekliyor] = React.useState(false);
+
+  // Sunucu güncellemelerini yakala
+  React.useEffect(() => {
+    if (serverValiVerisi && typeof serverValiVerisi === 'object') {
+      setValiVerisi(serverValiVerisi);
+    }
+  }, [serverValiVerisi]);
+
+  // Anlık socket güncellemelerini de dinle
+  React.useEffect(() => {
+    const handler = (e) => {
+      if (e.detail?.key === 'eyaletValiVerisi' && e.detail?.value) {
+        setValiVerisi(e.detail.value);
+      }
+    };
+    window.addEventListener('fb-sync', handler);
+    return () => window.removeEventListener('fb-sync', handler);
+  }, []);
 
   const DS = window.DS || {};
   const isSultan = cu?.role === 'admin' || cu?.isAdmin === true;
@@ -74,24 +94,23 @@ window.OttomanEyaletScreen = function OttomanEyaletScreen({ cu, setCurrentPage, 
     if (kullanicivaliEyaleti && kullanicivaliEyaleti !== eyaletId) {
       alert('Zaten başka bir eyaletin valisisiniz!'); return;
     }
-    const yeniVeri = {
-      ...valiVerisi,
-      [eyaletId]: { valiId: cu.id, valiAdi: cu.username, atamaTarihi: Date.now() }
-    };
-    setValiVerisi(yeniVeri);
-    localStorage.setItem('rep_valiVerisi', JSON.stringify(yeniVeri));
+    // Sunucuya gönder — sunucu DB'ye yazar ve tüm oyunculara yayar
     const evt = { eyaletId, valiAdi: cu.username, action: 'atama' };
     try { window._socket?.emit('eyaletValiAtama', evt); } catch(_){}
+    // Optimistik güncelleme
+    const yeniVeri = { ...valiVerisi, [eyaletId]: { valiId: cu.id, valiAdi: cu.username, atamaTarihi: Date.now() } };
+    setValiVerisi(yeniVeri);
+    localStorage.setItem('rep_valiVerisi', JSON.stringify(yeniVeri));
     setSeciliEyalet(null);
   }
 
   function valiCikart(eyaletId) {
     if (!isSultan && valiVerisi[eyaletId]?.valiId !== cu?.id) return;
+    try { window._socket?.emit('eyaletValiAtama', { eyaletId, action: 'cikart' }); } catch(_){}
     const yeniVeri = { ...valiVerisi };
     delete yeniVeri[eyaletId];
     setValiVerisi(yeniVeri);
     localStorage.setItem('rep_valiVerisi', JSON.stringify(yeniVeri));
-    try { window._socket?.emit('eyaletValiAtama', { eyaletId, action: 'cikart' }); } catch(_){}
     setSeciliEyalet(null);
   }
 
