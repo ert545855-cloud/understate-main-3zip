@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════
-// TÜRKİYE İL HARİTASI — Aile & Çete Bölge Kontrolü
+// SALTANAT ONLINE — Osmanlı Eyalet Haritası (Bölge Kontrolü)
 // ViewBox: 0 0 820 360  (PoliticsScreen TurkeyMap ile aynı sistem)
 // ═══════════════════════════════════════════════════════
 

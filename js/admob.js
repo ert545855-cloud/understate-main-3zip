@@ -1,5 +1,5 @@
 /**
- * UNDERSTATE AdMob / Ad Manager
+ * SALTANAT ONLINE AdMob / Ad Manager
  * 
  * Supports two modes:
  *  1. Web PWA  → Interstitial overlay (AdSense-compatible slot injection)

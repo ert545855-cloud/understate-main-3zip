@@ -1,6 +1,6 @@
 {
-  "appId": "com.understate.game",
-  "appName": "UNDERSTATE",
+  "appId": "com.saltanat.online",
+  "appName": "Saltanat Online",
   "webDir": "www",
   "server": {
     "androidScheme": "https"

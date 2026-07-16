@@ -290,7 +290,7 @@ function AuthScreen({ onLogin }) {
     const { profile, token } = unverifiedUser;
     return (
       <div style={{position:'fixed',inset:0,display:'flex',flexDirection:'column',overflowY:'auto',minHeight:'100dvh'}}>
-        <div style={{position:'fixed',inset:0,backgroundImage:'url(understate-bg.jpg)',backgroundSize:'cover',backgroundPosition:'center top',backgroundRepeat:'no-repeat',zIndex:0}} />
+        <div style={{position:'fixed',inset:0,backgroundImage:'url(saltanat-bg.jpg)',backgroundSize:'cover',backgroundPosition:'center top',backgroundRepeat:'no-repeat',zIndex:0}} />
         <div style={{position:'fixed',inset:0,background:'linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.75) 45%, rgba(0,0,0,0.92) 100%)',zIndex:1}} />
         <div style={{position:'relative',zIndex:2,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',minHeight:'100dvh',padding:'2rem 1rem'}}>
           <div style={{width:'100%',maxWidth:'420px',background:'rgba(27,33,43,0.92)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'10px',padding:'2rem 1.5rem',backdropFilter:'blur(24px)',boxShadow:'0 24px 80px rgba(0,0,0,0.7)',textAlign:'center'}}>
@@ -335,7 +335,7 @@ function AuthScreen({ onLogin }) {
   return (
     <div style={{position:'fixed',inset:0,display:'flex',flexDirection:'column',overflowY:'auto',minHeight:'100dvh'}}>
       {/* City background image */}
-      <div style={{position:'fixed',inset:0,backgroundImage:'url(understate-bg.jpg)',backgroundSize:'cover',backgroundPosition:'center top',backgroundRepeat:'no-repeat',zIndex:0}} />
+      <div style={{position:'fixed',inset:0,backgroundImage:'url(saltanat-bg.jpg)',backgroundSize:'cover',backgroundPosition:'center top',backgroundRepeat:'no-repeat',zIndex:0}} />
       {/* Dark overlay */}
       <div style={{position:'fixed',inset:0,background:'linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.75) 45%, rgba(0,0,0,0.92) 100%)',zIndex:1}} />
 
@@ -346,7 +346,7 @@ function AuthScreen({ onLogin }) {
         <div style={{textAlign:'center',marginBottom:'1.5rem',width:'100%',padding:'0 1.5rem'}}>
           {/* Logo görseli */}
           <div style={{display:'flex',justifyContent:'center',marginBottom:'0.5rem'}}>
-            <img src="understate-icon.png" alt="UnderState" style={{width:'clamp(90px,22vw,140px)',height:'clamp(90px,22vw,140px)',objectFit:'contain',borderRadius:'20%',boxShadow:'0 0 40px rgba(201,162,39,0.4)',border:'2px solid rgba(201,162,39,0.25)'}} />
+            <img src="saltanat-icon.png" alt="Saltanat Online" style={{width:'clamp(90px,22vw,140px)',height:'clamp(90px,22vw,140px)',objectFit:'contain',borderRadius:'20%',boxShadow:'0 0 40px rgba(201,162,39,0.4)',border:'2px solid rgba(201,162,39,0.25)'}} />
           </div>
           <div style={{fontFamily:"'Syne',sans-serif",fontSize:'clamp(1.4rem,5vw,2.2rem)',fontWeight:900,letterSpacing:'0.15em',color:'#EDE7DA',textShadow:'0 2px 24px rgba(0,0,0,0.8)',textTransform:'uppercase',marginBottom:'0.4rem'}}>
             SALTANAT ONLİNE

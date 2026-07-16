@@ -1,7 +1,7 @@
 {
-  "name": "understate-server",
+  "name": "saltanat-online-server",
   "version": "1.0.0",
-  "description": "UNDERSTATE - Multiplayer City & State Simulation Server",
+  "description": "SALTANAT ONLINE - Multiplayer Osmanlı Strateji & Rol Yapma Oyunu",
   "main": "server/main.js",
   "engines": {
     "node": ">=18.0.0"

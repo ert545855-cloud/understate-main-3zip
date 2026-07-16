@@ -1,6 +1,6 @@
 
 // ═══════════════════════════════════════════════════════
-// UNDERSTATE — Parti Merkezi Ekranı
+// SALTANAT ONLINE — Parti Merkezi Ekranı
 // ═══════════════════════════════════════════════════════
 window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, families, setCurrentPage }) {
   const S = {

@@ -1,6 +1,6 @@
 "use strict";
 // ═══════════════════════════════════════════════════════
-// UNDERSTATE DESIGN TOKENS — v10 "Mayor" (navy/gold dashboard)
+// SALTANAT ONLINE DESIGN TOKENS — v10 "Sultan" (navy/gold dashboard)
 // Palette: #0C1330 bg · #16224A surface · #F0B33E gold
 //          #F2F5FA text · #7C88AA muted · #3ECF7A success · #EF5350 error
 // ═══════════════════════════════════════════════════════

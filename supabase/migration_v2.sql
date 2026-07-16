@@ -1,4 +1,4 @@
--- UNDERSTATE: Missing Tables Migration v2
+-- SALTANAT ONLINE: Missing Tables Migration v2
 -- Run: psql $DATABASE_URL -f supabase/migration_v2.sql
 
 -- Elections

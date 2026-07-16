@@ -1,5 +1,5 @@
 -- ═══════════════════════════════════════════════════════
--- UNDERSTATE — Supabase PostgreSQL Schema
+-- SALTANAT ONLINE — Supabase PostgreSQL Schema
 -- Çalıştır: Supabase Dashboard → SQL Editor
 -- ═══════════════════════════════════════════════════════
 

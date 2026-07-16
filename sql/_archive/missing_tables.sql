@@ -1,4 +1,4 @@
--- UNDERSTATE — Eksik Tablolar (Supabase Dashboard'da çalıştırın)
+-- SALTANAT ONLINE — Eksik Tablolar (Supabase Dashboard'da çalıştırın)
 -- Bu SQL dosyasını Supabase → SQL Editor'e yapıştırıp çalıştırın.
 
 -- 1. global_chat (chat_messages'ın alias view'ı)

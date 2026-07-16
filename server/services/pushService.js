@@ -11,7 +11,7 @@ function init() {
     logger.warn('[Push] VAPID anahtarları eksik — push bildirimleri devre dışı');
     return;
   }
-  webpush.setVapidDetails('mailto:admin@understate.game', pub, priv);
+  webpush.setVapidDetails('mailto:admin@saltanat-online.game', pub, priv);
   _initialized = true;
   logger.info('[Push] Web Push başlatıldı ✓');
 }

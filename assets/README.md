@@ -1,4 +1,4 @@
-# UnderState Asset Pack - Modern Minimal
+# Saltanat Online Asset Pack - Modern Minimal
 
 **Tasarım Stili:** Modern Minimal  
 **Renk Paleti:** 
@@ -129,7 +129,7 @@ Tüm SVG'ler düz renkler kullanır ve kolayca özelleştirilebilir:
 
 ## 📝 Lisans
 
-Bu asset'ler UnderState oyunu için özel olarak tasarlanmıştır.
+Bu asset'ler Saltanat Online oyunu için özel olarak tasarlanmıştır.
 
 ---
 

@@ -1,6 +1,6 @@
 
 // ═══════════════════════════════════════════════════════
-// UNDERSTATE — Çete Kasası & Lojistik Ekranı
+// SALTANAT ONLINE — Çete Kasası & Lojistik Ekranı
 // treasury (sunucu) kullanır, silahlar DB'ye kaydedilir
 // ═══════════════════════════════════════════════════════
 window.GangTreasuryScreen = function GangTreasuryScreen({ cu, gangs, allUsers, setCurrentPage }) {

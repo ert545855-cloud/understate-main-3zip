@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════
-// UNDERSTATE — Ekonomik İmparatorluk Ekranı
+// SALTANAT ONLINE — Ekonomik İmparatorluk Ekranı
 // Aileler → Holding/Fabrika/Şirket kurar
 // Fabrika geliri sunucu tarafında doğrulanır (anti-cheat)
 // ═══════════════════════════════════════════════════════

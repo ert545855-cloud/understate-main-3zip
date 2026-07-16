@@ -1,4 +1,4 @@
-# UNDERSTATE — AWS Elastic Beanstalk + Supabase Deploy Rehberi
+# SALTANAT ONLINE — AWS Elastic Beanstalk + Supabase Deploy Rehberi
 
 ## Mimari
 

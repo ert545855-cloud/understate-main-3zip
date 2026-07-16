@@ -1,6 +1,6 @@
-# UnderState
+# Saltanat Online
 
-UNDERSTATE (v8.0) is a Turkish-language, mobile-friendly multiplayer city & state
+SALTANAT ONLINE (v8.0) is a Turkish-language, mobile-friendly multiplayer city & state
 simulation game. It's a Babel-standalone React single-file frontend (`index.html`
 + `src/`) backed by an Express + Socket.io + PostgreSQL server for real-time
 multiplayer state (gangs, parties, alliances, elections, laws, chat, economy).

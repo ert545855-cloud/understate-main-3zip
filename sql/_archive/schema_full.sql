@@ -1,5 +1,5 @@
 -- ============================================================
--- UNDERSTATE - TAM OYUN ŞEMASI (schema_full.sql)
+-- SALTANAT ONLINE - TAM OYUN ŞEMASI (schema_full.sql)
 -- Supabase Dashboard > SQL Editor > Çalıştır
 -- ============================================================
 

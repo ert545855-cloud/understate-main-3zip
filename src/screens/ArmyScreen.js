@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════
-// UNDERSTATE — Genelkurmay Başkanı Ekranı
+// SALTANAT ONLINE — Genelkurmay Başkanı Ekranı
 // ═══════════════════════════════════════════════════════
 window.ArmyScreen = function ArmyScreen({ cu, allUsers, setCurrentPage }) {
   var useState = React.useState;

@@ -229,7 +229,7 @@ connectDB(io);
 initSocket(io);
 
 server.listen(PORT, '0.0.0.0', () => {
-  logger.success(`UNDERSTATE sunucusu başlatıldı → port ${PORT}`);
+  logger.success(`SALTANAT ONLINE sunucusu başlatıldı → port ${PORT}`);
 });
 
 process.on('uncaughtException',  (err) => logger.error('UncaughtException:', err.message));

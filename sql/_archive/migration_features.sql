@@ -1,5 +1,5 @@
 -- ─────────────────────────────────────────────────────────────────────────────
--- UNDERSTATE — Feature Migration
+-- SALTANAT ONLINE — Feature Migration
 -- Run once. All tables are CREATE IF NOT EXISTS to be safe.
 -- ─────────────────────────────────────────────────────────────────────────────
 

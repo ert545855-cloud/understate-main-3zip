@@ -1,4 +1,4 @@
--- UNDERSTATE — Supabase Canonical Schema
+-- SALTANAT ONLINE — Supabase Canonical Schema
 -- Supabase Dashboard > SQL Editor > Run
 -- Safe to run multiple times
 

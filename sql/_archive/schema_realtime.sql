@@ -1,5 +1,5 @@
 -- ============================================================
--- UNDERSTATE — Real-Time Multiplayer Ek Tablolar
+-- SALTANAT ONLINE — Real-Time Multiplayer Ek Tablolar
 -- PostgreSQL (Replit Database veya Supabase)
 -- Çalıştırma: psql $DATABASE_URL -f sql/schema_realtime.sql
 -- ============================================================

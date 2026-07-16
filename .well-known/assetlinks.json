@@ -3,7 +3,7 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.understate.game",
+      "package_name": "com.saltanat.online",
       "sha256_cert_fingerprints": [
         "BURAYA_KEYSTORE_SHA256_FINGERPRINT_GIRIN"
       ]
@@ -13,7 +13,7 @@
     "relation": ["delegate_permission/common.get_login_creds"],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.understate.game",
+      "package_name": "com.saltanat.online",
       "sha256_cert_fingerprints": [
         "BURAYA_KEYSTORE_SHA256_FINGERPRINT_GIRIN"
       ]

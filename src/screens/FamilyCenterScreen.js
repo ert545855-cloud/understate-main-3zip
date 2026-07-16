@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════
-// UNDERSTATE — Aile Merkezi (Legal Organizasyon)
+// SALTANAT ONLINE — Aile Merkezi (Legal Organizasyon)
 // Boss → Underboss → Yönetici → Üye hiyerarşisi
 // Fabrika yönetimi · Halef sistemi · Kasa
 // ═══════════════════════════════════════════════════════

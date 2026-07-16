@@ -1,4 +1,4 @@
-# UnderState Asset Entegrasyon Kılavuzu
+# Saltanat Online Asset Entegrasyon Kılavuzu
 
 Bu kılavuz, oyununuzdaki emojileri modern minimal SVG icon'larla nasıl değiştireceğinizi adım adım anlatır.
 
@@ -7,7 +7,7 @@ Bu kılavuz, oyununuzdaki emojileri modern minimal SVG icon'larla nasıl değiş
 ### 1. Asset Klasörünü Kontrol Edin
 
 ```bash
-UnderState1/
+Saltanat Online1/
 └── assets/
     ├── icons/          # Ana icon'lar
     ├── buttons/        # Buton tasarımları
@@ -20,7 +20,7 @@ UnderState1/
 
 ```bash
 # Dizine gidin
-cd UnderState1/assets
+cd Saltanat Online1/assets
 
 # HTML dosyasını tarayıcıda açın
 open icon-showcase.html  # macOS

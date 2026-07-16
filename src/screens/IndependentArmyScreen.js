@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════
-// UNDERSTATE — Bağımsız Ordu Sistemi (Yeni Senaryo)
+// SALTANAT ONLINE — Bağımsız Ordu Sistemi (Yeni Senaryo)
 //
 // KURALLAR:
 // • Ordu tamamen bağımsız — siyasi makamlar atayamaz

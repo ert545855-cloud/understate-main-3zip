@@ -1,4 +1,4 @@
--- UNDERSTATE — Migration 003: Şema eksiklerini tamamla (register/login/bank/2FA/vergi/etkinlik/vs. hataları)
+-- SALTANAT ONLINE — Migration 003: Şema eksiklerini tamamla (register/login/bank/2FA/vergi/etkinlik/vs. hataları)
 -- Çalıştır: psql $DATABASE_URL -f server/migrations/003_bugfix_schema_gaps.sql
 -- Güvenli: IF NOT EXISTS kullanır, tekrar çalıştırılabilir.
 

@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════
-// UNDERSTATE — Koruma Anlaşmaları Ekranı
+// SALTANAT ONLINE — Koruma Anlaşmaları Ekranı
 //
 // KURALLAR:
 // • Çete lideri → aile varlıkları için koruma teklifi yapar

@@ -1,5 +1,5 @@
 -- ============================================================
--- UNDERSTATE - Schema v2 (Yeni Sistemler)
+-- SALTANAT ONLINE - Schema v2 (Yeni Sistemler)
 -- Supabase Dashboard > SQL Editor'e yapıştırın ve çalıştırın
 -- ============================================================
 

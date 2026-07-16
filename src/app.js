@@ -54,7 +54,7 @@ function SvgIcon({ name, size=24, style={} }) {
 // ═══════════════════════════════════════════════════════
 // SABITLER
 // ═══════════════════════════════════════════════════════
-const GAME_ID = "understate_main_server";
+const GAME_ID = "saltanat_online_server";
 const APP_V   = "8.0";
 
 const CITIES = ['Adana','Adıyaman','Afyonkarahisar','Ağrı','Amasya','Ankara','Antalya','Artvin','Aydın','Balıkesir','Bilecik','Bingöl','Bitlis','Bolu','Burdur','Bursa','Çanakkale','Çankırı','Çorum','Denizli','Diyarbakır','Edirne','Elazığ','Erzincan','Erzurum','Eskişehir','Gaziantep','Giresun','Gümüşhane','Hakkari','Hatay','Isparta','Mersin','İstanbul','İzmir','Kars','Kastamonu','Kayseri','Kırklareli','Kırşehir','Kocaeli','Konya','Kütahya','Malatya','Manisa','Kahramanmaraş','Mardin','Muğla','Muş','Nevşehir','Niğde','Ordu','Rize','Sakarya','Samsun','Siirt','Sinop','Sivas','Tekirdağ','Tokat','Trabzon','Tunceli','Şanlıurfa','Uşak','Van','Yozgat','Zonguldak','Aksaray','Bayburt','Karaman','Kırıkkale','Batman','Şırnak','Bartın','Ardahan','Iğdır','Yalova','Karabük','Kilis','Osmaniye','Düzce'];
@@ -877,9 +877,7 @@ function App() {
   const [onlinePlayers, setOnlinePlayers] = useState([]);
   const [incomingDm, setIncomingDm] = useState(null);
   const [incomingTrade, setIncomingTrade] = useState(null);
-  const [parties, setParties] = useState(() => { try { return JSON.parse(localStorage.getItem('rep_parties') || '[]'); } catch { return []; } });
-  const [gangs,   setGangs]   = useState(() => { try { return JSON.parse(localStorage.getItem('rep_gangs')   || '[]'); } catch { return []; } });
-  const [gangWars, setGangWars] = useLs('rep_gangWars', []);
+  const [eyaletData, setEyaletData] = useState(() => { try { return JSON.parse(localStorage.getItem('rep_eyaletData') || '{}'); } catch { return {}; } });
 
   // ── Token auto-refresh: her 10 dakikada kontrol, 5 dakika kalmışsa yenile ──
   useEffect(() => {
@@ -957,16 +955,13 @@ function App() {
       // ── İlk tam oyun state'i (bağlanınca sunucu gönderir) ────────
       s.on('gameStateInit', (data) => {
         try {
-          if (Array.isArray(data.gangs))         { _syncLs('gangs', data.gangs);     setGangs(data.gangs);   }
-          if (Array.isArray(data.parties))       { _syncLs('parties', data.parties); setParties(data.parties); }
           if (Array.isArray(data.alliances))     _syncLs('alliances', data.alliances);
           if (data.elections)                    _syncLs('elections', data.elections);
           if (data.elections_multi)              _syncLs('elections_multi', data.elections_multi);
           if (Array.isArray(data.laws))          _syncLs('laws', data.laws);
           if (Array.isArray(data.announcements)) _syncLs('announcements', data.announcements);
           if (data.cabinet)                      _syncLs('cabinet', data.cabinet);
-          if (data.gangTerritories)              _syncLs('gangTerritories', data.gangTerritories);
-          if (Array.isArray(data.gangWars))      { setGangWars(data.gangWars); localStorage.setItem('rep_gangWars', JSON.stringify(data.gangWars)); }
+          if (data.eyaletControl)               _syncLs('eyaletControl', data.eyaletControl);
           // Online oyuncular — bağlanınca anında güncel liste
           if (Array.isArray(data.onlinePlayers)) {
             setOnlinePlayers(data.onlinePlayers);
@@ -977,29 +972,10 @@ function App() {
         } catch(e){}
       });
 
-      // ── Gang güncellemeleri ──────────────────────────────────────
-      s.on('gangUpdate', (data) => {
+      // ── Eyalet güncellemeleri ────────────────────────────────────
+      s.on('eyaletValiAtama', (data) => {
         try {
-          if (Array.isArray(data.gangs)) { _syncLs('gangs', data.gangs); setGangs(data.gangs); }
-          if (data.action === 'create' && data.gang) showNotif(`${data.gang.type==='family'?'👨‍👩‍👧‍👦':'⚔️'} ${data.gang.name} kuruldu!`, 'info', data.gang.type==='family'?'👨‍👩‍👧‍👦':'⚔️');
-        } catch(e){}
-      });
-
-      // ── Çete Savaşları güncellemeleri ───────────────────────────
-      s.on('gangWarUpdate', (data) => {
-        try {
-          if (Array.isArray(data.wars)) {
-            setGangWars(data.wars);
-            localStorage.setItem('rep_gangWars', JSON.stringify(data.wars));
-          }
-          if (data.action === 'declare' && data.war) {
-            showNotif(`⚔️ ${data.war.attackerName} → ${data.war.defenderName} savaş ilan etti!`, 'info', '⚔️');
-            try { window._pushGameEvent?.('cete_savasi_ilani', `⚔️ Savaş İlanı!`, `${data.war.attackerName} → ${data.war.defenderName}`, '⚔️', 'çete'); } catch(e) {}
-          }
-          if (data.action === 'resolve' && data.war?.winnerName) {
-            showNotif(`🏆 ${data.war.winnerName} çete savaşını kazandı!`, 'success', '🏆');
-            try { window._pushGameEvent?.('cete_savasi_bitti', `🏆 Çete Savaşı Bitti!`, `${data.war.winnerName} kazandı!`, '🏆', 'çete'); } catch(e) {}
-          }
+          if (data.eyaletId && data.action === 'atama') showNotif(`👑 ${data.valiAdi} yeni vali atandı!`, 'info', '👑');
         } catch(e){}
       });
 
@@ -1010,13 +986,6 @@ function App() {
         } catch(e){}
       });
 
-      // ── Parti güncellemeleri ─────────────────────────────────────
-      s.on('partyUpdate', (data) => {
-        try {
-          if (Array.isArray(data.parties)) { _syncLs('parties', data.parties); setParties(data.parties); }
-          if (data.action === 'create' && data.party) showNotif(`🏛️ ${data.party.name} partisi kuruldu!`, 'info', '🏛️');
-        } catch(e){}
-      });
 
       // ── İttifak güncellemeleri ───────────────────────────────────
       s.on('allianceUpdate', (data) => {
@@ -1092,12 +1061,6 @@ function App() {
         } catch(e){}
       });
 
-      s.on('gang:assetAttacked', (data) => {
-        const myId = profile?.id || profile?.uid;
-        if (data.familyOwnerId === myId) {
-          showNotif(`🔥 "${data.assetName}" varlığınıza saldırı!`, 'error', '🔥');
-        }
-      });
 
       // ── Savaş sonuçları ──────────────────────────────────────────
       s.on('combatResult', (data) => {
@@ -1188,8 +1151,7 @@ function App() {
 
       // ── Legacy gameAction ────────────────────────────────────────
       s.on('gameAction', (data) => {
-        if (data.type==='newParty') showNotif(`🏛️ ${data.username} yeni parti kurdu: ${data.payload}`, 'info', '🏛️');
-        if (data.type==='newGang')  showNotif(`⚔️ ${data.username} yeni çete kurdu: ${data.payload}`, 'info', '⚔️');
+        if (data.type==='newVali') showNotif(`👑 ${data.username} yeni vali: ${data.payload}`, 'info', '👑');
       });
 
       // ── DB bağlantı durumu ───────────────────────────────────────
@@ -1201,13 +1163,6 @@ function App() {
         }
       });
 
-      // ── Kuruluş oluşturma hataları ───────────────────────────────
-      s.on('gang:createError', (data) => {
-        showNotif(`❌ Çete/aile oluşturulamadı: ${data?.msg || 'Sunucu hatası'}`, 'error', '❌');
-      });
-      s.on('party:createError', (data) => {
-        showNotif(`❌ Parti oluşturulamadı: ${data?.msg || 'Sunucu hatası'}`, 'error', '❌');
-      });
 
       return true;
     };
@@ -1226,7 +1181,7 @@ function App() {
   const [showWelcome, setShowWelcome] = useState(false);
 
   // ── Global push notification yardımcı ──
-  window._pushNotif = (title, body, tag='understate') => {
+  window._pushNotif = (title, body, tag='saltanat') => {
     try {
       if(window.Notification && Notification.permission === 'granted') {
         new Notification(title, { body, tag, icon:'favicon.jpg', badge:'favicon.jpg', silent:false });
@@ -1300,7 +1255,7 @@ function App() {
   const notifCount = notifications.filter(n => Date.now()-n.ts < 300000).length;
 
   const isAdmin = profile?.role === 'admin' || profile?.isAdmin === true || profile?.email === 'admin@saltanat.online';
-  const pageProps = { profile, setProfile, showNotif, onNavigate: setPage, gangWars, setGangWars, gangs, setGangs, parties, setParties };
+  const pageProps = { profile, setProfile, showNotif, onNavigate: setPage, eyaletData, setEyaletData };
   const navItems = isAdmin
     ? [...NAV_ITEMS, { id:'admin', icon:'⚙️', label:'Admin', rgb:'239,68,68' }]
     : (NAV_ITEMS || []);
@@ -1336,8 +1291,6 @@ function App() {
             {page==='market'       && <StorePage       {...pageProps} />}
             {page==='politics'     && <PoliticsPage    {...pageProps} />}
             {page==='holdings'     && <HoldingsPage    {...pageProps} />}
-            {page==='gang'         && <GangPage        {...pageProps} typeFilter='gang' />}
-            {page==='family'       && <GangPage        {...pageProps} typeFilter='family' />}
             {page==='alliance'     && <AlliancePage    {...pageProps} />}
             {page==='world'        && <WorldPage       profile={profile} onNavigate={setPage} />}
             {page==='admin'        && <AdminPage       profile={profile} showNotif={showNotif} onNavigate={setPage} />}
@@ -1369,7 +1322,8 @@ function App() {
             {page==='duyurular'    && <DuyurularPage   profile={profile} />}
             {page==='leaderboard'  && <LeaderboardPage {...pageProps} />}
             {page==='education'    && <EducationPage   {...pageProps} />}
-            {page==='parti_etki'   && <PartiEtkiPage  profile={profile} setProfile={setProfile} parties={parties} setParties={setParties} showNotif={showNotif} gangs={gangs} />}
+            {page==='eyalet_harita' && window.OttomanEyaletScreen && React.createElement(window.OttomanEyaletScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
+            {page==='valilik'      && window.VaililikEkrani && React.createElement(window.VaililikEkrani, {cu:profile||{},setCurrentPage:setPage})}
             {page==='citygov'        && <CityGovPage       {...pageProps} />}
             {page==='police_ministry' && <PoliceMinistryPage {...pageProps} />}
             {page==='crime'          && <CrimePage         profile={profile} setProfile={setProfile} showNotif={showNotif} />}
@@ -1378,16 +1332,11 @@ function App() {
             {page==='yetkilerim'     && <YetkilerimPage    {...pageProps} />}
             {page==='election_events'&& <EventsPage        {...pageProps} />}
             {page==='teamwar'        && <TeamWarPage       {...pageProps} />}
-            {page==='power_triangle' && window.PowerTriangleScreen && React.createElement(window.PowerTriangleScreen, {cu:profile||{},setCurrentPage:setPage,families:(()=>{try{return JSON.parse(localStorage.getItem('rep_families')||'[]');}catch{return [];}})(),gangs:gangs,parties:parties,allUsers:onlinePlayers||[]})}
-            {page==='tenders' && window.TenderScreen && React.createElement(window.TenderScreen, {cu:profile||{},setCurrentPage:setPage,families:(()=>{try{return JSON.parse(localStorage.getItem('rep_families')||'[]');}catch{return [];}})(),allUsers:onlinePlayers||[]})}
-            {page==='unions' && window.UnionScreen && React.createElement(window.UnionScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[],families:(()=>{try{return JSON.parse(localStorage.getItem('rep_families')||'[]');}catch{return [];}})()})}
-            {page==='gang_treasury' && window.GangTreasuryScreen && React.createElement(window.GangTreasuryScreen, {cu:profile||{},setCurrentPage:setPage,gangs:gangs,allUsers:onlinePlayers||[]})}
-            {page==='party_center' && window.PartyCenterScreen && React.createElement(window.PartyCenterScreen, {cu:profile||{},setCurrentPage:setPage,parties:parties,allUsers:onlinePlayers||[],families:(()=>{try{return JSON.parse(localStorage.getItem('rep_families')||'[]');}catch{return [];}})()})}
+            {page==='tenders' && window.TenderScreen && React.createElement(window.TenderScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
+            {page==='unions' && window.UnionScreen && React.createElement(window.UnionScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
             {page==='army_system' && window.ArmyScreen && React.createElement(window.ArmyScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
-            {page==='independent_army' && window.IndependentArmyScreen && React.createElement(window.IndependentArmyScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[],families:(()=>{try{return JSON.parse(localStorage.getItem('rep_families')||'[]');}catch{return [];}})(),gangs:gangs,parties:parties})}
-            {page==='economic_empire' && window.EconomicEmpireScreen && React.createElement(window.EconomicEmpireScreen, {cu:profile||{},setCurrentPage:setPage,families:(()=>{try{return JSON.parse(localStorage.getItem('rep_families')||'[]');}catch{return [];}})(),gangs:gangs,parties:parties,allUsers:onlinePlayers||[]})}
-            {page==='family_center' && window.FamilyCenterScreen && React.createElement(window.FamilyCenterScreen, {cu:profile||{},setCurrentPage:setPage,families:(()=>{try{return JSON.parse(localStorage.getItem('rep_families')||'[]');}catch{return [];}})(),gangs:gangs,parties:parties,allUsers:onlinePlayers||[]})}
-            {page==='protection_deals' && window.ProtectionDealsScreen && React.createElement(window.ProtectionDealsScreen, {cu:profile||{},setCurrentPage:setPage,gangs:gangs,families:(()=>{try{return JSON.parse(localStorage.getItem('rep_families')||'[]');}catch{return [];}})(),allUsers:onlinePlayers||[]})}
+            {page==='independent_army' && window.IndependentArmyScreen && React.createElement(window.IndependentArmyScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
+            {page==='economic_empire' && window.EconomicEmpireScreen && React.createElement(window.EconomicEmpireScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
           </div>
           </div>
 
@@ -1408,7 +1357,7 @@ function App() {
                     ['1️⃣','İlk İşini Yap','İşler sekmesinden Çöpçü veya Fırıncı ile para kazanmaya başla. Her 5 dakikada bir toplayabilirsin.'],
                     ['2️⃣','Eğitimini Tamamla','Eğitim sekmesinden okul bitir. Yüksek diploma → daha iyi işler ve siyasi haklar.'],
                     ['3️⃣','Şehrine Oy Ver','Siyaset sekmesinden devlet başkanlığı seçimlerine katıl. Oy katsayın arttıkça etkili olursun.'],
-                    ['4️⃣','Parti veya Çete','Lise mezuniyeti sonrası parti kurabilir, yeterli parayla çete/aile oluşturabilirsin.'],
+                    ['4️⃣','Vali Ol','Devlet → Eyaletler sayfasından boş bir eyalete başvur. Vali olarak günlük vergi geliri kazan.'],
                     ['5️⃣','Günlük Görevleri Bitir','Görevler sekmesindeki günlük hedefleri tamamla — XP ve para kazan.'],
                     ['6️⃣','UC Kazan','Ekonomi → Dönüşüm sayfasından UnderCoin edinebilir, oy katsayısını artırabilirsin.'],
                   ].map(([num,title,desc])=>(
@@ -1527,7 +1476,7 @@ class ErrorBoundary extends React.Component {
       }
     },
       React.createElement('img', {
-        src: '/icon-192.png', alt: 'UNDERSTATE',
+        src: '/icon-192.png', alt: 'SALTANAT ONLINE',
         style: { width: '72px', height: '72px', borderRadius: '18px', marginBottom: '8px', opacity: 0.8 }
       }),
       React.createElement('h2', {

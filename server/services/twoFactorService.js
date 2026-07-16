@@ -64,7 +64,7 @@ async function setup2FA(userId) {
   ).catch(() => {});
   const { rows: u } = await db.query(`SELECT username FROM users WHERE id=$1`, [userId])
     .catch(() => ({ rows: [] }));
-  const otpauth = `otpauth://totp/UNDERSTATE:${u[0]?.username || userId}?secret=${secret}&issuer=UNDERSTATE`;
+  const otpauth = `otpauth://totp/SALTANAT ONLINE:${u[0]?.username || userId}?secret=${secret}&issuer=SALTANAT ONLINE`;
   return { ok: true, secret, backupCodes, otpauth };
 }
 

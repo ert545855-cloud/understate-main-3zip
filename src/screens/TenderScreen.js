@@ -1,6 +1,6 @@
 
 // ═══════════════════════════════════════════════════════
-// UNDERSTATE — Devlet İhaleleri (State Tenders) Ekranı
+// SALTANAT ONLINE — Devlet İhaleleri (State Tenders) Ekranı
 // Tüm veri PostgreSQL'de — çok oyunculu gerçek zamanlı
 // ═══════════════════════════════════════════════════════
 window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrentPage }) {

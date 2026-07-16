@@ -1,11 +1,11 @@
 /**
- * UNDERSTATE — Android Build Preparation Script
+ * SALTANAT ONLINE — Android Build Preparation Script
  * 
  * Bu script, web varlıklarını Capacitor'un www/ klasörüne kopyalar
  * ve production sunucu URL'ini yapılandırır.
  * 
  * Kullanım: node scripts/prepare-android.js [production_url]
- * Örnek: node scripts/prepare-android.js https://understate.onrender.com
+ * Örnek: node scripts/prepare-android.js https://saltanat-online.onrender.com
  */
 
 const fs   = require('fs');
@@ -36,7 +36,7 @@ function copyDir(src, dest) {
 }
 
 // ── Clean www/ ───────────────────────────────────────────────────────────────
-console.log('\n🔨 UNDERSTATE Android Build Hazırlığı');
+console.log('\n🔨 SALTANAT ONLINE Android Build Hazırlığı');
 console.log(`   Production URL: ${PRODUCTION_URL}`);
 console.log('');
 
@@ -54,8 +54,8 @@ let html = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
 const socketPatch = `
 <script>
 // Capacitor native app — force production server URL
-window._UNDERSTATE_SERVER_URL = '${PRODUCTION_URL}';
-window._UNDERSTATE_IS_NATIVE  = true;
+window._SALTANAT ONLINE_SERVER_URL = '${PRODUCTION_URL}';
+window._SALTANAT ONLINE_IS_NATIVE  = true;
 </script>`;
 html = html.replace('<head>', '<head>' + socketPatch);
 
@@ -65,11 +65,11 @@ html = html.replace(/navigator\.serviceWorker\.register[^;]+;/, '// SW handled b
 // 3. Patch Socket.IO to connect to production
 html = html.replace(
   "io(window._US_SERVER_URL || ''",
-  "io(window._UNDERSTATE_SERVER_URL || window._US_SERVER_URL || ''"
+  "io(window._SALTANAT ONLINE_SERVER_URL || window._US_SERVER_URL || ''"
 );
 html = html.replace(
   "io('', {",
-  `io(window._UNDERSTATE_SERVER_URL || '', {`
+  `io(window._SALTANAT ONLINE_SERVER_URL || '', {`
 );
 
 fs.writeFileSync(path.join(WWW_DIR, 'index.html'), html);

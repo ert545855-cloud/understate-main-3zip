@@ -1,6 +1,6 @@
 
 // ═══════════════════════════════════════════════════════
-// UNDERSTATE — Sendika & İşçilik (Union & Labor) Ekranı
+// SALTANAT ONLINE — Sendika & İşçilik (Union & Labor) Ekranı
 // ═══════════════════════════════════════════════════════
 window.UnionScreen = function UnionScreen({ cu, allUsers, families, setCurrentPage }) {
   const S = {

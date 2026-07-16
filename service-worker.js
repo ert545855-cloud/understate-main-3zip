@@ -1,7 +1,7 @@
-// UNDERSTATE Service Worker v3.0
+// SALTANAT ONLINE Service Worker v3.0
 // Önbellek yok — her zaman ağdan yükle (stale kod önlenir)
 
-const CACHE_NAME = 'understate-v5';
+const CACHE_NAME = 'saltanat-v5';
 
 // Eski önbellekleri sil
 self.addEventListener('activate', (event) => {
@@ -50,7 +50,7 @@ self.addEventListener('fetch', (event) => {
 
 // Push notifications
 self.addEventListener('push', (event) => {
-  let data = { title: 'UNDERSTATE', body: 'Yeni bildirim var!', icon: '/icon-192.png' };
+  let data = { title: 'Saltanat Online', body: 'Yeni bildirim var!', icon: '/icon-192.png' };
   try { data = { ...data, ...event.data.json() }; } catch {}
   event.waitUntil(
     self.registration.showNotification(data.title, {

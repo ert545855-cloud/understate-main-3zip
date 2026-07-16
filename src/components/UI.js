@@ -1,6 +1,6 @@
 "use strict";
 // ═══════════════════════════════════════════════════════
-// UNDERSTATE SHARED UI COMPONENTS — Design System v9
+// SALTANAT ONLINE SHARED UI COMPONENTS — Design System v9
 // Note: React hooks from app.js global scope at call time
 // ═══════════════════════════════════════════════════════
 

@@ -14,7 +14,7 @@ function buildPoolConfig() {
     const { RDS_HOSTNAME, RDS_PORT, RDS_DB_NAME, RDS_USERNAME, RDS_PASSWORD } = process.env;
     if (RDS_HOSTNAME && RDS_USERNAME && RDS_PASSWORD) {
       const port = RDS_PORT || 5432;
-      const db   = RDS_DB_NAME || 'understate';
+      const db   = RDS_DB_NAME || 'saltanat-online';
       url = `postgres://${RDS_USERNAME}:${encodeURIComponent(RDS_PASSWORD)}@${RDS_HOSTNAME}:${port}/${db}`;
     }
   }

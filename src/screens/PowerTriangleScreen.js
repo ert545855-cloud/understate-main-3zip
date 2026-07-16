@@ -1,6 +1,6 @@
 
 // ═══════════════════════════════════════════════════════
-// UNDERSTATE — Güç Üçgeni (Power Triangle) Ekranı
+// SALTANAT ONLINE — Güç Üçgeni (Power Triangle) Ekranı
 // ═══════════════════════════════════════════════════════
 window.PowerTriangleScreen = function PowerTriangleScreen({ cu, families, gangs, parties, allUsers, setCurrentPage }) {
   const [tab, setTab] = React.useState("overview");

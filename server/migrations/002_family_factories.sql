@@ -1,4 +1,4 @@
--- UNDERSTATE — Migration 002: Aile Fabrikaları + DB Rate Limiter
+-- SALTANAT ONLINE — Migration 002: Aile Fabrikaları + DB Rate Limiter
 -- Çalıştır: psql $DATABASE_URL -f server/migrations/002_family_factories.sql
 -- Güvenli: IF NOT EXISTS kullanır, tekrar çalıştırılabilir.
 

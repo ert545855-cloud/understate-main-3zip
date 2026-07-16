@@ -1,0 +1,561 @@
+You are a senior AAA Game Designer, Senior UI/UX Designer and Senior Frontend Engineer.
+
+Completely replace the existing game with a brand new game called "Saltanat Online".
+
+DO NOT keep any UnderState branding, mechanics, screens, texts or visuals.
+
+=========================================================
+GAME THEME
+=========================================================
+
+Saltanat Online is a premium online medieval Ottoman strategy & roleplay game.
+
+Players begin as ordinary citizens and climb the social hierarchy.
+
+Possible careers
+
+• Farmer
+• Merchant
+• Soldier
+• Blacksmith
+• Scholar
+• Craftsman
+• Stable Master
+• Miner
+• Caravan Trader
+
+Eventually players may become
+
+• Village Head
+• District Governor
+• Sanjak Bey
+• Governor (Vali)
+• Vizier
+• Grand Vizier
+• Sultan
+
+Everything is player-driven.
+
+Real economy.
+
+Politics.
+
+Wars.
+
+Trade.
+
+Diplomacy.
+
+Justice.
+
+Construction.
+
+=========================================================
+DESIGN STYLE
+=========================================================
+
+Absolutely premium.
+
+No cartoon.
+
+No mobile game feeling.
+
+Looks like
+
+Crusader Kings 3
+Manor Lords
+Bannerlord
+Age of Empires IV
+
+Mixed together.
+
+Elegant Ottoman architecture.
+
+Gold ornaments.
+
+Dark leather UI.
+
+Marble.
+
+Wood.
+
+Bronze.
+
+Luxury feeling.
+
+Dark theme.
+
+Color palette
+
+Background
+#0F1115
+
+Cards
+#1B1E25
+
+Gold
+#C89B3C
+
+Primary text
+#F5EBD7
+
+Secondary
+#A9A6A0
+
+Danger
+#B8423C
+
+Success
+#3E8C5A
+
+Corners
+
+Rounded 16px
+
+Large shadows
+
+Beautiful transitions
+
+Modern animations
+
+=========================================================
+TYPOGRAPHY
+=========================================================
+
+Headings
+
+Cinzel
+
+Body
+
+Inter
+
+Numbers
+
+JetBrains Mono
+
+=========================================================
+CREATE THESE SCREENS
+=========================================================
+
+1.
+Splash Screen
+
+Animated Ottoman emblem
+
+Saltanat Online logo
+
+Golden particles
+
+Loading animation
+
+====================================
+
+2.
+Login Screen
+
+Huge Istanbul background
+
+Mosques
+
+Palace
+
+Fog
+
+Username
+
+Password
+
+Login
+
+Register
+
+Forgot Password
+
+Discord
+
+Language
+
+Server selection
+
+====================================
+
+3.
+Character Creation
+
+Choose name
+
+Avatar
+
+Profession
+
+Starting city
+
+Appearance
+
+Background story
+
+====================================
+
+4.
+Main City Screen
+
+Beautiful Ottoman city
+
+Animated NPCs
+
+Moving ships
+
+Clouds
+
+Markets
+
+Buildings clickable
+
+Top resource bar
+
+Left menu
+
+Bottom navigation
+
+====================================
+
+5.
+Empire Map
+
+Large historical map
+
+Every province clickable
+
+Ownership colors
+
+Zoom
+
+Borders
+
+Roads
+
+Castles
+
+Cities
+
+Trade routes
+
+====================================
+
+6.
+Province Management
+
+Population
+
+Taxes
+
+Security
+
+Production
+
+Buildings
+
+Projects
+
+Military
+
+Happiness
+
+====================================
+
+7.
+Palace
+
+Throne Room
+
+Council
+
+Treasury
+
+Royal Guard
+
+Royal Orders
+
+====================================
+
+8.
+Divan Screen
+
+Government decisions
+
+Ministers
+
+Voting
+
+Laws
+
+Taxes
+
+Projects
+
+====================================
+
+9.
+Marketplace
+
+Dynamic economy
+
+Buy
+
+Sell
+
+Charts
+
+Supply
+
+Demand
+
+Price history
+
+====================================
+
+10.
+Construction
+
+Castle
+
+Mosque
+
+Bridge
+
+Farm
+
+Mine
+
+Workshop
+
+Barracks
+
+University
+
+Port
+
+====================================
+
+11.
+Army
+
+Units
+
+Recruitment
+
+Equipment
+
+Generals
+
+Army Power
+
+Formation
+
+====================================
+
+12.
+War Screen
+
+Battle preparation
+
+Enemy kingdom
+
+Troops
+
+Morale
+
+Supplies
+
+Attack
+
+Retreat
+
+====================================
+
+13.
+Diplomacy
+
+Alliance
+
+Peace
+
+Trade
+
+Embargo
+
+Marriage
+
+Treaties
+
+====================================
+
+14.
+Court
+
+Trials
+
+Crimes
+
+Punishments
+
+Judges
+
+Evidence
+
+====================================
+
+15.
+Guild System
+
+Guilds
+
+Permissions
+
+Members
+
+Treasury
+
+Wars
+
+====================================
+
+16.
+Profile
+
+Character
+
+Titles
+
+Achievements
+
+Badges
+
+Statistics
+
+Inventory
+
+====================================
+
+17.
+Inventory
+
+Weapons
+
+Armor
+
+Resources
+
+Food
+
+Materials
+
+Search
+
+Filters
+
+====================================
+
+18.
+Notifications
+
+Animated timeline
+
+Events
+
+Messages
+
+Warnings
+
+====================================
+
+19.
+Chat
+
+World
+
+Province
+
+Guild
+
+Private
+
+Voice
+
+Emoji
+
+====================================
+
+20.
+Settings
+
+Graphics
+
+Audio
+
+Controls
+
+Accessibility
+
+Language
+
+=========================================================
+ANIMATIONS
+=========================================================
+
+Everything animated.
+
+Hover animations
+
+Card lift
+
+Gold glow
+
+Smooth transitions
+
+Fog
+
+Birds
+
+Fire
+
+Torch light
+
+Flags moving
+
+Water movement
+
+=========================================================
+RESPONSIVE
+=========================================================
+
+Desktop
+
+Tablet
+
+Mobile
+
+=========================================================
+OUTPUT
+=========================================================
+
+Create every page completely.
+
+Use modern React.
+
+TailwindCSS.
+
+Framer Motion.
+
+TypeScript.
+
+Component based architecture.
+
+Professional folder structure.
+
+No placeholders.
+
+Everything production ready.
+
+The UI must look like a premium AAA online strategy game.
