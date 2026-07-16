@@ -2,17 +2,17 @@
 window.LANG_TR = {
   // === Navigation ===
   home:'Ana Sayfa', economy:'Ekonomi', battle:'Savaş', state:'Devlet', social:'Sosyal',
-  jobs:'İşler', general:'Genel', market:'Market', companies:'Şirketler', factory:'Fabrika',
+  jobs:'İşler', general:'Genel', market:'Market', companies:'Şirketler', factory:'Atölye',
   mining:'Maden', education:'Eğitim', tasks:'Görevler', farm:'Tarım', livestock:'Hayvancılık',
   army:'Ordu', fight:'Dövüş', gang:'Çete', intelligence:'İstihbarat', tournament:'Turnuva',
   crisis:'Kriz', court:'Mahkeme', politics:'Siyaset', governance:'Yönetim',
-  municipality:'Belediye', construction:'İnşaat', map:'Harita', alliance:'İttifak',
+  valilik:'Valilik', construction:'İnşaat', map:'Harita', alliance:'İttifak',
   world:'Dünya', npc:'NPC', wiki:'Wiki',
   chat:'Sohbet', clan:'Klan', messages:'Mesaj', players:'Oyuncular',
   newsfeed:'Sosyal', newspaper:'Haber Ajansı', football:'Futbol', casino:'Kumarhane',
   announcements:'Duyurular', leaderboard:'Sıralama', achievements:'Başarılar',
   // === Common labels ===
-  money:'PARA', uc:'UC', send:'Gönder', buy:'Satın Al', sell:'Sat',
+  money:'PARA', uc:'Altın', send:'Gönder', buy:'Satın Al', sell:'Sat',
   upgrade:'Geliştir', collect:'Topla', feed:'Besle', profile:'Profil',
   settings:'Ayarlar', logout:'Çıkış', language:'Dil',
   barn:'Ahır', capacity:'Kapasite', level:'Seviye', barnFull:'Ahır dolu!',

@@ -3,7 +3,7 @@
 // ═══════════════════════════════════════════════════════
 function DuyurularPage({ profile }) {
   const { dark } = useTheme();
-  const bg = dark ? '#0F172A' : '#F8FAFC';
+  const bg = dark ? '#1A0E00' : '#F8FAFC';
   const card = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
   const [announcements] = useLs('announcements', []);
@@ -19,7 +19,7 @@ function DuyurularPage({ profile }) {
 
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%',display:'flex',flexDirection:'column',gap:'0.75rem'}}>
-      <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:800,color:'#C9A227',letterSpacing:'0.08em'}}>📣 DUYURULAR</div>
+      <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.1rem',fontWeight:800,color:'#C9A227',letterSpacing:'0.08em'}}>📣 DUYURULAR</div>
       {selected ? (
         <div style={{background:card,border:`1px solid ${catColor[selected.category]||border}44`,borderRadius:'10px',padding:'1.25rem',display:'flex',flexDirection:'column',gap:'0.75rem'}}>
           <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>

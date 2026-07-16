@@ -8,7 +8,7 @@ const db = require('../services/dbService');
 const logger = require('../utils/logger');
 
 const ALLOWED_FIELDS = new Set([
-  'money', 'bank', 'bank_money', 'level', 'xp', 'city', 'under_coin',
+  'money', 'bank', 'bank_money', 'level', 'xp', 'city', 'altin',
   'inventory', 'buildings', 'businesses', 'position', 'health', 'hp',
   'stats', 'achievements', 'skills', 'party_id', 'gang_id',
   'game_data', 'settings', 'socket_id', 'is_online',

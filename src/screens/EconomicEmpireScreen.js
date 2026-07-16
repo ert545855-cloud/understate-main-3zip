@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════════════════
 // SALTANAT ONLINE — Ekonomik İmparatorluk Ekranı
-// Aileler → Holding/Fabrika/Şirket kurar
-// Fabrika geliri sunucu tarafında doğrulanır (anti-cheat)
+// Aileler → Holding/Atölye/Şirket kurar
+// Atölye geliri sunucu tarafında doğrulanır (anti-cheat)
 // ═══════════════════════════════════════════════════════
 window.EconomicEmpireScreen = function EconomicEmpireScreen({ cu, families, gangs, parties, allUsers, setCurrentPage }) {
   const S = {
@@ -13,7 +13,7 @@ window.EconomicEmpireScreen = function EconomicEmpireScreen({ cu, families, gang
   const [holdings, setHoldings]   = React.useState(()=>S.load("holdings",[]));
   const [companies, setCompanies] = React.useState(()=>S.load("companies",[]));
   const [fundDeals, setFundDeals] = React.useState(()=>S.load("fundDeals",[]));
-  // Sunucu tabanlı aile fabrikaları (anti-cheat: gelir & zamanlama server'da)
+  // Sunucu tabanlı aile atölyelerı (anti-cheat: gelir & zamanlama server'da)
   const [serverFactories, setServerFactories] = React.useState([]);
   const [factoriesLoading, setFactoriesLoading] = React.useState(false);
   const [collectingId, setCollectingId] = React.useState(null);
@@ -21,7 +21,7 @@ window.EconomicEmpireScreen = function EconomicEmpireScreen({ cu, families, gang
   const [form, setForm] = React.useState({name:"",type:"holding",budget:"",factorySubType:"sarap"});
   const now = Date.now();
 
-  // ── Fabrika alt türleri (server/routes/familyFactory.js ile senkronize) ──────
+  // ── Atölye alt türleri (server/routes/familyFactory.js ile senkronize) ──────
   const FACTORY_SUBTYPES = [
     {id:"sarap",   label:"Aile Şarap İmalathanesi", icon:"🍷", cost:2500000,  monthlyIncome:220000,  product:"Şarap",        minInfluence:0  },
     {id:"tekstil", label:"Aile Tekstil Atölyesi",   icon:"🧵", cost:3500000,  monthlyIncome:320000,  product:"Lüks Kumaş",   minInfluence:0  },
@@ -31,9 +31,9 @@ window.EconomicEmpireScreen = function EconomicEmpireScreen({ cu, families, gang
   ];
 
   const BUSINESS_TYPES = [
-    {id:"holding", label:"Holding", icon:"🏢", cost:5000000, monthlyIncome:500000, desc:"En yüksek yapı. Birden fazla fabrika ve şirketi yönetir."},
-    {id:"fabrika", label:"Fabrika", icon:"🏭", cost:0,       monthlyIncome:0,      desc:"Üretim tesisi. Holding altına alınabilir. Maliyet fabrika türüne göre değişir."},
-    {id:"sirket",  label:"Şirket",  icon:"📊", cost:800000,  monthlyIncome:80000,  desc:"Ticaret şirketi. Fabrika veya holding gerektirir."},
+    {id:"holding", label:"Holding", icon:"🏢", cost:5000000, monthlyIncome:500000, desc:"En yüksek yapı. Birden fazla atölye ve şirketi yönetir."},
+    {id:"atölye", label:"Atölye", icon:"🏭", cost:0,       monthlyIncome:0,      desc:"Üretim tesisi. Holding altına alınabilir. Maliyet atölye türüne göre değişir."},
+    {id:"sirket",  label:"Şirket",  icon:"📊", cost:800000,  monthlyIncome:80000,  desc:"Ticaret şirketi. Atölye veya holding gerektirir."},
   ];
 
   // Socket — çete saldırısı
@@ -50,7 +50,7 @@ window.EconomicEmpireScreen = function EconomicEmpireScreen({ cu, families, gang
   }, []);
 
   const showMsg = (text, type="info") => { setMsg({text,type}); setTimeout(()=>setMsg(null),3500); };
-  const fmtMoney = (n) => { if(!n&&n!==0)return "₺0"; if(n>=1e9)return "₺"+(n/1e9).toFixed(1)+"Mlr"; if(n>=1e6)return "₺"+(n/1e6).toFixed(1)+"M"; if(n>=1e3)return "₺"+(n/1e3).toFixed(0)+"K"; return "₺"+Math.floor(n); };
+  const fmtMoney = (n) => { if(!n&&n!==0)return "🪙0"; if(n>=1e9)return "🪙"+(n/1e9).toFixed(1)+"Mlr"; if(n>=1e6)return "🪙"+(n/1e6).toFixed(1)+"M"; if(n>=1e3)return "🪙"+(n/1e3).toFixed(0)+"K"; return "🪙"+Math.floor(n); };
   const fmtTime  = (ms) => { const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000); return h>0?`${h}sa ${m}dk`:`${m}dk`; };
   const getToken = () => localStorage.getItem('rep_token')||localStorage.getItem('token')||'';
 
@@ -71,7 +71,7 @@ window.EconomicEmpireScreen = function EconomicEmpireScreen({ cu, families, gang
   const myProtDeals = S.load("protDeals",[]).filter(d=>d.familyId===myFamily?.id&&d.status==="active");
   const totalProtectionPaid = myProtDeals.reduce((a,d)=>a+(d.weeklyFee||0),0);
 
-  // Aile fabrikalarını sunucudan yükle
+  // Aile atölyelerını sunucudan yükle
   const loadServerFactories = React.useCallback(() => {
     if(!myFamily?.id) return;
     setFactoriesLoading(true);
@@ -88,10 +88,10 @@ window.EconomicEmpireScreen = function EconomicEmpireScreen({ cu, families, gang
   const canBuild = (type) => {
     if(!isApprovedManager) return {ok:false,reason:"Sadece aile lideri veya onaylı yöneticiler işletme kurabilir"};
     if(type==="holding") return {ok:true};
-    if(type==="fabrika") {
-      if(myHoldings.length===0) return {ok:false,reason:"Fabrika kurmak için önce bir holding gerekli"};
-      const maxF = myHoldings.length*5; // max 5 fabrika/holding
-      if(serverFactories.length>=maxF) return {ok:false,reason:`Maks. fabrika sayısına ulaşıldı (${maxF}). Yeni holding kurun.`};
+    if(type==="atölye") {
+      if(myHoldings.length===0) return {ok:false,reason:"Atölye kurmak için önce bir holding gerekli"};
+      const maxF = myHoldings.length*5; // max 5 atölye/holding
+      if(serverFactories.length>=maxF) return {ok:false,reason:`Maks. atölye sayısına ulaşıldı (${maxF}). Yeni holding kurun.`};
       const sel = FACTORY_SUBTYPES.find(s=>s.id===form.factorySubType);
       if(sel?.minInfluence&&(myFamily.influence||0)<sel.minInfluence)
         return {ok:false,reason:`${sel.label} için en az ${sel.minInfluence} aile etkisi gerekli (mevcut: ${myFamily.influence||0})`};
@@ -99,13 +99,13 @@ window.EconomicEmpireScreen = function EconomicEmpireScreen({ cu, families, gang
     }
     if(type==="sirket") {
       if(myCompanies.length===0&&myHoldings.length===0&&serverFactories.length===0)
-        return {ok:false,reason:"Şirket kurmak için fabrika veya holding gerekli"};
+        return {ok:false,reason:"Şirket kurmak için atölye veya holding gerekli"};
       return {ok:true};
     }
     return {ok:false,reason:"Geçersiz tür"};
   };
 
-  // Fabrika satın alma — maliyet kasa (localStorage) üzerinden, kayıt server'da
+  // Atölye satın alma — maliyet kasa (localStorage) üzerinden, kayıt server'da
   const buildFactory = async (subType, name) => {
     const famsLocal = (()=>{try{return JSON.parse(localStorage.getItem('rep_families')||'[]');}catch{return [];}})();
     const myFamLocal = famsLocal.find(f=>f.id===myFamily?.id);
@@ -135,9 +135,9 @@ window.EconomicEmpireScreen = function EconomicEmpireScreen({ cu, families, gang
     const check = canBuild(form.type);
     if(!check.ok) return showMsg(check.reason,"error");
 
-    if(form.type==="fabrika") {
+    if(form.type==="atölye") {
       const subType = FACTORY_SUBTYPES.find(s=>s.id===form.factorySubType);
-      if(!subType) return showMsg("Fabrika türü seçin","error");
+      if(!subType) return showMsg("Atölye türü seçin","error");
       return await buildFactory(subType, form.name.trim());
     }
 
@@ -183,7 +183,7 @@ window.EconomicEmpireScreen = function EconomicEmpireScreen({ cu, families, gang
   const fundParty = () => {
     if(!isFamilyLeader) return showMsg("Sadece aile lideri parti fonlayabilir","error");
     const partyName = prompt("Fonlamak istediğiniz parti:"); if(!partyName) return;
-    const amount = parseInt(prompt("Fon miktarı (₺):")); if(!amount||isNaN(amount)) return showMsg("Geçerli miktar girin","error");
+    const amount = parseInt(prompt("Fon miktarı (🪙):")); if(!amount||isNaN(amount)) return showMsg("Geçerli miktar girin","error");
     const deal={id:`fund_${Date.now()}`,familyId:myFamily?.id,familyName:myFamily?.name,partyName,amount,date:now,type:"party_fund"};
     const upd=[...fundDeals,deal]; setFundDeals(upd); S.save("fundDeals",upd);
     showMsg(`${partyName} partisine ${fmtMoney(amount)} fon gönderildi! ✓`,"success");
@@ -240,7 +240,7 @@ window.EconomicEmpireScreen = function EconomicEmpireScreen({ cu, families, gang
           <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:"0.45rem",marginBottom:"0.75rem"}}>
             {[
               {l:"Holding",v:myHoldings.length,c:"#C9A227",icon:"🏢"},
-              {l:"Fabrika",v:serverFactories.length,c:"#C9A227",icon:"🏭"},
+              {l:"Atölye",v:serverFactories.length,c:"#C9A227",icon:"🏭"},
               {l:"Şirket",v:myCompanies.length,c:"#C9A227",icon:"📊"},
             ].map(s=>(
               <div key={s.l} style={{background:"rgba(255,255,255,0.04)",border:`1px solid ${s.c}22`,borderRadius:10,padding:"0.6rem",textAlign:"center"}}>
@@ -306,7 +306,7 @@ window.EconomicEmpireScreen = function EconomicEmpireScreen({ cu, families, gang
                 </div>
               </div>
               <div style={{display:"flex",gap:"0.35rem",flexWrap:"wrap"}}>
-                <span style={{background:"rgba(96,165,250,0.1)",border:"1px solid rgba(96,165,250,0.2)",borderRadius:6,padding:"0.2rem 0.5rem",fontSize:"0.65rem",color:"#C9A227"}}>🏭 {serverFactories.length}/{myHoldings.length*5} Fabrika</span>
+                <span style={{background:"rgba(96,165,250,0.1)",border:"1px solid rgba(96,165,250,0.2)",borderRadius:6,padding:"0.2rem 0.5rem",fontSize:"0.65rem",color:"#C9A227"}}>🏭 {serverFactories.length}/{myHoldings.length*5} Atölye</span>
                 <span style={{background:"rgba(76,154,107,0.1)",border:"1px solid rgba(76,154,107,0.2)",borderRadius:6,padding:"0.2rem 0.5rem",fontSize:"0.65rem",color:"#4C9A6B"}}>💰 {fmtMoney(h.budget)} sermaye</span>
                 {h.underAttack&&<span style={{background:"rgba(194,75,67,0.1)",border:"1px solid rgba(194,75,67,0.3)",borderRadius:6,padding:"0.2rem 0.5rem",fontSize:"0.65rem",color:"#C24B43"}}>⚔️ SALDIRI ALTINDA</span>}
               </div>
@@ -323,15 +323,15 @@ window.EconomicEmpireScreen = function EconomicEmpireScreen({ cu, families, gang
           ):serverFactories.length===0?(
             <div style={{...card,textAlign:"center",padding:"2rem"}}>
               <div style={{fontSize:"2rem",marginBottom:"0.5rem"}}>🏭</div>
-              <div style={{color:"#5E7390",fontSize:"0.82rem",marginBottom:"0.5rem"}}>Henüz aile fabrikası yok. Fabrika kurmak için önce bir holding gerekli.</div>
-              {isApprovedManager&&myHoldings.length>0&&<button className="btn btn-primary" onClick={()=>setTab("build")}>🔨 Fabrika Kur</button>}
+              <div style={{color:"#5E7390",fontSize:"0.82rem",marginBottom:"0.5rem"}}>Henüz aile fabrikası yok. Atölye kurmak için önce bir holding gerekli.</div>
+              {isApprovedManager&&myHoldings.length>0&&<button className="btn btn-primary" onClick={()=>setTab("build")}>🔨 İmalathane Kur</button>}
             </div>
           ):(
             <div>
               <div style={{...card,background:"linear-gradient(135deg,rgba(201,162,39,0.08),rgba(0,0,0,0))"}}>
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                   <div>
-                    <div style={{fontSize:"0.68rem",color:"#5E7390",textTransform:"uppercase",letterSpacing:"0.06em"}}>Toplam Aylık Fabrika Geliri</div>
+                    <div style={{fontSize:"0.68rem",color:"#5E7390",textTransform:"uppercase",letterSpacing:"0.06em"}}>Toplam Aylık Atölye Geliri</div>
                     <div style={{fontFamily:"JetBrains Mono,monospace",fontWeight:900,fontSize:"1.3rem",color:"#C9A227"}}>{fmtMoney(factoryIncome)}</div>
                   </div>
                   <div style={{textAlign:"right"}}>
@@ -425,10 +425,10 @@ window.EconomicEmpireScreen = function EconomicEmpireScreen({ cu, families, gang
                     {BUSINESS_TYPES.map(b=><option key={b.id} value={b.id} style={{background:"#0a1628"}}>{b.icon} {b.label}{b.cost>0?` — Min ${fmtMoney(b.cost)}`:""}</option>)}
                   </select>
 
-                  {/* Fabrika alt türü seçimi */}
-                  {form.type==="fabrika"&&(
+                  {/* Atölye alt türü seçimi */}
+                  {form.type==="atölye"&&(
                     <div style={{marginTop:"0.25rem"}}>
-                      <div style={{fontSize:"0.72rem",color:"#8899AA",marginBottom:"0.4rem"}}>Fabrika Türü Seçin:</div>
+                      <div style={{fontSize:"0.72rem",color:"#8899AA",marginBottom:"0.4rem"}}>Atölye Türü Seçin:</div>
                       {FACTORY_SUBTYPES.map(st=>{
                         const locked = st.minInfluence>0&&(myFamily.influence||0)<st.minInfluence;
                         const sel    = form.factorySubType===st.id;
@@ -457,8 +457,8 @@ window.EconomicEmpireScreen = function EconomicEmpireScreen({ cu, families, gang
                     </div>
                   )}
 
-                  {form.type!=="fabrika"&&(
-                    <input className="input-field" type="number" placeholder="Sermaye (₺)" value={form.budget} onChange={e=>setForm(p=>({...p,budget:e.target.value}))}/>
+                  {form.type!=="atölye"&&(
+                    <input className="input-field" type="number" placeholder="Sermaye (🪙)" value={form.budget} onChange={e=>setForm(p=>({...p,budget:e.target.value}))}/>
                   )}
 
                   {(()=>{const ch=canBuild(form.type);return !ch.ok&&<div style={{fontSize:"0.72rem",color:"#C24B43",padding:"0.35rem 0.5rem",background:"rgba(194,75,67,0.08)",borderRadius:8}}>⛔ {ch.reason}</div>;})()}
@@ -466,7 +466,7 @@ window.EconomicEmpireScreen = function EconomicEmpireScreen({ cu, families, gang
                 </div>
               </div>
 
-              {BUSINESS_TYPES.filter(bt=>bt.id!=="fabrika").map(bt=>{
+              {BUSINESS_TYPES.filter(bt=>bt.id!=="atölye").map(bt=>{
                 const ch=canBuild(bt.id);
                 return (
                   <div key={bt.id} style={{...card,opacity:ch.ok?1:0.6,borderLeft:`3px solid ${ch.ok?"#4C9A6B":"#C24B43"}`}}>

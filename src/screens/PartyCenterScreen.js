@@ -30,7 +30,7 @@ window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, f
     }
   };
 
-  const fmtMoney = (n) => { if(!n)return "₺0"; if(n>=1e9)return "₺"+(n/1e9).toFixed(1)+"Mlr"; if(n>=1e6)return "₺"+(n/1e6).toFixed(1)+"M"; if(n>=1e3)return "₺"+(n/1e3).toFixed(0)+"K"; return "₺"+n; };
+  const fmtMoney = (n) => { if(!n)return "🪙0"; if(n>=1e9)return "🪙"+(n/1e9).toFixed(1)+"Mlr"; if(n>=1e6)return "🪙"+(n/1e6).toFixed(1)+"M"; if(n>=1e3)return "🪙"+(n/1e3).toFixed(0)+"K"; return "🪙"+n; };
 
   // ── Parti Hiyerarşisi (6 kademe) ─────────────────────────────────────────────
   const PARTY_RANKS = [
@@ -38,7 +38,7 @@ window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, f
     { id:'baskan_yrd',     label:'🏅 Başkan Yardımcısı', color:'#F97316', icon:'🏅', maxCount:2,  desc:'Genel başkanın vekili; kampanya ve yasal süreçleri yönetir.',          canBeCampaign:true },
     { id:'sozcu',          label:'🎙️ Parti Sözcüsü',     color:'#C9A227', icon:'🎙️', maxCount:1,  desc:'Resmi basın açıklamaları ve medya koordinasyonundan sorumlu.',         canBeCampaign:false},
     { id:'il_baskani',     label:'🌆 İl Başkanı',         color:'#C9A227', icon:'🌆', maxCount:8,  desc:'Bölgesel örgütlenme ve seçim çalışmalarını yürütür.',                 canBeCampaign:true },
-    { id:'milletvekili',   label:'🏛️ Milletvekili',       color:'#4C9A6B', icon:'🏛️', maxCount:30, desc:'Meclis oturumlarında partiyi temsil eder; yasa oylamalarına katılır.', canBeCampaign:false},
+    { id:'divan üyesi',   label:'🏛️ Divan Üyesi',       color:'#4C9A6B', icon:'🏛️', maxCount:30, desc:'Meclis oturumlarında partiyi temsil eder; yasa oylamalarına katılır.', canBeCampaign:false},
     { id:'uye',            label:'👤 Üye',                color:'#5E7390', icon:'👤', maxCount:999,desc:'Genel parti üyesi.',                                                   canBeCampaign:false},
   ];
 
@@ -88,7 +88,7 @@ window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, f
   ];
 
   const CABINET_POSITIONS = [
-    "Ekonomi Bakanı","Sanayi Müdürü","İçişleri Bakanı","Maliye Bakanı","Adalet Bakanı","Sağlık Bakanı"
+    "Ekonomi Bakanı","Zanaat Müdürü","İçişleri Bakanı","Maliye Bakanı","Adalet Bakanı","Sağlık Bakanı"
   ];
 
   const submitProposal = () => {
@@ -138,7 +138,7 @@ window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, f
     if(!isLeader) return showMsg("Sadece lider fon anlaşması yapabilir","error");
     const familyName = prompt("Fon sağlayacak aile adı:");
     if(!familyName) return;
-    const amount = parseInt(prompt("Fon miktarı (₺):"));
+    const amount = parseInt(prompt("Fon miktarı (🪙):"));
     if(!amount||isNaN(amount)) return showMsg("Geçerli miktar girin","error");
     const s = {...sponsors,[myParty.id]:[...(sponsors[myParty.id]||[]),{familyName,amount,date:Date.now()}]};
     setSponsors(s); S.save("sponsors",s);
@@ -300,7 +300,7 @@ window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, f
               {pos:"İçişleri Bakanı",    icon:"🛡️", color:"#C9A227", note:"Güvenlik ve kolluk kuvvetleri"},
               {pos:"Adalet Bakanı",      icon:"⚖️", color:"#C9A227", note:"Yargı ve hukuk işlemleri"},
               {pos:"Maliye Bakanı",      icon:"📊", color:"#C9A227", note:"Vergiler ve mali kontrol"},
-              {pos:"Sanayi Müdürü",      icon:"🏭", color:"#F97316", note:"Sanayi ve üretim sektörü"},
+              {pos:"Zanaat Müdürü",      icon:"🏭", color:"#F97316", note:"Zanaat ve üretim sektörü"},
               {pos:"Sağlık Bakanı",      icon:"🏥", color:"#6BC48B", note:"Halk sağlığı hizmetleri"},
               {pos:"Eğitim Bakanı",      icon:"📚", color:"#818CF8", note:"Eğitim politikası"},
               {pos:"Dışişleri Bakanı",   icon:"🌍", color:"#22D3EE", note:"Dış ilişkiler ve ittifaklar"},
@@ -599,7 +599,7 @@ window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, f
               {[
                 {l:"Liderlik",v:PARTY_RANKS.slice(0,3).reduce((a,r)=>{const h=(myParty?.members||[]).filter(m=>getPartyRank(m).id===r.id).length;return a+h;},0),c:"#C9A227"},
                 {l:"İl Teşkilatı",v:(myParty?.members||[]).filter(m=>getPartyRank(m).id==="il_baskani").length,c:"#C9A227"},
-                {l:"Milletvekili",v:(myParty?.members||[]).filter(m=>getPartyRank(m).id==="milletvekili").length,c:"#4C9A6B"},
+                {l:"Divan Üyesi",v:(myParty?.members||[]).filter(m=>getPartyRank(m).id==="divan üyesi").length,c:"#4C9A6B"},
               ].map(s=>(
                 <div key={s.l} style={{background:"rgba(255,255,255,0.04)",borderRadius:8,padding:"0.5rem",textAlign:"center"}}>
                   <div style={{fontWeight:700,fontSize:"0.9rem",color:s.c}}>{s.v}</div>

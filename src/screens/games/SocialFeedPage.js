@@ -4,7 +4,7 @@ function SocialPage({ profile, showNotif }) {
   const [postImage, setPostImage] = useState('');
   const [showGifPicker, setShowGifPicker] = useState(false);
   const { dark } = useTheme();
-  const bg = dark ? '#0F172A' : '#F8FAFC';
+  const bg = dark ? '#1A0E00' : '#F8FAFC';
   const cu = profile || {};
 
   const SOCIAL_GIFS = [
@@ -58,7 +58,7 @@ function SocialPage({ profile, showNotif }) {
 
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>
-      <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#C9A227',marginBottom:'1rem'}}>📱 Sosyal Medya</div>
+      <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.3rem',fontWeight:900,color:'#C9A227',marginBottom:'1rem'}}>📱 Sosyal Medya</div>
       <div style={{background:'rgba(167,139,250,0.05)',border:'1px solid rgba(167,139,250,0.2)',borderRadius:'12px',padding:'1rem',marginBottom:'1rem'}}>
         <textarea value={newPost} onChange={e=>setNewPost(e.target.value)} placeholder={`${cu.username||'Oyuncu'} olarak ne düşünüyorsun?`} rows={3}
           style={{width:'100%',background:'transparent',border:'none',outline:'none',color:'#EDE7DA',fontSize:'0.9rem',resize:'none',fontFamily:'inherit',marginBottom:'0.5rem'}} />

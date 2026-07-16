@@ -11,7 +11,7 @@ async function createListing(sellerId, { itemType, itemName, quantity, price, de
   if (!db.isReady()) return { ok: false, message: 'DB bağlı değil' };
   price = parseInt(price);
   quantity = parseInt(quantity) || 1;
-  if (price < 1)    return { ok: false, message: 'Fiyat en az 1₺ olmalı' };
+  if (price < 1)    return { ok: false, message: 'Fiyat en az 1🪙 olmalı' };
   if (quantity < 1) return { ok: false, message: 'Miktar en az 1 olmalı' };
 
   const { rows: countRows } = await db.query(
@@ -25,7 +25,7 @@ async function createListing(sellerId, { itemType, itemName, quantity, price, de
   const { rows: u } = await db.query(`SELECT money FROM users WHERE id=$1`, [sellerId])
     .catch(() => ({ rows: [] }));
   if (!u[0] || BigInt(u[0].money) < BigInt(fee))
-    return { ok: false, message: `Listeleme ücreti: ${fee}₺ (yetersiz bakiye)` };
+    return { ok: false, message: `Listeleme ücreti: ${fee}🪙 (yetersiz bakiye)` };
 
   await db.query(`UPDATE users SET money=money-$2 WHERE id=$1`, [sellerId, fee]).catch(() => {});
 
@@ -36,7 +36,7 @@ async function createListing(sellerId, { itemType, itemName, quantity, price, de
     [sellerId, itemType, itemName, quantity, price, description || '', expires]
   ).catch(() => ({ rows: [] }));
   if (!rows[0]) return { ok: false, message: 'İlan açılamadı' };
-  logger.info(`[Market] Yeni ilan: ${itemName} x${quantity} @${price}₺ by ${sellerId}`);
+  logger.info(`[Market] Yeni ilan: ${itemName} x${quantity} @${price}🪙 by ${sellerId}`);
   return { ok: true, listingId: rows[0].id, fee };
 }
 
@@ -66,7 +66,7 @@ async function buyListing(buyerId, listingId) {
       [listingId, buyerId, listing.seller_id, listing.item_name, listing.quantity, listing.price]
     );
     await client.query('COMMIT');
-    logger.info(`[Market] Satın alma: listing=${listingId} buyer=${buyerId} price=${listing.price}₺`);
+    logger.info(`[Market] Satın alma: listing=${listingId} buyer=${buyerId} price=${listing.price}🪙`);
     // Notify seller
     const { rows: br } = await db.query(`SELECT username FROM users WHERE id=$1`, [buyerId]).catch(() => ({ rows: [] }));
     if (br[0]) notif.notifyMarketplaceSold(listing.seller_id, br[0].username, listing.item_name, listing.price).catch(() => {});

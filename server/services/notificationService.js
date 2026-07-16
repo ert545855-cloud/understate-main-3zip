@@ -98,7 +98,7 @@ async function notifyTransferReceived(receiverId, fromUsername, amount) {
   return notify(receiverId, {
     type:  'transfer_received',
     title: 'Para Transferi Alındı',
-    msg:   `${fromUsername} size ${Number(amount).toLocaleString('tr-TR')}₺ gönderdi.`,
+    msg:   `${fromUsername} size ${Number(amount).toLocaleString('tr-TR')}🪙 gönderdi.`,
     icon:  '💸',
     data:  { fromUsername, amount },
   });
@@ -108,7 +108,7 @@ async function notifyMarketplaceSold(sellerId, buyerUsername, itemName, price) {
   return notify(sellerId, {
     type:  'marketplace_sold',
     title: 'İlanınız Satıldı!',
-    msg:   `"${itemName}" ${buyerUsername} tarafından ${Number(price).toLocaleString('tr-TR')}₺ fiyatına satın alındı.`,
+    msg:   `"${itemName}" ${buyerUsername} tarafından ${Number(price).toLocaleString('tr-TR')}🪙 fiyatına satın alındı.`,
     icon:  '🏪',
     data:  { buyerUsername, itemName, price },
   });
@@ -118,7 +118,7 @@ async function notifyLoanOverdue(userId, amountDue) {
   return notify(userId, {
     type:  'loan_overdue',
     title: '⚠️ Kredi Vade Aşımı',
-    msg:   `${Number(amountDue).toLocaleString('tr-TR')}₺ tutarındaki kredinizin vadesi doldu. Kredi skorunuz düşürüldü.`,
+    msg:   `${Number(amountDue).toLocaleString('tr-TR')}🪙 tutarındaki kredinizin vadesi doldu. Kredi skorunuz düşürüldü.`,
     icon:  '🏦',
     data:  { amountDue },
   });
@@ -128,7 +128,7 @@ async function notifyLoanDueSoon(userId, amountDue, daysLeft) {
   return notify(userId, {
     type:  'loan_due_soon',
     title: 'Kredi Vadesi Yaklaşıyor',
-    msg:   `${daysLeft} gün içinde ${Number(amountDue).toLocaleString('tr-TR')}₺ kredinizin vadesi doluyor.`,
+    msg:   `${daysLeft} gün içinde ${Number(amountDue).toLocaleString('tr-TR')}🪙 kredinizin vadesi doluyor.`,
     icon:  '⏰',
     data:  { amountDue, daysLeft },
   });
@@ -194,7 +194,7 @@ async function notifyReferralBonus(userId, referredUsername) {
   return notify(userId, {
     type:  'referral_bonus',
     title: '🎁 Referans Bonusu!',
-    msg:   `${referredUsername} referans kodunuzu kullandı. Hesabınıza 5.000₺ eklendi!`,
+    msg:   `${referredUsername} referans kodunuzu kullandı. Hesabınıza 5.000🪙 eklendi!`,
     icon:  '🎁',
     data:  { referredUsername },
   });

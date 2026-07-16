@@ -63,16 +63,16 @@ const CITIES = ['Adana','Adıyaman','Afyonkarahisar','Ağrı','Amasya','Ankara',
 const TRANSLATIONS = {
   tr: {
     home:'Ana Sayfa', economy:'Ekonomi', battle:'Savaş', state:'Devlet', social:'Sosyal',
-    jobs:'İşler', general:'Genel', market:'Market', companies:'Şirketler', factory:'Fabrika',
+    jobs:'İşler', general:'Genel', market:'Market', companies:'Şirketler', factory:'Atölye',
     mining:'Maden', education:'Eğitim', tasks:'Görevler', farm:'Tarım', livestock:'Hayvancılık',
     army:'Ordu', fight:'Dövüş', gang:'Çete', intelligence:'İstihbarat', tournament:'Turnuva',
     crisis:'Kriz', court:'Mahkeme', politics:'Siyaset', governance:'Yönetim',
-    municipality:'Belediye', construction:'İnşaat', map:'Harita', alliance:'İttifak',
+    valilik:'Valilik', construction:'İnşaat', map:'Harita', alliance:'İttifak',
     world:'Dünya', npc:'NPC', wiki:'Wiki',
     chat:'Sohbet', clan:'Klan', messages:'Mesaj', players:'Oyuncular',
     newsfeed:'Sosyal', newspaper:'Gazete', football:'Futbol', casino:'Kumarhane',
     announcements:'Duyurular', leaderboard:'Sıralama', achievements:'Başarılar',
-    money:'PARA', uc:'UC', send:'Gönder', buy:'Satın Al', sell:'Sat',
+    money:'SİKKE', uc:'ALTIN', send:'Gönder', buy:'Satın Al', sell:'Sat',
     upgrade:'Geliştir', collect:'Topla', feed:'Besle', profile:'Profil',
     settings:'Ayarlar', logout:'Çıkış', language:'Dil',
     barn:'Ahır', capacity:'Kapasite', level:'Seviye', barnFull:'Ahır dolu!',
@@ -117,12 +117,12 @@ const TRANSLATIONS = {
     mining:'Mining', education:'Education', tasks:'Tasks', farm:'Farming', livestock:'Livestock',
     army:'Army', fight:'Fight', gang:'Gang', intelligence:'Intel', tournament:'Tournament',
     crisis:'Crisis', court:'Court', politics:'Politics', governance:'Governance',
-    municipality:'Municipality', construction:'Construction', map:'Map', alliance:'Alliance',
+    valilik:'Municipality', construction:'Construction', map:'Map', alliance:'Alliance',
     world:'World', npc:'NPC', wiki:'Wiki',
     chat:'Chat', clan:'Clan', messages:'Messages', players:'Players',
     newsfeed:'Social', newspaper:'News', football:'Football', casino:'Casino',
     announcements:'News', leaderboard:'Leaderboard', achievements:'Achievements',
-    money:'MONEY', uc:'UC', send:'Send', buy:'Buy', sell:'Sell',
+    money:'SIKKE', uc:'ALTIN', send:'Send', buy:'Buy', sell:'Sell',
     upgrade:'Upgrade', collect:'Collect', feed:'Feed', profile:'Profile',
     settings:'Settings', logout:'Logout', language:'Language',
     barn:'Barn', capacity:'Capacity', level:'Level', barnFull:'Barn is full!',
@@ -165,12 +165,12 @@ const TRANSLATIONS = {
     mining:'Bergbau', education:'Bildung', tasks:'Aufgaben', farm:'Landwirtschaft', livestock:'Vieh',
     army:'Armee', fight:'Kampf', gang:'Gang', intelligence:'Geheimdienst', tournament:'Turnier',
     crisis:'Krise', court:'Gericht', politics:'Politik', governance:'Verwaltung',
-    municipality:'Gemeinde', construction:'Bau', map:'Karte', alliance:'Allianz',
+    valilik:'Gemeinde', construction:'Bau', map:'Karte', alliance:'Allianz',
     world:'Welt', npc:'NPC', wiki:'Wiki',
     chat:'Chat', clan:'Clan', messages:'Nachrichten', players:'Spieler',
     newsfeed:'Sozial', newspaper:'Zeitung', football:'Fußball', casino:'Casino',
     announcements:'Ankündigungen', leaderboard:'Rangliste', achievements:'Erfolge',
-    money:'GELD', uc:'UC', send:'Senden', buy:'Kaufen', sell:'Verkaufen',
+    money:'MÜNZE', uc:'ALTIN', send:'Senden', buy:'Kaufen', sell:'Verkaufen',
     upgrade:'Verbessern', collect:'Sammeln', feed:'Füttern', profile:'Profil',
     settings:'Einstellungen', logout:'Abmelden', language:'Sprache',
     barn:'Stall', capacity:'Kapazität', level:'Stufe', barnFull:'Stall voll!',
@@ -213,12 +213,12 @@ const TRANSLATIONS = {
     mining:'Mədən', education:'Təhsil', tasks:'Tapşırıqlar', farm:'Əkinçilik', livestock:'Heyvandarlıq',
     army:'Ordu', fight:'Döyüş', gang:'Dəstə', intelligence:'Kəşfiyyat', tournament:'Turnir',
     crisis:'Böhran', court:'Məhkəmə', politics:'Siyasət', governance:'İdarəetmə',
-    municipality:'Bələdiyyə', construction:'İnşaat', map:'Xəritə', alliance:'İttifaq',
+    valilik:'Bələdiyyə', construction:'İnşaat', map:'Xəritə', alliance:'İttifaq',
     world:'Dünya', npc:'NPC', wiki:'Vikipediya',
     chat:'Söhbət', clan:'Klan', messages:'Mesaj', players:'Oyunçular',
     newsfeed:'Sosial', newspaper:'Qəzet', football:'Futbol', casino:'Kazino',
     announcements:'Elanlar', leaderboard:'Liderlik', achievements:'Nailiyyətlər',
-    money:'PUL', uc:'UC', send:'Göndər', buy:'Al', sell:'Sat',
+    money:'SİKKƏ', uc:'ALTIN', send:'Göndər', buy:'Al', sell:'Sat',
     upgrade:'Yüksəlt', collect:'Topla', feed:'Yem ver', profile:'Profil',
     settings:'Parametrlər', logout:'Çıxış', language:'Dil',
     barn:'Tövlə', capacity:'Tutum', level:'Səviyyə', barnFull:'Tövlə doludur!',
@@ -273,7 +273,7 @@ const NAV_ITEM_TKEYS = {
   education:'education', daily:'tasks', army:'army', pvp:'fight', gang:'gang',
   spy:'intelligence', tournament:'tournament', crisis:'crisis', crime:'court',
   politics:'politics', yetkilerim:'authorities', election_events:'events', teamwar:'war',
-  citygov:'governance', police_ministry:'police', taxgov:'municipality', citybuild:'construction', map:'map',
+  citygov:'governance', police_ministry:'police', taxgov:'valilik', citybuild:'construction', map:'map',
   alliance:'alliance', world:'world', npcplayers:'npc', wiki:'wiki', chat:'chat',
   klanchat:'clan', dm:'messages', players:'players', social:'newsfeed',
   newspaper:'newspaper', football:'football', casino:'casino', duyurular:'announcements',
@@ -320,15 +320,15 @@ const fmt    = (n) => Number(n||0).toLocaleString('tr-TR');
 const fmtWord = (n) => {
   n = Math.floor(n || 0);
   if (n < 0) return `-${fmtWord(-n)}`;
-  if (n >= 1e15) return `₺${(n/1e15).toFixed(1)}Kt`;
-  if (n >= 1e12) return `₺${(n/1e12).toFixed(1)}Tr`;
-  if (n >= 1e9)  return `₺${(n/1e9).toFixed(1)}Mr`;
-  if (n >= 1e6)  return `₺${(n/1e6).toFixed(1)}M`;
-  if (n >= 1e3)  return `₺${(n/1e3).toFixed(0)}Bin`;
-  return `₺${fmt(n)}`;
+  if (n >= 1e15) return `🪙${(n/1e15).toFixed(1)}Kt`;
+  if (n >= 1e12) return `🪙${(n/1e12).toFixed(1)}Tr`;
+  if (n >= 1e9)  return `🪙${(n/1e9).toFixed(1)}Mr`;
+  if (n >= 1e6)  return `🪙${(n/1e6).toFixed(1)}M`;
+  if (n >= 1e3)  return `🪙${(n/1e3).toFixed(0)}Bin`;
+  return `🪙${fmt(n)}`;
 };
 const fmtM   = fmtWord;
-const fmtUC  = (n) => `${fmt(n||0)} UC`;
+const fmtAltin  = (n) => `${fmt(n||0)} ⚜️`;
 const cls    = (...a) => a.filter(Boolean).join(' ');
 
 // ─── Map / Territory helpers ───────────────────────────────────────────────
@@ -341,7 +341,7 @@ const DEFAULT_DISTRICTS = [
   {id:'d1',  name:'Kuzey Park',    controlBy:'Halk',      controlColor:'#6B7280', crime:28, support:76, alarm:22, income:52000,  influence:65, population:42000, legalIncome:48000, illegalIncome:4000,  conflicts:[]},
   {id:'d2',  name:'Üniversite',    controlBy:'Aydınlar',  controlColor:'#C9A227', crime:18, support:88, alarm:14, income:55000,  influence:90, population:38000, legalIncome:50000, illegalIncome:5000,  conflicts:[]},
   {id:'d3',  name:'Askeri Üs',     controlBy:'Ordu',      controlColor:'#C24B43', crime:10, support:62, alarm:88, income:48000,  influence:95, population:8000,  legalIncome:48000, illegalIncome:0,     conflicts:['police']},
-  {id:'d4',  name:'Sanayi',        controlBy:'Şirketler', controlColor:'#4C9A6B', crime:52, support:55, alarm:40, income:95000,  influence:58, population:30000, legalIncome:72000, illegalIncome:23000, conflicts:[]},
+  {id:'d4',  name:'Zanaat',        controlBy:'Şirketler', controlColor:'#4C9A6B', crime:52, support:55, alarm:40, income:95000,  influence:58, population:30000, legalIncome:72000, illegalIncome:23000, conflicts:[]},
   {id:'d5',  name:'Tarihi Merkez', controlBy:'Tüccarlar', controlColor:'#EAB308', crime:42, support:72, alarm:35, income:85000,  influence:80, population:45000, legalIncome:65000, illegalIncome:20000, conflicts:[]},
   {id:'d6',  name:'Liman',         controlBy:'Halk',      controlColor:'#C9A227', crime:65, support:48, alarm:55, income:120000, influence:62, population:35000, legalIncome:80000, illegalIncome:40000, conflicts:['cartel']},
   {id:'d7',  name:'Gecekondular',  controlBy:'Asi Grup',  controlColor:'#C9A227', crime:80, support:35, alarm:72, income:38000,  influence:52, population:68000, legalIncome:22000, illegalIncome:16000, conflicts:['riot','cartel']},
@@ -458,7 +458,7 @@ function Modal({ title, onClose, children, maxW=440 }) {
       onClick={e => e.target===e.currentTarget && onClose()}>
       <div style={{background:'rgba(10,18,36,0.99)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:'20px 20px 0 0',padding:'1.5rem',width:'100%',maxWidth:maxW,maxHeight:'90dvh',overflowY:'auto',animation:'slideUp 0.25s ease'}}>
         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'1.25rem'}}>
-          <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.05rem',fontWeight:800,color:'#C9A227',textTransform:'uppercase',letterSpacing:'0.06em'}}>{title}</div>
+          <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.05rem',fontWeight:800,color:'#C9A227',textTransform:'uppercase',letterSpacing:'0.06em'}}>{title}</div>
           <button onClick={onClose} style={{background:'rgba(255,255,255,0.08)',border:'none',color:'#8893A1',borderRadius:'8px',padding:'0.3rem 0.6rem',cursor:'pointer',fontSize:'1.1rem'}}>✕</button>
         </div>
         {children}
@@ -599,7 +599,7 @@ function Btn({ children, onClick, variant='primary', size='md', disabled=false, 
 
   const vars = {
     primary: {
-      background: active ? '#A07D1C' : hover ? '#DEB12D' : '#C9A227', color:'#11151C',
+      background: active ? '#A07D1C' : hover ? '#DEB12D' : '#C9A227', color:'#0F0800',
       boxShadow: active ? '0 1px 6px rgba(201,162,39,0.2)'
                 : hover  ? '0 8px 28px rgba(201,162,39,0.5)'
                          : '0 4px 16px rgba(201,162,39,0.3)',
@@ -615,7 +615,7 @@ function Btn({ children, onClick, variant='primary', size='md', disabled=false, 
       border:`1px solid ${hover?'rgba(255,255,255,0.25)':'rgba(255,255,255,0.1)'}`,
     },
     gold: {
-      background:'linear-gradient(135deg,#C9A227,#A07D1C)', color:'#0F172A',
+      background:'linear-gradient(135deg,#C9A227,#A07D1C)', color:'#1A0E00',
       boxShadow: active ? '0 1px 6px rgba(201,162,39,0.2)'
                 : hover  ? '0 7px 22px rgba(201,162,39,0.5)'
                          : '0 3px 12px rgba(201,162,39,0.3)',
@@ -855,7 +855,7 @@ function App() {
           meritPoints:       typeof p.meritPoints    === 'number' ? p.meritPoints    : 0,
           loyaltyPoints:     typeof p.loyaltyPoints  === 'number' ? p.loyaltyPoints  : 0,
           city:              p.city                 || 'İstanbul',
-          under_coin:        typeof p.underCoin      === 'number' ? p.underCoin      : 0,
+          altin:        typeof p.underCoin      === 'number' ? p.underCoin      : 0,
           health:            typeof p.hp             === 'number' ? p.hp             : 100,
           positionTag:       p.positionTag           || p.position || '',
           educationLevel:    p.education?.diploma    || p.educationLevel || 'ilkokul',
@@ -999,7 +999,7 @@ function App() {
         try {
           if (data.elections !== undefined)       _syncLs('elections', data.elections);
           if (data.elections_multi !== undefined) _syncLs('elections_multi', data.elections_multi);
-          if (data.phase === 'finished' && data.winner) showNotif(`🏆 Seçim bitti! ${data.winner.username} Devlet Başkanı seçildi!`, 'success', '🏆');
+          if (data.phase === 'finished' && data.winner) showNotif(`🏆 Seçim bitti! ${data.winner.username} Padişah seçildi!`, 'success', '🏆');
           else if (data.phase === 'active')             showNotif(`🗳️ Seçim başladı! Oy kullanmayı unutma.`, 'info', '🗳️');
         } catch(e){}
       });
@@ -1261,14 +1261,14 @@ function App() {
     : (NAV_ITEMS || []);
 
   const themeVal = { dark, toggle: toggleDark };
-  const pageBg = '#11151C';
+  const pageBg = '#0F0800';
 
   return (
     <LangCtx.Provider value={profile?.lang||uiLang||'tr'}>
     <ThemeCtx.Provider value={themeVal}>
       {/* Responsive outer wrapper — max 480px on desktop, centered */}
       <div style={{position:'fixed',inset:0,display:'flex',alignItems:'stretch',justifyContent:'center',background: '#0C1017'}}>
-        <div style={{position:'relative',width:'100%',maxWidth:'480px',display:'flex',flexDirection:'column',overflow:'hidden',background: '#11151C',boxShadow:'0 0 60px rgba(0,0,0,0.3)',transform:'translateZ(0)',isolation:'isolate'}}>
+        <div style={{position:'relative',width:'100%',maxWidth:'480px',display:'flex',flexDirection:'column',overflow:'hidden',background: '#0F0800',boxShadow:'0 0 60px rgba(0,0,0,0.3)',transform:'translateZ(0)',isolation:'isolate'}}>
           <Header profile={profile} notifCount={notifCount} onNotif={()=>setNotifOpen(true)} page={page} onNavigate={setPage} />
 
           {/* Canlı Olaylar Ticker */}
@@ -1324,6 +1324,10 @@ function App() {
             {page==='education'    && <EducationPage   {...pageProps} />}
             {page==='eyalet_harita' && window.OttomanEyaletScreen && React.createElement(window.OttomanEyaletScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
             {page==='valilik'      && window.VaililikEkrani && React.createElement(window.VaililikEkrani, {cu:profile||{},setCurrentPage:setPage})}
+            {page==='saray'        && window.PalaceScreen && React.createElement(window.PalaceScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
+            {page==='adalet'       && window.CourtScreen && React.createElement(window.CourtScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
+            {page==='lonca'        && window.GuildScreen && React.createElement(window.GuildScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
+            {page==='envanter'     && window.InventoryScreen && React.createElement(window.InventoryScreen, {cu:profile||{},setCurrentPage:setPage})}
             {page==='citygov'        && <CityGovPage       {...pageProps} />}
             {page==='police_ministry' && <PoliceMinistryPage {...pageProps} />}
             {page==='crime'          && <CrimePage         profile={profile} setProfile={setProfile} showNotif={showNotif} />}
@@ -1333,7 +1337,7 @@ function App() {
             {page==='election_events'&& <EventsPage        {...pageProps} />}
             {page==='teamwar'        && <TeamWarPage       {...pageProps} />}
             {page==='tenders' && window.TenderScreen && React.createElement(window.TenderScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
-            {page==='unions' && window.UnionScreen && React.createElement(window.UnionScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
+            {page==='lonca_sistemi' && window.GuildScreen && React.createElement(window.GuildScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
             {page==='army_system' && window.ArmyScreen && React.createElement(window.ArmyScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
             {page==='independent_army' && window.IndependentArmyScreen && React.createElement(window.IndependentArmyScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
             {page==='economic_empire' && window.EconomicEmpireScreen && React.createElement(window.EconomicEmpireScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
@@ -1349,7 +1353,7 @@ function App() {
               <div style={{background:'#1B212B',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'14px',padding:'1.5rem 1.25rem',maxWidth:'380px',width:'100%',maxHeight:'85vh',overflowY:'auto',boxShadow:'0 25px 80px rgba(0,0,0,0.8)'}}>
                 <div style={{textAlign:'center',marginBottom:'1.25rem'}}>
                   <div style={{fontSize:'2.5rem',marginBottom:'0.4rem'}}>🏙️</div>
-                  <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#EDE7DA'}}>Saltanat Online'a Hoş Geldin!</div>
+                  <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.3rem',fontWeight:900,color:'#EDE7DA'}}>Saltanat Online'a Hoş Geldin!</div>
                   <div style={{fontSize:'0.78rem',color:'#8893A1',marginTop:'0.3rem'}}>{profile?.username||'Oyuncu'}, sana birkaç ipucu verelim 🎮</div>
                 </div>
                 <div style={{display:'flex',flexDirection:'column',gap:'0.6rem',marginBottom:'1.25rem'}}>
@@ -1359,7 +1363,7 @@ function App() {
                     ['3️⃣','Şehrine Oy Ver','Siyaset sekmesinden devlet başkanlığı seçimlerine katıl. Oy katsayın arttıkça etkili olursun.'],
                     ['4️⃣','Vali Ol','Devlet → Eyaletler sayfasından boş bir eyalete başvur. Vali olarak günlük vergi geliri kazan.'],
                     ['5️⃣','Günlük Görevleri Bitir','Görevler sekmesindeki günlük hedefleri tamamla — XP ve para kazan.'],
-                    ['6️⃣','UC Kazan','Ekonomi → Dönüşüm sayfasından UnderCoin edinebilir, oy katsayısını artırabilirsin.'],
+                    ['6️⃣','Lonca & Saray','Esnaf loncasına katıl bonus kazan. Devlet → Saray\'dan imparatorluk kararlarını takip et.'],
                   ].map(([num,title,desc])=>(
                     <div key={num} style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:'12px',padding:'0.65rem 0.8rem',display:'flex',gap:'0.65rem',alignItems:'flex-start'}}>
                       <span style={{fontSize:'1.1rem',flexShrink:0}}>{num}</span>
@@ -1373,7 +1377,7 @@ function App() {
                 <div style={{background:'rgba(201,162,39,0.06)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'10px',padding:'0.6rem 0.8rem',marginBottom:'1rem',fontSize:'0.72rem',color:'#C9A227',lineHeight:1.4}}>
                   💡 İpucu: Sağ üstteki destek butonuyla bize mesaj atabilirsin. Sorularını yanıtlıyoruz!
                 </div>
-                <button onClick={()=>setShowWelcome(false)} style={{width:'100%',padding:'0.85rem',borderRadius:'14px',border:'none',background:'#C9A227',color:'#11151C',fontFamily:"'Inter',sans-serif",fontWeight:800,fontSize:'0.92rem',cursor:'pointer'}}>
+                <button onClick={()=>setShowWelcome(false)} style={{width:'100%',padding:'0.85rem',borderRadius:'14px',border:'none',background:'#C9A227',color:'#0F0800',fontFamily:"'Inter',sans-serif",fontWeight:800,fontSize:'0.92rem',cursor:'pointer'}}>
                   🚀 Oyuna Başla!
                 </button>
               </div>
@@ -1465,7 +1469,7 @@ class ErrorBoundary extends React.Component {
 
     const dark = document.body.classList.contains('us-dark');
     const bg   = dark ? '#060C18' : '#0A1628';
-    const card = dark ? '#11151C' : '#0D2040';
+    const card = dark ? '#0F0800' : '#0D2040';
 
     return React.createElement('div', {
       style: {

@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════
-// SALTANAT ONLINE — Genelkurmay Başkanı Ekranı
+// SALTANAT ONLINE — Serasker Ekranı
 // ═══════════════════════════════════════════════════════
 window.ArmyScreen = function ArmyScreen({ cu, allUsers, setCurrentPage }) {
   var useState = React.useState;
@@ -10,13 +10,13 @@ window.ArmyScreen = function ArmyScreen({ cu, allUsers, setCurrentPage }) {
   var persist = function(key, val) {
     try { localStorage.setItem(key, JSON.stringify(val)); } catch(e) {}
     if (window._socket) {
-      window._socket.emit('gameEvent', { type: 'genelkurmayUpdate', payload: { key: key, from: cu && cu.username } });
+      window._socket.emit('gameEvent', { type: 'seraskerlikUpdate', payload: { key: key, from: cu && cu.username } });
     }
   };
 
   var tabState   = useState('panel');
   var tab        = tabState[0]; var setTab = tabState[1];
-  var ordersState = useState(function() { return stored('us_genelkurmay_orders', []); });
+  var ordersState = useState(function() { return stored('us_seraskerlik_orders', []); });
   var orders     = ordersState[0]; var setOrders = ordersState[1];
   var msgState   = useState(null);
   var msg        = msgState[0]; var setMsg = msgState[1];
@@ -28,20 +28,20 @@ window.ArmyScreen = function ArmyScreen({ cu, allUsers, setCurrentPage }) {
 
   var now = Date.now();
 
-  // ── Kim Genelkurmay Başkanı? ──
+  // ── Kim Serasker? ──
   var allPlayers = Array.isArray(allUsers) ? allUsers : [];
-  var chief = allPlayers.find(function(u) { return u.position === 'Genelkurmay Başkanı'; }) || null;
+  var chief = allPlayers.find(function(u) { return u.position === 'Serasker'; }) || null;
   var chiefName = (chief && (chief.username || chief.name)) || null;
-  var isChief = (cu && (cu.position === 'Genelkurmay Başkanı' || cu.role === 'admin'));
+  var isChief = (cu && (cu.position === 'Serasker' || cu.role === 'admin'));
 
   // ── Askeri bütçe ──
   var militaryBudget = stored('rep_militaryBudget', 0);
   var fmtMoney = function(n) {
-    if (!n) return '₺0';
-    if (n >= 1e9) return '₺' + (n/1e9).toFixed(1) + 'Mr';
-    if (n >= 1e6) return '₺' + (n/1e6).toFixed(1) + 'M';
-    if (n >= 1e3) return '₺' + (n/1e3).toFixed(0) + 'K';
-    return '₺' + n;
+    if (!n) return '🪙0';
+    if (n >= 1e9) return '🪙' + (n/1e9).toFixed(1) + 'Mr';
+    if (n >= 1e6) return '🪙' + (n/1e6).toFixed(1) + 'M';
+    if (n >= 1e3) return '🪙' + (n/1e3).toFixed(0) + 'K';
+    return '🪙' + n;
   };
   var fmtTime = function(ms) {
     if (ms <= 0) return 'Hazır';
@@ -61,7 +61,7 @@ window.ArmyScreen = function ArmyScreen({ cu, allUsers, setCurrentPage }) {
   ];
 
   var doAction = function(action) {
-    if (!isChief) return showMsg('Bu yetkiyi sadece Genelkurmay Başkanı kullanabilir.', 'error');
+    if (!isChief) return showMsg('Bu yetkiyi sadece Serasker kullanabilir.', 'error');
     var cdKey = 'us_gk_cd_' + action.id;
     var lastUse = parseInt(localStorage.getItem(cdKey) || '0');
     var remaining = action.cd - (now - lastUse);
@@ -78,7 +78,7 @@ window.ArmyScreen = function ArmyScreen({ cu, allUsers, setCurrentPage }) {
     };
     var updOrders = [newOrder].concat(orders).slice(0, 20);
     setOrders(updOrders);
-    persist('us_genelkurmay_orders', updOrders);
+    persist('us_seraskerlik_orders', updOrders);
     if (window._socket) window._socket.emit('gameEvent', { type:'militaryOrder', payload:{ order:newOrder, chief:cu && cu.username } });
     showMsg(action.icon + ' ' + action.label + ' emri verildi! +' + action.xp + ' XP', 'success');
   };
@@ -87,12 +87,12 @@ window.ArmyScreen = function ArmyScreen({ cu, allUsers, setCurrentPage }) {
     if (!isChief) return;
     var upd = orders.map(function(o) { return o.id === orderId ? Object.assign({}, o, { active:false }) : o; });
     setOrders(upd);
-    persist('us_genelkurmay_orders', upd);
+    persist('us_seraskerlik_orders', upd);
     showMsg('Emir iptal edildi.', 'info');
   };
 
   // ── Styles ──
-  var bg = '#0F172A', card = '#1E293B', border = 'rgba(255,255,255,0.08)';
+  var bg = '#1A0E00', card = '#1E293B', border = 'rgba(255,255,255,0.08)';
   var red = '#C24B43', gold = '#F5C800';
 
   var soldierCount = Object.keys(stored('us_army2_soldiers', {})).length;
@@ -106,7 +106,7 @@ window.ArmyScreen = function ArmyScreen({ cu, allUsers, setCurrentPage }) {
     e('div', { style:{ background:'linear-gradient(135deg,#1a0505,#2d0808,#1a0505)', borderBottom:'2px solid '+red, padding:'16px 16px 12px', display:'flex', alignItems:'center', gap:12 } },
       e('button', { onClick:function(){setCurrentPage('home');}, style:{ background:'rgba(237,231,218,0.07)', border:'none', borderRadius:10, color:'#8893A1', fontSize:'1rem', cursor:'pointer', padding:'6px 12px' } }, '← Geri'),
       e('div', { style:{ flex:1 } },
-        e('div', { style:{ fontFamily:"'Syne',sans-serif", fontSize:'1.1rem', fontWeight:900, color:'#EDE7DA', letterSpacing:'0.05em' } }, '🪖 GENELKURMAY BAŞKANLIĞI'),
+        e('div', { style:{ fontFamily:"'Cinzel',serif", fontSize:'1.1rem', fontWeight:900, color:'#EDE7DA', letterSpacing:'0.05em' } }, '🪖 GENELKURMAY BAŞKANLIĞI'),
         e('div', { style:{ fontSize:'0.7rem', color:'#8893A1', marginTop:2 } }, 'Türk Silahlı Kuvvetleri Komutanlığı')
       )
     ),
@@ -135,19 +135,19 @@ window.ArmyScreen = function ArmyScreen({ cu, allUsers, setCurrentPage }) {
 
       // Başkan kartı
       e('div', { style:{ background:card, border:'2px solid '+(chiefName ? gold : red), borderRadius:16, padding:16, marginBottom:12 } },
-        e('div', { style:{ fontSize:'0.65rem', color:'#8893A1', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.08em', marginBottom:8 } }, 'Mevcut Genelkurmay Başkanı'),
+        e('div', { style:{ fontSize:'0.65rem', color:'#8893A1', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.08em', marginBottom:8 } }, 'Mevcut Serasker'),
         chiefName
           ? e('div', { style:{ display:'flex', alignItems:'center', gap:12 } },
               e('div', { style:{ width:52, height:52, borderRadius:'50%', background:'rgba(245,200,0,0.15)', border:'2px solid '+gold, display:'flex', alignItems:'center', justifyContent:'center', fontSize:'1.5rem' } }, '🪖'),
               e('div', {},
-                e('div', { style:{ fontWeight:900, fontSize:'1.05rem', color:gold, fontFamily:"'Syne',sans-serif" } }, chiefName),
-                e('div', { style:{ fontSize:'0.72rem', color:'#8893A1', marginTop:2 } }, '⭐⭐⭐⭐ Genelkurmay Başkanı'),
+                e('div', { style:{ fontWeight:900, fontSize:'1.05rem', color:gold, fontFamily:"'Cinzel',serif" } }, chiefName),
+                e('div', { style:{ fontSize:'0.72rem', color:'#8893A1', marginTop:2 } }, '⭐⭐⭐⭐ Serasker'),
                 e('div', { style:{ fontSize:'0.68rem', color:'#8893A1', marginTop:1 } }, 'Askeri Bütçe: ' + fmtMoney(militaryBudget))
               )
             )
           : e('div', { style:{ textAlign:'center', padding:'12px 0', color:'#8893A1', fontSize:'0.85rem' } },
               e('div', { style:{ fontSize:'2rem', marginBottom:8 } }, '🏳️'),
-              'Henüz bir Genelkurmay Başkanı atanmamış'
+              'Henüz bir Serasker atanmamış'
             )
       ),
 
@@ -171,7 +171,7 @@ window.ArmyScreen = function ArmyScreen({ cu, allUsers, setCurrentPage }) {
       e('div', { style:{ background:card, border:'1px solid '+border, borderRadius:16, padding:14 } },
         e('div', { style:{ fontSize:'0.7rem', color:'#8893A1', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.08em', marginBottom:12 } }, '⚡ Komuta Yetkileri'),
         !isChief && e('div', { style:{ textAlign:'center', padding:'16px 0', color:'#8893A1', fontSize:'0.82rem' } },
-          '🔒 Bu yetkiler sadece Genelkurmay Başkanı tarafından kullanılabilir'
+          '🔒 Bu yetkiler sadece Serasker tarafından kullanılabilir'
         ),
         isChief && e('div', { style:{ display:'flex', flexDirection:'column', gap:8 } },
           ACTIONS.map(function(action) {

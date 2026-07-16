@@ -41,11 +41,11 @@ router.post('/do', authMiddleware, generalLimiter, async (req, res) => {
 
     if (!result.ok) return res.status(400).json({ success: false, msg: result.msg, remaining: result.remaining });
 
-    // DB'de para, XP ve UC güncelle
+    // DB'de para, XP ve Altın güncelle
     const newMoney = (Number(user.money) || 0) + result.earned;
     const newXp = (Number(user.xp) || 0) + result.xpGain;
-    const newUc = (Number(user.under_coin) || 0) + (result.ucEarned || 0);
-    await db.updateUser(req.user.id, { money: newMoney, xp: newXp, under_coin: newUc });
+    const newUc = (Number(user.altin) || 0) + (result.ucEarned || 0);
+    await db.updateUser(req.user.id, { money: newMoney, xp: newXp, altin: newUc });
 
     res.json({
       success: true,

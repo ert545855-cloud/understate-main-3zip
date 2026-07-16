@@ -18,11 +18,11 @@
     <link rel="shortcut icon" href="favicon.png" type="image/png">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 
 
     <!-- App Styles -->
-    <link rel="stylesheet" href="css/styles.css?v=207">
+    <link rel="stylesheet" href="css/styles.css?v=210">
 </head>
 <body>
 
@@ -117,14 +117,14 @@
 
 
 <!-- LOADING SCREEN -->
-<div id="loading-screen" style="position:fixed;inset:0;z-index:9999;background:#050505;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;font-family:'Inter',sans-serif;">
-  <div style="font-family:'Syne',sans-serif;font-size:clamp(1.6rem,5vw,2.5rem);letter-spacing:0.35rem;display:flex;align-items:baseline;">
+<div id="loading-screen" style="position:fixed;inset:0;z-index:9999;background:radial-gradient(ellipse at center,#3D2200 0%,#1A0E00 55%,#0A0600 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;font-family:'Inter',sans-serif;">
+  <div style="font-family:'Cinzel',serif;font-size:clamp(1.6rem,5vw,2.5rem);letter-spacing:0.35rem;display:flex;align-items:baseline;">
     <span style="color:#D00000;font-weight:900;text-shadow:0 0 20px rgba(208,0,0,0.8);">[U</span><span style="color:#fff;font-weight:900;">NDER</span><span style="color:#D00000;font-weight:900;">STATE]</span>
   </div>
   <div id="loading-bar-wrap" style="width:200px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;">
     <div id="loading-bar" style="height:100%;width:0%;background:#D00000;border-radius:2px;box-shadow:0 0 10px #D00000;transition:width 0.4s ease;"></div>
   </div>
-  <div id="loading-text" style="color:#555;font-size:0.8rem;letter-spacing:0.1rem;text-transform:uppercase;">Yükleniyor...</div>
+  <div id="loading-text" style="color:#C89B3C;font-size:0.8rem;letter-spacing:0.2rem;text-transform:uppercase;font-family:'Cinzel',serif;">Yükleniyor...</div>
   <div id="loading-error" style="display:none;color:#D00000;font-size:0.85rem;text-align:center;max-width:280px;line-height:1.6;"></div>
 </div>
 <style>
@@ -279,6 +279,10 @@ var SCREEN_FILES = [
   'src/screens/social/EventsPage.js',
   'src/screens/social/TeamWarPage.js',
   'src/screens/OttomanEyaletScreen.js',
+  'src/screens/PalaceScreen.js',
+  'src/screens/CourtScreen.js',
+  'src/screens/GuildScreen.js',
+  'src/screens/InventoryScreen.js',
   'src/screens/social/AlliancePage.js',
   'src/screens/social/PlayersPage.js',
   'src/screens/social/ProfilePage.js',

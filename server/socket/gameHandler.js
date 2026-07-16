@@ -937,7 +937,7 @@ function registerGameHandlers(io, socket) {
       type: 'transfer',
       icon: '💸',
       title: 'Para Aldınız!',
-      msg: `${socket.username} size ₺${amount.toLocaleString('tr-TR')} gönderdi.`,
+      msg: `${socket.username} size 🪙${amount.toLocaleString('tr-TR')} gönderdi.`,
     });
     const target = Array.from(onlinePlayers.values()).find(p => p.userId === data.toId);
     if (target) {
@@ -949,7 +949,7 @@ function registerGameHandlers(io, socket) {
         timestamp: Date.now(),
       });
     }
-    logger.debug(`[Transfer] ${socket.username} → userId:${data.toId} ₺${amount}`);
+    logger.debug(`[Transfer] ${socket.username} → userId:${data.toId} 🪙${amount}`);
   });
 
   // ── PVP attack (server-side validation + DB persist) ──────────────────────
@@ -984,7 +984,7 @@ function registerGameHandlers(io, socket) {
       io.to(defOnline.socketId).emit('pvp:attacked', { attacker:socket.username, won, stolen, newMoney:newDefMoney });
     }
     if (won && stolen > 100000) {
-      broadcastNotification(io, { id:`notif_pvp_${Date.now()}`, type:'pvp', icon:'⚔️', title:'Büyük Savaş!', msg:`${socket.username}, ${defender.username}'a saldırdı ve ₺${stolen.toLocaleString()} aldı!` });
+      broadcastNotification(io, { id:`notif_pvp_${Date.now()}`, type:'pvp', icon:'⚔️', title:'Büyük Savaş!', msg:`${socket.username}, ${defender.username}'a saldırdı ve 🪙${stolen.toLocaleString()} aldı!` });
     }
     logger.debug(`[PvP] ${socket.username} vs ${defender.username} → ${won?'WIN':'LOSS'} stolen=${stolen}`);
   });
@@ -1021,7 +1021,7 @@ function registerGameHandlers(io, socket) {
     const newMoney = (user.money||0) + total;
     await db.updateUser(socket.userId, { money:newMoney, game_data: JSON.stringify({ ...gd, mining: { ...mining, resources } }) }).catch(() => {});
     socket.emit('mining:sold', { ok:true, total, newMoney, resources });
-    logger.debug(`[Mining] ${socket.username} sold ₺${total}`);
+    logger.debug(`[Mining] ${socket.username} sold 🪙${total}`);
   });
 
   // ── SPY operations ────────────────────────────────────────────────────────

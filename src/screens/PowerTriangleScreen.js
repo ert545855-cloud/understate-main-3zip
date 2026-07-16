@@ -15,11 +15,11 @@ window.PowerTriangleScreen = function PowerTriangleScreen({ cu, families, gangs,
   const showMsg = (text, type="info") => { setMsg({text,type}); setTimeout(()=>setMsg(null),3500); };
 
   const fmtMoney = (n) => {
-    if (!n) return "₺0";
-    if (n >= 1e9) return "₺" + (n/1e9).toFixed(1) + "Mlr";
-    if (n >= 1e6) return "₺" + (n/1e6).toFixed(1) + "M";
-    if (n >= 1e3) return "₺" + (n/1e3).toFixed(0) + "K";
-    return "₺" + n;
+    if (!n) return "🪙0";
+    if (n >= 1e9) return "🪙" + (n/1e9).toFixed(1) + "Mlr";
+    if (n >= 1e6) return "🪙" + (n/1e6).toFixed(1) + "M";
+    if (n >= 1e3) return "🪙" + (n/1e3).toFixed(0) + "K";
+    return "🪙" + n;
   };
 
   const fams = Array.isArray(families) ? families : [];
@@ -263,7 +263,7 @@ window.PowerTriangleScreen = function PowerTriangleScreen({ cu, families, gangs,
                   </div>
                   <div>
                     <div style={{fontSize:"0.7rem",color:"#5E7390",marginBottom:"0.25rem"}}>Mali Teklif (opsiyonel)</div>
-                    <input type="text" placeholder="Örn: Ayda ₺500.000 koruma ücreti" value={propForm.offer} onChange={e=>setPropForm(p=>({...p,offer:e.target.value}))}
+                    <input type="text" placeholder="Örn: Ayda 🪙500.000 koruma ücreti" value={propForm.offer} onChange={e=>setPropForm(p=>({...p,offer:e.target.value}))}
                       style={{width:"100%",background:"rgba(255,255,255,0.06)",border:"1px solid rgba(255,255,255,0.12)",borderRadius:8,padding:"0.5rem 0.7rem",color:"#fff",fontSize:"0.82rem",outline:"none",boxSizing:"border-box"}}/>
                   </div>
                   <div style={{display:"flex",gap:"0.4rem"}}>
@@ -324,11 +324,11 @@ window.PowerTriangleScreen = function PowerTriangleScreen({ cu, families, gangs,
           <div style={{...card}}>
             <div className="card-title">💡 Aile Mekanikleri</div>
             <ul style={{fontSize:"0.8rem",color:"#8899AA",lineHeight:1.7,paddingLeft:"1.2rem",margin:0}}>
-              <li>Fabrika ve holding sahibi olabilirler</li>
+              <li>Atölye ve holding sahibi olabilirler</li>
               <li>Devlet ihalelerine katılabilirler</li>
               <li>Çetelere koruma ücreti öderler</li>
               <li>Partilere siyasi fon sağlarlar</li>
-              <li>Sendikalarla toplu sözleşme yaparlar</li>
+              <li>Loncalarla toplu sözleşme yaparlar</li>
               <li>Silah ALAMAZLAR (sadece çeteler alabilir)</li>
             </ul>
             <button className="btn btn-primary" style={{marginTop:"0.75rem",width:"100%"}} onClick={()=>setCurrentPage("family")}>
@@ -432,7 +432,7 @@ window.PowerTriangleScreen = function PowerTriangleScreen({ cu, families, gangs,
             <div style={{fontSize:"0.82rem",color:"#C9A227",fontWeight:700,marginBottom:"0.5rem"}}>⚠️ Denge Uyarısı</div>
             <p style={{fontSize:"0.8rem",color:"#8899AA",lineHeight:1.6,margin:0}}>
               Herhangi bir grubun diğerlerine göre fazla güçlenmesi dengeyi bozar.
-              Aile çeteye ödeme yapmazsa fabrikalar sabote edilir.
+              Aile çeteye ödeme yapmazsa atölyeler sabote edilir.
               Parti yasalar çıkarmazsa çeteler kontrolden çıkar.
               Çete partiye itaat etmezse polis baskınları artar.
             </p>
@@ -442,7 +442,7 @@ window.PowerTriangleScreen = function PowerTriangleScreen({ cu, families, gangs,
             <button className="btn btn-primary" onClick={()=>setCurrentPage("gang")}>🔫 Çete Sistemine Git</button>
             <button className="btn btn-primary" onClick={()=>setCurrentPage("politics")}>⚑ Parti Sistemine Git</button>
             <button className="btn" onClick={()=>setCurrentPage("tenders")} style={{border:"1px solid rgba(255,184,0,0.4)",color:"#FFB800"}}>🏗️ Devlet İhalelerine Git</button>
-            <button className="btn" onClick={()=>setCurrentPage("unions")} style={{border:"1px solid rgba(76,154,107,0.4)",color:"#4C9A6B"}}>🏭 Sendika Sistemine Git</button>
+            <button className="btn" onClick={()=>setCurrentPage("lonca_sistemi")} style={{border:"1px solid rgba(76,154,107,0.4)",color:"#4C9A6B"}}>🏭 Lonca Sistemine Git</button>
           </div>
         </div>
       )}

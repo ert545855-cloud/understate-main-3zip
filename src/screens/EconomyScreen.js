@@ -26,15 +26,15 @@ function WorldPage({ profile, onNavigate }) {
     ]},
   ];
   return (
-    <div style={{padding:'0 0.75rem 1rem',background:'#11151C',minHeight:'100%'}}>
+    <div style={{padding:'0 0.75rem 1rem',background:'#0F0800',minHeight:'100%'}}>
       <div style={{paddingTop:'0.75rem'}}>
         {sections.map((sec,si)=>(
           <div key={si} style={{background:'#1B212B',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'1rem',marginBottom:'0.65rem',boxShadow:'none'}}>
-            <div style={{fontFamily:"'Syne',sans-serif",fontSize:'0.75rem',fontWeight:800,color:sec.color,letterSpacing:'0.1em',marginBottom:'0.7rem'}}>{sec.title}</div>
+            <div style={{fontFamily:"'Cinzel',serif",fontSize:'0.75rem',fontWeight:800,color:sec.color,letterSpacing:'0.1em',marginBottom:'0.7rem'}}>{sec.title}</div>
             <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'0.45rem'}}>
               {sec.items.map((item,i)=>(
                 <button key={i} onClick={()=>onNavigate(item.page)}
-                  style={{background:'#11151C',border:'1px solid rgba(237,231,218,0.07)',borderRadius:'12px',padding:'0.75rem 0.3rem',display:'flex',flexDirection:'column',alignItems:'center',gap:'0.25rem',cursor:'pointer',WebkitTapHighlightColor:'transparent',transition:'all 0.15s'}}>
+                  style={{background:'#0F0800',border:'1px solid rgba(237,231,218,0.07)',borderRadius:'12px',padding:'0.75rem 0.3rem',display:'flex',flexDirection:'column',alignItems:'center',gap:'0.25rem',cursor:'pointer',WebkitTapHighlightColor:'transparent',transition:'all 0.15s'}}>
                   <span style={{fontSize:'1.5rem',lineHeight:1}}>{item.icon}</span>
                   <span style={{fontSize:'0.65rem',fontWeight:700,color:'#EDE7DA',textAlign:'center',lineHeight:1.2}}>{item.label}</span>
                   <span style={{fontSize:'0.55rem',color:'#8893A1',textAlign:'center'}}>{item.sub}</span>
@@ -332,13 +332,13 @@ function EconomyPage({ profile, setProfile, showNotif, initialSub }) {
 
   const convertUcToTl = () => {
     const uc = parseInt(ucConvertAmt) || 0;
-    if (uc <= 0) { showNotif('Geçerli bir UC miktarı girin', 'error'); return; }
-    if ((profile?.underCoin||0) < uc) { showNotif('Yeterli UC yok!', 'error'); return; }
+    if (uc <= 0) { showNotif('Geçerli bir Altın miktarı girin', 'error'); return; }
+    if ((profile?.underCoin||0) < uc) { showNotif('Yeterli Altın yok!', 'error'); return; }
     const tl = uc * UC_TO_TL;
     const p = {...profile, underCoin:(profile.underCoin||0)-uc, money:(profile.money||0)+tl};
     setProfile(p); localStorage.setItem('rep_userProfile', JSON.stringify(p));
     setUcConvertAmt('');
-    showNotif(`✅ ${uc} UC → ${fmtWord(tl)} dönüştürüldü!`, 'success');
+    showNotif(`✅ ${uc} Altın → ${fmtWord(tl)} dönüştürüldü!`, 'success');
   };
 
   const convertTlToUc = () => {
@@ -350,19 +350,19 @@ function EconomyPage({ profile, setProfile, showNotif, initialSub }) {
     const p = {...profile, money:(profile.money||0)-tl, underCoin:(profile.underCoin||0)+uc};
     setProfile(p); localStorage.setItem('rep_userProfile', JSON.stringify(p));
     setTlConvertAmt('');
-    showNotif(`✅ ${fmtWord(tl)} → ${uc} UC dönüştürüldü!`, 'success');
+    showNotif(`✅ ${fmtWord(tl)} → ${uc} Altın dönüştürüldü!`, 'success');
   };
 
   const buyKatsayi = () => {
     const uc = parseInt(katsayiAmt) || 0;
-    if (uc < 500) { showNotif('Minimum 500 UC gerekli!', 'error'); return; }
-    if ((profile?.underCoin||0) < uc) { showNotif('Yeterli UC yok!', 'error'); return; }
+    if (uc < 500) { showNotif('Minimum 500 Altın gerekli!', 'error'); return; }
+    if ((profile?.underCoin||0) < uc) { showNotif('Yeterli Altın yok!', 'error'); return; }
     const bonus = Math.floor(uc * 0.01);
     const p = {...profile, underCoin:(profile.underCoin||0)-uc, voteMultiplier:(profile.voteMultiplier||0)+bonus};
     setProfile(p); localStorage.setItem('rep_userProfile', JSON.stringify(p));
     try { const users=JSON.parse(localStorage.getItem('rep_users')||'[]'); localStorage.setItem('rep_users',JSON.stringify(users.map(u=>u.id===p.id?p:u))); } catch(e){}
     setKatsayiAmt('');
-    showNotif(`✅ ${uc} UC → +${bonus} oy katsayısı kazandın! (Toplam: ${p.voteMultiplier})`, 'success');
+    showNotif(`✅ ${uc} Altın → +${bonus} oy katsayısı kazandın! (Toplam: ${p.voteMultiplier})`, 'success');
   };
 
   const subs = [
@@ -450,18 +450,18 @@ function EconomyPage({ profile, setProfile, showNotif, initialSub }) {
       <div style={{padding:'0.7rem'}}>
         {sub==='convert' && (
           <div>
-            <div style={{fontFamily:"'Syne',sans-serif",fontSize:'0.62rem',fontWeight:700,color:'#C9A227',letterSpacing:'0.12em',textTransform:'uppercase',marginBottom:'0.6rem'}}>🔄 DÖNÜŞÜM MERKEZİ</div>
+            <div style={{fontFamily:"'Cinzel',serif",fontSize:'0.62rem',fontWeight:700,color:'#C9A227',letterSpacing:'0.12em',textTransform:'uppercase',marginBottom:'0.6rem'}}>🔄 DÖNÜŞÜM MERKEZİ</div>
 
             {/* Kur bilgisi */}
             <div style={{background:'rgba(201,162,39,0.07)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'12px',padding:'0.8rem',marginBottom:'0.75rem',textAlign:'center'}}>
               <div style={{fontSize:'0.7rem',color:'#C9A227',fontWeight:700,marginBottom:'0.2rem'}}>Döviz Kuru</div>
-              <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'1.1rem',fontWeight:800,color:'#C9A227'}}>1 UC = {fmtWord(1000000)}</div>
+              <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'1.1rem',fontWeight:800,color:'#C9A227'}}>1 Altın = {fmtWord(1000000)}</div>
               <div style={{fontSize:'0.62rem',color:'#8893A1',marginTop:'0.2rem'}}>Undercoin (UC) ↔ Türk Lirası (TL)</div>
             </div>
 
-            {/* UC → TL */}
+            {/* Altın → TL */}
             <div style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'12px',padding:'0.85rem',marginBottom:'0.5rem'}}>
-              <div style={{fontSize:'0.65rem',color:'#C9A227',fontWeight:700,marginBottom:'0.5rem'}}>🪙 UC → TL</div>
+              <div style={{fontSize:'0.65rem',color:'#C9A227',fontWeight:700,marginBottom:'0.5rem'}}>🪙 Altın → TL</div>
               <div style={{display:'flex',gap:'0.4rem',alignItems:'center',marginBottom:'0.4rem'}}>
                 <input type="number" value={ucConvertAmt} onChange={e=>setUcConvertAmt(e.target.value)} placeholder="UC miktarı..." min="1"
                   style={{flex:1,background:'rgba(237,231,218,0.05)',border:'1px solid rgba(201,162,39,0.3)',borderRadius:'8px',padding:'0.5rem 0.7rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'0.88rem',outline:'none'}} />
@@ -471,12 +471,12 @@ function EconomyPage({ profile, setProfile, showNotif, initialSub }) {
                 </button>
               </div>
               {ucConvertAmt>0 && <div style={{fontSize:'0.65rem',color:'#4C9A6B'}}>≈ {fmtWord((parseInt(ucConvertAmt)||0)*1000000)} alacaksın</div>}
-              <div style={{fontSize:'0.62rem',color:'#8893A1',marginTop:'0.2rem'}}>Mevcut UC: <span style={{color:'#C9A227',fontWeight:700}}>{fmt(profile?.underCoin||0)} UC</span></div>
+              <div style={{fontSize:'0.62rem',color:'#8893A1',marginTop:'0.2rem'}}>Mevcut Altın: <span style={{color:'#C9A227',fontWeight:700}}>{fmt(profile?.underCoin||0)} Altın</span></div>
             </div>
 
-            {/* TL → UC */}
+            {/* TL → Altın */}
             <div style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'12px',padding:'0.85rem',marginBottom:'0.5rem'}}>
-              <div style={{fontSize:'0.65rem',color:'#4C9A6B',fontWeight:700,marginBottom:'0.5rem'}}>💵 TL → UC</div>
+              <div style={{fontSize:'0.65rem',color:'#4C9A6B',fontWeight:700,marginBottom:'0.5rem'}}>💵 TL → Altın</div>
               <div style={{display:'flex',gap:'0.4rem',alignItems:'center',marginBottom:'0.4rem'}}>
                 <input type="number" value={tlConvertAmt} onChange={e=>setTlConvertAmt(e.target.value)} placeholder="TL miktarı..." min="1000000"
                   style={{flex:1,background:'rgba(237,231,218,0.05)',border:'1px solid rgba(76,154,107,0.25)',borderRadius:'8px',padding:'0.5rem 0.7rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'0.88rem',outline:'none'}} />
@@ -485,19 +485,19 @@ function EconomyPage({ profile, setProfile, showNotif, initialSub }) {
                   Çevir
                 </button>
               </div>
-              {tlConvertAmt>0 && <div style={{fontSize:'0.65rem',color:'#C9A227'}}>≈ {Math.floor((parseInt(tlConvertAmt)||0)/1000000)} UC alacaksın</div>}
+              {tlConvertAmt>0 && <div style={{fontSize:'0.65rem',color:'#C9A227'}}>≈ {Math.floor((parseInt(tlConvertAmt)||0)/1000000)} Altın alacaksın</div>}
               <div style={{fontSize:'0.62rem',color:'#8893A1',marginTop:'0.2rem'}}>Mevcut Para: <span style={{color:'#4C9A6B',fontWeight:700}}>{fmtWord(profile?.money||0)}</span></div>
             </div>
 
-            {/* UC → Katsayı */}
+            {/* Altın → Katsayı */}
             <div style={{background:'rgba(201,162,39,0.05)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'12px',padding:'0.85rem'}}>
-              <div style={{fontSize:'0.65rem',color:'#C9A227',fontWeight:700,marginBottom:'0.3rem'}}>🗳️ UC → Oy Katsayısı</div>
-              <div style={{fontSize:'0.62rem',color:'#8893A1',marginBottom:'0.5rem'}}>Min 500 UC • Çevirdiğin miktarın %1'i oy katsayısı olarak eklenir (seçimlerde etkili)</div>
+              <div style={{fontSize:'0.65rem',color:'#C9A227',fontWeight:700,marginBottom:'0.3rem'}}>🗳️ Altın → Oy Katsayısı</div>
+              <div style={{fontSize:'0.62rem',color:'#8893A1',marginBottom:'0.5rem'}}>Min 500 Altın • Çevirdiğin miktarın %1'i oy katsayısı olarak eklenir (seçimlerde etkili)</div>
               <div style={{background:'rgba(201,162,39,0.06)',borderRadius:'8px',padding:'0.5rem',marginBottom:'0.5rem',textAlign:'center'}}>
                 <span style={{fontSize:'0.68rem',color:'#C9A227',fontWeight:700}}>Mevcut Katsayı: +{profile?.voteMultiplier||0}</span>
               </div>
               <div style={{display:'flex',gap:'0.4rem',alignItems:'center'}}>
-                <input type="number" value={katsayiAmt} onChange={e=>setKatsayiAmt(e.target.value)} placeholder="Min 500 UC..." min="500"
+                <input type="number" value={katsayiAmt} onChange={e=>setKatsayiAmt(e.target.value)} placeholder="Min 500 Altın..." min="500"
                   style={{flex:1,background:'rgba(237,231,218,0.05)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'8px',padding:'0.5rem 0.7rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'0.88rem',outline:'none'}} />
                 <button onClick={buyKatsayi}
                   style={{padding:'0.5rem 0.9rem',borderRadius:'8px',border:'none',background:'#C9A227',color:'#000',fontWeight:700,fontSize:'0.8rem',cursor:'pointer',whiteSpace:'nowrap'}}>
@@ -512,15 +512,15 @@ function EconomyPage({ profile, setProfile, showNotif, initialSub }) {
         {sub==='overview' && (
           <div>
             {/* Ekonomik Durum */}
-            <div style={{fontFamily:"'Syne',sans-serif",fontSize:'0.6rem',fontWeight:700,color:'#4C9A6B',letterSpacing:'0.12em',textTransform:'uppercase',marginBottom:'0.45rem'}}>⚡ EKONOMİK DURUM</div>
+            <div style={{fontFamily:"'Cinzel',serif",fontSize:'0.6rem',fontWeight:700,color:'#4C9A6B',letterSpacing:'0.12em',textTransform:'uppercase',marginBottom:'0.45rem'}}>⚡ EKONOMİK DURUM</div>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'0.4rem',marginBottom:'0.75rem'}}>
               {[
                 ['💵','Nakit',fmtM(profile?.money),'#4C9A6B'],
                 ['🏦','Mevduat',fmtM(profile?.bank),'#C9A227'],
-                ['🪙','Kripto (UCP)',fmtUC(profile?.underCoin),'#C9A227'],
+                ['🪙','Kripto (UCP)',fmtAltin(profile?.underCoin),'#C9A227'],
                 ['📊','Net Değer',fmtM((profile?.money||0)+(profile?.bank||0)),'#C9A227'],
                 ['🤝','Ticaret Puanı',`${fmt(profile?.tradePoints||0)} TP`,'#C9A227'],
-                ['💎','Liyakat (UC)',`${fmt(profile?.underCoin||0)} UC`,'#C9A227'],
+                ['💎','Liyakat (UC)',`${fmt(profile?.underCoin||0)} Altın`,'#C9A227'],
               ].map(([ic,lb,v,c])=>(
                 <div key={lb} style={{background:'rgba(237,231,218,0.02)',border:`1px solid ${c}28`,borderRadius:'10px',padding:'0.55rem 0.35rem',textAlign:'center'}}>
                   <div style={{fontSize:'0.52rem',color:'#8893A1',textTransform:'uppercase',marginBottom:'0.15rem',letterSpacing:'0.04em',lineHeight:1.2}}>{ic} {lb}</div>
@@ -551,16 +551,16 @@ function EconomyPage({ profile, setProfile, showNotif, initialSub }) {
               const gdp = playerCount * 500000 + hazine;
               return (
                 <div>
-                  <div style={{fontFamily:"'Syne',sans-serif",fontSize:'0.6rem',fontWeight:700,color:'#C9A227',letterSpacing:'0.12em',textTransform:'uppercase',marginBottom:'0.4rem'}}>🏛️ DEVLET EKONOMİSİ</div>
+                  <div style={{fontFamily:"'Cinzel',serif",fontSize:'0.6rem',fontWeight:700,color:'#C9A227',letterSpacing:'0.12em',textTransform:'uppercase',marginBottom:'0.4rem'}}>🏛️ DEVLET EKONOMİSİ</div>
                   <div style={{background:'rgba(201,162,39,0.05)',border:'1px solid rgba(201,162,39,0.15)',borderRadius:'12px',padding:'0.7rem',marginBottom:'0.5rem'}}>
                     <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.4rem'}}>
                       {[
-                        ['🏛️','Hazine',`₺${fmtWord(hazine)}`,'#4C9A6B'],
+                        ['🏛️','Hazine',`🪙${fmtWord(hazine)}`,'#4C9A6B'],
                         ['📉','Enflasyon',`%${inflation.toFixed(1)}`,'#C24B43'],
                         ['💹','Faiz Oranı',`%${faiz}`,'#C9A227'],
                         ['💰','Vergi Oranı',`%${totalTax}`,'#C9A227'],
-                        ['⚔️','Askeri Bütçe',`₺${fmtWord(milBudget)}`,'#C24B43'],
-                        ['📊','GSYİH',`₺${fmtWord(gdp)}`,'#C9A227'],
+                        ['⚔️','Askeri Bütçe',`🪙${fmtWord(milBudget)}`,'#C24B43'],
+                        ['📊','GSYİH',`🪙${fmtWord(gdp)}`,'#C9A227'],
                       ].map(([ic,lb,v,c])=>(
                         <div key={lb} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0.3rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
                           <span style={{fontSize:'0.68rem',color:'#4A5A6A'}}>{ic} {lb}</span>
@@ -585,7 +585,7 @@ function EconomyPage({ profile, setProfile, showNotif, initialSub }) {
             })()}
 
             {/* Tüm Ekonomi Araçları */}
-            <div style={{fontFamily:"'Syne',sans-serif",fontSize:'0.6rem',fontWeight:700,color:'#C9A227',letterSpacing:'0.12em',textTransform:'uppercase',marginBottom:'0.4rem'}}>🛠️ TÜM EKONOMİ ARAÇLARI</div>
+            <div style={{fontFamily:"'Cinzel',serif",fontSize:'0.6rem',fontWeight:700,color:'#C9A227',letterSpacing:'0.12em',textTransform:'uppercase',marginBottom:'0.4rem'}}>🛠️ TÜM EKONOMİ ARAÇLARI</div>
             <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'0.4rem'}}>
               {[
                 {icon:'🏦',label:'Banka',fn:()=>setSub('bank')},
@@ -593,7 +593,7 @@ function EconomyPage({ profile, setProfile, showNotif, initialSub }) {
                 {icon:'⛏️',label:'Madencilik',fn:()=>{}},
                 {icon:'🏢',label:'Holdinglar',fn:()=>{}},
                 {icon:'📈',label:'Borsa',fn:()=>setSub('stocks')},
-                {icon:'🏭',label:'Fabrika',fn:()=>{}},
+                {icon:'🏭',label:'Atölye',fn:()=>{}},
                 {icon:'⚒️',label:'Crafting',fn:()=>{}},
                 {icon:'🪨',label:'Hammadde',fn:()=>{}},
                 {icon:'🔨',label:'Açık Artırma',fn:()=>{}},
@@ -641,7 +641,7 @@ function EconomyPage({ profile, setProfile, showNotif, initialSub }) {
                         <span style={{fontWeight:800,fontSize:'0.92rem',color:'#EDE7DA'}}>{sym}</span>
                         <span style={{fontSize:'0.62rem',color:'#8893A1'}}>{sectors[sym]||''}</span>
                       </div>
-                      {held > 0 && <div style={{fontSize:'0.62rem',color:'#C9A227'}}>{held} adet · ort. ₺{portfolio[sym]?.avgCost}</div>}
+                      {held > 0 && <div style={{fontSize:'0.62rem',color:'#C9A227'}}>{held} adet · ort. 🪙{portfolio[sym]?.avgCost}</div>}
                     </div>
                     <div style={{display:'flex',alignItems:'flex-end',gap:'2px',height:'28px',width:'56px'}}>
                       {hist.slice(-10).map((v,i)=>(
@@ -649,7 +649,7 @@ function EconomyPage({ profile, setProfile, showNotif, initialSub }) {
                       ))}
                     </div>
                     <div style={{textAlign:'right',flexShrink:0}}>
-                      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'1rem',fontWeight:700,color:'#EDE7DA'}}>₺{price}</div>
+                      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'1rem',fontWeight:700,color:'#EDE7DA'}}>🪙{price}</div>
                       <div style={{fontSize:'0.63rem',color:change>=0?'#4C9A6B':'#C24B43',fontWeight:700}}>{change>=0?'▲':'▼'}{Math.abs(change).toFixed(1)}%</div>
                     </div>
                   </div>
@@ -675,7 +675,7 @@ function EconomyPage({ profile, setProfile, showNotif, initialSub }) {
                       <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
                         <div>
                           <div style={{fontWeight:800,color:'#EDE7DA',fontSize:'0.92rem'}}>{sym}</div>
-                          <div style={{fontSize:'0.62rem',color:'#8893A1'}}>{pos.qty} adet · ort. ₺{pos.avgCost}</div>
+                          <div style={{fontSize:'0.62rem',color:'#8893A1'}}>{pos.qty} adet · ort. 🪙{pos.avgCost}</div>
                         </div>
                         <div style={{textAlign:'right'}}>
                           <div style={{fontWeight:700,color:'#EDE7DA',fontFamily:"'JetBrains Mono',monospace"}}>{fmtM(val)}</div>
@@ -709,12 +709,12 @@ function EconomyPage({ profile, setProfile, showNotif, initialSub }) {
                       <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
                         <div>
                           <div style={{fontWeight:800,color:'#EDE7DA'}}>{sym}</div>
-                          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.88rem',color:'#EDE7DA'}}>₺{price}</div>
+                          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.88rem',color:'#EDE7DA'}}>🪙{price}</div>
                         </div>
                         <div style={{textAlign:'right'}}>
                           {myS ? (
                             <div>
-                              <div style={{fontSize:'0.62rem',color:'#8893A1'}}>Açık: ₺{myS.price} → ₺{price}</div>
+                              <div style={{fontSize:'0.62rem',color:'#8893A1'}}>Açık: 🪙{myS.price} → 🪙{price}</div>
                               <div style={{fontSize:'0.68rem',color:price<myS.price?'#4C9A6B':'#C24B43',fontWeight:700}}>{price<myS.price?'📈 Kâr':'📉 Zarar'}: {fmtM(Math.abs((myS.price-price)*myS.qty))}</div>
                               <Btn variant='danger' size='sm' onClick={()=>{
                                 const profit=(myS.price-price)*myS.qty;
@@ -771,7 +771,7 @@ function EconomyPage({ profile, setProfile, showNotif, initialSub }) {
             {farmModal && (
               <Modal title="🌱 Tohum Ek" onClose={()=>setFarmModal(null)}>
                 <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.5rem'}}>
-                  {[['wheat','🌾','Buğday','₺100','2dk','₺500'],['corn','🌽','Mısır','₺150','3dk','₺900'],['tomato','🍅','Domates','₺80','1.5dk','₺350'],['grape','🍇','Üzüm','₺250','5dk','₺1800']].map(([t,ic,lb,cost,time,earn])=>(
+                  {[['wheat','🌾','Buğday','🪙100','2dk','🪙500'],['corn','🌽','Mısır','🪙150','3dk','🪙900'],['tomato','🍅','Domates','🪙80','1.5dk','🪙350'],['grape','🍇','Üzüm','🪙250','5dk','🪙1800']].map(([t,ic,lb,cost,time,earn])=>(
                     <button key={t} onClick={()=>plantSeed(t)}
                       style={{padding:'1rem',borderRadius:'12px',border:'1px solid rgba(237,231,218,0.08)',background:'rgba(237,231,218,0.03)',cursor:'pointer',textAlign:'center'}}>
                       <div style={{fontSize:'1.75rem',marginBottom:'0.3rem'}}>{ic}</div>
@@ -828,21 +828,21 @@ function EconomyPage({ profile, setProfile, showNotif, initialSub }) {
         )}
       </div>
 
-      {/* UC Katsayı Butonu */}
+      {/* Altın Katsayı Butonu */}
       {sub==='overview' && (() => {
         const hasBoost = !!(profile?.packages?.ucBoost || profile?.ucBoost);
         const boostExpiry = profile?.ucBoostExpiry || 0;
         const boostActive = hasBoost && boostExpiry > Date.now();
         const ucCost = 50;
         const activateBoost = () => {
-          if ((profile?.underCoin||0) < ucCost) { showNotif(`UC Katsayı için ${ucCost} UC gerekli`, 'error'); return; }
+          if ((profile?.underCoin||0) < ucCost) { showNotif(`UC Katsayı için ${ucCost} Altın gerekli`, 'error'); return; }
           if (boostActive) { showNotif('UC Katsayı zaten aktif!', 'error'); return; }
           setProfile(p => {
             const np = {...p, underCoin:(p.underCoin||0)-ucCost, ucBoost:true, packages:{...(p.packages||{}),ucBoost:true}, ucBoostExpiry:Date.now()+24*60*60*1000};
             localStorage.setItem('rep_userProfile', JSON.stringify(np));
             return np;
           });
-          showNotif('⚡ UC x2 Katsayı 24 saat aktifleşti!', 'success');
+          showNotif('⚡ Altın x2 Katsayı 24 saat aktifleşti!', 'success');
         };
         const rem = boostActive ? boostExpiry - Date.now() : 0;
         const remH = Math.floor(rem/3600000); const remM = Math.floor((rem%3600000)/60000);
@@ -850,14 +850,14 @@ function EconomyPage({ profile, setProfile, showNotif, initialSub }) {
           <div style={{marginTop:'0.75rem',padding:'0.75rem',background:'rgba(96,165,250,0.07)',border:'1px solid rgba(96,165,250,0.2)',borderRadius:'14px'}}>
             <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:'0.5rem'}}>
               <div>
-                <div style={{fontSize:'0.78rem',fontWeight:800,color:'#C9A227'}}>⚡ UC x2 Kazanç Katsayısı</div>
+                <div style={{fontSize:'0.78rem',fontWeight:800,color:'#C9A227'}}>⚡ Altın x2 Kazanç Katsayısı</div>
                 <div style={{fontSize:'0.65rem',color:'#8893A1',marginTop:'0.15rem'}}>
-                  {boostActive ? `✅ Aktif — ${remH}sa ${remM}dk kaldı • İş başına 2x UC` : `${ucCost} UC harca → 24 saat boyunca iş yapınca 2x UC kazan`}
+                  {boostActive ? `✅ Aktif — ${remH}sa ${remM}dk kaldı • İş başına 2x Altın` : `${ucCost} Altın harca → 24 saat boyunca iş yapınca 2x Altın kazan`}
                 </div>
               </div>
               <button onClick={activateBoost} disabled={boostActive}
                 style={{padding:'0.45rem 0.85rem',borderRadius:'10px',border:'none',background:boostActive?'rgba(76,154,107,0.2)':'linear-gradient(135deg,#C9A227,#C9A227)',color:boostActive?'#4C9A6B':'#fff',fontWeight:800,fontSize:'0.75rem',cursor:boostActive?'default':'pointer',whiteSpace:'nowrap',flexShrink:0}}>
-                {boostActive ? '✅ Aktif' : `⚡ ${ucCost} UC`}
+                {boostActive ? '✅ Aktif' : `⚡ ${ucCost} Altın`}
               </button>
             </div>
           </div>
@@ -1245,8 +1245,8 @@ function MarketPage({ profile, setProfile, showNotif }) {
                 style={{width:'100%',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box'}} />
             </div>
             <div>
-              <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.4rem',fontWeight:700}}>Fiyat (₺)</div>
-              <input type="number" value={form.price} onChange={e=>setForm(p=>({...p,price:e.target.value}))} placeholder="₺"
+              <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.4rem',fontWeight:700}}>Fiyat (🪙)</div>
+              <input type="number" value={form.price} onChange={e=>setForm(p=>({...p,price:e.target.value}))} placeholder="🪙"
                 style={{width:'100%',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box'}} />
             </div>
           </div>

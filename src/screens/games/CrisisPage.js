@@ -5,7 +5,7 @@ function CrisisPage({ profile, setProfile, showNotif }) {
   const [crises, setCrises] = useLs('activeCrises', []);
   const [crisisLog, setCrisisLog] = useLs('crisisLog', []);
   const { dark } = useTheme();
-  const bg = dark ? '#0F172A' : '#F8FAFC';
+  const bg = dark ? '#1A0E00' : '#F8FAFC';
   const cu = profile || {};
   const uid = cu.uid || cu.id;
   const now = Date.now();
@@ -65,7 +65,7 @@ function CrisisPage({ profile, setProfile, showNotif }) {
 
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>
-      <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#C24B43',marginBottom:'0.3rem'}}>🚨 Kriz Merkezi</div>
+      <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.3rem',fontWeight:900,color:'#C24B43',marginBottom:'0.3rem'}}>🚨 Kriz Merkezi</div>
       <div style={{fontSize:'0.78rem',color:'#8893A1',marginBottom:'1rem'}}>Krizler sistem tarafından otomatik oluşturulur. Havuza para katkısı yaparak çöz, XP ve Puan kazan!</div>
 
       {activeCrises.length===0 && (

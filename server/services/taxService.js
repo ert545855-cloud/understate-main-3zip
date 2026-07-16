@@ -66,7 +66,7 @@ async function collectPropertyTax() {
       totalCollected += Number(tax);
     }
   }
-  if (totalCollected) logger.info(`[Tax] Mülk vergisi toplandı: ${totalCollected}₺ (${users.length} kullanıcı)`);
+  if (totalCollected) logger.info(`[Tax] Mülk vergisi toplandı: ${totalCollected}🪙 (${users.length} kullanıcı)`);
 }
 
 async function getAllRates() {

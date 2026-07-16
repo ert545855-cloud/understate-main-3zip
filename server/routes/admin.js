@@ -134,9 +134,9 @@ router.post('/users/:userId/coins', adminMiddleware, async (req, res) => {
     if (!amt || isNaN(amt) || amt <= 0) return res.status(400).json({ success: false, message: 'Geçerli miktar girin' });
     const user = await db.findUserById(req.params.userId);
     if (!user) return res.status(404).json({ success: false, message: 'Kullanıcı bulunamadı' });
-    const oldCoins = user.under_coin || 0;
+    const oldCoins = user.altin || 0;
     const newCoins = operation === 'remove' ? Math.max(0, oldCoins - amt) : oldCoins + amt;
-    await db.updateUser(user.id, { under_coin: newCoins });
+    await db.updateUser(user.id, { altin: newCoins });
     if (_io && user.socket_id) _io.to(user.socket_id).emit('coinsUpdate', { underCoin: newCoins, delta: newCoins - oldCoins, from: 'admin', timestamp: Date.now() });
     res.json({ success: true, username: user.username, oldCoins, newCoins });
   } catch (err) { res.status(500).json({ success: false, message: err.message }); }

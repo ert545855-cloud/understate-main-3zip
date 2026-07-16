@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════════════════
 // SALTANAT ONLINE — Aile Merkezi (Legal Organizasyon)
 // Boss → Underboss → Yönetici → Üye hiyerarşisi
-// Fabrika yönetimi · Halef sistemi · Kasa
+// Atölye yönetimi · Halef sistemi · Kasa
 // ═══════════════════════════════════════════════════════
 window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, parties, allUsers, setCurrentPage }) {
 
@@ -9,7 +9,7 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
   const readProfile = () => { try { return JSON.parse(localStorage.getItem('rep_userProfile')||'{}'); } catch { return {}; } };
   const getToken    = () => localStorage.getItem('rep_token')||localStorage.getItem('token')||'';
 
-  // Sunucu tabanlı aile fabrikaları (EconomicEmpireScreen ile senkronize)
+  // Sunucu tabanlı aile atölyelerı (EconomicEmpireScreen ile senkronize)
   const [serverFactories, setServerFactories] = React.useState([]);
 
   const [fams, setFams]               = React.useState(readFams);
@@ -23,7 +23,7 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
   const [confirmDisband, setConfirmDisband] = React.useState(false);
 
   const showMsg = (text, type='info') => { setMsg({text,type}); setTimeout(()=>setMsg(null),3500); };
-  const fmt = (n) => { if(!n)return '₺0'; if(n>=1e9)return '₺'+(n/1e9).toFixed(1)+'Mlr'; if(n>=1e6)return '₺'+(n/1e6).toFixed(1)+'M'; if(n>=1e3)return '₺'+(n/1e3).toFixed(0)+'K'; return '₺'+Math.floor(n).toLocaleString('tr-TR'); };
+  const fmt = (n) => { if(!n)return '🪙0'; if(n>=1e9)return '🪙'+(n/1e9).toFixed(1)+'Mlr'; if(n>=1e6)return '🪙'+(n/1e6).toFixed(1)+'M'; if(n>=1e3)return '🪙'+(n/1e3).toFixed(0)+'K'; return '🪙'+Math.floor(n).toLocaleString('tr-TR'); };
 
   const saveFams = (next) => {
     localStorage.setItem('rep_families', JSON.stringify(next));
@@ -155,7 +155,7 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
     showMsg('Aile dağıtıldı', 'info');
   };
 
-  // ── Sunucu fabrikaları yükle ─────────────────────────
+  // ── Sunucu atölyelerı yükle ─────────────────────────
   React.useEffect(()=>{
     if(!myFamily?.id) return;
     fetch(`/api/family-factory?familyId=${encodeURIComponent(myFamily.id)}`,
@@ -165,7 +165,7 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
       .catch(()=>{});
   },[myFamily?.id]);
 
-  const fmtM = (n) => { if(!n&&n!==0)return '₺0'; if(n>=1e6)return '₺'+(n/1e6).toFixed(1)+'M'; if(n>=1e3)return '₺'+(n/1e3).toFixed(0)+'K'; return '₺'+Math.floor(n); };
+  const fmtM = (n) => { if(!n&&n!==0)return '🪙0'; if(n>=1e6)return '🪙'+(n/1e6).toFixed(1)+'M'; if(n>=1e3)return '🪙'+(n/1e3).toFixed(0)+'K'; return '🪙'+Math.floor(n); };
   const COLLECT_24H = 24*3600*1000;
 
   // Fabrikalar (eski localStorage tabanlı — geriye uyumluluk için korunur)
@@ -177,13 +177,13 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
     if (!hasPerm('factory')) return showMsg('Bu işlem için yetkiniz yok', 'error');
     const updated = allFactories.map(f=>f.id===fid?{...f,familyId:myFamily.id,familyName:myFamily.name}:f);
     localStorage.setItem('us_empire_factories', JSON.stringify(updated));
-    showMsg('Fabrika aileye atandı ✓', 'success');
+    showMsg('Atölye aileye atandı ✓', 'success');
   };
   const unassignFactory = (fid) => {
     if (!hasPerm('factory')) return showMsg('Bu işlem için yetkiniz yok', 'error');
     const updated = allFactories.map(f=>f.id===fid?{...f,familyId:null,familyName:null}:f);
     localStorage.setItem('us_empire_factories', JSON.stringify(updated));
-    showMsg('Fabrika aileden kaldırıldı', 'info');
+    showMsg('Atölye aileden kaldırıldı', 'info');
   };
 
   // ── UI yardımcıları ───────────────────────────────────
@@ -208,7 +208,7 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
           <div className="card-title">Aile Sistemi Nedir?</div>
           <ul style={{fontSize:'0.8rem',color:'#8899AA',lineHeight:1.75,paddingLeft:'1.2rem',margin:0}}>
             <li>Aileler <b>LEGAL</b> organizasyondur — silah alımı ve suç faaliyeti yoktur</li>
-            <li>Fabrika, holding, şirket kurabilir ve aile adına yönetebilirsiniz</li>
+            <li>Atölye, holding, şirket kurabilir ve aile adına yönetebilirsiniz</li>
             <li>👑 Boss → ⚔️ Underboss → 🏛️ Yönetici → 👤 Üye hiyerarşisi</li>
             <li>Boss, siyasi partilere kasa üzerinden fon sağlayabilir</li>
             <li>Boss ayrılmadan önce halef (vasiyet) belirler</li>
@@ -283,7 +283,7 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
       <div style={{display:'flex',gap:'0.4rem',overflowX:'auto',paddingBottom:'0.5rem',marginBottom:'0.75rem',scrollbarWidth:'none'}}>
         <TabBtn id="genel"    lbl="Genel"     icon="🏠"/>
         <TabBtn id="kasa"     lbl="Kasa"      icon="💰"/>
-        <TabBtn id="fabrika"  lbl="Fabrikalar"icon="🏭"/>
+        <TabBtn id="atölye"  lbl="Fabrikalar"icon="🏭"/>
         <TabBtn id="uyeler"   lbl="Üyeler"    icon="👥"/>
         <TabBtn id="rutbeler" lbl="Rütbeler"  icon="⚔️"/>
         <TabBtn id="harita"   lbl="Harita"    icon="🗺️"/>
@@ -308,7 +308,7 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
               {[
                 {l:'Üyeler',   v:(myFamily.members||[]).length, c:'#C9A227'},
                 {l:'Kasa',     v:fmt(myFamily.treasury||0),     c:'#4C9A6B'},
-                {l:'Fabrika',  v:serverFactories.length||familyFactories.length, c:'#C9A227'},
+                {l:'Atölye',  v:serverFactories.length||familyFactories.length, c:'#C9A227'},
                 {l:'Etki',     v:myFamily.influence||0,         c:'#C9A227'},
               ].map(s=>(
                 <div key={s.l} style={{background:'rgba(237,231,218,0.03)',borderRadius:8,padding:'0.4rem',textAlign:'center'}}>
@@ -366,7 +366,7 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
                     <div>
                       <div style={{fontSize:'0.72rem',color:'#8899AA',marginBottom:'0.25rem'}}>Yatır (Tüm Üyeler)</div>
                       <div style={{display:'flex',gap:'0.35rem'}}>
-                        <input style={{...inp,padding:'0.45rem 0.55rem'}} type="number" placeholder="₺" value={depositAmt} onChange={e=>setDepositAmt(e.target.value)}/>
+                        <input style={{...inp,padding:'0.45rem 0.55rem'}} type="number" placeholder="🪙" value={depositAmt} onChange={e=>setDepositAmt(e.target.value)}/>
                         <button className="btn btn-primary" style={{flexShrink:0,padding:'0.45rem 0.65rem',fontSize:'0.8rem'}} onClick={deposit}>↑</button>
                       </div>
                     </div>
@@ -376,7 +376,7 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
                           Çek {isLeader?'(Boss)':'(Kasa Yön.)'}
                         </div>
                         <div style={{display:'flex',gap:'0.35rem'}}>
-                          <input style={{...inp,padding:'0.45rem 0.55rem'}} type="number" placeholder="₺" value={withdrawAmt} onChange={e=>setWithdrawAmt(e.target.value)}/>
+                          <input style={{...inp,padding:'0.45rem 0.55rem'}} type="number" placeholder="🪙" value={withdrawAmt} onChange={e=>setWithdrawAmt(e.target.value)}/>
                           <button className="btn btn-red" style={{flexShrink:0,padding:'0.45rem 0.65rem',fontSize:'0.8rem'}} onClick={withdraw}>↓</button>
                         </div>
                       </div>
@@ -420,28 +420,28 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
                     <li><b>Boss</b> ve <b>Kasa Yöneticisi</b> para çekebilir</li>
                     <li>Boss, herhangi bir üyeyi Kasa Yöneticisi olarak atayabilir</li>
                     <li>Kasa, siyasi parti fonlamasında kullanılabilir</li>
-                    <li>Fabrika gelirleri <b>"Fabrikalar"</b> sekmesinden kasaya aktarılır</li>
+                    <li>Atölye gelirleri <b>"Fabrikalar"</b> sekmesinden kasaya aktarılır</li>
                   </ul>
                 </div>
               </>
             );
           })()}
 
-          {/* ── Fabrika Gelirleri Özeti ──────────────────── */}
+          {/* ── Atölye Gelirleri Özeti ──────────────────── */}
           {serverFactories.length>0&&(
             <div style={{...card,background:'rgba(201,162,39,0.05)',border:'1px solid rgba(201,162,39,0.15)'}}>
-              <div className="card-title">🏭 Fabrika Geliri</div>
+              <div className="card-title">🏭 Atölye Geliri</div>
               <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.5rem'}}>
                 <div style={{fontSize:'0.78rem',color:'#8899AA'}}>Toplam Aylık</div>
                 <div style={{fontWeight:700,color:'#C9A227',fontFamily:'JetBrains Mono,monospace'}}>{fmtM(serverFactories.reduce((a,f)=>a+(f.monthlyIncome||0),0))}</div>
               </div>
               <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.5rem'}}>
-                <div style={{fontSize:'0.78rem',color:'#8899AA'}}>Toplanabilir Fabrika</div>
+                <div style={{fontSize:'0.78rem',color:'#8899AA'}}>Toplanabilir Atölye</div>
                 <div style={{fontWeight:700,color:'#4C9A6B'}}>
                   {serverFactories.filter(f=>f.canCollect||Number(f.lastCollectedAt)===0).length}/{serverFactories.length}
                 </div>
               </div>
-              <button className="btn btn-primary" style={{width:'100%',fontSize:'0.8rem'}} onClick={()=>setTab('fabrika')}>
+              <button className="btn btn-primary" style={{width:'100%',fontSize:'0.8rem'}} onClick={()=>setTab('atölye')}>
                 🏭 Fabrikaları Yönet / Gelir Topla
               </button>
             </div>
@@ -450,15 +450,15 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
       )}
 
       {/* ── FABRİKALAR — sunucu tabanlı ─────────────────── */}
-      {tab==='fabrika' && (
+      {tab==='atölye' && (
         <div>
-          {/* Sunucu fabrikaları (anti-cheat: gelir toplaması server doğrulayır) */}
+          {/* Sunucu atölyelerı (anti-cheat: gelir toplaması server doğrulayır) */}
           {serverFactories.length>0 ? (
             <div>
               <div style={{...card,background:'rgba(201,162,39,0.05)',border:'1px solid rgba(201,162,39,0.2)'}}>
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                   <div>
-                    <div style={{fontSize:'0.68rem',color:'#5E7390',textTransform:'uppercase',letterSpacing:'0.06em'}}>Toplam Aylık Fabrika Geliri</div>
+                    <div style={{fontSize:'0.68rem',color:'#5E7390',textTransform:'uppercase',letterSpacing:'0.06em'}}>Toplam Aylık Atölye Geliri</div>
                     <div style={{fontFamily:'JetBrains Mono,monospace',fontWeight:900,fontSize:'1.2rem',color:'#C9A227'}}>{fmtM(serverFactories.reduce((a,f)=>a+(f.monthlyIncome||0),0))}</div>
                   </div>
                   <div style={{textAlign:'right'}}>
@@ -501,7 +501,7 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
           ):(
             <div style={{...card,textAlign:'center',padding:'2rem'}}>
               <div style={{fontSize:'2rem',marginBottom:'0.5rem'}}>🏭</div>
-              <div style={{color:'#5E7390',fontSize:'0.82rem',marginBottom:'0.75rem'}}>Henüz aile fabrikası yok. Ekonomik İmparatorluk ekranından fabrika kurabilirsiniz.</div>
+              <div style={{color:'#5E7390',fontSize:'0.82rem',marginBottom:'0.75rem'}}>Henüz aile fabrikası yok. Ekonomik İmparatorluk ekranından atölye kurabilirsiniz.</div>
               <button className="btn btn-primary" onClick={()=>setCurrentPage('economic_empire')}>🏢 Ekonomik İmparatorluk</button>
             </div>
           )}
@@ -550,9 +550,9 @@ window.FamilyCenterScreen = function FamilyCenterScreen({ cu, families, gangs, p
               <div key={r.id} style={{display:'flex',alignItems:'flex-start',gap:'0.75rem',padding:'0.6rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
                 <span style={{background:`${r.color}22`,border:`1px solid ${r.color}44`,borderRadius:6,padding:'0.2rem 0.55rem',fontSize:'0.75rem',fontWeight:700,color:r.color,flexShrink:0,minWidth:90,textAlign:'center'}}>{r.label}</span>
                 <div style={{fontSize:'0.75rem',color:'#8899AA'}}>
-                  {r.id==='boss'      && 'Tüm yetkiler: üye ekle/çıkar, rütbe ver, fabrika yönet, kasadan para çek, halef belirle'}
-                  {r.id==='underboss' && 'Üye ekle, fabrika yönet, kasaya para yatır'}
-                  {r.id==='yonetici' && 'Fabrika yönetimi'}
+                  {r.id==='boss'      && 'Tüm yetkiler: üye ekle/çıkar, rütbe ver, atölye yönet, kasadan para çek, halef belirle'}
+                  {r.id==='underboss' && 'Üye ekle, atölye yönet, kasaya para yatır'}
+                  {r.id==='yonetici' && 'Atölye yönetimi'}
                   {r.id==='uye'       && 'Kasaya para yatır, bilgi görüntüle'}
                 </div>
               </div>

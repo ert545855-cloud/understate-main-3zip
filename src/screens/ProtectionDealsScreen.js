@@ -38,7 +38,7 @@ window.ProtectionDealsScreen = function ProtectionDealsScreen({ cu, gangs, famil
   }, []);
 
   const showMsg = (text, type="info") => { setMsg({text,type}); setTimeout(()=>setMsg(null),3500); };
-  const fmtMoney = (n) => { if(!n)return "₺0"; if(n>=1e6)return "₺"+(n/1e6).toFixed(1)+"M"; if(n>=1e3)return "₺"+(n/1e3).toFixed(0)+"K"; return "₺"+n; };
+  const fmtMoney = (n) => { if(!n)return "🪙0"; if(n>=1e6)return "🪙"+(n/1e6).toFixed(1)+"M"; if(n>=1e3)return "🪙"+(n/1e3).toFixed(0)+"K"; return "🪙"+n; };
 
   const gangsArr   = Array.isArray(gangs)?gangs:[];
   const famsArr    = Array.isArray(families)?families:[];
@@ -53,9 +53,9 @@ window.ProtectionDealsScreen = function ProtectionDealsScreen({ cu, gangs, famil
   const myPendingOffers = offers.filter(o => o.status==="pending" && (o.gangId===myGang?.id || o.familyId===myFamily?.id));
 
   const COVERAGE_OPTIONS = [
-    { id:"all",       label:"Tüm Varlıklar",  desc:"Holding, fabrika ve şirketlerin tamamı" },
+    { id:"all",       label:"Tüm Varlıklar",  desc:"Holding, atölye ve şirketlerin tamamı" },
     { id:"holdings",  label:"Sadece Holdinglar", desc:"Yalnızca holdingler korunur" },
-    { id:"factories", label:"Sadece Fabrikalar", desc:"Yalnızca fabrikalar korunur" },
+    { id:"factories", label:"Sadece Fabrikalar", desc:"Yalnızca atölyeler korunur" },
   ];
 
   // Teklif oluştur (çete tarafından)
@@ -63,7 +63,7 @@ window.ProtectionDealsScreen = function ProtectionDealsScreen({ cu, gangs, famil
     if(!isGangManager) return showMsg("Koruma teklifi oluşturmak için çete liderliği veya yetkisi gerekli","error");
     if(!offerForm.familyId) return showMsg("Hedef aile seçin","error");
     const fee = parseInt(offerForm.fee);
-    if(!fee || isNaN(fee) || fee < 1000) return showMsg("Geçerli bir ücret girin (min ₺1.000)","error");
+    if(!fee || isNaN(fee) || fee < 1000) return showMsg("Geçerli bir ücret girin (min 🪙1.000)","error");
     const targetFamily = famsArr.find(f=>f.id===offerForm.familyId);
     if(!targetFamily) return showMsg("Aile bulunamadı","error");
     if(offers.some(o=>o.gangId===myGang.id&&o.familyId===targetFamily.id&&o.status==="pending")) {
@@ -155,13 +155,13 @@ window.ProtectionDealsScreen = function ProtectionDealsScreen({ cu, gangs, famil
       d.familyId === asset.familyId &&
       (d.coverage === "all" ||
        (d.coverage === "holdings"  && assetType === "holding")  ||
-       (d.coverage === "factories" && assetType === "fabrika"))
+       (d.coverage === "factories" && assetType === "atölye"))
     );
   };
 
   const unprotectedTargets = [
     ...allHoldings.filter(a=>!isAssetProtected(a,"holding")).map(a=>({...a,assetType:"holding",typeLabel:"Holding",typeIcon:"🏢"})),
-    ...allFactories.filter(a=>!isAssetProtected(a,"fabrika")).map(a=>({...a,assetType:"fabrika",typeLabel:"Fabrika",typeIcon:"🏭"})),
+    ...allFactories.filter(a=>!isAssetProtected(a,"atölye")).map(a=>({...a,assetType:"atölye",typeLabel:"Atölye",typeIcon:"🏭"})),
     ...allCompanies.filter(a=>!isAssetProtected(a,"sirket")).map(a=>({...a,assetType:"sirket",typeLabel:"Şirket",typeIcon:"📊"})),
   ];
 
@@ -196,7 +196,7 @@ window.ProtectionDealsScreen = function ProtectionDealsScreen({ cu, gangs, famil
         localStorage.setItem(key, JSON.stringify(upd));
       };
       if(asset.assetType==="holding")  updateAssets("us_empire_holdings",  asset.id);
-      if(asset.assetType==="fabrika")  updateAssets("us_empire_factories", asset.id);
+      if(asset.assetType==="atölye")  updateAssets("us_empire_factories", asset.id);
       if(asset.assetType==="sirket")   updateAssets("us_empire_companies", asset.id);
     } catch(_) {}
     showMsg(`⚔️ ${asset.name} (${asset.familyName}) saldırısı başlatıldı! Tüm oyunculara bildirim gönderildi.`,"success");
@@ -325,7 +325,7 @@ window.ProtectionDealsScreen = function ProtectionDealsScreen({ cu, gangs, famil
                   <option value="weekly" style={{background:"#0a1628"}}>Haftalık Ödeme</option>
                   <option value="monthly" style={{background:"#0a1628"}}>Aylık Ödeme</option>
                 </select>
-                <input className="input-field" type="number" placeholder="Ücret (₺)" value={offerForm.fee} onChange={e=>setOfferForm(p=>({...p,fee:e.target.value}))} />
+                <input className="input-field" type="number" placeholder="Ücret (🪙)" value={offerForm.fee} onChange={e=>setOfferForm(p=>({...p,fee:e.target.value}))} />
                 <button className="btn btn-primary" onClick={createOffer}>📩 Teklif Gönder</button>
               </div>
             </div>

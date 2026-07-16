@@ -5,7 +5,7 @@
 // ═══════════════════════════════════════════════════════
 
 // LedgerValue — rounded pill capsule stat badge (Mayor HUD style)
-function LedgerValue({ value, label, prefix='₺', color, style={} }) {
+function LedgerValue({ value, label, prefix='🪙', color, style={} }) {
   var c = color || (window.DS && window.DS.gold) || '#F0B33E';
   return (
     <div style={{
@@ -133,7 +133,7 @@ function Card({ children, style={}, onClick }) {
     <div
       onClick={onClick}
       style={{
-        background: '#16224A',
+        background: '#2D1800',
         border: '1.5px solid rgba(255,255,255,0.1)',
         borderRadius: (window.DS&&window.DS.radiusLg)||'20px',
         boxShadow: '0 4px 18px rgba(3,6,20,0.4)',
@@ -154,7 +154,7 @@ window.GoldDivider = GoldDivider;
 function SectionTitle({ children, style={} }) {
   return (
     <div style={{
-      fontFamily:"'Syne',sans-serif",
+      fontFamily:"'Cinzel',serif",
       fontWeight:800,
       fontSize:'0.85rem',
       color:'#F2F5FA',

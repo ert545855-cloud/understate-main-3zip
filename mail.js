@@ -93,8 +93,8 @@ ul{color:#94A3B8;padding-left:20px;line-height:2}
 <hr>
 <p style="color:#CBD5E1;font-weight:600;margin-bottom:12px">Başlangıç bonusların:</p>
 <div>
-  <div class="stat"><div class="sn">₺10.000</div><div class="sl">Başlangıç Parası</div></div>
-  <div class="stat"><div class="sn">50 UC</div><div class="sl">UnderCoin</div></div>
+  <div class="stat"><div class="sn">🪙10.000</div><div class="sl">Başlangıç Parası</div></div>
+  <div class="stat"><div class="sn">50 Altın</div><div class="sl">Altın</div></div>
   <div class="stat"><div class="sn">Lv1</div><div class="sl">Seviye</div></div>
 </div>
 <hr>

@@ -28,7 +28,7 @@ function GangPage({ profile, setProfile, showNotif, typeFilter }) {
     if (profile?.party) { showNotif('🏛️ Parti üyeleri çete veya aile kuramazlar. Önce partiden ayrılın.','error'); return; }
     const actualType = typeFilter || gForm.type;
     const cost = actualType==='family' ? 500000 : 100000;
-    if ((profile?.money||0) < cost) { showNotif(`${actualType==='family'?'Aile kurmak için ₺500.000':'Çete kurmak için ₺100.000'} gerekli`,'error'); return; }
+    if ((profile?.money||0) < cost) { showNotif(`${actualType==='family'?'Aile kurmak için 🪙500.000':'Çete kurmak için 🪙100.000'} gerekli`,'error'); return; }
     const gang = {
       id:genId(), name:gForm.name.trim(), type:actualType, desc:gForm.desc,
       leaderId:uid, leaderName:profile?.username,
@@ -196,8 +196,8 @@ function GangPage({ profile, setProfile, showNotif, typeFilter }) {
             )}
             {!myGang && (
               <div style={{marginBottom:'0.75rem'}}>
-                {!isFamily && <Btn variant='danger' size='sm' style={{width:'100%',marginBottom:'0.4rem'}} onClick={()=>{setGForm(p=>({...p,type:'gang'}));setCreateModal(true);}}>⚔️ Çete Kur (₺2 Mlr)</Btn>}
-                {isFamily && <Btn variant='ghost' size='sm' style={{width:'100%'}} onClick={()=>{setGForm(p=>({...p,type:'family'}));setCreateModal(true);}}>👨‍👩‍👧‍👦 Aile Kur (₺5 Mlr)</Btn>}
+                {!isFamily && <Btn variant='danger' size='sm' style={{width:'100%',marginBottom:'0.4rem'}} onClick={()=>{setGForm(p=>({...p,type:'gang'}));setCreateModal(true);}}>⚔️ Çete Kur (🪙2 Mlr)</Btn>}
+                {isFamily && <Btn variant='ghost' size='sm' style={{width:'100%'}} onClick={()=>{setGForm(p=>({...p,type:'family'}));setCreateModal(true);}}>👨‍👩‍👧‍👦 Aile Kur (🪙5 Mlr)</Btn>}
               </div>
             )}
             {filteredGangs.map(gang => (
@@ -348,14 +348,14 @@ function GangPage({ profile, setProfile, showNotif, typeFilter }) {
 
         {sub==='attack' && (
           <div>
-            {[['🥊','Sokak Kavgası',80,'₺500-2.000',500],['🔫','Gasp Girişimi',60,'₺2.000-8.000',3000],['💣','Banka Soygunu',30,'₺20K-100K',10000],['🚗','Araba Hırsızlığı',70,'₺5.000-15.000',2000]].map(([ic,name,rate,earn,fine])=>(
+            {[['🥊','Sokak Kavgası',80,'🪙500-2.000',500],['🔫','Gasp Girişimi',60,'🪙2.000-8.000',3000],['💣','Banka Soygunu',30,'🪙20K-100K',10000],['🚗','Araba Hırsızlığı',70,'🪙5.000-15.000',2000]].map(([ic,name,rate,earn,fine])=>(
               <button key={name} onClick={()=>{
                 const success=Math.random()*100<rate;
                 const amount=success?Math.floor(Math.random()*(rate===30?80000:rate===60?6000:rate===70?10000:1500)+2000):0;
                 const penalty=success?0:fine;
                 setProfile(p=>{const np={...p,money:(p.money||0)+amount-penalty,xp:(p.xp||0)+(success?100:20)};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;});
                 showNotif(success?`🎉 Başarılı! +${fmtWord(amount)}`:`😔 Başarısız! -${fmtWord(penalty)} ceza`,success?'success':'error');
-                if (success && amount >= 20000) { try { window._pushGameEvent?.('suc_basarili', `${ic} ${name}`, `${profile?.username||'Bir çete üyesi'} başarılı! +₺${amount.toLocaleString()} ganimet.`, ic, 'çete'); } catch(e){} }
+                if (success && amount >= 20000) { try { window._pushGameEvent?.('suc_basarili', `${ic} ${name}`, `${profile?.username||'Bir çete üyesi'} başarılı! +🪙${amount.toLocaleString()} ganimet.`, ic, 'çete'); } catch(e){} }
               }}
                 style={{display:'flex',alignItems:'center',gap:'0.75rem',padding:'0.85rem',background:'rgba(20,36,60,0.8)',border:'1px solid rgba(194,75,67,0.15)',borderRadius:'12px',width:'100%',marginBottom:'0.5rem',cursor:'pointer',WebkitTapHighlightColor:'transparent'}}>
                 <span style={{fontSize:'1.5rem',width:'32px',textAlign:'center',flexShrink:0}}>{ic}</span>
@@ -413,7 +413,7 @@ function GangPage({ profile, setProfile, showNotif, typeFilter }) {
         <Modal title="💰 Kasaya Para Yatır" onClose={()=>{setDonateModal(false);setDonateAmt('');}}>
           <div style={{marginBottom:'1rem'}}>
             <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.4rem',fontWeight:700}}>Tutar</div>
-            <input type="number" value={donateAmt} onChange={e=>setDonateAmt(e.target.value)} placeholder="₺ Tutar" style={inpSt} />
+            <input type="number" value={donateAmt} onChange={e=>setDonateAmt(e.target.value)} placeholder="🪙 Tutar" style={inpSt} />
             <div style={{display:'flex',gap:'0.4rem',marginTop:'0.5rem',flexWrap:'wrap'}}>
               {[5000,10000,25000,50000].map(n=><button key={n} onClick={()=>setDonateAmt(String(n))} style={{padding:'0.3rem 0.65rem',borderRadius:'8px',border:'1px solid rgba(237,231,218,0.1)',background:'rgba(237,231,218,0.03)',color:'#8893A1',fontSize:'0.72rem',cursor:'pointer',fontWeight:700}}>{fmtWord(n)}</button>)}
             </div>

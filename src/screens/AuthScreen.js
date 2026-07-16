@@ -216,7 +216,7 @@ function AuthScreen({ onLogin }) {
             method:'POST',
             headers:{'Content-Type':'application/json','Authorization':'Bearer '+data.token},
             body:JSON.stringify({ money:10000, bank:5000, level:1, xp:0,
-              city:f.city||'İstanbul', under_coin:50, health:100,
+              city:f.city||'İstanbul', altin:50, health:100,
               stats:profile.stats, inventory:{}, achievements:[] })
           });
         } catch(_) {}
@@ -295,7 +295,7 @@ function AuthScreen({ onLogin }) {
         <div style={{position:'relative',zIndex:2,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',minHeight:'100dvh',padding:'2rem 1rem'}}>
           <div style={{width:'100%',maxWidth:'420px',background:'rgba(27,33,43,0.92)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'10px',padding:'2rem 1.5rem',backdropFilter:'blur(24px)',boxShadow:'0 24px 80px rgba(0,0,0,0.7)',textAlign:'center'}}>
             <div style={{fontSize:'3rem',marginBottom:'0.75rem'}}>📧</div>
-            <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.15rem',fontWeight:800,color:'#C9A227',marginBottom:'0.5rem',letterSpacing:'0.04em'}}>E-POSTANI DOĞRULA</div>
+            <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.15rem',fontWeight:800,color:'#C9A227',marginBottom:'0.5rem',letterSpacing:'0.04em'}}>E-POSTANI DOĞRULA</div>
             <div style={{color:'#8893A1',fontSize:'0.85rem',lineHeight:1.6,marginBottom:'1.5rem'}}>
               <span style={{color:'#EDE7DA',fontWeight:600}}>{profile.email}</span> adresine bir doğrulama bağlantısı gönderdik.<br/>
               Maili açıp bağlantıya tıkladıktan sonra giriş yapabilirsin.
@@ -348,7 +348,7 @@ function AuthScreen({ onLogin }) {
           <div style={{display:'flex',justifyContent:'center',marginBottom:'0.5rem'}}>
             <img src="saltanat-icon.png" alt="Saltanat Online" style={{width:'clamp(90px,22vw,140px)',height:'clamp(90px,22vw,140px)',objectFit:'contain',borderRadius:'20%',boxShadow:'0 0 40px rgba(201,162,39,0.4)',border:'2px solid rgba(201,162,39,0.25)'}} />
           </div>
-          <div style={{fontFamily:"'Syne',sans-serif",fontSize:'clamp(1.4rem,5vw,2.2rem)',fontWeight:900,letterSpacing:'0.15em',color:'#EDE7DA',textShadow:'0 2px 24px rgba(0,0,0,0.8)',textTransform:'uppercase',marginBottom:'0.4rem'}}>
+          <div style={{fontFamily:"'Cinzel',serif",fontSize:'clamp(1.4rem,5vw,2.2rem)',fontWeight:900,letterSpacing:'0.15em',color:'#EDE7DA',textShadow:'0 2px 24px rgba(0,0,0,0.8)',textTransform:'uppercase',marginBottom:'0.4rem'}}>
             SALTANAT ONLİNE
           </div>
           {/* Animated loading bar */}
@@ -363,7 +363,7 @@ function AuthScreen({ onLogin }) {
         {/* Panel — full width on mobile */}
         <div style={{width:'100%',maxWidth:'480px',padding:'0 1rem'}}>
           <form onSubmit={e=>{e.preventDefault();tab==='login'?doLogin():doRegister();}} autoComplete="on">
-          <div style={{background:'rgba(9,14,24,0.93)',border:'1px solid rgba(201,162,39,0.16)',borderRadius:'20px',padding:'1.85rem 1.6rem',backdropFilter:'blur(30px)',WebkitBackdropFilter:'blur(30px)',boxShadow:'0 28px 80px rgba(0,0,0,0.75), 0 0 0 1px rgba(201,162,39,0.06), inset 0 1px 0 rgba(255,255,255,0.05)'}}>
+          <div style={{background:'rgba(30,15,0,0.93)',border:'1px solid rgba(201,162,39,0.16)',borderRadius:'20px',padding:'1.85rem 1.6rem',backdropFilter:'blur(30px)',WebkitBackdropFilter:'blur(30px)',boxShadow:'0 28px 80px rgba(0,0,0,0.75), 0 0 0 1px rgba(201,162,39,0.06), inset 0 1px 0 rgba(255,255,255,0.05)'}}>
 
             {/* Tabs */}
             <div style={{display:'flex',gap:'8px',marginBottom:'1.5rem'}}>
@@ -420,7 +420,7 @@ function AuthScreen({ onLogin }) {
             </>}
 
             <button type="submit" disabled={loading}
-              style={{width:'100%',padding:'1.05rem',borderRadius:'12px',border:'none',background:loading?'rgba(201,162,39,0.25)':'linear-gradient(135deg,#D4AC2E,#C9A227,#B0891A)',color:loading?'rgba(255,255,255,0.5)':'#0A0800',fontFamily:"'Syne',sans-serif",fontWeight:900,fontSize:'1rem',letterSpacing:'0.14em',cursor:loading?'not-allowed':'pointer',transition:'all 0.2s ease',textTransform:'uppercase',boxShadow:loading?'none':'0 6px 28px rgba(201,162,39,0.45), inset 0 1px 0 rgba(255,255,255,0.2)',display:'flex',alignItems:'center',justifyContent:'center',gap:'0.5rem'}}>
+              style={{width:'100%',padding:'1.05rem',borderRadius:'12px',border:'none',background:loading?'rgba(201,162,39,0.25)':'linear-gradient(135deg,#D4AC2E,#C9A227,#B0891A)',color:loading?'rgba(255,255,255,0.5)':'#0A0800',fontFamily:"'Cinzel',serif",fontWeight:900,fontSize:'1rem',letterSpacing:'0.14em',cursor:loading?'not-allowed':'pointer',transition:'all 0.2s ease',textTransform:'uppercase',boxShadow:loading?'none':'0 6px 28px rgba(201,162,39,0.45), inset 0 1px 0 rgba(255,255,255,0.2)',display:'flex',alignItems:'center',justifyContent:'center',gap:'0.5rem'}}>
               {loading ? <>
                 <div style={{width:'18px',height:'18px',border:'2.5px solid rgba(255,255,255,0.2)',borderTopColor:'rgba(255,255,255,0.7)',borderRadius:'50%',animation:'spin 0.7s linear infinite'}} />
                 <span>Lütfen bekleyin...</span>
@@ -465,7 +465,7 @@ function AuthScreen({ onLogin }) {
           <div style={{background:'#1B212B',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'14px',padding:'1.75rem 1.5rem',width:'100%',maxWidth:'380px',boxShadow:'0 24px 64px rgba(0,0,0,0.6)'}}>
             <div style={{textAlign:'center',marginBottom:'1.25rem'}}>
               <div style={{fontSize:'2rem',marginBottom:'0.35rem'}}>🔑</div>
-              <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,color:'#EDE7DA',fontSize:'1.2rem',marginBottom:'0.25rem'}}>Şifremi Unuttum</div>
+              <div style={{fontFamily:"'Cinzel',serif",fontWeight:800,color:'#EDE7DA',fontSize:'1.2rem',marginBottom:'0.25rem'}}>Şifremi Unuttum</div>
               <div style={{fontSize:'0.78rem',color:'#8893A1'}}>E-posta adresinize sıfırlama bağlantısı göndereceğiz</div>
             </div>
             {forgotMsg && (
@@ -488,7 +488,7 @@ function AuthScreen({ onLogin }) {
                 setForgotMsg(d.success?'✅ Sıfırlama bağlantısı gönderildi! E-postanı kontrol et.':'⚠️ '+(d.message||'Hata oluştu'));
               }catch{setForgotMsg('⚠️ Bağlantı hatası');}
               setForgotLoading(false);
-            }} style={{width:'100%',padding:'0.85rem',borderRadius:'10px',border:'none',background:forgotLoading?'rgba(201,162,39,0.25)':'#C9A227',color:'#11151C',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.95rem',cursor:forgotLoading?'not-allowed':'pointer',marginBottom:'0.5rem',transition:'all 0.2s'}}>
+            }} style={{width:'100%',padding:'0.85rem',borderRadius:'10px',border:'none',background:forgotLoading?'rgba(201,162,39,0.25)':'#C9A227',color:'#0F0800',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.95rem',cursor:forgotLoading?'not-allowed':'pointer',marginBottom:'0.5rem',transition:'all 0.2s'}}>
               {forgotLoading ? 'Gönderiliyor...' : '📨 Bağlantı Gönder'}
             </button>
             <button onClick={()=>setShowForgot(false)} style={{width:'100%',padding:'0.65rem',borderRadius:'10px',border:'1px solid rgba(237,231,218,0.08)',background:'transparent',color:'#8893A1',fontFamily:"'Inter',sans-serif",fontWeight:600,fontSize:'0.9rem',cursor:'pointer'}}>
@@ -504,7 +504,7 @@ function AuthScreen({ onLogin }) {
           <div style={{background:'#1B212B',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'14px',padding:'1.75rem 1.5rem',width:'100%',maxWidth:'380px',boxShadow:'0 24px 64px rgba(0,0,0,0.6)'}}>
             <div style={{textAlign:'center',marginBottom:'1.25rem'}}>
               <div style={{fontSize:'2rem',marginBottom:'0.35rem'}}>🔒</div>
-              <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,color:'#EDE7DA',fontSize:'1.2rem',marginBottom:'0.25rem'}}>Yeni Şifre Belirle</div>
+              <div style={{fontFamily:"'Cinzel',serif",fontWeight:800,color:'#EDE7DA',fontSize:'1.2rem',marginBottom:'0.25rem'}}>Yeni Şifre Belirle</div>
               <div style={{fontSize:'0.78rem',color:'#8893A1'}}>Güçlü bir şifre seçin (min 8 karakter)</div>
             </div>
             {resetMsg && (
@@ -533,7 +533,7 @@ function AuthScreen({ onLogin }) {
                 else setResetMsg('⚠️ '+(d.message||'Hata oluştu'));
               }catch{setResetMsg('⚠️ Bağlantı hatası');}
               setResetLoading(false);
-            }} style={{width:'100%',padding:'0.85rem',borderRadius:'10px',border:'none',background:resetLoading?'rgba(201,162,39,0.3)':'#C9A227',color:'#11151C',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.95rem',cursor:resetLoading?'not-allowed':'pointer',marginBottom:'0.5rem',transition:'all 0.2s'}}>
+            }} style={{width:'100%',padding:'0.85rem',borderRadius:'10px',border:'none',background:resetLoading?'rgba(201,162,39,0.3)':'#C9A227',color:'#0F0800',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.95rem',cursor:resetLoading?'not-allowed':'pointer',marginBottom:'0.5rem',transition:'all 0.2s'}}>
               {resetLoading ? 'Güncelleniyor...' : '🔒 Şifreyi Kaydet'}
             </button>
             <button onClick={()=>setShowReset(false)} style={{width:'100%',padding:'0.65rem',borderRadius:'10px',border:'1px solid rgba(237,231,218,0.08)',background:'transparent',color:'#8893A1',fontFamily:"'Inter',sans-serif",fontWeight:600,fontSize:'0.9rem',cursor:'pointer'}}>

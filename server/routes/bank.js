@@ -120,7 +120,7 @@ router.post('/transfer', authMiddleware, async (req, res) => {
     const fee      = Math.max(100, Math.floor(amount * TRANSFER_FEE));
     const totalOut = amount + fee;
     if ((sender.money || 0) < totalOut)
-      return res.status(400).json({ success: false, message: `Yetersiz nakit (gerekli: ${totalOut.toLocaleString('tr-TR')} ₺ + komisyon)` });
+      return res.status(400).json({ success: false, message: `Yetersiz nakit (gerekli: ${totalOut.toLocaleString('tr-TR')} 🪙 + komisyon)` });
     await db.query('UPDATE users SET money=money-$1, updated_at=NOW() WHERE id=$2', [totalOut, req.user.id]);
     await db.query('UPDATE users SET money=money+$1, updated_at=NOW() WHERE id=$2', [amount, receiver.id]);
     // Transfer kaydı varsa kaydet
@@ -134,7 +134,7 @@ router.post('/transfer', authMiddleware, async (req, res) => {
       if (sender.socket_id) io.to(sender.socket_id).emit('profileUpdate', { money: (sender.money || 0) - totalOut });
       if (receiver.socket_id) io.to(receiver.socket_id).emit('moneyReceived', {
         from: sender.username, amount, fee,
-        message: `💸 ${sender.username}'den ${amount.toLocaleString('tr-TR')} ₺ aldınız`,
+        message: `💸 ${sender.username}'den ${amount.toLocaleString('tr-TR')} 🪙 aldınız`,
       });
     }
     res.json({ success: true, sent: amount, fee, toUsername: receiver.username });

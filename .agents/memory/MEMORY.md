@@ -6,8 +6,9 @@
 - [Ottoman Eyalet System](ottoman-eyalet.md) — 29 Ottoman provinces in OttomanEyaletScreen.js; window.OttomanEyaletScreen + window.VaililikEkrani; vali data stored in rep_valiVerisi localStorage; nav ids: eyalet_harita, valilik.
 - [Ammo (Mermi) System](ammo-system.md) — gang.ammo field; 3 types (standart/agir/ap); power = base + weapons*5 + ammo*3.
 - [Factory Devlet/Ozel Split](factory-split.md) — DEVLET_TYPES (cheaper, stable) vs OZEL_TYPES (expensive, higher income); mermi factory included in both.
-- [Design System v2 Palette](design-system-v2.md) — bg=#11151C, surface=#1B212B, gold=#C9A227, text=#EDE7DA, muted=#8893A1, success=#4C9A6B, error=#C24B43. --violet kept for VIP/election badge only.
+- [Design System v11 Palette](design-system-v2.md) — bg=#0F1115, surface=#1B1E25, gold=#C89B3C, text=#F5EBD7, muted=#A9A6A0, success=#3E8C5A, error=#B8423C. Cinzel serif for headings (replaced Syne). DS.radius=16px.
 - [i18n Architecture](i18n-arch.md) — window.LANG_TR/EN/AZ/DE set by src/i18n/*.js; window.i18n.t(key,lang) is the runtime source of truth; useT() delegates to window.i18n.t with TRANSLATIONS fallback.
+- [Currency System](currency-system.md) — ₺ replaced with 🪙 (Sikke); UnderCoin/UC replaced with Altın/⚜️; profile.money=Sikke, profile.altin/underCoin=Altın; fmtAltin() shows ⚜️ suffix.
 - [PoliticsPage Meclis](politics-meclis.md) — meclis sub-tab removed from PoliticsScreen; standalone PartyCenterScreen.js routed as party_center in Devlet nav.
 - [Score Calculation](score-calc.md) — calcScore(p) in app.js; useEffect auto-updates profile.score on level/xp/money/merits/edu changes.
 - [DB Proper Tables](db-proper-tables.md) — gangs/parties/alliances use SQL tables, not game_state KV; getFullGameState wantedKeys excludes these three.

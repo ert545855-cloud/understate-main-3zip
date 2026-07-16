@@ -52,7 +52,7 @@ function userToPublic(u) {
     xp:               u.xp,
     money:            u.money,
     bankMoney:        u.bank_money,
-    underCoin:        u.under_coin,
+    underCoin:        u.altin,
     hp:               u.hp,
     score:            u.score,
     creditScore:      u.credit_score,

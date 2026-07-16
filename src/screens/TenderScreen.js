@@ -15,7 +15,7 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
 
   const jwt = () => localStorage.getItem('us_jwt') || '';
   const showMsg = (text, type="info") => { setMsg({text,type}); setTimeout(()=>setMsg(null),3500); };
-  const fmtMoney = (n) => { if(!n)return "₺0"; if(n>=1e9)return "₺"+(n/1e9).toFixed(1)+"Mlr"; if(n>=1e6)return "₺"+(n/1e6).toFixed(1)+"M"; if(n>=1e3)return "₺"+(n/1e3).toFixed(0)+"K"; return "₺"+n; };
+  const fmtMoney = (n) => { if(!n)return "🪙0"; if(n>=1e9)return "🪙"+(n/1e9).toFixed(1)+"Mlr"; if(n>=1e6)return "🪙"+(n/1e6).toFixed(1)+"M"; if(n>=1e3)return "🪙"+(n/1e3).toFixed(0)+"K"; return "🪙"+n; };
   const fmtTime  = (ms) => { if(ms<=0)return "Süresi Doldu"; const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000); return h>0?`${h}s ${m}dk`:`${m}dk`; };
 
   // Tick için sayaç (kalan süre güncelleme)
@@ -49,12 +49,12 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
 
   const now = Date.now();
   const fams = Array.isArray(families) ? families : [];
-  const isPresident  = cu?.position==="Devlet Başkanı" || cu?.role==="admin";
+  const isPadisah  = cu?.position==="Padişah" || cu?.role==="admin";
   const isFamilyLeader = fams.some(f=>f.leader===cu?.username);
   const userFamily   = fams.find(f=>f.leader===cu?.username||(Array.isArray(f.members)&&f.members.includes(cu?.username)));
 
   const relayTender = async (poolItem) => {
-    if (!isPresident) return showMsg("Sadece Devlet Başkanı ihale iletebilir", "error");
+    if (!isPadisah) return showMsg("Sadece Padişah ihale iletebilir", "error");
     setLoading(true);
     try {
       const res = await fetch('/api/tender/relay', {
@@ -68,7 +68,7 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
       setPool(data.pool || []);
       showMsg(`✅ "${poolItem.title}" ihalesi duyuruldu!`, "success");
       setTab("list");
-      try { window._pushGameEvent?.('ihale_duyuruldu', `🏗️ İhale: ${poolItem.title}`, `Devlet Başkanı ${cu.username} yeni ihale açtı. Taban: ${fmtMoney(poolItem.startBid||0)}`, '🏗️', 'ihale'); } catch(e){}
+      try { window._pushGameEvent?.('ihale_duyuruldu', `🏗️ İhale: ${poolItem.title}`, `Padişah ${cu.username} yeni ihale açtı. Taban: ${fmtMoney(poolItem.startBid||0)}`, '🏗️', 'ihale'); } catch(e){}
     } catch { showMsg('Bağlantı hatası', 'error'); }
     finally { setLoading(false); }
   };
@@ -123,11 +123,11 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
     <div>
       <div className="ministry-header">🏗️ Devlet İhaleleri</div>
       <p style={{fontSize:"0.82rem",color:"#6B7C93",marginBottom:"0.6rem"}}>
-        İhaleler sistem tarafından otomatik oluşturulur. <strong style={{color:"#C9A227"}}>Devlet Başkanı ihaleleri duyurur</strong>, aileler teklif verir, kazanan projeyi üstlenir.
+        İhaleler sistem tarafından otomatik oluşturulur. <strong style={{color:"#C9A227"}}>Padişah ihaleleri duyurur</strong>, aileler teklif verir, kazanan projeyi üstlenir.
       </p>
 
       <div style={{background:"rgba(99,102,241,0.08)",border:"1px solid rgba(99,102,241,0.2)",borderRadius:10,padding:"0.55rem 0.75rem",marginBottom:"0.75rem",fontSize:"0.75rem",color:"#818CF8",lineHeight:1.5}}>
-        ℹ️ Tüm teklifler <strong>gerçek zamanlı</strong> senkronize edilir. Devlet Başkanı kendi ihalesi <strong>oluşturamaz</strong> — sistem havuzundaki ihaleleri duyurur.
+        ℹ️ Tüm teklifler <strong>gerçek zamanlı</strong> senkronize edilir. Padişah kendi ihalesi <strong>oluşturamaz</strong> — sistem havuzundaki ihaleleri duyurur.
       </div>
 
       {msg&&(
@@ -139,7 +139,7 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
       <div style={{display:"flex",gap:"0.4rem",overflowX:"auto",paddingBottom:"0.5rem",marginBottom:"0.75rem",scrollbarWidth:"none"}}>
         {tabBtn("list","Aktif İhaleler","📋")}
         {tabBtn("my","İhalelerim","🏆")}
-        {isPresident && tabBtn("relay","Duyur","📢")}
+        {isPadisah && tabBtn("relay","Duyur","📢")}
       </div>
 
       {/* AKTİF İHALELER */}
@@ -149,7 +149,7 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
             <div style={{...card,textAlign:"center",padding:"2rem"}}>
               <div style={{fontSize:"2rem",marginBottom:"0.5rem"}}>🏗️</div>
               <div style={{color:"#5E7390",fontSize:"0.85rem",marginBottom:"0.5rem"}}>Henüz duyurulan ihale yok.</div>
-              <div style={{color:"#8893A1",fontSize:"0.75rem"}}>Devlet Başkanı sistem havuzundan ihale duyurduğunda burada görünür.</div>
+              <div style={{color:"#8893A1",fontSize:"0.75rem"}}>Padişah sistem havuzundan ihale duyurduğunda burada görünür.</div>
             </div>
           )}
           {tenders.map(tender=>{
@@ -199,7 +199,7 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
                     </button>
                   </div>
                 )}
-                {isOpen && !isFamilyLeader && !isPresident && (
+                {isOpen && !isFamilyLeader && !isPadisah && (
                   <div style={{fontSize:"0.72rem",color:"#5E7390",padding:"0.35rem 0"}}>🏠 Teklif vermek için aile lideri olmanız gerekiyor.</div>
                 )}
                 {isWinner && tender.status==="active" && (
@@ -252,10 +252,10 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
       )}
 
       {/* DEVLET BAŞKANI — SİSTEM İHALESİ DUYUR */}
-      {tab==="relay" && isPresident && (
+      {tab==="relay" && isPadisah && (
         <div>
           <div style={{...card,border:"1px solid rgba(201,162,39,0.3)",marginBottom:"0.75rem"}}>
-            <div style={{fontWeight:700,color:"#C9A227",fontSize:"0.85rem",marginBottom:"0.5rem"}}>📢 Devlet Başkanı İhale İletme Paneli</div>
+            <div style={{fontWeight:700,color:"#C9A227",fontSize:"0.85rem",marginBottom:"0.5rem"}}>📢 Padişah İhale İletme Paneli</div>
             <p style={{fontSize:"0.78rem",color:"#8BA0B5",lineHeight:1.5,margin:"0 0 0.65rem 0"}}>
               Sistem tarafından hazırlanmış ihalelerden birini seçip duyurun. İhaleyi kendiniz oluşturamazsınız.
             </p>

@@ -6,7 +6,7 @@ function SpyPage({ profile, setProfile, showNotif }) {
   const [spyCooldown, setSpyCooldown] = useLs('spyCooldown', {});
   const [tab, setTab] = useState('ops');
   const { dark } = useTheme();
-  const bg = dark ? '#0F172A' : '#F8FAFC';
+  const bg = dark ? '#1A0E00' : '#F8FAFC';
   const cu = profile || {};
   const now = Date.now();
 
@@ -29,7 +29,7 @@ function SpyPage({ profile, setProfile, showNotif }) {
       setSpyOps(prev => [entry, ...prev].slice(0, 30));
       setProfile(prev => ({ ...prev, money:data.newMoney, meritPoints:data.newMerits, merit_points:data.newMerits }));
       localStorage.setItem('rep_userProfile', JSON.stringify({ ...cu, money:data.newMoney, meritPoints:data.newMerits }));
-      if (data.success) showNotif(`✅ ${op?.name||'Operasyon'} başarılı! +₺${data.moneyDelta?.toLocaleString()} +${data.merit}🏅`, 'success');
+      if (data.success) showNotif(`✅ ${op?.name||'Operasyon'} başarılı! +🪙${data.moneyDelta?.toLocaleString()} +${data.merit}🏅`, 'success');
       else              showNotif(`💔 ${op?.name||'Operasyon'} başarısız! Ajan ele geçirildi.`, 'error');
     };
     sock.on('spy:result', onResult);
@@ -41,7 +41,7 @@ function SpyPage({ profile, setProfile, showNotif }) {
     const last = spyCooldown[uid+'_'+op.id] || 0;
     const rem  = op.cd - (now - last);
     if (rem > 0) { showNotif(`⏳ ${op.name} için ${Math.ceil(rem/3600000)}sa bekle!`, 'error'); return; }
-    if ((cu.money||0) < op.cost) { showNotif(`❌ ₺${op.cost.toLocaleString()} gerekli!`, 'error'); return; }
+    if ((cu.money||0) < op.cost) { showNotif(`❌ 🪙${op.cost.toLocaleString()} gerekli!`, 'error'); return; }
     const sock = window._socket;
     if (!sock?.connected) { showNotif('❌ Sunucuya bağlı değilsiniz', 'error'); return; }
     setSpyCooldown(prev => ({ ...prev, [uid+'_'+op.id]: now }));
@@ -50,7 +50,7 @@ function SpyPage({ profile, setProfile, showNotif }) {
 
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>
-      <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#C9A227',marginBottom:'1rem'}}>🕵️ İstihbarat Servisi</div>
+      <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.3rem',fontWeight:900,color:'#C9A227',marginBottom:'1rem'}}>🕵️ İstihbarat Servisi</div>
       <div style={{display:'flex',gap:'0.4rem',marginBottom:'1rem'}}>
         {[{k:'ops',l:'🕵️ Operasyonlar'},{k:'log',l:'📋 Geçmiş'}].map(t=>(
           <button key={t.k} onClick={()=>setTab(t.k)} style={{padding:'0.4rem 1rem',borderRadius:'2rem',border:`1px solid ${tab===t.k?'#C9A227':'rgba(255,255,255,0.12)'}`,background:tab===t.k?'rgba(201,162,39,0.12)':'transparent',color:tab===t.k?'#C9A227':'#999',cursor:'pointer',fontWeight:tab===t.k?700:400,fontSize:'0.83rem',fontFamily:'inherit'}}>{t.l}</button>
@@ -71,8 +71,8 @@ function SpyPage({ profile, setProfile, showNotif }) {
                   <span style={{fontWeight:700,fontSize:'0.9rem'}}>{op.name}</span>
                 </div>
                 <div style={{textAlign:'right',fontSize:'0.72rem',color:'#888'}}>
-                  <div>Maliyet: ₺{op.cost.toLocaleString()}</div>
-                  <div style={{color:'#4C9A6B'}}>Ödül: ₺{op.reward.money.toLocaleString()}</div>
+                  <div>Maliyet: 🪙{op.cost.toLocaleString()}</div>
+                  <div style={{color:'#4C9A6B'}}>Ödül: 🪙{op.reward.money.toLocaleString()}</div>
                 </div>
               </div>
               <div style={{fontSize:'0.75rem',color:'#888',marginBottom:'0.5rem'}}>{op.desc}</div>
@@ -98,7 +98,7 @@ function SpyPage({ profile, setProfile, showNotif }) {
             </div>
             <div style={{textAlign:'right'}}>
               <div style={{fontWeight:700,color:op.result==='success'?'#4C9A6B':'#C24B43',fontSize:'0.82rem'}}>{op.result==='success'?'✅ Başarılı':'💔 Başarısız'}</div>
-              {op.reward&&<div style={{fontSize:'0.68rem',color:'#4C9A6B'}}>+₺{op.reward.money?.toLocaleString()}</div>}
+              {op.reward&&<div style={{fontSize:'0.68rem',color:'#4C9A6B'}}>+🪙{op.reward.money?.toLocaleString()}</div>}
             </div>
           </div>
         ))}

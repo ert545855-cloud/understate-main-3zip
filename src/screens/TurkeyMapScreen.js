@@ -241,7 +241,7 @@ window.TurkeyMapScreen = function TurkeyMapScreen({ profile, gangs, families, sh
       if (!myFamily) return showNotif('Aileniz yok', 'error');
       const fams = JSON.parse(localStorage.getItem('rep_families') || '[]');
       const fam = fams.find(f => f.id === myFamily.id);
-      if ((fam?.treasury || 0) < cost) return showNotif(`Kasada en az ₺${(cost / 1e6).toFixed(0)}M gerekli`, 'error');
+      if ((fam?.treasury || 0) < cost) return showNotif(`Kasada en az 🪙${(cost / 1e6).toFixed(0)}M gerekli`, 'error');
       const updated = fams.map(f => f.id === myFamily.id ? { ...f, treasury: (f.treasury || 0) - cost } : f);
       localStorage.setItem('rep_families', JSON.stringify(updated));
     } else {
@@ -304,7 +304,7 @@ window.TurkeyMapScreen = function TurkeyMapScreen({ profile, gangs, families, sh
   return (
     <div style={{ padding: '0.75rem' }}>
       {/* Header */}
-      <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 900, fontSize: '1.15rem', color: '#C9A227', marginBottom: '0.75rem', letterSpacing: '0.04em' }}>
+      <div style={{ fontFamily: "'Cinzel',serif", fontWeight: 900, fontSize: '1.15rem', color: '#C9A227', marginBottom: '0.75rem', letterSpacing: '0.04em' }}>
         🗺️ Türkiye Bölge Haritası
       </div>
 
@@ -391,7 +391,7 @@ window.TurkeyMapScreen = function TurkeyMapScreen({ profile, gangs, families, sh
                   {myFamily && (
                     <button className="btn btn-primary" style={{ width: '100%' }}
                       onClick={() => claimProvince(selected.name, myFamily.name, 'family', '#C9A227')}>
-                      👨‍👩‍👧 Aile Adına Talep Et (₺2M kasadan)
+                      👨‍👩‍👧 Aile Adına Talep Et (🪙2M kasadan)
                     </button>
                   )}
                   {myGang && (
@@ -410,11 +410,11 @@ window.TurkeyMapScreen = function TurkeyMapScreen({ profile, gangs, families, sh
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.4rem' }}>
                     <button className="btn btn-primary" style={{ fontSize: '0.78rem' }}
                       onClick={() => investProvince(selected.name, 'security')}>
-                      🛡️ Güvenlik +10 (₺500K)
+                      🛡️ Güvenlik +10 (🪙500K)
                     </button>
                     <button className="btn btn-primary" style={{ fontSize: '0.78rem' }}
                       onClick={() => investProvince(selected.name, 'welfare')}>
-                      💚 Refah +10 (₺300K)
+                      💚 Refah +10 (🪙300K)
                     </button>
                   </div>
                   <button onClick={() => releaseProvince(selected.name)}

@@ -4,7 +4,7 @@ const logger = require('../utils/logger');
 const notif  = require('./notificationService');
 
 const BILL_DURATION_HOURS = 48;
-const CAMPAIGN_VOTE_COST  = 10000; // 10k₺ per 1% vote boost, max 10%
+const CAMPAIGN_VOTE_COST  = 10000; // 10k🪙 per 1% vote boost, max 10%
 
 // ── Bills ────────────────────────────────────────────────────────────────────
 async function proposeBill(userId, { title, description, billType = 'law', metadata = {} }) {
@@ -101,7 +101,7 @@ async function getBills({ status, page = 1, limit = 20 } = {}) {
 async function spendCampaign(userId, { electionId, campaignType, amount }) {
   if (!db.isReady()) return { ok: false };
   amount = parseInt(amount);
-  if (amount < 1000) return { ok: false, message: 'Minimum kampanya harcaması 1.000₺' };
+  if (amount < 1000) return { ok: false, message: 'Minimum kampanya harcaması 1.000🪙' };
 
   const { rows: u } = await db.query(
     `SELECT money, game_data FROM users WHERE id=$1`, [userId]

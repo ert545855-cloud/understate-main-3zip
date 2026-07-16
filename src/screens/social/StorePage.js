@@ -39,7 +39,7 @@ function StorePage({ profile, setProfile, showNotif }) {
       if (d.success) {
         const total = pkg.uc + (pkg.bonus || 0);
         setProfile(p => { const np={...p, underCoin:(p.underCoin||0)+total}; localStorage.setItem('rep_userProfile',JSON.stringify(np)); return np; });
-        showNotif(`✅ ${total} UC hesabına yüklendi!`, 'success');
+        showNotif(`✅ ${total} Altın hesabına yüklendi!`, 'success');
         setHistory(prev => [{ package_id:pkg.id, uc_amount:total, price_tl:pkg.price, status:'completed', created_at:new Date().toISOString() }, ...prev].slice(0,20));
       } else {
         showNotif(d.message || 'Satın alma başarısız', 'error');
@@ -74,20 +74,20 @@ function StorePage({ profile, setProfile, showNotif }) {
   };
   const vipPlans = [
     { id:'vip_30',  label:'Aylık VIP',  price:49.99,  days:30,  badge:'⭐', popular:true, features:['💎 VIP çerçeve','⚡ +50% XP','📈 %2 banka faizi','🎁 Özel rozet'] },
-    { id:'vip_90',  label:'3 Aylık VIP', price:129.99, days:90,  badge:'💎', save:'%14 Tasarruf', features:['💎 VIP çerçeve','⚡ +50% XP','📈 %2 banka faizi','🪙 Aylık 100 UC'] },
-    { id:'vip_365', label:'Yıllık VIP',  price:399.99, days:365, badge:'👑', save:'%25 Tasarruf', features:['💎 VIP çerçeve','⚡ +50% XP','📈 %2 banka faizi','🪙 Aylık 150 UC','🏆 Yıllık rozet'] },
+    { id:'vip_90',  label:'3 Aylık VIP', price:129.99, days:90,  badge:'💎', save:'%14 Tasarruf', features:['💎 VIP çerçeve','⚡ +50% XP','📈 %2 banka faizi','🪙 Aylık 100 Altın'] },
+    { id:'vip_365', label:'Yıllık VIP',  price:399.99, days:365, badge:'👑', save:'%25 Tasarruf', features:['💎 VIP çerçeve','⚡ +50% XP','📈 %2 banka faizi','🪙 Aylık 150 Altın','🏆 Yıllık rozet'] },
   ];
   return (
     <div style={{padding:'0.7rem'}}>
       <div style={{background:'linear-gradient(135deg,#0f0c29,#302b63,#24243e)',border:'1px solid rgba(236,72,153,0.3)',borderRadius:'14px',padding:'1.25rem',textAlign:'center',marginBottom:'0.75rem'}}>
         <div style={{fontSize:'2rem',marginBottom:'0.4rem'}}>🛒</div>
-        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.2rem',fontWeight:900,color:'#EDE7DA'}}>SALTANAT MARKET</div>
-        <div style={{fontSize:'0.72rem',color:'#EDE7DA',marginTop:'0.25rem'}}>VIP üyelik ve UnderCoin satın al</div>
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.2rem',fontWeight:900,color:'#EDE7DA'}}>SALTANAT MARKET</div>
+        <div style={{fontSize:'0.72rem',color:'#EDE7DA',marginTop:'0.25rem'}}>VIP üyelik ve Altın satın al</div>
         {profile?.premium && <div style={{marginTop:'0.5rem',display:'inline-block',background:'rgba(167,139,250,0.2)',border:'1px solid rgba(201,162,39,0.35)',borderRadius:'8px',padding:'0.25rem 0.75rem',fontSize:'0.7rem',color:'#C9A227',fontWeight:700}}>✅ Aktif VIP Üye</div>}
       </div>
 
       <div style={{display:'flex',gap:'4px',marginBottom:'0.75rem'}}>
-        {[['uc','🪙 UnderCoin'],['vip','💎 VIP'],['edu','📚 Eğitim']].map(([id,lbl])=>(
+        {[['uc','🪙 Altın'],['vip','💎 VIP'],['edu','📚 Eğitim']].map(([id,lbl])=>(
           <button key={id} onClick={()=>setTab(id)}
             style={{flex:1,padding:'0.5rem',borderRadius:'10px',border:`1px solid ${tab===id?'rgba(236,72,153,0.5)':'rgba(255,255,255,0.08)'}`,background:tab===id?'rgba(236,72,153,0.12)':'rgba(255,255,255,0.03)',color:tab===id?'#F472B6':'#8893A1',fontWeight:700,fontSize:'0.78rem',cursor:'pointer'}}>
             {lbl}
@@ -97,18 +97,18 @@ function StorePage({ profile, setProfile, showNotif }) {
 
       {tab==='uc' && (
         <div>
-          <div style={{fontSize:'0.7rem',color:'#8893A1',marginBottom:'0.5rem',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.07em'}}>🪙 UnderCoin Paketleri</div>
+          <div style={{fontSize:'0.7rem',color:'#8893A1',marginBottom:'0.5rem',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.07em'}}>🪙 Altın Paketleri</div>
           <div style={{background:'rgba(76,154,107,0.06)',border:'1px solid rgba(76,154,107,0.2)',borderRadius:'12px',padding:'0.65rem',marginBottom:'0.65rem',fontSize:'0.72rem',color:'#4C9A6B'}}>
-            💡 UnderCoin (UC), oyun içi özel para birimidir. Kozmetikler, avantajlar ve premium özellikler için kullanılır.
+            💡 Altın (UC), oyun içi özel para birimidir. Kozmetikler, avantajlar ve premium özellikler için kullanılır.
           </div>
-          <div style={{fontSize:'0.7rem',color:'#8893A1',marginBottom:'0.4rem'}}>Mevcut UC: <span style={{color:'#C9A227',fontWeight:700}}>{profile?.underCoin||0} UC</span></div>
+          <div style={{fontSize:'0.7rem',color:'#8893A1',marginBottom:'0.4rem'}}>Mevcut Altın: <span style={{color:'#C9A227',fontWeight:700}}>{profile?.underCoin||0} Altın</span></div>
           {UC_PACKAGES.map(pkg => (
             <div key={pkg.id} style={{...card,border:`1px solid ${pkg.popular?'rgba(201,162,39,0.4)':'rgba(255,255,255,0.07)'}`,background:pkg.popular?'linear-gradient(135deg,rgba(201,162,39,0.08),rgba(11,21,39,0.9))':'rgba(11,21,39,0.9)'}}>
               <div style={{display:'flex',alignItems:'center',gap:'0.75rem'}}>
                 <div style={{fontSize:'1.6rem',width:'40px',textAlign:'center',flexShrink:0}}>{pkg.badge}</div>
                 <div style={{flex:1}}>
-                  <div style={{fontWeight:800,color:'#EDE7DA',fontSize:'0.9rem'}}>{pkg.uc.toLocaleString('tr-TR')} UC {pkg.bonus>0 && <span style={{color:'#4C9A6B',fontSize:'0.72rem',fontWeight:700}}>+{pkg.bonus} bonus</span>}</div>
-                  <div style={{fontSize:'0.65rem',color:'#8893A1'}}>₺{pkg.price.toLocaleString('tr-TR')} ödeme • Toplam: {(pkg.uc+pkg.bonus).toLocaleString('tr-TR')} UC</div>
+                  <div style={{fontWeight:800,color:'#EDE7DA',fontSize:'0.9rem'}}>{pkg.uc.toLocaleString('tr-TR')} Altın {pkg.bonus>0 && <span style={{color:'#4C9A6B',fontSize:'0.72rem',fontWeight:700}}>+{pkg.bonus} bonus</span>}</div>
+                  <div style={{fontSize:'0.65rem',color:'#8893A1'}}>🪙{pkg.price.toLocaleString('tr-TR')} ödeme • Toplam: {(pkg.uc+pkg.bonus).toLocaleString('tr-TR')} Altın</div>
                   {pkg.popular && <div style={{display:'inline-block',marginTop:'0.2rem',background:'rgba(201,162,39,0.14)',border:'1px solid rgba(201,162,39,0.4)',borderRadius:'6px',padding:'1px 6px',fontSize:'0.6rem',color:'#C9A227',fontWeight:700}}>En Popüler</div>}
                 </div>
                 <button onClick={()=>handleBuyUC(pkg)} disabled={buying===pkg.id}
@@ -134,7 +134,7 @@ function StorePage({ profile, setProfile, showNotif }) {
                     {plan.popular && <span style={{background:'rgba(201,162,39,0.20)',border:'1px solid rgba(201,162,39,0.35)',borderRadius:'6px',padding:'1px 6px',fontSize:'0.6rem',color:'#C9A227',fontWeight:700}}>En Popüler</span>}
                     {plan.save && <span style={{background:'rgba(76,154,107,0.12)',border:'1px solid rgba(76,154,107,0.25)',borderRadius:'6px',padding:'1px 6px',fontSize:'0.6rem',color:'#4C9A6B',fontWeight:700}}>{plan.save}</span>}
                   </div>
-                  <div style={{fontWeight:900,color:'#C9A227',fontSize:'1.25rem',marginTop:'0.15rem'}}>₺{plan.price.toLocaleString('tr-TR', {minimumFractionDigits:2})}</div>
+                  <div style={{fontWeight:900,color:'#C9A227',fontSize:'1.25rem',marginTop:'0.15rem'}}>🪙{plan.price.toLocaleString('tr-TR', {minimumFractionDigits:2})}</div>
                   <div style={{fontSize:'0.65rem',color:'#8893A1'}}>{plan.days} gün VIP üyelik</div>
                 </div>
               </div>
@@ -151,11 +151,11 @@ function StorePage({ profile, setProfile, showNotif }) {
             </div>
           ))}
           <div style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'12px',padding:'0.75rem',fontSize:'0.7rem',color:'#8893A1'}}>
-            500 UC harcayarak da 30 günlük VIP aktifleştirebilirsin. Mevcut UC: <span style={{color:'#C9A227',fontWeight:700}}>{profile?.underCoin||0}</span>
+            500 Altın harcayarak da 30 günlük VIP aktifleştirebilirsin. Mevcut Altın: <span style={{color:'#C9A227',fontWeight:700}}>{profile?.underCoin||0}</span>
             {(profile?.underCoin||0) >= 500 && (
               <button onClick={()=>{ setProfile(p=>{const np={...p,underCoin:(p.underCoin||0)-500,premium:true,premiumExpiry:Date.now()+30*24*3600000};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('✅ VIP aktifleştirildi! 30 gün','success'); }}
                 style={{display:'block',marginTop:'0.5rem',width:'100%',padding:'0.5rem',borderRadius:'10px',border:'1px solid rgba(201,162,39,0.4)',background:'rgba(201,162,39,0.12)',color:'#C9A227',fontWeight:700,fontSize:'0.78rem',cursor:'pointer'}}>
-                🪙 500 UC ile Aktifleştir
+                🪙 500 Altın ile Aktifleştir
               </button>
             )}
           </div>
@@ -166,7 +166,7 @@ function StorePage({ profile, setProfile, showNotif }) {
         <div>
           <div style={{background:'linear-gradient(135deg,rgba(201,162,39,0.15),rgba(11,21,39,0.97))',border:'1px solid rgba(201,162,39,0.35)',borderRadius:'10px',padding:'1.25rem',textAlign:'center',marginBottom:'0.75rem'}}>
             <div style={{fontSize:'2rem',marginBottom:'0.4rem'}}>📚</div>
-            <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA'}}>EĞİTİM PAKETİ</div>
+            <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA'}}>EĞİTİM PAKETİ</div>
             <div style={{fontSize:'0.72rem',color:'#C9A227',marginTop:'0.2rem'}}>Eğitim tıklamalarında 12 saatlik bekleme süresi (normal: 5 dk)</div>
             {(profile?.packages?.edu || profile?.eduPackage) && (
               <div style={{marginTop:'0.5rem',display:'inline-block',background:'rgba(76,154,107,0.12)',border:'1px solid rgba(76,154,107,0.4)',borderRadius:'8px',padding:'0.25rem 0.75rem',fontSize:'0.7rem',color:'#4C9A6B',fontWeight:700}}>✅ Aktif Paketiniz Var</div>
@@ -181,7 +181,7 @@ function StorePage({ profile, setProfile, showNotif }) {
                   <span style={{fontWeight:900,color:'#EDE7DA',fontSize:'1rem'}}>30 Günlük Eğitim Paketi</span>
                   <span style={{background:'rgba(76,154,107,0.12)',border:'1px solid rgba(76,154,107,0.25)',borderRadius:'6px',padding:'1px 6px',fontSize:'0.62rem',color:'#4C9A6B',fontWeight:700}}>🔥 Popüler</span>
                 </div>
-                <div style={{fontWeight:900,color:'#C9A227',fontSize:'1.4rem',marginTop:'0.1rem'}}>₺1.199,99</div>
+                <div style={{fontWeight:900,color:'#C9A227',fontSize:'1.4rem',marginTop:'0.1rem'}}>🪙1.199,99</div>
                 <div style={{fontSize:'0.65rem',color:'#8893A1'}}>30 gün geçerli eğitim paketi</div>
               </div>
             </div>
@@ -192,9 +192,9 @@ function StorePage({ profile, setProfile, showNotif }) {
                 </div>
               ))}
             </div>
-            <button onClick={()=>showNotif('💳 Eğitim Paketi (₺1.199,99) için ödeme sayfasına yönlendiriliyor...','gold')}
+            <button onClick={()=>showNotif('💳 Eğitim Paketi (🪙1.199,99) için ödeme sayfasına yönlendiriliyor...','gold')}
               style={{width:'100%',padding:'0.7rem',borderRadius:'12px',border:'none',background:'linear-gradient(135deg,#C24B43,#A855F7)',color:'#EDE7DA',fontWeight:700,fontSize:'0.85rem',cursor:'pointer',letterSpacing:'0.03em'}}>
-              📚 Eğitim Paketi Al — ₺1.199,99
+              📚 Eğitim Paketi Al — 🪙1.199,99
             </button>
           </div>
 

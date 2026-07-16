@@ -5,7 +5,7 @@ function MiningPage({ profile, setProfile, showNotif }) {
   const [mineData, setMineData] = useLs('mineData', {});
   const [cooldowns, setCooldowns] = useLs('mineCooldowns', {});
   const { dark } = useTheme();
-  const bg = dark ? '#0F172A' : '#F8FAFC';
+  const bg = dark ? '#1A0E00' : '#F8FAFC';
   const cu = profile || {};
   const now = Date.now();
 
@@ -50,7 +50,7 @@ function MiningPage({ profile, setProfile, showNotif }) {
       setMineData(prev => ({ ...prev, [cu.id||cu.uid]: data.resources }));
       setProfile(prev => ({ ...prev, money: data.newMoney }));
       localStorage.setItem('rep_userProfile', JSON.stringify({ ...cu, money: data.newMoney }));
-      showNotif(`✅ Tüm kaynaklar satıldı! +₺${data.total.toLocaleString()}`, 'success');
+      showNotif(`✅ Tüm kaynaklar satıldı! +🪙${data.total.toLocaleString()}`, 'success');
     };
     sock.on('mining:result', onResult);
     sock.on('mining:sold', onSold);
@@ -88,12 +88,12 @@ function MiningPage({ profile, setProfile, showNotif }) {
     setProfile(prev => ({ ...prev, money: (prev.money||0)+total }));
     setMineData(prev => ({ ...prev, [uid]: newRes }));
     localStorage.setItem('rep_userProfile', JSON.stringify({ ...cu, money: (cu.money||0)+total }));
-    showNotif(`✅ Tüm kaynaklar satıldı! +₺${total.toLocaleString()}`, 'success');
+    showNotif(`✅ Tüm kaynaklar satıldı! +🪙${total.toLocaleString()}`, 'success');
   };
 
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>
-      <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#C9A227',marginBottom:'0.5rem'}}>⛏️ Madencilik</div>
+      <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.3rem',fontWeight:900,color:'#C9A227',marginBottom:'0.5rem'}}>⛏️ Madencilik</div>
       <div style={{fontSize:'0.82rem',color:'#999',marginBottom:'1rem',background:'rgba(201,162,39,0.07)',borderRadius:'8px',padding:'0.5rem 0.75rem',border:'1px solid rgba(201,162,39,0.2)'}}>
         ⛏️ Her kaynak türünün bekleme süresi var. Kazıp satarak para kazan!
       </div>
@@ -107,7 +107,7 @@ function MiningPage({ profile, setProfile, showNotif }) {
             <div key={res.id} style={{background:`${res.color}11`,border:`1px solid ${res.color}33`,borderRadius:'12px',padding:'0.75rem'}}>
               <div style={{fontSize:'1.5rem',marginBottom:'0.25rem'}}>{res.icon}</div>
               <div style={{fontWeight:700,fontSize:'0.9rem',marginBottom:'0.15rem'}}>{res.name}</div>
-              <div style={{fontSize:'0.7rem',color:'#888',marginBottom:'0.4rem'}}>Stok: {myResources[res.id]||0} · ₺{res.price.toLocaleString()}/adet</div>
+              <div style={{fontSize:'0.7rem',color:'#888',marginBottom:'0.4rem'}}>Stok: {myResources[res.id]||0} · 🪙{res.price.toLocaleString()}/adet</div>
               {!ready && <div style={{fontSize:'0.65rem',color:'#C9A227',marginBottom:'0.3rem'}}>⏳ {Math.ceil(rem/60000)}dk</div>}
               <button onClick={()=>mine(res)} disabled={!ready} style={{width:'100%',padding:'0.35rem',borderRadius:'6px',border:'none',background:ready?res.color:'rgba(255,255,255,0.05)',color:ready?'#fff':'#555',cursor:ready?'pointer':'not-allowed',fontWeight:700,fontSize:'0.75rem',fontFamily:'inherit'}}>
                 {ready?'⛏️ Kaz':'Bekle'}
@@ -119,7 +119,7 @@ function MiningPage({ profile, setProfile, showNotif }) {
       <div style={{background:'rgba(201,162,39,0.07)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'12px',padding:'0.75rem',marginBottom:'1rem'}}>
         <div style={{fontWeight:700,color:'#C9A227',marginBottom:'0.4rem',fontSize:'0.85rem'}}>💰 Toplam Değer</div>
         <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:'1.2rem',fontWeight:900,color:'#C9A227'}}>
-          ₺{RESOURCES.reduce((a,r)=>(a+(myResources[r.id]||0)*r.price),0).toLocaleString()}
+          🪙{RESOURCES.reduce((a,r)=>(a+(myResources[r.id]||0)*r.price),0).toLocaleString()}
         </div>
       </div>
       <button onClick={sellAll} style={{width:'100%',padding:'0.75rem',borderRadius:'10px',border:'none',background:'#C9A227',color:'#EDE7DA',fontWeight:900,fontSize:'0.9rem',cursor:'pointer',fontFamily:'Syne,sans-serif'}}>

@@ -1,6 +1,6 @@
 function YetkilerimPage({ profile, setProfile, showNotif }) {
   const { dark } = useTheme();
-  const bg = dark ? '#0F172A' : '#F8FAFC';
+  const bg = dark ? '#1A0E00' : '#F8FAFC';
   const card = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
   const [cabinet] = useLs('cabinet', {});
@@ -22,15 +22,15 @@ function YetkilerimPage({ profile, setProfile, showNotif }) {
   const [economy, setEconomy] = useLs('rep_economy', {inflation:5});
 
   const myPositions = Object.entries(cabinet).filter(([,name]) => name === profile?.username).map(([role]) => role);
-  const isPresident = cabinet['Devlet Başkanı'] === profile?.username;
-  const isSpeaker = cabinet['Meclis Başkanı'] === profile?.username;
+  const isPadisah = cabinet['Padişah'] === profile?.username;
+  const isSpeaker = cabinet['Divan Reisi'] === profile?.username;
   const isInterior = cabinet['İçişleri Bakanı'] === profile?.username;
-  const isMayor = cabinet['Belediye Başkanı'] === profile?.username;
+  const isVali = cabinet['Nahiye Valisi'] === profile?.username;
   const isGovenor = cabinet['Vali'] === profile?.username;
-  const isGeneral = cabinet['Genelkurmay Başkanı'] === profile?.username;
+  const isGeneral = cabinet['Serasker'] === profile?.username;
   const isTrade = cabinet['Ticaret Bakanı'] === profile?.username;
   const isFinance = cabinet['Maliye Bakanı'] === profile?.username;
-  const isMayorOrGov = isMayor || isGovenor;
+  const isValiOrGov = isVali || isGovenor;
 
   const yetkiAction = (key, cdMs, fn) => {
     const last = actionCooldowns[key] || 0;
@@ -137,7 +137,7 @@ function YetkilerimPage({ profile, setProfile, showNotif }) {
   };
 
   const fundMilitary = () => {
-    if (!isPresident) { showNotif('Bu yetki Devlet Başkanına ait!', 'error'); return; }
+    if (!isPadisah) { showNotif('Bu yetki Padişahna ait!', 'error'); return; }
     const amt = parseInt(budgetAmt);
     if (!amt || amt <= 0) { showNotif('Geçerli tutar girin', 'error'); return; }
     if ((profile?.money||0) < amt) { showNotif('Yetersiz para!', 'error'); return; }
@@ -145,7 +145,7 @@ function YetkilerimPage({ profile, setProfile, showNotif }) {
       setProfile(p => { const np={...p, money:(p.money||0)-amt}; localStorage.setItem('rep_userProfile',JSON.stringify(np)); return np; });
       setTreasury(prev => ({ ...prev, militaryBudget: (prev.militaryBudget||0)+amt, lastUpdated: Date.now() }));
       setBudgetModal(false); setBudgetAmt('');
-      showNotif(`⚔️ ₺${fmtWord(amt)} askeri bütçeye aktarıldı!`, 'success');
+      showNotif(`⚔️ 🪙${fmtWord(amt)} askeri bütçeye aktarıldı!`, 'success');
     });
   };
 
@@ -165,21 +165,21 @@ function YetkilerimPage({ profile, setProfile, showNotif }) {
   const coupEnabled = currentTension >= 75;
 
   const POSITION_POWERS = {
-    'Devlet Başkanı': {
+    'Padişah': {
       icon: '👑', color: '#C9A227',
       powers: [
-        { key:'national_announce', label:'📢 Ulusal Duyuru', desc:'Tüm oyunculara acil duyuru yayınla (+500 XP)', cd:4*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+500};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); const evts=JSON.parse(localStorage.getItem('rep_gameEvents')||'[]'); evts.push({id:genId(),type:'announce',title:'📢 Cumhurbaşkanı Duyurusu',desc:`Devlet Başkanı ${profile.username} ulusal duyuru yayınladı!`,ts:Date.now()}); localStorage.setItem('rep_gameEvents',JSON.stringify(evts.slice(-50))); showNotif('📢 Ulusal duyuru yayınlandı! +500 XP','success'); }},
+        { key:'national_announce', label:'📢 Ulusal Duyuru', desc:'Tüm oyunculara acil duyuru yayınla (+500 XP)', cd:4*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+500};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); const evts=JSON.parse(localStorage.getItem('rep_gameEvents')||'[]'); evts.push({id:genId(),type:'announce',title:'📢 Padişah Duyurusu',desc:`Padişah ${profile.username} ulusal duyuru yayınladı!`,ts:Date.now()}); localStorage.setItem('rep_gameEvents',JSON.stringify(evts.slice(-50))); showNotif('📢 Ulusal duyuru yayınlandı! +500 XP','success'); }},
         { key:'appoint_gov', label:'🏛️ Vali/Bakan Ata', desc:'Şehir ve bakanlıklara yönetici ata', cd:8*3600000, action:()=>{ showNotif('🏛️ Atama yetkisi aktif. Kabine panelinden atama yapın.','info'); }},
         { key:'fund_military', label:'💰 Askeri Fon Ayır', desc:'Hazineden askeri bütçeye transfer', cd:0, action:()=>setBudgetModal(true) },
-        { key:'ohal', label:'🚨 OHAL İlan Et', desc:'Olağanüstü hal — ordu yetkilerini genişletir (+1000 XP)', cd:72*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+1000};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); const evts=JSON.parse(localStorage.getItem('rep_gameEvents')||'[]'); evts.push({id:genId(),type:'ohal',title:'🚨 OHAL İlan Edildi!',desc:`Devlet Başkanı ${profile.username} Olağanüstü Hal ilan etti!`,ts:Date.now()}); localStorage.setItem('rep_gameEvents',JSON.stringify(evts.slice(-50))); showNotif('🚨 OHAL ilan edildi! Tüm oyuncular bilgilendirildi.','success'); }},
+        { key:'ohal', label:'🚨 OHAL İlan Et', desc:'Olağanüstü hal — ordu yetkilerini genişletir (+1000 XP)', cd:72*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+1000};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); const evts=JSON.parse(localStorage.getItem('rep_gameEvents')||'[]'); evts.push({id:genId(),type:'ohal',title:'🚨 OHAL İlan Edildi!',desc:`Padişah ${profile.username} Olağanüstü Hal ilan etti!`,ts:Date.now()}); localStorage.setItem('rep_gameEvents',JSON.stringify(evts.slice(-50))); showNotif('🚨 OHAL ilan edildi! Tüm oyuncular bilgilendirildi.','success'); }},
         { key:'tax_amnesty', label:'💳 Vergi Affı', desc:'Vergi borçlarını sıfırla, destek kazan (+600 XP)', cd:48*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+600};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('💳 Vergi affı yayınlandı! Halk memnuniyeti arttı. +600 XP','success'); }},
         { key:'press_conf', label:'🎙️ Basın Toplantısı', desc:'Uluslararası arenada prestij kazan (+400 XP)', cd:12*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+400};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('🎙️ Basın toplantısı yapıldı! +400 XP','success'); }},
       ]
     },
-    'Meclis Başkanı': {
+    'Divan Reisi': {
       icon: '🏛️', color: '#C9A227',
       powers: [
-        { key:'open_session', label:'🗳️ Meclis Oturumu Aç', desc:'Yasa oylaması başlat — 81 milletvekili oy kullanır (+300 XP)', cd:3*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+300};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); const evts=JSON.parse(localStorage.getItem('rep_gameEvents')||'[]'); evts.push({id:genId(),type:'session',title:'🏛️ Meclis Oturumu Açıldı',desc:`Meclis Başkanı ${profile.username} yasa oylaması başlattı!`,ts:Date.now()}); localStorage.setItem('rep_gameEvents',JSON.stringify(evts.slice(-50))); showNotif('🏛️ Meclis oturumu açıldı! +300 XP','success'); }},
+        { key:'open_session', label:'🗳️ Meclis Oturumu Aç', desc:'Yasa oylaması başlat — 81 divan üyesi oy kullanır (+300 XP)', cd:3*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+300};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); const evts=JSON.parse(localStorage.getItem('rep_gameEvents')||'[]'); evts.push({id:genId(),type:'session',title:'🏛️ Meclis Oturumu Açıldı',desc:`Divan Reisi ${profile.username} yasa oylaması başlattı!`,ts:Date.now()}); localStorage.setItem('rep_gameEvents',JSON.stringify(evts.slice(-50))); showNotif('🏛️ Meclis oturumu açıldı! +300 XP','success'); }},
         { key:'speaker_veto', label:'🚫 Yasa Veto Et', desc:'Onaylanmış kanunu iptal et', cd:12*3600000, action:()=>{ showNotif('🚫 Veto yetkisi kullanıldı! Yasa iptal edildi.','success'); }},
         { key:'confidence_vote', label:'📋 Güven Oyu', desc:'Hükümete güven oylaması yap (+500 XP)', cd:24*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+500};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('📋 Güven oyu oylaması başlatıldı! +500 XP','success'); }},
         { key:'emergency_session', label:'🔔 Acil Oturum', desc:'Kriz durumunda acil meclis topla (+400 XP)', cd:18*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+400};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('🔔 Acil oturum çağrısı yapıldı! +400 XP','success'); }},
@@ -195,11 +195,11 @@ function YetkilerimPage({ profile, setProfile, showNotif }) {
         { key:'intel_share', label:'🔭 İstihbarat Paylaş', desc:'Güvenlik birimlerine bilgi aktar (+300 XP)', cd:8*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+300};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('🔭 İstihbarat paylaşıldı! +300 XP','success'); }},
       ]
     },
-    'Belediye Başkanı': {
+    'Nahiye Valisi': {
       icon: '🏙️', color: '#C9A227',
       powers: [
         { key:'city_project', label:'🏗️ Şehir Projesi', desc:'Altyapı projesi başlat (+400 XP)', cd:6*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+400};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('🏗️ Şehir projesi başlatıldı! +400 XP','success'); }},
-        { key:'local_tax', label:'💵 Yerel Vergi Topla', desc:'Şehir kasa geliri (+200K)', cd:12*3600000, action:()=>{ setProfile(p=>{const np={...p,money:(p.money||0)+200000};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('💵 Yerel vergi toplandı! +₺200.000','success'); }},
+        { key:'local_tax', label:'💵 Yerel Vergi Topla', desc:'Şehir kasa geliri (+200K)', cd:12*3600000, action:()=>{ setProfile(p=>{const np={...p,money:(p.money||0)+200000};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('💵 Yerel vergi toplandı! +🪙200.000','success'); }},
         { key:'city_fest', label:'🎉 Şehir Festivali', desc:'Halk mutluluğunu artır (+450 XP)', cd:48*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+450};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('🎉 Şehir festivali düzenlendi! +450 XP','success'); }},
         { key:'metro_plan', label:'🚇 Ulaşım Planı', desc:'Şehir ulaşım projesi (+600 XP)', cd:72*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+600};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('🚇 Ulaşım planı onaylandı! +600 XP','success'); }},
       ]
@@ -208,27 +208,27 @@ function YetkilerimPage({ profile, setProfile, showNotif }) {
       icon: '🏢', color: '#C9A227',
       powers: [
         { key:'province_dev', label:'📈 İl Kalkınma', desc:'İl altyapı projesi (+350 XP)', cd:8*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+350};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('📈 İl kalkınma projesi başladı! +350 XP','success'); }},
-        { key:'province_tax', label:'💰 İl Vergi Toplaması', desc:'İl vergi geliri (+150K)', cd:8*3600000, action:()=>{ setProfile(p=>{const np={...p,money:(p.money||0)+150000};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('💰 İl vergisi toplandı! +₺150.000','success'); }},
+        { key:'province_tax', label:'💰 İl Vergi Toplaması', desc:'İl vergi geliri (+150K)', cd:8*3600000, action:()=>{ setProfile(p=>{const np={...p,money:(p.money||0)+150000};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('💰 İl vergisi toplandı! +🪙150.000','success'); }},
         { key:'province_security', label:'🛡️ İl Güvenliği', desc:'Valiliğe bağlı güvenlik kuvveti konuşlandır (+300 XP)', cd:12*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+300};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('🛡️ İl güvenliği artırıldı! +300 XP','success'); }},
-        { key:'province_invest', label:'🏭 Yatırım Çek', desc:'İle özel yatırım getir (+500 XP +100K)', cd:24*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+500,money:(p.money||0)+100000};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('🏭 Yatırım başarıyla çekildi! +500 XP +₺100.000','success'); }},
+        { key:'province_invest', label:'🏭 Yatırım Çek', desc:'İle özel yatırım getir (+500 XP +100K)', cd:24*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+500,money:(p.money||0)+100000};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('🏭 Yatırım başarıyla çekildi! +500 XP +🪙100.000','success'); }},
       ]
     },
-    'Genelkurmay Başkanı': {
+    'Serasker': {
       icon: '⚔️', color: '#C24B43',
       powers: [
         { key:'military_op', label:'🪖 Askeri Operasyon', desc:'Ordu sevk et, bölge güvenliğini sağla (+500 XP)', cd:4*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+500};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('🪖 Askeri operasyon başlatıldı! +500 XP','success'); }},
-        { key:'declare_war', label:'⚔️ Savaş İlan Et', desc:'Resmi savaş başlat — tüm oyuncular katılabilir', cd:24*3600000, action:()=>{ const evts=JSON.parse(localStorage.getItem('rep_gameEvents')||'[]'); evts.push({id:genId(),type:'war_declared',title:'⚔️ Savaş İlan Edildi!',desc:`Genelkurmay Başkanı ${profile.username} savaş ilan etti!`,ts:Date.now()}); localStorage.setItem('rep_gameEvents',JSON.stringify(evts.slice(-50))); showNotif('⚔️ Savaş ilan edildi!','success'); }},
+        { key:'declare_war', label:'⚔️ Savaş İlan Et', desc:'Resmi savaş başlat — tüm oyuncular katılabilir', cd:24*3600000, action:()=>{ const evts=JSON.parse(localStorage.getItem('rep_gameEvents')||'[]'); evts.push({id:genId(),type:'war_declared',title:'⚔️ Savaş İlan Edildi!',desc:`Serasker ${profile.username} savaş ilan etti!`,ts:Date.now()}); localStorage.setItem('rep_gameEvents',JSON.stringify(evts.slice(-50))); showNotif('⚔️ Savaş ilan edildi!','success'); }},
         { key:'mobilize', label:'📣 Seferberlik İlan Et', desc:'Tüm ordu birimlerini hazır konuma al (+700 XP)', cd:36*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+700};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('📣 Seferberlik ilan edildi! +700 XP','success'); }},
         { key:'intel_op', label:'🔭 İstihbarat Operasyonu', desc:'Düşman güçleri hakkında bilgi topla (+400 XP)', cd:12*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+400};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('🔭 İstihbarat operasyonu başarılı! +400 XP','success'); }},
-        { key:'strategic_reserve', label:'🏦 Stratejik Rezerv', desc:'Askeri rezervleri aktive et (+300 XP +50K)', cd:18*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+300,money:(p.money||0)+50000};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('🏦 Stratejik rezervler aktive edildi! +300 XP +₺50.000','success'); }},
+        { key:'strategic_reserve', label:'🏦 Stratejik Rezerv', desc:'Askeri rezervleri aktive et (+300 XP +50K)', cd:18*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+300,money:(p.money||0)+50000};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('🏦 Stratejik rezervler aktive edildi! +300 XP +🪙50.000','success'); }},
       ]
     },
     'Ticaret Bakanı': {
       icon: '📦', color: '#4C9A6B',
       powers: [
-        { key:'trade_deal', label:'🤝 Ticaret Anlaşması', desc:'Ekonomiyi büyüt (+250K +200 XP)', cd:5*3600000, action:()=>{ setProfile(p=>{const np={...p,money:(p.money||0)+250000,xp:(p.xp||0)+200};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('🤝 Ticaret anlaşması! +₺250.000 +200 XP','success'); }},
+        { key:'trade_deal', label:'🤝 Ticaret Anlaşması', desc:'Ekonomiyi büyüt (+250K +200 XP)', cd:5*3600000, action:()=>{ setProfile(p=>{const np={...p,money:(p.money||0)+250000,xp:(p.xp||0)+200};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('🤝 Ticaret anlaşması! +🪙250.000 +200 XP','success'); }},
         { key:'monopoly_check', label:'🔍 Tekel Soruşturması', desc:'Şirket tekelini soruştur (+400 XP)', cd:12*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+400};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('🔍 Tekel soruşturması başlatıldı! +400 XP','success'); }},
-        { key:'export_drive', label:'🚢 İhracat Kampanyası', desc:'Ülke ihracatını artır (+500K)', cd:24*3600000, action:()=>{ setProfile(p=>{const np={...p,money:(p.money||0)+500000,xp:(p.xp||0)+300};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('🚢 İhracat kampanyası başarılı! +₺500.000 +300 XP','success'); }},
+        { key:'export_drive', label:'🚢 İhracat Kampanyası', desc:'Ülke ihracatını artır (+500K)', cd:24*3600000, action:()=>{ setProfile(p=>{const np={...p,money:(p.money||0)+500000,xp:(p.xp||0)+300};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('🚢 İhracat kampanyası başarılı! +🪙500.000 +300 XP','success'); }},
         { key:'market_reg', label:'📜 Piyasa Düzenleme', desc:'Fiyat denetimi uygula (+350 XP)', cd:16*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+350};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('📜 Piyasa düzenlemesi uygulandı! +350 XP','success'); }},
       ]
     },
@@ -238,7 +238,7 @@ function YetkilerimPage({ profile, setProfile, showNotif }) {
         { key:'print_money_btn', label:'🖨️ Para Bas', desc:'Hazineye para ekle (günde bir kez max 10M)', cd:0, action:()=>{} },
         { key:'set_tax', label:'📊 Vergi Oranı Ayarla', desc:'Gelir/Ticaret/Mülk/Faiz vergilerini düzenle', cd:0, action:()=>{} },
         { key:'budget_review', label:'📋 Bütçe Analizi', desc:'Devlet gelir-gider raporu (+300 XP)', cd:6*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+300};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('📋 Bütçe analizi tamamlandı! +300 XP','success'); }},
-        { key:'bonds', label:'📄 Devlet Tahvili', desc:'Hazine bonosu çıkar, bütçe dengesi kur (+500 XP)', cd:48*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+500};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); setTreasury(prev=>({...prev,balance:(prev.balance||0)+5000000,lastUpdated:Date.now()})); showNotif('📄 Devlet tahvili çıkarıldı! +₺5.000.000 hazineye, +500 XP','success'); }},
+        { key:'bonds', label:'📄 Devlet Tahvili', desc:'Hazine bonosu çıkar, bütçe dengesi kur (+500 XP)', cd:48*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+500};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); setTreasury(prev=>({...prev,balance:(prev.balance||0)+5000000,lastUpdated:Date.now()})); showNotif('📄 Devlet tahvili çıkarıldı! +🪙5.000.000 hazineye, +500 XP','success'); }},
         { key:'inflation_ctrl', label:'📉 Enflasyon Kontrolü', desc:'Merkez bankası faiz kararı al (+400 XP)', cd:24*3600000, action:()=>{ setProfile(p=>{const np={...p,xp:(p.xp||0)+400};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;}); showNotif('📉 Faiz oranı güncellendi! +400 XP','success'); }},
       ]
     },
@@ -251,7 +251,7 @@ function YetkilerimPage({ profile, setProfile, showNotif }) {
           <div style={{fontSize:'3rem',marginBottom:'0.75rem'}}>🏛️</div>
           <div style={{fontWeight:800,color:'#C9A227',fontSize:'1rem',marginBottom:'0.5rem'}}>Henüz Makamın Yok</div>
           <div style={{color:'#8893A1',fontSize:'0.82rem',lineHeight:1.6}}>
-            Seçimlere katılarak veya Devlet Başkanı tarafından atanarak devlet makamı alabilirsin.<br/>
+            Seçimlere katılarak veya Padişah tarafından atanarak devlet makamı alabilirsin.<br/>
             Seçim sayfasına giderek aday ol!
           </div>
         </div>
@@ -273,12 +273,12 @@ function YetkilerimPage({ profile, setProfile, showNotif }) {
               React.createElement('div',{key:act.key,style:{display:'flex',alignItems:'center',gap:'0.5rem',background:'rgba(237,231,218,0.02)',borderRadius:'10px',padding:'0.55rem 0.75rem',marginBottom:'0.4rem',border:'1px solid rgba(255,255,255,0.05)'}},
                 React.createElement('div',{style:{flex:1,minWidth:0}},
                   React.createElement('div',{style:{fontWeight:700,color:'#EDE7DA',fontSize:'0.82rem'}},act.label),
-                  React.createElement('div',{style:{fontSize:'0.62rem',color:'#8893A1'}},`₺${act.cost.toLocaleString('tr-TR')} → +${act.merit} Etki Puanı`)
+                  React.createElement('div',{style:{fontSize:'0.62rem',color:'#8893A1'}},`🪙${act.cost.toLocaleString('tr-TR')} → +${act.merit} Etki Puanı`)
                 ),
                 canAct
                   ? canAfford
                     ? React.createElement('button',{onClick:()=>yetkiAction(act.key,act.cd,()=>{setProfile(p=>{const np={...p,money:(p.money||0)-act.cost,meritPoints:(p.meritPoints||0)+act.merit};localStorage.setItem('rep_userProfile',JSON.stringify(np));try{const _tk=localStorage.getItem('rep_token');if(_tk)fetch('/api/save',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+_tk},body:JSON.stringify({money:np.money,xp:np.xp||0,level:np.level||1,meritPoints:np.meritPoints||0})}).catch(()=>{});}catch(e){}return np;});showNotif(`${act.label} başarılı! +${act.merit} Etki Puanı`,'success');}),style:{background:'rgba(201,162,39,0.15)',border:'1px solid rgba(201,162,39,0.3)',borderRadius:'8px',padding:'5px 12px',color:'#C9A227',cursor:'pointer',fontSize:'0.7rem',fontWeight:700,flexShrink:0}},'Kazan')
-                    : React.createElement('span',{style:{color:'#C24B43',fontSize:'0.65rem',flexShrink:0,fontWeight:700}},'Yetersiz ₺')
+                    : React.createElement('span',{style:{color:'#C24B43',fontSize:'0.65rem',flexShrink:0,fontWeight:700}},'Yetersiz 🪙')
                   : React.createElement('span',{style:{color:'#8893A1',fontSize:'0.65rem',flexShrink:0}},`⏳ ${Math.ceil(rem/3600000)}s`)
               )
             );
@@ -322,12 +322,12 @@ function YetkilerimPage({ profile, setProfile, showNotif }) {
             React.createElement('div',{key:act.key,style:{display:'flex',alignItems:'center',gap:'0.5rem',background:'rgba(237,231,218,0.02)',borderRadius:'10px',padding:'0.5rem 0.75rem',marginBottom:'0.35rem',border:'1px solid rgba(255,255,255,0.05)'}},
               React.createElement('div',{style:{flex:1,minWidth:0}},
                 React.createElement('div',{style:{fontWeight:700,color:'#EDE7DA',fontSize:'0.82rem'}},act.label),
-                React.createElement('div',{style:{fontSize:'0.62rem',color:'#8893A1'}},`₺${act.cost.toLocaleString('tr-TR')} → +${act.merit} Etki Puanı`)
+                React.createElement('div',{style:{fontSize:'0.62rem',color:'#8893A1'}},`🪙${act.cost.toLocaleString('tr-TR')} → +${act.merit} Etki Puanı`)
               ),
               canAct
                 ? canAfford
                   ? React.createElement('button',{onClick:()=>yetkiAction(act.key,act.cd,()=>{setProfile(p=>{const np={...p,money:(p.money||0)-act.cost,meritPoints:(p.meritPoints||0)+act.merit};localStorage.setItem('rep_userProfile',JSON.stringify(np));try{const _tk=localStorage.getItem('rep_token');if(_tk)fetch('/api/save',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+_tk},body:JSON.stringify({money:np.money,xp:np.xp||0,level:np.level||1,meritPoints:np.meritPoints||0})}).catch(()=>{});}catch(e){}return np;});showNotif(`${act.label} başarılı! +${act.merit} Etki Puanı`,'success');}),style:{background:'rgba(201,162,39,0.15)',border:'1px solid rgba(201,162,39,0.3)',borderRadius:'8px',padding:'5px 12px',color:'#C9A227',cursor:'pointer',fontSize:'0.7rem',fontWeight:700,flexShrink:0}},'Kazan')
-                  : React.createElement('span',{style:{color:'#C24B43',fontSize:'0.65rem',flexShrink:0,fontWeight:700}},'Yetersiz ₺')
+                  : React.createElement('span',{style:{color:'#C24B43',fontSize:'0.65rem',flexShrink:0,fontWeight:700}},'Yetersiz 🪙')
                 : React.createElement('span',{style:{color:'#8893A1',fontSize:'0.65rem',flexShrink:0}},`⏳ ${Math.ceil(rem/3600000)}s`)
             )
           );
@@ -354,7 +354,7 @@ function YetkilerimPage({ profile, setProfile, showNotif }) {
                 <div style={{fontWeight:900,color:def.color,fontSize:'0.92rem'}}>{pos}</div>
                 <div style={{fontSize:'0.65rem',color:'#8893A1'}}>{def.powers.length} özel yetki</div>
               </div>
-              {pos === 'Genelkurmay Başkanı' && (
+              {pos === 'Serasker' && (
                 <div style={{textAlign:'right'}}>
                   <div style={{fontSize:'0.6rem',color:'#8893A1',marginBottom:'2px'}}>Ülke Gerginliği</div>
                   <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.9rem',fontWeight:900,color:currentTension>=75?'#C24B43':currentTension>=50?'#C9A227':'#4C9A6B'}}>%{currentTension}</div>
@@ -362,8 +362,8 @@ function YetkilerimPage({ profile, setProfile, showNotif }) {
               )}
             </div>
 
-            {/* Genelkurmay için Gerginlik Göstergesi + Darbe Butonu */}
-            {pos === 'Genelkurmay Başkanı' && (
+            {/* Seraskerlik için Gerginlik Göstergesi + Darbe Butonu */}
+            {pos === 'Serasker' && (
               <div style={{marginBottom:'0.75rem'}}>
                 <div style={{background:'rgba(194,75,67,0.06)',border:'1px solid rgba(194,75,67,0.2)',borderRadius:'12px',padding:'0.75rem',marginBottom:'0.5rem'}}>
                   <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.35rem'}}>
@@ -395,7 +395,7 @@ function YetkilerimPage({ profile, setProfile, showNotif }) {
                       setActionCooldowns(prev=>({...prev,[cdKey]:Date.now()}));
                       setProfile(p=>{const np={...p,xp:(p.xp||0)+5000,meritPoints:(p.meritPoints||0)+100};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;});
                       const evts=JSON.parse(localStorage.getItem('rep_gameEvents')||'[]');
-                      evts.push({id:genId(),type:'coup_attempt',title:'🎖️ DARBE GİRİŞİMİ!',desc:`Genelkurmay Başkanı ${profile.username} hükümete karşı darbe girişiminde bulundu! Gerginlik: %${currentTension}`,ts:Date.now()});
+                      evts.push({id:genId(),type:'coup_attempt',title:'🎖️ DARBE GİRİŞİMİ!',desc:`Serasker ${profile.username} hükümete karşı darbe girişiminde bulundu! Gerginlik: %${currentTension}`,ts:Date.now()});
                       localStorage.setItem('rep_gameEvents',JSON.stringify(evts.slice(-50)));
                       window.dispatchEvent(new CustomEvent('game-event',{detail:evts[evts.length-1]}));
                       showNotif('🎖️ DARBE GİRİŞİMİ BAŞLADI! +5000 XP +100 Liyakat','success');
@@ -407,7 +407,7 @@ function YetkilerimPage({ profile, setProfile, showNotif }) {
                       borderRadius:'12px',
                       color:coupEnabled?'#fff':'#3B4E63',
                       cursor:coupEnabled?'pointer':'not-allowed',
-                      fontFamily:"'Syne',sans-serif",fontWeight:900,fontSize:'0.9rem',
+                      fontFamily:"'Cinzel',serif",fontWeight:900,fontSize:'0.9rem',
                       letterSpacing:'0.05em',
                       transition:'all 0.3s',
                       opacity:coupEnabled?1:0.5,
@@ -492,20 +492,20 @@ function YetkilerimPage({ profile, setProfile, showNotif }) {
                   <div style={{fontWeight:700,color:'#C9A227',marginBottom:'0.35rem',fontSize:'0.78rem'}}>🖨️ Para Basma (Merkez Bankası Yetkisi)</div>
                   <div style={{fontSize:'0.63rem',color:'#8893A1',marginBottom:'0.45rem'}}>Aşırı para basımı enflasyonu artırır. Dikkatli kullanın.</div>
                   <div style={{display:'flex',gap:'0.5rem'}}>
-                    <input type="number" value={printAmt} onChange={e=>setPrintAmt(e.target.value)} placeholder="Basılacak tutar (₺)"
+                    <input type="number" value={printAmt} onChange={e=>setPrintAmt(e.target.value)} placeholder="Basılacak tutar (🪙)"
                       style={{flex:1,background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'8px',padding:'0.5rem 0.75rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'14px',outline:'none'}} />
                     <button onClick={printMoney} style={{padding:'0.5rem 0.85rem',borderRadius:'8px',border:'none',background:'#C9A227',color:'#EDE7DA',fontWeight:800,fontSize:'0.75rem',cursor:'pointer'}}>Bas</button>
                   </div>
                 </div>
 
-                {/* ── Belediye Hazine Talepleri ── */}
+                {/* ── Valilik Hazinesi Talepleri ── */}
                 {(()=>{
                   const reqs = JSON.parse(localStorage.getItem('rep_treasuryRequests')||'[]');
                   const pending = reqs.filter(r=>r.status==='bekliyor');
-                  if(!pending.length) return <div style={{fontSize:'0.63rem',color:'#8893A1',marginBottom:'0.5rem',padding:'0.4rem 0.6rem',background:'rgba(237,231,218,0.02)',borderRadius:'8px'}}>✅ Bekleyen belediye hazine talebi yok.</div>;
+                  if(!pending.length) return <div style={{fontSize:'0.63rem',color:'#8893A1',marginBottom:'0.5rem',padding:'0.4rem 0.6rem',background:'rgba(237,231,218,0.02)',borderRadius:'8px'}}>✅ Bekleyen valilik hazinesi talebi yok.</div>;
                   return (
                     <div style={{marginBottom:'0.5rem'}}>
-                      <div style={{fontWeight:700,color:'#4C9A6B',fontSize:'0.72rem',marginBottom:'0.4rem'}}>🏙️ Belediye Hazine Talepleri ({pending.length})</div>
+                      <div style={{fontWeight:700,color:'#4C9A6B',fontSize:'0.72rem',marginBottom:'0.4rem'}}>🏙️ Valilik Hazinesi Talepleri ({pending.length})</div>
                       {pending.slice(0,5).map(r=>(
                         <div key={r.id} style={{background:'rgba(76,154,107,0.06)',border:'1px solid rgba(76,154,107,0.18)',borderRadius:'8px',padding:'0.5rem',marginBottom:'0.35rem',fontSize:'0.72rem'}}>
                           <div style={{fontWeight:700,color:'#EDE7DA'}}>{r.city} — {r.mayor}</div>
@@ -618,9 +618,9 @@ function YetkilerimPage({ profile, setProfile, showNotif }) {
         <Modal title="💰 Askeri Bütçe" onClose={()=>{setBudgetModal(false);setBudgetAmt('');}}>
           <div style={{marginBottom:'1rem'}}>
             <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.4rem',fontWeight:700}}>Askeri Bütçe Tutarı</div>
-            <input type="number" value={budgetAmt} onChange={e=>setBudgetAmt(e.target.value)} placeholder="₺ Tutar"
+            <input type="number" value={budgetAmt} onChange={e=>setBudgetAmt(e.target.value)} placeholder="🪙 Tutar"
               style={{width:'100%',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box'}} />
-            <div style={{fontSize:'0.7rem',color:'#8893A1',marginTop:'0.4rem'}}>Bakiyeniz: ₺{fmtWord(profile?.money||0)}</div>
+            <div style={{fontSize:'0.7rem',color:'#8893A1',marginTop:'0.4rem'}}>Bakiyeniz: 🪙{fmtWord(profile?.money||0)}</div>
           </div>
           <Btn variant='gold' size='full' onClick={fundMilitary}>⚔️ Bütçeyi Aktar</Btn>
         </Modal>

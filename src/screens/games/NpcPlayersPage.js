@@ -15,7 +15,7 @@ const NPC_DEFS = [
 function NpcPlayersPage({ profile, showNotif }) {
   const { dark } = useTheme();
   const cu = profile || {};
-  const bg = dark ? '#0F172A' : '#F8FAFC';
+  const bg = dark ? '#1A0E00' : '#F8FAFC';
   const card = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
   const [relations, setRelations] = useState(()=>{try{return JSON.parse(localStorage.getItem('npcRelations')||'{}');}catch{return {};}});
@@ -44,7 +44,7 @@ function NpcPlayersPage({ profile, showNotif }) {
 
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%',display:'flex',flexDirection:'column',gap:'0.75rem'}}>
-      <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:800,color:'#818CF8',letterSpacing:'0.08em'}}>🤖 NPC OYUNCULAR</div>
+      <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.1rem',fontWeight:800,color:'#818CF8',letterSpacing:'0.08em'}}>🤖 NPC OYUNCULAR</div>
       <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.6rem'}}>
         {NPC_DEFS.map(npc => {
           const rel = relations[npc.id]||0;
@@ -86,7 +86,7 @@ function NpcPlayersPage({ profile, showNotif }) {
           </div>
         </div>
       )}
-      <div style={{fontFamily:"'Syne',sans-serif",fontSize:'0.78rem',fontWeight:700,color:'#8893A1',textTransform:'uppercase',letterSpacing:'0.1em',marginTop:'0.25rem'}}>Son Aktivite</div>
+      <div style={{fontFamily:"'Cinzel',serif",fontSize:'0.78rem',fontWeight:700,color:'#8893A1',textTransform:'uppercase',letterSpacing:'0.1em',marginTop:'0.25rem'}}>Son Aktivite</div>
       <div style={{display:'flex',flexDirection:'column',gap:'0.4rem'}}>
         {activity.map((a,i)=>(
           <div key={i} style={{background:card,border:`1px solid ${border}`,borderRadius:'10px',padding:'0.5rem 0.75rem',display:'flex',justifyContent:'space-between',alignItems:'center'}}>

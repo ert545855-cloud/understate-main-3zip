@@ -79,7 +79,7 @@ async function placeBid({ tenderId, bidderUsername, familyName, amount }) {
     if (!tender) return { ok: false, msg: 'İhale bulunamadı' };
     if (tender.status !== 'open') return { ok: false, msg: 'İhale açık değil' };
     if (tender.endsAt < Date.now()) return { ok: false, msg: 'İhale süresi doldu' };
-    if (amount <= tender.currentBid) return { ok: false, msg: `Mevcut tekliften (₺${tender.currentBid.toLocaleString('tr-TR')}) yüksek teklif verin` };
+    if (amount <= tender.currentBid) return { ok: false, msg: `Mevcut tekliften (🪙${tender.currentBid.toLocaleString('tr-TR')}) yüksek teklif verin` };
 
     const newBid = { bidder: bidderUsername, amount, familyName: familyName || bidderUsername, timestamp: Date.now() };
     const bids = [newBid, ...(tender.bids || [])].slice(0, 20);

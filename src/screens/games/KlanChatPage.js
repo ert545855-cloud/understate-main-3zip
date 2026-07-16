@@ -21,7 +21,7 @@ function KlanChatPage({ profile }) {
   const [historyLoading, setHistoryLoading] = useState(false);
   const endRef = useRef(null);
   const rtdbRef = useRef(null);
-  const bg = dark ? '#0F172A' : '#F8FAFC';
+  const bg = dark ? '#1A0E00' : '#F8FAFC';
   const card = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
   const rooms = ['Genel', 'Liderler', 'Savaş Planı', 'Ticaret'];
@@ -168,7 +168,7 @@ function KlanChatPage({ profile }) {
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%',display:'flex',flexDirection:'column',gap:'0.75rem'}}>
       <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:800,color:'#C9A227',letterSpacing:'0.08em'}}>🔒 KLAN SOHBET</div>
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.1rem',fontWeight:800,color:'#C9A227',letterSpacing:'0.08em'}}>🔒 KLAN SOHBET</div>
         <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
           {historyLoading && <span style={{fontSize:'0.62rem',color:'#C9A227'}}>⏳</span>}
           <button onClick={()=>loadHistory(room)} style={{background:'rgba(201,162,39,0.1)',border:'1px solid rgba(201,162,39,0.20)',borderRadius:'8px',padding:'0.25rem 0.6rem',color:'#C9A227',fontSize:'0.65rem',fontWeight:700,cursor:'pointer'}}>🔄</button>

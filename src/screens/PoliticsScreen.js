@@ -25,12 +25,12 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
 
   const myParty = parties.find(p => p.leaderId===profile?.uid || (p.members||[]).includes(profile?.uid));
   const isLeader = myParty?.leaderId === profile?.uid;
-  const isPresident = cabinet['Devlet Başkanı'] === profile?.username;
+  const isPadisah = cabinet['Padişah'] === profile?.username;
 
   const CABINET_ROLES = [
-    'Devlet Başkanı','Meclis Başkanı','Milletvekili',
-    'İçişleri Bakanı','Belediye Başkanı','Vali',
-    'Genelkurmay Başkanı','Ticaret Bakanı','Maliye Bakanı'
+    'Padişah','Divan Reisi','Divan Üyesi',
+    'İçişleri Bakanı','Nahiye Valisi','Vali',
+    'Serasker','Ticaret Bakanı','Maliye Bakanı'
   ];
 
   const PARTY_CREATE_COST = 100000;
@@ -43,7 +43,7 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
       const myG = allGs.find(g=>g.id===profile.gang);
       if (myG) { showNotif(`${myG.type==='family'?'👨‍👩‍👧‍👦 Aile':'⚔️ Çete'} üyeleri parti kuramazlar. Önce ayrılın.`, 'error'); return; }
     }
-    if ((profile?.money||0) < PARTY_CREATE_COST) { showNotif(`Parti kurmak için ₺${PARTY_CREATE_COST.toLocaleString('tr-TR')} gerekli`, 'error'); return; }
+    if ((profile?.money||0) < PARTY_CREATE_COST) { showNotif(`Parti kurmak için 🪙${PARTY_CREATE_COST.toLocaleString('tr-TR')} gerekli`, 'error'); return; }
     const eduDiploma = profile?.education?.diploma || profile?.diplomaLevel || 'ilkokul';
     const eduCycles = profile?.education?.educationCycles || 0;
     const eduOrder = ['ilkokul','ortaokul','lise','universite','yukseklisans','doktora','profesor'];
@@ -141,19 +141,19 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
   };
 
   const removeFromCabinet = (role) => {
-    if (!isPresident&&!isLeader) { showNotif('Bu yetkiye sahip değilsiniz','error'); return; }
+    if (!isPadisah&&!isLeader) { showNotif('Bu yetkiye sahip değilsiniz','error'); return; }
     setCabinet(prev => { const np={...prev}; delete np[role]; localStorage.setItem('rep_cabinet',JSON.stringify(np)); return np; });
     showNotif(`${role} görevden alındı`,'info');
   };
 
   const GOV_ROLE_DEFS = {
-    'Devlet Başkanı':    {icon:'👑', cd:4*3600000,  label:'Ulusal Duyuru',       xp:500,  money:0,      desc:'Ulusal karar al, XP kazan'},
-    'Meclis Başkanı':    {icon:'🏛️',cd:3*3600000,  label:'Meclis Oturumu',      xp:300,  money:0,      desc:'Milletvekilleri oylaması yönet'},
-    'Milletvekili':      {icon:'📋', cd:2*3600000,  label:'Yasa Önergesi',       xp:200,  money:0,      desc:'Meclis gündemine önerge ver'},
+    'Padişah':    {icon:'👑', cd:4*3600000,  label:'Ulusal Duyuru',       xp:500,  money:0,      desc:'Ulusal karar al, XP kazan'},
+    'Divan Reisi':    {icon:'🏛️',cd:3*3600000,  label:'Meclis Oturumu',      xp:300,  money:0,      desc:'Milletvekilleri oylaması yönet'},
+    'Divan Üyesi':      {icon:'📋', cd:2*3600000,  label:'Yasa Önergesi',       xp:200,  money:0,      desc:'Meclis gündemine önerge ver'},
     'İçişleri Bakanı':   {icon:'🚔', cd:2*3600000,  label:'Polis Operasyonu',    xp:200,  money:0,      desc:'Güvenlik operasyonu başlat'},
-    'Belediye Başkanı':  {icon:'🏙️', cd:4*3600000,  label:'Şehir Projesi',       xp:400,  money:200000, desc:'Şehir projesi başlat, kira topla'},
+    'Nahiye Valisi':  {icon:'🏙️', cd:4*3600000,  label:'Şehir Projesi',       xp:400,  money:200000, desc:'Şehir projesi başlat, kira topla'},
     'Vali':              {icon:'🏛️', cd:6*3600000,  label:'İl Kalkınması',       xp:350,  money:150000, desc:'İl yönet, vergi topla'},
-    'Genelkurmay Başkanı':{icon:'⚔️',cd:4*3600000, label:'Askeri Operasyon',    xp:500,  money:0,      desc:'Ordu komutanı, savaş başlatır'},
+    'Serasker':{icon:'⚔️',cd:4*3600000, label:'Askeri Operasyon',    xp:500,  money:0,      desc:'Ordu komutanı, savaş başlatır'},
     'Ticaret Bakanı':    {icon:'📦', cd:5*3600000,  label:'Ticaret Anlaşması',   xp:200,  money:250000, desc:'Ekonomiyi büyüt'},
     'Maliye Bakanı':     {icon:'💸', cd:6*3600000,  label:'Bütçe Kararı',        xp:150,  money:0,      desc:'Para bas, vergi ve faiz oranı ayarla'},
   };
@@ -230,7 +230,7 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
     else if (eduRank <= 3)     eduBonus = 2;
     else if (eduRank <= 10)    eduBonus = 1;
     voteWeight += eduBonus;
-    // UC katsayı bonusu
+    // Altın katsayı bonusu
     const ucBonus = profile?.voteMultiplier || 0;
     voteWeight += ucBonus;
     setElections(e => { const next={...e, votes:{...(e.votes||{}),[profile.uid]:candidateUid}, candidates:(e.candidates||[]).map(c=>c.uid===candidateUid?{...c,votes:(c.votes||0)+voteWeight}:c)}; try{window._socket?.emit('election:sync',{elections:next});}catch(ex){}; return next; });
@@ -249,14 +249,14 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
   const subs = [{id:'parties',label:'🏛️ Partiler'},{id:'harita',label:'🗺️ Harita'},{id:'management',label:'⚙️ Yönetim'},{id:'govpanel',label:'🏛️ Makam'},{id:'laws',label:'⚖️ Yasalar'},{id:'election',label:'🗳️ Seçim'}];
 
   const ALL_POSITIONS = [
-    { id:'devlet_baskani', title:'Devlet Başkanı', icon:'👑', desc:'En yüksek yönetim makamı', req:'Parti üyesi olmak zorunlu', openTo:'parti', electionKey:'presElection' },
-    { id:'meclis_baskani', title:'Meclis Başkanı', icon:'🏛️', desc:'Meclis oturumlarını yönetir', req:'Milletvekili seçilmek gerekir', openTo:'mp', electionKey:'speakerElection' },
-    { id:'milletvekili', title:'Milletvekili', icon:'📋', desc:'Yasama organı üyesi', req:'Parti üyesi olmak zorunlu', openTo:'parti', electionKey:'mpElection' },
-    { id:'icisleri', title:'İçişleri Bakanı', icon:'🚔', desc:'Güvenlik ve polis operasyonları', req:'Devlet Başkanı atar', openTo:'atama', electionKey:null },
-    { id:'belediye', title:'Belediye Başkanı', icon:'🏙️', desc:'Şehir yönetimi ve projeleri', req:'Genel seçimle belirlenir', openTo:'genel', electionKey:'mayorElection' },
-    { id:'vali', title:'Vali', icon:'🏛️', desc:'İl yönetimi ve kalkınma', req:'Devlet Başkanı atar', openTo:'atama', electionKey:null },
-    { id:'genelkurmay', title:'Genelkurmay Başkanı', icon:'⚔️', desc:'Ordunun tek komutanı — savaş başlatır', req:'Herkes aday olabilir (parti şartı yok)', openTo:'herkese', electionKey:'generalElection' },
-    { id:'ticaret', title:'Ticaret Bakanı', icon:'📦', desc:'Ekonomi ve ticaret anlaşmaları', req:'Devlet Başkanı atar', openTo:'atama', electionKey:null },
+    { id:'padisah', title:'Padişah', icon:'👑', desc:'En yüksek yönetim makamı', req:'Parti üyesi olmak zorunlu', openTo:'parti', electionKey:'presElection' },
+    { id:'divan_reisi', title:'Divan Reisi', icon:'🏛️', desc:'Meclis oturumlarını yönetir', req:'Divan Üyesi seçilmek gerekir', openTo:'mp', electionKey:'speakerElection' },
+    { id:'divan üyesi', title:'Divan Üyesi', icon:'📋', desc:'Yasama organı üyesi', req:'Parti üyesi olmak zorunlu', openTo:'parti', electionKey:'mpElection' },
+    { id:'icisleri', title:'İçişleri Bakanı', icon:'🚔', desc:'Güvenlik ve polis operasyonları', req:'Padişah atar', openTo:'atama', electionKey:null },
+    { id:'valilik', title:'Nahiye Valisi', icon:'🏙️', desc:'Şehir yönetimi ve projeleri', req:'Genel seçimle belirlenir', openTo:'genel', electionKey:'mayorElection' },
+    { id:'vali', title:'Vali', icon:'🏛️', desc:'İl yönetimi ve kalkınma', req:'Padişah atar', openTo:'atama', electionKey:null },
+    { id:'seraskerlik', title:'Serasker', icon:'⚔️', desc:'Ordunun tek komutanı — savaş başlatır', req:'Herkes aday olabilir (parti şartı yok)', openTo:'herkese', electionKey:'generalElection' },
+    { id:'ticaret', title:'Ticaret Bakanı', icon:'📦', desc:'Ekonomi ve ticaret anlaşmaları', req:'Padişah atar', openTo:'atama', electionKey:null },
     { id:'maliye', title:'Maliye Bakanı', icon:'💸', desc:'Para basma, vergi ve faiz oranı', req:'Parti üyesi olmak zorunlu', openTo:'parti', electionKey:'financeElection' },
   ];
 
@@ -337,7 +337,7 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
                 </div>
               </div>
             ) : (
-              <Btn variant='ghost' size='sm' onClick={()=>setCreateModal(true)} style={{marginBottom:'0.75rem',width:'100%'}}>🏛️ Yeni Parti Kur (₺100.000 + Üniversite)</Btn>
+              <Btn variant='ghost' size='sm' onClick={()=>setCreateModal(true)} style={{marginBottom:'0.75rem',width:'100%'}}>🏛️ Yeni Parti Kur (🪙100.000 + Üniversite)</Btn>
             )}
             {parties.map(party => (
               <Card key={party.id} style={{marginBottom:'0.5rem',padding:'0.85rem',border:`1px solid ${party.id===myParty?.id?'rgba(201,162,39,0.3)':'rgba(255,255,255,0.05)'}`}}>
@@ -407,7 +407,7 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
                       {[
                         {label:'📢 Propaganda', cd:6*3600000, id:'prop', onClick:()=>partyAction('prop',6*3600000,()=>{setParties(prev=>prev.map(p=>p.id===myParty.id?{...p,support:Math.min(100,(p.support||0)+3)}:p));showNotif('📢 Propaganda başarılı! +3% destek','success');})},
                         {label:'🎯 Üye Kazan', cd:8*3600000, id:'recruit', onClick:()=>partyAction('recruit',8*3600000,()=>{setProfile(pr=>{const np={...pr,xp:(pr.xp||0)+200};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;});showNotif('🎯 Üyelik sürücüsü! +200 XP','success');})},
-                        {label:'💼 Bağış Kampanyası', cd:12*3600000, id:'fundraise', onClick:()=>partyAction('fundraise',12*3600000,()=>{setParties(prev=>prev.map(p=>p.id===myParty.id?{...p,treasury:(p.treasury||0)+10000}:p));showNotif('💼 Kampanya başarılı! +₺10.000 kasa','success');})},
+                        {label:'💼 Bağış Kampanyası', cd:12*3600000, id:'fundraise', onClick:()=>partyAction('fundraise',12*3600000,()=>{setParties(prev=>prev.map(p=>p.id===myParty.id?{...p,treasury:(p.treasury||0)+10000}:p));showNotif('💼 Kampanya başarılı! +🪙10.000 kasa','success');})},
                         {label:'🗞️ Basın Açıklaması', cd:4*3600000, id:'press', onClick:()=>partyAction('press',4*3600000,()=>{setParties(prev=>prev.map(p=>p.id===myParty.id?{...p,support:Math.min(100,(p.support||0)+1)}:p));setProfile(pr=>{const np={...pr,xp:(pr.xp||0)+150};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;});showNotif('🗞️ Basın açıklaması yayınlandı! +1% destek, +150 XP','success');})},
                       ].map(a => {
                         const key = `party_${myParty.id}_${a.id}`;
@@ -512,8 +512,8 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
               return (
                 <div style={{background:'rgba(201,162,39,0.06)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'14px',padding:'1rem',marginBottom:'0.75rem'}}>
                   <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.65rem'}}>
-                    <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,color:'#C9A227',fontSize:'0.88rem'}}>🏛️ Meclis Koltuk Dağılımı</div>
-                    <div style={{fontSize:'0.68rem',color:'#8893A1',fontWeight:700}}>{TOTAL_SEATS} Milletvekili</div>
+                    <div style={{fontFamily:"'Cinzel',serif",fontWeight:800,color:'#C9A227',fontSize:'0.88rem'}}>🏛️ Meclis Koltuk Dağılımı</div>
+                    <div style={{fontSize:'0.68rem',color:'#8893A1',fontWeight:700}}>{TOTAL_SEATS} Divan Üyesi</div>
                   </div>
                   {/* Yarı daire görsel */}
                   <div style={{marginBottom:'0.65rem'}}>
@@ -677,13 +677,13 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
 
         {sub==='election' && (() => {
           const VOTE_POSITIONS = [
-            {key:'devlet_baskani',   title:'Devlet Başkanı',      icon:'👑',  openTo:'parti'},
-            {key:'meclis_baskani',   title:'Meclis Başkanı',       icon:'🏛️', openTo:'parti'},
-            {key:'milletvekili',     title:'Milletvekili',         icon:'📜',  openTo:'parti'},
+            {key:'padisah',   title:'Padişah',      icon:'👑',  openTo:'parti'},
+            {key:'divan_reisi',   title:'Divan Reisi',       icon:'🏛️', openTo:'parti'},
+            {key:'divan üyesi',     title:'Divan Üyesi',         icon:'📜',  openTo:'parti'},
             {key:'icisleri_bakani',  title:'İçişleri Bakanı',      icon:'🛡️', openTo:'atama'},
-            {key:'belediye_baskani', title:'Belediye Başkanı',     icon:'🏙️', openTo:'genel'},
+            {key:'vali', title:'Nahiye Valisi',     icon:'🏙️', openTo:'genel'},
             {key:'vali',             title:'Vali',                 icon:'🏢',  openTo:'atama'},
-            {key:'genelkurmay',      title:'Genelkurmay Başkanı',  icon:'⚔️', openTo:'herkese'},
+            {key:'seraskerlik',      title:'Serasker',  icon:'⚔️', openTo:'herkese'},
             {key:'ticaret_bakani',   title:'Ticaret Bakanı',       icon:'📊',  openTo:'atama'},
             {key:'maliye_bakani',    title:'Maliye Bakanı',        icon:'💰',  openTo:'parti'},
           ];
@@ -797,7 +797,7 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
 
                     {pos.openTo === 'atama' && !isActive && (
                       <div style={{fontSize:'0.7rem',color:'#8893A1',background:'rgba(237,231,218,0.02)',borderRadius:'8px',padding:'0.4rem 0.6rem'}}>
-                        🏛️ Bu makam Devlet Başkanı tarafından atanır.
+                        🏛️ Bu makam Padişah tarafından atanır.
                       </div>
                     )}
 
@@ -883,7 +883,7 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
             </div>
           </div>
           <div style={{background:'rgba(201,162,39,0.06)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'10px',padding:'0.65rem',fontSize:'0.78rem',color:'#C9A227',marginBottom:'1rem'}}>
-            💡 Parti kurmak için ₺100.000 ve Üniversite diploması gerektirir. Bakiye: {fmtWord(profile?.money||0)}
+            💡 Parti kurmak için 🪙100.000 ve Üniversite diploması gerektirir. Bakiye: {fmtWord(profile?.money||0)}
           </div>
           <Btn variant='primary' size='full' onClick={createParty}>🏛️ Partiyi Kur</Btn>
         </Modal>
@@ -911,7 +911,7 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
         <Modal title="💰 Parti Kasasına Bağış" onClose={()=>{setDonateModal(false);setDonateAmount('');}}>
           <div style={{marginBottom:'1rem'}}>
             <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.4rem',fontWeight:700}}>Bağış Miktarı</div>
-            <input type="number" value={donateAmount} onChange={e=>setDonateAmount(e.target.value)} placeholder="₺ Tutar" style={inputSt} />
+            <input type="number" value={donateAmount} onChange={e=>setDonateAmount(e.target.value)} placeholder="🪙 Tutar" style={inputSt} />
             <div style={{display:'flex',gap:'0.4rem',marginTop:'0.5rem',flexWrap:'wrap'}}>
               {[5000,10000,25000,50000].map(n=><button key={n} onClick={()=>setDonateAmount(String(n))} style={{padding:'0.3rem 0.65rem',borderRadius:'8px',border:'1px solid rgba(237,231,218,0.1)',background:'rgba(237,231,218,0.03)',color:'#8893A1',fontSize:'0.72rem',cursor:'pointer',fontWeight:700}}>{fmtWord(n)}</button>)}
             </div>
@@ -1167,7 +1167,7 @@ function TerritorySystem({ profile, setProfile, showNotif, myGang, gangs, setGan
   const [nowTs, setNowTs] = useState(Date.now());
   useEffect(() => { const t = setInterval(() => { setTick(p=>p+1); setNowTs(Date.now()); }, 1000); return () => clearInterval(t); }, []);
 
-  const bg = dark ? '#0F172A' : '#F8FAFC';
+  const bg = dark ? '#1A0E00' : '#F8FAFC';
   const card = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
 
@@ -1186,7 +1186,7 @@ function TerritorySystem({ profile, setProfile, showNotif, myGang, gangs, setGan
     }
     const current = territories[city];
     const cost = 150000;
-    if ((profile?.money || 0) < cost) { showNotif(`Bölge almak için ₺${fmtWord(cost)} gerekli!`, 'error'); return; }
+    if ((profile?.money || 0) < cost) { showNotif(`Bölge almak için 🪙${fmtWord(cost)} gerekli!`, 'error'); return; }
     const weapons = myGang?.weapons || 0;
     const myPower = (myGang?.power || 10) + (weapons * 5);
     if (current && current.gangId !== myGang.id) {
@@ -1250,7 +1250,7 @@ function TerritorySystem({ profile, setProfile, showNotif, myGang, gangs, setGan
           ))}
         </div>
         {!myGang && <div style={{marginTop:'0.5rem',fontSize:'0.75rem',color:'#E08C87',textAlign:'center'}}>Bölge almak için bir çeteye katıl!</div>}
-        <div style={{marginTop:'0.5rem',fontSize:'0.65rem',color:'#8893A1'}}>💡 Bölge almak: ₺150.000 • Ele geçirme sonrası 1 gün savaş yok • Kaybedince 2 hafta savaş yok</div>
+        <div style={{marginTop:'0.5rem',fontSize:'0.65rem',color:'#8893A1'}}>💡 Bölge almak: 🪙150.000 • Ele geçirme sonrası 1 gün savaş yok • Kaybedince 2 hafta savaş yok</div>
       </div>
 
       {/* ── Türkiye Haritası ── */}
@@ -1323,7 +1323,7 @@ function TerritorySystem({ profile, setProfile, showNotif, myGang, gangs, setGan
             ) : (
               <div>Boş bölge! Hemen sahiplen.</div>
             )}
-            <div style={{marginTop:'0.5rem',color:'#C9A227'}}>💰 Maliyet: ₺150.000<br/>🔫 Silah bonusu: +{(myGang?.weapons||0)*5} güç</div>
+            <div style={{marginTop:'0.5rem',color:'#C9A227'}}>💰 Maliyet: 🪙150.000<br/>🔫 Silah bonusu: +{(myGang?.weapons||0)*5} güç</div>
           </div>
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.5rem'}}>
             <Btn variant='ghost' size='md' onClick={()=>setAttackModal(null)}>İptal</Btn>
@@ -1365,7 +1365,7 @@ function WeaponSystem({ profile, setProfile, showNotif, myGang, gangs, setGangs,
     if (!isGangLeader) { showNotif('Silah sadece çete lideri tarafından alınabilir!', 'error'); return; }
     const qty   = Math.max(1, parseInt(buyQty) || 1);
     const total = qty * WEAPON_COST;
-    if ((profile?.money || 0) < total) { showNotif(`Yetersiz para! Gerekli: ₺${fmtWord(total)}`, 'error'); return; }
+    if ((profile?.money || 0) < total) { showNotif(`Yetersiz para! Gerekli: 🪙${fmtWord(total)}`, 'error'); return; }
     setGangs(prev => prev.map(g => g.id === myGang.id ? { ...g, weapons: (g.weapons || 0) + qty } : g));
     setProfile(p => { const np = { ...p, money: (p.money||0) - total, xp: (p.xp||0) + qty * 50 }; localStorage.setItem('rep_userProfile', JSON.stringify(np)); return np; });
     showNotif(`🔫 ${qty} silah satın alındı! +${qty*50} XP`, 'success');
@@ -1377,7 +1377,7 @@ function WeaponSystem({ profile, setProfile, showNotif, myGang, gangs, setGangs,
     const gain = Math.floor(qty * WEAPON_COST * 0.7);
     setGangs(prev => prev.map(g => g.id === myGang.id ? { ...g, weapons: (g.weapons || 0) - qty } : g));
     setProfile(p => { const np = { ...p, money: (p.money||0) + gain }; localStorage.setItem('rep_userProfile', JSON.stringify(np)); return np; });
-    showNotif(`💰 ${qty} silah satıldı. +₺${fmtWord(gain)}`, 'success');
+    showNotif(`💰 ${qty} silah satıldı. +🪙${fmtWord(gain)}`, 'success');
   };
 
   const buyAmmo = () => {
@@ -1387,7 +1387,7 @@ function WeaponSystem({ profile, setProfile, showNotif, myGang, gangs, setGangs,
     const ammoType = AMMO_TYPES[ammoTab];
     const qty   = Math.max(1, parseInt(ammoQty) || 1);
     const total = qty * ammoType.costPerBox;
-    if ((profile?.money || 0) < total) { showNotif(`Yetersiz para! Gerekli: ₺${fmtWord(total)}`, 'error'); return; }
+    if ((profile?.money || 0) < total) { showNotif(`Yetersiz para! Gerekli: 🪙${fmtWord(total)}`, 'error'); return; }
     const powerGain = qty * ammoType.powerPerBox;
     setGangs(prev => prev.map(g => g.id === myGang.id ? { ...g, ammo: (g.ammo || 0) + powerGain } : g));
     setProfile(p => { const np = { ...p, money: (p.money||0) - total, xp: (p.xp||0) + qty * 80 }; localStorage.setItem('rep_userProfile', JSON.stringify(np)); return np; });
@@ -1400,7 +1400,7 @@ function WeaponSystem({ profile, setProfile, showNotif, myGang, gangs, setGangs,
     const gain = Math.floor(pwr * 40000);
     setGangs(prev => prev.map(g => g.id === myGang.id ? { ...g, ammo: Math.max(0, (g.ammo || 0) - pwr) } : g));
     setProfile(p => { const np = { ...p, money: (p.money||0) + gain }; localStorage.setItem('rep_userProfile', JSON.stringify(np)); return np; });
-    showNotif(`💰 Mermi satıldı. +₺${fmtWord(gain)}`, 'success');
+    showNotif(`💰 Mermi satıldı. +🪙${fmtWord(gain)}`, 'success');
   };
 
   return (
@@ -1435,7 +1435,7 @@ function WeaponSystem({ profile, setProfile, showNotif, myGang, gangs, setGangs,
         <>
           {/* ── Silah bölümü ── */}
           <div style={{ background: card, border: `1px solid ${border}`, borderRadius: 14, padding: '1rem', marginBottom: '0.65rem' }}>
-            <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#C24B43', marginBottom: '0.65rem' }}>🔫 Silah Al (₺{fmtWord(WEAPON_COST)}/adet · +5 güç)</div>
+            <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#C24B43', marginBottom: '0.65rem' }}>🔫 Silah Al (🪙{fmtWord(WEAPON_COST)}/adet · +5 güç)</div>
             <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
               <div style={{ flex: 1, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, display: 'flex', alignItems: 'center' }}>
                 <button onClick={() => setBuyQty(q => Math.max(1, q - 1))} style={{ background: 'none', border: 'none', color: '#EDE7DA', padding: '0.5rem 0.75rem', cursor: 'pointer', fontSize: '1rem' }}>-</button>
@@ -1444,7 +1444,7 @@ function WeaponSystem({ profile, setProfile, showNotif, myGang, gangs, setGangs,
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 2 }}>
                 <div style={{ fontSize: '0.65rem', color: '#8893A1' }}>Toplam</div>
-                <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#C24B43' }}>₺{fmtWord(buyQty * WEAPON_COST)}</div>
+                <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#C24B43' }}>🪙{fmtWord(buyQty * WEAPON_COST)}</div>
               </div>
             </div>
             <div style={{ display: 'flex', gap: '0.35rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
@@ -1456,7 +1456,7 @@ function WeaponSystem({ profile, setProfile, showNotif, myGang, gangs, setGangs,
                 {[1,5,10].filter(n => n <= myWeapons).map(n => (
                   <button key={n} onClick={() => sellWeapons(n)} disabled={!isGangLeader}
                     style={{ flex: 1, padding: '0.4rem', borderRadius: 8, border: '1px solid rgba(201,162,39,0.25)', background: 'rgba(201,162,39,0.07)', color: '#C9A227', fontWeight: 700, fontSize: '0.72rem', cursor: 'pointer' }}>
-                    {n} sat (+₺{fmtWord(Math.floor(n * WEAPON_COST * 0.7))})
+                    {n} sat (+🪙{fmtWord(Math.floor(n * WEAPON_COST * 0.7))})
                   </button>
                 ))}
               </div>
@@ -1488,7 +1488,7 @@ function WeaponSystem({ profile, setProfile, showNotif, myGang, gangs, setGangs,
                       <div style={{ fontSize: '0.62rem', color: '#8893A1', marginTop: 2 }}>{at.desc} · +{at.powerPerBox} güç/kutu</div>
                     </div>
                     <div style={{ textAlign: 'right' }}>
-                      <div style={{ fontWeight: 800, color: '#C24B43', fontSize: '0.9rem' }}>₺{fmtWord(at.costPerBox)}</div>
+                      <div style={{ fontWeight: 800, color: '#C24B43', fontSize: '0.9rem' }}>🪙{fmtWord(at.costPerBox)}</div>
                       <div style={{ fontSize: '0.58rem', color: '#8893A1' }}>kutu başı</div>
                     </div>
                   </div>
@@ -1500,7 +1500,7 @@ function WeaponSystem({ profile, setProfile, showNotif, myGang, gangs, setGangs,
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 2 }}>
                       <div style={{ fontSize: '0.65rem', color: '#8893A1' }}>+{ammoQty * at.powerPerBox} güç</div>
-                      <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#F97316' }}>₺{fmtWord(ammoQty * at.costPerBox)}</div>
+                      <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#F97316' }}>🪙{fmtWord(ammoQty * at.costPerBox)}</div>
                     </div>
                   </div>
                   <div style={{ display: 'flex', gap: '0.35rem', marginBottom: '0.5rem' }}>
@@ -1521,7 +1521,7 @@ function WeaponSystem({ profile, setProfile, showNotif, myGang, gangs, setGangs,
                   {[10,50,100].filter(n => n <= myAmmo).map(n => (
                     <button key={n} onClick={() => sellAmmo(n)} disabled={!isGangLeader}
                       style={{ flex: 1, padding: '0.35rem', borderRadius: 8, border: '1px solid rgba(201,162,39,0.2)', background: 'rgba(201,162,39,0.06)', color: '#C9A227', fontWeight: 700, fontSize: '0.68rem', cursor: 'pointer' }}>
-                      {n} sat (+₺{fmtWord(n * 40000)})
+                      {n} sat (+🪙{fmtWord(n * 40000)})
                     </button>
                   ))}
                 </div>

@@ -67,7 +67,7 @@ function sendWelcome(to, username) {
     <hr style="border:none;border-top:1px solid rgba(200,155,60,.15);margin:16px 0">
     <p style="color:#F5EBD7;font-weight:600;margin-bottom:10px">Başlangıç bonusların:</p>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
-      ${[['₺10.000','Başlangıç Akçesi'],['50 UC','Altın Sikke'],['Lv1','Seviye']].map(([v,l])=>`
+      ${[['🪙10.000','Başlangıç Akçesi'],['50 Altın','Altın Sikke'],['Lv1','Seviye']].map(([v,l])=>`
       <div style="flex:1;min-width:90px;background:rgba(200,155,60,.1);border:1px solid rgba(200,155,60,.25);border-radius:10px;padding:12px;text-align:center">
         <div style="font-size:1.1rem;font-weight:800;color:#C89B3C">${v}</div>
         <div style="font-size:.7rem;color:#A9A6A0;text-transform:uppercase;margin-top:3px">${l}</div>

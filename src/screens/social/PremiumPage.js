@@ -16,7 +16,7 @@ function PremiumPage({ profile, setProfile, showNotif }) {
   const plans = [
     { id:'month', label:'Aylık VIP', price:249.99, uc:0, days:30, badge:'⭐', popular:true },
     { id:'year',  label:'Yıllık VIP', price:2499.99, uc:0, days:365, badge:'💎', save:'%17 Tasarruf' },
-    { id:'uc',   label:'UC ile Al', price:0, uc:500, days:30, badge:'🪙', desc:'500 UC ile 1 aylık VIP' },
+    { id:'uc',   label:'UC ile Al', price:0, uc:500, days:30, badge:'🪙', desc:'500 Altın ile 1 aylık VIP' },
   ];
 
   return (
@@ -24,7 +24,7 @@ function PremiumPage({ profile, setProfile, showNotif }) {
       {/* Hero */}
       <div style={{background:'linear-gradient(135deg,#1a0a2e,#2d1060)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'14px',padding:'1.5rem',textAlign:'center',marginBottom:'0.75rem'}}>
         <div style={{fontSize:'2.5rem',marginBottom:'0.5rem'}}>💎</div>
-        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#EDE7DA',marginBottom:'0.25rem'}}>SALTANAT VIP</div>
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.3rem',fontWeight:900,color:'#EDE7DA',marginBottom:'0.25rem'}}>SALTANAT VIP</div>
         <div style={{fontSize:'0.78rem',color:'#EDE7DA'}}>Premium üyelik ile tüm avantajların kilidini aç</div>
         {profile?.premium && <Tag color='violet' style={{marginTop:'0.5rem'}}>✅ Aktif VIP Üye</Tag>}
       </div>
@@ -57,7 +57,7 @@ function PremiumPage({ profile, setProfile, showNotif }) {
             <div style={{fontSize:'0.7rem',color:'#8893A1'}}>{p.days} gün VIP</div>
           </div>
           <div style={{textAlign:'right'}}>
-            <div style={{fontWeight:900,color:'#C9A227',fontSize:'1rem'}}>{p.price>0 ? `₺${p.price}` : `${p.uc} UC`}</div>
+            <div style={{fontWeight:900,color:'#C9A227',fontSize:'1rem'}}>{p.price>0 ? `🪙${p.price}` : `${p.uc} Altın`}</div>
             <Btn variant='ghost' size='sm' onClick={()=>showNotif('Ödeme sistemi yakında aktif! 💎','gold')} style={{marginTop:'0.25rem'}}>Satın Al</Btn>
           </div>
         </div>

@@ -16,15 +16,11 @@ function Header({ profile, notifCount, onNotif, page, onNavigate }) {
   const lvl       = getLevelInfo(profile?.xp || 0);
   const T         = useT();
   const lang      = useContext(LangCtx);
-  const [_parties] = useLs('parties', []);
-  const [_gangs]   = useLs('gangs', []);
-  // Normalize: DB/socket may return object maps; ensure arrays before .find()
-  const parties = Array.isArray(_parties) ? _parties : Object.values(_parties || {});
-  const gangs   = Array.isArray(_gangs)   ? _gangs   : Object.values(_gangs   || {});
   const uid     = profile?.uid || profile?.id;
-  const myParty = uid ? parties.find(p => p && (p.leaderId===uid || (Array.isArray(p.members) ? p.members.includes(uid) : false))) : null;
-  const myGang  = uid ? gangs.find(g  => g  && (g.leaderId===uid  || (Array.isArray(g.members) ? g.members.includes(uid)  : false))) : null;
-  const orgLabel = myParty ? `🏛️ ${myParty.name}` : myGang ? `💀 ${myGang.name}` : null;
+  // Valilik unvanı
+  const valiVerisi = (() => { try { return JSON.parse(localStorage.getItem('rep_valiVerisi')||'{}'); } catch { return {}; } })();
+  const valiEyalet = Object.entries(valiVerisi).find(([,v]) => v.valiId === uid);
+  const orgLabel = valiEyalet ? `👑 ${valiEyalet[1].valiEyaletAdi || 'Vali'}` : null;
 
   const [showLangMenu, setShowLangMenu] = useState(false);
 
@@ -39,7 +35,7 @@ function Header({ profile, notifCount, onNotif, page, onNavigate }) {
   return (
     <div style={{
       position:'sticky', top:0, zIndex:100,
-      background:'#0C1330',
+      background:'#1A0E00',
       borderBottom:'1px solid rgba(255,255,255,0.1)',
       boxShadow:'0 2px 16px rgba(3,6,20,0.6)',
     }}>
@@ -52,7 +48,7 @@ function Header({ profile, notifCount, onNotif, page, onNavigate }) {
         <div style={{
           whiteSpace:'nowrap', fontSize:'0.56rem',
           fontFamily:"'JetBrains Mono',monospace",
-          color:'#8896B8',
+          color:'#A9A6A0',
           animation:'ticker 35s linear infinite',
           paddingLeft:'100%',
         }}>
@@ -72,18 +68,18 @@ function Header({ profile, notifCount, onNotif, page, onNavigate }) {
           <div style={{display:'flex',flexDirection:'column',justifyContent:'center',minWidth:0}}>
             <div style={{
               fontFamily:"'Inter',sans-serif", fontSize:'0.77rem', fontWeight:700,
-              color:'#F2F5FA', lineHeight:1.2,
+              color:'#F5EBD7', lineHeight:1.2,
               whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis',
             }}>
               {profile?.username || '—'}
             </div>
             <div style={{display:'flex',alignItems:'center',gap:'0.28rem',flexWrap:'nowrap',overflow:'hidden'}}>
-              <span style={{fontSize:'0.55rem',color:'#F0B33E',fontWeight:700,whiteSpace:'nowrap',fontFamily:"'Inter',sans-serif"}}>
+              <span style={{fontSize:'0.55rem',color:'#C89B3C',fontWeight:700,whiteSpace:'nowrap',fontFamily:"'Inter',sans-serif"}}>
                 {lvl.title}
               </span>
               {orgLabel && <>
                 <span style={{fontSize:'0.48rem',color:'rgba(255,255,255,0.25)'}}>•</span>
-                <span style={{fontSize:'0.55rem',color:'#8896B8',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',fontFamily:"'Inter',sans-serif"}}>
+                <span style={{fontSize:'0.55rem',color:'#A9A6A0',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',fontFamily:"'Inter',sans-serif"}}>
                   {orgLabel}
                 </span>
               </>}
@@ -100,22 +96,22 @@ function Header({ profile, notifCount, onNotif, page, onNavigate }) {
           borderRadius:'999px', flexShrink:0,
         }}>
           <span style={{fontSize:'0.72rem'}}>💰</span>
-          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.66rem',fontWeight:800,color:'#3ECF7A',lineHeight:1}}>
+          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.66rem',fontWeight:800,color:'#4CAF7A',lineHeight:1}}>
             {fmtWord(profile?.money)}
           </div>
         </div>
 
-        {/* UC pill */}
+        {/* Altın pill */}
         <div style={{
           display:'flex', alignItems:'center', gap:'4px',
           padding:'0.3rem 0.6rem',
-          background:'rgba(139,107,242,0.16)',
-          border:'1.5px solid rgba(139,107,242,0.42)',
+          background:'rgba(200,155,60,0.06)',
+          border:'1.5px solid rgba(200,155,60,0.25)',
           borderRadius:'999px', flexShrink:0,
         }}>
-          <span style={{fontSize:'0.72rem'}}>💎</span>
-          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.66rem',fontWeight:800,color:'#8B6BF2',lineHeight:1}}>
-            {fmt(profile?.underCoin||0)}
+          <span style={{fontSize:'0.72rem'}}>⚜️</span>
+          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.66rem',fontWeight:800,color:'#E8C06A',lineHeight:1}}>
+            {fmt(profile?.altin||profile?.underCoin||0)}
           </div>
         </div>
 
@@ -128,7 +124,7 @@ function Header({ profile, notifCount, onNotif, page, onNavigate }) {
               border:'1px solid rgba(255,255,255,0.14)',
               borderRadius:'999px', padding:'0.3rem 0.5rem',
               cursor:'pointer', fontSize:'0.78rem',
-              color:'#8896B8', display:'flex', alignItems:'center',
+              color:'#A9A6A0', display:'flex', alignItems:'center',
               gap:'2px', lineHeight:1,
               fontFamily:"'Inter',sans-serif",
             }}
@@ -139,7 +135,7 @@ function Header({ profile, notifCount, onNotif, page, onNavigate }) {
           {showLangMenu && (
             <div style={{
               position:'absolute', top:'calc(100% + 4px)', right:0,
-              background:'#16224A', border:'1px solid rgba(255,255,255,0.14)',
+              background:'#2D1800', border:'1px solid rgba(255,255,255,0.14)',
               borderRadius:'14px', padding:'4px', zIndex:200,
               display:'flex', flexDirection:'column', gap:'2px',
               boxShadow:'0 8px 24px rgba(3,6,20,0.7)',
@@ -153,7 +149,7 @@ function Header({ profile, notifCount, onNotif, page, onNavigate }) {
                     border: l.code===(lang||'tr') ? '1px solid rgba(240,179,62,0.4)' : '1px solid transparent',
                     borderRadius:'999px', padding:'5px 10px',
                     cursor:'pointer', display:'flex', alignItems:'center', gap:'6px',
-                    color: l.code===(lang||'tr') ? '#F0B33E' : '#F2F5FA',
+                    color: l.code===(lang||'tr') ? '#C89B3C' : '#F5EBD7',
                     fontSize:'0.75rem', fontFamily:"'Inter',sans-serif", fontWeight:600,
                     whiteSpace:'nowrap',
                   }}
@@ -178,8 +174,8 @@ function Header({ profile, notifCount, onNotif, page, onNavigate }) {
           }}
           title="Çevrimiçi oyuncular"
         >
-          <span style={{width:'5px',height:'5px',borderRadius:'50%',background:'#3ECF7A',display:'inline-block',boxShadow:'0 0 4px #3ECF7A'}}/>
-          <span style={{fontSize:'0.57rem',color:'#3ECF7A',fontWeight:700,fontFamily:"'JetBrains Mono',monospace"}}>
+          <span style={{width:'5px',height:'5px',borderRadius:'50%',background:'#4CAF7A',display:'inline-block',boxShadow:'0 0 4px #3ECF7A'}}/>
+          <span style={{fontSize:'0.57rem',color:'#4CAF7A',fontWeight:700,fontFamily:"'JetBrains Mono',monospace"}}>
             {onlineCnt}
           </span>
         </div>
@@ -193,14 +189,14 @@ function Header({ profile, notifCount, onNotif, page, onNavigate }) {
             border:'1px solid rgba(255,255,255,0.14)',
             borderRadius:'999px', padding:'0.3rem 0.48rem',
             cursor:'pointer', fontSize:'0.86rem',
-            color:'#8896B8', flexShrink:0,
+            color:'#A9A6A0', flexShrink:0,
           }}
         >
           🔔
           {notifCount > 0 && (
             <span style={{
               position:'absolute', top:'-3px', right:'-3px',
-              background:'#EF5350', color:'#F2F5FA',
+              background:'#B8423C', color:'#F5EBD7',
               fontSize:'0.49rem', fontWeight:900,
               minWidth:'13px', height:'13px', borderRadius:'7px',
               display:'flex', alignItems:'center', justifyContent:'center',

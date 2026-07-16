@@ -35,7 +35,7 @@ const KARIYER_COLORS = { textile:'#C9A227', food:'#C9A227', steel:'#6B7280', ele
 
 function KariyerCalismaPage({ profile, setProfile, showNotif }) {
   const { dark } = useTheme();
-  const bg    = dark ? '#0F172A' : '#F8FAFC';
+  const bg    = dark ? '#1A0E00' : '#F8FAFC';
   const card  = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
   const bord  = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
 
@@ -50,7 +50,7 @@ function KariyerCalismaPage({ profile, setProfile, showNotif }) {
     return () => clearInterval(t);
   }, []);
 
-  // Fabrika listesi ve aktif çalışma seansını sunucudan yükle
+  // Atölye listesi ve aktif çalışma seansını sunucudan yükle
   useEffect(() => {
     const jwt = localStorage.getItem('us_jwt');
     if (!jwt) return;
@@ -64,7 +64,7 @@ function KariyerCalismaPage({ profile, setProfile, showNotif }) {
       .catch(() => {});
   }, []);
 
-  // Socket: fabrika güncellemelerini dinle
+  // Socket: atölye güncellemelerini dinle
   useEffect(() => {
     const s = window._socket;
     if (!s) return;
@@ -161,7 +161,7 @@ function KariyerCalismaPage({ profile, setProfile, showNotif }) {
 
   return (
     <div style={{ padding: '1rem', background: bg, minHeight: '100%' }}>
-      <div style={{ fontFamily: "'Syne',sans-serif", fontSize: '1.1rem', fontWeight: 800, color: '#C9A227', letterSpacing: '0.06em', marginBottom: '0.25rem' }}>
+      <div style={{ fontFamily: "'Cinzel',serif", fontSize: '1.1rem', fontWeight: 800, color: '#C9A227', letterSpacing: '0.06em', marginBottom: '0.25rem' }}>
         🏗️ KARİYER ÇALIŞMA
       </div>
       <div style={{ fontSize: '0.75rem', color: '#8893A1', marginBottom: '1.25rem' }}>
@@ -214,7 +214,7 @@ function KariyerCalismaPage({ profile, setProfile, showNotif }) {
           <span style={{ fontSize: '1.4rem' }}>{myFactory.icon || '🏭'}</span>
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#C9A227' }}>{myFactory.name}</div>
-            <div style={{ fontSize: '0.68rem', color: '#8893A1' }}>Bu senin fabrikandır — kendi fabrikanda çalışamazsın.</div>
+            <div style={{ fontSize: '0.68rem', color: '#8893A1' }}>Bu senin atölyenizdır — kendi atölyenizda çalışamazsın.</div>
           </div>
         </div>
       )}
@@ -223,14 +223,14 @@ function KariyerCalismaPage({ profile, setProfile, showNotif }) {
       {!activeWork && (
         <div>
           <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#8893A1', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.6rem' }}>
-            {availableFactories.length === 0 ? 'Henüz başka fabrika yok' : `${availableFactories.length} Fabrika Mevcut`}
+            {availableFactories.length === 0 ? 'Henüz başka atölye yok' : `${availableFactories.length} Atölye Mevcut`}
           </div>
 
           {availableFactories.length === 0 && (
             <div style={{ textAlign: 'center', padding: '2.5rem 1rem', color: '#3B4E63' }}>
               <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>🏭</div>
-              <div style={{ fontSize: '0.85rem', marginBottom: '0.3rem' }}>Oyunda başka fabrika yok.</div>
-              <div style={{ fontSize: '0.72rem', color: '#2D3F54' }}>Diğer oyuncular fabrika kurduğunda buradan iş alabilirsin.</div>
+              <div style={{ fontSize: '0.85rem', marginBottom: '0.3rem' }}>Oyunda başka atölye yok.</div>
+              <div style={{ fontSize: '0.72rem', color: '#2D3F54' }}>Diğer oyuncular atölye kurduğunda buradan iş alabilirsin.</div>
             </div>
           )}
 
@@ -293,7 +293,7 @@ function KariyerCalismaPage({ profile, setProfile, showNotif }) {
           • Bir fabrikayı seç ve iş rolü başlat<br/>
           • Aynı anda sadece bir iş yapabilirsin<br/>
           • Süre dolunca maaşını topla<br/>
-          • Kendi fabrikanda çalışamazsın<br/>
+          • Kendi atölyenizda çalışamazsın<br/>
           • Ticaret puanın maaşına bonus ekler
         </div>
       </div>
@@ -321,7 +321,7 @@ const JOBS_LIST = [
 
 function JobsPage({ profile, setProfile, showNotif }) {
   const { dark } = useTheme();
-  const bg = dark ? '#0F172A' : '#F8FAFC';
+  const bg = dark ? '#1A0E00' : '#F8FAFC';
   const card = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
   const [cooldowns, setCooldowns] = useState({});
@@ -394,7 +394,7 @@ function JobsPage({ profile, setProfile, showNotif }) {
         s[dk] = {...(s[dk]||{}), dailyJobCount:((s[dk]?.dailyJobCount)||0)+1};
         localStorage.setItem('rep_dailyTaskState', JSON.stringify(s));
       } catch(e){}
-      const ucMsg = data.ucEarned > 0 ? ` +${data.ucEarned} UC` : '';
+      const ucMsg = data.ucEarned > 0 ? ` +${data.ucEarned} Altın` : '';
       showNotif(`${job.emoji} +${fmtWord(data.earned)} kazandın! +${data.xpGain} XP${ucMsg}`, 'success');
     } catch (err) {
       showNotif('❌ Bağlantı hatası', 'error');
@@ -407,7 +407,7 @@ function JobsPage({ profile, setProfile, showNotif }) {
 
   return (
     <div style={{padding:'1rem', background:bg, minHeight:'100%'}}>
-      <div style={{fontFamily:"'Syne',sans-serif", fontSize:'1.1rem', fontWeight:800, color:'#4C9A6B', letterSpacing:'0.08em', marginBottom:'0.25rem'}}>💼 İŞLER</div>
+      <div style={{fontFamily:"'Cinzel',serif", fontSize:'1.1rem', fontWeight:800, color:'#4C9A6B', letterSpacing:'0.08em', marginBottom:'0.25rem'}}>💼 İŞLER</div>
       <div style={{fontSize:'0.75rem', color:'#8893A1', marginBottom:'1rem'}}>Butona bas, para kazan. Her iş için bekleme süresi var.</div>
       <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'0.65rem'}}>
         {JOBS_LIST.map(job => {
@@ -462,7 +462,7 @@ const PARTNER_JOBS = [
   ]},
   { cat:'ÜRETİM', icon:'⚙️', color:'#C9A227', jobs:[
     { id:'sub_prod',  name:'Taşeron Üretim Siparişi', dur:'Anında', cdLabel:'4 dk',  cdMs:4*60*1000,  slots:2, earn:125000, tp:120, minLevel:1 },
-    { id:'factory_s', name:'Fabrika Vardiyası',        dur:'Anında', cdLabel:'8 dk',  cdMs:8*60*1000,  slots:2, earn:280000, tp:250, minLevel:1 },
+    { id:'factory_s', name:'İmalathane Vardiyası',        dur:'Anında', cdLabel:'8 dk',  cdMs:8*60*1000,  slots:2, earn:280000, tp:250, minLevel:1 },
   ]},
   { cat:'DIŞ TİCARET', icon:'🌐', color:'#4C9A6B', jobs:[
     { id:'customs',   name:'Gümrük Beyannamesi Onayı', dur:'Anında', cdLabel:'6 dk',  cdMs:6*60*1000,  slots:2, earn:220000, tp:200, minLevel:1 },
@@ -618,7 +618,7 @@ const CITY_BUILDINGS = [
   { id:'market',     emoji:'🏪', name:'Çarşı',               cost:80000,    time:10*60*1000,   effect:'economy',       bonus:'+3% Gelir',     desc:'Ekonomiyi canlandırır' },
   { id:'library',    emoji:'📚', name:'Kütüphane',           cost:120000,   time:25*60*1000,   effect:'education',     bonus:'+6 Eğitim',     desc:'Eğitim ve XP artışı' },
   { id:'stadium',    emoji:'🏟️', name:'Stadyum',             cost:500000,   time:60*60*1000,   effect:'happiness',     bonus:'+15 Mutluluk',  desc:'Büyük mutluluk bonusu' },
-  { id:'factory',    emoji:'🏭', name:'Fabrika',             cost:300000,   time:45*60*1000,   effect:'economy',       bonus:'+5% Gelir',     desc:'Üretim geliri sağlar' },
+  { id:'factory',    emoji:'🏭', name:'Atölye',             cost:300000,   time:45*60*1000,   effect:'economy',       bonus:'+5% Gelir',     desc:'Üretim geliri sağlar' },
   { id:'university', emoji:'🎓', name:'Üniversite',          cost:800000,   time:120*60*1000,  effect:'education',     bonus:'+20 Eğitim',    desc:'Maksimum eğitim bonusu' },
   { id:'metro',      emoji:'🚇', name:'Metro Hattı',         cost:1000000,  time:180*60*1000,  effect:'infrastructure', bonus:'+10 Altyapı',  desc:'Şehir altyapısını geliştirir' },
   { id:'tower',      emoji:'🏗️', name:'Gökdelen',            cost:2000000,  time:240*60*1000,  effect:'economy',       bonus:'+25 Ekonomi',   desc:'Finans merkezi', minLevel:10 },
@@ -627,7 +627,7 @@ const CITY_BUILDINGS = [
 
 function CityBuildPage({ profile, setProfile, showNotif }) {
   const { dark } = useTheme();
-  const bg = dark ? '#0F172A' : '#F8FAFC';
+  const bg = dark ? '#1A0E00' : '#F8FAFC';
   const card = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
   const [buildings, setBuildings] = useLs('cityBuildings', {});
@@ -689,7 +689,7 @@ function CityBuildPage({ profile, setProfile, showNotif }) {
 
   return (
     <div style={{padding:'1rem', background:bg, minHeight:'100%'}}>
-      <div style={{fontFamily:"'Syne',sans-serif", fontSize:'1.1rem', fontWeight:800, color:'#C9A227', letterSpacing:'0.08em', marginBottom:'1rem'}}>🏗️ ŞEHİR İNŞAAT</div>
+      <div style={{fontFamily:"'Cinzel',serif", fontSize:'1.1rem', fontWeight:800, color:'#C9A227', letterSpacing:'0.08em', marginBottom:'1rem'}}>🏗️ ŞEHİR İNŞAAT</div>
 
       {/* Şehir İstatistik Paneli */}
       <div style={{background:'#1B212B', borderRadius:'10px', padding:'1rem', marginBottom:'1rem', border:'1px solid rgba(201,162,39,0.15)'}}>
@@ -772,18 +772,18 @@ function WikiPage({ profile }) {
   const [selected, setSelected] = useState(null);
   const { dark } = useTheme();
   const articles = [
-    { id:'basics', icon:'🎮', cat:'Temel', title:'Oyuna Başlangıç', content:`SALTANAT ONLINE'a hoş geldin! Kullanıcı adın ve şifrenle giriş yap. Başlangıçta ₺10.000 nakit ve ₺5.000 banka bakiyen olur.\n\n• Görevleri tamamla → Para ve XP kazan\n• XP ile seviye atla → Yeni özellikler aç\n• Ticaret yap → Ticaret puanı kazan\n• Seçimlere katıl → Siyasi güç kazan\n\n📅 Günlük görevleri tamamla → Ekstra ödül kazan\n🏆 Başarımları tamamla → Özel rozetler kazan` },
-    { id:'levels', icon:'⭐', cat:'Temel', title:'Seviye & XP Sistemi', content:`XP kazanarak seviye atlarsın.\n\n• İş yap → +10–50 XP\n• Görev tamamla → +50–250 XP\n• PvP kazanma → +100 XP\n• Fabrika üretimi → +200 XP\n• Günlük login → +50 XP\n\nSeviyeler:\nLv.1–5: Çaylak\nLv.6–15: Vatandaş\nLv.16–30: Girişimci\nLv.31–50: Lider\nLv.51–75: Elit\nLv.76–99: Efsane\nLv.100: Cumhurbaşkanı\n\n⚠️ Parti kurabilmek için Lise diploması gerekir.` },
-    { id:'edu', icon:'🎓', cat:'Eğitim', title:'Eğitim Sistemi', content:`Eğitim tıklama tabanlı bir sistemdir.\n\n📚 Eğitim seviyeleri:\n• İlkokul → 50 tıklama (ücretsiz)\n• Ortaokul → 100 tıklama (₺500/tıklama)\n• Lise → 200 tıklama (₺1.000/tıklama)\n• Üniversite → 500 tıklama (₺5.000/tıklama)\n• Yüksek Lisans → 1000 tıklama (₺20.000/tıklama)\n• Doktora → 2000 tıklama (₺50.000/tıklama)\n\n⏱️ Bekleme süresi:\n• Normal: 5 dakika\n• VIP: 2.5 dakika\n• Eğitim Paketi: 1 saniye\n\n🎓 Diploma → Yüksek makamlara aday olma hakkı\n🏛️ Lise diploması → Parti kurabilme\n🎓 Üniversite → Bakanlık pozisyonu` },
-    { id:'economy', icon:'💰', cat:'Ekonomi', title:'Ekonomi & Şirketler', content:`Ekonomi sisteminde:\n\n• Şirket kur → Günlük kâr kazan\n• Borsa → Hisse al/sat (5 sektör: Teknoloji, Enerji, Banka, Tarım, Savunma)\n• Banka → Faiz kazan, kredi al\n• Tarım → Ürün yetiştir (Buğday, Mısır, Domates...)\n• Hayvancılık → Hayvan besle ve sat\n• Fabrika → Hammadde işle, ürün sat\n• Maden → Kaynak çıkar\n\n💡 İpucu: Çeşitli sektörlere yatırım yap, riski dağıt!` },
-    { id:'politics', icon:'🏛️', cat:'Siyaset', title:'Siyaset & Seçimler', content:`Siyaset bölümünde:\n\n• Parti kur (Lise diploması gerekir, ₺500.000 kuruluş ücreti)\n• Partiye üye ol\n• Yasalar için oy ver\n• Devlet başkanlığına aday ol\n\n🗳️ Oy ağırlığı ticaret sıralamasına göre artar:\n  - 1. sıra: 6x oy gücü\n  - 2. sıra: 4x oy gücü\n  - 3–5. sıra: 3x oy gücü\n  - 6–50. sıra: 2x oy gücü\n  - 51+. sıra: 1x oy gücü\n\n⭐ Liyakat puanı yüksek oyuncular seçimde avantajlı` },
-    { id:'penalties', icon:'⚖️', cat:'Hukuk', title:'Ceza Sistemi', content:`SALTANAT ONLINE'da suç ve ceza sistemi:\n\n🚔 Suçlar ve Cezalar:\n• Hırsızlık → ₺50.000 para cezası veya 2 saat hapis\n• Saldırı → ₺100.000 para cezası veya 4 saat hapis\n• Dolandırıcılık → ₺250.000 para cezası veya 8 saat hapis\n• Organize suç → ₺1.000.000 para cezası veya 24 saat hapis\n• Kara para aklama → Hesap dondurma + ₺5.000.000 ceza\n\n⚖️ Mahkeme Süreci:\n• Suçlama yapıldığında avukat tutulabilir\n• Avukat: Cezayı %50 azaltır (₺200.000 ücret)\n• İtiraz hakkı: 24 saat içinde kullanılabilir\n• Temyiz: Mahkeme kararını değiştirme şansı %30\n\n🏛️ Hapis:\n• Hapis süresince oyun aksiyonları kısıtlanır\n• Firar: %40 başarı şansı, başarısızda süre 2x\n• Rüşvet: ₺500.000 karşılığı serbest bırakılma\n\n💡 İpucu: Temiz sicil = Siyasi avantaj!` },
-    { id:'court', icon:'🏛️', cat:'Hukuk', title:'Mahkeme & Hukuk', content:`Mahkeme sistemi:\n\n📋 Davalar:\n• Sivil davalar → Para ödeme kararı\n• Ceza davaları → Hapis veya para cezası\n• Ticari davalar → Şirket varlık el koyma riski\n\n⚖️ Avukat Sistemi:\n• Uzman avukat → %70 kazanma şansı (₺500.000)\n• Normal avukat → %50 kazanma şansı (₺150.000)\n• Kendi savunma → %25 kazanma şansı (ücretsiz)\n\n🏛️ Yargıtay:\n• En yüksek mahkeme\n• Başkan tarafından atanır\n• Anayasa değişikliklerini denetler\n\n📌 Önemli: Hukuk puanın yüksek olması yargıda avantaj sağlar!` },
+    { id:'basics', icon:'🎮', cat:'Temel', title:'Oyuna Başlangıç', content:`SALTANAT ONLINE'a hoş geldin! Kullanıcı adın ve şifrenle giriş yap. Başlangıçta 🪙10.000 nakit ve 🪙5.000 banka bakiyen olur.\n\n• Görevleri tamamla → Para ve XP kazan\n• XP ile seviye atla → Yeni özellikler aç\n• Ticaret yap → Ticaret puanı kazan\n• Seçimlere katıl → Siyasi güç kazan\n\n📅 Günlük görevleri tamamla → Ekstra ödül kazan\n🏆 Başarımları tamamla → Özel rozetler kazan` },
+    { id:'levels', icon:'⭐', cat:'Temel', title:'Seviye & XP Sistemi', content:`XP kazanarak seviye atlarsın.\n\n• İş yap → +10–50 XP\n• Görev tamamla → +50–250 XP\n• PvP kazanma → +100 XP\n• Atölye üretimi → +200 XP\n• Günlük login → +50 XP\n\nSeviyeler:\nLv.1–5: Çaylak\nLv.6–15: Vatandaş\nLv.16–30: Girişimci\nLv.31–50: Lider\nLv.51–75: Elit\nLv.76–99: Efsane\nLv.100: Padişah\n\n⚠️ Parti kurabilmek için Lise diploması gerekir.` },
+    { id:'edu', icon:'🎓', cat:'Eğitim', title:'Eğitim Sistemi', content:`Eğitim tıklama tabanlı bir sistemdir.\n\n📚 Eğitim seviyeleri:\n• İlkokul → 50 tıklama (ücretsiz)\n• Ortaokul → 100 tıklama (🪙500/tıklama)\n• Lise → 200 tıklama (🪙1.000/tıklama)\n• Üniversite → 500 tıklama (🪙5.000/tıklama)\n• Yüksek Lisans → 1000 tıklama (🪙20.000/tıklama)\n• Doktora → 2000 tıklama (🪙50.000/tıklama)\n\n⏱️ Bekleme süresi:\n• Normal: 5 dakika\n• VIP: 2.5 dakika\n• Eğitim Paketi: 1 saniye\n\n🎓 Diploma → Yüksek makamlara aday olma hakkı\n🏛️ Lise diploması → Parti kurabilme\n🎓 Üniversite → Bakanlık pozisyonu` },
+    { id:'economy', icon:'💰', cat:'Ekonomi', title:'Ekonomi & Şirketler', content:`Ekonomi sisteminde:\n\n• Şirket kur → Günlük kâr kazan\n• Borsa → Hisse al/sat (5 sektör: Teknoloji, Enerji, Banka, Tarım, Savunma)\n• Banka → Faiz kazan, kredi al\n• Tarım → Ürün yetiştir (Buğday, Mısır, Domates...)\n• Hayvancılık → Hayvan besle ve sat\n• Atölye → Hammadde işle, ürün sat\n• Maden → Kaynak çıkar\n\n💡 İpucu: Çeşitli sektörlere yatırım yap, riski dağıt!` },
+    { id:'politics', icon:'🏛️', cat:'Siyaset', title:'Siyaset & Seçimler', content:`Siyaset bölümünde:\n\n• Parti kur (Lise diploması gerekir, 🪙500.000 kuruluş ücreti)\n• Partiye üye ol\n• Yasalar için oy ver\n• Devlet başkanlığına aday ol\n\n🗳️ Oy ağırlığı ticaret sıralamasına göre artar:\n  - 1. sıra: 6x oy gücü\n  - 2. sıra: 4x oy gücü\n  - 3–5. sıra: 3x oy gücü\n  - 6–50. sıra: 2x oy gücü\n  - 51+. sıra: 1x oy gücü\n\n⭐ Liyakat puanı yüksek oyuncular seçimde avantajlı` },
+    { id:'penalties', icon:'⚖️', cat:'Hukuk', title:'Ceza Sistemi', content:`SALTANAT ONLINE'da suç ve ceza sistemi:\n\n🚔 Suçlar ve Cezalar:\n• Hırsızlık → 🪙50.000 para cezası veya 2 saat hapis\n• Saldırı → 🪙100.000 para cezası veya 4 saat hapis\n• Dolandırıcılık → 🪙250.000 para cezası veya 8 saat hapis\n• Organize suç → 🪙1.000.000 para cezası veya 24 saat hapis\n• Kara para aklama → Hesap dondurma + 🪙5.000.000 ceza\n\n⚖️ Mahkeme Süreci:\n• Suçlama yapıldığında avukat tutulabilir\n• Avukat: Cezayı %50 azaltır (🪙200.000 ücret)\n• İtiraz hakkı: 24 saat içinde kullanılabilir\n• Temyiz: Mahkeme kararını değiştirme şansı %30\n\n🏛️ Hapis:\n• Hapis süresince oyun aksiyonları kısıtlanır\n• Firar: %40 başarı şansı, başarısızda süre 2x\n• Rüşvet: 🪙500.000 karşılığı serbest bırakılma\n\n💡 İpucu: Temiz sicil = Siyasi avantaj!` },
+    { id:'court', icon:'🏛️', cat:'Hukuk', title:'Mahkeme & Hukuk', content:`Mahkeme sistemi:\n\n📋 Davalar:\n• Sivil davalar → Para ödeme kararı\n• Ceza davaları → Hapis veya para cezası\n• Ticari davalar → Şirket varlık el koyma riski\n\n⚖️ Avukat Sistemi:\n• Uzman avukat → %70 kazanma şansı (🪙500.000)\n• Normal avukat → %50 kazanma şansı (🪙150.000)\n• Kendi savunma → %25 kazanma şansı (ücretsiz)\n\n🏛️ Yargıtay:\n• En yüksek mahkeme\n• Başkan tarafından atanır\n• Anayasa değişikliklerini denetler\n\n📌 Önemli: Hukuk puanın yüksek olması yargıda avantaj sağlar!` },
     { id:'police', icon:'🚔', cat:'Hukuk', title:'Polis & Güvenlik', content:`Polis sistemi:\n\n👮 Polis Görevi:\n• Suçluları yakala → Ödül kazan\n• Çete operasyonları → Ekstra liyakat puanı\n• Uyuşturucu baskını → Büyük ödül\n\n🔍 Aranan Listesi:\n• Suç puanı 100+ → Aranan listesine girersin\n• Polisler seni yakalayabilir\n• Aranan iken bazı bölgelere giremezsin\n\n🛡️ Güvenlik Seviyeleri:\n• Yeşil → Normal vatandaş\n• Sarı → Şüpheli (1–50 suç puanı)\n• Turuncu → Aranan (51–100 suç puanı)\n• Kırmızı → En çok aranan (100+ suç puanı)\n\n💡 İpucu: Polisin içine sızabilirsin — ajan ol!` },
-    { id:'football', icon:'⚽', cat:'Futbol', title:'Futbol Yönetimi', content:`Futbol bölümünde:\n\n• Kulüp kur (₺2.000.000)\n• Oyuncu satın al (transfer pazarı)\n• Antrenman yap → İstatistik artır\n• Taktik seç: 4-4-2, 4-3-3, 3-5-2...\n• Altyapı geliştir: Stadyum, akademi, sağlık merkezi\n• Lig maçları oyna → Para ve taraftar kazan\n• Şampiyon ol → Kupa & prestij kazan\n\n🏆 Lig Seviyeleri: 3. Lig → 2. Lig → 1. Lig → Süper Lig\n💡 Güçlü taktik + iyi oyuncular = Şampiyonluk!` },
-    { id:'army', icon:'⚔️', cat:'Ordu', title:'Ordu & Savaş', content:`Ordu bölümünde:\n\n• Asker al (₺10.000/asker)\n• Silah satın al: Tüfek, Tank, Topçu, Uçak\n• Diğer şehirlere saldır → Kaynak ele geçir\n• Savunma hattı kur → Şehri koru\n• Konum puanı artır → Daha güçlü saldırılar\n\n⚔️ Savaş Mekanizması:\n• Saldırı = (Asker × Silah Gücü) × Rastgele[0.8–1.2]\n• Savunma güçlüyse → Saldırı başarısız\n• Başarılı saldırı → Para + Arazi kazan\n• Başarısız saldırı → Asker kaybı\n\n🛡️ NATO ve Birlikler için İttifak bölümüne bak!` },
+    { id:'football', icon:'⚽', cat:'Futbol', title:'Futbol Yönetimi', content:`Futbol bölümünde:\n\n• Kulüp kur (🪙2.000.000)\n• Oyuncu satın al (transfer pazarı)\n• Antrenman yap → İstatistik artır\n• Taktik seç: 4-4-2, 4-3-3, 3-5-2...\n• Altyapı geliştir: Stadyum, akademi, sağlık merkezi\n• Lig maçları oyna → Para ve taraftar kazan\n• Şampiyon ol → Kupa & prestij kazan\n\n🏆 Lig Seviyeleri: 3. Lig → 2. Lig → 1. Lig → Süper Lig\n💡 Güçlü taktik + iyi oyuncular = Şampiyonluk!` },
+    { id:'army', icon:'⚔️', cat:'Ordu', title:'Ordu & Savaş', content:`Ordu bölümünde:\n\n• Asker al (🪙10.000/asker)\n• Silah satın al: Tüfek, Tank, Topçu, Uçak\n• Diğer şehirlere saldır → Kaynak ele geçir\n• Savunma hattı kur → Şehri koru\n• Konum puanı artır → Daha güçlü saldırılar\n\n⚔️ Savaş Mekanizması:\n• Saldırı = (Asker × Silah Gücü) × Rastgele[0.8–1.2]\n• Savunma güçlüyse → Saldırı başarısız\n• Başarılı saldırı → Para + Arazi kazan\n• Başarısız saldırı → Asker kaybı\n\n🛡️ NATO ve Birlikler için İttifak bölümüne bak!` },
     { id:'crime', icon:'🔫', cat:'Suç', title:'Çete & Suç Dünyası', content:`Çete bölümünde:\n\n• Çete kur veya üye ol (minimum 3 kişi)\n• Suç işle → Para kazan (riskli!)\n• Çete savaşları → Bölge kontrolü\n• Organize suç örgütü kur\n• Kara para akla → Meşru para haline getir (riskli)\n\n⚠️ Risk Tablosu:\n• Ufak hırsızlık: %30 yakalanma riski\n• Soygun: %50 yakalanma riski\n• Silahlı saldırı: %70 yakalanma riski\n• Cinayet: %90 yakalanma riski\n\n💡 Yüksek suç puanı → Polis tarafından aranırsın!` },
-    { id:'premium', icon:'👑', cat:'Premium', title:'VIP & Paketler', content:`Premium özellikler:\n\n👑 VIP Üyelik:\n• Tüm bekleme sürelerinde %50 azalma\n• Profil çerçevesi\n• Ekstra ₺50.000 başlangıç\n• Özel VIP rozeti\n• Günlük 500 UC bonus\n\n📚 Eğitim Paketi:\n• Her tıklamada 1sn bekleme (normal: 5dk)\n• Sadece eğitim için geçerli\n• VIP ile birleştirilebilir\n\n🪙 UnderCoin (UC):\n• Özel para birimi\n• VIP alımı, özel eşyalar için kullanılır\n• Günlük görevlerden kazanılabilir` },
+    { id:'premium', icon:'👑', cat:'Premium', title:'VIP & Paketler', content:`Premium özellikler:\n\n👑 VIP Üyelik:\n• Tüm bekleme sürelerinde %50 azalma\n• Profil çerçevesi\n• Ekstra 🪙50.000 başlangıç\n• Özel VIP rozeti\n• Günlük 500 Altın bonus\n\n📚 Eğitim Paketi:\n• Her tıklamada 1sn bekleme (normal: 5dk)\n• Sadece eğitim için geçerli\n• VIP ile birleştirilebilir\n\n🪙 Altın (UC):\n• Özel para birimi\n• VIP alımı, özel eşyalar için kullanılır\n• Günlük görevlerden kazanılabilir` },
     { id:'alliance', icon:'🤝', cat:'Siyaset', title:'İttifaklar & Diplomasi', content:`İttifak sisteminde:\n\n• İttifak kur (minimum 5 üye)\n• Diğer şehirlerle ticaret anlaşması yap\n• Savunma paktı → Saldırıya uğrayan üyeyi koru\n• Ekonomik birlik → Ortak vergi indirimi\n\n🌍 Küresel İttifaklar:\n• G5 (5 büyük güç) → Dünya ekonomisini yönetir\n• Askeri İttifak → Ortak savaş gücü\n• Ticaret Birliği → Düşük tarifeler\n\n⚠️ İttifak bozulursa 7 gün soğuma süresi uygulanır!` },
   ];
   const filtered = articles.filter(a =>
@@ -794,7 +794,7 @@ function WikiPage({ profile }) {
     <div style={{padding:'0.7rem',paddingBottom:'5rem'}}>
       <div style={{background:'linear-gradient(135deg,rgba(201,162,39,0.12),rgba(11,21,39,0.97))',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'12px',padding:'1.2rem',marginBottom:'0.75rem',textAlign:'center'}}>
         <div style={{fontSize:'2rem',marginBottom:'0.3rem'}}>📚</div>
-        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.15rem',fontWeight:900,color:'#EDE7DA'}}>WİKİ</div>
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.15rem',fontWeight:900,color:'#EDE7DA'}}>WİKİ</div>
         <div style={{fontSize:'0.72rem',color:'#8893A1',marginTop:'0.2rem'}}>Oyun hakkında her şeyi öğren</div>
       </div>
       <div style={{marginBottom:'0.75rem'}}>
@@ -806,7 +806,7 @@ function WikiPage({ profile }) {
           <button onClick={()=>setSelected(null)} style={{background:'rgba(201,162,39,0.08)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'8px',padding:'0.4rem 0.8rem',color:'#C9A227',cursor:'pointer',marginBottom:'0.75rem',fontSize:'0.82rem',fontWeight:700,fontFamily:'inherit'}}>← Geri</button>
           <div style={{background:'rgba(11,21,39,0.95)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'14px',padding:'1.1rem'}}>
             <div style={{fontSize:'2rem',marginBottom:'0.35rem'}}>{selected.icon}</div>
-            <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,color:'#EDE7DA',fontSize:'1.05rem',marginBottom:'0.25rem'}}>{selected.title}</div>
+            <div style={{fontFamily:"'Cinzel',serif",fontWeight:800,color:'#EDE7DA',fontSize:'1.05rem',marginBottom:'0.25rem'}}>{selected.title}</div>
             <div style={{display:'inline-block',background:'rgba(201,162,39,0.1)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'6px',padding:'2px 8px',fontSize:'0.65rem',color:'#C9A227',fontWeight:700,marginBottom:'0.75rem'}}>{selected.cat}</div>
             <div style={{fontSize:'0.85rem',color:'#CBD5E1',lineHeight:1.7,whiteSpace:'pre-line'}}>{selected.content}</div>
           </div>
@@ -1160,7 +1160,7 @@ function DirectMessagesPage({ profile, setProfile, showNotif }) {
         <div>
           <div style={{background:'linear-gradient(135deg,rgba(96,165,250,0.12),rgba(11,21,39,0.97))',border:'1px solid rgba(96,165,250,0.25)',borderRadius:'12px',padding:'1.2rem',marginBottom:'0.75rem',textAlign:'center'}}>
             <div style={{fontSize:'2rem',marginBottom:'0.3rem'}}>📬</div>
-            <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA'}}>ÖZEL MESAJLAR</div>
+            <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA'}}>ÖZEL MESAJLAR</div>
             {totalUnread>0 && <div style={{background:'rgba(201,162,39,0.1)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'14px',padding:'0.2rem 0.75rem',display:'inline-block',fontSize:'0.72rem',color:'#C9A227',marginTop:'0.3rem',fontWeight:700}}>{totalUnread} okunmamış</div>}
           </div>
           {/* Kişi Arama */}
@@ -1213,13 +1213,13 @@ function TaxMunicipalityPage({ profile, setProfile, showNotif }) {
   const [taxLog, setTaxLog] = useLs(`cityTaxLog_${citySlug}`, []);
   const [now, setNow] = useState(Date.now());
   useEffect(()=>{const t=setInterval(()=>setNow(Date.now()),5000);return()=>clearInterval(t);},[]);
-  // Belediye başkanı tespiti: aynı şehirdeki belediye başkanı pozisyonlu kullanıcı
+  // Valilik başkanı tespiti: aynı şehirdeki valilik başkanı pozisyonlu kullanıcı
   const allUsersRaw = (()=>{try{return JSON.parse(localStorage.getItem('rep_users')||'[]');}catch{return[];}})();
-  const cityMayor = allUsersRaw.find(u=>u.city===userCity&&(u.position==='Belediye Başkanı'||u.positions?.includes('belediye')));
-  const isMayor = cu.role==='admin' || (cityMayor && cityMayor.id===cu.id) || cu.position==='Belediye Başkanı';
-  const isCouncil = isMayor;
+  const cityMayor = allUsersRaw.find(u=>u.city===userCity&&(u.position==='Nahiye Valisi'||u.positions?.includes('valilik')));
+  const isVali = cu.role==='admin' || (cityMayor && cityMayor.id===cu.id) || cu.position==='Nahiye Valisi';
+  const isCouncil = isVali;
   const taxCD = 4*3600000;
-  const canCollect = isMayor && (now - (treasury.lastCollected||0)) >= taxCD;
+  const canCollect = isVali && (now - (treasury.lastCollected||0)) >= taxCD;
   const rem = Math.max(0, (treasury.lastCollected||0) + taxCD - now);
   const remH = Math.floor(rem/3600000); const remM = Math.floor((rem%3600000)/60000);
 
@@ -1248,9 +1248,9 @@ function TaxMunicipalityPage({ profile, setProfile, showNotif }) {
     <div style={{padding:'0.7rem',paddingBottom:'5rem'}}>
       <div style={{background:'linear-gradient(135deg,rgba(201,162,39,0.12),rgba(11,21,39,0.97))',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'12px',padding:'1.2rem',marginBottom:'0.75rem'}}>
         <div style={{fontSize:'0.6rem',color:'#C9A227',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.2rem'}}>🏙️ {userCity.toUpperCase()} — ŞEHİR YÖNETİMİ</div>
-        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA',marginBottom:'0.1rem'}}>Vergi & Belediye</div>
-        <div style={{fontSize:'0.7rem',color:'#8893A1'}}>{isMayor ? '👑 Belediye Başkanı olarak yönetiyorsunuz' : 'Hizmetleri görüntüleyin — yönetim için Belediye Başkanı gerekli'}</div>
-        {cityMayor && <div style={{marginTop:'0.4rem',fontSize:'0.65rem',color:'#C9A227'}}>Belediye Başkanı: <span style={{fontWeight:700}}>@{cityMayor.username}</span></div>}
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA',marginBottom:'0.1rem'}}>Vergi & Valilik</div>
+        <div style={{fontSize:'0.7rem',color:'#8893A1'}}>{isVali ? '👑 Nahiye Valisi olarak yönetiyorsunuz' : 'Hizmetleri görüntüleyin — yönetim için Nahiye Valisi gerekli'}</div>
+        {cityMayor && <div style={{marginTop:'0.4rem',fontSize:'0.65rem',color:'#C9A227'}}>Nahiye Valisi: <span style={{fontWeight:700}}>@{cityMayor.username}</span></div>}
       </div>
 
       {/* Hazine */}
@@ -1259,19 +1259,19 @@ function TaxMunicipalityPage({ profile, setProfile, showNotif }) {
         <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'1.6rem',fontWeight:800,color:'#C9A227',marginBottom:'0.35rem'}}>{fmtM(treasury.balance||0)}</div>
         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:'0.5rem'}}>
           <div style={{fontSize:'0.72rem',color:'#8893A1'}}>Vergi Oranı: <span style={{color:'#C9A227',fontWeight:700}}>%{taxRate}</span></div>
-          {isMayor ? (
+          {isVali ? (
             <button onClick={collectTaxes} disabled={!canCollect}
               style={{padding:'0.35rem 0.85rem',borderRadius:'9px',border:`1px solid ${canCollect?'rgba(201,162,39,0.4)':'rgba(255,255,255,0.06)'}`,background:canCollect?'rgba(201,162,39,0.15)':'rgba(255,255,255,0.03)',color:canCollect?'#C9A227':'#3B4E63',cursor:canCollect?'pointer':'default',fontWeight:700,fontSize:'0.75rem',fontFamily:'inherit'}}>
               {canCollect ? '💰 Vergi Topla' : `⏳ ${remH}s ${remM}dk`}
             </button>
           ) : (
-            <div style={{fontSize:'0.65rem',color:'#8893A1'}}>🔒 Belediye Başkanı yetkisi gerekli</div>
+            <div style={{fontSize:'0.65rem',color:'#8893A1'}}>🔒 Nahiye Valisi yetkisi gerekli</div>
           )}
         </div>
       </div>
 
       {/* Vergi oranı slider */}
-      {isMayor && (
+      {isVali && (
         <div style={{background:'rgba(11,21,39,0.9)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'12px',padding:'0.75rem',marginBottom:'0.6rem'}}>
           <div style={{fontSize:'0.62rem',color:'#8893A1',fontWeight:700,textTransform:'uppercase',marginBottom:'0.5rem'}}>📊 VERGİ ORANI: %{taxRate}</div>
           <input type="range" min={5} max={50} value={taxRate} onChange={e=>setTaxRate(Number(e.target.value))}
@@ -1321,7 +1321,7 @@ function TaxMunicipalityPage({ profile, setProfile, showNotif }) {
       )}
 
       {/* Maliye Bakanlığı Destek Talebi */}
-      {isMayor && (
+      {isVali && (
         <div style={{marginTop:'0.75rem',background:'rgba(76,154,107,0.06)',border:'1px solid rgba(76,154,107,0.2)',borderRadius:'14px',padding:'0.9rem'}}>
           <div style={{fontSize:'0.62rem',color:'#4C9A6B',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.07em',marginBottom:'0.5rem'}}>🏦 MALİYE BAKANLIĞI — HAZİNE TALEBİ</div>
           <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.6rem'}}>
@@ -1335,7 +1335,7 @@ function TaxMunicipalityPage({ profile, setProfile, showNotif }) {
             }
             return (
               <button onClick={()=>{
-                const amt = prompt('Talep edilecek tutar (₺):');
+                const amt = prompt('Talep edilecek tutar (🪙):');
                 const reason = prompt('Talep sebebi (şehir geliştirme projesi):');
                 if(!amt || !reason) return;
                 const v = parseInt(amt);
@@ -1581,7 +1581,7 @@ function TerritoryMapPage({ profile, showNotif }) {
             <div style={{width:'32px',height:'3px',borderRadius:'2px',background:'rgba(237,231,218,0.07)',margin:'0 auto 0.7rem'}}/>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:'0.7rem'}}>
               <div>
-                <div style={{fontWeight:900,color:'#00FF64',fontSize:'1.05rem',fontFamily:"'Syne',sans-serif",textShadow:'0 0 12px rgba(0,255,80,0.5)',marginBottom:'0.12rem'}}>{selected.name}</div>
+                <div style={{fontWeight:900,color:'#00FF64',fontSize:'1.05rem',fontFamily:"'Cinzel',serif",textShadow:'0 0 12px rgba(0,255,80,0.5)',marginBottom:'0.12rem'}}>{selected.name}</div>
                 <div style={{display:'flex',gap:'0.35rem',alignItems:'center'}}>
                   <div style={{width:'7px',height:'7px',borderRadius:'50%',background:selected.controlColor||'#6B7280',boxShadow:`0 0 5px ${selected.controlColor}`}}/>
                   <span style={{fontSize:'0.66rem',color:'#2A4A3A'}}>{selected.controlBy} • {(selected.population||0).toLocaleString('tr-TR')} nüfus</span>
@@ -1655,7 +1655,7 @@ const DAILY_TASK_DEFS = [
 
 function DailyTasksPage({ profile, setProfile, showNotif, onNavigate }) {
   const { dark } = useTheme();
-  const bg = dark ? '#0F172A' : '#F8FAFC';
+  const bg = dark ? '#1A0E00' : '#F8FAFC';
   const card = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
 
@@ -1713,7 +1713,7 @@ function DailyTasksPage({ profile, setProfile, showNotif, onNavigate }) {
     <div style={{padding:'1rem', background:bg, minHeight:'100%'}}>
       <div style={{background:'linear-gradient(135deg,rgba(201,162,39,0.15),rgba(11,21,39,0.97))',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'12px',padding:'1.2rem',marginBottom:'0.75rem'}}>
         <div style={{fontSize:'0.6rem',color:'#C9A227',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.2rem'}}>📅 GÜNLÜK GÖREVLER</div>
-        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA',marginBottom:'0.2rem'}}>Her gün yenilenir</div>
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA',marginBottom:'0.2rem'}}>Her gün yenilenir</div>
         <div style={{fontSize:'0.7rem',color:'#8893A1'}}>
           <span style={{color:'#C9A227',fontWeight:700}}>{completedCount}/{DAILY_TASK_DEFS.length}</span> görev tamamlandı •
           Toplam ödül: <span style={{color:'#4C9A6B',fontWeight:700}}>{fmtWord(totalReward)}</span>
@@ -1869,7 +1869,7 @@ const TOURNAMENTS = [
 
 function TournamentPage({ profile, setProfile, showNotif }) {
   const { dark } = useTheme();
-  const bg = dark ? '#0F172A' : '#F8FAFC';
+  const bg = dark ? '#1A0E00' : '#F8FAFC';
   const card = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
   const [allUsers] = useLs('rep_users', []);
@@ -1901,7 +1901,7 @@ function TournamentPage({ profile, setProfile, showNotif }) {
     <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>
       <div style={{background:'linear-gradient(135deg,rgba(194,75,67,0.15),rgba(11,21,39,0.97))',border:'1px solid rgba(194,75,67,0.25)',borderRadius:'12px',padding:'1.2rem',marginBottom:'0.75rem'}}>
         <div style={{fontSize:'0.6rem',color:'#C24B43',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.2rem'}}>🎯 TURNUVALAR & ETKİNLİKLER</div>
-        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA',marginBottom:'0.1rem'}}>Rekabet Et, Kazan</div>
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA',marginBottom:'0.1rem'}}>Rekabet Et, Kazan</div>
         <div style={{fontSize:'0.7rem',color:'#8893A1'}}>Her hafta yenilenen turnuvalar • Birinci büyük ödül kazanır</div>
       </div>
 

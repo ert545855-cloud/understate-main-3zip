@@ -4,7 +4,7 @@
 // KURALLAR:
 // • Ordu tamamen bağımsız — siyasi makamlar atayamaz
 // • Askeri puan toplamak zorunda (görev, taktik, operasyon)
-// • Gerekli puana ulaşanlar Genelkurmay/komutan adayı olabilir
+// • Gerekli puana ulaşanlar Seraskerlik/komutan adayı olabilir
 // • Seçilen subaylar HİÇBİR örgüte giremez (aile/çete/parti)
 // • Devlet → orduya maaş ödemek zorunda (hazineden)
 // • Ordu → çetelere saldırabilir (koşul: çete suç puanı yeterli)
@@ -26,7 +26,7 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
   const now = Date.now();
 
   const showMsg = (text, type="info") => { setMsg({text,type}); setTimeout(()=>setMsg(null),3500); };
-  const fmtMoney = (n) => { if(!n)return "₺0"; if(n>=1e6)return "₺"+(n/1e6).toFixed(1)+"M"; if(n>=1e3)return "₺"+(n/1e3).toFixed(0)+"K"; return "₺"+n; };
+  const fmtMoney = (n) => { if(!n)return "🪙0"; if(n>=1e6)return "🪙"+(n/1e6).toFixed(1)+"M"; if(n>=1e3)return "🪙"+(n/1e3).toFixed(0)+"K"; return "🪙"+n; };
   const fmtTime  = (ms) => { if(ms<=0)return "Bitti"; const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000); return `${h}s ${m}dk`; };
 
   const gangsArr   = Array.isArray(gangs)?gangs:[];
@@ -59,7 +59,7 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
     {id:"major",     label:"Binbaşı",      minMP:50000, icon:"🥇",  salary:80000,  commandLevel:2},
     {id:"colonel",   label:"Albay",        minMP:120000,icon:"🥇🥇",salary:120000, commandLevel:2},
     {id:"general",   label:"General",      minMP:300000,icon:"⭐⭐⭐",salary:200000,commandLevel:3},
-    {id:"chief",     label:"Genelkurmay",  minMP:800000,icon:"🎖️",  salary:350000, commandLevel:4},
+    {id:"chief",     label:"Seraskerlik",  minMP:800000,icon:"🎖️",  salary:350000, commandLevel:4},
   ];
 
   // Görev listesi
@@ -85,7 +85,7 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
   const isChief   = chief?.username===cu?.username;
   const isGeneral = mySoldier && rankIdx(mySoldier.rank) >= rankIdx("general");
 
-  // Genelkurmay adaylığı — min 800K MP, hiçbir örgüt üyesi değil
+  // Seraskerlik adaylığı — min 800K MP, hiçbir örgüt üyesi değil
   const MIN_MP_CHIEF = 800000;
   const canBecomeChief = isEnlisted && (mySoldier.mp||0)>=MIN_MP_CHIEF && !myOrg;
 
@@ -165,14 +165,14 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
     showMsg(`${targetGang.name} çetesine operasyon başlatıldı! Ordu saldırıya geçiyor. ⚔️`,"success");
   };
 
-  // Genelkurmay adaylığı
+  // Seraskerlik adaylığı
   const applyChief = () => {
     if(!canBecomeChief) return;
     if(candidates.some(c=>c.username===cu.username&&c.status==="pending")) return showMsg("Zaten adaysınız","error");
     const cand = {id:`cnd_${Date.now()}`,username:cu.username,mp:mySoldier.mp,appliedAt:now,status:"pending"};
     const upd = [...candidates, cand];
     setCands(upd); S.save("candidates",upd);
-    showMsg("Genelkurmay Başkanlığı adaylığına başvurdunuz! Seçim oylaması başlayacak.","success");
+    showMsg("Seraskerlik Başkanlığı adaylığına başvurdunuz! Seçim oylaması başlayacak.","success");
   };
 
   const card = {background:"rgba(255,255,255,0.03)",border:"1px solid rgba(255,255,255,0.07)",borderRadius:14,padding:"1rem",marginBottom:"0.75rem"};
@@ -224,19 +224,19 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
             ))}
           </div>
 
-          {/* Genelkurmay */}
+          {/* Seraskerlik */}
           <div style={card}>
             <div className="card-title">🎖️ Komuta Zinciri</div>
             {chief?(
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"0.5rem",background:"rgba(201,162,39,0.08)",border:"1px solid rgba(201,162,39,0.2)",borderRadius:10,marginBottom:"0.5rem"}}>
                 <div>
-                  <div style={{fontSize:"0.85rem",fontWeight:700,color:"#C9A227"}}>🎖️ Genelkurmay Başkanı</div>
+                  <div style={{fontSize:"0.85rem",fontWeight:700,color:"#C9A227"}}>🎖️ Serasker</div>
                   <div style={{fontSize:"0.72rem",color:"#8899AA"}}>{chief.username}</div>
                 </div>
                 <div style={{fontSize:"0.72rem",color:"#C9A227",fontWeight:700}}>{(chief.mp||0).toLocaleString()} MP</div>
               </div>
             ):(
-              <div style={{textAlign:"center",color:"#5E7390",fontSize:"0.78rem",padding:"0.5rem"}}>Henüz Genelkurmay Başkanı yok</div>
+              <div style={{textAlign:"center",color:"#5E7390",fontSize:"0.78rem",padding:"0.5rem"}}>Henüz Serasker yok</div>
             )}
             {generals.filter(g=>g.username!==chief?.username).slice(0,3).map((g,i)=>(
               <div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"0.4rem 0",borderBottom:"1px solid rgba(255,255,255,0.04)"}}>
@@ -330,10 +330,10 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
                 </button>
               )}
 
-              {/* Genelkurmay adaylığı */}
+              {/* Seraskerlik adaylığı */}
               {canBecomeChief&&!chief&&(
                 <div style={{...card,border:"1px solid rgba(201,162,39,0.4)"}}>
-                  <div className="card-title" style={{color:"#C9A227"}}>🎖️ Genelkurmay Başkanlığı</div>
+                  <div className="card-title" style={{color:"#C9A227"}}>🎖️ Seraskerlik Başkanlığı</div>
                   <div style={{fontSize:"0.78rem",color:"#8899AA",marginBottom:"0.75rem"}}>Yeterli askeri puanınız var! Bağımsız aday olabilirsiniz. Seçim oylamasıyla belirlenir.</div>
                   <button className="btn" style={{width:"100%",border:"1px solid rgba(201,162,39,0.4)",color:"#C9A227"}} onClick={applyChief}>
                     🎖️ Adaylık Başvurusu Yap
@@ -532,10 +532,10 @@ window.IndependentArmyScreen = function IndependentArmyScreen({ cu, allUsers, fa
             {title:"🪖 Ordu Bağımsızlığı",items:[
               "Orduya katılmak için hiçbir örgüte (aile/çete/parti) bağlı olmamak gerekir",
               "Subay ve komutanlar hiçbir örgüte üye olamaz — üye olurlarsa rütbeleri düşer",
-              "Siyasi makamlar (Devlet Başkanı dahil) orduya atama yapamaz",
-              "Genelkurmay Başkanı, askeri puana göre seçilir — politikacı değil, asker olmalı",
+              "Siyasi makamlar (Padişah dahil) orduya atama yapamaz",
+              "Serasker, askeri puana göre seçilir — politikacı değil, asker olmalı",
             ],color:"#C9A227"},
-            {title:"⭐ Genelkurmay Adaylığı",items:[
+            {title:"⭐ Seraskerlik Adaylığı",items:[
               `Minimum ${(800000).toLocaleString()} MP (askeri puan) şart`,
               "Herhangi bir örgütle bağlantısı olmamalı",
               "Adaylar arasından oylama yapılır",

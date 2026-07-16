@@ -153,7 +153,7 @@ function GangCrimePage({ profile, setProfile, showNotif }) {
     <div style={{padding:'0.75rem'}}>
       <div style={{background:'linear-gradient(135deg,#1a0505,#3d0000)',border:'1px solid rgba(194,75,67,0.25)',borderRadius:'10px',padding:'1rem',textAlign:'center',marginBottom:'0.75rem'}}>
         <div style={{fontSize:'1.75rem',marginBottom:'0.25rem'}}>🔫</div>
-        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1rem',fontWeight:900,color:'#EDE7DA'}}>ÇETE SUÇ OPERASYONLARI</div>
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:'1rem',fontWeight:900,color:'#EDE7DA'}}>ÇETE SUÇ OPERASYONLARI</div>
         <div style={{fontSize:'0.68rem',color:'#8893A1',marginTop:'0.2rem'}}>
           HP: <span style={{color:'#C24B43',fontWeight:700}}>{profile?.hp || 100}</span>
           &nbsp;•&nbsp;Çete: <span style={{color: myGangId ? '#4C9A6B' : '#8893A1',fontWeight:700}}>{myGangId ? 'Aktif' : 'Yok'}</span>
@@ -180,7 +180,7 @@ function GangCrimePage({ profile, setProfile, showNotif }) {
                 </div>
                 <div style={{fontSize:'0.67rem',color:'#8893A1',marginBottom:'0.4rem'}}>{op.description}</div>
                 <div style={{display:'flex',gap:'0.75rem',fontSize:'0.65rem',color:'#8893A1',flexWrap:'wrap'}}>
-                  <span>💰 ₺{(op.rewards.money[0]/1000).toFixed(0)}K–{(op.rewards.money[1]/1000).toFixed(0)}K</span>
+                  <span>💰 🪙{(op.rewards.money[0]/1000).toFixed(0)}K–{(op.rewards.money[1]/1000).toFixed(0)}K</span>
                   <span>⚡ {op.rewards.xp[0]}–{op.rewards.xp[1]} XP</span>
                   <span>🏅 {op.rewards.merit[0]}–{op.rewards.merit[1]}</span>
                   <span>❤️ -{op.rewards.hpCost[0]}–{op.rewards.hpCost[1]} HP</span>
@@ -209,7 +209,7 @@ function GangCrimePage({ profile, setProfile, showNotif }) {
                 <span style={{fontSize:'0.65rem',color:'#8893A1',marginLeft:'0.4rem'}}>{l.operation_id}</span>
               </div>
               <span style={{fontSize:'0.68rem',color:l.success?'#4C9A6B':'#C24B43',fontWeight:700}}>
-                {l.success ? `+₺${Number(l.reward_money||0).toLocaleString('tr-TR')}` : 'Başarısız'}
+                {l.success ? `+🪙${Number(l.reward_money||0).toLocaleString('tr-TR')}` : 'Başarısız'}
               </span>
             </div>
           ))}
@@ -465,7 +465,7 @@ function CrimePage({ profile, setProfile, showNotif }) {
 // ═══════════════════════════════════════════════════════
 const HOLDING_SECTORS = [
   { id:'tech',    label:'Teknoloji',    icon:'💻', baseCost:500000,  profit:18000, maint:5000  },
-  { id:'food',    label:'Gıda Sanayi',  icon:'🍔', baseCost:250000,  profit:9000,  maint:2500  },
+  { id:'food',    label:'Gıda Atölyesi',  icon:'🍔', baseCost:250000,  profit:9000,  maint:2500  },
   { id:'energy',  label:'Enerji',       icon:'⚡', baseCost:800000,  profit:30000, maint:8000  },
   { id:'const',   label:'İnşaat',       icon:'🏗️', baseCost:400000,  profit:14000, maint:4000  },
   { id:'finance', label:'Finans',       icon:'🏦', baseCost:1000000, profit:40000, maint:12000 },
@@ -1098,7 +1098,7 @@ function HoldingsPage({ profile, setProfile, showNotif }) {
             ))}
           </div>
           <Btn variant='green' size='full' onClick={()=>buyShares(buyShareModal)} disabled={!buyQty||parseInt(buyQty)<=0}>
-            ✅ Satın Al — {buyQty && parseInt(buyQty)>0 ? fmtWord(parseInt(buyQty)*buyShareModal.sharePrice) : '₺0'}
+            ✅ Satın Al — {buyQty && parseInt(buyQty)>0 ? fmtWord(parseInt(buyQty)*buyShareModal.sharePrice) : '🪙0'}
           </Btn>
           <div style={{marginTop:'0.5rem',fontSize:'0.65rem',color:'#8893A1',textAlign:'center'}}>
             Hisse alımı şirket değerini ve hisse fiyatını yükseltir

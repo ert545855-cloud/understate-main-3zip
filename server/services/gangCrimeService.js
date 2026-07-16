@@ -211,7 +211,7 @@ async function executeCrime(userId, gangId, operationId, gangLevel = 1, userLeve
     operation: op,
     rewards: isSuccess ? rewards : { hpCost: rewards.hpCost },
     message: isSuccess
-      ? `✅ ${op.name} başarılı! +₺${(rewards.playerMoney||0).toLocaleString('tr-TR')} +${rewards.xp}XP`
+      ? `✅ ${op.name} başarılı! +🪙${(rewards.playerMoney||0).toLocaleString('tr-TR')} +${rewards.xp}XP`
       : `❌ ${op.name} başarısız! -${rewards.hpCost}HP`,
   };
 }

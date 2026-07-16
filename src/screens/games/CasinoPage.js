@@ -10,7 +10,7 @@ function CasinoPage({ profile, setProfile, showNotif }) {
   const [isSpinning, setIsSpinning] = useState(false);
   const [dailySpin, setDailySpin] = useLs('dailySpin2', {});
   const { dark } = useTheme();
-  const bg = dark ? '#0F172A' : '#F8FAFC';
+  const bg = dark ? '#1A0E00' : '#F8FAFC';
   const cu = profile || {};
   const now = Date.now();
   const updateUser = (upd) => {
@@ -42,7 +42,7 @@ function CasinoPage({ profile, setProfile, showNotif }) {
   };
 
   const startBlackjack = () => {
-    if(betAmt<1000){showNotif('❌ Minimum bahis: ₺1,000!','error');return;}
+    if(betAmt<1000){showNotif('❌ Minimum bahis: 🪙1,000!','error');return;}
     if((cu.money||0)<betAmt){showNotif('❌ Yetersiz bakiye!','error');return;}
     const deck=newDeck();
     const playerH=[deck.pop(),deck.pop()];
@@ -73,12 +73,12 @@ function CasinoPage({ profile, setProfile, showNotif }) {
     else{result='lose';}
     if(payout>0) updateUser({money:(cu.money||0)+payout});
     setBjState(prev=>({...prev,deck,dealerHand,phase:result}));
-    const msgs={win:`🃏 Kazandın! +₺${payout.toLocaleString()}`,lose:'💔 Kaybettin!',push:`🤝 Beraberlik! Bahis iade.`,bust:'💥 Battı! 21\'i geçtin!'};
+    const msgs={win:`🃏 Kazandın! +🪙${payout.toLocaleString()}`,lose:'💔 Kaybettin!',push:`🤝 Beraberlik! Bahis iade.`,bust:'💥 Battı! 21\'i geçtin!'};
     showNotif(msgs[result]||'',result==='win'?'success':'error');
   };
 
   const startPoker = () => {
-    if(betAmt<5000){showNotif('❌ Minimum poker bahsi: ₺5,000!','error');return;}
+    if(betAmt<5000){showNotif('❌ Minimum poker bahsi: 🪙5,000!','error');return;}
     if((cu.money||0)<betAmt){showNotif('❌ Yetersiz bakiye!','error');return;}
     const deck=newDeck();
     const hand=[deck.pop(),deck.pop(),deck.pop(),deck.pop(),deck.pop()];
@@ -102,7 +102,7 @@ function CasinoPage({ profile, setProfile, showNotif }) {
     const win=mult*bet;
     if(win>0) updateUser({money:(cu.money||0)+win});
     setPokerState(prev=>({...prev,hand,phase:'result',result:rank,win}));
-    showNotif(win>0?`✅ ${rank}! +₺${win.toLocaleString()}`:'💔 Kazanmadın!',win>0?'success':'error');
+    showNotif(win>0?`✅ ${rank}! +🪙${win.toLocaleString()}`:'💔 Kazanmadın!',win>0?'success':'error');
   };
 
   const evalPokerHand = (hand) => {
@@ -126,11 +126,11 @@ function CasinoPage({ profile, setProfile, showNotif }) {
   };
 
   const SPIN_PRIZES=[
-    {label:'₺10,000',icon:'💵',type:'money',value:10000,color:'#4C9A6B',weight:25},
-    {label:'₺50,000',icon:'💰',type:'money',value:50000,color:'#4C9A6B',weight:12},
-    {label:'₺200,000',icon:'💎',type:'money',value:200000,color:'#4C9A6B',weight:4},
-    {label:'20 UC',icon:'🪙',type:'uc',value:20,color:'#FFB800',weight:20},
-    {label:'100 UC',icon:'💎',type:'uc',value:100,color:'#C9A227',weight:5},
+    {label:'🪙10,000',icon:'💵',type:'money',value:10000,color:'#4C9A6B',weight:25},
+    {label:'🪙50,000',icon:'💰',type:'money',value:50000,color:'#4C9A6B',weight:12},
+    {label:'🪙200,000',icon:'💎',type:'money',value:200000,color:'#4C9A6B',weight:4},
+    {label:'20 Altın',icon:'🪙',type:'uc',value:20,color:'#FFB800',weight:20},
+    {label:'100 Altın',icon:'💎',type:'uc',value:100,color:'#C9A227',weight:5},
     {label:'+10 HP',icon:'❤️',type:'hp',value:10,color:'#C24B43',weight:18},
     {label:'+10🏅',icon:'🏅',type:'merit',value:10,color:'#C9A227',weight:10},
     {label:'JACKPOT!',icon:'👑',type:'money',value:1000000,color:'#C9A227',weight:1},
@@ -160,7 +160,7 @@ function CasinoPage({ profile, setProfile, showNotif }) {
   };
 
   const playSlots=()=>{
-    if((cu.money||0)<1000){showNotif('❌ Min ₺1,000!','error');return;}
+    if((cu.money||0)<1000){showNotif('❌ Min 🪙1,000!','error');return;}
     const bet=Math.max(1000,Math.min(betAmt,cu.money||0));
     const SYMS=['🍒','🍋','🍊','⭐','💎','7️⃣'];
     const s=[SYMS[Math.floor(Math.random()*SYMS.length)],SYMS[Math.floor(Math.random()*SYMS.length)],SYMS[Math.floor(Math.random()*SYMS.length)]];
@@ -169,16 +169,16 @@ function CasinoPage({ profile, setProfile, showNotif }) {
     else if(s[0]===s[1]||s[1]===s[2]||s[0]===s[2]) mult=1.5;
     const win=Math.floor(bet*mult);
     updateUser({money:(cu.money||0)-bet+win});
-    if(win>0) showNotif(`${s.join('')} KAZANDI! +₺${(win-bet).toLocaleString()}`,'success');
-    else showNotif(`${s.join('')} Kaybettin! -₺${bet.toLocaleString()}`,'error');
+    if(win>0) showNotif(`${s.join('')} KAZANDI! +🪙${(win-bet).toLocaleString()}`,'success');
+    else showNotif(`${s.join('')} Kaybettin! -🪙${bet.toLocaleString()}`,'error');
   };
 
   const playCoinFlip=()=>{
-    if((cu.money||0)<500){showNotif('❌ Min ₺500!','error');return;}
+    if((cu.money||0)<500){showNotif('❌ Min 🪙500!','error');return;}
     const bet=Math.max(500,Math.min(betAmt,cu.money||0));
     const won=Math.random()<0.5;
     updateUser({money:(cu.money||0)+(won?bet:-bet)});
-    showNotif(won?`🪙 YAZΙ! +₺${bet.toLocaleString()}`:`🪙 TURA! -₺${bet.toLocaleString()}`,won?'success':'error');
+    showNotif(won?`🪙 YAZΙ! +🪙${bet.toLocaleString()}`:`🪙 TURA! -🪙${bet.toLocaleString()}`,won?'success':'error');
   };
 
   const renderCard=(c,hidden=false)=>(
@@ -189,7 +189,7 @@ function CasinoPage({ profile, setProfile, showNotif }) {
 
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>
-      <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#C9A227',marginBottom:'1rem'}}>🎰 Kumarhane</div>
+      <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.3rem',fontWeight:900,color:'#C9A227',marginBottom:'1rem'}}>🎰 Kumarhane</div>
       <div style={{display:'flex',gap:'0.35rem',marginBottom:'1rem',overflowX:'auto',paddingBottom:'0.2rem'}}>
         {[{k:'wheel',l:'🎡 Çark'},{k:'blackjack',l:'🃏 Blackjack'},{k:'poker',l:'♠️ Poker'},{k:'slots',l:'🎰 Slot'},{k:'coinflip',l:'🪙 Yazı-Tura'}].map(t=>(
           <button key={t.k} onClick={()=>setTab(t.k)} style={{flexShrink:0,padding:'0.4rem 0.85rem',borderRadius:'2rem',border:`1px solid ${tab===t.k?'#C9A227':'rgba(255,255,255,0.12)'}`,background:tab===t.k?'rgba(255,215,0,0.12)':'transparent',color:tab===t.k?'#C9A227':'#999',cursor:'pointer',fontWeight:tab===t.k?700:400,fontSize:'0.82rem',fontFamily:'inherit'}}>{t.l}</button>
@@ -199,15 +199,15 @@ function CasinoPage({ profile, setProfile, showNotif }) {
 
       {tab==='wheel'&&<div style={{maxWidth:400,margin:'0 auto'}}>
         <div style={{textAlign:'center',marginBottom:'1rem'}}>
-          <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.2rem',fontWeight:700,color:'#C9A227'}}>🎡 Günlük Çark</div>
+          <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.2rem',fontWeight:700,color:'#C9A227'}}>🎡 Günlük Çark</div>
           <div style={{fontSize:'0.78rem',color:'#999'}}>Günde bir kez ücretsiz çevirme</div>
           {spinData.streak>0&&<div style={{fontSize:'0.72rem',color:'#C9A227',marginTop:'0.15rem'}}>🔥 {spinData.streak} gün streak!</div>}
         </div>
         {spinResult&&<div style={{textAlign:'center',padding:'0.75rem',background:`rgba(255,255,255,0.05)`,borderRadius:'12px',border:`1px solid ${spinResult.color}44`,marginBottom:'1rem'}}>
           <div style={{fontSize:'2rem'}}>{spinResult.icon}</div>
-          <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1rem',fontWeight:700,color:spinResult.color}}>{spinResult.label}</div>
+          <div style={{fontFamily:"'Cinzel',serif",fontSize:'1rem',fontWeight:700,color:spinResult.color}}>{spinResult.label}</div>
         </div>}
-        {canSpin?<button onClick={doSpin} style={{width:'100%',padding:'0.8rem',background:isSpinning?'rgba(255,215,0,0.05)':'linear-gradient(135deg,#A07D1C,#C9A227)',border:'none',borderRadius:'10px',color:isSpinning?'#C9A227':'#000',fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:700,cursor:isSpinning?'not-allowed':'pointer',opacity:isSpinning?0.6:1}}>{isSpinning?'🎡 Dönüyor...':'🎡 ÇARK ÇEVİR!'}</button>
+        {canSpin?<button onClick={doSpin} style={{width:'100%',padding:'0.8rem',background:isSpinning?'rgba(255,215,0,0.05)':'linear-gradient(135deg,#A07D1C,#C9A227)',border:'none',borderRadius:'10px',color:isSpinning?'#C9A227':'#000',fontFamily:"'Cinzel',serif",fontSize:'1.1rem',fontWeight:700,cursor:isSpinning?'not-allowed':'pointer',opacity:isSpinning?0.6:1}}>{isSpinning?'🎡 Dönüyor...':'🎡 ÇARK ÇEVİR!'}</button>
         :<div style={{textAlign:'center',padding:'0.75rem',background:'rgba(201,162,39,0.06)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'10px'}}>
           <div style={{color:'#C9A227',fontWeight:700}}>⏳ Sonraki çevirme</div>
           <div style={{fontFamily:"'Inter',sans-serif",fontSize:'1.1rem',color:'#FFB800',marginTop:4}}>{Math.floor(nextMs/3600000)}s {Math.floor((nextMs%3600000)/60000)}dk</div>
@@ -224,11 +224,11 @@ function CasinoPage({ profile, setProfile, showNotif }) {
       </div>}
 
       {tab==='blackjack'&&<div style={{maxWidth:400,margin:'0 auto'}}>
-        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:700,color:'#4C9A6B',marginBottom:'0.75rem',textAlign:'center'}}>🃏 Blackjack</div>
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.1rem',fontWeight:700,color:'#4C9A6B',marginBottom:'0.75rem',textAlign:'center'}}>🃏 Blackjack</div>
         <div style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'0.75rem',marginBottom:'0.75rem',display:'flex',alignItems:'center',gap:'0.5rem'}}>
           <span style={{fontSize:'0.82rem',color:'#999'}}>Bahis:</span>
           <input type="number" value={betAmt} onChange={e=>setBetAmt(Math.max(1000,parseInt(e.target.value)||1000))} style={{flex:1,padding:'0.4rem 0.5rem',background:'rgba(237,231,218,0.05)',border:'1px solid rgba(255,255,255,0.12)',borderRadius:'6px',color:'#EDE7DA',fontSize:'0.9rem',outline:'none',fontFamily:'inherit'}} />
-          <span style={{fontSize:'0.78rem',color:'#999'}}>Bak: ₺{((cu.money||0)/1000).toFixed(0)}K</span>
+          <span style={{fontSize:'0.78rem',color:'#999'}}>Bak: 🪙{((cu.money||0)/1000).toFixed(0)}K</span>
         </div>
         {!bjState&&<button onClick={startBlackjack} style={{width:'100%',padding:'0.7rem',background:'rgba(76,154,107,0.12)',border:'1px solid rgba(76,154,107,0.35)',borderRadius:'10px',color:'#4C9A6B',cursor:'pointer',fontWeight:700,fontFamily:'inherit',fontSize:'1rem'}}>🃏 Oyunu Başlat</button>}
         {bjState&&<div>
@@ -251,7 +251,7 @@ function CasinoPage({ profile, setProfile, showNotif }) {
           {bjState.phase!=='playing'&&<div>
             <div style={{textAlign:'center',padding:'0.75rem',background:bjState.phase==='win'?'rgba(76,154,107,0.1)':'rgba(194,75,67,0.1)',border:`1px solid ${bjState.phase==='win'?'rgba(76,154,107,0.3)':'rgba(194,75,67,0.3)'}`,borderRadius:'10px',marginBottom:'0.5rem'}}>
               <div style={{fontSize:'1.5rem',marginBottom:'0.25rem'}}>{bjState.phase==='win'?'🏆':bjState.phase==='push'?'🤝':'💔'}</div>
-              <div style={{fontWeight:700,color:bjState.phase==='win'?'#4C9A6B':bjState.phase==='push'?'#C9A227':'#C24B43'}}>{bjState.phase==='win'?`Kazandın! +₺${(bjState.bet).toLocaleString()}`:bjState.phase==='push'?'Beraberlik!':bjState.phase==='bust'?'Battı!':'Kaybettin!'}</div>
+              <div style={{fontWeight:700,color:bjState.phase==='win'?'#4C9A6B':bjState.phase==='push'?'#C9A227':'#C24B43'}}>{bjState.phase==='win'?`Kazandın! +🪙${(bjState.bet).toLocaleString()}`:bjState.phase==='push'?'Beraberlik!':bjState.phase==='bust'?'Battı!':'Kaybettin!'}</div>
             </div>
             <button onClick={()=>setBjState(null)} style={{width:'100%',padding:'0.6rem',background:'rgba(237,231,218,0.05)',border:'1px solid rgba(255,255,255,0.12)',borderRadius:'8px',color:'#aaa',cursor:'pointer',fontWeight:700,fontFamily:'inherit'}}>🔄 Tekrar Oyna</button>
           </div>}
@@ -262,7 +262,7 @@ function CasinoPage({ profile, setProfile, showNotif }) {
       </div>}
 
       {tab==='poker'&&<div style={{maxWidth:400,margin:'0 auto'}}>
-        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:700,color:'#C9A227',marginBottom:'0.75rem',textAlign:'center'}}>♠️ Video Poker (Jacks or Better)</div>
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.1rem',fontWeight:700,color:'#C9A227',marginBottom:'0.75rem',textAlign:'center'}}>♠️ Video Poker (Jacks or Better)</div>
         <div style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'0.75rem',marginBottom:'0.75rem',display:'flex',alignItems:'center',gap:'0.5rem'}}>
           <span style={{fontSize:'0.82rem',color:'#999'}}>Bahis:</span>
           <input type="number" value={betAmt} onChange={e=>setBetAmt(Math.max(5000,parseInt(e.target.value)||5000))} style={{flex:1,padding:'0.4rem 0.5rem',background:'rgba(237,231,218,0.05)',border:'1px solid rgba(255,255,255,0.12)',borderRadius:'6px',color:'#EDE7DA',fontSize:'0.9rem',outline:'none',fontFamily:'inherit'}} />
@@ -291,7 +291,7 @@ function CasinoPage({ profile, setProfile, showNotif }) {
           {pokerState.phase==='hold'&&<button onClick={pokerDraw} style={{width:'100%',padding:'0.65rem',background:'rgba(201,162,39,0.12)',border:'1px solid rgba(167,139,250,0.35)',borderRadius:'10px',color:'#C9A227',cursor:'pointer',fontWeight:700,fontFamily:'inherit',fontSize:'0.95rem'}}>🃏 Kartları Dağıt</button>}
           {pokerState.phase==='result'&&<div>
             <div style={{textAlign:'center',padding:'0.75rem',background:pokerState.win>0?'rgba(76,154,107,0.1)':'rgba(194,75,67,0.1)',border:`1px solid ${pokerState.win>0?'rgba(76,154,107,0.3)':'rgba(194,75,67,0.3)'}`,borderRadius:'10px',marginBottom:'0.5rem'}}>
-              <div style={{fontWeight:700,color:pokerState.win>0?'#4C9A6B':'#C24B43',fontSize:'0.95rem'}}>{pokerState.result} {pokerState.win>0?`+₺${pokerState.win.toLocaleString()}`:'Kazanmadın!'}</div>
+              <div style={{fontWeight:700,color:pokerState.win>0?'#4C9A6B':'#C24B43',fontSize:'0.95rem'}}>{pokerState.result} {pokerState.win>0?`+🪙${pokerState.win.toLocaleString()}`:'Kazanmadın!'}</div>
             </div>
             <button onClick={()=>setPokerState(null)} style={{width:'100%',padding:'0.6rem',background:'rgba(237,231,218,0.05)',border:'1px solid rgba(255,255,255,0.12)',borderRadius:'8px',color:'#aaa',cursor:'pointer',fontWeight:700,fontFamily:'inherit'}}>🔄 Tekrar Oyna</button>
           </div>}
@@ -299,18 +299,18 @@ function CasinoPage({ profile, setProfile, showNotif }) {
       </div>}
 
       {tab==='slots'&&<div style={{maxWidth:400,margin:'0 auto',textAlign:'center'}}>
-        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:700,color:'#C9A227',marginBottom:'0.75rem'}}>🎰 Slot Makinesi</div>
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.1rem',fontWeight:700,color:'#C9A227',marginBottom:'0.75rem'}}>🎰 Slot Makinesi</div>
         <div style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'0.75rem',marginBottom:'0.75rem',display:'flex',alignItems:'center',gap:'0.5rem'}}>
           <span style={{fontSize:'0.82rem',color:'#999'}}>Bahis:</span>
           <input type="number" value={betAmt} onChange={e=>setBetAmt(Math.max(1000,parseInt(e.target.value)||1000))} style={{flex:1,padding:'0.4rem 0.5rem',background:'rgba(237,231,218,0.05)',border:'1px solid rgba(255,255,255,0.12)',borderRadius:'6px',color:'#EDE7DA',fontSize:'0.9rem',outline:'none',fontFamily:'inherit'}} />
         </div>
         <div style={{fontSize:'2.5rem',background:'rgba(237,231,218,0.03)',borderRadius:'12px',padding:'1rem',marginBottom:'1rem',letterSpacing:'0.2em'}}>🎰🎰🎰</div>
         <div style={{fontSize:'0.78rem',color:'#999',marginBottom:'0.75rem'}}>3 aynı: 3x · Jackpot (7️⃣): 10x · 2 aynı: 1.5x</div>
-        <button onClick={playSlots} style={{width:'100%',padding:'0.75rem',background:'linear-gradient(135deg,#A07D1C,#C9A227)',border:'none',borderRadius:'10px',color:'#000',cursor:'pointer',fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:'1rem'}}>🎰 ÇEVİR!</button>
+        <button onClick={playSlots} style={{width:'100%',padding:'0.75rem',background:'linear-gradient(135deg,#A07D1C,#C9A227)',border:'none',borderRadius:'10px',color:'#000',cursor:'pointer',fontFamily:"'Cinzel',serif",fontWeight:800,fontSize:'1rem'}}>🎰 ÇEVİR!</button>
       </div>}
 
       {tab==='coinflip'&&<div style={{maxWidth:400,margin:'0 auto',textAlign:'center'}}>
-        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:700,color:'#C9A227',marginBottom:'0.75rem'}}>🪙 Yazı-Tura</div>
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.1rem',fontWeight:700,color:'#C9A227',marginBottom:'0.75rem'}}>🪙 Yazı-Tura</div>
         <div style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'0.75rem',marginBottom:'0.75rem',display:'flex',alignItems:'center',gap:'0.5rem'}}>
           <span style={{fontSize:'0.82rem',color:'#999'}}>Bahis:</span>
           <input type="number" value={betAmt} onChange={e=>setBetAmt(Math.max(500,parseInt(e.target.value)||500))} style={{flex:1,padding:'0.4rem 0.5rem',background:'rgba(237,231,218,0.05)',border:'1px solid rgba(255,255,255,0.12)',borderRadius:'6px',color:'#EDE7DA',fontSize:'0.9rem',outline:'none',fontFamily:'inherit'}} />
@@ -354,7 +354,7 @@ function GameEventTicker({ events, onNavigate }) {
   const CAT_COLORS = {
     seçim:'#C9A227', savaş:'#C24B43', ihale:'#C9A227', grev:'#F97316',
     parti:'#C9A227', çete:'#C24B43', aile:'#C9A227', ohal:'#C24B43',
-    duyuru:'#4C9A6B', sendika:'#C9A227', genel:'#8893A1',
+    duyuru:'#4C9A6B', lonca:'#C9A227', genel:'#8893A1',
   };
   const color = CAT_COLORS[evt.category] || '#8893A1';
 

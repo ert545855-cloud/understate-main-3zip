@@ -78,7 +78,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
       const r = await fetch('/api/streak/claim', { method:'POST', headers:{ Authorization:`Bearer ${token}` } });
       const d = await r.json();
       if (d.success) {
-        showNotif(`🎁 +${(d.reward?.money||0).toLocaleString('tr-TR')}₺ +${d.reward?.xp||0}XP!`, 'success');
+        showNotif(`🎁 +${(d.reward?.money||0).toLocaleString('tr-TR')}🪙 +${d.reward?.xp||0}XP!`, 'success');
         setStreak(prev => prev ? { ...prev, current_streak:d.streak, last_claim_date:new Date().toISOString().slice(0,10) } : prev);
         if (d.reward) setProfile(p => ({ ...p, money:(p.money||0)+(d.reward.money||0), xp:(p.xp||0)+(d.reward.xp||0) }));
       } else {
@@ -122,7 +122,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
 
   const doRequestLoan = async () => {
     const amt = parseInt(loanAmt);
-    if (!amt || amt < 1000) { showNotif('Minimum 1.000₺ kredi alabilirsiniz', 'error'); return; }
+    if (!amt || amt < 1000) { showNotif('Minimum 1.000🪙 kredi alabilirsiniz', 'error'); return; }
     const token = localStorage.getItem('us_jwt');
     const r = await fetch('/api/loans/request', {
       method:'POST', headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`},
@@ -130,7 +130,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
     });
     const d = await r.json();
     if (d.success) {
-      showNotif(`✅ ${amt.toLocaleString('tr-TR')}₺ hesabınıza yüklendi!`, 'success');
+      showNotif(`✅ ${amt.toLocaleString('tr-TR')}🪙 hesabınıza yüklendi!`, 'success');
       setProfile(p => ({ ...p, money:(p.money||0)+amt }));
       setLoanAmt('');
       _fetchLoans();
@@ -147,7 +147,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
     });
     const d = await r.json();
     if (d.success) {
-      showNotif(d.closed ? '✅ Krediniz kapatıldı!' : `✅ ${amount.toLocaleString('tr-TR')}₺ ödendi`, 'success');
+      showNotif(d.closed ? '✅ Krediniz kapatıldı!' : `✅ ${amount.toLocaleString('tr-TR')}🪙 ödendi`, 'success');
       setProfile(p => ({ ...p, money:(p.money||0)-amount }));
       _fetchLoans();
     } else {
@@ -264,7 +264,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
             {[
               ['💰','Nakit',fmtM(profile?.money),'#4C9A6B'],
               ['🏦','Banka',fmtM(profile?.bank),'#C9A227'],
-              ['🪙','UnderCoin',fmtUC(profile?.underCoin),'#C9A227'],
+              ['🪙','Altın',fmtAltin(profile?.underCoin),'#C9A227'],
               ['🏅','Liyakat',fmt(profile?.meritPoints),'#C9A227'],
               ['🤝','Ticaret Puanı',fmt(profile?.tradePoints),'#C9A227'],
               ['🎓','Eğitim',EDU_LEVELS.find(e=>e.id===(profile?.education?.diploma||'ilkokul'))?.label||'İlkokul','#C9A227'],
@@ -303,7 +303,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
             const eduBonus=eduRank===1?3:eduRank<=3?2:eduRank<=10?1:0;
             const eduColor=eduBonus>=3?'#C9A227':eduBonus>=2?'#C9A227':eduBonus>=1?'#C9A227':'#8893A1';
             const eduLabel=eduBonus===3?'🏆 1. Sıra':eduBonus===2?'🥈 2-3. Sıra':eduBonus===1?'🥉 4-10. Sıra':'—';
-            // UC katsayısı
+            // Altın katsayısı
             const ucBonus=profile?.voteMultiplier||0;
             // Toplam
             const total=tradeBonus+eduBonus+ucBonus;
@@ -333,10 +333,10 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
                     <span style={{color:eduBonus>0?eduColor:'#3B4E63',fontWeight:900,fontFamily:"'JetBrains Mono',monospace",fontSize:'0.82rem',marginLeft:'0.4rem'}}>{eduBonus>0?`+${eduBonus}`:'—'}</span>
                   </div>
                 </div>
-                {/* UC Katsayısı */}
+                {/* Altın Katsayısı */}
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.38rem 0.4rem',borderRadius:'6px',background:'rgba(201,162,39,0.05)',marginBottom:'0.3rem'}}>
                   <div>
-                    <span style={{color:'#8893A1',fontSize:'0.8rem'}}>🪙 UnderCoin Katsayısı</span>
+                    <span style={{color:'#8893A1',fontSize:'0.8rem'}}>🪙 Altın Katsayısı</span>
                     <span style={{color:'#8893A1',fontSize:'0.68rem',marginLeft:'0.3rem'}}>Ekonomi→UC</span>
                   </div>
                   <span style={{color:ucBonus>0?'#C9A227':'#3B4E63',fontWeight:900,fontFamily:"'JetBrains Mono',monospace",fontSize:'0.82rem'}}>{ucBonus>0?`+${ucBonus}`:'—'}</span>
@@ -350,7 +350,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
                 <div style={{fontSize:'0.59rem',color:'#8893A1',marginTop:'0.4rem',lineHeight:1.5}}>
                   <div>📊 Ticaret: 1.→6x · 2.→4x · 3-5.→3x · 6-50.→2x · 51+→1x</div>
                   <div>🎓 Eğitim: 1.→+3 · 2-3.→+2 · 4-10.→+1</div>
-                  <div>🪙 UC: Her 500 UC → +1 katsayı (Ekonomi → Dönüşüm)</div>
+                  <div>🪙 Altın: Her 500 Altın → +1 katsayı (Ekonomi → Dönüşüm)</div>
                 </div>
               </Card>
             );
@@ -445,7 +445,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
                 </button>
               )}
             </div>
-            <div style={{fontSize:'0.6rem',color:'#8893A1',marginTop:'0.25rem'}}>Arkadaşın kullanırsa +2.000₺ sen, +5.000₺ sen</div>
+            <div style={{fontSize:'0.6rem',color:'#8893A1',marginTop:'0.25rem'}}>Arkadaşın kullanırsa +2.000🪙 sen, +5.000🪙 sen</div>
           </div>
         </Card>
       )}
@@ -587,10 +587,10 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
           <Card style={{marginBottom:'0.5rem'}}>
             <div style={{fontWeight:700,color:'#EDE7DA',marginBottom:'0.6rem',fontSize:'0.85rem'}}>💳 Kredi Talebi</div>
             <input type="number" value={loanAmt} onChange={e=>setLoanAmt(e.target.value)}
-              placeholder="Tutar girin (min 1.000₺)" style={{...inputSt,marginBottom:'0.45rem'}} />
+              placeholder="Tutar girin (min 1.000🪙)" style={{...inputSt,marginBottom:'0.45rem'}} />
             {parseInt(loanAmt)>=1000 && (
               <div style={{fontSize:'0.7rem',color:'#8893A1',marginBottom:'0.45rem'}}>
-                Tahmini faiz: %8 · Geri ödeme: ~{Math.ceil(parseInt(loanAmt)*1.08).toLocaleString('tr-TR')}₺ (30 gün)
+                Tahmini faiz: %8 · Geri ödeme: ~{Math.ceil(parseInt(loanAmt)*1.08).toLocaleString('tr-TR')}🪙 (30 gün)
               </div>
             )}
             <Btn variant='primary' size='full' onClick={doRequestLoan}>💳 Kredi Al</Btn>
@@ -606,7 +606,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
               <div key={loan.id} style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'0.6rem',marginBottom:'0.35rem'}}>
                 <div style={{display:'flex',justifyContent:'space-between',marginBottom:'0.3rem'}}>
                   <div style={{display:'flex',alignItems:'center',gap:'0.4rem'}}>
-                    <span style={{color:'#EDE7DA',fontWeight:700,fontSize:'0.85rem'}}>{parseInt(loan.principal||loan.amount||0).toLocaleString('tr-TR')}₺</span>
+                    <span style={{color:'#EDE7DA',fontWeight:700,fontSize:'0.85rem'}}>{parseInt(loan.principal||loan.amount||0).toLocaleString('tr-TR')}🪙</span>
                     <Tag color={loan.status==='active'?'blue':loan.status==='paid'?'green':'red'}>
                       {loan.status==='active'?'Aktif':loan.status==='paid'?'Ödendi':'Gecikmiş'}
                     </Tag>
@@ -617,8 +617,8 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
                   <div>
                     <ProgressBar pct={Math.min(100,(parseInt(loan.amount_paid||0)/Math.max(1,parseInt(loan.amount_due||loan.total_due||loan.principal||1)))*100)} color='#4C9A6B' h={4} />
                     <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.67rem',color:'#8893A1',margin:'0.25rem 0 0.4rem'}}>
-                      <span>Ödenen: {parseInt(loan.amount_paid||0).toLocaleString('tr-TR')}₺</span>
-                      <span>Kalan: {(parseInt(loan.amount_due||loan.total_due||0)-parseInt(loan.amount_paid||0)).toLocaleString('tr-TR')}₺</span>
+                      <span>Ödenen: {parseInt(loan.amount_paid||0).toLocaleString('tr-TR')}🪙</span>
+                      <span>Kalan: {(parseInt(loan.amount_due||loan.total_due||0)-parseInt(loan.amount_paid||0)).toLocaleString('tr-TR')}🪙</span>
                     </div>
                     <Btn variant='ghost' size='sm' onClick={()=>doRepayLoan(loan.id,(parseInt(loan.amount_due||loan.total_due||0)-parseInt(loan.amount_paid||0)))}>
                       💰 Tamamını Öde

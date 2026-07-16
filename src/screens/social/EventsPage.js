@@ -3,7 +3,7 @@
 // ═══════════════════════════════════════════════════════
 function EventsPage({ profile, setProfile, showNotif }) {
   const { dark } = useTheme();
-  const bg = dark ? '#0F172A' : '#F8FAFC';
+  const bg = dark ? '#1A0E00' : '#F8FAFC';
   const card = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
   const [events, setEvents] = useLs('rep_gameEvents', []);

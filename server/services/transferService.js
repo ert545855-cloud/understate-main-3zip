@@ -10,8 +10,8 @@ async function transfer({ senderId, receiverUsername, amount, message = '' }) {
   if (!db.isReady()) return { ok: false, message: 'DB bağlı değil' };
 
   const amt = BigInt(amount);
-  if (amt < MIN_TRANSFER) return { ok: false, message: 'Minimum transfer 1₺' };
-  if (amt > MAX_TRANSFER)  return { ok: false, message: 'Maksimum transfer 1B₺' };
+  if (amt < MIN_TRANSFER) return { ok: false, message: 'Minimum transfer 1🪙' };
+  if (amt > MAX_TRANSFER)  return { ok: false, message: 'Maksimum transfer 1B🪙' };
   if (!message || message.length > 100) message = '';
 
   // Fetch sender
@@ -44,7 +44,7 @@ async function transfer({ senderId, receiverUsername, amount, message = '' }) {
       [senderId, receiver.id, amt, message]
     );
     await client.query('COMMIT');
-    logger.info(`[Transfer] ${sender.username} → ${receiver.username}: ${amt}₺ (txId=${tRows[0]?.id})`);
+    logger.info(`[Transfer] ${sender.username} → ${receiver.username}: ${amt}🪙 (txId=${tRows[0]?.id})`);
     // Notify receiver
     notif.notifyTransferReceived(receiver.id, sender.username, amt).catch(() => {});
     return { ok: true, txId: tRows[0]?.id, receiver: receiver.username, amount: Number(amt) };

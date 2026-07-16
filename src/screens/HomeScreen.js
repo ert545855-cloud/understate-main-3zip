@@ -106,7 +106,7 @@ function HomePage({ profile, onNavigate }) {
     { id:'farm1',     name:'Tarım Hasatı Yap',         page:'economy',   icon:'🌾', minLv:2,  maxLv:99, target:1,  reward:3000,  xpReward:120, unit:'hasat' },
     { id:'gang1',     name:'Çeteye Katıl/Savaş',       page:'gang',      icon:'⚔️', minLv:1,  maxLv:5,  target:1,  reward:2500,  xpReward:100, unit:'aksiyon' },
     { id:'vote1',     name:'Siyasi Oy Kullan',         page:'politics',  icon:'🗳️', minLv:3,  maxLv:99, target:1,  reward:3000,  xpReward:200, unit:'oy' },
-    { id:'factory1',  name:'Fabrika Üret (1 kez)',      page:'factory',   icon:'🏭', minLv:5,  maxLv:99, target:1,  reward:8000,  xpReward:250, unit:'üretim' },
+    { id:'factory1',  name:'İmalathane Üret (1 kez)',      page:'factory',   icon:'🏭', minLv:5,  maxLv:99, target:1,  reward:8000,  xpReward:250, unit:'üretim' },
     { id:'spy1',      name:'İstihbarat Operasyonu',    page:'spy',       icon:'🕵️', minLv:5,  maxLv:99, target:1,  reward:5000,  xpReward:200, unit:'operasyon' },
     { id:'build1',    name:'İnşaat Başlat',            page:'citybuild', icon:'🏗️', minLv:3,  maxLv:99, target:1,  reward:7000,  xpReward:220, unit:'inşaat' },
   ];
@@ -189,7 +189,7 @@ function HomePage({ profile, onNavigate }) {
   const unreadCount = notifCount > 0 ? notifCount : (unreadDMs + (news?.length||0));
 
   return (
-    <div style={{padding:'0 0.75rem 1rem',background:'#11151C',minHeight:'100%'}}>
+    <div style={{padding:'0 0.75rem 1rem',background:'#0F0800',minHeight:'100%'}}>
       {/* ── Welcome card (stays dark) ── */}
       <div style={{borderRadius:'12px',marginBottom:'0.75rem',boxShadow:'0 6px 24px rgba(0,0,0,0.18)',marginTop:'0.75rem',overflow:'hidden'}}>
         {/* Banner */}
@@ -212,7 +212,7 @@ function HomePage({ profile, onNavigate }) {
           <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'0.75rem'}}>
             <div>
               <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.2rem',fontWeight:600}}>{T('playerProfile')}</div>
-              <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.35rem',fontWeight:900,color:'#EDE7DA'}}>{profile?.username||'Oyuncu'}</div>
+              <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.35rem',fontWeight:900,color:'#EDE7DA'}}>{profile?.username||'Oyuncu'}</div>
               <div style={{fontSize:'0.65rem',color:'#8893A1',marginTop:'0.1rem'}}>{lvl.title} • {lvl.pct}% {T('nextLevel')}</div>
             </div>
             {!profile?.bannerUrl && (
@@ -234,7 +234,7 @@ function HomePage({ profile, onNavigate }) {
           {[
             {label:T('levelLabel'),value:lvl.lvl,icon:'⭐'},
             {label:T('prestigeLabel'),value:fmtShort(profile?.meritPoints||0),icon:'🏅'},
-            {label:T('moneyLabel'),value:'₺'+fmtShort(money),icon:'💰'},
+            {label:T('moneyLabel'),value:'🪙'+fmtShort(money),icon:'💰'},
           ].map(({label,value,icon})=>(
             <div key={label} style={{textAlign:'center',background:'rgba(237,231,218,0.05)',borderRadius:'10px',padding:'0.5rem 0.2rem'}}>
               <div style={{fontSize:'0.75rem',marginBottom:'0.1rem'}}>{icon}</div>
@@ -283,14 +283,14 @@ function HomePage({ profile, onNavigate }) {
               <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
                 <span style={{fontSize:'1.4rem'}}>🔥</span>
                 <div>
-                  <div style={{fontFamily:"'Syne',sans-serif",fontSize:'0.95rem',fontWeight:800,color:'#EDE7DA'}}>{streak} Günlük Seri</div>
+                  <div style={{fontFamily:"'Cinzel',serif",fontSize:'0.95rem',fontWeight:800,color:'#EDE7DA'}}>{streak} Günlük Seri</div>
                   <div style={{fontSize:'0.62rem',color:'rgba(255,255,255,0.45)'}}>En uzun: {streakData?.longest_streak || 0} gün</div>
                 </div>
               </div>
               {!claimed ? (
                 <button onClick={claimStreakAPI} disabled={streakClaiming}
                   style={{background:'linear-gradient(135deg,#C9A227,#A07D1C)',border:'none',borderRadius:'10px',padding:'0.5rem 1rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontWeight:800,fontSize:'0.78rem',cursor:'pointer'}}>
-                  {streakClaiming ? '⏳' : `🎁 +₺${todayReward.toLocaleString('tr-TR')}`}
+                  {streakClaiming ? '⏳' : `🎁 +🪙${todayReward.toLocaleString('tr-TR')}`}
                 </button>
               ) : (
                 <div style={{fontSize:'0.72rem',color:'#4C9A6B',fontWeight:700}}>✅ {T('claimedToday')}</div>
@@ -305,7 +305,7 @@ function HomePage({ profile, onNavigate }) {
                 );
               })}
             </div>
-            {!claimed && <div style={{fontSize:'0.62rem',color:'#8893A1',marginTop:'0.4rem'}}>Yarın: +₺{nextReward.toLocaleString('tr-TR')} • Zinciri kırma!</div>}
+            {!claimed && <div style={{fontSize:'0.62rem',color:'#8893A1',marginTop:'0.4rem'}}>Yarın: +🪙{nextReward.toLocaleString('tr-TR')} • Zinciri kırma!</div>}
           </div>
         );
       })()}
@@ -313,7 +313,7 @@ function HomePage({ profile, onNavigate }) {
       {/* ── Daily Tasks ── */}
       <div style={{background:'#1B212B',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'1rem',marginBottom:'0.75rem',boxShadow:'none'}}>
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.8rem'}}>
-          <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1rem',fontWeight:800,color:'#EDE7DA'}}>{T('dailyTasks')}</div>
+          <div style={{fontFamily:"'Cinzel',serif",fontSize:'1rem',fontWeight:800,color:'#EDE7DA'}}>{T('dailyTasks')}</div>
           <span style={{fontSize:'0.65rem',color:'#8893A1',fontWeight:600}}>{todayKey}</span>
         </div>
         {taskList.map((task,i)=>{
@@ -342,7 +342,7 @@ function HomePage({ profile, onNavigate }) {
                 </div>
                 <span style={{fontSize:'0.6rem',color:'#8893A1',fontWeight:600,flexShrink:0}}>{prog}/{task.target}</span>
               </div>
-              <div style={{fontSize:'0.6rem',color:'#8893A1',marginTop:'0.15rem'}}>🎁 +₺{task.reward.toLocaleString('tr-TR')} • +{task.xpReward} XP</div>
+              <div style={{fontSize:'0.6rem',color:'#8893A1',marginTop:'0.15rem'}}>🎁 +🪙{task.reward.toLocaleString('tr-TR')} • +{task.xpReward} XP</div>
             </div>
           );
         })}
@@ -351,7 +351,7 @@ function HomePage({ profile, onNavigate }) {
       {/* ── Announcements (açılır pencereli) ── */}
       <div style={{background:'#1B212B',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'1rem',marginBottom:'0.75rem',boxShadow:'none'}}>
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.7rem'}}>
-          <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1rem',fontWeight:800,color:'#EDE7DA'}}>{T('announcements2')}</div>
+          <div style={{fontFamily:"'Cinzel',serif",fontSize:'1rem',fontWeight:800,color:'#EDE7DA'}}>{T('announcements2')}</div>
           <button onClick={()=>onNavigate('duyurular')} style={{fontSize:'0.68rem',color:'#C9A227',fontWeight:700,background:'none',border:'none',cursor:'pointer'}}>Tümü →</button>
         </div>
         {annList.slice(0,3).map(a=>(
@@ -369,7 +369,7 @@ function HomePage({ profile, onNavigate }) {
 
       {/* ── Recent Activity ── */}
       <div style={{background:'#1B212B',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'1rem',boxShadow:'none',marginBottom:'0.75rem'}}>
-        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1rem',fontWeight:800,color:'#EDE7DA',marginBottom:'0.7rem'}}>Son Aktiviteler</div>
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:'1rem',fontWeight:800,color:'#EDE7DA',marginBottom:'0.7rem'}}>Son Aktiviteler</div>
         {recentActivity.map((item,i,arr)=>(
           <div key={i} style={{display:'flex',alignItems:'center',gap:'0.6rem',padding:'0.55rem 0',borderBottom:i<arr.length-1?'1px solid rgba(0,0,0,0.05)':'none'}}>
             <div style={{width:'8px',height:'8px',borderRadius:'50%',background:item.color||'#C9A227',flexShrink:0}} />
@@ -381,7 +381,7 @@ function HomePage({ profile, onNavigate }) {
 
       {/* ── Quick categories ── */}
       <div style={{background:'#1B212B',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'1rem',boxShadow:'none'}}>
-        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1rem',fontWeight:800,color:'#EDE7DA',marginBottom:'0.75rem'}}>Hızlı Erişim</div>
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:'1rem',fontWeight:800,color:'#EDE7DA',marginBottom:'0.75rem'}}>Hızlı Erişim</div>
         <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'0.45rem'}}>
           {[
             {icon:'💼',label:'İşler',page:'jobs'},
@@ -394,7 +394,7 @@ function HomePage({ profile, onNavigate }) {
             {icon:'🤝',label:'İttifak',page:'alliance'},
           ].map((a,i) => (
             <button key={i} onClick={() => onNavigate(a.page)}
-              style={{background:'#11151C',border:'1px solid rgba(237,231,218,0.07)',borderRadius:'14px',padding:'0.7rem 0.3rem',display:'flex',flexDirection:'column',alignItems:'center',gap:'0.25rem',cursor:'pointer',WebkitTapHighlightColor:'transparent',transition:'all 0.15s'}}>
+              style={{background:'#0F0800',border:'1px solid rgba(237,231,218,0.07)',borderRadius:'14px',padding:'0.7rem 0.3rem',display:'flex',flexDirection:'column',alignItems:'center',gap:'0.25rem',cursor:'pointer',WebkitTapHighlightColor:'transparent',transition:'all 0.15s'}}>
               <span style={{fontSize:'1.45rem',lineHeight:1}}>{a.icon}</span>
               <span style={{fontSize:'0.65rem',fontWeight:700,color:'#8893A1',textAlign:'center',lineHeight:1.2}}>{a.label}</span>
             </button>
@@ -495,13 +495,13 @@ function HomePage({ profile, onNavigate }) {
 // ═══════════════════════════════════════════════════════
 
 const ADMIN_POSITIONS = [
-  {key:'devlet_baskani',   title:'Devlet Başkanı',       icon:'👑'},
-  {key:'meclis_baskani',   title:'Meclis Başkanı',        icon:'🏛️'},
-  {key:'milletvekili',     title:'Milletvekili',          icon:'📜'},
+  {key:'padisah',   title:'Padişah',       icon:'👑'},
+  {key:'divan_reisi',   title:'Divan Reisi',        icon:'🏛️'},
+  {key:'divan üyesi',     title:'Divan Üyesi',          icon:'📜'},
   {key:'icisleri_bakani',  title:'İçişleri Bakanı',       icon:'🛡️'},
-  {key:'belediye_baskani', title:'Belediye Başkanı',      icon:'🏙️'},
+  {key:'vali', title:'Nahiye Valisi',      icon:'🏙️'},
   {key:'vali',             title:'Vali',                  icon:'🏢'},
-  {key:'genelkurmay',      title:'Genelkurmay Başkanı',   icon:'⚔️'},
+  {key:'seraskerlik',      title:'Serasker',   icon:'⚔️'},
   {key:'ticaret_bakani',   title:'Ticaret Bakanı',        icon:'📊'},
   {key:'maliye_bakani',    title:'Maliye Bakanı',         icon:'💰'},
 ];
@@ -509,7 +509,7 @@ const ADMIN_POSITIONS = [
 function AdminElectionTab({ elections_multi, setElections_multi, setMsg, cs, inp }) {
   const [candInput, setCandInput] = useState({});
 
-  const PARTY_BASED_KEYS = ['meclis_baskani', 'milletvekili'];
+  const PARTY_BASED_KEYS = ['divan_reisi', 'divan üyesi'];
 
   const getTopParties = () => {
     try {
@@ -728,11 +728,11 @@ function AdminMakamlarTab({ allUsers, setAllUsersRaw, setMsg, cs, inp }) {
 }
 
 const ACHIEVEMENTS_LIST = [
-  { id:'first_money',   icon:'💰', title:'İlk Kazanç',      desc:'₺1.000 kazan',                   check: u => (u.money||0) >= 1000 },
-  { id:'first_10k',     icon:'💵', title:'Para Babası',      desc:'₺10.000 kazan',                  check: u => (u.money||0) >= 10000 },
-  { id:'first_100k',    icon:'💸', title:'Varlıklı',         desc:'₺100.000 kazan',                 check: u => (u.money||0) >= 100000 },
-  { id:'millionaire',   icon:'💎', title:'Milyoner',         desc:'₺1.000.000 kazan',               check: u => (u.money||0) >= 1000000 },
-  { id:'billionaire',   icon:'🏆', title:'Milyarder',        desc:'₺1 Milyar kazan',                check: u => (u.money||0) >= 1e9 },
+  { id:'first_money',   icon:'💰', title:'İlk Kazanç',      desc:'🪙1.000 kazan',                   check: u => (u.money||0) >= 1000 },
+  { id:'first_10k',     icon:'💵', title:'Para Babası',      desc:'🪙10.000 kazan',                  check: u => (u.money||0) >= 10000 },
+  { id:'first_100k',    icon:'💸', title:'Varlıklı',         desc:'🪙100.000 kazan',                 check: u => (u.money||0) >= 100000 },
+  { id:'millionaire',   icon:'💎', title:'Milyoner',         desc:'🪙1.000.000 kazan',               check: u => (u.money||0) >= 1000000 },
+  { id:'billionaire',   icon:'🏆', title:'Milyarder',        desc:'🪙1 Milyar kazan',                check: u => (u.money||0) >= 1e9 },
   { id:'first_party',   icon:'🏛️', title:'Siyasetçi',        desc:'Bir partiye katıl',               check: (u,s) => !!(s.parties||[]).find(p=>(p.members||[]).includes(u.uid)) },
   { id:'party_leader',  icon:'👑', title:'Parti Lideri',     desc:'Bir parti kur',                   check: (u,s) => !!(s.parties||[]).find(p=>p.leaderId===u.uid) },
   { id:'first_holding', icon:'🏢', title:'İşadamı',          desc:'İlk şirketini kur',               check: (u,s) => (s.holdings||[]).some(h=>h.owner===u.uid) },
@@ -963,14 +963,14 @@ function AdminPage({ profile, showNotif, onNavigate }) {
 
   const giveUC = (u) => {
     const amt = parseInt(giftUC);
-    if (!amt || amt <= 0) { setMsg('Geçerli bir UC miktarı girin'); return; }
+    if (!amt || amt <= 0) { setMsg('Geçerli bir Altın miktarı girin'); return; }
     const jwt = localStorage.getItem('us_jwt') || '';
     const apiBase = window._SOCKET_URL || window.__ENV__?.API_BASE || '';
-    // UC için de admin money endpoint'ini kullan (under_coin alanı)
+    // Altın için de admin money endpoint'ini kullan (altin alanı)
     fetch(apiBase + '/api/admin/users/' + u.id + '/coins', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + jwt },
-      body: JSON.stringify({ amount: amt, operation: 'add', reason: 'Admin UC hediye' })
+      body: JSON.stringify({ amount: amt, operation: 'add', reason: 'Admin Altın hediye' })
     }).then(r => r.json()).then(data => {
       const newUC = data.success && data.newCoins !== undefined ? data.newCoins : (u.underCoin||0)+amt;
       const updated = allUsers.map(x => x.id===u.id ? {...x, underCoin: newUC} : x);
@@ -981,12 +981,12 @@ function AdminPage({ profile, showNotif, onNavigate }) {
       }
       if (selectedUser?.id === u.id) setSelectedUser({...selectedUser, underCoin: newUC});
       setGiftUC('');
-      setMsg(data.success ? ('✅ ' + u.username + ' kullanıcısına ' + amt + ' UC verildi') : ('⚠️ Local güncellendi: ' + (data.message||'')));
+      setMsg(data.success ? ('✅ ' + u.username + ' kullanıcısına ' + amt + ' Altın verildi') : ('⚠️ Local güncellendi: ' + (data.message||'')));
     }).catch(() => {
       const updated = allUsers.map(x => x.id===u.id ? {...x, underCoin:(x.underCoin||0)+amt} : x);
       saveUsers(updated);
       setGiftUC('');
-      setMsg('⚠️ ' + u.username + ' UC local güncellendi (sunucu bağlantı hatası)');
+      setMsg('⚠️ ' + u.username + ' Altın local güncellendi (sunucu bağlantı hatası)');
     });
   };
 
@@ -1092,7 +1092,7 @@ function AdminPage({ profile, showNotif, onNavigate }) {
     <div style={{padding:'0.7rem',minHeight:'100%',background:'rgba(6,12,24,0.99)'}}>
       <div style={{background:'linear-gradient(135deg,rgba(194,75,67,0.15),rgba(11,21,39,0.95))',border:'1px solid rgba(194,75,67,0.25)',borderRadius:'10px',padding:'1rem 1.25rem',marginBottom:'0.75rem'}}>
         <div style={{fontSize:'0.6rem',color:'#E08C87',fontWeight:700,letterSpacing:'0.12em',textTransform:'uppercase',marginBottom:'0.2rem'}}>⚙️ YÖNETİM PANELİ</div>
-        <div style={{fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA',fontFamily:"'Syne',sans-serif"}}>Admin: {profile?.username}</div>
+        <div style={{fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA',fontFamily:"'Cinzel',serif"}}>Admin: {profile?.username}</div>
         <div style={{fontSize:'0.7rem',color:'#8893A1',marginTop:'0.1rem'}}>{allUsers.length} kullanıcı • {onlineCnt} online • {bannedCount} banlı</div>
       </div>
 
@@ -1183,7 +1183,7 @@ function AdminPage({ profile, showNotif, onNavigate }) {
                 </div>
                 <div style={{textAlign:'right',flexShrink:0}}>
                   <div style={{color:'#4C9A6B',fontWeight:700,fontSize:'0.82rem'}}>{fmtM(u.money||0)}</div>
-                  <div style={{fontSize:'0.6rem',color:'#8893A1'}}>{u.underCoin||0} UC</div>
+                  <div style={{fontSize:'0.6rem',color:'#8893A1'}}>{u.underCoin||0} Altın</div>
                 </div>
               </div>
             </div>
@@ -1225,7 +1225,7 @@ function AdminPage({ profile, showNotif, onNavigate }) {
                   <button onClick={()=>setSelectedUser(null)} style={{background:'rgba(237,231,218,0.05)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'8px',padding:'0.3rem 0.6rem',color:'#8893A1',cursor:'pointer',fontWeight:700,fontSize:'0.78rem'}}>✕</button>
                 </div>
                 <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'0.4rem',marginBottom:'0.75rem'}}>
-                  {[['💰',fmtM(selectedUser.money||0),'Para'],['💎',selectedUser.underCoin||0,'UC'],['⭐',selectedUser.level||1,'Seviye'],['📊',selectedUser.xp||0,'XP'],['❤️',selectedUser.hp||100,'HP'],['🏙️',selectedUser.city||'?','Şehir']].map(([ic,v,l])=>(
+                  {[['💰',fmtM(selectedUser.money||0),'Para'],['💎',selectedUser.underCoin||0,'Altın'],['⭐',selectedUser.level||1,'Seviye'],['📊',selectedUser.xp||0,'XP'],['❤️',selectedUser.hp||100,'HP'],['🏙️',selectedUser.city||'?','Şehir']].map(([ic,v,l])=>(
                     <div key={l} style={{background:'rgba(237,231,218,0.02)',borderRadius:'8px',padding:'0.4rem',textAlign:'center'}}>
                       <div style={{fontSize:'0.9rem'}}>{ic}</div>
                       <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.75rem'}}>{v}</div>
@@ -1253,11 +1253,11 @@ function AdminPage({ profile, showNotif, onNavigate }) {
                 </div>
               </div>
 
-              {/* UC ver */}
+              {/* Altın ver */}
               <div style={cs}>
-                <div style={{fontWeight:700,color:'#C9A227',marginBottom:'0.5rem',fontSize:'0.8rem'}}>💎 UnderCoin İşlemleri</div>
+                <div style={{fontWeight:700,color:'#C9A227',marginBottom:'0.5rem',fontSize:'0.8rem'}}>💎 Altın İşlemleri</div>
                 <div style={{display:'flex',gap:'0.4rem'}}>
-                  <input type="number" value={giftUC} onChange={e=>setGiftUC(e.target.value)} placeholder="Verilecek UC" style={{...inp,flex:1}} />
+                  <input type="number" value={giftUC} onChange={e=>setGiftUC(e.target.value)} placeholder="Verilecek Altın" style={{...inp,flex:1}} />
                   <button onClick={()=>giveUC(selectedUser)} style={{padding:'0.55rem 0.75rem',borderRadius:'10px',border:'none',background:'#C9A227',color:'#EDE7DA',fontWeight:700,fontSize:'0.78rem',cursor:'pointer',whiteSpace:'nowrap'}}>+ Ver</button>
                 </div>
               </div>
@@ -1316,13 +1316,13 @@ function AdminPage({ profile, showNotif, onNavigate }) {
                 <select value={annCategory} onChange={e=>setAnnCategory(e.target.value)}
                   style={{...inp,marginBottom:0,background:'rgba(237,231,218,0.03)',color:'#EDE7DA'}}>
                   {['Sistem','Siyaset','Ekonomi','Hukuk','Etkinlik','Güvenlik','Eğitim'].map(c=>(
-                    <option key={c} value={c} style={{background:'#11151C'}}>{c}</option>
+                    <option key={c} value={c} style={{background:'#0F0800'}}>{c}</option>
                   ))}
                 </select>
                 <select value={annIcon} onChange={e=>setAnnIcon(e.target.value)}
                   style={{...inp,marginBottom:0,width:'60px',background:'rgba(237,231,218,0.03)',color:'#EDE7DA',textAlign:'center'}}>
                   {['📢','🏛️','💰','⚖️','🎉','🚔','🎓','⚠️','🔥','📌'].map(ic=>(
-                    <option key={ic} value={ic} style={{background:'#11151C'}}>{ic}</option>
+                    <option key={ic} value={ic} style={{background:'#0F0800'}}>{ic}</option>
                   ))}
                 </select>
               </div>
@@ -1386,7 +1386,7 @@ function AdminPage({ profile, showNotif, onNavigate }) {
                 </div>
                 <div style={{textAlign:'right'}}>
                   <div style={{color:'#4C9A6B',fontWeight:700,fontSize:'0.75rem'}}>{fmtM(u.money||0)}</div>
-                  <div style={{fontSize:'0.6rem',color:'#8893A1'}}>{u.underCoin||0} UC</div>
+                  <div style={{fontSize:'0.6rem',color:'#8893A1'}}>{u.underCoin||0} Altın</div>
                 </div>
               </div>
             </div>
@@ -1405,7 +1405,7 @@ function AdminPage({ profile, showNotif, onNavigate }) {
                 ['💰','Toplam Para', fmtM(totalMoney), '#4C9A6B'],
                 ['📊','Ort. Bakiye', fmtM(allUsers.length>0?Math.floor(totalMoney/allUsers.length):0), '#C9A227'],
                 ['💎','Toplam VIP', allUsers.filter(u=>u.premium).length, '#C9A227'],
-                ['🪙','Toplam UC', allUsers.reduce((s,u)=>s+(u.underCoin||0),0).toLocaleString('tr-TR'), '#C9A227'],
+                ['🪙','Toplam Altın', allUsers.reduce((s,u)=>s+(u.underCoin||0),0).toLocaleString('tr-TR'), '#C9A227'],
               ].map(([ic,lbl,val,c]) => (
                 <div key={lbl} style={{...cs,textAlign:'center',padding:'0.75rem',marginBottom:0}}>
                   <div style={{fontSize:'1.1rem'}}>{ic}</div>
@@ -1464,7 +1464,7 @@ function AdminPage({ profile, showNotif, onNavigate }) {
                   {parties.slice(0,5).map(p=>(
                     <div key={p.id} style={{display:'flex',justifyContent:'space-between',padding:'0.3rem 0',borderBottom:'1px solid rgba(255,255,255,0.03)',fontSize:'0.72rem'}}>
                       <span style={{color:'#C9A227'}}>🏛️ {p.name}</span>
-                      <span style={{color:'#8893A1'}}>{p.memberCount||0} üye • ₺{(p.treasury||0).toLocaleString('tr-TR')} hazine</span>
+                      <span style={{color:'#8893A1'}}>{p.memberCount||0} üye • 🪙{(p.treasury||0).toLocaleString('tr-TR')} hazine</span>
                     </div>
                   ))}
                 </div>

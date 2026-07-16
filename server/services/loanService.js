@@ -18,7 +18,7 @@ function maxLoanAmount(creditScore) {
 async function requestLoan(userId, amount) {
   if (!db.isReady()) return { ok: false, message: 'DB bağlı değil' };
   amount = parseInt(amount);
-  if (amount < 1000) return { ok: false, message: 'Minimum kredi 1.000₺' };
+  if (amount < 1000) return { ok: false, message: 'Minimum kredi 1.000🪙' };
 
   const { rows: u } = await db.query(
     `SELECT credit_score, is_frozen FROM users WHERE id=$1`, [userId]
@@ -27,7 +27,7 @@ async function requestLoan(userId, amount) {
   if (u[0].is_frozen) return { ok: false, message: 'Hesabınız dondurulmuş' };
 
   const limit = maxLoanAmount(u[0].credit_score);
-  if (amount > limit) return { ok: false, message: `Kredi skorunuza göre maksimum kredi: ${limit}₺` };
+  if (amount > limit) return { ok: false, message: `Kredi skorunuza göre maksimum kredi: ${limit}🪙` };
 
   // Check existing active loans
   const { rows: active } = await db.query(
@@ -51,7 +51,7 @@ async function requestLoan(userId, amount) {
       [userId, amount, rate.toFixed(2), amountDue, dueDate]
     );
     await client.query('COMMIT');
-    logger.info(`[Loan] User ${userId} aldı: ${amount}₺ @${rate.toFixed(1)}% → geri=${amountDue}₺`);
+    logger.info(`[Loan] User ${userId} aldı: ${amount}🪙 @${rate.toFixed(1)}% → geri=${amountDue}🪙`);
     return { ok: true, loanId: rows[0].id, amount, amountDue, interestRate: rate.toFixed(1), dueDate };
   } catch(e) {
     await client.query('ROLLBACK');

@@ -6,7 +6,7 @@ function NewspaperPage({ profile, setProfile, showNotif }) {
   const [tab, setTab] = useState('read');
   const [form, setForm] = useState({title:'',content:'',category:'Gündem'});
   const { dark } = useTheme();
-  const bg = dark ? '#0F172A' : '#F8FAFC';
+  const bg = dark ? '#1A0E00' : '#F8FAFC';
   const cu = profile || {};
   const updateUser = (upd) => {
     const next = {...cu,...upd};
@@ -36,7 +36,7 @@ function NewspaperPage({ profile, setProfile, showNotif }) {
 
   const publish = () => {
     if (!form.title.trim()||!form.content.trim()) { showNotif('❌ Başlık ve içerik gerekli!','error'); return; }
-    if ((cu.underCoin||0)<5000) { showNotif('❌ Yayın ücreti: 5.000 UC (UnderCoin)','error'); return; }
+    if ((cu.underCoin||0)<5000) { showNotif('❌ Yayın ücreti: 5.000 Altın (Altın)','error'); return; }
     const paper = {id:Date.now(),title:form.title.trim(),content:form.content.trim(),category:form.category,author:cu.username,date:new Date().toLocaleDateString('tr-TR'),likes:0,views:0};
     setPapers(prev=>[paper,...prev].slice(0,100));
     updateUser({underCoin:(cu.underCoin||0)-5000,meritPoints:(cu.meritPoints||0)+5});
@@ -59,7 +59,7 @@ function NewspaperPage({ profile, setProfile, showNotif }) {
 
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>
-      <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#C9A227',marginBottom:'1rem'}}>📡 Haber Ajansı & Medya</div>
+      <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.3rem',fontWeight:900,color:'#C9A227',marginBottom:'1rem'}}>📡 Haber Ajansı & Medya</div>
       <div style={{display:'flex',gap:'0.4rem',marginBottom:'1rem'}}>
         {[{k:'read',l:'📰 Haberler'},{k:'live',l:'🔴 Canlı'},{k:'eco',l:'📊 Bülten'},{k:'write',l:'✍️ Yaz'},{k:'influence',l:'🏆 Yazarlar'}].map(t=>(
           <button key={t.k} onClick={()=>setTab(t.k)} style={{padding:'0.4rem 1rem',borderRadius:'2rem',border:`1px solid ${tab===t.k?'#C9A227':'rgba(255,255,255,0.12)'}`,background:tab===t.k?'rgba(96,165,250,0.15)':'transparent',color:tab===t.k?'#C9A227':'#999',cursor:'pointer',fontWeight:tab===t.k?700:400,fontSize:'0.83rem',fontFamily:'inherit'}}>{t.l}</button>
@@ -77,7 +77,7 @@ function NewspaperPage({ profile, setProfile, showNotif }) {
         {gameEvents.length===0&&<div style={{textAlign:'center',padding:'3rem 1rem',color:'#3B4E63'}}>
           <div style={{fontSize:'2.5rem',marginBottom:'0.5rem'}}>📡</div>
           <div style={{fontSize:'0.85rem'}}>Henüz canlı olay yok.</div>
-          <div style={{fontSize:'0.72rem',color:'#2A3A4A',marginTop:'0.25rem'}}>Çete savaşları, seçimler, fabrikalar başladıkça haberler burada görünecek.</div>
+          <div style={{fontSize:'0.72rem',color:'#2A3A4A',marginTop:'0.25rem'}}>Çete savaşları, seçimler, atölyeler başladıkça haberler burada görünecek.</div>
         </div>}
         {[...gameEvents].reverse().slice(0,40).map((ev,i)=>{
           const catColor = ev.category==='çete'?'#C24B43':ev.category==='siyaset'?'#8B5CF6':ev.category==='ekonomi'?'#4C9A6B':'#C9A227';
@@ -167,7 +167,7 @@ function NewspaperPage({ profile, setProfile, showNotif }) {
 
       {tab==='write'&&<div>
         <div style={{background:'rgba(96,165,250,0.05)',border:'1px solid rgba(96,165,250,0.2)',borderRadius:'12px',padding:'1rem',marginBottom:'0.75rem'}}>
-          <div style={{fontSize:'0.8rem',color:'#C9A227',marginBottom:'0.5rem',fontWeight:700}}>📝 Makale Yayınla (5.000 UC)</div>
+          <div style={{fontSize:'0.8rem',color:'#C9A227',marginBottom:'0.5rem',fontWeight:700}}>📝 Makale Yayınla (5.000 Altın)</div>
           <div style={{marginBottom:'0.5rem'}}>
             <div style={{fontSize:'0.72rem',color:'#999',marginBottom:'0.25rem'}}>Kategori</div>
             <div style={{display:'flex',gap:'0.3rem',flexWrap:'wrap'}}>
@@ -176,8 +176,8 @@ function NewspaperPage({ profile, setProfile, showNotif }) {
           </div>
           <input value={form.title} onChange={e=>setForm(prev=>({...prev,title:e.target.value}))} placeholder="Makale başlığı..." style={{width:'100%',padding:'0.6rem 0.75rem',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'8px',color:'#EDE7DA',fontSize:'0.9rem',outline:'none',marginBottom:'0.5rem',fontFamily:'inherit'}} />
           <textarea value={form.content} onChange={e=>setForm(prev=>({...prev,content:e.target.value}))} placeholder="Makale içeriği... (min 50 karakter)" rows={5} style={{width:'100%',padding:'0.6rem 0.75rem',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'8px',color:'#EDE7DA',fontSize:'0.85rem',outline:'none',resize:'vertical',fontFamily:'inherit',marginBottom:'0.5rem'}} />
-          <div style={{fontSize:'0.68rem',color:'#8893A1',marginBottom:'0.5rem'}}>Mevcut UC: <span style={{color:'#C9A227',fontWeight:700}}>{(cu.underCoin||0).toLocaleString()} UC</span></div>
-          <button onClick={publish} style={{width:'100%',padding:'0.65rem',background:'rgba(96,165,250,0.15)',border:'1px solid rgba(96,165,250,0.3)',borderRadius:'8px',color:'#C9A227',cursor:'pointer',fontWeight:700,fontFamily:'inherit',fontSize:'0.9rem'}}>📰 Yayınla (5.000 UC)</button>
+          <div style={{fontSize:'0.68rem',color:'#8893A1',marginBottom:'0.5rem'}}>Mevcut Altın: <span style={{color:'#C9A227',fontWeight:700}}>{(cu.underCoin||0).toLocaleString()} Altın</span></div>
+          <button onClick={publish} style={{width:'100%',padding:'0.65rem',background:'rgba(96,165,250,0.15)',border:'1px solid rgba(96,165,250,0.3)',borderRadius:'8px',color:'#C9A227',cursor:'pointer',fontWeight:700,fontFamily:'inherit',fontSize:'0.9rem'}}>📰 Yayınla (5.000 Altın)</button>
         </div>
       </div>}
     </div>

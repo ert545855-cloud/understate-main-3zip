@@ -21,7 +21,7 @@ window.EconomicEmpireScreen = function EconomicEmpireScreen({ cu, families, gang
   const now = Date.now();
 
   const showMsg = (text, type="info") => { setMsg({text,type}); setTimeout(()=>setMsg(null),3500); };
-  const fmtMoney = (n) => { if(!n)return "₺0"; if(n>=1e9)return "₺"+(n/1e9).toFixed(1)+"Mlr"; if(n>=1e6)return "₺"+(n/1e6).toFixed(1)+"M"; if(n>=1e3)return "₺"+(n/1e3).toFixed(0)+"K"; return "₺"+n; };
+  const fmtMoney = (n) => { if(!n)return "🪙0"; if(n>=1e9)return "🪙"+(n/1e9).toFixed(1)+"Mlr"; if(n>=1e6)return "🪙"+(n/1e6).toFixed(1)+"M"; if(n>=1e3)return "🪙"+(n/1e3).toFixed(0)+"K"; return "🪙"+n; };
 
   const famsArr  = Array.isArray(families)?families:[];
   const gangsArr = Array.isArray(gangs)?gangs:[];
@@ -119,7 +119,7 @@ window.EconomicEmpireScreen = function EconomicEmpireScreen({ cu, families, gang
     if(!isFamilyLeader) return showMsg("Sadece aile lideri parti fonlayabilir","error");
     const partyName = prompt("Fonlamak istediğiniz parti:");
     if(!partyName) return;
-    const amount = parseInt(prompt("Fon miktarı (₺):"));
+    const amount = parseInt(prompt("Fon miktarı (🪙):"));
     if(!amount||isNaN(amount)) return showMsg("Geçerli miktar girin","error");
     const deal = {id:`fund_${Date.now()}`,familyId:myFamily?.id,familyName:myFamily?.name,partyName,amount,date:now,type:"party_fund"};
     const upd = [...fundDeals, deal];
@@ -350,7 +350,7 @@ window.EconomicEmpireScreen = function EconomicEmpireScreen({ cu, families, gang
                   <select className="input-field" value={form.type} onChange={e=>setForm(p=>({...p,type:e.target.value}))} style={{background:"rgba(255,255,255,0.05)",color:"#E8EDF2",border:"1px solid rgba(255,255,255,0.1)",borderRadius:10,padding:"0.6rem"}}>
                     {BUSINESS_TYPES.map(b=><option key={b.id} value={b.id} style={{background:"#0a1628"}}>{b.icon} {b.label} — Min {fmtMoney(b.cost)}</option>)}
                   </select>
-                  <input className="input-field" type="number" placeholder="Sermaye (₺)" value={form.budget} onChange={e=>setForm(p=>({...p,budget:e.target.value}))} />
+                  <input className="input-field" type="number" placeholder="Sermaye (🪙)" value={form.budget} onChange={e=>setForm(p=>({...p,budget:e.target.value}))} />
                   <button className="btn btn-primary" onClick={buildBusiness}>🔨 Kur</button>
                 </div>
               </div>

@@ -9,7 +9,7 @@ const STREAK_REWARDS = [
   { day: 4,  money: 3000,  xp: 200 },
   { day: 5,  money: 5000,  xp: 300 },
   { day: 6,  money: 8000,  xp: 400 },
-  { day: 7,  money: 15000, xp: 750, bonus: 'under_coin', bonusAmt: 5 },
+  { day: 7,  money: 15000, xp: 750, bonus: 'altin', bonusAmt: 5 },
 ];
 
 function todayUTC() {
@@ -51,8 +51,8 @@ async function claimDaily(userId) {
   const updates = { money: reward.money, xp: reward.xp };
   let sql = `UPDATE users SET money = money + $2, xp = xp + $3`;
   const params = [userId, reward.money, reward.xp];
-  if (reward.bonus === 'under_coin') {
-    sql += `, under_coin = under_coin + $${params.length + 1}`;
+  if (reward.bonus === 'altin') {
+    sql += `, altin = altin + $${params.length + 1}`;
     params.push(reward.bonusAmt);
   }
   sql += ` WHERE id = $1`;
@@ -68,7 +68,7 @@ async function claimDaily(userId) {
     [userId, newStreak, longest, today]
   ).catch(() => {});
 
-  logger.info(`[Streak] User ${userId} streak=${newStreak} reward=+${reward.money}₺`);
+  logger.info(`[Streak] User ${userId} streak=${newStreak} reward=+${reward.money}🪙`);
   return {
     ok: true,
     streak: newStreak,

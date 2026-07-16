@@ -192,7 +192,7 @@ function PlayersPage({ profile, onNavigate, onlinePlayers = [] }) {
             {/* Banner & Avatar */}
             {sp.bannerUrl && <div style={{height:'80px',borderRadius:'12px',overflow:'hidden',marginBottom:'-30px',background:`url(${sp.bannerUrl}) center/cover no-repeat`,position:'relative'}}><div style={{position:'absolute',inset:0,background:'linear-gradient(to bottom,transparent 40%,rgba(15,23,42,0.9))'}} /></div>}
             <div style={{textAlign:'center',marginBottom:'0.85rem',paddingTop: sp.bannerUrl ? '0.4rem' : '0'}}>
-              <div style={{display:'inline-block',borderRadius:'50%',border:'3px solid #1E3A5F',background:'#11151C'}}>
+              <div style={{display:'inline-block',borderRadius:'50%',border:'3px solid #1E3A5F',background:'#0F0800'}}>
                 <Avatar profile={sp} size={68} />
               </div>
               <div style={{fontWeight:800,fontSize:'1.05rem',color:'#EDE7DA',marginTop:'0.4rem',display:'flex',alignItems:'center',justifyContent:'center',gap:'0.4rem'}}>
@@ -217,7 +217,7 @@ function PlayersPage({ profile, onNavigate, onlinePlayers = [] }) {
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.45rem',marginBottom:'0.75rem'}}>
               {[
                 ['💰','Para',fmtM(sp.money||0),'#4C9A6B'],
-                ['🪙','UnderCoin',fmt(sp.underCoin||0)+' UC','#C9A227'],
+                ['🪙','Altın',fmt(sp.underCoin||0)+' Altın','#C9A227'],
                 ['📊','XP',fmt(sp.xp||0)+' XP','#C9A227'],
                 ['🏙️','Şehir',sp.city||'?','#94A3B8'],
               ].map(([ic,lb,v,clr])=>(

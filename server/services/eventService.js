@@ -69,7 +69,7 @@ async function claimEventReward(userId, eventId) {
   const params  = [userId];
   if (rewards.money)  { params.push(rewards.money);  updates.push(`money=money+$${params.length}`); }
   if (rewards.xp)     { params.push(rewards.xp);     updates.push(`xp=xp+$${params.length}`); }
-  if (rewards.coin)   { params.push(rewards.coin);   updates.push(`under_coin=under_coin+$${params.length}`); }
+  if (rewards.coin)   { params.push(rewards.coin);   updates.push(`altin=altin+$${params.length}`); }
   if (updates.length) {
     await db.query(`UPDATE users SET ${updates.join(',')} WHERE id=$1`, params).catch(() => {});
   }

@@ -3,7 +3,7 @@
 // ═══════════════════════════════════════════════════════
 function TeamWarPage({ profile, setProfile, showNotif }) {
   const { dark } = useTheme();
-  const bg = dark ? '#0F172A' : '#F8FAFC';
+  const bg = dark ? '#1A0E00' : '#F8FAFC';
   const card = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
   const [wars, setWars] = useLs('activeWars', []);
@@ -17,7 +17,7 @@ function TeamWarPage({ profile, setProfile, showNotif }) {
   const [warTab, setWarTab] = useState('active');
 
   const uid = profile?.uid || profile?.id;
-  const isGeneral = cabinet['Genelkurmay Başkanı'] === profile?.username;
+  const isGeneral = cabinet['Serasker'] === profile?.username;
   const militaryBudget = treasury.militaryBudget || 0;
 
   // Gerginlik hesaplama
@@ -52,7 +52,7 @@ function TeamWarPage({ profile, setProfile, showNotif }) {
   };
 
   const resolveWar = (warId) => {
-    if (!isGeneral) { showNotif('Sadece Genelkurmay Başkanı savaşı sonuçlandırabilir!','error'); return; }
+    if (!isGeneral) { showNotif('Sadece Serasker savaşı sonuçlandırabilir!','error'); return; }
     setWars(prev => prev.map(w => {
       if (w.id !== warId) return w;
       const aP = (w.attackerPlayers||[]).length;
@@ -76,9 +76,9 @@ function TeamWarPage({ profile, setProfile, showNotif }) {
   };
 
   const createCityWar = () => {
-    if (!isGeneral) { showNotif('Sadece Genelkurmay Başkanı savaş başlatabilir!','error'); return; }
+    if (!isGeneral) { showNotif('Sadece Serasker savaş başlatabilir!','error'); return; }
     if (!warForm.city) { showNotif('Şehir seçin','error'); return; }
-    if (militaryBudget < 500000) { showNotif('Askeri bütçe yetersiz! (min ₺500.000)','error'); return; }
+    if (militaryBudget < 500000) { showNotif('Askeri bütçe yetersiz! (min 🪙500.000)','error'); return; }
     const attGang = gangs.find(g=>g.id===warForm.attackerId);
     const cityCtrl = territories[warForm.city];
     const ctrlGang = cityCtrl ? gangs.find(g=>g.id===cityCtrl.gangId) : null;
@@ -100,7 +100,7 @@ function TeamWarPage({ profile, setProfile, showNotif }) {
     setCreateModal(false);
     const evts = JSON.parse(localStorage.getItem('rep_gameEvents')||'[]');
     const defDesc = ctrlGang ? `Hedef: ${ctrlGang.name} (lider: ${ctrlGang.leaderName||'?'})` : 'Devlet kuvvetleri karşı çıkacak';
-    evts.push({ id:genId(), type:'war_declared', title:`⚔️ ${war.city}'de Savaş!`, desc:`Genelkurmay Başkanı ${profile.username} ${war.city}'de askeri operasyon başlattı! ${defDesc}.`, ts:Date.now() });
+    evts.push({ id:genId(), type:'war_declared', title:`⚔️ ${war.city}'de Savaş!`, desc:`Serasker ${profile.username} ${war.city}'de askeri operasyon başlattı! ${defDesc}.`, ts:Date.now() });
     localStorage.setItem('rep_gameEvents', JSON.stringify(evts.slice(-50)));
     window.dispatchEvent(new CustomEvent('game-event', { detail: evts[evts.length-1] }));
     showNotif(`⚔️ ${war.city}'de operasyon başladı!`, 'success');
@@ -115,7 +115,7 @@ function TeamWarPage({ profile, setProfile, showNotif }) {
   return (
     <div style={{padding:'0.75rem',background:bg,minHeight:'100%'}}>
       {/* Başlık */}
-      <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.25rem',fontWeight:900,color:'#C24B43',marginBottom:'0.75rem',display:'flex',alignItems:'center',gap:'0.5rem'}}>
+      <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.25rem',fontWeight:900,color:'#C24B43',marginBottom:'0.75rem',display:'flex',alignItems:'center',gap:'0.5rem'}}>
         ⚔️ Savaşlar
         {isGeneral && <span style={{fontSize:'0.62rem',background:'rgba(194,75,67,0.12)',border:'1px solid rgba(194,75,67,0.3)',borderRadius:'6px',padding:'2px 8px',color:'#E08C87',fontWeight:700}}>👑 KOMUTAN</span>}
       </div>
@@ -145,14 +145,14 @@ function TeamWarPage({ profile, setProfile, showNotif }) {
         </div>
       )}
 
-      {/* Genelkurmay'a özel eylem */}
+      {/* Seraskerlik'a özel eylem */}
       {isGeneral && (
         <div style={{marginBottom:'0.75rem'}}>
           <button onClick={()=>setCreateModal(true)}
-            style={{width:'100%',padding:'0.7rem',background:'linear-gradient(135deg,rgba(194,75,67,0.15),rgba(194,75,67,0.08))',border:'1px solid rgba(194,75,67,0.3)',borderRadius:'12px',color:'#C24B43',cursor:'pointer',fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:'0.88rem'}}>
+            style={{width:'100%',padding:'0.7rem',background:'linear-gradient(135deg,rgba(194,75,67,0.15),rgba(194,75,67,0.08))',border:'1px solid rgba(194,75,67,0.3)',borderRadius:'12px',color:'#C24B43',cursor:'pointer',fontFamily:"'Cinzel',serif",fontWeight:800,fontSize:'0.88rem'}}>
             ⚔️ Askeri Operasyon Başlat
           </button>
-          {militaryBudget < 500000 && <div style={{fontSize:'0.68rem',color:'#C9A227',textAlign:'center',marginTop:'0.3rem'}}>⚠️ Askeri bütçe yetersiz — min ₺500.000 gerekli</div>}
+          {militaryBudget < 500000 && <div style={{fontSize:'0.68rem',color:'#C9A227',textAlign:'center',marginTop:'0.3rem'}}>⚠️ Askeri bütçe yetersiz — min 🪙500.000 gerekli</div>}
         </div>
       )}
 
@@ -301,7 +301,7 @@ function TeamWarPage({ profile, setProfile, showNotif }) {
                 {ctrlG ? (
                   <>🎯 Hedef (bölge kontrolcüsü): <strong>{ctrlG.name}</strong> — Lider: <strong>{ctrlG.leaderName||'?'}</strong><br/><span style={{fontSize:'0.7rem',color:'#999'}}>Güç: {(ctrlG.power||0) + (ctrlG.weapons||0)*5} • {ctrlG.territory||0} bölge</span></>
                 ) : (
-                  <>🛡️ Savunmacı: <strong>Devlet Ordusu</strong> (₺{fmtWord(militaryBudget)} bütçe + ordu gücü)</>
+                  <>🛡️ Savunmacı: <strong>Devlet Ordusu</strong> (🪙{fmtWord(militaryBudget)} bütçe + ordu gücü)</>
                 )}
               </div>
             );

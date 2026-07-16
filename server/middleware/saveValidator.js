@@ -3,7 +3,7 @@ const logger = require('../utils/logger');
 const LIMITS = {
   money:              { min: 0,    max: 1_000_000_000 },
   bank_money:         { min: 0,    max: 1_000_000_000 },
-  under_coin:         { min: 0,    max: 10_000_000    },
+  altin:         { min: 0,    max: 10_000_000    },
   hp:                 { min: 0,    max: 100            },
   level:              { min: 1,    max: 999            },
   xp:                 { min: 0,    max: Number.MAX_SAFE_INTEGER },

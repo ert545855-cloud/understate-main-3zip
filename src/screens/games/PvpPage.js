@@ -7,7 +7,7 @@ function PvpPage({ profile, setProfile, showNotif }) {
   const [targets, setTargets] = useState([]);
   const [loadingTargets, setLoadingTargets] = useState(false);
   const { dark } = useTheme();
-  const bg = dark ? '#0F172A' : '#F8FAFC';
+  const bg = dark ? '#1A0E00' : '#F8FAFC';
   const cu = profile || {};
   const now = Date.now();
 
@@ -51,14 +51,14 @@ function PvpPage({ profile, setProfile, showNotif }) {
       localStorage.setItem('rep_userProfile', JSON.stringify({ ...cu, money:newMoney, hp:newHp, meritPoints:newMerits }));
       try { const today=new Date().toDateString(); const dk=`day_${today}`; const s=JSON.parse(localStorage.getItem('rep_dailyTaskState')||'{}'); s[dk]={...(s[dk]||{}),dailyPvpCount:((s[dk]?.dailyPvpCount)||0)+1}; localStorage.setItem('rep_dailyTaskState',JSON.stringify(s)); } catch(e){}
       if (won) {
-        showNotif(`⚔️ Saldırı başarılı! +₺${stolen.toLocaleString()} +10🏅 -${hpLost}❤️`, 'success');
-        if (stolen > 50000) window._pushGameEvent?.('pvp_galibiyet', `⚔️ ${cu.username} → ${targetUsername} kazandı!`, `₺${stolen.toLocaleString()} ganimet.`, '⚔️', 'savaş');
+        showNotif(`⚔️ Saldırı başarılı! +🪙${stolen.toLocaleString()} +10🏅 -${hpLost}❤️`, 'success');
+        if (stolen > 50000) window._pushGameEvent?.('pvp_galibiyet', `⚔️ ${cu.username} → ${targetUsername} kazandı!`, `🪙${stolen.toLocaleString()} ganimet.`, '⚔️', 'savaş');
       } else {
         showNotif(`💔 Saldırı başarısız! -${hpLost}❤️`, 'error');
       }
     };
     const onAttacked = (data) => {
-      showNotif(`🛡️ ${data.attacker} sana saldırdı! ${data.won ? `₺${data.stolen?.toLocaleString()} çalındı!` : 'Saldırıyı püskürttün!'}`, data.won ? 'error' : 'info');
+      showNotif(`🛡️ ${data.attacker} sana saldırdı! ${data.won ? `🪙${data.stolen?.toLocaleString()} çalındı!` : 'Saldırıyı püskürttün!'}`, data.won ? 'error' : 'info');
       if (data.won) {
         setProfile(prev => ({ ...prev, money: data.newMoney }));
         localStorage.setItem('rep_userProfile', JSON.stringify({ ...cu, money: data.newMoney }));
@@ -85,7 +85,7 @@ function PvpPage({ profile, setProfile, showNotif }) {
 
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>
-      <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#C24B43',marginBottom:'1rem'}}>⚔️ PvP Savaş Alanı</div>
+      <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.3rem',fontWeight:900,color:'#C24B43',marginBottom:'1rem'}}>⚔️ PvP Savaş Alanı</div>
       <div style={{background:'rgba(194,75,67,0.07)',border:'1px solid rgba(194,75,67,0.2)',borderRadius:'12px',padding:'1rem',marginBottom:'1rem'}}>
         <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'0.5rem'}}>
           {[{l:'Can',v:`${cu.hp||100}/100`,c:(cu.hp||100)>50?'#4C9A6B':(cu.hp||100)>20?'#C9A227':'#C24B43'},{l:'Galibiyet',v:wins,c:'#4C9A6B'},{l:'Toplam Savaş',v:myBattles.length,c:'#C9A227'}].map(s=>(
@@ -100,7 +100,7 @@ function PvpPage({ profile, setProfile, showNotif }) {
           <div key={t.id||t.username} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.5rem 0.6rem',background:'rgba(237,231,218,0.02)',borderRadius:'8px',marginBottom:'0.3rem',border:'1px solid rgba(237,231,218,0.08)'}}>
             <div>
               <div style={{fontWeight:600,fontSize:'0.85rem'}}>{t.username}</div>
-              <div style={{fontSize:'0.7rem',color:'#999'}}>Lv.{t.level||1} · ₺{(((t.money||0))/1000).toFixed(0)}K</div>
+              <div style={{fontSize:'0.7rem',color:'#999'}}>Lv.{t.level||1} · 🪙{(((t.money||0))/1000).toFixed(0)}K</div>
             </div>
             <button onClick={()=>attack(t)} style={{padding:'0.35rem 0.8rem',background:'rgba(194,75,67,0.12)',border:'1px solid rgba(194,75,67,0.25)',borderRadius:'6px',color:'#C24B43',cursor:'pointer',fontWeight:700,fontSize:'0.78rem',fontFamily:'inherit'}}>⚔️ Saldır</button>
           </div>
@@ -111,7 +111,7 @@ function PvpPage({ profile, setProfile, showNotif }) {
         {myBattles.slice(0,10).map(b=>(
           <div key={b.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.4rem 0.5rem',borderRadius:'6px',marginBottom:'0.25rem',background:'rgba(237,231,218,0.02)',border:`1px solid ${b.result==='win'&&b.attacker===cu.username?'rgba(76,154,107,0.2)':'rgba(194,75,67,0.15)'}`}}>
             <div style={{fontSize:'0.8rem'}}>{b.attacker===cu.username?'⚔️':'🛡️'} <strong>{b.attacker===cu.username?b.defender:b.attacker}</strong></div>
-            <div style={{fontSize:'0.78rem',fontWeight:700,color:(b.result==='win'&&b.attacker===cu.username)?'#4C9A6B':'#C24B43'}}>{(b.result==='win'&&b.attacker===cu.username)?`+₺${(b.stolen||0).toLocaleString()}`:'💔'}</div>
+            <div style={{fontSize:'0.78rem',fontWeight:700,color:(b.result==='win'&&b.attacker===cu.username)?'#4C9A6B':'#C24B43'}}>{(b.result==='win'&&b.attacker===cu.username)?`+🪙${(b.stolen||0).toLocaleString()}`:'💔'}</div>
           </div>
         ))}
       </div>}

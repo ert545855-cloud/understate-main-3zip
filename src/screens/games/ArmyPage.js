@@ -5,23 +5,23 @@ function ArmyPage({ profile, setProfile, showNotif }) {
   const [army, setArmy] = useLs('playerArmy', {});
   const [tab, setTab] = useState('overview');
   const { dark } = useTheme();
-  const bg = dark ? '#0F172A' : '#F8FAFC';
+  const bg = dark ? '#1A0E00' : '#F8FAFC';
   const cu = profile || {};
   const [cabinet] = useLs('cabinet', {});
-  const isGeneral = cabinet['Genelkurmay Başkanı'] === profile?.username;
+  const isGeneral = cabinet['Serasker'] === profile?.username;
 
   if (!isGeneral) {
     return (
       <div style={{padding:'1rem',background:bg,minHeight:'100%',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',textAlign:'center'}}>
         <div style={{fontSize:'4rem',marginBottom:'1rem'}}>🔒</div>
-        <div style={{fontFamily:"'Syne',sans-serif",fontWeight:900,color:'#C24B43',fontSize:'1.2rem',marginBottom:'0.5rem'}}>Erişim Kısıtlı</div>
+        <div style={{fontFamily:"'Cinzel',serif",fontWeight:900,color:'#C24B43',fontSize:'1.2rem',marginBottom:'0.5rem'}}>Erişim Kısıtlı</div>
         <div style={{color:'#8893A1',fontSize:'0.85rem',lineHeight:1.6,maxWidth:'280px'}}>
-          Ordu Yönetim Merkezi yalnızca <strong style={{color:'#C9A227'}}>Genelkurmay Başkanı</strong> tarafından erişilebilir.
-          <br/><br/>Seçimlerle Genelkurmay Başkanlığına seçildiğinde bu ekranı görebilirsin.
+          Ordu Yönetim Merkezi yalnızca <strong style={{color:'#C9A227'}}>Serasker</strong> tarafından erişilebilir.
+          <br/><br/>Seçimlerle Seraskerlik Başkanlığına seçildiğinde bu ekranı görebilirsin.
         </div>
         <div style={{marginTop:'1.5rem',background:'rgba(194,75,67,0.08)',border:'1px solid rgba(194,75,67,0.2)',borderRadius:'12px',padding:'0.85rem 1.5rem'}}>
-          <div style={{fontSize:'0.72rem',color:'#E08C87',fontWeight:700}}>⚔️ Mevcut Genelkurmay Başkanı</div>
-          <div style={{fontWeight:800,color:'#EDE7DA',marginTop:'0.25rem'}}>{cabinet['Genelkurmay Başkanı'] || '— Atanmamış —'}</div>
+          <div style={{fontSize:'0.72rem',color:'#E08C87',fontWeight:700}}>⚔️ Mevcut Serasker</div>
+          <div style={{fontWeight:800,color:'#EDE7DA',marginTop:'0.25rem'}}>{cabinet['Serasker'] || '— Atanmamış —'}</div>
         </div>
       </div>
     );
@@ -56,7 +56,7 @@ function ArmyPage({ profile, setProfile, showNotif }) {
   const currentRank = RANKS[rankIdx];
 
   const buyArmyWeapon = (weapon) => {
-    if ((cu.money||0) < weapon.cost) { showNotif(`❌ ${weapon.name} için ₺${weapon.cost.toLocaleString()} gerekli!`,'error'); return; }
+    if ((cu.money||0) < weapon.cost) { showNotif(`❌ ${weapon.name} için 🪙${weapon.cost.toLocaleString()} gerekli!`,'error'); return; }
     updateUser({money:(cu.money||0)-weapon.cost});
     const newWeapons = {...armyWeapons, [weapon.id]:(armyWeapons[weapon.id]||0)+1};
     const newArmy = {...myArmy, armyWeapons:newWeapons};
@@ -65,7 +65,7 @@ function ArmyPage({ profile, setProfile, showNotif }) {
   };
 
   const recruit = (unit) => {
-    if ((cu.money||0) < unit.cost) { showNotif(`❌ ${unit.name} için ₺${unit.cost.toLocaleString()} gerekli!`,'error'); return; }
+    if ((cu.money||0) < unit.cost) { showNotif(`❌ ${unit.name} için 🪙${unit.cost.toLocaleString()} gerekli!`,'error'); return; }
     updateUser({money:(cu.money||0)-unit.cost});
     const newArmy = {...myArmy,[unit.id]:(myArmy[unit.id]||0)+1};
     setArmy(prev=>({...prev,[cu.id]:newArmy}));
@@ -83,12 +83,12 @@ function ArmyPage({ profile, setProfile, showNotif }) {
     const newArmy = {...myArmy,infantry:newInfantry,battles:newBattles,wins:newWins};
     setArmy(prev=>({...prev,[cu.id]:newArmy}));
     if (prize) updateUser({money:(cu.money||0)+prize,meritPoints:(cu.meritPoints||0)+(won?15:0)});
-    showNotif(won?`🏆 Savaş kazanıldı! +₺${prize.toLocaleString()} +15🏅`:`💔 Savaş kaybedildi! ${losses}x asker kayıp`);
+    showNotif(won?`🏆 Savaş kazanıldı! +🪙${prize.toLocaleString()} +15🏅`:`💔 Savaş kaybedildi! ${losses}x asker kayıp`);
   };
 
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>
-      <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#C24B43',marginBottom:'1rem'}}>⚔️ Ordu Yönetimi</div>
+      <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.3rem',fontWeight:900,color:'#C24B43',marginBottom:'1rem'}}>⚔️ Ordu Yönetimi</div>
       <div style={{display:'flex',gap:'0.4rem',marginBottom:'1rem',flexWrap:'wrap'}}>
         {[{k:'overview',l:'📊 Genel Bakış'},{k:'recruit',l:'🪖 Asker Al'},{k:'weapons',l:'🔫 Silahlar'},{k:'battle',l:'⚔️ Savaş'}].map(t=>(
           <button key={t.k} onClick={()=>setTab(t.k)} style={{padding:'0.4rem 0.9rem',borderRadius:'2rem',border:`1px solid ${tab===t.k?'#C24B43':'rgba(255,255,255,0.12)'}`,background:tab===t.k?'rgba(194,75,67,0.15)':'transparent',color:tab===t.k?'#C24B43':'#999',cursor:'pointer',fontWeight:tab===t.k?700:400,fontSize:'0.83rem',fontFamily:'inherit'}}>{t.l}</button>
@@ -122,10 +122,10 @@ function ArmyPage({ profile, setProfile, showNotif }) {
         {UNITS.map(unit=>(
           <div key={unit.id} style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'12px',padding:'1rem',marginBottom:'0.75rem'}}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.5rem'}}>
-              <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}><span style={{fontSize:'1.5rem'}}>{unit.icon}</span><div><div style={{fontWeight:700,fontSize:'0.9rem'}}>{unit.name}</div><div style={{fontSize:'0.7rem',color:'#999'}}>Güç: {unit.strength} · Bakım: ₺{unit.upkeep.toLocaleString()}/gün · Adet: {myArmy[unit.id]||0}</div></div></div>
-              <div style={{color:'#C24B43',fontWeight:700}}>₺{unit.cost.toLocaleString()}</div>
+              <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}><span style={{fontSize:'1.5rem'}}>{unit.icon}</span><div><div style={{fontWeight:700,fontSize:'0.9rem'}}>{unit.name}</div><div style={{fontSize:'0.7rem',color:'#999'}}>Güç: {unit.strength} · Bakım: 🪙{unit.upkeep.toLocaleString()}/gün · Adet: {myArmy[unit.id]||0}</div></div></div>
+              <div style={{color:'#C24B43',fontWeight:700}}>🪙{unit.cost.toLocaleString()}</div>
             </div>
-            <button onClick={()=>recruit(unit)} style={{width:'100%',padding:'0.5rem',background:'rgba(194,75,67,0.08)',border:'1px solid rgba(194,75,67,0.25)',borderRadius:'8px',color:'#C24B43',cursor:'pointer',fontWeight:700,fontFamily:'inherit',fontSize:'0.85rem'}}>🪖 Askere Al (₺{unit.cost.toLocaleString()})</button>
+            <button onClick={()=>recruit(unit)} style={{width:'100%',padding:'0.5rem',background:'rgba(194,75,67,0.08)',border:'1px solid rgba(194,75,67,0.25)',borderRadius:'8px',color:'#C24B43',cursor:'pointer',fontWeight:700,fontFamily:'inherit',fontSize:'0.85rem'}}>🪖 Askere Al (🪙{unit.cost.toLocaleString()})</button>
           </div>
         ))}
       </div>}
@@ -155,10 +155,10 @@ function ArmyPage({ profile, setProfile, showNotif }) {
                   <div style={{fontSize:'0.65rem',color:'#8893A1'}}>{weapon.desc}</div>
                 </div>
               </div>
-              <div style={{color:'#C24B43',fontWeight:700,fontSize:'0.9rem'}}>₺{weapon.cost.toLocaleString()}</div>
+              <div style={{color:'#C24B43',fontWeight:700,fontSize:'0.9rem'}}>🪙{weapon.cost.toLocaleString()}</div>
             </div>
             <button onClick={()=>buyArmyWeapon(weapon)} style={{width:'100%',padding:'0.5rem',background:'rgba(194,75,67,0.08)',border:'1px solid rgba(194,75,67,0.25)',borderRadius:'8px',color:'#C24B43',cursor:'pointer',fontWeight:700,fontFamily:'inherit',fontSize:'0.85rem'}}>
-              {weapon.icon} Satın Al (₺{weapon.cost.toLocaleString()})
+              {weapon.icon} Satın Al (🪙{weapon.cost.toLocaleString()})
             </button>
           </div>
         ))}
@@ -167,13 +167,13 @@ function ArmyPage({ profile, setProfile, showNotif }) {
       {tab==='battle'&&<div>
         <div style={{background:'linear-gradient(135deg,rgba(194,75,67,0.07),rgba(0,0,0,0))',border:'1px solid rgba(194,75,67,0.2)',borderRadius:'12px',padding:'1.25rem',marginBottom:'1rem',textAlign:'center'}}>
           <div style={{fontSize:'3rem',marginBottom:'0.5rem'}}>⚔️</div>
-          <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.2rem',fontWeight:700,color:'#C24B43',marginBottom:'0.25rem'}}>Savaş Meydanı</div>
+          <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.2rem',fontWeight:700,color:'#C24B43',marginBottom:'0.25rem'}}>Savaş Meydanı</div>
           <div style={{fontSize:'0.82rem',color:'#999',marginBottom:'1rem'}}>Toplam Gücün: <strong style={{color:'#C9A227'}}>{totalStrength}</strong> · Kazanma şansın: <strong style={{color:'#4C9A6B'}}>~%55</strong></div>
           <div style={{background:'rgba(237,231,218,0.03)',borderRadius:'8px',padding:'0.75rem',marginBottom:'1rem',textAlign:'left'}}>
-            <div style={{fontSize:'0.78rem',color:'#999',marginBottom:'0.25rem'}}>💰 Kazanç: Güç × ₺100</div>
+            <div style={{fontSize:'0.78rem',color:'#999',marginBottom:'0.25rem'}}>💰 Kazanç: Güç × 🪙100</div>
             <div style={{fontSize:'0.78rem',color:'#999'}}>💔 Kayıp: Kaybedince bazı piyadeler düşer</div>
           </div>
-          <button onClick={battle} style={{width:'100%',padding:'0.8rem',background:'linear-gradient(135deg,#C24B43,#C24B43)',border:'none',borderRadius:'10px',color:'#EDE7DA',cursor:'pointer',fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:'1rem'}}>⚔️ SAVAŞA GİR!</button>
+          <button onClick={battle} style={{width:'100%',padding:'0.8rem',background:'linear-gradient(135deg,#C24B43,#C24B43)',border:'none',borderRadius:'10px',color:'#EDE7DA',cursor:'pointer',fontFamily:"'Cinzel',serif",fontWeight:800,fontSize:'1rem'}}>⚔️ SAVAŞA GİR!</button>
         </div>
       </div>}
     </div>

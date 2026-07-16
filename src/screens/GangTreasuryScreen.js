@@ -10,7 +10,7 @@ window.GangTreasuryScreen = function GangTreasuryScreen({ cu, gangs, allUsers, s
   const [contracts, setContracts] = React.useState(() => { try { return JSON.parse(localStorage.getItem("us_gangt_contracts") || "{}"); } catch { return {}; } });
   const [msg, setMsg]         = React.useState(null);
 
-  const fmtMoney = (n) => { if(!n)return "₺0"; if(n>=1e9)return "₺"+(n/1e9).toFixed(1)+"Mlr"; if(n>=1e6)return "₺"+(n/1e6).toFixed(1)+"M"; if(n>=1e3)return "₺"+(n/1e3).toFixed(0)+"K"; return "₺"+n; };
+  const fmtMoney = (n) => { if(!n)return "🪙0"; if(n>=1e9)return "🪙"+(n/1e9).toFixed(1)+"Mlr"; if(n>=1e6)return "🪙"+(n/1e6).toFixed(1)+"M"; if(n>=1e3)return "🪙"+(n/1e3).toFixed(0)+"K"; return "🪙"+n; };
   const showMsg = (text, type="info") => { setMsg({text,type}); setTimeout(()=>setMsg(null),3000); };
 
   const gangsArr = Array.isArray(gangs) ? gangs : [];
@@ -81,7 +81,7 @@ window.GangTreasuryScreen = function GangTreasuryScreen({ cu, gangs, allUsers, s
     if (!isLeader) return showMsg("Sadece çete lideri anlaşma yapabilir", "error");
     const familyName = prompt("Anlaşma yapılacak aile adı:");
     if (!familyName) return;
-    const weeklyFee = parseInt(prompt("Haftalık koruma ücreti (₺):"));
+    const weeklyFee = parseInt(prompt("Haftalık koruma ücreti (🪙):"));
     if (!weeklyFee || isNaN(weeklyFee)) return showMsg("Geçerli bir ücret girin", "error");
     const contract = {id:"c_"+Date.now(), familyName, weeklyFee, startDate:Date.now(), status:"active"};
     const updC = {...contracts, [myGang.id]:[...myContracts, contract]};
@@ -227,8 +227,8 @@ window.GangTreasuryScreen = function GangTreasuryScreen({ cu, gangs, allUsers, s
           <div style={card}>
             <div className="card-title">💡 Koruma Mekanikleri</div>
             <ul style={{fontSize:"0.8rem",color:"#8899AA",lineHeight:1.7,paddingLeft:"1.2rem",margin:0}}>
-              <li>Aileler fabrikalarını korumak için ödeme yapar</li>
-              <li>Ödeme yapılmazsa fabrikalara sabotaj düzenlenebilir</li>
+              <li>Aileler atölyelerını korumak için ödeme yapar</li>
+              <li>Ödeme yapılmazsa atölyelera sabotaj düzenlenebilir</li>
               <li>Sevkiyatlar engellenebilir</li>
               <li>Çete kasası silah ve maaş için kullanılır</li>
             </ul>

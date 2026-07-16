@@ -20,7 +20,7 @@ function FootballPage({ profile, setProfile, showNotif }) {
   const myClub = clubs.find(c => c.owner === cu.username);
 
   const createClub = async () => {
-    if ((cu.money||0) < 2000000) { showNotif('❌ ₺2,000,000 gerekli!','error'); return; }
+    if ((cu.money||0) < 2000000) { showNotif('❌ 🪙2,000,000 gerekli!','error'); return; }
     const name = prompt('⚽ Kulüp adını girin:');
     if (!name) return;
     const club = {
@@ -39,7 +39,7 @@ function FootballPage({ profile, setProfile, showNotif }) {
     };
     updateUser({ money: (cu.money||0) - 2000000 });
     setClubs(prev => [...prev, club]);
-    showNotif(`✅ ${name} kuruldu! ₺500,000 başlangıç bütçesi.`, 'success');
+    showNotif(`✅ ${name} kuruldu! 🪙500,000 başlangıç bütçesi.`, 'success');
   };
 
   const playMatch = (opp) => {
@@ -64,7 +64,7 @@ function FootballPage({ profile, setProfile, showNotif }) {
     if (prize) updateUser({ money: (cu.money||0)+prize });
     setCooldown(prev => ({...prev,[cu.username]:now}));
     const res = won?`🏆 GALİBİYET! ${myG}-${oppG}`:drew?`🤝 BERABERLİK! ${myG}-${oppG}`:`💔 MAĞLUBIYET! ${myG}-${oppG}`;
-    showNotif(res + (prize ? ' +₺'+prize.toLocaleString() : '') + (fanChg>0 ? ' +'+fanChg+' taraftar' : fanChg<0 ? ' '+fanChg+' taraftar' : ''), won?'success':drew?'info':'error');
+    showNotif(res + (prize ? ' +🪙'+prize.toLocaleString() : '') + (fanChg>0 ? ' +'+fanChg+' taraftar' : fanChg<0 ? ' '+fanChg+' taraftar' : ''), won?'success':drew?'info':'error');
 
     const autoMessages = won ? [
       `⚽ ${myClub.name} bugün ${opp.name}'ı ${myG}-${oppG} mağlup etti! Muhteşem bir performans! 🏆🔥`,
@@ -85,27 +85,27 @@ function FootballPage({ profile, setProfile, showNotif }) {
     if (mySponsorIncome > 0) {
       updateUser({ money: (cu.money||0) + prize + mySponsorIncome });
       setSponsors(prev => prev.map(s => s.club===myClub.name ? {...s, duration:Math.max(0,(s.duration||0)-1), total:(s.total||0)+s.perMatch} : s).filter(s=>s.duration>0 || s.club!==myClub.name));
-      showNotif(`💰 Sponsor geliri: +₺${mySponsorIncome.toLocaleString()}`, 'info');
+      showNotif(`💰 Sponsor geliri: +🪙${mySponsorIncome.toLocaleString()}`, 'info');
     }
   };
 
   const transferPlayer = () => {
     if (!myClub) return;
-    if ((myClub.budget||0)<250000) { showNotif('❌ Transfer için ₺250,000 bütçe gerekli!','error'); return; }
+    if ((myClub.budget||0)<250000) { showNotif('❌ Transfer için 🪙250,000 bütçe gerekli!','error'); return; }
     const names=['Kemal Aydın','Burak Doğan','Serkan Polat','Emre Güzel','Tolga Arslan','Cem Yıldız','Ferhat Korkmaz'];
     const positions=['Kaleci','Defans','Orta Saha','Forvet','Kanat'];
     const newP={name:names[Math.floor(Math.random()*names.length)],pos:positions[Math.floor(Math.random()*positions.length)],rating:Math.floor(Math.random()*20)+65};
     setClubs(prev=>prev.map(c=>c.id===myClub.id?{...c,players:[...(c.players||[]),newP],budget:(c.budget||0)-250000,rating:Math.floor((c.rating*((c.players||[]).length)+newP.rating)/((c.players||[]).length+1))}:c));
-    showNotif(`✅ ${newP.name} transfer edildi! (${newP.rating} puan) -₺250,000`, 'success');
+    showNotif(`✅ ${newP.name} transfer edildi! (${newP.rating} puan) -🪙250,000`, 'success');
   };
 
   const sortedLeague = [...clubs].sort((a,b)=>(b.points||0)-(a.points||0));
   const { dark } = useTheme();
-  const bg = dark ? '#0F172A' : '#F8FAFC';
+  const bg = dark ? '#1A0E00' : '#F8FAFC';
 
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>
-      <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#4C9A6B',marginBottom:'1rem',letterSpacing:'0.05em'}}>⚽ Futbol Yönetimi</div>
+      <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.3rem',fontWeight:900,color:'#4C9A6B',marginBottom:'1rem',letterSpacing:'0.05em'}}>⚽ Futbol Yönetimi</div>
       <div style={{display:'flex',gap:'0.4rem',marginBottom:'1rem',flexWrap:'wrap'}}>
         {[{k:'clubs',l:'⚽ Kulübüm'},{k:'league',l:'🏆 Lig'},{k:'matches',l:'📅 Maçlar'},{k:'sponsor',l:'💰 Sponsor'},{k:'sosyal',l:'📱 Sosyal'},{k:'transfer',l:'🔄 Transfer'},{k:'training',l:'🏃 Antrenman'},{k:'tactics',l:'🧠 Taktik'},{k:'infrastructure',l:'🏟 Altyapı'}].map(t=>(
           <button key={t.k} onClick={()=>setTab(t.k)} style={{padding:'0.4rem 1rem',borderRadius:'2rem',border:`1px solid ${tab===t.k?'#4C9A6B':'rgba(255,255,255,0.12)'}`,background:tab===t.k?'rgba(76,154,107,0.15)':'transparent',color:tab===t.k?'#4C9A6B':'#999',cursor:'pointer',fontWeight:tab===t.k?700:400,fontSize:'0.83rem',fontFamily:'inherit'}}>{t.l}</button>
@@ -115,17 +115,17 @@ function FootballPage({ profile, setProfile, showNotif }) {
       {tab==='clubs'&&(<div>
         {!myClub&&<div style={{background:'rgba(76,154,107,0.07)',border:'1px solid rgba(76,154,107,0.2)',borderRadius:'12px',padding:'1.25rem',marginBottom:'1rem'}}>
           <div style={{fontWeight:700,color:'#4C9A6B',marginBottom:'0.5rem'}}>⚽ Kulüp Kur</div>
-          <p style={{fontSize:'0.85rem',color:'#999',marginBottom:'0.75rem'}}>Kendi futbol kulübünü kur, oyuncular al, liglerde şampiyon ol! Kurulum ücreti: ₺2,000,000</p>
-          <button onClick={createClub} style={{padding:'0.6rem 1.2rem',background:'rgba(76,154,107,0.12)',border:'1px solid rgba(76,154,107,0.4)',borderRadius:'8px',color:'#4C9A6B',cursor:'pointer',fontWeight:700,fontFamily:'inherit'}}>⚽ Kulüp Kur (₺2,000,000)</button>
+          <p style={{fontSize:'0.85rem',color:'#999',marginBottom:'0.75rem'}}>Kendi futbol kulübünü kur, oyuncular al, liglerde şampiyon ol! Kurulum ücreti: 🪙2,000,000</p>
+          <button onClick={createClub} style={{padding:'0.6rem 1.2rem',background:'rgba(76,154,107,0.12)',border:'1px solid rgba(76,154,107,0.4)',borderRadius:'8px',color:'#4C9A6B',cursor:'pointer',fontWeight:700,fontFamily:'inherit'}}>⚽ Kulüp Kur (🪙2,000,000)</button>
         </div>}
         {myClub&&<div>
           <div style={{background:`linear-gradient(135deg,${myClub.color||'#4C9A6B'}22,rgba(0,0,0,0))`,border:`1px solid ${myClub.color||'#4C9A6B'}44`,borderRadius:'12px',padding:'1rem',marginBottom:'1rem'}}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.75rem'}}>
-              <div><div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.2rem',color:myClub.color||'#4C9A6B'}}>{myClub.name}</div><div style={{fontSize:'0.78rem',color:'#999'}}>📍 {myClub.city} · Kuruluş: {myClub.founded}</div></div>
+              <div><div style={{fontFamily:"'Cinzel',serif",fontSize:'1.2rem',color:myClub.color||'#4C9A6B'}}>{myClub.name}</div><div style={{fontSize:'0.78rem',color:'#999'}}>📍 {myClub.city} · Kuruluş: {myClub.founded}</div></div>
               <div style={{textAlign:'center'}}><div style={{fontSize:'1.8rem'}}>⭐</div><div style={{fontWeight:900,fontSize:'1.3rem',color:'#C9A227'}}>{myClub.rating}</div></div>
             </div>
             <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'0.5rem',marginBottom:'0.75rem'}}>
-              {[{l:'Bütçe',v:`₺${((myClub.budget||0)/1000).toFixed(0)}K`,c:'#4C9A6B'},{l:'Taraftar',v:(myClub.fans||0).toLocaleString(),c:'#C9A227'},{l:'Hücum',v:myClub.attack||65,c:'#C24B43'},{l:'Savunma',v:myClub.defense||65,c:'#C9A227'}].map(s=>(
+              {[{l:'Bütçe',v:`🪙${((myClub.budget||0)/1000).toFixed(0)}K`,c:'#4C9A6B'},{l:'Taraftar',v:(myClub.fans||0).toLocaleString(),c:'#C9A227'},{l:'Hücum',v:myClub.attack||65,c:'#C24B43'},{l:'Savunma',v:myClub.defense||65,c:'#C9A227'}].map(s=>(
                 <div key={s.l} style={{background:'rgba(237,231,218,0.03)',borderRadius:'8px',padding:'0.5rem',textAlign:'center'}}><div style={{fontWeight:700,color:s.c,fontSize:'0.9rem'}}>{s.v}</div><div style={{fontSize:'0.62rem',color:'#666'}}>{s.l}</div></div>
               ))}
             </div>
@@ -212,7 +212,7 @@ function FootballPage({ profile, setProfile, showNotif }) {
           <div style={{fontWeight:700,color:'#C9A227',marginBottom:'0.5rem'}}>🔄 Transfer Pazarı</div>
           {!myClub&&<div style={{color:'#C24B43',fontSize:'0.85rem'}}>Önce bir kulüp kurman gerekiyor!</div>}
           {myClub&&<div>
-            <div style={{fontSize:'0.85rem',color:'#bbb',marginBottom:'0.75rem'}}>Kulüp Bütçesi: <strong style={{color:'#4C9A6B'}}>₺{(myClub.budget||0).toLocaleString()}</strong></div>
+            <div style={{fontSize:'0.85rem',color:'#bbb',marginBottom:'0.75rem'}}>Kulüp Bütçesi: <strong style={{color:'#4C9A6B'}}>🪙{(myClub.budget||0).toLocaleString()}</strong></div>
             <div style={{display:'flex',flexDirection:'column',gap:'0.4rem'}}>
               {[
                 {name:'Yusuf Erdoğan',  pos:'Forvet',    rating:88, price:1500000, nat:'🇹🇷'},
@@ -238,13 +238,13 @@ function FootballPage({ profile, setProfile, showNotif }) {
                       <div style={{fontSize:'0.65rem',color:'#8893A1'}}>{p.pos} • <span style={{color:p.rating>=85?'#C9A227':p.rating>=75?'#4C9A6B':'#C9A227',fontWeight:700}}>{p.rating} puan</span></div>
                     </div>
                     <div style={{textAlign:'right',flexShrink:0}}>
-                      <div style={{fontSize:'0.72rem',color:'#C9A227',fontWeight:700}}>₺{(p.price/1000).toFixed(0)}K</div>
+                      <div style={{fontSize:'0.72rem',color:'#C9A227',fontWeight:700}}>🪙{(p.price/1000).toFixed(0)}K</div>
                       {alreadyOwned
                         ? <div style={{fontSize:'0.62rem',color:'#4C9A6B',fontWeight:700}}>✅ Kadroda</div>
                         : <button onClick={()=>{
                             if(!canAfford){showNotif('Yetersiz bütçe!','error');return;}
                             setClubs(prev=>prev.map(c=>c.id===myClub.id?{...c,players:[...(c.players||[]),{name:p.name,pos:p.pos,rating:p.rating}],budget:(c.budget||0)-p.price,rating:Math.round(((c.rating||70)*Math.max(1,(c.players||[]).length)+p.rating)/(Math.max(1,(c.players||[]).length)+1))}:c));
-                            showNotif(`✅ ${p.name} transfer edildi! (${p.rating} puan) -₺${(p.price/1000).toFixed(0)}K`,'success');
+                            showNotif(`✅ ${p.name} transfer edildi! (${p.rating} puan) -🪙${(p.price/1000).toFixed(0)}K`,'success');
                           }}
                           style={{padding:'0.25rem 0.6rem',background:canAfford?'rgba(201,162,39,0.15)':'rgba(255,255,255,0.03)',border:`1px solid ${canAfford?'rgba(201,162,39,0.35)':'rgba(255,255,255,0.08)'}`,borderRadius:'6px',color:canAfford?'#C9A227':'#3B4E63',cursor:canAfford?'pointer':'default',fontWeight:700,fontSize:'0.7rem',fontFamily:'inherit'}}>
                           Satın Al
@@ -264,7 +264,7 @@ function FootballPage({ profile, setProfile, showNotif }) {
           <div style={{fontWeight:700,color:'#4C9A6B',marginBottom:'0.75rem'}}>🏃 Antrenman Programı</div>
           {!myClub&&<div style={{color:'#C24B43',fontSize:'0.85rem'}}>Önce bir kulüp kurman gerekiyor!</div>}
           {myClub&&(<div>
-            <div style={{fontSize:'0.82rem',color:'#999',marginBottom:'0.75rem'}}>Bütçe: <strong style={{color:'#4C9A6B'}}>₺{(myClub.budget||0).toLocaleString()}</strong></div>
+            <div style={{fontSize:'0.82rem',color:'#999',marginBottom:'0.75rem'}}>Bütçe: <strong style={{color:'#4C9A6B'}}>🪙{(myClub.budget||0).toLocaleString()}</strong></div>
             {[
               {id:'kondisyon',label:'Kondisyon Antrenmanı',cost:50000,bonus:'Hücum +2',icon:'🏃'},
               {id:'defans',label:'Defans Drilleri',cost:75000,bonus:'Savunma +2',icon:'🛡️'},
@@ -289,7 +289,7 @@ function FootballPage({ profile, setProfile, showNotif }) {
                   }));
                   showNotif(`✅ ${tr.label} tamamlandı! ${tr.bonus}`,'success');
                 }} style={{padding:'0.35rem 0.7rem',background:'rgba(76,154,107,0.12)',border:'1px solid rgba(76,154,107,0.25)',borderRadius:'7px',color:'#4C9A6B',cursor:'pointer',fontWeight:700,fontSize:'0.78rem',fontFamily:'inherit'}}>
-                  ₺{(tr.cost/1000).toFixed(0)}K
+                  🪙{(tr.cost/1000).toFixed(0)}K
                 </button>
               </div>
             ))}
@@ -337,7 +337,7 @@ function FootballPage({ profile, setProfile, showNotif }) {
           <div style={{fontWeight:700,color:'#C9A227',marginBottom:'0.75rem'}}>🏟️ Altyapı Geliştirme</div>
           {!myClub&&<div style={{color:'#C24B43',fontSize:'0.85rem'}}>Önce bir kulüp kurman gerekiyor!</div>}
           {myClub&&(<div>
-            <div style={{fontSize:'0.82rem',color:'#999',marginBottom:'0.75rem'}}>Bütçe: <strong style={{color:'#4C9A6B'}}>₺{(myClub.budget||0).toLocaleString()}</strong></div>
+            <div style={{fontSize:'0.82rem',color:'#999',marginBottom:'0.75rem'}}>Bütçe: <strong style={{color:'#4C9A6B'}}>🪙{(myClub.budget||0).toLocaleString()}</strong></div>
             {[
               {id:'stadyum',label:'Stadyum Genişletme',cost:500000,bonus:'Taraftar +2000',icon:'🏟️'},
               {id:'akademi',label:'Genç Akademi',cost:750000,bonus:'Oyuncu kalitesi +5',icon:'🎓'},
@@ -361,7 +361,7 @@ function FootballPage({ profile, setProfile, showNotif }) {
                   }));
                   showNotif(`✅ ${inf.label} tamamlandı! ${inf.bonus}`,'success');
                 }} style={{padding:'0.35rem 0.7rem',background:'rgba(201,162,39,0.12)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'7px',color:'#C9A227',cursor:'pointer',fontWeight:700,fontSize:'0.78rem',fontFamily:'inherit'}}>
-                  ₺{(inf.cost/1000).toFixed(0)}K
+                  🪙{(inf.cost/1000).toFixed(0)}K
                 </button>
               </div>
             ))}
@@ -383,8 +383,8 @@ function FootballPage({ profile, setProfile, showNotif }) {
                 <div style={{fontSize:'0.68rem',color:'#8893A1'}}>Seviye: {s.tier} · Sözleşme: {s.duration} maç kaldı</div>
               </div>
               <div style={{textAlign:'right'}}>
-                <div style={{fontWeight:700,color:'#4C9A6B',fontSize:'0.82rem'}}>+₺{(s.perMatch||0).toLocaleString()}/maç</div>
-                <div style={{fontSize:'0.65rem',color:'#8893A1'}}>Toplam: ₺{(s.total||0).toLocaleString()}</div>
+                <div style={{fontWeight:700,color:'#4C9A6B',fontSize:'0.82rem'}}>+🪙{(s.perMatch||0).toLocaleString()}/maç</div>
+                <div style={{fontSize:'0.65rem',color:'#8893A1'}}>Toplam: 🪙{(s.total||0).toLocaleString()}</div>
               </div>
             </div>
           ))}
@@ -408,7 +408,7 @@ function FootballPage({ profile, setProfile, showNotif }) {
                 {existingFamilySp.map(s=>(
                   <div key={s.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.5rem 0.7rem',background:'rgba(201,162,39,0.08)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'8px',marginBottom:'0.3rem'}}>
                     <div><div style={{fontWeight:700,color:'#C9A227',fontSize:'0.82rem'}}>👨‍👩‍👧‍👦 {s.familyName}</div><div style={{fontSize:'0.62rem',color:'#8893A1'}}>Aile Sponsoru · {s.duration} maç kaldı</div></div>
-                    <div style={{textAlign:'right'}}><div style={{color:'#4C9A6B',fontWeight:700,fontSize:'0.78rem'}}>+₺{(s.perMatch||0).toLocaleString()}/maç</div></div>
+                    <div style={{textAlign:'right'}}><div style={{color:'#4C9A6B',fontWeight:700,fontSize:'0.78rem'}}>+🪙{(s.perMatch||0).toLocaleString()}/maç</div></div>
                   </div>
                 ))}
               </div>}
@@ -421,22 +421,22 @@ function FootballPage({ profile, setProfile, showNotif }) {
                       <div key={f.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.5rem 0.7rem',background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.07)',borderRadius:'8px',marginBottom:'0.3rem'}}>
                         <div>
                           <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.82rem'}}>👨‍👩‍👧‍👦 {f.name}</div>
-                          <div style={{fontSize:'0.62rem',color:'#8893A1'}}>Kasa: ₺{(f.treasury||0).toLocaleString()} · {f.memberCount||f.members?.length||0} üye</div>
+                          <div style={{fontSize:'0.62rem',color:'#8893A1'}}>Kasa: 🪙{(f.treasury||0).toLocaleString()} · {f.memberCount||f.members?.length||0} üye</div>
                         </div>
                         {imLeader&&(
                           <button onClick={()=>{
                             const spCost=500000;
-                            if((f.treasury||0)<spCost){showNotif('Aile kasası yetersiz (₺500.000 gerekli)','error');return;}
+                            if((f.treasury||0)<spCost){showNotif('Aile kasası yetersiz (🪙500.000 gerekli)','error');return;}
                             const allG2=(()=>{ try{return JSON.parse(localStorage.getItem('rep_gangs')||'[]');}catch{return[];} })();
                             const updG=allG2.map(g=>g.id===f.id?{...g,treasury:(g.treasury||0)-spCost}:g);
                             localStorage.setItem('rep_gangs',JSON.stringify(updG));
                             const newSp={id:genId(),isFamily:true,familyId:f.id,familyName:f.name,name:f.name+' Ailesi',logo:'👨‍👩‍👧‍👦',tier:'Aile',perMatch:150000,duration:15,cost:spCost,club:myClub.name,total:0};
                             setSponsors(prev=>[...prev,newSp]);
                             setClubs(prev=>prev.map(c=>c.id===myClub.id?{...c,budget:(c.budget||0)+spCost*0.3,rating:Math.min(99,(c.rating||70)+2)}:c));
-                            showNotif(`✅ ${f.name} Ailesi sponsor oldu! +₺150.000/maç. Aile kasasından ₺500.000 kesildi.`,'success');
+                            showNotif(`✅ ${f.name} Ailesi sponsor oldu! +🪙150.000/maç. Aile kasasından 🪙500.000 kesildi.`,'success');
                             try{window._pushGameEvent?.('aile_sponsorluk','👨‍👩‍👧‍👦 Aile Sponsorluğu',`${f.name} ailesi ${myClub.name} kulübüne sponsor oldu!`,'⚽','spor');}catch(e){}
                           }} style={{padding:'0.3rem 0.7rem',background:'rgba(201,162,39,0.12)',border:'1px solid rgba(201,162,39,0.3)',borderRadius:'7px',color:'#C9A227',cursor:'pointer',fontWeight:700,fontSize:'0.75rem',fontFamily:'inherit',flexShrink:0}}>
-                            Sponsor Ol (₺500K)
+                            Sponsor Ol (🪙500K)
                           </button>
                         )}
                         {!imLeader&&<span style={{fontSize:'0.62rem',color:'#3B4E63'}}>Lider gerekli</span>}
@@ -464,16 +464,16 @@ function FootballPage({ profile, setProfile, showNotif }) {
               <div>
                 <div style={{fontWeight:700,fontSize:'0.85rem'}}>{sp.logo} {sp.name}</div>
                 <div style={{fontSize:'0.7rem',color:sp.tier==='Platin'?'#C9A227':sp.tier==='Altın'?'#C9A227':sp.tier==='Gümüş'?'#C0C0C0':'#CD7F32'}}>
-                  {sp.tier} Sponsor · +₺{(sp.perMatch/1000).toFixed(0)}K/maç · {sp.duration} maç
+                  {sp.tier} Sponsor · +🪙{(sp.perMatch/1000).toFixed(0)}K/maç · {sp.duration} maç
                 </div>
-                {sp.cost>0&&<div style={{fontSize:'0.65rem',color:'#C24B43'}}>Anlaşma bedeli: ₺{(sp.cost/1000).toFixed(0)}K</div>}
+                {sp.cost>0&&<div style={{fontSize:'0.65rem',color:'#C24B43'}}>Anlaşma bedeli: 🪙{(sp.cost/1000).toFixed(0)}K</div>}
               </div>
               <button onClick={()=>{
                 if(sp.cost>(myClub.budget||0)){showNotif('Yetersiz bütçe!','error');return;}
                 const newSp={...sp,club:myClub.name,total:0};
                 setSponsors(prev=>[...prev,newSp]);
                 if(sp.cost>0)setClubs(prev=>prev.map(c=>c.id===myClub.id?{...c,budget:(c.budget||0)-sp.cost}:c));
-                showNotif(`✅ ${sp.name} ile sponsorluk anlaşması imzalandı! +₺${(sp.perMatch/1000).toFixed(0)}K/maç`,'success');
+                showNotif(`✅ ${sp.name} ile sponsorluk anlaşması imzalandı! +🪙${(sp.perMatch/1000).toFixed(0)}K/maç`,'success');
               }} style={{padding:'0.35rem 0.75rem',background:'rgba(76,154,107,0.12)',border:'1px solid rgba(76,154,107,0.25)',borderRadius:'7px',color:'#4C9A6B',cursor:'pointer',fontWeight:700,fontSize:'0.78rem',fontFamily:'inherit',flexShrink:0}}>
                 İmzala
               </button>

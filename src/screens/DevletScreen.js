@@ -15,17 +15,15 @@ const EDU_COOLDOWN_PKG    = 1000;
 
 const EDU_POSITION_REQS = {
   'Muhtarlık':       'ilkokul',
-  'Belediye Meclis': 'ortaokul',
-  'Belediye Başkanı':'lise',
-  'Milletvekili':    'lise',
-  'Bakan':           'universite',
-  'Başbakan':        'universite',
-  'Devlet Başkanı':  'yukseklisans',
-  'Cumhurbaşkanı':   'yukseklisans',
-  'Parti Lideri':    'lise',
-  'Çete Lideri':     'ortaokul',
-  'Aile Lideri':     'lise',
-  'Holding CEO':     'universite',
+  'Valilik Meclisi': 'ortaokul',
+  'Nahiye Valisi':   'lise',
+  'Divan Üyesi':     'lise',
+  'Vezir':           'universite',
+  'Sadrazam':        'yukseklisans',
+  'Padişah':         'doktora',
+  'Lonca Başı':      'lise',
+  'Serasker':        'universite',
+  'Maliye Defterdarı':'universite',
   'Akademisyen':     'doktora',
 };
 
@@ -128,7 +126,7 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
     if (!myParty) { showNotif('Önce bir partiye katıl!', 'error'); return; }
     const rem = Math.max(0, act.cd - (now - (cds[act.id]||0)));
     if (rem > 0) return;
-    if ((profile?.money||0) < act.cost) { showNotif(`Yeterli para yok! ₺${act.cost.toLocaleString('tr-TR')} gerekli`, 'error'); return; }
+    if ((profile?.money||0) < act.cost) { showNotif(`Yeterli para yok! 🪙${act.cost.toLocaleString('tr-TR')} gerekli`, 'error'); return; }
     const mult = act.eduBonus ? eduMult : (act.tpBonus ? tpMult : 1.0);
     const finalInf = Math.round(act.inf * mult);
     const finalXp  = Math.round(act.xp * mult);
@@ -180,7 +178,7 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
   };
 
   const donatToParty = (lobi, tier) => {
-    if ((profile?.money||0) < tier.amount) { showNotif(`Yeterli para yok! ₺${tier.amount.toLocaleString('tr-TR')} gerekli`, 'error'); return; }
+    if ((profile?.money||0) < tier.amount) { showNotif(`Yeterli para yok! 🪙${tier.amount.toLocaleString('tr-TR')} gerekli`, 'error'); return; }
     setLobiler(prev=>prev.map(l=>l.id===lobi.id ? {...l, totalDonated:(l.totalDonated||0)+tier.amount, totalInf:(l.totalInf||0)+tier.inf} : l));
     // Optimistic local update
     setParties(prev=>prev.map(p=>p.id===lobi.partyId?{...p,influencePoints:(p.influencePoints||0)+tier.inf}:p));
@@ -193,7 +191,7 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
       return np;
     });
     setLobiDonateModal(null);
-    showNotif(`💰 ${tier.label}: ₺${tier.amount.toLocaleString('tr-TR')} bağışlandı → ${lobi.partyName} +${tier.inf} Etki Puanı`, 'success');
+    showNotif(`💰 ${tier.label}: 🪙${tier.amount.toLocaleString('tr-TR')} bağışlandı → ${lobi.partyName} +${tier.inf} Etki Puanı`, 'success');
   };
 
   const fmtCd = (ms) => { if(ms<=0)return null; const s=Math.ceil(ms/1000); return `${s}sn`; };
@@ -270,7 +268,7 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:'0.35rem'}}>
                   <div>
                     <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.82rem'}}>👨‍👩‍👧‍👦 {lobi.familyName} → 🏛️ {lobi.partyName}</div>
-                    <div style={{fontSize:'0.62rem',color:'#8893A1'}}>Toplam bağış: ₺{(lobi.totalDonated||0).toLocaleString('tr-TR')} • +{(lobi.totalInf||0).toLocaleString()} Etki</div>
+                    <div style={{fontSize:'0.62rem',color:'#8893A1'}}>Toplam bağış: 🪙{(lobi.totalDonated||0).toLocaleString('tr-TR')} • +{(lobi.totalInf||0).toLocaleString()} Etki</div>
                   </div>
                 </div>
                 {isMine && (
@@ -312,7 +310,7 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
                 </div>
                 <div style={{fontSize:'0.62rem',color:'#8893A1'}}>{act.desc}</div>
                 <div style={{fontSize:'0.65rem',marginTop:'2px',display:'flex',gap:'0.5rem',flexWrap:'wrap'}}>
-                  <span style={{color:'#C24B43'}}>₺{act.cost.toLocaleString('tr-TR')}</span>
+                  <span style={{color:'#C24B43'}}>🪙{act.cost.toLocaleString('tr-TR')}</span>
                   <span style={{color:bonusActive?'#E5C14B':'#C9A227'}}>+{finalInf} Etki{bonusActive?` (×${mult.toFixed(1)})`:''}</span>
                   <span style={{color:'#6B7280'}}>+{Math.round(act.xp*mult)} XP</span>
                 </div>
@@ -323,7 +321,7 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
                 ) : !hasParty ? (
                   <span style={{fontSize:'0.62rem',color:'#8893A1'}}>Parti yok</span>
                 ) : !canAfford ? (
-                  <span style={{fontSize:'0.62rem',color:'#C24B43',fontWeight:700}}>Yetersiz ₺</span>
+                  <span style={{fontSize:'0.62rem',color:'#C24B43',fontWeight:700}}>Yetersiz 🪙</span>
                 ) : (
                   <button onClick={()=>doAction(act)} style={{background:'rgba(201,162,39,0.12)',border:'1px solid rgba(201,162,39,0.3)',borderRadius:'8px',padding:'5px 12px',color:'#EDE7DA',cursor:'pointer',fontWeight:700,fontSize:'0.72rem',whiteSpace:'nowrap'}}>Yap</button>
                 )}
@@ -392,14 +390,14 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
         <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.7)',zIndex:9999,display:'flex',alignItems:'center',justifyContent:'center',padding:'1rem'}} onClick={()=>setLobiDonateModal(null)}>
           <div style={{background:dark?'#131E30':'#fff',borderRadius:'10px',padding:'1.25rem',width:'100%',maxWidth:'340px'}} onClick={e=>e.stopPropagation()}>
             <div style={{fontWeight:800,color:'#C9A227',fontSize:'0.95rem',marginBottom:'0.25rem'}}>💰 Bağış Yap</div>
-            <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.75rem'}}>→ {lobiDonateModal.partyName} • Bakiye: ₺{(profile?.money||0).toLocaleString('tr-TR')}</div>
+            <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.75rem'}}>→ {lobiDonateModal.partyName} • Bakiye: 🪙{(profile?.money||0).toLocaleString('tr-TR')}</div>
             {LOBI_DONATION_TIERS.map(tier=>{
               const canAfford=(profile?.money||0)>=tier.amount;
               return (
                 <button key={tier.id} onClick={()=>canAfford&&donatToParty(lobiDonateModal,tier)} disabled={!canAfford}
                   style={{width:'100%',display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.65rem 0.75rem',marginBottom:'0.4rem',background:canAfford?'rgba(201,162,39,0.1)':'rgba(255,255,255,0.03)',border:`1px solid ${canAfford?'rgba(201,162,39,0.35)':'rgba(255,255,255,0.07)'}`,borderRadius:'10px',color:canAfford?'#E5C14B':'#3B4E63',cursor:canAfford?'pointer':'not-allowed',textAlign:'left'}}>
                   <span style={{fontWeight:700,fontSize:'0.8rem'}}>{tier.label}</span>
-                  <span style={{fontSize:'0.75rem'}}>₺{tier.amount.toLocaleString('tr-TR')} → +{tier.inf} ⚡</span>
+                  <span style={{fontSize:'0.75rem'}}>🪙{tier.amount.toLocaleString('tr-TR')} → +{tier.inf} ⚡</span>
                 </button>
               );
             })}
@@ -491,13 +489,13 @@ function EducationPage({ profile, setProfile, showNotif }) {
   };
 
   const resetEducation = () => {
-    if ((profile?.money||0) < 100000) { showNotif('❌ Yeniden başlamak için ₺100.000 gerekli!','error'); return; }
+    if ((profile?.money||0) < 100000) { showNotif('❌ Yeniden başlamak için 🪙100.000 gerekli!','error'); return; }
     setProfile(p => {
       const np = {...p, money:(p.money||0)-100000, education:{diploma:'ilkokul', activeLevel:null, clicksDone:0, lastClick:0, educationCycles:p.education?.educationCycles||0}, diplomaLevel:'ilkokul'};
       localStorage.setItem('rep_userProfile', JSON.stringify(np));
       return np;
     });
-    showNotif('🔄 Eğitim sıfırlandı! İlkokul seviyesinden başlıyorsun. -₺100.000','info');
+    showNotif('🔄 Eğitim sıfırlandı! İlkokul seviyesinden başlıyorsun. -🪙100.000','info');
   };
 
   const card = { background:'rgba(11,21,39,0.9)', border:'1px solid rgba(237,231,218,0.08)', borderRadius:'14px', padding:'0.85rem', marginBottom:'0.5rem' };
@@ -508,7 +506,7 @@ function EducationPage({ profile, setProfile, showNotif }) {
     <div style={{padding:'0.7rem'}}>
       <div style={{background:'linear-gradient(135deg,rgba(201,162,39,0.15),rgba(11,21,39,0.97))',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'12px',padding:'1.2rem',marginBottom:'0.75rem',textAlign:'center'}}>
         <div style={{fontSize:'2rem',marginBottom:'0.3rem'}}>🎓</div>
-        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.15rem',fontWeight:900,color:'#EDE7DA'}}>EĞİTİM SİSTEMİ</div>
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.15rem',fontWeight:900,color:'#EDE7DA'}}>EĞİTİM SİSTEMİ</div>
         <div style={{fontSize:'0.72rem',color:'#8893A1',marginTop:'0.2rem'}}>Tıklayarak çalış, diploma kazan, yüksek makamlara ulaş</div>
         <div style={{marginTop:'0.6rem',display:'flex',alignItems:'center',justifyContent:'center',gap:'0.5rem',flexWrap:'wrap'}}>
           <span style={{background:'rgba(167,139,250,0.2)',border:'1px solid rgba(201,162,39,0.3)',borderRadius:'8px',padding:'0.2rem 0.65rem',fontSize:'0.75rem',color:'#EDE7DA',fontWeight:800}}>
@@ -630,7 +628,7 @@ function EducationPage({ profile, setProfile, showNotif }) {
         </div>
         <button onClick={resetEducation}
           style={{width:'100%',padding:'0.6rem',borderRadius:'10px',border:'1px solid rgba(194,75,67,0.25)',background:'rgba(194,75,67,0.08)',color:'#E08C87',fontWeight:700,fontSize:'0.83rem',cursor:'pointer',fontFamily:'inherit'}}>
-          🔄 Yeniden Başla (₺100.000)
+          🔄 Yeniden Başla (🪙100.000)
         </button>
       </div>
     </div>
@@ -642,7 +640,7 @@ function EducationPage({ profile, setProfile, showNotif }) {
 // ═══════════════════════════════════════════════════════
 const CITY_POSITIONS = [
   {
-    id:'belediye_baskani', label:'Belediye Başkanı', icon:'🏙️', color:'#C9A227', eduReq:'lise',
+    id:'vali', label:'Nahiye Valisi', icon:'🏙️', color:'#C9A227', eduReq:'lise',
     duties:[
       {id:'butce_onay',         label:'Bütçe Onayla',        cd:24*3600000, reward:{xp:500,  money:50000,  desc:'Yıllık bütçeyi onayla'}},
       {id:'insan_kaynagi',      label:'İK Yönetimi',         cd:12*3600000, reward:{xp:300,  money:25000,  desc:'Personel ata ve çıkar'}},
@@ -713,7 +711,7 @@ function CityGovPage({ profile, setProfile, showNotif }) {
     <div style={{padding:'0.7rem'}}>
       <div style={{background:'linear-gradient(135deg,rgba(99,102,241,0.15),rgba(11,21,39,0.97))',border:'1px solid rgba(99,102,241,0.25)',borderRadius:'12px',padding:'1.2rem',marginBottom:'0.75rem'}}>
         <div style={{fontSize:'0.6rem',color:'#818CF8',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.2rem'}}>ŞEHİR YÖNETİMİ</div>
-        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA',marginBottom:'0.1rem'}}>Makamlar & Görevler</div>
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA',marginBottom:'0.1rem'}}>Makamlar & Görevler</div>
         <div style={{fontSize:'0.7rem',color:'#8893A1'}}>Liyakat: <span style={{color:'#C9A227',fontWeight:700}}>{profile?.meritPoints||0}</span> puan • Diploma: <span style={{color:'#C9A227',fontWeight:700}}>{EDU_LEVELS.find(e=>e.id===myDiploma)?.label}</span></div>
       </div>
 
@@ -782,10 +780,10 @@ function CityGovPage({ profile, setProfile, showNotif }) {
 
       {applyModal && (
         <div onClick={()=>setApplyModal(null)} style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.75)',zIndex:9999,display:'flex',alignItems:'center',justifyContent:'center',padding:'1.5rem'}}>
-          <div onClick={e=>e.stopPropagation()} style={{background:'#11151C',border:'1px solid rgba(99,102,241,0.35)',borderRadius:'14px',padding:'1.5rem',maxWidth:'340px',width:'100%',boxShadow:'0 25px 60px rgba(0,0,0,0.6)'}}>
+          <div onClick={e=>e.stopPropagation()} style={{background:'#0F0800',border:'1px solid rgba(99,102,241,0.35)',borderRadius:'14px',padding:'1.5rem',maxWidth:'340px',width:'100%',boxShadow:'0 25px 60px rgba(0,0,0,0.6)'}}>
             <div style={{textAlign:'center',marginBottom:'1.2rem'}}>
               <div style={{fontSize:'2.5rem',marginBottom:'0.5rem'}}>{applyModal.icon}</div>
-              <div style={{fontFamily:"'Syne',sans-serif",fontWeight:900,color:'#EDE7DA',fontSize:'1.1rem',marginBottom:'0.3rem'}}>{applyModal.label}</div>
+              <div style={{fontFamily:"'Cinzel',serif",fontWeight:900,color:'#EDE7DA',fontSize:'1.1rem',marginBottom:'0.3rem'}}>{applyModal.label}</div>
               <div style={{fontSize:'0.72rem',color:'#8893A1'}}>Bu makama başvurmak istediğini onaylıyor musun?</div>
             </div>
             <div style={{background:'rgba(99,102,241,0.08)',border:'1px solid rgba(99,102,241,0.2)',borderRadius:'12px',padding:'0.85rem',marginBottom:'1rem'}}>
@@ -926,8 +924,8 @@ function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangW
   const uid = profile?.uid;
   const cabinet = (()=>{ try{return JSON.parse(localStorage.getItem('rep_cabinet')||'{}');}catch{return {};} })();
   const isIcisleri = cabinet?.icisleri_bakani?.uid===uid || profile?.isAdmin;
-  const isCumhurbaskani = cabinet?.cumhurbaskani?.uid===uid || profile?.isAdmin;
-  const hasAuth = isIcisleri || isCumhurbaskani;
+  const isPadisah = cabinet?.padisah?.uid===uid || profile?.isAdmin;
+  const hasAuth = isIcisleri || isPadisah;
 
   const POLICE_COST_PER = 50000;
   const POLICE_SALARY = 10000;
@@ -937,7 +935,7 @@ function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangW
     const n = parseInt(hireCount)||0;
     if (n<=0||n>100) { showNotif('1-100 arası bir sayı girin','error'); return; }
     const cost = n*POLICE_COST_PER;
-    if (policeBudget < cost) { showNotif(`Yeterli polis bütçesi yok! (Gereken: ₺${cost.toLocaleString()})`, 'error'); return; }
+    if (policeBudget < cost) { showNotif(`Yeterli polis bütçesi yok! (Gereken: 🪙${cost.toLocaleString()})`, 'error'); return; }
     const newCount = policeCount + n;
     setPoliceCount(newCount);
     setPoliceBudget(p=>p-cost);
@@ -945,7 +943,7 @@ function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangW
     const newActions = [action,...policeActions].slice(0,50);
     setPoliceActions(newActions);
     setHireModal(false); setHireCount('');
-    showNotif(`✅ ${n} polis memuru işe alındı! -₺${cost.toLocaleString()} bütçe`, 'success');
+    showNotif(`✅ ${n} polis memuru işe alındı! -🪙${cost.toLocaleString()} bütçe`, 'success');
     try{window._pushGameEvent?.('polis_ise_alim','🚔 Polis İşe Alımı',`${n} yeni polis memuru göreve başladı.`,'🚔','devlet');}catch(e){}
     try{window._socket?.emit('police:update',{state:{officers:newCount,budget:policeBudget-cost,operations:newActions}});}catch(e){}
   };
@@ -982,9 +980,9 @@ function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangW
     <div style={{padding:'0.7rem'}}>
       <div style={{background:'linear-gradient(135deg,rgba(59,130,246,0.12),rgba(11,21,39,0.97))',border:'1px solid rgba(59,130,246,0.25)',borderRadius:'12px',padding:'1.1rem',marginBottom:'0.75rem'}}>
         <div style={{fontSize:'0.6rem',color:'#60A5FA',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.2rem'}}>DEVLET SİSTEMİ</div>
-        <div style={{fontFamily:"'Syne',sans-serif",fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA',marginBottom:'0.15rem'}}>🚔 İçişleri Bakanlığı</div>
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA',marginBottom:'0.15rem'}}>🚔 İçişleri Bakanlığı</div>
         <div style={{fontSize:'0.72rem',color:'#8893A1'}}>Polis teşkilatı yönetimi ve çete operasyonları</div>
-        {!hasAuth && <div style={{marginTop:'0.5rem',background:'rgba(194,75,67,0.08)',border:'1px solid rgba(194,75,67,0.2)',borderRadius:'8px',padding:'0.5rem',fontSize:'0.72rem',color:'#E08C87'}}>⚠️ Bu sayfayı yönetmek için İçişleri Bakanı veya Cumhurbaşkanı olmanız gerekiyor.</div>}
+        {!hasAuth && <div style={{marginTop:'0.5rem',background:'rgba(194,75,67,0.08)',border:'1px solid rgba(194,75,67,0.2)',borderRadius:'8px',padding:'0.5rem',fontSize:'0.72rem',color:'#E08C87'}}>⚠️ Bu sayfayı yönetmek için İçişleri Bakanı veya Padişah olmanız gerekiyor.</div>}
       </div>
 
       <div style={{display:'flex',gap:'4px',marginBottom:'0.75rem',overflowX:'auto',scrollbarWidth:'none'}}>
@@ -1000,7 +998,7 @@ function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangW
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'0.4rem',marginBottom:'0.75rem'}}>
             {[
               ['🚔','Polis Sayısı',policeCount,'#60A5FA'],
-              ['💰','Bütçe',`₺${(policeBudget/1000000).toFixed(1)}M`,'#4C9A6B'],
+              ['💰','Bütçe',`🪙${(policeBudget/1000000).toFixed(1)}M`,'#4C9A6B'],
               ['⚔️','Aktif Operasyon',gangWarsActive.filter(w=>(w.policeBonus||0)>0).length,'#C9A227'],
             ].map(([ic,lb,v,c])=>(
               <div key={lb} style={{background:`rgba(237,231,218,0.02)`,border:`1px solid ${c}22`,borderRadius:'10px',padding:'0.65rem 0.35rem',textAlign:'center'}}>
@@ -1039,7 +1037,7 @@ function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangW
         <div>
           <div style={{...card}}>
             <div style={{fontWeight:700,color:'#EDE7DA',marginBottom:'0.4rem',fontSize:'0.85rem'}}>👮 Polis Kadrosu</div>
-            <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.65rem'}}>Mevcut polis: <strong style={{color:'#60A5FA'}}>{policeCount}</strong> memur · İşe alım maliyeti: ₺50.000/memur · Aylık maaş: ₺10.000/memur</div>
+            <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.65rem'}}>Mevcut polis: <strong style={{color:'#60A5FA'}}>{policeCount}</strong> memur · İşe alım maliyeti: 🪙50.000/memur · Aylık maaş: 🪙10.000/memur</div>
             {hasAuth&&<button onClick={()=>setHireModal(true)} style={{width:'100%',padding:'0.65rem',borderRadius:'10px',border:'none',background:'linear-gradient(135deg,#3B82F6,#1D4ED8)',color:'#fff',fontWeight:800,fontSize:'0.85rem',cursor:'pointer',fontFamily:"'Inter',sans-serif"}}>+ Polis Personeli İşe Al</button>}
             {hasAuth&&policeCount>0&&<div style={{marginTop:'0.5rem',display:'flex',gap:'0.4rem',flexWrap:'wrap'}}>
               {[5,10,25].map(n=>(
@@ -1088,10 +1086,10 @@ function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangW
         <div>
           <div style={{...card,background:'rgba(76,154,107,0.04)',border:'1px solid rgba(76,154,107,0.15)'}}>
             <div style={{fontWeight:700,color:'#4C9A6B',marginBottom:'0.5rem',fontSize:'0.85rem'}}>💰 Polis Bütçesi</div>
-            <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'1.4rem',fontWeight:900,color:'#4C9A6B',marginBottom:'0.5rem'}}>₺{policeBudget.toLocaleString()}</div>
+            <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'1.4rem',fontWeight:900,color:'#4C9A6B',marginBottom:'0.5rem'}}>🪙{policeBudget.toLocaleString()}</div>
             <div style={{fontSize:'0.7rem',color:'#8893A1',lineHeight:1.5}}>
               Mevcut kadro: {policeCount} memur<br/>
-              Aylık maaş gideri: ₺{(policeCount*POLICE_SALARY).toLocaleString()}<br/>
+              Aylık maaş gideri: 🪙{(policeCount*POLICE_SALARY).toLocaleString()}<br/>
               Bütçe kaynağı: Devlet hazinesi transferi
             </div>
             {hasAuth&&(
@@ -1106,9 +1104,9 @@ function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangW
                       t2.balance=(t2.balance||0)-n;
                       localStorage.setItem('rep_treasury',JSON.stringify(t2));
                       setPoliceBudget(p=>p+n);
-                      showNotif(`✅ ₺${(n/1000000).toFixed(0)}M polis bütçesine transfer edildi`,'success');
+                      showNotif(`✅ 🪙${(n/1000000).toFixed(0)}M polis bütçesine transfer edildi`,'success');
                     }} style={{padding:'0.35rem 0.75rem',borderRadius:'8px',border:`1px solid ${canAfford?'rgba(76,154,107,0.3)':'rgba(255,255,255,0.06)'}`,background:canAfford?'rgba(76,154,107,0.1)':'rgba(255,255,255,0.02)',color:canAfford?'#4C9A6B':'#3B4E63',cursor:canAfford?'pointer':'default',fontSize:'0.72rem',fontWeight:700,fontFamily:"'Inter',sans-serif"}}>
-                      +₺{(n/1000000).toFixed(0)}M
+                      +🪙{(n/1000000).toFixed(0)}M
                     </button>
                   );
                 })}
@@ -1128,7 +1126,7 @@ function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangW
                 <div style={{fontSize:'0.8rem',fontWeight:700,color:'#EDE7DA'}}>
                   {a.type==='hire'?`👮 +${a.count} polis işe alındı`:a.type==='fire'?`🚫 ${a.count} polis görevden alındı`:`⚔️ ${a.count} polis savaşa konuşlandırıldı`}
                 </div>
-                <div style={{fontSize:'0.62rem',color:'#8893A1'}}>{a.by||'Yönetim'} · {a.cost?`₺${a.cost.toLocaleString()} · `:''}{new Date(a.ts).toLocaleString('tr-TR',{hour:'2-digit',minute:'2-digit'})}</div>
+                <div style={{fontSize:'0.62rem',color:'#8893A1'}}>{a.by||'Yönetim'} · {a.cost?`🪙${a.cost.toLocaleString()} · `:''}{new Date(a.ts).toLocaleString('tr-TR',{hour:'2-digit',minute:'2-digit'})}</div>
               </div>
               {a.powBonus&&<div style={{fontSize:'0.7rem',color:'#60A5FA',fontWeight:700}}>+{a.powBonus} güç</div>}
             </div>
@@ -1140,10 +1138,10 @@ function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangW
         <div onClick={()=>setHireModal(false)} style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.7)',display:'flex',alignItems:'center',justifyContent:'center',zIndex:9999}}>
           <div onClick={e=>e.stopPropagation()} style={{background:'#1B212B',border:'1px solid rgba(237,231,218,0.12)',borderRadius:'16px',padding:'1.25rem',width:'min(90vw,360px)'}}>
             <div style={{fontWeight:800,color:'#EDE7DA',fontSize:'0.95rem',marginBottom:'0.75rem'}}>👮 Polis İşe Al</div>
-            <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.6rem'}}>Bütçe: ₺{policeBudget.toLocaleString()} · Her polis: ₺50.000</div>
+            <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.6rem'}}>Bütçe: 🪙{policeBudget.toLocaleString()} · Her polis: 🪙50.000</div>
             <input type="number" value={hireCount} onChange={e=>setHireCount(e.target.value)} placeholder="Kaç polis? (max 100)" min="1" max="100"
               style={{width:'100%',background:'rgba(237,231,218,0.05)',border:'1px solid rgba(96,165,250,0.3)',borderRadius:'8px',padding:'0.6rem 0.8rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'0.9rem',outline:'none',marginBottom:'0.65rem',boxSizing:'border-box'}} />
-            {hireCount>0&&<div style={{fontSize:'0.72rem',color:'#60A5FA',marginBottom:'0.65rem'}}>Toplam maliyet: ₺{((parseInt(hireCount)||0)*50000).toLocaleString()}</div>}
+            {hireCount>0&&<div style={{fontSize:'0.72rem',color:'#60A5FA',marginBottom:'0.65rem'}}>Toplam maliyet: 🪙{((parseInt(hireCount)||0)*50000).toLocaleString()}</div>}
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.5rem'}}>
               <button onClick={()=>{setHireModal(false);setHireCount('');}} style={{padding:'0.55rem',borderRadius:'9px',border:'1px solid rgba(255,255,255,0.08)',background:'rgba(255,255,255,0.03)',color:'#8893A1',cursor:'pointer',fontWeight:700,fontFamily:"'Inter',sans-serif"}}>İptal</button>
               <button onClick={hirePolice} style={{padding:'0.55rem',borderRadius:'9px',border:'none',background:'linear-gradient(135deg,#3B82F6,#1D4ED8)',color:'#fff',cursor:'pointer',fontWeight:700,fontFamily:"'Inter',sans-serif"}}>İşe Al</button>

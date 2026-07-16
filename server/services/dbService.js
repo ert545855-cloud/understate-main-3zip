@@ -119,7 +119,7 @@ async function createUser(fields) {
 
 const ALLOWED_UPDATE_COLUMNS = new Set([
   'username', 'email', 'password_hash', 'ban_reason',
-  'level', 'xp', 'money', 'bank_money', 'under_coin', 'hp', 'score',
+  'level', 'xp', 'money', 'bank_money', 'altin', 'hp', 'score',
   'credit_score', 'merit_points', 'loyalty_points', 'city', 'position_tag',
   'education_level', 'education_progress', 'inventory', 'equipped_items',
   'holdings', 'game_data', 'push_subscriptions', 'email_verified',
@@ -544,7 +544,7 @@ async function setGangTerritories(territories) {
 
 // ── USER SAVE (game data) ─────────────────────────────────────────────────────
 
-const SAVEABLE = ['level','xp','money','bank_money','under_coin','hp','score',
+const SAVEABLE = ['level','xp','money','bank_money','altin','hp','score',
   'credit_score','merit_points','loyalty_points','city','position_tag',
   'education_level','education_progress','inventory','equipped_items',
   'holdings','game_data'];
@@ -554,7 +554,7 @@ async function saveUserGameData(userId, data) {
     if (!userId) return false;
     const update = { last_login: new Date().toISOString() };
     const map = {
-      bankMoney:'bank_money', underCoin:'under_coin', creditScore:'credit_score',
+      bankMoney:'bank_money', underCoin:'altin', creditScore:'credit_score',
       meritPoints:'merit_points', loyaltyPoints:'loyalty_points', positionTag:'position_tag',
       educationLevel:'education_level', educationProgress:'education_progress',
       equippedItems:'equipped_items', gameData:'game_data',
