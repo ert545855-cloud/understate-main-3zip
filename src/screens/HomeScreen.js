@@ -215,12 +215,18 @@ function HomePage({ profile, onNavigate }) {
               <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.35rem',fontWeight:900,color:'#EDE7DA'}}>{profile?.username||'Oyuncu'}</div>
               <div style={{fontSize:'0.65rem',color:'#8893A1',marginTop:'0.1rem'}}>{lvl.title} • {lvl.pct}% {T('nextLevel')}</div>
             </div>
-            {!profile?.bannerUrl && (
-              <div onClick={()=>onNavigate('profile')} style={{cursor:'pointer',display:'flex',flexDirection:'column',alignItems:'center',gap:'0.3rem'}}>
-                <Avatar profile={profile} size={62} />
-                <div style={{fontSize:'0.58rem',color:'rgba(255,255,255,0.45)',fontWeight:600}}>{T('viewProfile')}</div>
-              </div>
-            )}
+            <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
+              {!profile?.bannerUrl && (
+                <div onClick={()=>onNavigate('profile')} style={{cursor:'pointer',display:'flex',flexDirection:'column',alignItems:'center',gap:'0.3rem'}}>
+                  <Avatar profile={profile} size={62} />
+                  <div style={{fontSize:'0.58rem',color:'rgba(255,255,255,0.45)',fontWeight:600}}>{T('viewProfile')}</div>
+                </div>
+              )}
+              <button onClick={()=>onNavigate('oyun_ayarlari')} title="Oyun Ayarları" style={{background:'rgba(200,155,60,0.1)',border:'1px solid rgba(200,155,60,0.25)',borderRadius:'10px',padding:'8px 10px',color:'#C9A227',fontSize:'1.1rem',cursor:'pointer',lineHeight:1,display:'flex',flexDirection:'column',alignItems:'center',gap:'2px'}}>
+                ⚙️
+                <span style={{fontSize:'0.45rem',color:'rgba(200,155,60,0.6)',fontWeight:700,letterSpacing:'0.05em'}}>AYARLAR</span>
+              </button>
+            </div>
           </div>
         <div style={{marginBottom:'0.6rem'}}>
           <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.6rem',color:'#8893A1',marginBottom:'4px'}}>

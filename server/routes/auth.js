@@ -116,6 +116,26 @@ router.get('/verify', (req, res) => {
 });
 
 // ── Test Email (Admin only) ────────────────────────────────────────
+// Hesap silme — kullanıcı kendi hesabını kalıcı olarak siler
+router.delete('/delete-account', authMiddleware, async (req, res) => {
+  const userId = req.user?.id;
+  if (!userId) return res.status(401).json({ success: false, error: 'Oturum açık değil' });
+  try {
+    // Kullanıcıya ait bağlı tablolar (cascade yoksa manuel sil)
+    await sb.query('DELETE FROM notifications     WHERE user_id  = $1', [userId]);
+    await sb.query('DELETE FROM game_state        WHERE user_id  = $1', [userId]);
+    await sb.query('DELETE FROM chat_messages     WHERE user_id  = $1', [userId]);
+    await sb.query('DELETE FROM family_factories  WHERE owner_id = $1', [userId]);
+    // Ana kayıt
+    await sb.query('DELETE FROM users WHERE id = $1', [userId]);
+    logger.info(`[Auth] Hesap silindi: userId=${userId}`);
+    return res.json({ success: true, message: 'Hesabınız kalıcı olarak silindi.' });
+  } catch (err) {
+    logger.error('[Auth] delete-account hatası:', err.message);
+    return res.status(500).json({ success: false, error: 'Hesap silinemedi: ' + err.message });
+  }
+});
+
 router.post('/test-email', authMiddleware, (req, res, next) => {
   if (req.user?.role !== 'admin') return res.status(403).json({ success: false, message: 'Yetkisiz' });
   next();

@@ -118,13 +118,15 @@
 
 <!-- LOADING SCREEN -->
 <div id="loading-screen" style="position:fixed;inset:0;z-index:9999;background:radial-gradient(ellipse at center,#3D2200 0%,#1A0E00 55%,#0A0600 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;font-family:'Inter',sans-serif;">
-  <div style="font-family:'Cinzel',serif;font-size:clamp(1.6rem,5vw,2.5rem);letter-spacing:0.35rem;display:flex;align-items:baseline;">
-    <span style="color:#D00000;font-weight:900;text-shadow:0 0 20px rgba(208,0,0,0.8);">[U</span><span style="color:#fff;font-weight:900;">NDER</span><span style="color:#D00000;font-weight:900;">STATE]</span>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:0.4rem;">
+    <div style="font-size:clamp(1rem,3vw,1.3rem);letter-spacing:0.4rem;color:#C89B3C;font-family:'Cinzel',serif;font-weight:700;opacity:0.8;">✦ SALTANAT ✦</div>
+    <div style="font-family:'Cinzel',serif;font-size:clamp(2rem,7vw,3.2rem);letter-spacing:0.25rem;font-weight:900;background:linear-gradient(135deg,#E8C96B 0%,#C89B3C 50%,#E8C96B 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-shadow:none;">ONLINE</div>
+    <div style="font-size:0.65rem;letter-spacing:0.35rem;color:rgba(200,155,60,0.6);font-family:'Cinzel',serif;text-transform:uppercase;">İmparatorluk Seninle Yükselir</div>
   </div>
-  <div id="loading-bar-wrap" style="width:200px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;">
-    <div id="loading-bar" style="height:100%;width:0%;background:#D00000;border-radius:2px;box-shadow:0 0 10px #D00000;transition:width 0.4s ease;"></div>
+  <div id="loading-bar-wrap" style="width:220px;height:2px;background:rgba(200,155,60,0.12);border-radius:2px;overflow:hidden;">
+    <div id="loading-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#C89B3C,#E8C96B);border-radius:2px;box-shadow:0 0 12px rgba(200,155,60,0.7);transition:width 0.4s ease;"></div>
   </div>
-  <div id="loading-text" style="color:#C89B3C;font-size:0.8rem;letter-spacing:0.2rem;text-transform:uppercase;font-family:'Cinzel',serif;">Yükleniyor...</div>
+  <div id="loading-text" style="color:#C89B3C;font-size:0.75rem;letter-spacing:0.2rem;text-transform:uppercase;font-family:'Cinzel',serif;">İmparatorluk kuruluyor...</div>
   <div id="loading-error" style="display:none;color:#D00000;font-size:0.85rem;text-align:center;max-width:280px;line-height:1.6;"></div>
 </div>
 <style>
@@ -228,7 +230,7 @@ function _hideLoading() {
   var ls = document.getElementById('loading-screen');
   if (ls) { ls.classList.add('fade-out'); setTimeout(function() { ls.style.display = 'none'; }, 600); }
 }
-_advanceBar(10, 'Başlatılıyor...');
+_advanceBar(10, 'İmparatorluk kuruluyor...');
 
 // Eski IndexedDB önbelleklerini temizle (tüm kullanıcılarda stale kod kalmasın)
 try {
@@ -280,6 +282,9 @@ var SCREEN_FILES = [
   'src/screens/social/TeamWarPage.js',
   'src/screens/OttomanEyaletScreen.js',
   'src/screens/OttomanMapScreen.js',
+  'src/screens/EmpireMapScreen.js',
+  'src/screens/WarSystemScreen.js',
+  'src/screens/GameSettingsScreen.js',
   'src/screens/BeylikScreen.js',
   'src/screens/PalaceScreen.js',
   'src/screens/CourtScreen.js',
@@ -328,7 +333,7 @@ function _babelOne(src) {
 }
 
 function compileAndRun() {
-  _advanceBar(75, 'Dosyalar yükleniyor...');
+  _advanceBar(75, 'Topraklar haritalanıyor...');
   var allFetches = SCREEN_FILES.map(function(f) {
     return fetch(f + '?v=' + V)
       .then(function(r) { return r.ok ? r.text() : ''; })
@@ -356,7 +361,7 @@ function compileAndRun() {
 }
 
 function boot() {
-  _advanceBar(70, 'Yükleniyor...');
+  _advanceBar(70, 'Ordu hazırlanıyor...');
   compileAndRun();
 }
 </script>

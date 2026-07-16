@@ -1326,6 +1326,9 @@ function App() {
             {page==='eyalet_harita' && window.OttomanMapScreen && React.createElement(window.OttomanMapScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
             {page==='eyalet_liste'  && window.OttomanEyaletScreen && React.createElement(window.OttomanEyaletScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
             {page==='valilik'      && window.VaililikEkrani && React.createElement(window.VaililikEkrani, {cu:profile||{},setCurrentPage:setPage})}
+            {page==='oyun_ayarlari' && window.GameSettingsScreen && React.createElement(window.GameSettingsScreen, {cu:profile||{},setCurrentPage:setPage,onLogout:()=>{localStorage.removeItem('us_jwt');window.location.reload();}})}
+            {page==='empire_map'   && window.EmpireMap && React.createElement(window.EmpireMap, {provinces:window.MAP_PROVINCES,onSelect:(id)=>console.log('eyalet:',id)})}
+            {page==='war_screen'   && window.WarMap && React.createElement(window.WarMap, {provinces:window.MAP_PROVINCES,fronts:[]})}
             {page==='saray'        && window.PalaceScreen && React.createElement(window.PalaceScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
             {page==='adalet'       && window.CourtScreen && React.createElement(window.CourtScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
             {page==='lonca'        && window.GuildScreen && React.createElement(window.GuildScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}

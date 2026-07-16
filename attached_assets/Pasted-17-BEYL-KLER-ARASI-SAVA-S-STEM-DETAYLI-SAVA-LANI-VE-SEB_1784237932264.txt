@@ -1,0 +1,63 @@
+17) BEYLİKLER ARASI SAVAŞ SİSTEMİ (DETAYLI)
+
+SAVAŞ İLANI VE SEBEP SİSTEMİ
+- Savaş açmak için "sebep" (casus belli) seçilmesi zorunlu: sınır anlaşmazlığı, ihanet cezası,
+  kervan saldırısı misillemesi, tarihi düşmanlık — sebepsiz savaş açan beylik itibar kaybeder
+- Savaş ilanı Divan'da (beylik başkanı + vezirler) onaylanmadan gönderilemez — ani/tek kişilik
+  savaş kararları önlenir
+- İlan sonrası kısa bir "hazırlık süresi" (örn. 6-12 saat) olur, iki taraf da mobilizasyon yapar,
+  ani baskın engellenir (isteğe bağlı: "gizli saldırı" perk'i bu süreyi atlatabilir ama pahalı)
+
+SAVAŞ TÜRLERİ
+- Sınır Çatışması: tek bir eyalet için sınırlı savaş, düşük kayıp, hızlı sonuçlanır
+- Fetih Seferi: birden fazla eyaleti hedefleyen büyük savaş, uzun sürer, yüksek asker/sikke
+  maliyeti
+- İtaat Savaşı: bir beyliği vasal yapmaya zorlama, kazanılırsa düşman "vasal" statüsüne düşer
+  (yok edilmez, düzenli haraç öder)
+- Toplu Sefer: sadece Genel Sefer (padişahlık savaşı) döneminde açılan, tüm kısıtlamaların
+  kalktığı serbest savaş modu
+
+SAVAŞ MEKANİĞİ (ADIM ADIM)
+- Ordu gönderme: oyuncu birlik türü + sayısı + komutan seçip hedef eyalete sefer başlatır,
+  mesafeye göre varış süresi hesaplanır (harita üzerinde gerçek zamanlı hareket eden ordu ikonu)
+- Keşif: saldırmadan önce casus/keşif birliği gönderip düşman garnizon gücünü görme imkânı
+  (görülmeden keşif başarı şansına bağlı)
+- Çarpışma çözümü: birlik taş-kağız-makas dengesi + arazi bonusu + sur seviyesi + komutan
+  yeteneği birlikte hesaplanıp otomatik savaş sonucu üretilir, sonuç "savaş raporu" olarak
+  oyunculara gösterilir (kayıp sayıları, ele geçirilen ganimet)
+- Kuşatma: sur seviyesi yüksek eyaletler tek dalgada düşmez; art arda başarılı saldırı gerekir,
+  her başarısız dalga sur seviyesini kademeli aşındırır
+- Zafer sonrası: eyalet el değiştirir, bir kısım nüfus/kaynak kaybı olur, mağlup oyuncuya kısa
+  süreli "işgal koruması" (saldırılamama) tanınır ki tamamen silinmesin
+
+İTTİFAK VE ÇOK TARAFLI SAVAŞ
+- İttifak çağrısı: savaştaki beylik ittifak ortaklarını yardıma çağırabilir, ortaklar asker
+  gönderip ortak savaşa katılabilir
+- Cephe sistemi: büyük savaşlarda birden fazla eyalet sınırında eşzamanlı çarpışmalar olabilir,
+  oyuncu kaynaklarını birden fazla cepheye bölmek zorunda kalır
+- İhanet mekaniği: ittifak ortağı savaş sırasında taraf değiştirebilir (yüksek itibar cezası
+  karşılığında) — RP gerilimi yaratır
+
+SAVAŞ SONU VE BARIŞ
+- Barış teklifi: her iki taraf da savaşı sonlandırma teklifi gönderebilir (toprak iadesi, tazminat,
+  vasallık şartlı)
+- Ateşkes süresi: barıştan sonra belirli süre (örn. 5 gün) iki taraf birbirine tekrar savaş
+  açamaz
+- Savaş tazminatı: kaybeden taraf belirli bir sikke/kaynak tazminatını taksitle ödeyebilir
+  (uzun vadeli ekonomik bağımlılık yaratır)
+
+SAVAŞ EKONOMİSİ (GOLD SINK BAĞLANTISI)
+- Asker eğitimi, sefer lojistiği (uzak mesafeye ordu gönderme maliyeti), savaş sonrası onarım
+  ve tazminat ödemeleri — hepsi sikke harcamasını sürekli kılar
+- Ganimet sistemi: kazanan taraf düşman hazinesinden/depodan sınırlı oranda kaynak ele geçirir
+  (tam yağma değil, dengeli bir yüzde — pes ettirmeden rekabeti canlı tutar)
+
+BİLDİRİM VE ŞEFFAFLIK
+- "Savaş İlanları" akışı: sunucu genelinde hangi beyliklerin kime savaş açtığı herkese görünür
+  (Kraliyet Habercisi/gazete üzerinden duyurulur) — bilgi asimetrisi azalır, RP zenginleşir
+- Canlı savaş haritası: aktif cepheler, hareket eden ordular, kuşatma altındaki eyaletler harita
+  üzerinde işaretlenir
+
+Bu bölüm PROJE dokümanına 17 numaralı ana başlık olarak eklenebilir; 5. maddedeki (Padişahlık
+Savaşı) 90 günlük döngü ile doğrudan bağlantılıdır — normal dönemde burada tanımlanan savaş
+sistemi işler, Genel Sefer'de ise kısıtlamalar kalkıp "Toplu Sefer" moduna geçilir.
