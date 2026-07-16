@@ -1085,7 +1085,7 @@ function AdminPage({ profile, showNotif, onNavigate }) {
 
   const cs = {background:'rgba(237,231,218,0.03)',borderRadius:'14px',padding:'1rem',border:'1px solid rgba(237,231,218,0.08)',marginBottom:'0.65rem'};
   const inp = {width:'100%',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'0.55rem 0.8rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'15px',outline:'none',boxSizing:'border-box'};
-  const tabs = [['dashboard','📊 Panel'],['users','👥 Kullanıcılar'],['manage','🛡️ Yönet'],['announce','📢 Duyuru'],['push','📲 Push'],['support','💬 Destek'],['logs','📋 Log'],['economy','💰 Ekonomi'],['education','🎓 Eğitim'],['tools','🛠️ Araçlar'],['election','🗳️ Seçim'],['makamlar','👑 Makamlar']];
+  const tabs = [['dashboard','📊 Panel'],['users','👥 Kullanıcılar'],['manage','🛡️ Yönet'],['announce','📢 Duyuru'],['push','📲 Push'],['support','💬 Destek'],['logs','📋 Log'],['economy','💰 Ekonomi'],['tools','🛠️ Araçlar'],['election','🗳️ Seçim'],['makamlar','👑 Makamlar']];
   const [elections_multi, setElections_multi] = useLs('rep_elections_multi', {});
 
   return (
@@ -1474,51 +1474,6 @@ function AdminPage({ profile, showNotif, onNavigate }) {
         </div>
       )}
 
-      {/* ── EĞİTİM TAKİBİ ── */}
-      {tab==='education' && (
-        <div>
-          <div style={cs}>
-            <div style={{fontWeight:800,color:'#EDE7DA',marginBottom:'0.65rem',fontSize:'0.85rem'}}>🎓 Eğitim İstatistikleri</div>
-            {(() => {
-              const counts = {ilkokul:0,ortaokul:0,lise:0,universite:0,yukseklisans:0,doktora:0};
-              allUsers.forEach(u => { const d = u.education?.diploma||'ilkokul'; if(counts[d]!==undefined) counts[d]++; });
-              return (
-                <div>
-                  {EDU_LEVELS.map(lvl=>(
-                    <div key={lvl.id} style={{display:'flex',alignItems:'center',gap:'0.6rem',padding:'0.4rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
-                      <span style={{fontSize:'1rem',flexShrink:0}}>{lvl.icon}</span>
-                      <div style={{flex:1}}>
-                        <div style={{fontSize:'0.78rem',fontWeight:700,color:'#EDE7DA'}}>{lvl.label}</div>
-                        <div style={{height:'4px',background:'rgba(237,231,218,0.05)',borderRadius:'2px',marginTop:'0.2rem'}}>
-                          <div style={{height:'100%',width:`${allUsers.length>0?Math.round(counts[lvl.id]/allUsers.length*100):0}%`,background:lvl.color,borderRadius:'2px',transition:'width 0.5s'}}/>
-                        </div>
-                      </div>
-                      <span style={{fontSize:'0.78rem',fontWeight:800,color:lvl.color,flexShrink:0}}>{counts[lvl.id]}</span>
-                    </div>
-                  ))}
-                </div>
-              );
-            })()}
-          </div>
-          <div style={cs}>
-            <div style={{fontWeight:800,color:'#EDE7DA',marginBottom:'0.65rem',fontSize:'0.85rem'}}>🔒 Makam Kilitleri Durumu</div>
-            <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.5rem'}}>Kaç oyuncu hangi makamlara ulaşabilir:</div>
-            {Object.entries(EDU_POSITION_REQS).slice(0,8).map(([pos,req])=>{
-              const reqIdx = EDU_LEVELS.findIndex(e=>e.id===req);
-              const eligible = allUsers.filter(u=>{
-                const d = u.education?.diploma||'ilkokul';
-                return EDU_LEVELS.findIndex(e=>e.id===d) >= reqIdx;
-              }).length;
-              return (
-                <div key={pos} style={{display:'flex',justifyContent:'space-between',padding:'0.35rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)',fontSize:'0.75rem'}}>
-                  <span style={{color:'#8893A1'}}>{pos}</span>
-                  <span style={{color:eligible>0?'#4C9A6B':'#C24B43',fontWeight:700}}>{eligible} uygun oyuncu</span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
 
       {/* ── ARAÇLAR ── */}
       {tab==='tools' && (

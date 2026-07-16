@@ -66,7 +66,7 @@ const TRANSLATIONS = {
     jobs:'İşler', general:'Genel', market:'Market', companies:'Şirketler', factory:'Atölye',
     mining:'Maden', education:'Eğitim', tasks:'Görevler', farm:'Tarım', livestock:'Hayvancılık',
     army:'Ordu', fight:'Dövüş', gang:'Çete', intelligence:'İstihbarat', tournament:'Turnuva',
-    crisis:'Kriz', court:'Mahkeme', politics:'Siyaset', governance:'Yönetim',
+    crisis:'Kriz', court:'Mahkeme', politics:'Beylikler', governance:'Yönetim',
     valilik:'Valilik', construction:'İnşaat', map:'Harita', alliance:'İttifak',
     world:'Dünya', npc:'NPC', wiki:'Wiki',
     chat:'Sohbet', clan:'Klan', messages:'Mesaj', players:'Oyuncular',
@@ -116,7 +116,7 @@ const TRANSLATIONS = {
     jobs:'Jobs', general:'General', market:'Market', companies:'Companies', factory:'Factory',
     mining:'Mining', education:'Education', tasks:'Tasks', farm:'Farming', livestock:'Livestock',
     army:'Army', fight:'Fight', gang:'Gang', intelligence:'Intel', tournament:'Tournament',
-    crisis:'Crisis', court:'Court', politics:'Politics', governance:'Governance',
+    crisis:'Crisis', court:'Court', politics:'Beylikler', governance:'Governance',
     valilik:'Municipality', construction:'Construction', map:'Map', alliance:'Alliance',
     world:'World', npc:'NPC', wiki:'Wiki',
     chat:'Chat', clan:'Clan', messages:'Messages', players:'Players',
@@ -164,7 +164,7 @@ const TRANSLATIONS = {
     jobs:'Jobs', general:'Allgemein', market:'Markt', companies:'Firmen', factory:'Fabrik',
     mining:'Bergbau', education:'Bildung', tasks:'Aufgaben', farm:'Landwirtschaft', livestock:'Vieh',
     army:'Armee', fight:'Kampf', gang:'Gang', intelligence:'Geheimdienst', tournament:'Turnier',
-    crisis:'Krise', court:'Gericht', politics:'Politik', governance:'Verwaltung',
+    crisis:'Krise', court:'Gericht', politics:'Beylikler', governance:'Verwaltung',
     valilik:'Gemeinde', construction:'Bau', map:'Karte', alliance:'Allianz',
     world:'Welt', npc:'NPC', wiki:'Wiki',
     chat:'Chat', clan:'Clan', messages:'Nachrichten', players:'Spieler',
@@ -212,7 +212,7 @@ const TRANSLATIONS = {
     jobs:'İşlər', general:'Ümumi', market:'Bazar', companies:'Şirkətlər', factory:'Zavod',
     mining:'Mədən', education:'Təhsil', tasks:'Tapşırıqlar', farm:'Əkinçilik', livestock:'Heyvandarlıq',
     army:'Ordu', fight:'Döyüş', gang:'Dəstə', intelligence:'Kəşfiyyat', tournament:'Turnir',
-    crisis:'Böhran', court:'Məhkəmə', politics:'Siyasət', governance:'İdarəetmə',
+    crisis:'Böhran', court:'Məhkəmə', politics:'Beylikler', governance:'İdarəetmə',
     valilik:'Bələdiyyə', construction:'İnşaat', map:'Xəritə', alliance:'İttifaq',
     world:'Dünya', npc:'NPC', wiki:'Vikipediya',
     chat:'Söhbət', clan:'Klan', messages:'Mesaj', players:'Oyunçular',
@@ -1289,7 +1289,8 @@ function App() {
             {page==='chat'         && <ChatPage        profile={profile} />}
             {page==='economy'      && <EconomyPage     {...pageProps} />}
             {page==='market'       && <StorePage       {...pageProps} />}
-            {page==='politics'     && <PoliticsPage    {...pageProps} />}
+            {page==='politics'     && window.BeylikScreen && React.createElement(window.BeylikScreen, {...pageProps, allUsers:onlinePlayers||[]})}
+            {page==='beylik_kur'   && window.BeylikScreen && React.createElement(window.BeylikScreen, {...pageProps, allUsers:onlinePlayers||[]})}
             {page==='holdings'     && <HoldingsPage    {...pageProps} />}
             {page==='alliance'     && <AlliancePage    {...pageProps} />}
             {page==='world'        && <WorldPage       profile={profile} onNavigate={setPage} />}
@@ -1322,7 +1323,8 @@ function App() {
             {page==='duyurular'    && <DuyurularPage   profile={profile} />}
             {page==='leaderboard'  && <LeaderboardPage {...pageProps} />}
             {page==='education'    && <EducationPage   {...pageProps} />}
-            {page==='eyalet_harita' && window.OttomanEyaletScreen && React.createElement(window.OttomanEyaletScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
+            {page==='eyalet_harita' && window.OttomanMapScreen && React.createElement(window.OttomanMapScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
+            {page==='eyalet_liste'  && window.OttomanEyaletScreen && React.createElement(window.OttomanEyaletScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
             {page==='valilik'      && window.VaililikEkrani && React.createElement(window.VaililikEkrani, {cu:profile||{},setCurrentPage:setPage})}
             {page==='saray'        && window.PalaceScreen && React.createElement(window.PalaceScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
             {page==='adalet'       && window.CourtScreen && React.createElement(window.CourtScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}

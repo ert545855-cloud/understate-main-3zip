@@ -1,0 +1,96 @@
+PROJE: Understate/Saltanat Online — Siyaset Temasından İmparatorluk Yönetimi Oyununa Dönüşüm
+
+GENEL HEDEF:
+Mevcut projedeki tüm siyaset temalı (seçim, parti, vekil, meclis) özellikleri kaldır ve yerine
+imparatorluk/hanedan/beylik yönetimi temalı bir online strateji-RP oyunu kur. Oyun adı "Saltanat
+Online" olarak kalsın. Değişiklikler hem metin/UI seviyesinde hem de oyun mekaniği seviyesinde
+uygulanmalı.
+
+1) GİRİŞ EKRANI
+- Slogan: "Bir toprak parçasından bir imparatorluğa" / "Tahtı kur, orduyu büyüt, imparatorluğu yönet"
+- "Kayıt Ol" → "Saltanatını Kur"
+- "→ Giriş Yap" gönder butonu → "→ Tahta Otur"
+- Karşılama modalı başlığı: "İmparatorluğuna Hoş Geldin!" + alt metin: "Topraklarını genişlet,
+  ekonomini kur, ordunu eğit ve dünyanın en büyük hanedanı ol."
+- Push/karşılama bildirimi: "🏰 Saltanat Online — Sarayına haber var!"
+- Loading/splash mesajları: "İmparatorluk kuruluyor...", "Topraklar haritalanıyor..."
+
+2) ALT NAVİGASYON BARI YENİDEN ETİKETLEME (BottomNav.js)
+- "Devlet" grup başlığı → "Saray" / "Hanedan"
+- politics: "Siyaset" → "Taht" (saray içi rütbe/unvan sistemi)
+- yetkilerim: "Yetkilerim" → "Unvanlarım"
+- election_events: "Olaylar" (seçim temelli) → "Dünya Olayları" (rastgele imparatorluk olayları)
+- citygov: "Yönetim" → "Eyalet Yönetimi"
+- taxgov: "Valilik" → "Hazine ve Vergiler"
+- alliance: "İttifak" → "Hanedan İttifakı"
+- saray: "Saray" → "İç Saray" (danışmanlar, entrika, veraset)
+- adalet/crime: "Adalet/Mahkeme" → "Divan-ı Adalet"
+- tenders: "İhaleler" → "Kraliyet İhaleleri"
+- wiki: "Wiki" → "Kroniğim" / "Rehber"
+- army_system: "Seraskerlik" → "Ordu Kumandanlığı"
+- newspaper: "Gazete" → "Kraliyet Habercisi"
+
+3) DİĞER METİN ALANLARI
+- Profil unvanları: "Vekil", "Belediye Başkanı" gibi siyasi unvanlar → "Bey", "Paşa", "Vali",
+  "Sultan" gibi hiyerarşik imparatorluk unvanları
+- "Parti" kelimesi geçen her yer → "Hanedan" veya "Lonca"
+- SocialFeedPage başlığı "Siyasi gündem" varsa → "İmparatorluk Günlüğü"
+- Hata/uyarı metinlerinde seçim diline ait ifadeler nötrleştirilsin
+
+4) KALDIRILAN SİYASET ÖZELLİKLERİ → YERİNE GELEN MEKANİKLER
+- Seçim/oy verme → Beylik Sistemi: oyuncular beylik kurar/katılır, beylik başkanı liyakat +
+  prestij puanıyla belirlenir
+- Parti kurma → Hanedan/Beylik kurma: bayrak, arma, isim seçimi olan klan yapısı
+- Vekil/Belediye Başkanı → Sancak Beyi, Vali, Vezir, Serasker gibi atanmış görevler (beylik
+  başkanı tarafından atanır)
+- Siyasi gündem/oylama → Divan Toplantıları: beylik içi kararlar (savaş açma, vergi oranı,
+  ittifak) başkan + vezirlerin onayıyla alınır
+- Seçim temelli "Kriz" → Rastgele İmparatorluk Olayları: kıtlık, veba, isyan, define bulma,
+  göçebe akını (RNG event sistemi)
+- Meclis/kanun teklifleri → Kanunname Sistemi: beylik başkanı vergi oranı, asker maaşı, ceza
+  gibi parametreleri ayarlar
+
+5) PADİŞAHLIK SAVAŞI SİSTEMİ (90 GÜNLÜK DÖNGÜ)
+- Sunucu her 90 günde bir "Padişahlık Dönemi"ne girer; bu süre normal oyun (eyalet toplama,
+  ordu büyütme, ittifak) için kullanılır.
+- 90. günün sonunda 3 günlük "Genel Sefer" (savaş penceresi) başlar.
+- Genel Sefer'de: tüm beylikler birbirine saldırabilir, eyalet fethedebilir; normal dönemdeki
+  saldırı sınırlamaları (cooldown, koruma kalkanı) kaldırılır/gevşetilir.
+- Canlı "Fetih Tahtası" (leaderboard) tüm oyunculara gösterilir, anlık eyalet sayacı güncellenir.
+- İttifaklar geçerlidir ama eyalet sayımı beylik bazında tutulur — tek galip çıkar.
+- 3 günün sonunda en çok eyalete sahip beylik başkanı "Padişah" ilan edilir.
+- Padişahın 90 gün süren kazanımları: saray arayüzü + global vergi toplama yetkisi, imparatorluk
+  çapında buff/nerf kanunu çıkarma yetkisi, özel görsel unvan ve taht animasyonu, giriş ekranında
+  öne çıkma.
+- Denge mekaniği: padişah bir sonraki dönemde en çok saldırıya uğrayan hedef olur (anti-snowball).
+- Kaybeden beylikler yok olmaz; yeni döngüde eyalet sayacı sıfırlanır ama asker/bina/sikke
+  ilerlemesi korunur.
+
+6) SİKKE (ALTIN) HARCAMA ÖZELLİKLERİ (GOLD SINK)
+- Fetih vergisi: yeni eyalet fethi asker + sikke maliyeti gerektirir
+- Saray inşası/yükseltme: kışla, hazine, sur gibi bina seviyeleri yüksek sikke maliyetiyle
+  yükseltilir
+- Paralı asker (mercenary) kiralama: Genel Sefer'in 3 günü boyunca hızlı asker takviyesi
+- Rütbe/unvan satın alma: Vali, Vezir gibi unvanlar için beylik hazinesine sikke ödeme
+- Kumarhane / şans oyunları (mevcut casino sekmesi)
+- Kraliyet ihaleleri (mevcut tenders sekmesi): sikke yatırıp iş/kontrat kazanma
+- Casus/istihbarat operasyonları: rakip beyliğe casus göndermek sikke maliyeti gerektirir
+- Koruma kalkanı satın alma: saldırıdan geçici korunma (Genel Sefer'de devre dışı)
+- Kozmetik market: bayrak, arma, taht teması, unvan rengi gibi rekabete etki etmeyen prestij
+  harcamaları
+- Savaş hasarı onarımı: hasar gören bina/eyaletlerin onarımı sikke ile yapılır
+
+7) REKABETÇİLİĞİ ARTIRAN EK KURALLAR
+- Prestij/itibar puanı: güç dışında adalet, ticaret, diplomasi alanlarında ayrı skorlar
+- Kaynak kıtlığı ve ticaret yolları: haritada sınırlı kaynaklar, ittifak/ticareti teşvik eder
+- Casus/istihbarat sistemi: rakip ordu/ekonomi verisini çalma riskli aksiyon olarak
+- Anti-abuse kuralları: çoklu hesap yasağı, saldırı sıklığı sınırı, yeni oyuncu koruma kalkanı
+  (ilk 48 saat saldırılamaz)
+- Diplomasi sözleşmeleri: ittifak/ateşkes önerilerinin değişmez log'u — ihanet mekaniği anlamlı
+  olsun
+- Çok kategorili liderlik tahtası: en zengin, en büyük ordu, en çok toprak, en yüksek itibar
+
+UYGULAMA NOTU:
+Değişiklikler önce UI/metin katmanında (BottomNav.js, app.js, ilgili screen dosyaları), ardından
+backend'de (server/routes, server/socket, veritabanı şeması: eyalet sayacı, 90 günlük zamanlayıcı,
+Genel Sefer durumu, sikke harcama tabloları) uygulanmalıdır.

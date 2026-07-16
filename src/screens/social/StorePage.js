@@ -87,7 +87,7 @@ function StorePage({ profile, setProfile, showNotif }) {
       </div>
 
       <div style={{display:'flex',gap:'4px',marginBottom:'0.75rem'}}>
-        {[['uc','🪙 Altın'],['vip','💎 VIP'],['edu','📚 Eğitim']].map(([id,lbl])=>(
+        {[['uc','🪙 Altın'],['vip','💎 VIP']].map(([id,lbl])=>(
           <button key={id} onClick={()=>setTab(id)}
             style={{flex:1,padding:'0.5rem',borderRadius:'10px',border:`1px solid ${tab===id?'rgba(236,72,153,0.5)':'rgba(255,255,255,0.08)'}`,background:tab===id?'rgba(236,72,153,0.12)':'rgba(255,255,255,0.03)',color:tab===id?'#F472B6':'#8893A1',fontWeight:700,fontSize:'0.78rem',cursor:'pointer'}}>
             {lbl}
@@ -162,47 +162,7 @@ function StorePage({ profile, setProfile, showNotif }) {
         </div>
       )}
 
-      {tab==='edu' && (
-        <div>
-          <div style={{background:'linear-gradient(135deg,rgba(201,162,39,0.15),rgba(11,21,39,0.97))',border:'1px solid rgba(201,162,39,0.35)',borderRadius:'10px',padding:'1.25rem',textAlign:'center',marginBottom:'0.75rem'}}>
-            <div style={{fontSize:'2rem',marginBottom:'0.4rem'}}>📚</div>
-            <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA'}}>EĞİTİM PAKETİ</div>
-            <div style={{fontSize:'0.72rem',color:'#C9A227',marginTop:'0.2rem'}}>Eğitim tıklamalarında 12 saatlik bekleme süresi (normal: 5 dk)</div>
-            {(profile?.packages?.edu || profile?.eduPackage) && (
-              <div style={{marginTop:'0.5rem',display:'inline-block',background:'rgba(76,154,107,0.12)',border:'1px solid rgba(76,154,107,0.4)',borderRadius:'8px',padding:'0.25rem 0.75rem',fontSize:'0.7rem',color:'#4C9A6B',fontWeight:700}}>✅ Aktif Paketiniz Var</div>
-            )}
-          </div>
-
-          <div style={{background:'linear-gradient(135deg,rgba(201,162,39,0.08),rgba(11,21,39,0.95))',border:'1px solid rgba(201,162,39,0.35)',borderRadius:'10px',padding:'1rem',marginBottom:'0.65rem'}}>
-            <div style={{display:'flex',alignItems:'flex-start',gap:'0.75rem',marginBottom:'0.75rem'}}>
-              <div style={{fontSize:'2rem',flexShrink:0}}>📦</div>
-              <div style={{flex:1}}>
-                <div style={{display:'flex',alignItems:'center',gap:'0.4rem',flexWrap:'wrap'}}>
-                  <span style={{fontWeight:900,color:'#EDE7DA',fontSize:'1rem'}}>30 Günlük Eğitim Paketi</span>
-                  <span style={{background:'rgba(76,154,107,0.12)',border:'1px solid rgba(76,154,107,0.25)',borderRadius:'6px',padding:'1px 6px',fontSize:'0.62rem',color:'#4C9A6B',fontWeight:700}}>🔥 Popüler</span>
-                </div>
-                <div style={{fontWeight:900,color:'#C9A227',fontSize:'1.4rem',marginTop:'0.1rem'}}>🪙1.199,99</div>
-                <div style={{fontSize:'0.65rem',color:'#8893A1'}}>30 gün geçerli eğitim paketi</div>
-              </div>
-            </div>
-            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.3rem',marginBottom:'0.75rem'}}>
-              {['📚 Her tıklama: 12 saat bekle','⚡ Normal: 5 dakika bekleme','🎓 Daha hızlı diploma kazan','🏆 Ekstra XP bonusu yok'].map(f=>(
-                <div key={f} style={{fontSize:'0.68rem',color:'#8893A1',display:'flex',alignItems:'center',gap:'0.3rem'}}>
-                  <span style={{color:'#C9A227'}}>✓</span>{f}
-                </div>
-              ))}
-            </div>
-            <button onClick={()=>showNotif('💳 Eğitim Paketi (🪙1.199,99) için ödeme sayfasına yönlendiriliyor...','gold')}
-              style={{width:'100%',padding:'0.7rem',borderRadius:'12px',border:'none',background:'linear-gradient(135deg,#C24B43,#A855F7)',color:'#EDE7DA',fontWeight:700,fontSize:'0.85rem',cursor:'pointer',letterSpacing:'0.03em'}}>
-              📚 Eğitim Paketi Al — 🪙1.199,99
-            </button>
-          </div>
-
-          <div style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'12px',padding:'0.75rem',fontSize:'0.7rem',color:'#8893A1',lineHeight:1.7}}>
-            💡 <strong style={{color:'#EDE7DA'}}>Eğitim Paketi</strong> ile her eğitim tıklaması sonrası <strong style={{color:'#C9A227'}}>12 saat</strong> beklersin (5 dk yerine). Admin veya admin panelinden da verilebilir.
-          </div>
-        </div>
-      )}
+}
     </div>
   );
 }
