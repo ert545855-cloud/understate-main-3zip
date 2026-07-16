@@ -6,13 +6,13 @@
 - [Ottoman Eyalet System](ottoman-eyalet.md) — 29 Ottoman provinces in OttomanEyaletScreen.js; window.OttomanEyaletScreen + window.VaililikEkrani; vali data stored in rep_valiVerisi localStorage; nav ids: eyalet_harita, valilik.
 - [Ammo (Mermi) System](ammo-system.md) — gang.ammo field; 3 types (standart/agir/ap); power = base + weapons*5 + ammo*3.
 - [Factory Devlet/Ozel Split](factory-split.md) — DEVLET_TYPES (cheaper, stable) vs OZEL_TYPES (expensive, higher income); mermi factory included in both.
-- [Design System v11 Palette](design-system-v2.md) — bg=#0F1115, surface=#1B1E25, gold=#C89B3C, text=#F5EBD7, muted=#A9A6A0, success=#3E8C5A, error=#B8423C. Cinzel serif for headings (replaced Syne). DS.radius=16px.
+- [Design System v11 Palette](design-system-v2.md) — WARM Ottoman: bg=#1A0E00, surface=#2D1800, gold=#C89B3C, text=#F5EBD7, muted=#A9A6A0, success=#3E8C5A, error=#B8423C. Cinzel serif headings. CSS :root vars fully rewritten.
 - [i18n Architecture](i18n-arch.md) — window.LANG_TR/EN/AZ/DE set by src/i18n/*.js; window.i18n.t(key,lang) is the runtime source of truth; useT() delegates to window.i18n.t with TRANSLATIONS fallback.
 - [Currency System](currency-system.md) — ₺ replaced with 🪙 (Sikke); UnderCoin/UC replaced with Altın/⚜️; profile.money=Sikke, profile.altin/underCoin=Altın; fmtAltin() shows ⚜️ suffix.
 - [PoliticsPage Meclis](politics-meclis.md) — meclis sub-tab removed from PoliticsScreen; standalone PartyCenterScreen.js routed as party_center in Devlet nav.
 - [Score Calculation](score-calc.md) — calcScore(p) in app.js; useEffect auto-updates profile.score on level/xp/money/merits/edu changes.
 - [DB Proper Tables](db-proper-tables.md) — gangs/parties/alliances use SQL tables, not game_state KV; getFullGameState wantedKeys excludes these three.
-- [Removed Systems](removed-systems.md) — gang/çete, aile/family, parti/party systems fully removed from app.js, BottomNav, index.html; replaced with Ottoman eyalet+vali system.
+- [Removed Systems](removed-systems.md) — gang/çete, aile/family, parti/party, sendika/union, belediye/municipality all replaced. Ottoman vocab: fabrika→atölye, sendika→lonca, belediye→valilik, devlet başkanı→Padişah, genelkurmay→Seraskerlik, meclis→Divan.
 - [Babel Global Scope Hook Clash](babel-hook-clash.md) — app.js declares useState/useEffect globally; new component files MUST NOT redeclare them. Use React.useState directly.
 - [Family Factory Anti-cheat](family-factory-anticheat.md) — family_factories DB table; collection timing server-validated; DB-backed rate limiter in dbRateLimiter.js.
 - [Security & Deploy Hardening](security-hardening.md) — JWT_SECRET + DATABASE_URL fail-fast; render.yaml uses node server/main.js as startCommand.
