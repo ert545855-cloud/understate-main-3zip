@@ -416,7 +416,7 @@ function EconomyPage({ profile, setProfile, showNotif, initialSub }) {
 
   const harvestFarm = (farm) => {
     if (Date.now() < farm.harvestAt) { showNotif('Henüz hasat zamanı değil!', 'error'); return; }
-    setFarms(farms.map(f => f.id===farm.id ? {...f, harvested:true} : f));
+    setFarms(farms.filter(f => f.id !== farm.id));
     // Hasat → Gıda Puanı + Gıda Stoku kazanılır
     const GIDA_PUANI = { wheat:15, corn:20, tomato:10, grape:25 };
     const gidaKazanim = GIDA_PUANI[farm.type] || 10;
@@ -767,15 +767,15 @@ function EconomyPage({ profile, setProfile, showNotif, initialSub }) {
               const ready = Date.now() >= farm.harvestAt;
               const pct = ready ? 100 : Math.min(100, ((Date.now()-farm.plantedAt)/(farm.harvestAt-farm.plantedAt))*100);
               return (
-                <Card key={farm.id} style={{marginBottom:'0.5rem',padding:'0.85rem',opacity:farm.harvested?0.5:1}}>
+                <Card key={farm.id} style={{marginBottom:'0.5rem',padding:'0.85rem'}}>
                   <div style={{display:'flex',alignItems:'center',gap:'0.75rem'}}>
                     <span style={{fontSize:'1.75rem'}}>{farm.icon}</span>
                     <div style={{flex:1}}>
                       <div style={{fontWeight:700,marginBottom:'0.25rem'}}>{farm.label}</div>
                       <ProgressBar pct={pct} color={ready?'#4C9A6B':'#C9A227'} />
-                      <div style={{fontSize:'0.63rem',color:'#8893A1',marginTop:'0.2rem'}}>{farm.harvested ? '✅ Hasat edildi' : ready ? '✅ Hasat hazır!' : `⏳ ${Math.ceil((farm.harvestAt-Date.now())/1000)}s kaldı`}</div>
+                      <div style={{fontSize:'0.63rem',color:'#8893A1',marginTop:'0.2rem'}}>{ready ? '✅ Hasat hazır!' : `⏳ ${Math.ceil((farm.harvestAt-Date.now())/1000)}s kaldı`}</div>
                     </div>
-                    {!farm.harvested && ready && (
+                    {ready && (
                       <Btn variant='gold' size='sm' onClick={()=>harvestFarm(farm)}>Hasat</Btn>
                     )}
                   </div>

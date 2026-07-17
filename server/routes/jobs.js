@@ -41,21 +41,24 @@ router.post('/do', authMiddleware, generalLimiter, async (req, res) => {
 
     if (!result.ok) return res.status(400).json({ success: false, msg: result.msg, remaining: result.remaining });
 
-    // DB'de para, XP ve Altın güncelle
-    const newMoney = (Number(user.money) || 0) + result.earned;
-    const newXp = (Number(user.xp) || 0) + result.xpGain;
-    const newUc = (Number(user.altin) || 0) + (result.ucEarned || 0);
-    await db.updateUser(req.user.id, { money: newMoney, xp: newXp, altin: newUc });
+    // DB'de para, XP, Altın ve Sadakat Puanı güncelle
+    const newMoney   = (Number(user.money)          || 0) + result.earned;
+    const newXp      = (Number(user.xp)             || 0) + result.xpGain;
+    const newUc      = (Number(user.altin)          || 0) + (result.ucEarned || 0);
+    const newSadakat = (Number(user.loyalty_points) || 0) + (result.sadakat  || 0);
+    await db.updateUser(req.user.id, { money: newMoney, xp: newXp, altin: newUc, loyalty_points: newSadakat });
 
     res.json({
       success: true,
-      earned: result.earned,
-      xpGain: result.xpGain,
-      ucEarned: result.ucEarned || 0,
-      job: result.job,
+      earned:       result.earned,
+      xpGain:       result.xpGain,
+      ucEarned:     result.ucEarned || 0,
+      sadakatEarned:result.sadakat  || 0,
+      job:          result.job,
       newMoney,
       newXp,
       newUc,
+      newSadakat,
     });
   } catch (err) {
     logger.error('[Jobs] POST /do:', err.message);

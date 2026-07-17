@@ -1426,6 +1426,9 @@ function App() {
             {page==='eyalet_insaat' && window.EyaletInsaatScreen  && React.createElement(window.EyaletInsaatScreen,  {profile:profile||{},setProfile,showNotif,onNavigate:setPage,eyaletValiVerisi})}
             {page==='gunluk_pazar'  && window.GunlukPazarScreen   && React.createElement(window.GunlukPazarScreen,   {profile:profile||{},setProfile,showNotif,onNavigate:setPage})}
             {page==='diplomasi'     && window.DiplomasiScreen     && React.createElement(window.DiplomasiScreen,     {profile:profile||{},setProfile,showNotif,onNavigate:setPage,serverBeyliks,allUsers:onlinePlayers||[]})}
+            {page==='auction'       && <AuctionHouseScreen  {...pageProps} />}
+            {page==='kervan'        && <TicariYollarScreen  {...pageProps} />}
+            {page==='sefer'         && <SeferScreen         {...pageProps} />}
           </div>
           </div>
 

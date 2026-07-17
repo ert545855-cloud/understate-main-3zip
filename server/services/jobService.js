@@ -1,22 +1,27 @@
 /**
- * Job Service — Standart İş Cooldown Sistemi
+ * Job Service — Osmanlı Dönemi Meslekler
  * Sunucu taraflı cooldown doğrulama ve ödül hesaplama.
+ * Her meslek sadakat puanı da kazandırır.
  */
 const db = require('./dbService');
 const logger = require('../utils/logger');
 
-// Tüm standart işler (frontend ile senkron tutulmalı)
+// Frontend JOBS_LIST ile ID'ler senkron olmalı
 const STANDARD_JOBS = [
-  { id:'cop',        name:'Çöpçü',            icon:'🗑️',  earn:1200,   cd:120000,  minLevel:1  },
-  { id:'kurye',      name:'Kurye',             icon:'🚲',  earn:2800,   cd:180000,  minLevel:2  },
-  { id:'kasap',      name:'Kasap Yardımcısı',  icon:'🥩',  earn:4500,   cd:300000,  minLevel:3  },
-  { id:'guvenlik',   name:'Güvenlik Görevlisi',icon:'🛡️',  earn:7000,   cd:480000,  minLevel:5  },
-  { id:'sekreter',   name:'Sekreter',          icon:'📋',  earn:10000,  cd:600000,  minLevel:7  },
-  { id:'muhasebeci', name:'Muhasebeci',        icon:'📊',  earn:18000,  cd:900000,  minLevel:10 },
-  { id:'muhendis',   name:'Mühendis',          icon:'⚙️',  earn:35000,  cd:1800000, minLevel:15 },
-  { id:'doktor',     name:'Doktor',            icon:'🏥',  earn:75000,  cd:3600000, minLevel:20 },
-  { id:'avukat',     name:'Avukat',            icon:'⚖️',  earn:120000, cd:7200000, minLevel:25 },
-  { id:'yatirimci',  name:'Yatırımcı',         icon:'💹',  earn:250000, cd:14400000,minLevel:30 },
+  { id:'hammal',       name:'Hammal',              icon:'💪', earn:600,    cd:300000,   minLevel:1,  sadakat:2   },
+  { id:'carsi_bekcisi',name:'Çarşı Bekçisi',       icon:'🏮', earn:900,    cd:300000,   minLevel:1,  sadakat:3   },
+  { id:'ciftci',       name:'Çiftçi',              icon:'🌾', earn:1400,   cd:600000,   minLevel:1,  sadakat:5   },
+  { id:'demirci',      name:'Demirci Çırak',        icon:'⚒️', earn:3200,   cd:1200000,  minLevel:2,  sadakat:8   },
+  { id:'nalbant',      name:'Nalbant',             icon:'🐴', earn:5500,   cd:1800000,  minLevel:3,  sadakat:12  },
+  { id:'dokumaci',     name:'Dokumacı',            icon:'🧵', earn:7000,   cd:2400000,  minLevel:3,  sadakat:15  },
+  { id:'lonca_usta',   name:'Lonca Ustası',        icon:'🔨', earn:14000,  cd:3600000,  minLevel:5,  sadakat:25  },
+  { id:'tuccar',       name:'Tüccar',              icon:'⚖️', earn:25000,  cd:7200000,  minLevel:5,  sadakat:40  },
+  { id:'katip',        name:'Kâtip',               icon:'📜', earn:45000,  cd:14400000, minLevel:8,  sadakat:65  },
+  { id:'sipahi',       name:'Sipahi',              icon:'🏇', earn:70000,  cd:21600000, minLevel:10, sadakat:100 },
+  { id:'yeniceiri',    name:'Yeniçeri Neferi',     icon:'⚔️', earn:90000,  cd:28800000, minLevel:10, sadakat:130 },
+  { id:'mutefarrika',  name:'Müteferrika',         icon:'🛡️', earn:150000, cd:43200000, minLevel:15, sadakat:200 },
+  { id:'defterdar',    name:'Defterdar Naibi',     icon:'📊', earn:300000, cd:86400000, minLevel:20, sadakat:350 },
+  { id:'kazasker',     name:'Kazasker Yardımcısı', icon:'⚖️', earn:600000, cd:86400000, minLevel:30, sadakat:600 },
 ];
 
 const JOB_MAP = Object.fromEntries(STANDARD_JOBS.map(j => [j.id, j]));
@@ -36,15 +41,15 @@ async function getCooldowns(userId) {
   }
 }
 
-async function doJob({ userId, jobId, playerLevel, tradePoints, packages, ucMultiplier }) {
+async function doJob({ userId, jobId, playerLevel }) {
   try {
     const job = JOB_MAP[jobId];
-    if (!job) return { ok: false, msg: 'Geçersiz iş' };
-    if ((playerLevel || 1) < job.minLevel) return { ok: false, msg: `Bu iş için Seviye ${job.minLevel} gerekli!` };
+    if (!job) return { ok: false, msg: 'Geçersiz meslek' };
+    if ((playerLevel || 1) < job.minLevel) return { ok: false, msg: `Bu meslek için Seviye ${job.minLevel} gerekli!` };
 
     const now = Date.now();
 
-    // Cooldown DB'den kontrol et
+    // Cooldown DB kontrolü
     const { rows } = await db.query(
       'SELECT last_done_at FROM job_cooldowns WHERE user_id = $1 AND job_id = $2',
       [userId, jobId]
@@ -53,9 +58,11 @@ async function doJob({ userId, jobId, playerLevel, tradePoints, packages, ucMult
       const lastDone = Number(rows[0].last_done_at);
       const remaining = job.cd - (now - lastDone);
       if (remaining > 0) {
-        const m = Math.ceil(remaining / 60000);
+        const h = Math.floor(remaining / 3600000);
+        const m = Math.ceil((remaining % 3600000) / 60000);
         const s = Math.ceil((remaining % 60000) / 1000);
-        return { ok: false, msg: `⏳ ${m > 0 ? m+'dk ' : ''}${s}s bekle!`, remaining };
+        const timeStr = h > 0 ? `${h}sa ${m}dk` : m > 0 ? `${m}dk ${s}s` : `${s}s`;
+        return { ok: false, msg: `⏳ ${timeStr} bekle!`, remaining };
       }
     }
 
@@ -67,21 +74,16 @@ async function doJob({ userId, jobId, playerLevel, tradePoints, packages, ucMult
       [userId, jobId, now]
     );
 
-    // Ödül hesapla
-    const hasUCBoost = !!(packages?.ucBoost || ucMultiplier);
-    const ucMulti = hasUCBoost ? 2 : 1;
-    const tpBonus = 1 + (tradePoints || 0) * 0.0001;
-    const earned = Math.round(job.earn * tpBonus);
-    const xpGain = Math.max(5, Math.floor(job.earn / 200));
+    const earned  = job.earn;
+    const xpGain  = Math.max(5, Math.floor(job.earn / 300));
+    const sadakat = job.sadakat || 0;
 
+    // Altın şansı (büyük meslekler için)
     let ucEarned = 0;
-    if (job.earn >= 5000) {
-      ucEarned = Math.floor(Math.random() * 3 + 1) * ucMulti;
-    } else if (job.earn >= 1000) {
-      ucEarned = Math.random() < 0.3 ? 1 * ucMulti : 0;
-    }
+    if (job.earn >= 50000)      ucEarned = Math.floor(Math.random() * 3 + 1);
+    else if (job.earn >= 10000) ucEarned = Math.random() < 0.25 ? 1 : 0;
 
-    return { ok: true, earned, xpGain, ucEarned, job };
+    return { ok: true, earned, xpGain, ucEarned, sadakat, job };
   } catch (err) {
     logger.warn('[Job] doJob:', err.message);
     return { ok: false, msg: 'Sunucu hatası' };

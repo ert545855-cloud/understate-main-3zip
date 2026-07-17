@@ -25,6 +25,8 @@ const NAV_GROUPS = [
       { id:'daily',           icon:'📅', svgIcon:'tasks',     label:'Görevler',       rgb:'201,162,39'  },
       { id:'alet_atolyesi',   icon:'⚒️', svgIcon:'factory',   label:'Alet Atölyesi',  rgb:'200,155,60'  },
       { id:'gunluk_pazar',    icon:'🛍️', svgIcon:'money',     label:'Günlük Pazar',   rgb:'76,154,107'  },
+      { id:'auction',         icon:'🏺', svgIcon:'money',     label:'Artırma Evi',    rgb:'201,162,39'  },
+      { id:'kervan',          icon:'🐪', svgIcon:'truck',     label:'Kervanlar',      rgb:'201,162,39'  },
     ],
   },
   {
@@ -53,6 +55,7 @@ const NAV_GROUPS = [
       { id:'citybuild',       icon:'🏗️', svgIcon:'factory',     label:'İnşaat',     rgb:'201,162,39' },
       { id:'map',             icon:'🗺️', svgIcon:'map',         label:'Harita',     rgb:'76,154,107' },
       { id:'alliance',        icon:'🤝', svgIcon:'users',       label:'İttifak',    rgb:'201,162,39' },
+      { id:'sefer',           icon:'⚔️', svgIcon:'sword',       label:'Seferler',   rgb:'194,75,67'  },
       { id:'world',           icon:'🌍', svgIcon:'map',         label:'Dünya',      rgb:'201,162,39' },
       { id:'npcplayers',      icon:'🤖', svgIcon:'user',        label:'NPC',        rgb:'136,147,161'},
       { id:'eyalet_harita',   icon:'🗺️', svgIcon:'map',         label:'Eyaletler',  rgb:'201,162,39' },

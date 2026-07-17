@@ -312,19 +312,22 @@ function KariyerCalismaPage({ profile, setProfile, showNotif }) {
 // ═══════════════════════════════════════════════════════
 // İŞLER SAYFASI
 // ═══════════════════════════════════════════════════════
+// ── Osmanlı Dönemi İşleri — her biri sadakat puanı da kazandırır ──
 const JOBS_LIST = [
-  { id:'collector',  emoji:'🗑️', svgIcon:'job-trash',     name:'Çöpçü',              earn:525,    cd:5*60*1000,    minLevel:1, desc:'Her 5 dakikada bir' },
-  { id:'baker',      emoji:'🥖', svgIcon:'job-chef',      name:'Fırıncı',             earn:840,    cd:5*60*1000,    minLevel:1, desc:'Her 5 dakikada bir' },
-  { id:'porter',     emoji:'💪', svgIcon:'job-porter',    name:'Hamal',               earn:1575,   cd:10*60*1000,   minLevel:1, desc:'Her 10 dakikada bir' },
-  { id:'warehouse',  emoji:'📦', svgIcon:'job-warehouse', name:'Depo Görevlisi',      earn:4200,   cd:30*60*1000,   minLevel:2, req:'C Sınıfı Ehliyet', desc:'Her 30 dakikada bir' },
-  { id:'tailor',     emoji:'🧵',                          name:'Terzi',               earn:8400,   cd:60*60*1000,   minLevel:3, desc:'Her 60 dakikada bir' },
-  { id:'lumberjack', emoji:'🪓',                          name:'Oduncu',              earn:12600,  cd:120*60*1000,  minLevel:3, desc:'Her 2 saatte bir' },
-  { id:'guard',      emoji:'💂',                          name:'Güvenlik Görevlisi',  earn:21000,  cd:240*60*1000,  minLevel:5, desc:'Her 4 saatte bir' },
-  { id:'nurse',      emoji:'👩‍⚕️',                         name:'Hemşire',            earn:35000,  cd:480*60*1000,  minLevel:8, req:'Lise', desc:'Her 8 saatte bir' },
-  { id:'officer',    emoji:'👮',                          name:'Polis Memuru',        earn:55000,  cd:720*60*1000,  minLevel:10, req:'Lise', desc:'Her 12 saatte bir' },
-  { id:'teacher',    emoji:'👨‍🏫',                         name:'Öğretmen',           earn:80000,  cd:1440*60*1000, minLevel:15, req:'Üniversite', desc:'Her 24 saatte bir' },
-  { id:'engineer',   emoji:'⚙️', svgIcon:'job-engineer', name:'Mühendis',           earn:150000, cd:1440*60*1000, minLevel:20, req:'Üniversite', desc:'Her 24 saatte bir' },
-  { id:'doctor',     emoji:'🩺', svgIcon:'job-doctor',   name:'Doktor',              earn:350000, cd:1440*60*1000, minLevel:30, req:'Doktora', desc:'Her 24 saatte bir' },
+  { id:'hammal',       emoji:'💪', name:'Hammal',             earn:600,    cd:5*60*1000,    minLevel:1,  desc:'Her 5 dakikada bir',   sadakat:2,  unvan:'Çarşı Halkı' },
+  { id:'carsi_bekcisi',emoji:'🏮', name:'Çarşı Bekçisi',      earn:900,    cd:5*60*1000,    minLevel:1,  desc:'Her 5 dakikada bir',   sadakat:3,  unvan:'Çarşı Halkı' },
+  { id:'ciftci',       emoji:'🌾', name:'Çiftçi',             earn:1400,   cd:10*60*1000,   minLevel:1,  desc:'Her 10 dakikada bir',  sadakat:5,  unvan:'Reaya' },
+  { id:'demirci',      emoji:'⚒️', name:'Demirci Çırak',      earn:3200,   cd:20*60*1000,   minLevel:2,  desc:'Her 20 dakikada bir',  sadakat:8,  unvan:'Esnaf' },
+  { id:'nalbant',      emoji:'🐴', name:'Nalbant',            earn:5500,   cd:30*60*1000,   minLevel:3,  desc:'Her 30 dakikada bir',  sadakat:12, unvan:'Esnaf' },
+  { id:'dokumaci',     emoji:'🧵', name:'Dokumacı',           earn:7000,   cd:40*60*1000,   minLevel:3,  desc:'Her 40 dakikada bir',  sadakat:15, unvan:'Lonca Üyesi' },
+  { id:'lonca_usta',   emoji:'🔨', name:'Lonca Ustası',       earn:14000,  cd:60*60*1000,   minLevel:5,  desc:'Her saatte bir',       sadakat:25, unvan:'Lonca Ustası' },
+  { id:'tuccar',       emoji:'⚖️', name:'Tüccar',             earn:25000,  cd:120*60*1000,  minLevel:5,  desc:'Her 2 saatte bir',     sadakat:40, unvan:'Tüccar' },
+  { id:'katip',        emoji:'📜', name:'Kâtip',              earn:45000,  cd:240*60*1000,  minLevel:8,  desc:'Her 4 saatte bir',     sadakat:65, unvan:'Kalem Ehli' },
+  { id:'sipahi',       emoji:'🏇', name:'Sipahi',             earn:70000,  cd:360*60*1000,  minLevel:10, desc:'Her 6 saatte bir',     sadakat:100,unvan:'Askeri Zümre' },
+  { id:'yeniceiri',    emoji:'⚔️', name:'Yeniçeri Neferi',    earn:90000,  cd:480*60*1000,  minLevel:10, desc:'Her 8 saatte bir',     sadakat:130,unvan:'Kapıkulu' },
+  { id:'mutefarrika',  emoji:'🛡️', name:'Müteferrika',        earn:150000, cd:720*60*1000,  minLevel:15, desc:'Her 12 saatte bir',    sadakat:200,unvan:'Saray Görevlisi' },
+  { id:'defterdar',    emoji:'📊', name:'Defterdar Naibi',    earn:300000, cd:1440*60*1000, minLevel:20, desc:'Her 24 saatte bir',    sadakat:350,unvan:'Bürokrat' },
+  { id:'kazasker',     emoji:'⚖️', name:'Kazasker Yardımcısı',earn:600000, cd:1440*60*1000, minLevel:30, desc:'Her 24 saatte bir',    sadakat:600,unvan:'Ulema' },
 ];
 
 function JobsPage({ profile, setProfile, showNotif }) {
@@ -387,9 +390,10 @@ function JobsPage({ profile, setProfile, showNotif }) {
       setProfile(p => {
         const np = {
           ...p,
-          money: data.newMoney ?? ((p.money||0) + data.earned),
-          xp: data.newXp ?? ((p.xp||0) + data.xpGain),
-          underCoin: data.newUc ?? ((p.underCoin||0) + (data.ucEarned||0)),
+          money:         data.newMoney   ?? ((p.money||0)         + data.earned),
+          xp:            data.newXp      ?? ((p.xp||0)            + data.xpGain),
+          underCoin:     data.newUc      ?? ((p.underCoin||0)     + (data.ucEarned||0)),
+          loyaltyPoints: data.newSadakat ?? ((p.loyaltyPoints||0) + (data.sadakatEarned||0)),
         };
         localStorage.setItem('rep_userProfile', JSON.stringify(np));
         return np;
@@ -402,8 +406,9 @@ function JobsPage({ profile, setProfile, showNotif }) {
         s[dk] = {...(s[dk]||{}), dailyJobCount:((s[dk]?.dailyJobCount)||0)+1};
         localStorage.setItem('rep_dailyTaskState', JSON.stringify(s));
       } catch(e){}
-      const ucMsg = data.ucEarned > 0 ? ` +${data.ucEarned} Altın` : '';
-      showNotif(`${job.emoji} +${fmtWord(data.earned)} kazandın! +${data.xpGain} XP${ucMsg}`, 'success');
+      const ucMsg  = data.ucEarned     > 0 ? ` +${data.ucEarned} Altın`     : '';
+      const sadMsg = data.sadakatEarned> 0 ? ` +${data.sadakatEarned} 💎 Sadakat` : '';
+      showNotif(`${job.emoji} +${fmtWord(data.earned)} kazandın! +${data.xpGain} XP${ucMsg}${sadMsg}`, 'success');
     } catch (err) {
       showNotif('❌ Bağlantı hatası', 'error');
     } finally {
@@ -432,12 +437,15 @@ function JobsPage({ profile, setProfile, showNotif }) {
                   : <span style={{fontSize:'1.75rem'}}>{job.emoji}</span>}
                 <div style={{flex:1}}>
                   <div style={{fontSize:'0.83rem', fontWeight:800, color:dark?'#EDE7DA':'#1E293B'}}>{job.name}</div>
-                  <div style={{fontSize:'0.7rem', color:'#4C9A6B', fontWeight:700}}>+{fmtWord(job.earn)}</div>
+                  <div style={{display:'flex', gap:'0.4rem', flexWrap:'wrap'}}>
+                    <span style={{fontSize:'0.7rem', color:'#4C9A6B', fontWeight:700}}>+{fmtWord(job.earn)} 🪙</span>
+                    {job.sadakat > 0 && <span style={{fontSize:'0.68rem', color:'#C89B3C', fontWeight:700}}>+{job.sadakat} 💎</span>}
+                  </div>
                 </div>
               </div>
               <div style={{fontSize:'0.62rem', color:'#8893A1', display:'flex', gap:'0.3rem', flexWrap:'wrap', alignItems:'center'}}>
                 <span>⏱ {job.desc}</span>
-                {job.req && <span style={{color:'#C9A227', fontWeight:600}}>🔑 {job.req}</span>}
+                {job.unvan && <span style={{color:'#C89B3C', fontWeight:600}}>🏅 {job.unvan}</span>}
                 {locked && <span style={{color:'#C24B43', fontWeight:700}}>🔒 Lv.{job.minLevel}</span>}
               </div>
               {onCd && (

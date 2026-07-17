@@ -118,6 +118,10 @@ app.use('/api/leaderboard',   require('./routes/leaderboard'));
 app.use('/api/marketplace',   require('./routes/marketplace'));
 app.use('/api/save',          require('./routes/save'));
 app.use('/api/push',          require('./routes/push'));
+app.use('/api/auction',      require('./routes/auction'));
+app.use('/api/caravans',     require('./routes/caravans'));
+app.use('/api/campaigns',    require('./routes/campaigns'));
+app.use('/api/achievements', require('./routes/achievements'));
 app.use('/api/notifications', require('./routes/notifications'));
 app.use('/api/messages',      require('./routes/messages'));
 app.use('/api/friends',       require('./routes/friends'));
@@ -225,6 +229,7 @@ const io     = socketIo(server, {
 });
 
 app.set('io', io);
+global._io = io; // kampanya/kervan route'larından erişim için
 connectDB(io);
 initSocket(io);
 

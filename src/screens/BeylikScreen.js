@@ -4,7 +4,7 @@
 // Beylik kurma, katılma, yönetim — 1M Sikke + 50 Altın + 150k Sadakat
 // ═══════════════════════════════════════════════════════
 
-const BEYLIK_KUR_MALIYET = { sikke: 1_000_000, altin: 50, sadakat: 150_000 };
+const BEYLIK_KUR_MALIYET = { sikke: 1_000_000, altin: 50, sadakat: 15_000 };
 
 // Kurgusal bölge isimleri — gerçek coğrafya yok
 const SANCAKLAR = [
