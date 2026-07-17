@@ -239,6 +239,40 @@ function ChatPage({ profile }) {
                       </div>
                     )}
                     <div style={{fontSize:'0.58rem',color:'#8893A1',marginTop:'2px',textAlign:isMe?'right':'left',paddingLeft:isMe?0:'4px'}}>{timeAgo(m.ts)}</div>
+                    {/* Emoji tepkileri */}
+                    {(() => {
+                      const EMOJIS = ['👍','❤️','😂','😮','😢'];
+                      const rKey = `rep_chatReact_${m.id||i}`;
+                      const curReact = (() => { try { return localStorage.getItem(rKey)||''; } catch { return ''; } })();
+                      const [allReacts, setAllReacts] = React.useState(() => {
+                        try { return JSON.parse(localStorage.getItem(`rep_chatReactCounts_${m.id||i}`)||'{}'); } catch { return {}; }
+                      });
+                      const doReact = (emoji) => {
+                        const prev = (() => { try { return localStorage.getItem(rKey)||''; } catch { return ''; } })();
+                        const upd = { ...allReacts };
+                        if (prev) { upd[prev] = Math.max(0,(upd[prev]||1)-1); if (!upd[prev]) delete upd[prev]; }
+                        if (prev !== emoji) { upd[emoji] = (upd[emoji]||0)+1; localStorage.setItem(rKey, emoji); }
+                        else { localStorage.removeItem(rKey); }
+                        try { localStorage.setItem(`rep_chatReactCounts_${m.id||i}`, JSON.stringify(upd)); } catch {}
+                        setAllReacts({...upd});
+                      };
+                      const anyReact = Object.values(allReacts).some(v=>v>0);
+                      return (
+                        <div style={{display:'flex',gap:'3px',marginTop:'3px',flexDirection:isMe?'row-reverse':'row',flexWrap:'wrap'}}>
+                          {anyReact && Object.entries(allReacts).filter(([,c])=>c>0).map(([e,c])=>(
+                            <span key={e} onClick={()=>doReact(e)} style={{fontSize:'0.7rem',background:'rgba(255,255,255,0.05)',border:`1px solid ${curReact===e?'rgba(201,162,39,0.4)':'rgba(255,255,255,0.08)'}`,borderRadius:'10px',padding:'1px 5px',cursor:'pointer',color:'#D0E0F0'}}>{e} {c}</span>
+                          ))}
+                          <span style={{fontSize:'0.65rem',color:'rgba(255,255,255,0.2)',cursor:'pointer',padding:'1px 4px',borderRadius:'8px',border:'1px solid rgba(255,255,255,0.05)'}}
+                            onClick={(ev)=>{
+                              const picker = document.getElementById(`ep_${m.id||i}`);
+                              if (picker) picker.style.display = picker.style.display==='none'?'flex':'none';
+                            }}>+</span>
+                          <div id={`ep_${m.id||i}`} style={{display:'none',gap:'3px',position:'absolute',background:'rgba(15,20,30,0.98)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'10px',padding:'4px 6px',zIndex:50,boxShadow:'0 4px 20px rgba(0,0,0,0.5)'}}>
+                            {EMOJIS.map(e=><span key={e} onClick={()=>{doReact(e);const p=document.getElementById(`ep_${m.id||i}`);if(p)p.style.display='none';}} style={{fontSize:'1rem',cursor:'pointer',padding:'2px'}}>{e}</span>)}
+                          </div>
+                        </div>
+                      );
+                    })()}
                   </div>
                 </div>
               );
@@ -1223,11 +1257,22 @@ function MarketPage({ profile, setProfile, showNotif }) {
     showNotif(`✅ ${listing.item} satın alındı`, 'success');
   };
 
+  const quickBuy = () => {
+    const cheapest = [...listings].filter(l => l.seller !== profile?.uid).sort((a,b) => a.price - b.price)[0];
+    if (!cheapest) { showNotif('Satın alabileceğin ilan yok', 'error'); return; }
+    if ((profile?.money||0) < cheapest.price) { showNotif('Yetersiz para', 'error'); return; }
+    buyListing(cheapest);
+    showNotif(`⚡ En ucuz ilan alındı: ${cheapest.item}`, 'success');
+  };
+
   return (
     <div style={{padding:'0.7rem'}}>
-      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.75rem'}}>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.5rem'}}>
         <div style={{fontWeight:800,fontSize:'1rem',color:'#EDE7DA'}}>🏪 Açık Pazar</div>
-        <Btn variant='primary' size='sm' onClick={()=>setCreateModal(true)}>+ İlan</Btn>
+        <div style={{display:'flex',gap:'0.4rem'}}>
+          <button onClick={quickBuy} style={{padding:'0.3rem 0.65rem',borderRadius:'8px',border:'1px solid rgba(76,154,107,0.35)',background:'rgba(76,154,107,0.1)',color:'#4C9A6B',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.72rem',cursor:'pointer'}}>⚡ En Ucuzu Al</button>
+          <Btn variant='primary' size='sm' onClick={()=>setCreateModal(true)}>+ İlan</Btn>
+        </div>
       </div>
       {listings.length === 0 && <div style={{textAlign:'center',color:'#8893A1',padding:'2rem',fontSize:'0.85rem'}}>Henüz ilan yok</div>}
       {listings.map(l => (

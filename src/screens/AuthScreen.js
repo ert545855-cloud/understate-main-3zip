@@ -1,6 +1,34 @@
+const OTTOMAN_TIPS = [
+  '🏛️ Osmanlı İmparatorluğu 1299\'da Söğüt\'te kuruldu ve 624 yıl hüküm sürdü.',
+  '⚔️ Yeniçeri Ocağı, Osmanlı\'nın en güçlü piyade birliği olup devşirme sistemiyle kuruldu.',
+  '🌍 İmparatorluk en geniş döneminde 3 kıtada 5.2 milyon km² toprak yönetiyordu.',
+  '📚 Süleymaniye Külliyesi; cami, medrese, darüşşifa ve hamam\'ı bir arada barındırır.',
+  '⚜️ Osmanlı padişahları aynı zamanda halife unvanını taşıdı; 1517\'den itibaren.',
+  '🪙 Osmanlı altın sikke\'si (dinar) Akdeniz ticaretinin standart parasıydı.',
+  '🏰 Topkapı Sarayı, 400 yıl boyunca yaklaşık 60.000 kişiye ev sahipliği yaptı.',
+  '🌹 Lale, Osmanlı kültüründe zenginliğin ve mükemmelliğin sembolüdür.',
+  '⚓ Osmanlı deniz kuvvetleri Akdeniz\'in kontrolünü yarım asır boyunca elinde tuttu.',
+  '📜 Tanzimat Fermanı (1839) Osmanlı\'nın ilk anayasal adımı sayılır.',
+  '🎯 Mehter, dünyanın bilinen ilk askeri bandosudur; Osmanlı\'ya özgüdür.',
+  '🏹 Okçuluk; Osmanlı Devleti\'nde hem spor hem de savaş sanatı olarak gelişti.',
+  '🌙 Osmanlı bayrağındaki hilal ve yıldız simgesi asırlık bir İslam geleneğine dayanır.',
+  '⚙️ Osmanlılar çivi kullanmadan inşa edilen ahşap camiler mühendisliğinde ustalaştı.',
+  '🎨 Osmanlı minyatür sanatı Doğu ile Batı resim tekniklerini harmanlayarak özgün bir üslup oluşturdu.',
+  '🌊 Barbaros Hayreddin Paşa, 1538\'de Preveze Savaşı\'nda Avrupa donanmalarını yendi.',
+  '🏺 İznik çinileri dünya genelinde en değerli Osmanlı el sanatı ürünleri arasındadır.',
+  '📖 Osmanlıca; Arapça, Farsça ve Türkçe sözcükleri birleştiren saray edebiyat dilidir.',
+  '🎭 Karagöz ve Hacivat; Osmanlı halk tiyatrosunun sembolik iki karakteridir.',
+  '🌺 Osmanlı mutfağı dünyanın en geniş çeşitliliğe sahip saray mutfakları arasında yer alır.',
+];
+
 function AuthScreen({ onLogin }) {
   const [tab, setTab] = useState('login');
   const T = useT();
+  const [tipIdx, setTipIdx] = useState(() => Math.floor(Math.random() * OTTOMAN_TIPS.length));
+  React.useEffect(() => {
+    const t = setInterval(() => setTipIdx(i => (i + 1) % OTTOMAN_TIPS.length), 8000);
+    return () => clearInterval(t);
+  }, []);
   const [f, setF] = useState({ username:'', password:'', email:'', city:'İstanbul', gender:'male', inviteCode:'' });
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState('');
@@ -455,6 +483,16 @@ function AuthScreen({ onLogin }) {
         </div>
         <div style={{marginTop:'0.75rem',color:'rgba(237,231,218,0.2)',fontSize:'0.68rem',textAlign:'center',position:'relative',zIndex:1,letterSpacing:'0.08em'}}>
           🔒 Saltanat Online • Güvenli Giriş
+        </div>
+        {/* Günün İpucu */}
+        <div style={{marginTop:'0.85rem',padding:'0.6rem 0.85rem',background:'rgba(201,162,39,0.06)',border:'1px solid rgba(201,162,39,0.15)',borderRadius:'10px',position:'relative',zIndex:1,animation:'notifIn 0.5s ease',maxWidth:'360px',alignSelf:'center',width:'calc(100% - 2rem)'}}>
+          <div style={{fontSize:'0.62rem',color:'rgba(201,162,39,0.6)',fontWeight:700,letterSpacing:'0.08em',marginBottom:'0.25rem',fontFamily:"'Cinzel',serif"}}>💡 TARİHİ BİLGİ</div>
+          <div style={{fontSize:'0.75rem',color:'rgba(237,231,218,0.65)',lineHeight:1.5}}>{OTTOMAN_TIPS[tipIdx]}</div>
+          <div style={{display:'flex',justifyContent:'center',gap:'4px',marginTop:'0.4rem'}}>
+            {OTTOMAN_TIPS.map((_,i) => (
+              <div key={i} onClick={()=>setTipIdx(i)} style={{width:i===tipIdx?14:5,height:4,borderRadius:'2px',background:i===tipIdx?'rgba(201,162,39,0.7)':'rgba(201,162,39,0.2)',cursor:'pointer',transition:'all 0.3s'}} />
+            ))}
+          </div>
         </div>
       </div>
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>

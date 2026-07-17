@@ -233,6 +233,11 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
           </div>
           <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'0.4rem',marginBottom:'0.2rem'}}>
             <div style={{fontWeight:900,fontSize:'1.15rem',color:'#EDE7DA'}}>{profile?.username || 'Oyuncu'}</div>
+            {profile?.activeTitle && profile.activeTitle !== 'vatandas' && (() => {
+              const TITLE_MAP = {esnaf:'🛒 Esnaf',ulema:'📖 Ulema',sipahi:'🐴 Sipahi',aga:'⚔️ Ağa',bey:'🏹 Bey',pasa:'🪖 Paşa',vezir:'⚜️ Vezir',sadrAzam:'👑 Sadrazam',padisah:'🔱 Padişah'};
+              const lbl = TITLE_MAP[profile.activeTitle];
+              return lbl ? <div style={{fontSize:'0.68rem',color:'#C9A227',fontWeight:700,marginTop:'2px',letterSpacing:'0.05em'}}>{lbl}</div> : null;
+            })()}
             {profile?.premium && <span style={{background:'linear-gradient(90deg,#C9A227,#A07D1C)',color:'#000',fontSize:'0.55rem',fontWeight:800,padding:'2px 6px',borderRadius:'8px'}}>VIP</span>}
           </div>
           <div style={{fontSize:'0.75rem',color:'#8893A1',marginBottom:'0.65rem'}}>{lvl.title} • {profile?.city} • Üye: {profile?.registeredAt ? new Date(profile.registeredAt).toLocaleDateString('tr-TR') : '-'}</div>
@@ -251,7 +256,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
 
       {/* Tabs */}
       <div style={{display:'flex',gap:'4px',marginBottom:'0.75rem'}}>
-        {[['stats','📊'],['achievements',`🏆(${earnedCount})`],['customize','📸'],['settings','⚙️ Ayarlar'],['kredi','💳 Kredi']].map(([v,l])=>(
+        {[['stats','📊'],['achievements',`🏆(${earnedCount})`],['unvanlar','🏅 Unvan'],['customize','📸'],['settings','⚙️ Ayarlar'],['kredi','💳 Kredi']].map(([v,l])=>(
           <button key={v} onClick={()=>setTab(v)} style={{flex:1,padding:'0.4rem 0.2rem',borderRadius:'8px',border:`1px solid ${tab===v?'rgba(201,162,39,0.4)':'rgba(255,255,255,0.07)'}`,background:tab===v?'rgba(201,162,39,0.12)':'rgba(255,255,255,0.03)',color:tab===v?'#C9A227':'#8893A1',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.65rem',cursor:'pointer',whiteSpace:'nowrap'}}>
             {l}
           </button>
@@ -566,6 +571,57 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
           )}
         </div>
       )}
+
+      {/* ── Unvanlar Tabı ──────────────────────────────────────────── */}
+      {tab==='unvanlar' && (() => {
+        const OTTOMAN_TITLES = [
+          { id:'vatandas',  label:'Vatandaş',   emoji:'👤', minLevel:1,  desc:'Her yeni yurttaş' },
+          { id:'esnaf',     label:'Esnaf',       emoji:'🛒', minLevel:3,  desc:'Çarşı ve ticarete adım atan' },
+          { id:'ulema',     label:'Ulema',       emoji:'📖', minLevel:5,  desc:'İlim ve bilgi sahibi' },
+          { id:'sipahi',    label:'Sipahi',      emoji:'🐴', minLevel:10, desc:'Atlı savaşçı' },
+          { id:'aga',       label:'Ağa',         emoji:'⚔️', minLevel:15, desc:'Ordu komutanı' },
+          { id:'bey',       label:'Bey',         emoji:'🏹', minLevel:20, desc:'Sancak ve bölge yöneticisi' },
+          { id:'pasa',      label:'Paşa',        emoji:'🪖', minLevel:30, desc:'Yüksek rütbeli komutan' },
+          { id:'vezir',     label:'Vezir',       emoji:'⚜️', minLevel:40, desc:'Divan üyesi, devlet yöneticisi' },
+          { id:'sadrAzam',  label:'Sadrazam',    emoji:'👑', minLevel:50, desc:'Padişah\'ın baş yardımcısı' },
+          { id:'padisah',   label:'Padişah',     emoji:'🔱', minLevel:99, desc:'İmparatorun en yüce lakabı' },
+        ];
+        const playerLevel = lvl?.lvl || 1;
+        const activeTitle = profile?.activeTitle || 'vatandas';
+        const doSetTitle = async (id) => {
+          const updated = { ...profile, activeTitle: id };
+          setProfile(updated);
+          localStorage.setItem('rep_userProfile', JSON.stringify(updated));
+          const token = localStorage.getItem('us_jwt') || '';
+          try { await fetch('/api/profile/update', { method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+token}, body: JSON.stringify({ activeTitle: id }) }); } catch {}
+          showNotif('✅ Unvan güncellendi', 'success');
+        };
+        const active = OTTOMAN_TITLES.find(t => t.id === activeTitle) || OTTOMAN_TITLES[0];
+        return (
+          <div>
+            <div style={{marginBottom:'0.75rem',padding:'0.65rem 0.85rem',background:'rgba(201,162,39,0.08)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'10px',textAlign:'center'}}>
+              <div style={{fontSize:'0.68rem',color:'#8893A1',marginBottom:'0.25rem'}}>Aktif Unvanın</div>
+              <div style={{fontFamily:"'Cinzel',serif",fontWeight:800,color:'#C9A227',fontSize:'1.1rem'}}>{active.emoji} {active.label}</div>
+            </div>
+            {OTTOMAN_TITLES.map(t => {
+              const unlocked = playerLevel >= t.minLevel;
+              const isActive = activeTitle === t.id;
+              return (
+                <div key={t.id} style={{display:'flex',alignItems:'center',gap:'0.65rem',padding:'0.7rem 0.85rem',marginBottom:'0.35rem',background:'rgba(237,231,218,0.02)',border:`1px solid ${isActive?'rgba(201,162,39,0.4)':'rgba(255,255,255,0.05)'}`,borderRadius:'10px',opacity:unlocked?1:0.45}}>
+                  <span style={{fontSize:'1.4rem'}}>{t.emoji}</span>
+                  <div style={{flex:1}}>
+                    <div style={{fontWeight:700,color:isActive?'#C9A227':'#EDE7DA',fontSize:'0.85rem'}}>{t.label}</div>
+                    <div style={{fontSize:'0.65rem',color:'#8893A1'}}>{t.desc} • Lv.{t.minLevel}+</div>
+                  </div>
+                  {isActive && <span style={{fontSize:'0.65rem',color:'#C9A227',fontWeight:700,padding:'3px 8px',background:'rgba(201,162,39,0.12)',borderRadius:'6px'}}>✓ Aktif</span>}
+                  {!isActive && unlocked && <button onClick={()=>doSetTitle(t.id)} style={{padding:'4px 12px',borderRadius:'8px',border:'1px solid rgba(201,162,39,0.3)',background:'rgba(201,162,39,0.08)',color:'#C9A227',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.72rem',cursor:'pointer'}}>Seç</button>}
+                  {!unlocked && <span style={{fontSize:'0.65rem',color:'#8893A1',padding:'3px 8px',background:'rgba(255,255,255,0.03)',borderRadius:'6px'}}>🔒 Lv.{t.minLevel}</span>}
+                </div>
+              );
+            })}
+          </div>
+        );
+      })()}
 
       {/* ── Kredi / Loan Tabı ──────────────────────────────────────────── */}
       {tab==='kredi' && (

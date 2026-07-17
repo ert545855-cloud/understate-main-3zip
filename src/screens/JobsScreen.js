@@ -330,12 +330,13 @@ const JOBS_LIST = [
   { id:'kazasker',     emoji:'⚖️', name:'Kazasker Yardımcısı',earn:600000, cd:1440*60*1000, minLevel:30, desc:'Her 24 saatte bir',    sadakat:600,unvan:'Ulema' },
 ];
 
-function JobsPage({ profile, setProfile, showNotif }) {
+function JobsPage({ profile, setProfile, showNotif, onNavigate }) {
   const { dark } = useTheme();
   const bg = dark ? '#1A0E00' : '#F8FAFC';
   const card = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
   const [cooldowns, setCooldowns] = useState({});
+  const [adWatching, setAdWatching] = useState({});
   const [loading, setLoading] = useState(false);
   const [tick, setTick] = useState(0);
 
@@ -460,6 +461,25 @@ function JobsPage({ profile, setProfile, showNotif }) {
                 style={{padding:'0.5rem', borderRadius:'10px', border:'none', background:locked?'rgba(255,255,255,0.04)':onCd?'rgba(201,162,39,0.1)':'linear-gradient(135deg,#4C9A6B,#4C9A6B)', color:locked?'#3B4E63':onCd?'#C9A227':'#fff', fontFamily:"'Inter',sans-serif", fontWeight:800, fontSize:'0.8rem', cursor:locked||onCd?'not-allowed':'pointer', transition:'all 0.15s', letterSpacing:'0.05em', opacity:onCd?0.8:1}}>
                 {locked ? '🔒 KİLİTLİ' : onCd ? 'BEKLE...' : 'ÇALIŞ'}
               </button>
+              {onCd && !locked && (
+                <button disabled={adWatching[job.id]}
+                  onClick={() => {
+                    if (adWatching[job.id]) return;
+                    setAdWatching(p => ({ ...p, [job.id]: true }));
+                    setTimeout(() => {
+                      // 30 dakika geri al — cooldown'u 30 dk azalt
+                      setCooldowns(prev => {
+                        const cur = prev[job.id] || Date.now();
+                        return { ...prev, [job.id]: cur - 30 * 60 * 1000 };
+                      });
+                      setAdWatching(p => { const n={...p}; delete n[job.id]; return n; });
+                      showNotif('📺 Reklam bitti! 30 dakika bekleme silindi.', 'success');
+                    }, 3000);
+                  }}
+                  style={{padding:'0.4rem', borderRadius:'10px', border:'1px solid rgba(93,163,220,0.25)', background:'rgba(93,163,220,0.07)', color:'#5DA3DC', fontFamily:"'Inter',sans-serif", fontWeight:700, fontSize:'0.72rem', cursor:adWatching[job.id]?'not-allowed':'pointer', opacity:adWatching[job.id]?0.7:1}}>
+                  {adWatching[job.id] ? '⏳ Yükleniyor...' : '📺 Reklam İzle (-30dk)'}
+                </button>
+              )}
             </div>
           );
         })}

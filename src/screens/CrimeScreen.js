@@ -1113,25 +1113,49 @@ function HoldingsPage({ profile, setProfile, showNotif }) {
 // BİLDİRİM PANELİ
 // ═══════════════════════════════════════════════════════
 function NotifPanel({ notifications, onClose, onClear }) {
+  const [filter, setFilter] = React.useState('hepsi');
+  const CATS = [
+    { id:'hepsi',    label:'🔔 Hepsi' },
+    { id:'savas',    label:'⚔️ Savaş',    match: n => /pvp|savaş|war|duel|kazandı|yenildi|baskın/i.test(n.msg||'') },
+    { id:'ekonomi',  label:'💰 Ekonomi',  match: n => /para|sikke|altın|ilan|fabrika|tarım|maaş|bonus/i.test(n.msg||'') },
+    { id:'sosyal',   label:'👥 Sosyal',   match: n => /mesaj|dm|arkadaş|davet|seçim|ittifak/i.test(n.msg||'') },
+  ];
+  const filtered = filter === 'hepsi' ? notifications : notifications.filter(n => CATS.find(c=>c.id===filter)?.match?.(n));
+  const typeColor = (n) => {
+    if (/pvp|savaş|war|duel|kazandı|yenildi|baskın/i.test(n.msg||'')) return '#C24B43';
+    if (/para|sikke|altın|ilan|fabrika|tarım|maaş|bonus/i.test(n.msg||'')) return '#4C9A6B';
+    if (/mesaj|dm|arkadaş|davet|seçim|ittifak/i.test(n.msg||'')) return '#5B9BD5';
+    return '#C9A227';
+  };
   return (
-    <Modal title="🔔 Bildirimler" onClose={onClose}>
-      {notifications.length === 0 ? (
-        <div style={{textAlign:'center',color:'#8893A1',padding:'2rem',fontSize:'0.85rem'}}>Bildirim yok</div>
+    <Modal title="🔔 Bildirim Merkezi" onClose={onClose}>
+      <div style={{display:'flex',gap:'4px',marginBottom:'0.65rem',overflowX:'auto',scrollbarWidth:'none'}}>
+        {CATS.map(c => (
+          <button key={c.id} onClick={()=>setFilter(c.id)}
+            style={{padding:'0.3rem 0.65rem',borderRadius:'8px',border:`1px solid ${filter===c.id?'rgba(201,162,39,0.4)':'rgba(255,255,255,0.07)'}`,background:filter===c.id?'rgba(201,162,39,0.12)':'rgba(255,255,255,0.02)',color:filter===c.id?'#C9A227':'#8893A1',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.7rem',cursor:'pointer',whiteSpace:'nowrap'}}>
+            {c.label}
+          </button>
+        ))}
+        <div style={{flex:1}}/>
+        <button onClick={onClear} style={{padding:'0.3rem 0.65rem',borderRadius:'8px',border:'1px solid rgba(194,75,67,0.25)',background:'rgba(194,75,67,0.06)',color:'#C24B43',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.7rem',cursor:'pointer',whiteSpace:'nowrap'}}>🗑 Temizle</button>
+      </div>
+      {filtered.length === 0 ? (
+        <div style={{textAlign:'center',color:'#8893A1',padding:'2rem',fontSize:'0.85rem'}}>Bu kategoride bildirim yok</div>
       ) : (
-        <>
-          <div style={{display:'flex',justifyContent:'flex-end',marginBottom:'0.5rem'}}>
-            <Btn variant='ghost' size='sm' onClick={onClear}>Hepsini Sil</Btn>
-          </div>
-          {notifications.slice().reverse().map((n,i) => (
-            <div key={i} style={{display:'flex',gap:'0.65rem',padding:'0.65rem',background:'rgba(237,231,218,0.02)',border:'1px solid rgba(255,255,255,0.05)',borderRadius:'10px',marginBottom:'0.35rem'}}>
-              <span style={{fontSize:'1.1rem',flexShrink:0}}>{n.icon||'🔔'}</span>
-              <div>
-                <div style={{fontSize:'0.85rem',color:'#D0E0F0',fontWeight:600}}>{n.msg}</div>
-                <div style={{fontSize:'0.62rem',color:'#8893A1',marginTop:'2px'}}>{timeAgo(n.ts)}</div>
+        <div style={{maxHeight:'60vh',overflowY:'auto'}}>
+          {filtered.slice().reverse().map((n,i) => {
+            const c = typeColor(n);
+            return (
+              <div key={i} style={{display:'flex',gap:'0.65rem',padding:'0.65rem',background:'rgba(237,231,218,0.02)',border:`1px solid rgba(255,255,255,0.04)`,borderLeft:`3px solid ${c}`,borderRadius:'10px',marginBottom:'0.3rem'}}>
+                <span style={{fontSize:'1.1rem',flexShrink:0}}>{n.icon||'🔔'}</span>
+                <div style={{flex:1}}>
+                  <div style={{fontSize:'0.82rem',color:'#D0E0F0',fontWeight:600,lineHeight:1.4}}>{n.msg}</div>
+                  <div style={{fontSize:'0.6rem',color:'#8893A1',marginTop:'2px'}}>{timeAgo(n.ts)}</div>
+                </div>
               </div>
-            </div>
-          ))}
-        </>
+            );
+          })}
+        </div>
       )}
     </Modal>
   );

@@ -1332,6 +1332,11 @@ function App() {
 
   const themeVal = { dark, toggle: toggleDark };
   const pageBg = '#0F0800';
+  // Mevsimsel arka plan tonu
+  const _mon = new Date().getMonth();
+  const _season = _mon <= 1 || _mon === 11 ? 'kış' : _mon <= 4 ? 'ilkbahar' : _mon <= 7 ? 'yaz' : 'sonbahar';
+  const _seasonEmoji = { kış:'❄️', ilkbahar:'🌸', yaz:'☀️', sonbahar:'🍂' }[_season];
+  const _seasonTint  = { kış:'rgba(100,140,200,0.04)', ilkbahar:'rgba(80,180,80,0.04)', yaz:'rgba(220,140,30,0.05)', sonbahar:'rgba(180,90,20,0.05)' }[_season];
 
   return (
     <LangCtx.Provider value={profile?.lang||uiLang||'tr'}>
@@ -1339,6 +1344,8 @@ function App() {
       {/* Responsive outer wrapper — max 480px on desktop, centered */}
       <div style={{position:'fixed',inset:0,display:'flex',alignItems:'stretch',justifyContent:'center',background: '#0C1017'}}>
         <div style={{position:'relative',width:'100%',maxWidth:'480px',display:'flex',flexDirection:'column',overflow:'hidden',background: '#0F0800',boxShadow:'0 0 60px rgba(0,0,0,0.3)',transform:'translateZ(0)',isolation:'isolate'}}>
+          {/* Mevsimsel tint katmanı */}
+          <div style={{position:'absolute',inset:0,background:_seasonTint,pointerEvents:'none',zIndex:0}} />
           <Header profile={profile} notifCount={notifCount} onNotif={()=>setNotifOpen(true)} page={page} onNavigate={setPage} />
 
           {/* Canlı Olaylar Ticker */}
