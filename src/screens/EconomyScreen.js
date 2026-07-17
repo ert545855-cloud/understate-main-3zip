@@ -417,9 +417,23 @@ function EconomyPage({ profile, setProfile, showNotif, initialSub }) {
   const harvestFarm = (farm) => {
     if (Date.now() < farm.harvestAt) { showNotif('Henüz hasat zamanı değil!', 'error'); return; }
     setFarms(farms.map(f => f.id===farm.id ? {...f, harvested:true} : f));
-    setProfile(p => { const np={...p, money:(p.money||0)+farm.earn, xp:(p.xp||0)+50}; localStorage.setItem('rep_userProfile',JSON.stringify(np)); return np; });
+    // Hasat → Gıda Puanı + Gıda Stoku kazanılır
+    const GIDA_PUANI = { wheat:15, corn:20, tomato:10, grape:25 };
+    const gidaKazanim = GIDA_PUANI[farm.type] || 10;
+    setProfile(p => {
+      const np = { ...p, money:(p.money||0)+farm.earn, xp:(p.xp||0)+50, gidaPuani:(p.gidaPuani||0)+gidaKazanim };
+      localStorage.setItem('rep_userProfile', JSON.stringify(np));
+      // Gıda stoku güncelle (Ordu için)
+      try {
+        const gs = JSON.parse(localStorage.getItem('rep_gidaStok') || '{}');
+        gs[farm.type] = (gs[farm.type]||0) + 1;
+        localStorage.setItem('rep_gidaStok', JSON.stringify(gs));
+      } catch(_){}
+      window._gucPuaniGuncelle?.();
+      return np;
+    });
     try { const today=new Date().toDateString(); const dk=`day_${today}`; const s=JSON.parse(localStorage.getItem('rep_dailyTaskState')||'{}'); s[dk]={...(s[dk]||{}),dailyFarmCount:((s[dk]?.dailyFarmCount)||0)+1}; localStorage.setItem('rep_dailyTaskState',JSON.stringify(s)); } catch(e){}
-    showNotif(`🌾 +${fmtM(farm.earn)} hasat edildi!`, 'success');
+    showNotif(`🌾 +${fmtM(farm.earn)} hasat + 🌿+${gidaKazanim} Gıda Puanı!`, 'success');
   };
 
   const playSlot = (bet) => {

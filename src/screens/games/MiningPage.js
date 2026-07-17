@@ -44,6 +44,21 @@ function MiningPage({ profile, setProfile, showNotif }) {
       const merged = {};
       Object.entries(data.cooldowns || {}).forEach(([k,v]) => { merged[`${cu.id||cu.uid}_${k}`] = v; });
       setCooldowns(prev => ({ ...prev, ...merged }));
+      // Maden puanı — her madencilik +10 puan (kaynağa göre değişir)
+      const MADEN_PUAN = { coal:5, iron:10, gold:25, oil:15, diamond:40 };
+      if (data.resourceId) {
+        const puan = MADEN_PUAN[data.resourceId] || 5;
+        const np = { ...cu, madenPuani: (cu.madenPuani||0)+puan };
+        setProfile(np);
+        localStorage.setItem('rep_userProfile', JSON.stringify(np));
+        // Madencilik stoku alet atölyesi için localStorage'a yaz
+        try {
+          const ms = JSON.parse(localStorage.getItem('rep_madencilik') || '{}');
+          ms.resources = data.resources;
+          localStorage.setItem('rep_madencilik', JSON.stringify(ms));
+        } catch(_){}
+        window._gucPuaniGuncelle?.();
+      }
     };
     const onSold = (data) => {
       if (!data.ok) { showNotif(data.msg || 'Hata', 'error'); return; }

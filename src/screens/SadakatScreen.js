@@ -12,18 +12,27 @@ const SADAKAT_GOREVLER = [
   { id:'gunluk_haber',    grup:'gunluk',  emoji:'📰', baslik:'Haberleri Oku',          acik:'Kraliyet Habercisi\'ni ziyaret et',             odul:25,   tip:'haber' },
   { id:'gunluk_pvp',      grup:'gunluk',  emoji:'⚔️', baslik:'Dövüş Alanı',           acik:'PvP alanında 1 dövüş yap',                     odul:75,   tip:'pvp' },
   { id:'gunluk_pazaryeri',grup:'gunluk',  emoji:'🛒', baslik:'Pazar Ziyareti',        acik:'Pazar yerine git',                              odul:20,   tip:'pazar' },
+  { id:'gunluk_tarim',    grup:'gunluk',  emoji:'🌾', baslik:'Tarım Faaliyeti',       acik:'Tarlandan hasat yap (+Gıda Puanı)',             odul:60,   tip:'giris' },
+  { id:'gunluk_maden',    grup:'gunluk',  emoji:'⛏️', baslik:'Madencilik',            acik:'Maden sayfasından kaynak çıkar',                odul:45,   tip:'giris' },
+  { id:'gunluk_alet',     grup:'gunluk',  emoji:'⚒️', baslik:'Alet Atölyesi',         acik:'Alet Atölyesi\'nde üretim başlat',              odul:80,   tip:'giris' },
   // ── Haftalık görevler
   { id:'haftalik_eyalet', grup:'haftalik',emoji:'🏰', baslik:'Eyalet Yöneticisi',     acik:'Eyalet haritasını 3 kez ziyaret et',            odul:300,  tip:'eyalet' },
   { id:'haftalik_beylik', grup:'haftalik',emoji:'⚜️', baslik:'Beylik Üyesi',          acik:'Bir beyliğe katıl veya kur',                    odul:500,  tip:'beylik' },
   { id:'haftalik_para',   grup:'haftalik',emoji:'💰', baslik:'Büyük Tüccar',          acik:'Bu hafta toplam 100.000 🪙 harca',              odul:400,  tip:'para' },
   { id:'haftalik_seviye', grup:'haftalik',emoji:'⭐', baslik:'Tecrübe Kazanımı',      acik:'Bu hafta 5.000 XP kazan',                       odul:350,  tip:'xp' },
   { id:'haftalik_lonca',  grup:'haftalik',emoji:'🔨', baslik:'Lonca Faaliyeti',       acik:'Lonca ekranını ziyaret et',                     odul:200,  tip:'lonca' },
+  { id:'haftalik_guc',    grup:'haftalik',emoji:'⚡', baslik:'Güç Gelişimi',          acik:'Bu hafta toplamda 500 Güç Puanı kazan',         odul:600,  tip:'guc' },
+  { id:'haftalik_ordu',   grup:'haftalik',emoji:'🪖', baslik:'Osmanlı Ordusu',        acik:'En az 3 asker işe al bu hafta',                 odul:450,  tip:'ordu' },
+  { id:'haftalik_sancak', grup:'haftalik',emoji:'🗺️', baslik:'Sancak Fetheden',       acik:'Beyliğine en az 1 sancak fethet',               odul:800,  tip:'beylik' },
   // ── Özel etkinlikler (kalıcı)
   { id:'ozel_vali',       grup:'ozel',    emoji:'👑', baslik:'Vali Ol',               acik:'Bir eyaletin valisi ol',                        odul:1000, tip:'vali' },
   { id:'ozel_seviye10',   grup:'ozel',    emoji:'🏅', baslik:'10. Seviye',            acik:'Seviye 10\'a ulaş',                             odul:800,  tip:'seviye', hedef:10 },
   { id:'ozel_seviye25',   grup:'ozel',    emoji:'🦅', baslik:'25. Seviye',            acik:'Seviye 25\'e ulaş',                             odul:2000, tip:'seviye', hedef:25 },
   { id:'ozel_milyoner',   grup:'ozel',    emoji:'💎', baslik:'Milyoner',              acik:'1.000.000 🪙 biriktir',                         odul:1500, tip:'servet' },
-  { id:'ozel_serasker',   grup:'ozel',    emoji:'⚔️', baslik:'Seraskerlik',           acik:'Ordu Kumandanlığı ekranına giriş yap',          odul:600,  tip:'ordu' },
+  { id:'ozel_serasker',   grup:'ozel',    emoji:'⚔️', baslik:'Seraskerlik',           acik:'Osmanlı Ordusu\'ndan asker işe al',             odul:600,  tip:'ordu' },
+  { id:'ozel_demirci',    grup:'ozel',    emoji:'⚒️', baslik:'Demirci Ustası',        acik:'Alet Atölyesi\'nde Lv.3 silah üret',           odul:1200, tip:'giris' },
+  { id:'ozel_sancakbeyi', grup:'ozel',    emoji:'🏴', baslik:'Sancak Beyi',           acik:'Beyliğinle en az 3 sancak kontrol et',          odul:2500, tip:'sancak', hedef:3 },
+  { id:'ozel_100k_guc',   grup:'ozel',    emoji:'⚡', baslik:'Güç Mirası',            acik:'100.000 Güç Puanı\'na ulaş',                   odul:5000, tip:'guc',    hedef:100000 },
 ];
 
 const GRUP_BILGI = {
@@ -71,6 +80,15 @@ window.SadakatScreen = function SadakatScreen({ profile, setProfile, setCurrentP
           const vd = JSON.parse(localStorage.getItem('rep_valiVerisi')||'{}');
           return !!Object.entries(vd).find(([,v])=>v.valiId===uid);
         } catch { return false; }
+      }
+      case 'guc': {
+        const guc = window.hesaplaGucPuani ? window.hesaplaGucPuani(p).toplam : 0;
+        return guc >= (gorev.hedef || 500);
+      }
+      case 'sancak': {
+        const beyliks = JSON.parse(localStorage.getItem('rep_beyliks')||'[]');
+        const benimBeylik = beyliks.find(b=>b.kurucuId===uid||(b.uyeler||[]).includes(uid));
+        return (benimBeylik?.eyaletler||[]).length >= (gorev.hedef||3);
       }
       default: return false; // diğerleri manuel talep
     }
@@ -232,9 +250,16 @@ window.SadakatScreen = function SadakatScreen({ profile, setProfile, setCurrentP
           ['🌅', 'Günlük Giriş', 'Her gün +50 puan'],
           ['⚔️', 'PvP Dövüşü', 'Her dövüş +75 puan'],
           ['👑', 'Vali Ol', 'Bir eyalete atanın +1.000 puan'],
-          ['⚜️', 'Beylik Kur', '+500 puan'],
+          ['⚜️', 'Beylik Kur veya Katıl', '+500 puan'],
           ['⭐', 'Seviye Atla', '10. ve 25. seviye özel ödül'],
           ['💰', 'Milyoner Ol', '1M Sikke biriktirince +1.500 puan'],
+          ['⚒️', 'Alet Atölyesi', 'Silah/Zırh üret → +80/gün'],
+          ['⛏️', 'Madencilik', 'Her gün maden çıkar → +45'],
+          ['🌾', 'Tarım Hasatı', 'Her hasat → +60 puan'],
+          ['⚡', 'Güç Mirası', '100.000 Güç Puanı → +5.000 puan'],
+          ['🏴', 'Sancak Beyi', '3 sancak kontrol et → +2.500 puan'],
+          ['🪖', 'Osmanlı Ordusu', 'Asker işe al → +600 puan'],
+          ['🏗️', 'Kariyer Çalışma', 'Her iş tamamlama → Liyakat + Sadakat'],
         ].map(([ic, baslik, acik]) =>
           React.createElement('div', { key: baslik, style: { display: 'flex', alignItems: 'center', gap: 10, padding: '6px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' } },
             React.createElement('span', { style: { fontSize: '1rem', width: 24, textAlign: 'center', flexShrink: 0 } }, ic),

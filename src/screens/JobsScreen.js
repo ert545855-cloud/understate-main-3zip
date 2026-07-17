@@ -134,7 +134,15 @@ function KariyerCalismaPage({ profile, setProfile, showNotif }) {
         localStorage.setItem('rep_dailyTaskState', JSON.stringify(s));
       } catch(e) {}
       setActiveWork(null);
-      showNotif(`💰 ${fmtWord(data.earned)} maaş + ${data.xpGain} XP kazandın!`, 'success');
+      // İşten liyakat puanı da kazan (mesleğe göre değişken)
+      const liyakatKazan = Math.floor((data.earned || 0) / 50000) + 5;
+      setProfile(p => {
+        const np = { ...p, merit_points: (p.merit_points||0) + liyakatKazan };
+        localStorage.setItem('rep_userProfile', JSON.stringify(np));
+        return np;
+      });
+      showNotif(`💰 ${fmtWord(data.earned)} maaş + ${data.xpGain} XP + ⭐${liyakatKazan} Liyakat Puanı kazandın!`, 'success');
+      window._gucPuaniGuncelle?.();
     } catch { showNotif('❌ Bağlantı hatası', 'error'); }
     finally { setApiLoading(false); }
   };
@@ -898,8 +906,23 @@ function LivestockSection({ profile, setProfile, showNotif }) {
     if (!type) return;
     if (now < animal.mature) { showNotif('Hayvan henüz olgunlaşmadı!', 'error'); return; }
     setAnimals(prev => prev.map(a => a.id===animal.id ? {...a, mature: Date.now() + type.growTime} : a));
-    setProfile(p => { const np={...p,money:(p.money||0)+type.productValue,tradePoints:(p.tradePoints||0)+10}; localStorage.setItem('rep_userProfile',JSON.stringify(np)); return np; });
-    showNotif(`${type.product} toplandı! +${fmtWord(type.productValue)}`, 'success');
+    // Et ve gıda puanı sistemi — hayvancılık → ordu iaşesi
+    const etMiktari = type.id === 'cow' ? 5 : type.id === 'sheep' ? 3 : type.id === 'goat' ? 2 : 1;
+    const gidaPuanKazanim = type.id === 'cow' ? 25 : type.id === 'sheep' ? 15 : 10;
+    // Gıda stokunu güncelle (OttomanOrdusScreen tarafından okunur)
+    try {
+      const gs = JSON.parse(localStorage.getItem('rep_gidaStok') || '{}');
+      gs.et = (gs.et || 0) + etMiktari;
+      gs.deri = (gs.deri || 0) + 1; // deri → Alet Atölyesi için
+      localStorage.setItem('rep_gidaStok', JSON.stringify(gs));
+    } catch(_){}
+    setProfile(p => {
+      const np = { ...p, money:(p.money||0)+type.productValue, tradePoints:(p.tradePoints||0)+10, gidaPuani:(p.gidaPuani||0)+gidaPuanKazanim };
+      localStorage.setItem('rep_userProfile', JSON.stringify(np));
+      return np;
+    });
+    window._gucPuaniGuncelle?.();
+    showNotif(`${type.product} toplandı! +${fmtWord(type.productValue)} · 🥩+${etMiktari} Et · 🌿+${gidaPuanKazanim} Gıda Puanı`, 'success');
   };
 
   const sellAnimal = (animal) => {

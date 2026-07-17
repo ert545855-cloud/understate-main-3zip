@@ -6,6 +6,22 @@
 
 const BEYLIK_KUR_MALIYET = { sikke: 1_000_000, altin: 50, sadakat: 150_000 };
 
+// Kurgusal bölge isimleri — gerçek coğrafya yok
+const SANCAKLAR = [
+  { id:'karaorman',  label:'Karaorman Sancağı',   emoji:'🌲', bolge:'Kuzey' },
+  { id:'altinova',   label:'Altınova Eyaleti',     emoji:'🌾', bolge:'Orta'  },
+  { id:'demirkapi',  label:'Demirkapı Sancağı',    emoji:'🏔️', bolge:'Doğu'  },
+  { id:'gunestepe',  label:'Güneştepe Eyaleti',    emoji:'☀️', bolge:'Güney' },
+  { id:'karatas',    label:'Karataş Limanı',        emoji:'⚓', bolge:'Batı'  },
+  { id:'yildirim',   label:'Yıldırım Kalesi',      emoji:'⚡', bolge:'Kuzey' },
+  { id:'bozkir',     label:'Bozkır Eyaleti',       emoji:'🏜️', bolge:'Orta'  },
+  { id:'tunca',      label:'Tunca Sancağı',         emoji:'🌊', bolge:'Batı'  },
+  { id:'sahinkoy',   label:'Şahinköy Dağları',     emoji:'🦅', bolge:'Doğu'  },
+  { id:'altinkale',  label:'Altınkale Surları',     emoji:'🏰', bolge:'Güney' },
+  { id:'cayirtepe',  label:'Çayırtepe Ovası',      emoji:'🌿', bolge:'Kuzey' },
+  { id:'ruzgarli',   label:'Rüzgarlı Boğaz',       emoji:'💨', bolge:'Batı'  },
+];
+
 const BEYLIK_UNVANLARI = [
   { id:'bey',       label:'Bey',         emoji:'⚜️',  min:0 },
   { id:'sancakbeyi',label:'Sancak Beyi', emoji:'🚩',  min:5 },
@@ -27,7 +43,7 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
     if (Array.isArray(serverBeyliks) && serverBeyliks.length > 0) return serverBeyliks;
     try { return JSON.parse(localStorage.getItem('rep_beyliks') || '[]'); } catch { return []; }
   });
-  const [tab, setTab] = React.useState('liste'); // 'liste' | 'kur' | 'yonet' | 'liderlik' | 'savas'
+  const [tab, setTab] = React.useState('liste'); // 'liste' | 'kur' | 'yonet' | 'liderlik' | 'savas' | 'eyaletler'
   const [kurForm, setKurForm] = React.useState({ ad: '', ideoloji: 'gazi', renk: '#C89B3C', motto: '' });
   const [seciliBeylik, setSeciliBeylik] = React.useState(null);
   const [katilOnay, setKatilOnay] = React.useState(null);
@@ -47,6 +63,73 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
   const sadakat = profile?.loyaltyPoints || profile?.sadakat || 0;
   const sikke = profile?.money || 0;
   const altin = profile?.altin || profile?.underCoin || 0;
+
+  // Güç puanı (global fonksiyon varsa kullan)
+  const benimGüç = React.useMemo(() => {
+    if (window.hesaplaGucPuani) return window.hesaplaGucPuani(profile || {}).toplam;
+    return (profile?.gidaPuani||0) + (profile?.aletPuani||0) + (profile?.madenPuani||0) + (profile?.merit_points||0)*2;
+  }, [profile]);
+
+  // Savaş geçmişi
+  const [savasList, setSavasList] = React.useState(() => {
+    try { return JSON.parse(localStorage.getItem('rep_beylikSavaslar') || '[]'); } catch { return []; }
+  });
+
+  // Eyalet sahiplikleri (güncellenir)
+  const sancakSahipleri = React.useMemo(() => {
+    const map = {};
+    beyliks.forEach(b => (b.eyaletler||[]).forEach(eId => { map[eId] = b; }));
+    return map;
+  }, [beyliks]);
+
+  const savaşIlan = (hedefBeylik) => {
+    if (!benimBeylik) { showNotif('Önce bir beyliğe katıl', 'error'); return; }
+    if (hedefBeylik.id === benimBeylik.id) { showNotif('Kendinize savaş ilan edemezsiniz', 'error'); return; }
+    const hedefGüç = hedefBeylik.gucPuani || 0;
+    const kazanan = benimGüç >= hedefGüç ? benimBeylik : hedefBeylik;
+    const kaybedenId = kazanan.id === benimBeylik.id ? hedefBeylik.id : benimBeylik.id;
+    const fark = Math.abs(benimGüç - hedefGüç);
+    const benimKazandım = kazanan.id === benimBeylik.id;
+
+    // Güç kayıpları — kazanan fark kadar korudu, kaybeden fark kadar düşer
+    let güncellenmisBeyliks = beyliks.map(b => {
+      if (b.id === benimBeylik.id) return { ...b, gucPuani: benimKazandım ? benimGüç - Math.floor(fark*0.1) : Math.max(0, benimGüç - fark) };
+      if (b.id === hedefBeylik.id) return { ...b, gucPuani: benimKazandım ? Math.max(0, hedefGüç - fark) : hedefGüç - Math.floor(fark*0.1) };
+      return b;
+    });
+
+    // Kazanan rastgele 1 eyalet alır
+    if (benimKazandım) {
+      const boşSancak = SANCAKLAR.find(s => !sancakSahipleri[s.id]);
+      const hedefSancak = (hedefBeylik.eyaletler||[])[0];
+      const fethedilen = boşSancak?.id || hedefSancak;
+      if (fethedilen) {
+        güncellenmisBeyliks = güncellenmisBeyliks.map(b => {
+          if (b.id === benimBeylik.id) return { ...b, eyaletler: [...new Set([...(b.eyaletler||[]), fethedilen])], prestij: (b.prestij||0)+500 };
+          if (b.id === hedefBeylik.id && hedefSancak) return { ...b, eyaletler: (b.eyaletler||[]).filter(e => e !== hedefSancak) };
+          return b;
+        });
+      }
+    }
+    const yeniSavas = { id:'sv_'+Date.now(), saldiranId:benimBeylik.id, saldiranAd:benimBeylik.ad, hedefId:hedefBeylik.id, hedefAd:hedefBeylik.ad, kazananId:kazanan.id, kazananAd:kazanan.ad, fark, ts:Date.now(), benimGüç, hedefGüç };
+    const yeniListe = [yeniSavas, ...savasList].slice(0, 20);
+    setSavasList(yeniListe);
+    localStorage.setItem('rep_beylikSavaslar', JSON.stringify(yeniListe));
+    kaydetBeyliks(güncellenmisBeyliks);
+    try { window._socket?.emit('savas:ilan', { saldiranId: benimBeylik.id, hedefId: hedefBeylik.id, kazananId: kazanan.id, fark }); } catch(_){}
+    try { window._pushGameEvent?.('beylik_savasi', `⚔️ Beylik Savaşı!`, `${benimBeylik.ad} vs ${hedefBeylik.ad} — Kazanan: ${kazanan.ad}`, '⚔️', 'savas'); } catch(_){}
+    showNotif(benimKazandım ? `⚔️ Zafer! ${hedefBeylik.ad}'ı yendik! (+500 prestij)` : `❌ Yenildi. ${fark.toLocaleString('tr-TR')} güç farkı`, benimKazandım ? 'success' : 'error');
+  };
+
+  const sancakFethEt = (sancakId) => {
+    if (!benimBeylik) { showNotif('Önce beyliğe katıl', 'error'); return; }
+    const mevcut = sancakSahipleri[sancakId];
+    if (mevcut?.id === benimBeylik.id) { showNotif('Bu sancak zaten sizin', 'info'); return; }
+    if (mevcut) { showNotif('Bu sancak başka beyliğe ait. Savaşarak ele geçir.', 'error'); return; }
+    const güncellenmis = beyliks.map(b => b.id === benimBeylik.id ? { ...b, eyaletler: [...(b.eyaletler||[]), sancakId], prestij:(b.prestij||0)+100 } : b);
+    kaydetBeyliks(güncellenmis);
+    showNotif(`🏰 ${SANCAKLAR.find(s=>s.id===sancakId)?.label} fethedildi! +100 Prestij`, 'success');
+  };
 
   // Sunucu taraflı kaydetme — tüm oyunculara yayılır
   const kaydetBeyliks = (yeni) => {
@@ -217,12 +300,20 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
       )
     ),
 
+    // Güç puanı banner
+    React.createElement('div', { style:{ background:'rgba(194,75,67,0.08)', borderBottom:'1px solid rgba(194,75,67,0.2)', padding:'6px 16px', display:'flex', justifyContent:'space-between', alignItems:'center' } },
+      React.createElement('span', {style:{fontSize:'0.72rem',color:'#C24B43',fontWeight:700}}, `⚡ Güç Puanı: ${benimGüç.toLocaleString('tr-TR')}`),
+      benimBeylik && React.createElement('span', {style:{fontSize:'0.68rem',color:'#8893A1'}}, `🗺️ ${(benimBeylik.eyaletler||[]).length} Sancak`),
+    ),
+
     // ── Tab Bar ──
-    React.createElement('div', { style: { display: 'flex', gap: 4, padding: '10px 12px', borderBottom: '1px solid rgba(200,155,60,0.1)' } },
+    React.createElement('div', { style: { display: 'flex', gap: 2, padding: '8px 10px', borderBottom: '1px solid rgba(200,155,60,0.1)', overflowX:'auto', scrollbarWidth:'none' } },
       [
         ['liste','🏰 Beylikler'],
         [benimBeylik ? 'yonet' : 'kur', benimBeylik ? '⚙️ Yönet' : '⚜️ Kur'],
-        ['liderlik','🏆 Liderlik'],
+        ['eyaletler','🗺️ Sancaklar'],
+        ['savas','⚔️ Savaş'],
+        ['liderlik','🏆 Güç Sıralaması'],
       ].map(([id,lb]) =>
         React.createElement('button', {
           key: id,
@@ -406,19 +497,108 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
             )
       ),
 
+      // ── EYALETLER / SANCAKLAR TAB ──
+      tab === 'eyaletler' && React.createElement('div', null,
+        React.createElement('div', {style:{background:'rgba(200,155,60,0.06)',border:'1px solid rgba(200,155,60,0.18)',borderRadius:10,padding:'8px 12px',marginBottom:12,fontSize:'0.72rem',color:'#A9A6A0',lineHeight:1.6}},
+          '🗺️ Boş sancakları fethederek beyliğini genişlet. Başka beyliğin sancağını almak için ⚔️ Savaş sekmesinde güç savaşı başlat.'
+        ),
+        React.createElement('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8}},
+          SANCAKLAR.map(s => {
+            const sahip = sancakSahipleri[s.id];
+            const benim = sahip?.id === benimBeylik?.id;
+            const bos   = !sahip;
+            return React.createElement('div',{key:s.id,style:{background:benim?'rgba(200,155,60,0.1)':SURF,border:`1px solid ${benim?GOLD:bos?'rgba(255,255,255,0.08)':'rgba(194,75,67,0.25)'}`,borderRadius:12,padding:'10px 12px'}},
+              React.createElement('div',{style:{fontSize:'1.3rem',marginBottom:4}},s.emoji),
+              React.createElement('div',{style:{fontSize:'0.78rem',fontWeight:800,color:'#EDE7DA',marginBottom:2,lineHeight:1.2}},s.label),
+              React.createElement('div',{style:{fontSize:'0.6rem',color:'#8893A1',marginBottom:6}},s.bolge+' Bölgesi'),
+              benim
+                ? React.createElement('div',{style:{fontSize:'0.65rem',color:GOLD,fontWeight:700}}, '✅ Sizin Sancağınız')
+                : sahip
+                  ? React.createElement('div',{style:{fontSize:'0.65rem',color:'#C24B43',fontWeight:700}},`🏴 ${sahip.ad}`)
+                  : React.createElement('button',{onClick:()=>sancakFethEt(s.id),style:{width:'100%',padding:'5px',borderRadius:7,border:'none',background:'linear-gradient(135deg,#C89B3C,#8B6A1A)',color:'#0F0800',fontWeight:800,fontSize:'0.7rem',cursor:'pointer'}}, '⚔️ Fethdet')
+            );
+          })
+        ),
+      ),
+
+      // ── SAVAŞ TAB ──
+      tab === 'savas' && React.createElement('div', null,
+        !benimBeylik && React.createElement('div',{style:{textAlign:'center',padding:'30px 20px',color:'#8893A1'}},
+          React.createElement('div',{style:{fontSize:'2.5rem',marginBottom:8}},'⚔️'),
+          React.createElement('div',{style:{fontSize:'0.85rem'}},'Savaş için önce bir beyliğe katıl.')
+        ),
+        benimBeylik && React.createElement('div', null,
+          // Güç karşılaştırması
+          React.createElement('div',{style:{background:SURF,border:'1px solid rgba(194,75,67,0.3)',borderRadius:12,padding:14,marginBottom:12}},
+            React.createElement('div',{style:{fontFamily:"'Cinzel',serif",fontWeight:800,color:'#C24B43',marginBottom:10,fontSize:'0.88rem'}},'⚔️ SAVAŞ SİSTEMİ'),
+            React.createElement('div',{style:{fontSize:'0.72rem',color:'#A9A6A0',lineHeight:1.7,marginBottom:8}},
+              '• Güç puanın rakibin gücünden yüksekse kazanırsın\n• Güç farkı kadar puan kalır, sıfırlanma yok\n• Kazanan 1 boş sancak fetheder veya rakipten alır\n• Savaş Kazan = +500 Prestij'
+            ),
+            React.createElement('div',{style:{background:'rgba(194,75,67,0.08)',border:'1px solid rgba(194,75,67,0.2)',borderRadius:8,padding:'8px 12px'}},
+              React.createElement('div',{style:{fontSize:'0.65rem',color:'#A9A6A0'}}, 'Senin Gücün'),
+              React.createElement('div',{style:{fontFamily:"'JetBrains Mono',monospace",fontSize:'1.4rem',fontWeight:900,color:'#C24B43'}}, benimGüç.toLocaleString('tr-TR')),
+              React.createElement('div',{style:{fontSize:'0.6rem',color:'#8893A1',marginTop:2}}, '⚡ Gıda + Alet + Maden + Eğitim + Ordu'),
+            ),
+          ),
+          // Rakip beylikler
+          React.createElement('div',{style:{fontFamily:"'Cinzel',serif",fontSize:'0.65rem',fontWeight:700,color:'#8893A1',marginBottom:10,letterSpacing:'0.1em'}},'RAKİP BEYLİKLER'),
+          beyliks.filter(b=>b.id!==benimBeylik.id).length === 0
+            ? React.createElement('div',{style:{textAlign:'center',padding:'20px',color:'#8893A1',fontSize:'0.8rem'}},'Savaşacak başka beylik yok')
+            : beyliks.filter(b=>b.id!==benimBeylik.id).map(bey => {
+                const hedefGüç = bey.gucPuani || 0;
+                const benimÜstün = benimGüç > hedefGüç;
+                const fark = Math.abs(benimGüç - hedefGüç);
+                return React.createElement('div',{key:bey.id,style:{background:SURF,border:`1px solid ${benimÜstün?'rgba(76,154,107,0.25)':'rgba(194,75,67,0.25)'}`,borderRadius:12,padding:12,marginBottom:8}},
+                  React.createElement('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}},
+                    React.createElement('div',null,
+                      React.createElement('div',{style:{fontWeight:800,color:'#EDE7DA',fontSize:'0.88rem'}},bey.ad),
+                      React.createElement('div',{style:{fontSize:'0.62rem',color:'#8893A1'}},`👑 ${bey.kurucuAdi} · ${(bey.eyaletler||[]).length} sancak`),
+                    ),
+                    React.createElement('div',{style:{textAlign:'right'}},
+                      React.createElement('div',{style:{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.9rem',fontWeight:800,color:benimÜstün?'#4C9A6B':'#C24B43'}},hedefGüç.toLocaleString('tr-TR')),
+                      React.createElement('div',{style:{fontSize:'0.6rem',color:benimÜstün?'#4C9A6B':'#C24B43'}},benimÜstün?`+${fark.toLocaleString()} üstünsün`:`-${fark.toLocaleString()} eksiksin`),
+                    ),
+                  ),
+                  React.createElement('button',{onClick:()=>savaşIlan(bey),style:{width:'100%',padding:'8px',borderRadius:8,border:'none',background:benimÜstün?'linear-gradient(135deg,#C24B43,#8B2A2A)':'rgba(194,75,67,0.12)',color:benimÜstün?'#FFF':'#C24B43',fontWeight:800,fontSize:'0.8rem',cursor:'pointer',border:benimÜstün?'none':'1px solid rgba(194,75,67,0.3)'}},
+                    benimÜstün ? '⚔️ Savaş İlan Et (Kazanma İhtimali Yüksek)' : `⚔️ Riskli Savaş (${fark.toLocaleString()} güç eksiği)`
+                  ),
+                );
+              }),
+          // Savaş geçmişi
+          savasList.length > 0 && React.createElement('div',{style:{marginTop:16}},
+            React.createElement('div',{style:{fontFamily:"'Cinzel',serif",fontSize:'0.65rem',fontWeight:700,color:'#8893A1',marginBottom:8,letterSpacing:'0.1em'}},'SAVAŞ GEÇMİŞİ'),
+            savasList.slice(0,5).map(sv =>
+              React.createElement('div',{key:sv.id,style:{background:'rgba(255,255,255,0.02)',border:'1px solid rgba(255,255,255,0.05)',borderRadius:8,padding:'8px 10px',marginBottom:4,display:'flex',justifyContent:'space-between',alignItems:'center'}},
+                React.createElement('div',null,
+                  React.createElement('div',{style:{fontSize:'0.72rem',color:'#EDE7DA',fontWeight:700}},`${sv.saldiranAd} vs ${sv.hedefAd}`),
+                  React.createElement('div',{style:{fontSize:'0.6rem',color:'#8893A1'}},`Kazanan: ${sv.kazananAd} · Fark: ${sv.fark?.toLocaleString?.()}`),
+                ),
+                React.createElement('div',{style:{fontSize:'0.65rem',color:sv.kazananId===benimBeylik.id?'#4C9A6B':'#C24B43',fontWeight:700}},
+                  sv.kazananId===benimBeylik.id ? '⚔️ Zafer' : '💀 Yenilgi'
+                ),
+              )
+            )
+          ),
+        ),
+      ),
+
       // ── LİDERLİK TAB ──
       tab === 'liderlik' && React.createElement('div', null,
-        React.createElement('div', { style: { fontSize: '0.68rem', color: '#A9A6A0', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 } }, '🏆 Prestij Liderlik Tahtası'),
-        [...beyliks].sort((a,b)=>(b.prestij||0)-(a.prestij||0)).map((bey,i) => {
+        React.createElement('div', { style: { fontSize: '0.68rem', color: '#A9A6A0', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 } }, '🏆 Güç Puanı Liderlik Tahtası'),
+        [...beyliks].sort((a,b)=>(b.gucPuani||b.prestij||0)-(a.gucPuani||a.prestij||0)).map((bey,i) => {
           const madalya = i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+          const g = bey.gucPuani || 0;
           return React.createElement('div', { key: bey.id, style: { ...cardStyle, display: 'flex', alignItems: 'center', gap: 10 } },
             React.createElement('div', { style: { fontSize: '1.4rem', width: 32, textAlign: 'center', flexShrink: 0 } }, madalya || `${i+1}.`),
             React.createElement('div', { style: { width: 36, height: 36, borderRadius: 10, background: `${bey.renk||GOLD}22`, border: `2px solid ${bey.renk||GOLD}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', flexShrink: 0 } }, '⚜️'),
             React.createElement('div', { style: { flex: 1 } },
               React.createElement('div', { style: { fontSize: '0.85rem', fontWeight: 700, color: '#F5EBD7' } }, bey.ad),
-              React.createElement('div', { style: { fontSize: '0.62rem', color: '#A9A6A0' } }, `👑 ${bey.kurucuAdi} · 👥 ${bey.uyeSayisi||1} üye`)
+              React.createElement('div', { style: { fontSize: '0.62rem', color: '#A9A6A0' } }, `👑 ${bey.kurucuAdi} · 🗺️ ${(bey.eyaletler||[]).length} sancak · 👥 ${bey.uyeSayisi||1} üye`)
             ),
-            React.createElement('div', { style: { fontFamily: "'JetBrains Mono',monospace", fontSize: '0.85rem', fontWeight: 700, color: GOLD } }, (bey.prestij||0).toLocaleString('tr-TR'))
+            React.createElement('div', {style:{textAlign:'right'}},
+              React.createElement('div', { style: { fontFamily: "'JetBrains Mono',monospace", fontSize: '0.85rem', fontWeight: 700, color: '#C24B43' } }, `⚡${g.toLocaleString('tr-TR')}`),
+              React.createElement('div', { style: { fontSize: '0.6rem', color: '#8893A1' } }, `🏆${(bey.prestij||0).toLocaleString('tr-TR')} prestij`),
+            ),
           );
         }),
         beyliks.length === 0 && React.createElement('div', { style: { textAlign: 'center', padding: '30px', color: '#A9A6A0', fontSize: '0.85rem' } }, 'Henüz beylik yok')

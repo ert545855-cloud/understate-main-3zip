@@ -57,6 +57,29 @@ function SvgIcon({ name, size=24, style={} }) {
 const GAME_ID = "saltanat_online_server";
 const APP_V   = "8.0";
 
+// ── Global güç puanı güncelleyici (tüm sayfalardan çağrılır) ──
+window._gucPuaniGuncelle = function() {
+  try {
+    const profile = JSON.parse(localStorage.getItem('rep_userProfile') || '{}');
+    if (!profile?.id && !profile?.uid) return;
+    if (!window.hesaplaGucPuani) return;
+    const güç = window.hesaplaGucPuani(profile);
+    // Beylik listesinde bu oyuncunun beyliğini güncelle
+    const beyliks = JSON.parse(localStorage.getItem('rep_beyliks') || '[]');
+    const uid = profile.id || profile.uid;
+    const güncel = beyliks.map(b => {
+      if (b.kurucuId === uid || (b.uyeler||[]).includes(uid)) {
+        return { ...b, gucPuani: (b.gucPuani||0) + Math.max(0, güç.toplam - (b.gucPuani||0)) };
+      }
+      return b;
+    });
+    if (JSON.stringify(güncel) !== JSON.stringify(beyliks)) {
+      localStorage.setItem('rep_beyliks', JSON.stringify(güncel));
+      try { window._socket?.emit('beylik:guncelle', { beyliks: güncel }); } catch(_){}
+    }
+  } catch(_){}
+};
+
 const CITIES = ['Adana','Adıyaman','Afyonkarahisar','Ağrı','Amasya','Ankara','Antalya','Artvin','Aydın','Balıkesir','Bilecik','Bingöl','Bitlis','Bolu','Burdur','Bursa','Çanakkale','Çankırı','Çorum','Denizli','Diyarbakır','Edirne','Elazığ','Erzincan','Erzurum','Eskişehir','Gaziantep','Giresun','Gümüşhane','Hakkari','Hatay','Isparta','Mersin','İstanbul','İzmir','Kars','Kastamonu','Kayseri','Kırklareli','Kırşehir','Kocaeli','Konya','Kütahya','Malatya','Manisa','Kahramanmaraş','Mardin','Muğla','Muş','Nevşehir','Niğde','Ordu','Rize','Sakarya','Samsun','Siirt','Sinop','Sivas','Tekirdağ','Tokat','Trabzon','Tunceli','Şanlıurfa','Uşak','Van','Yozgat','Zonguldak','Aksaray','Bayburt','Karaman','Kırıkkale','Batman','Şırnak','Bartın','Ardahan','Iğdır','Yalova','Karabük','Kilis','Osmaniye','Düzce'];
 
 // ── Çok Dilli Destek (TR / EN / DE / AZ) ────────────────
@@ -1394,6 +1417,15 @@ function App() {
             {page==='army_system' && window.ArmyScreen && React.createElement(window.ArmyScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
             {page==='independent_army' && window.IndependentArmyScreen && React.createElement(window.IndependentArmyScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
             {page==='economic_empire' && window.EconomicEmpireScreen && React.createElement(window.EconomicEmpireScreen, {cu:profile||{},setCurrentPage:setPage,allUsers:onlinePlayers||[]})}
+            {page==='alet_atolyesi' && window.AletAtölyesiScreen && React.createElement(window.AletAtölyesiScreen, {profile:profile||{},setProfile,showNotif,onNavigate:setPage})}
+            {page==='ottoman_ordu'  && window.OttomanOrdusScreen  && React.createElement(window.OttomanOrdusScreen,  {profile:profile||{},setProfile,showNotif,onNavigate:setPage})}
+            {page==='guc_puani'     && window.GücPuaniScreen      && React.createElement(window.GücPuaniScreen,      {profile:profile||{},setProfile,showNotif,onNavigate:setPage})}
+            {page==='turnuva'       && window.TurnuvaScreen       && React.createElement(window.TurnuvaScreen,       {profile:profile||{},setProfile,showNotif,onNavigate:setPage})}
+            {page==='takvim'        && window.TakvimScreen        && React.createElement(window.TakvimScreen,        {profile:profile||{},setProfile,showNotif,onNavigate:setPage})}
+            {page==='casus'         && window.CasusScreen         && React.createElement(window.CasusScreen,         {profile:profile||{},setProfile,showNotif,onNavigate:setPage})}
+            {page==='eyalet_insaat' && window.EyaletInsaatScreen  && React.createElement(window.EyaletInsaatScreen,  {profile:profile||{},setProfile,showNotif,onNavigate:setPage,eyaletValiVerisi})}
+            {page==='gunluk_pazar'  && window.GunlukPazarScreen   && React.createElement(window.GunlukPazarScreen,   {profile:profile||{},setProfile,showNotif,onNavigate:setPage})}
+            {page==='diplomasi'     && window.DiplomasiScreen     && React.createElement(window.DiplomasiScreen,     {profile:profile||{},setProfile,showNotif,onNavigate:setPage,serverBeyliks,allUsers:onlinePlayers||[]})}
           </div>
           </div>
 
