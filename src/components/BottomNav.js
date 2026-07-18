@@ -27,6 +27,9 @@ const NAV_GROUPS = [
       { id:'gunluk_pazar',    icon:'🛍️', svgIcon:'money',     label:'Günlük Pazar',   rgb:'76,154,107'  },
       { id:'auction',         icon:'🏺', svgIcon:'money',     label:'Artırma Evi',    rgb:'201,162,39'  },
       { id:'kervan',          icon:'🐪', svgIcon:'truck',     label:'Kervanlar',      rgb:'201,162,39'  },
+      { id:'kervan_koruma',   icon:'🛡️', svgIcon:'shield',    label:'Kervan Koruma',  rgb:'201,162,39'  },
+      { id:'lonca_anlasma',   icon:'📜', svgIcon:'briefcase', label:'Lonca Anlaşması',rgb:'201,162,39'  },
+      { id:'zanaat',          icon:'⚒️', svgIcon:'factory',   label:'Zanaat',         rgb:'76,154,107'  },
     ],
   },
   {
@@ -40,6 +43,7 @@ const NAV_GROUPS = [
       { id:'crisis',           icon:'🚨', svgIcon:'shield',  label:'Kriz',          rgb:'194,75,67'  },
       { id:'army_system',      icon:'🪖', svgIcon:'shield',  label:'Seraskerlik',   rgb:'194,75,67'  },
       { id:'casus',            icon:'🕵️', svgIcon:'shield',  label:'Casusluk',      rgb:'194,75,67'  },
+      { id:'casus_chain',      icon:'🔗', svgIcon:'shield',  label:'Casus Zinciri', rgb:'194,75,67'  },
       { id:'crime',            icon:'⚖️', svgIcon:'law',     label:'Mahkeme',       rgb:'194,75,67'  },
     ],
   },

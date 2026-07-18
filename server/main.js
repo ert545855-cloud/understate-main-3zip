@@ -162,6 +162,10 @@ app.use('/api/bank',           require('./routes/bank'));
 app.use('/api/chat',           require('./routes/chat'));
 app.use('/api/family-factory', require('./routes/familyFactory'));
 app.use('/api/sezon',         require('./routes/sezon'));
+app.use('/api/casus-chain',   require('./routes/casusChain'));
+app.use('/api/zanaat',        require('./routes/zanaat'));
+app.use('/api/lonca-anlasma', require('./routes/loncaAnlasma'));
+app.use('/api/kervan-koruma', require('./routes/kervanKoruma'));
 
 app.get('/health',            (_req, res) => res.json({ status: 'OK', ts: Date.now() }));
 app.get('/api/admob-config',  (_req, res) => res.json(getPublicAdConfig(process.env.NODE_ENV !== 'production')));

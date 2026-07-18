@@ -175,6 +175,25 @@ router.post('/elections', authMiddleware, generalLimiter, async (req, res) => {
 router.get('/laws', async (req, res) => {
   try {
     const laws = db.isReady() ? await db.getLaws() : [];
+    // Tepki sayılarını ekle
+    if (db.isReady() && laws.length) {
+      const lawIds = laws.map(l => l.id).filter(Boolean);
+      if (lawIds.length) {
+        const { rows: reactions } = await db.query(
+          `SELECT law_id, reaction, COUNT(*) as cnt FROM law_reactions WHERE law_id = ANY($1::text[]) GROUP BY law_id, reaction`,
+          [lawIds]
+        ).catch(() => ({ rows: [] }));
+        const rMap = {};
+        for (const r of reactions) {
+          if (!rMap[r.law_id]) rMap[r.law_id] = { like: 0, dislike: 0 };
+          rMap[r.law_id][r.reaction] = parseInt(r.cnt);
+        }
+        for (const l of laws) {
+          l.likes    = rMap[l.id]?.like    || 0;
+          l.dislikes = rMap[l.id]?.dislike || 0;
+        }
+      }
+    }
     res.json({ success: true, laws });
   } catch (err) { res.status(500).json({ success: false }); }
 });
@@ -186,6 +205,37 @@ router.post('/laws', authMiddleware, generalLimiter, async (req, res) => {
     if (!Array.isArray(laws)) return res.status(400).json({ success: false });
     await db.setLaws(laws);
     res.json({ success: true });
+  } catch (err) { res.status(500).json({ success: false }); }
+});
+
+// ── LAW REACTIONS ─────────────────────────────────────────────────────────────
+router.post('/laws/:id/react', authMiddleware, async (req, res) => {
+  try {
+    if (!db.isReady()) return res.json({ success: false });
+    const { reaction } = req.body; // 'like' | 'dislike'
+    if (!['like','dislike'].includes(reaction)) return res.status(400).json({ success: false });
+    const lawId = req.params.id;
+    // Upsert — kullanıcı başına 1 tepki
+    await db.query(
+      `INSERT INTO law_reactions(law_id, user_id, reaction)
+       VALUES($1,$2,$3)
+       ON CONFLICT(law_id,user_id) DO UPDATE SET reaction=$3, created_at=NOW()`,
+      [lawId, req.user.id, reaction]
+    );
+    // Güncel sayıları döndür
+    const { rows } = await db.query(
+      `SELECT reaction, COUNT(*) as cnt FROM law_reactions WHERE law_id=$1 GROUP BY reaction`, [lawId]
+    );
+    const counts = { like: 0, dislike: 0 };
+    for (const r of rows) counts[r.reaction] = parseInt(r.cnt);
+    // Memnuniyet puanı hesapla ve laws tablosuna yaz (varsa)
+    const satisfaction = counts.like + counts.dislike > 0
+      ? Math.round(counts.like / (counts.like + counts.dislike) * 100) : 50;
+    await db.query(
+      `UPDATE laws SET satisfaction=$1, reactions=$2::jsonb, feedback_count=$3 WHERE id=$4`,
+      [satisfaction, JSON.stringify(counts), counts.like+counts.dislike, lawId]
+    ).catch(() => {});
+    res.json({ success: true, likes: counts.like, dislikes: counts.dislike, satisfaction });
   } catch (err) { res.status(500).json({ success: false }); }
 });
 

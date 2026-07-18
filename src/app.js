@@ -1452,6 +1452,10 @@ function App() {
             {page==='itibar'         && window.ItibarScreen         && React.createElement(window.ItibarScreen,         {profile,token,onlinePlayers,onNavigate:setPage})}
             {page==='pazar_etkinlik' && window.PazarEtkinlikScreen  && React.createElement(window.PazarEtkinlikScreen,  {profile,token,onNavigate:setPage})}
             {page==='sezon'          && window.SezonScreen           && React.createElement(window.SezonScreen,           {profile,token,onNavigate:setPage})}
+            {page==='casus_chain'    && window.CasusChainScreen      && React.createElement(window.CasusChainScreen,      {profile,onNavigate:setPage,showNotif})}
+            {page==='zanaat'         && window.ZanaatScreen          && React.createElement(window.ZanaatScreen,          {profile,onNavigate:setPage,showNotif})}
+            {page==='kervan_koruma'  && window.KervanKorumaScreen    && React.createElement(window.KervanKorumaScreen,    {profile,onNavigate:setPage,showNotif})}
+            {page==='lonca_anlasma'  && window.LoncaAnlasmaScreen    && React.createElement(window.LoncaAnlasmaScreen,    {profile,onNavigate:setPage,showNotif})}
           </div>
           </div>
 
