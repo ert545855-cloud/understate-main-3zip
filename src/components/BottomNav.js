@@ -101,6 +101,9 @@ const NAV_GROUPS = [
       { id:'meyhane',      icon:'🍺', svgIcon:'users',     label:'Meyhane',      rgb:'136,147,161' },
       { id:'mektup',       icon:'📜', svgIcon:'chat',      label:'Mektuplar',    rgb:'201,162,39'  },
       { id:'itibar',       icon:'⭐', svgIcon:'crown',     label:'İtibar',       rgb:'201,162,39'  },
+      { id:'fal_carki',    icon:'🎡', svgIcon:'trophy',    label:'Fal Çarkı',    rgb:'167,139,250' },
+      { id:'gunluk_gorev', icon:'📋', svgIcon:'tasks',     label:'Günlük Görev', rgb:'201,162,39'  },
+      { id:'hizli_merkez', icon:'⚡', svgIcon:'money',     label:'Hızlı Merkez', rgb:'201,162,39'  },
     ],
   },
 ];

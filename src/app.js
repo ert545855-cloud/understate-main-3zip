@@ -1456,6 +1456,9 @@ function App() {
             {page==='zanaat'         && window.ZanaatScreen          && React.createElement(window.ZanaatScreen,          {profile,onNavigate:setPage,showNotif})}
             {page==='kervan_koruma'  && window.KervanKorumaScreen    && React.createElement(window.KervanKorumaScreen,    {profile,onNavigate:setPage,showNotif})}
             {page==='lonca_anlasma'  && window.LoncaAnlasmaScreen    && React.createElement(window.LoncaAnlasmaScreen,    {profile,onNavigate:setPage,showNotif})}
+            {page==='fal_carki'      && window.FalCarkiScreen         && React.createElement(window.FalCarkiScreen,         {profile,onNavigate:setPage,showNotif})}
+            {page==='gunluk_gorev'   && window.GunlukGorevScreen      && React.createElement(window.GunlukGorevScreen,      {profile,onNavigate:setPage,showNotif})}
+            {page==='hizli_merkez'   && window.HizliEylemlerScreen    && React.createElement(window.HizliEylemlerScreen,    {profile,onNavigate:setPage,showNotif})}
           </div>
           </div>
 

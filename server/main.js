@@ -166,6 +166,7 @@ app.use('/api/casus-chain',   require('./routes/casusChain'));
 app.use('/api/zanaat',        require('./routes/zanaat'));
 app.use('/api/lonca-anlasma', require('./routes/loncaAnlasma'));
 app.use('/api/kervan-koruma', require('./routes/kervanKoruma'));
+app.use('/api/fal-carki',    require('./routes/falCarki'));
 
 app.get('/health',            (_req, res) => res.json({ status: 'OK', ts: Date.now() }));
 app.get('/api/admob-config',  (_req, res) => res.json(getPublicAdConfig(process.env.NODE_ENV !== 'production')));
