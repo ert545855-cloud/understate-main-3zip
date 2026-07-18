@@ -131,6 +131,13 @@ app.use('/api/assassination',require('./routes/assassination'));
 app.use('/api/social',       require('./routes/socialSystems'));
 app.use('/api/beylik-war',   require('./routes/beylikWar'));
 app.use('/api/tournament',   require('./routes/tournament'));
+// ── RP Sistemleri ─────────────────────────────────────────
+app.use('/api/rp',           require('./routes/rpSystems'));
+app.use('/api/tavern',       require('./routes/tavern'));
+app.use('/api/letters',      require('./routes/letters'));
+app.use('/api/itibar',       require('./routes/itibar'));
+app.use('/api/market',       require('./routes/weeklyMarket'));
+app.use('/api/guild-hall',   require('./routes/guildHall'));
 app.use('/api/notifications', require('./routes/notifications'));
 app.use('/api/messages',      require('./routes/messages'));
 app.use('/api/friends',       require('./routes/friends'));

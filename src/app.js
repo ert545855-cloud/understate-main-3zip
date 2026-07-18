@@ -1444,7 +1444,13 @@ function App() {
             {page==='beylik_savasi' && window.BeylikSavasiScreen  && React.createElement(window.BeylikSavasiScreen,  {profile,token,serverBeyliks,onNavigate:setPage})}
             {page==='duyuru_panosu' && window.DuyuruPanosuScreen  && React.createElement(window.DuyuruPanosuScreen,  {profile,token,onNavigate:setPage})}
             {page==='saray_intrigi' && window.SarayIntrigiScreen  && React.createElement(window.SarayIntrigiScreen,  {profile,token,onNavigate:setPage})}
-            {page==='lonca_turnuva' && window.TurnuvaEkraniScreen && React.createElement(window.TurnuvaEkraniScreen, {profile,token,onNavigate:setPage})}
+            {page==='lonca_turnuva'  && window.TurnuvaEkraniScreen  && React.createElement(window.TurnuvaEkraniScreen,  {profile,token,onNavigate:setPage})}
+            {page==='karakter_koken' && window.KarakterKokenScreen  && React.createElement(window.KarakterKokenScreen,  {profile,token,setProfile,showNotif,onNavigate:setPage})}
+            {page==='ruzname'        && window.RuznameScreen        && React.createElement(window.RuznameScreen,        {profile,token,onNavigate:setPage})}
+            {page==='meyhane'        && window.MeyhanScreen         && React.createElement(window.MeyhanScreen,         {profile,token,onNavigate:setPage})}
+            {page==='mektup'         && window.MektupScreen         && React.createElement(window.MektupScreen,         {profile,token,onlinePlayers,onNavigate:setPage})}
+            {page==='itibar'         && window.ItibarScreen         && React.createElement(window.ItibarScreen,         {profile,token,onlinePlayers,onNavigate:setPage})}
+            {page==='pazar_etkinlik' && window.PazarEtkinlikScreen  && React.createElement(window.PazarEtkinlikScreen,  {profile,token,onNavigate:setPage})}
           </div>
           </div>
 
