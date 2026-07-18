@@ -91,9 +91,20 @@ const NAV_GROUPS = [
       { id:'duyurular',    icon:'📣', svgIcon:'newspaper', label:'Duyurular',    rgb:'201,162,39'  },
       { id:'leaderboard',  icon:'🏆', svgIcon:'trophy',    label:'Sıralama',     rgb:'201,162,39'  },
       { id:'achievements', icon:'🎖️', svgIcon:'crown',    label:'Başarılar',    rgb:'201,162,39'  },
+      { id:'sezon',        icon:'🏅', svgIcon:'trophy',    label:'Sezon',        rgb:'201,162,39'  },
+      { id:'karakter_koken',icon:'🧬',svgIcon:'user',      label:'Köken',        rgb:'136,147,161' },
+      { id:'pazar_etkinlik',icon:'🎪',svgIcon:'money',     label:'Pazar Etk.',   rgb:'76,154,107'  },
+      { id:'meyhane',      icon:'🍺', svgIcon:'users',     label:'Meyhane',      rgb:'136,147,161' },
+      { id:'mektup',       icon:'📜', svgIcon:'chat',      label:'Mektuplar',    rgb:'201,162,39'  },
+      { id:'itibar',       icon:'⭐', svgIcon:'crown',     label:'İtibar',       rgb:'201,162,39'  },
     ],
   },
 ];
+
+// Devlet grubuna Ruzname ekle
+NAV_GROUPS.find(g => g.id === 'devlet')?.items?.push(
+  { id:'ruzname', icon:'📆', svgIcon:'tasks', label:'Ruzname', rgb:'201,162,39' }
+);
 
 const NAV_GROUP_TKEYS = { home:'home', ekonomi:'economy', savas:'battle', devlet:'state', sosyal:'social' };
 const NAV_ITEMS = NAV_GROUPS.flatMap(g => g.direct ? [{ id:g.id, icon:g.icon, label:g.label, rgb:g.rgb }] : (g.items||[]));

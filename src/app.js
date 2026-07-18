@@ -123,9 +123,9 @@ const TRANSLATIONS = {
     nextLevel:'sonraki seviye', breakStreak:'Zinciri kırma!',
     stockMarket:'Borsa', portfolio:'Portföy', myPortfolio:'Portföyüm',
     companyList:'Şirketler', bankLabel:'Banka', balance:'Bakiye',
-    gangLabel:'Çete', partyLabel:'Parti', allianceLabel:'İttifak',
+    allianceLabel:'İttifak', loncaLabel:'Lonca',
     members:'Üyeler', leader:'Lider', treasury:'Hazine',
-    joinGang:'Çeteye Katıl', createGang:'Çete Kur',
+    joinLonca:'Loncaya Katıl', createLonca:'Lonca Kur',
     loginTab:'Giriş Yap', registerTab:'Kayıt Ol',
     username:'Kullanıcı adı veya e-posta', password:'Şifre',
     forgotPassword:'Şifremi unuttum?', doLogin:'→ Giriş Yap',
@@ -172,9 +172,9 @@ const TRANSLATIONS = {
     nextLevel:'to next level', breakStreak:"Don't break the streak!",
     stockMarket:'Stock Market', portfolio:'Portfolio', myPortfolio:'My Portfolio',
     companyList:'Companies', bankLabel:'Bank', balance:'Balance',
-    gangLabel:'Gang', partyLabel:'Party', allianceLabel:'Alliance',
+    allianceLabel:'Alliance', loncaLabel:'Guild',
     members:'Members', leader:'Leader', treasury:'Treasury',
-    joinGang:'Join Gang', createGang:'Create Gang',
+    joinLonca:'Join Guild', createLonca:'Create Guild',
     loginTab:'Login', registerTab:'Register',
     username:'Username or email', password:'Password',
     forgotPassword:'Forgot password?', doLogin:'→ Login',
@@ -220,9 +220,9 @@ const TRANSLATIONS = {
     nextLevel:'zur nächsten Stufe', breakStreak:'Streik nicht brechen!',
     stockMarket:'Börse', portfolio:'Portfolio', myPortfolio:'Mein Portfolio',
     companyList:'Firmen', bankLabel:'Bank', balance:'Kontostand',
-    gangLabel:'Gang', partyLabel:'Partei', allianceLabel:'Allianz',
+    allianceLabel:'Allianz', loncaLabel:'Gilde',
     members:'Mitglieder', leader:'Anführer', treasury:'Schatzkammer',
-    joinGang:'Gang beitreten', createGang:'Gang gründen',
+    joinLonca:'Gilde beitreten', createLonca:'Gilde gründen',
     loginTab:'Anmelden', registerTab:'Registrieren',
     username:'Benutzername oder E-Mail', password:'Passwort',
     forgotPassword:'Passwort vergessen?', doLogin:'→ Anmelden',
@@ -268,9 +268,9 @@ const TRANSLATIONS = {
     nextLevel:'növbəti səviyyə', breakStreak:'Seriyani kəsmə!',
     stockMarket:'Fond Bazarı', portfolio:'Portfel', myPortfolio:'Portfelim',
     companyList:'Şirkətlər', bankLabel:'Bank', balance:'Balans',
-    gangLabel:'Dəstə', partyLabel:'Partiya', allianceLabel:'İttifaq',
+    allianceLabel:'İttifaq', loncaLabel:'Lonca',
     members:'Üzvlər', leader:'Lider', treasury:'Xəzinə',
-    joinGang:'Dəstəyə Qoşul', createGang:'Dəstə Yarat',
+    joinLonca:'Loncaya Qoşul', createLonca:'Lonca Yarat',
     loginTab:'Daxil ol', registerTab:'Qeydiyyat',
     username:'İstifadəçi adı və ya e-poçt', password:'Şifrə',
     forgotPassword:'Şifrəmi unutdum?', doLogin:'→ Daxil ol',
@@ -1451,6 +1451,7 @@ function App() {
             {page==='mektup'         && window.MektupScreen         && React.createElement(window.MektupScreen,         {profile,token,onlinePlayers,onNavigate:setPage})}
             {page==='itibar'         && window.ItibarScreen         && React.createElement(window.ItibarScreen,         {profile,token,onlinePlayers,onNavigate:setPage})}
             {page==='pazar_etkinlik' && window.PazarEtkinlikScreen  && React.createElement(window.PazarEtkinlikScreen,  {profile,token,onNavigate:setPage})}
+            {page==='sezon'          && window.SezonScreen           && React.createElement(window.SezonScreen,           {profile,token,onNavigate:setPage})}
           </div>
           </div>
 

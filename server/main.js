@@ -161,6 +161,7 @@ app.use('/api/gang-crime',    require('./routes/gangCrime'));
 app.use('/api/bank',           require('./routes/bank'));
 app.use('/api/chat',           require('./routes/chat'));
 app.use('/api/family-factory', require('./routes/familyFactory'));
+app.use('/api/sezon',         require('./routes/sezon'));
 
 app.get('/health',            (_req, res) => res.json({ status: 'OK', ts: Date.now() }));
 app.get('/api/admob-config',  (_req, res) => res.json(getPublicAdConfig(process.env.NODE_ENV !== 'production')));
