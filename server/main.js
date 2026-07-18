@@ -122,6 +122,15 @@ app.use('/api/auction',      require('./routes/auction'));
 app.use('/api/caravans',     require('./routes/caravans'));
 app.use('/api/campaigns',    require('./routes/campaigns'));
 app.use('/api/achievements', require('./routes/achievements'));
+// ── Yeni Savaş & Sosyal Sistemler ────────────────────────
+app.use('/api/war',          require('./routes/warSystem'));
+app.use('/api/region',       require('./routes/regionControl'));
+app.use('/api/siege',        require('./routes/siege'));
+app.use('/api/duel',         require('./routes/duel'));
+app.use('/api/assassination',require('./routes/assassination'));
+app.use('/api/social',       require('./routes/socialSystems'));
+app.use('/api/beylik-war',   require('./routes/beylikWar'));
+app.use('/api/tournament',   require('./routes/tournament'));
 app.use('/api/notifications', require('./routes/notifications'));
 app.use('/api/messages',      require('./routes/messages'));
 app.use('/api/friends',       require('./routes/friends'));

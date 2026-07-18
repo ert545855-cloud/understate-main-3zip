@@ -1436,6 +1436,15 @@ function App() {
             {page==='auction'       && <AuctionHouseScreen  {...pageProps} />}
             {page==='kervan'        && <TicariYollarScreen  {...pageProps} />}
             {page==='sefer'         && <SeferScreen         {...pageProps} />}
+            {page==='bolge_savasi'  && window.BolgeSavasiScreen   && React.createElement(window.BolgeSavasiScreen,   {profile,token,onNavigate:setPage})}
+            {page==='kale_kusatma'  && window.KaleKusatmaScreen   && React.createElement(window.KaleKusatmaScreen,   {profile,token,onNavigate:setPage})}
+            {page==='duel_meydani'  && window.DuelMeydaniScreen   && React.createElement(window.DuelMeydaniScreen,   {profile,token,onlinePlayers,onNavigate:setPage})}
+            {page==='suikast'       && window.SuikastScreen       && React.createElement(window.SuikastScreen,       {profile,token,onlinePlayers,onNavigate:setPage})}
+            {page==='savas_kayit'   && window.SavasKayitScreen    && React.createElement(window.SavasKayitScreen,    {profile,token,onNavigate:setPage})}
+            {page==='beylik_savasi' && window.BeylikSavasiScreen  && React.createElement(window.BeylikSavasiScreen,  {profile,token,serverBeyliks,onNavigate:setPage})}
+            {page==='duyuru_panosu' && window.DuyuruPanosuScreen  && React.createElement(window.DuyuruPanosuScreen,  {profile,token,onNavigate:setPage})}
+            {page==='saray_intrigi' && window.SarayIntrigiScreen  && React.createElement(window.SarayIntrigiScreen,  {profile,token,onNavigate:setPage})}
+            {page==='lonca_turnuva' && window.TurnuvaEkraniScreen && React.createElement(window.TurnuvaEkraniScreen, {profile,token,onNavigate:setPage})}
           </div>
           </div>
 
