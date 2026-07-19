@@ -113,7 +113,10 @@ const INTRIGUE_CARDS = [
 router.post('/intrigue/draw', authMiddleware, asyncHandler(async (req, res) => {
   const { rows: [rec] } = await db.query(`SELECT * FROM intrigue_draws WHERE user_id=$1`, [req.user.id]);
   const today = new Date().toISOString().split('T')[0];
-  if (rec && rec.last_draw && rec.last_draw.toISOString().split('T')[0] === today)
+  const lastDrawStr = rec?.last_draw instanceof Date
+    ? rec.last_draw.toISOString().split('T')[0]
+    : String(rec?.last_draw || '').split('T')[0];
+  if (rec && rec.last_draw && lastDrawStr === today)
     return res.status(429).json({ success: false, message: 'Bugün zaten kart çektin. Yarın tekrar dene.' });
 
   const card = INTRIGUE_CARDS[Math.floor(Math.random() * INTRIGUE_CARDS.length)];
