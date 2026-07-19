@@ -222,7 +222,7 @@ function HomePage({ profile, onNavigate }) {
                     if(!pad?.padisahBeylikId) return null;
                     const benimBeylik=beyliks.find(b=>b.kurucuId===profile?.id||(b.uyeler||[]).includes(profile?.id));
                     if(!benimBeylik||String(benimBeylik.id)!==String(pad.padisahBeylikId)) return null;
-                    return React.createElement('span',{title:'Padişah Beyliği',style:{fontSize:'1.1rem',filter:'drop-shadow(0 0 6px rgba(200,155,60,0.9))'}}, '👑');
+                    return React.createElement('img',{src:'/assets/badges/padisah-badge.svg',alt:'Padişah',title:'Padişah Beyliği',width:28,height:28,style:{filter:'drop-shadow(0 0 6px rgba(200,155,60,0.85))'}});
                   } catch{return null;}
                 })()}
               </div>

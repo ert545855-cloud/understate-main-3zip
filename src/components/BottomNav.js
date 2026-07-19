@@ -93,7 +93,7 @@ const NAV_GROUPS = [
       { id:'saray_intrigi',icon:'🎴', svgIcon:'crown',     label:'Saray İntrigi',rgb:'201,162,39'  },
       { id:'casino',       icon:'🎰', svgIcon:'crown',     label:'Kumarhane',    rgb:'201,162,39'  },
       { id:'duyurular',    icon:'📣', svgIcon:'newspaper', label:'Duyurular',    rgb:'201,162,39'  },
-      { id:'leaderboard',  icon:'🏆', svgIcon:'trophy',    label:'Sıralama',     rgb:'201,162,39'  },
+      { id:'leaderboard',  icon:'🏆', svgIcon:'medal-tiers', label:'Sıralama',   rgb:'201,162,39'  },
       { id:'achievements', icon:'🎖️', svgIcon:'crown',    label:'Başarılar',    rgb:'201,162,39'  },
       { id:'sezon',        icon:'🏅', svgIcon:'trophy',    label:'Sezon',        rgb:'201,162,39'  },
       { id:'karakter_koken',icon:'🧬',svgIcon:'user',      label:'Köken',        rgb:'136,147,161' },
@@ -129,7 +129,7 @@ const NAV_GROUPS = [
 // Devlet grubuna Ruzname ekle
 NAV_GROUPS.find(g => g.id === 'devlet')?.items?.push(
   { id:'ruzname',    icon:'📆', svgIcon:'tasks',  label:'Ruzname',       rgb:'201,162,39' },
-  { id:'padisahlik', icon:'👑', svgIcon:'crown',  label:'Padişahlık',    rgb:'201,162,39' }
+  { id:'padisahlik', icon:'👑', svgIcon:'throne', label:'Padişahlık',    rgb:'201,162,39' }
 );
 
 const NAV_GROUP_TKEYS = { home:'home', ekonomi:'economy', savas:'battle', devlet:'state', sosyal:'social' };

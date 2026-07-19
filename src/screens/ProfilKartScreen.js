@@ -84,7 +84,7 @@ window.ProfilKartScreen = function({ profile, onNavigate }) {
       // Kozmetik butonu
       React.createElement('div',{style:{marginTop:8}},
         React.createElement('button',{onClick:()=>onNavigate&&onNavigate('_kozmetik_modal_'+Date.now()),
-          style:{width:'100%',padding:'12px',borderRadius:12,border:`1px solid rgba(200,155,60,0.3)`,background:'rgba(200,155,60,0.08)',color:G,fontWeight:700,fontSize:'0.82rem',cursor:'pointer'},
+          style:{width:'100%',padding:'12px',borderRadius:12,border:`1px solid rgba(200,155,60,0.3)`,background:'rgba(200,155,60,0.08)',color:G,fontWeight:700,fontSize:'0.82rem',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',gap:8},
           onClick:()=>{
             const tok=localStorage.getItem('rep_token')||'';
             fetch('/api/cosmetics/liste',{headers:{Authorization:`Bearer ${tok}`}})
@@ -94,7 +94,7 @@ window.ProfilKartScreen = function({ profile, onNavigate }) {
                 const modal=document.createElement('div');
                 modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px';
                 modal.innerHTML=`<div style="background:#1A0E00;border:1px solid rgba(200,155,60,0.3);border-radius:16px;padding:20px;max-width:400px;width:100%;max-height:80vh;overflow-y:auto">
-                  <div style="font-family:'Cinzel',serif;font-size:1rem;font-weight:800;color:#C89B3C;margin-bottom:12px">🎨 KOZMETİK MAĞAZA</div>
+                  <div style="font-family:'Cinzel',serif;font-size:1rem;font-weight:800;color:#C89B3C;margin-bottom:12px;display:flex;align-items:center;gap:8px"><img src="/assets/icons/flag.svg" width="18" height="18" alt="" style="flex-shrink:0"/>KOZMETİK MAĞAZA</div>
                   <div style="font-size:0.68rem;color:#A9A6A0;margin-bottom:14px">Görsel özelleştirmeler — rekabete etkisi yoktur</div>
                   ${(d.liste||[]).map(k=>`
                     <div style="display:flex;align-items:center;justify-content:space-between;background:#2D1800;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;margin-bottom:6px">

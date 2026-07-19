@@ -116,13 +116,13 @@ window.PadisahlikScreen = function PadisahlikScreen({ profile, setProfile, showN
     ),
 
     // ── Genel Sefer banner ───────────────────────────────────────────────────
-    genelSefer && React.createElement('div', { style:{ background:'rgba(184,66,60,0.15)', border:'2px solid rgba(184,66,60,0.6)', margin:'12px 16px', borderRadius:14, padding:'14px 16px', textAlign:'center' } },
-      React.createElement('div', { style:{ fontSize:'1.5rem', marginBottom:6 } }, '⚔️🔥⚔️'),
-      React.createElement('div', { style:{ fontFamily:"'Cinzel',serif", fontSize:'1rem', fontWeight:900, color:R, marginBottom:4 } }, 'GENEL SEFER BAŞLADI!'),
-      React.createElement('div', { style:{ fontSize:'0.78rem', color:'#F5A0A0', marginBottom:6 } },
-        'Tüm saldırı bekleme süreleri ve koruma kalkanları devre dışı!'
-      ),
-      React.createElement('div', { style:{ fontSize:'0.72rem', color:M } }, `Bitiş: ${fmtSure(saniye)}`)
+    genelSefer && React.createElement('div', { style:{ position:'relative', margin:'12px 16px', borderRadius:14, overflow:'hidden', border:'2px solid rgba(184,66,60,0.7)' } },
+      React.createElement('img', { src:'/assets/ui/genel-sefer-banner.svg', alt:'Genel Sefer', style:{ width:'100%', display:'block', maxHeight:140, objectFit:'cover' } }),
+      React.createElement('div', { style:{ position:'absolute', inset:0, background:'rgba(0,0,0,0.45)', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:4, padding:'10px' } },
+        React.createElement('div', { style:{ fontFamily:"'Cinzel',serif", fontSize:'1.05rem', fontWeight:900, color:'#FF6B6B', textShadow:'0 2px 8px rgba(0,0,0,0.8)', letterSpacing:'0.06em' } }, '⚔️ GENEL SEFER BAŞLADI!'),
+        React.createElement('div', { style:{ fontSize:'0.72rem', color:'#FFC9C9', textShadow:'0 1px 4px rgba(0,0,0,0.9)' } }, 'Tüm koruma kalkanları ve bekleme süreleri devre dışı!'),
+        React.createElement('div', { style:{ fontFamily:"'Cinzel',serif", fontSize:'0.95rem', fontWeight:800, color:'#FFD700', textShadow:'0 2px 6px rgba(0,0,0,0.9)' } }, `⏱ ${fmtSure(saniye)}`)
+      )
     ),
 
     // ── Normal dönem geri sayım ──────────────────────────────────────────────
@@ -203,11 +203,17 @@ window.PadisahlikScreen = function PadisahlikScreen({ profile, setProfile, showN
                         onClick: () => kirala(p.id),
                         disabled: !!kiralaniyor,
                         style:{
+                          display:'flex', alignItems:'center', gap:5,
                           padding:'8px 14px', borderRadius:10, border:'none',
                           background: kiralaniyor===p.id ? M : `linear-gradient(135deg,${G},#A07828)`,
                           color:'#0F0800', fontWeight:800, fontSize:'0.75rem', cursor:'pointer',
                         }
-                      }, kiralaniyor===p.id ? '...' : 'Kirala')
+                      },
+                        kiralaniyor===p.id ? '...' : React.createElement(React.Fragment, null,
+                          React.createElement('img', { src:'/assets/icons/mercenary.svg', width:14, height:14, alt:'', style:{ flexShrink:0 } }),
+                          'Kirala'
+                        )
+                      )
                     )
                   )
                 )
