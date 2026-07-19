@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ override: true }); // .env değerleri Replit runtime env var'larını override eder
 require('express-async-errors'); // async route handler'larında try/catch zorunluluğunu kaldırır — hatalar global error handler'a düşer
 
 // ── Fail-fast: kritik env var kontrolü ───────────────────────────────────────

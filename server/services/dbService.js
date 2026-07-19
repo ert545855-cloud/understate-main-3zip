@@ -6,8 +6,9 @@ const { Pool } = require('pg');
 const logger = require('../utils/logger');
 
 // DATABASE_URL veya AWS EB RDS_* env var'larından bağlantı konfigürasyonu oluştur
+// SUPABASE_DB_URL varsa Replit'in runtime-managed DATABASE_URL'sine tercih edilir
 function buildPoolConfig() {
-  let url = process.env.DATABASE_URL || '';
+  let url = process.env.SUPABASE_DB_URL || process.env.DATABASE_URL || '';
 
   // AWS Elastic Beanstalk RDS_* env var'larını destekle
   if (!url) {

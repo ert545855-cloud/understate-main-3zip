@@ -1,4 +1,6 @@
 modules = ["nodejs-18", "web", "java-graalvm22.3", "postgresql-16"]
+run = "npm start"
+
 [agent]
 expertMode = true
 stack = "BEST_EFFORT_FALLBACK"
@@ -29,7 +31,7 @@ outputType = "webview"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "node server/main.js"
+args = "npm start"
 waitForPort = 5000
 
 [[ports]]
@@ -38,7 +40,7 @@ externalPort = 80
 
 [deployment]
 deploymentTarget = "vm"
-run = ["node", "server/index.js"]
+run = ["npm", "start"]
 
 [userenv]
 
@@ -59,5 +61,5 @@ SMTP_HOST = ""
 SMTP_PORT = "587"
 SMTP_FROM = "noreply@understate.game"
 PORT = "5000"
-JWT_SECRET = "9fe9ef30dc503af2fcd09d649abc2cfc0d6fc26e283df8542ab321b5caed27921862e6df0a9afb6cde23658cf1527579"
+JWT_SECRET = "076be5522a2c2d360dde798ca8e73b97b19ee30927df61669e500a743dbb7808cbfe26f81e1461e1044a77a72342ce19"
 ALLOWED_ORIGINS = "*"
