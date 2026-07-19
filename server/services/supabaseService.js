@@ -15,6 +15,11 @@
 
 const { createClient } = require('@supabase/supabase-js');
 
+// Node.js 18'de native WebSocket yok — ws paketini global polyfill olarak ayarla
+if (typeof WebSocket === 'undefined') {
+  global.WebSocket = require('ws').WebSocket;
+}
+
 const SUPABASE_URL = process.env.SUPABASE_URL || 'https://zrablcffjvqtmlhwgpme.supabase.co';
 const SERVICE_KEY  = process.env.SUPABASE_SERVICE_KEY;
 const ANON_KEY     = process.env.SUPABASE_ANON_KEY || '';
