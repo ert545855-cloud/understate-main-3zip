@@ -469,6 +469,57 @@ function HomePage({ profile, onNavigate }) {
         </div>
       </div>
 
+      {/* ── YENİ: Sosyal & Karakter ── */}
+      <div style={{marginBottom:'0.75rem'}}>
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:'0.72rem',fontWeight:700,color:'#C9A227',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.45rem',display:'flex',alignItems:'center',gap:6}}>
+          <span>👥</span> Sosyal & Karakter
+          <div style={{flex:1,height:1,background:'linear-gradient(90deg,rgba(200,155,60,0.3),transparent)',marginLeft:4}} />
+        </div>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'0.45rem'}}>
+          {[
+            {icon:'👫',label:'Arkadaşlar',page:'arkadas_listesi',color:'#A78BFA'},
+            {icon:'🎖️',label:'Unvanlar',  page:'unvan_sistemi', color:'#C9A227'},
+            {icon:'🏅',label:'Rozetler',  page:'rozet_koleksiyon',color:'#C9A227'},
+            {icon:'📸',label:'Kart Paylaş',page:'profil_kart',  color:'#60A5FA'},
+            {icon:'📖',label:'Maceram',   page:'macera_gunlugu',color:'#A78BFA'},
+            {icon:'🔍',label:'Oyuncu Ara',page:'oyuncu_arama', color:'#60A5FA'},
+            {icon:'💬',label:'Grup Chat', page:'grup_mesaj',    color:'#136,147,161'},
+            {icon:'🔔',label:'Bildirimler',page:'bildirim_gecmisi',color:'#C9A227'},
+          ].map((a,i)=>(
+            <button key={i} onClick={()=>onNavigate(a.page)}
+              style={{background:'#1B212B',border:`1px solid ${a.color}22`,borderRadius:'14px',padding:'0.7rem 0.3rem',display:'flex',flexDirection:'column',alignItems:'center',gap:'0.2rem',cursor:'pointer',WebkitTapHighlightColor:'transparent',transition:'all 0.15s',position:'relative',overflow:'hidden'}}>
+              <div style={{position:'absolute',top:0,left:0,right:0,height:'2px',background:a.color,opacity:0.5}} />
+              <span style={{fontSize:'1.3rem',lineHeight:1}}>{a.icon}</span>
+              <span style={{fontSize:'0.6rem',fontWeight:700,color:'#EDE7DA',textAlign:'center',lineHeight:1.2}}>{a.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* ── YENİ: Devlet & Keşfet ── */}
+      <div style={{marginBottom:'0.75rem'}}>
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:'0.72rem',fontWeight:700,color:'#C9A227',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.45rem',display:'flex',alignItems:'center',gap:6}}>
+          <span>🏛️</span> Devlet & Keşfet
+          <div style={{flex:1,height:1,background:'linear-gradient(90deg,rgba(200,155,60,0.3),transparent)',marginLeft:4}} />
+        </div>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'0.45rem'}}>
+          {[
+            {icon:'📜',label:'Ferman',     page:'ferman',          color:'#C9A227'},
+            {icon:'🌳',label:'Yetenekler', page:'yetenek_agaci',   color:'#3E8C5A'},
+            {icon:'📅',label:'Etkinlikler',page:'etkinlik_takvimi',color:'#C9A227'},
+            {icon:'🕌',label:'Osmanlı Günü',page:'osmanli_gunu',   color:'#C9A227'},
+            {icon:'📊',label:'Pazar Graf.',page:'fiyat_grafik',    color:'#3E8C5A'},
+          ].map((a,i)=>(
+            <button key={i} onClick={()=>onNavigate(a.page)}
+              style={{background:'#1B212B',border:`1px solid ${a.color}22`,borderRadius:'14px',padding:'0.7rem 0.3rem',display:'flex',flexDirection:'column',alignItems:'center',gap:'0.2rem',cursor:'pointer',WebkitTapHighlightColor:'transparent',transition:'all 0.15s',position:'relative',overflow:'hidden'}}>
+              <div style={{position:'absolute',top:0,left:0,right:0,height:'2px',background:a.color,opacity:0.5}} />
+              <span style={{fontSize:'1.3rem',lineHeight:1}}>{a.icon}</span>
+              <span style={{fontSize:'0.6rem',fontWeight:700,color:'#EDE7DA',textAlign:'center',lineHeight:1.2}}>{a.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* ── Hızlı Erişim (orijinal) ── */}
       <div style={{background:'#1B212B',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'1rem',boxShadow:'none'}}>
         <div style={{fontFamily:"'Cinzel',serif",fontSize:'1rem',fontWeight:800,color:'#EDE7DA',marginBottom:'0.75rem'}}>Hızlı Erişim</div>

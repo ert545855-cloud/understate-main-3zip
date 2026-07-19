@@ -167,6 +167,13 @@ app.use('/api/zanaat',        require('./routes/zanaat'));
 app.use('/api/lonca-anlasma', require('./routes/loncaAnlasma'));
 app.use('/api/kervan-koruma', require('./routes/kervanKoruma'));
 app.use('/api/fal-carki',    require('./routes/falCarki'));
+app.use('/api/ferman',       require('./routes/ferman'));
+app.use('/api/arkadas',      require('./routes/arkadas'));
+app.use('/api/sikayet',      require('./routes/sikayet'));
+app.use('/api/unvan',        require('./routes/unvan'));
+app.use('/api/grup-mesaj',   require('./routes/grupMesaj'));
+app.use('/api/adventure-log',require('./routes/adventureLog'));
+app.use('/api/players',      require('./routes/playerSearch'));
 
 app.get('/health',            (_req, res) => res.json({ status: 'OK', ts: Date.now() }));
 app.get('/api/admob-config',  (_req, res) => res.json(getPublicAdConfig(process.env.NODE_ENV !== 'production')));

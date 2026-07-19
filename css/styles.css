@@ -703,6 +703,22 @@
     .chip.active  { background: rgba(200,155,60,0.18); border-color: rgba(200,155,60,0.5); color: var(--accent); }
     .chip:hover:not(.active) { background: rgba(200,155,60,0.1); color: var(--text); }
 
+    /* ── Gece / Gündüz Döngüsü ── */
+    body.time-night {
+        --night-tint: rgba(20,10,40,0.18);
+    }
+    body.time-night::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: var(--night-tint);
+        pointer-events: none;
+        z-index: 9998;
+        animation: nightFadeIn 2s ease forwards;
+    }
+    @keyframes nightFadeIn { from { opacity:0 } to { opacity:1 } }
+    body.time-night .bottom-nav-bar { border-top-color: rgba(100,80,160,0.25) !important; }
+
     /* ── Responsive ── */
     @media (max-width: 360px) {
         .stats-row { grid-template-columns: repeat(2, 1fr); }

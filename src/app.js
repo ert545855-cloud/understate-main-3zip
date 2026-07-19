@@ -739,6 +739,36 @@ function App() {
     document.body.classList.toggle('mode-light', !dark);
   }, []);
 
+  // ── Gece/Gündüz Döngüsü ───────────────────────────────────────────────────
+  useEffect(() => {
+    const applyDayCycle = () => {
+      const h = new Date().getHours();
+      const isNight = h >= 20 || h < 6;
+      document.body.classList.toggle('time-night', isNight);
+      document.body.classList.toggle('time-day', !isNight);
+    };
+    applyDayCycle();
+    const interval = setInterval(applyDayCycle, 60 * 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // ── Müzik Toggle ───────────────────────────────────────────────────────────
+  const [musicOn, setMusicOn] = useState(() => localStorage.getItem('rep_musicOn') === '1');
+  const audioRef = React.useRef(null);
+  useEffect(() => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio('/sounds/bg-music.mp3');
+      audioRef.current.loop = true;
+      audioRef.current.volume = 0.25;
+    }
+    if (musicOn) {
+      audioRef.current.play().catch(()=>{});
+    } else {
+      audioRef.current.pause();
+    }
+    localStorage.setItem('rep_musicOn', musicOn ? '1' : '0');
+  }, [musicOn]);
+
   // ── Game events state ──────────────────────────────────────────────────────
   const [gameEvents, setGameEvents] = useState(() => {
     try { return JSON.parse(localStorage.getItem('rep_gameEvents')||'[]'); } catch { return []; }
@@ -1458,11 +1488,29 @@ function App() {
             {page==='lonca_anlasma'  && window.LoncaAnlasmaScreen    && React.createElement(window.LoncaAnlasmaScreen,    {profile,onNavigate:setPage,showNotif})}
             {page==='fal_carki'      && window.FalCarkiScreen         && React.createElement(window.FalCarkiScreen,         {profile,onNavigate:setPage,showNotif})}
             {page==='gunluk_gorev'   && window.GunlukGorevScreen      && React.createElement(window.GunlukGorevScreen,      {profile,onNavigate:setPage,showNotif})}
-            {page==='hizli_merkez'   && window.HizliEylemlerScreen    && React.createElement(window.HizliEylemlerScreen,    {profile,onNavigate:setPage,showNotif})}
+            {page==='hizli_merkez'      && window.HizliEylemlerScreen    && React.createElement(window.HizliEylemlerScreen,    {profile,onNavigate:setPage,showNotif})}
+            {page==='yetenek_agaci'     && window.YetenekAgaciScreen     && React.createElement(window.YetenekAgaciScreen,     {profile,onNavigate:setPage,showNotif})}
+            {page==='osmanli_gunu'      && window.OsmanliGunuScreen      && React.createElement(window.OsmanliGunuScreen,      {profile,onNavigate:setPage,showNotif})}
+            {page==='rozet_koleksiyon'  && window.RozetKoleksiyonScreen  && React.createElement(window.RozetKoleksiyonScreen,  {profile,onNavigate:setPage})}
+            {page==='unvan_sistemi'     && window.UnvanSistemiScreen     && React.createElement(window.UnvanSistemiScreen,     {profile,onNavigate:setPage,showNotif})}
+            {page==='ferman'            && window.FermanScreen           && React.createElement(window.FermanScreen,           {profile,onNavigate:setPage,showNotif})}
+            {page==='arkadas_listesi'   && window.ArkadasListesiScreen   && React.createElement(window.ArkadasListesiScreen,   {profile,onNavigate:setPage,showNotif})}
+            {page==='etkinlik_takvimi'  && window.EtkinlikTakvimiScreen  && React.createElement(window.EtkinlikTakvimiScreen,  {profile,onNavigate:setPage})}
+            {page==='oyuncu_arama'      && window.OyuncuAramaScreen      && React.createElement(window.OyuncuAramaScreen,      {profile,onNavigate:setPage,showNotif})}
+            {page==='bildirim_gecmisi'  && window.BildirimGecmisiScreen  && React.createElement(window.BildirimGecmisiScreen,  {profile,onNavigate:setPage})}
+            {page==='fiyat_grafik'      && window.FiyatGrafikScreen      && React.createElement(window.FiyatGrafikScreen,      {profile,onNavigate:setPage})}
+            {page==='macera_gunlugu'    && window.MaceraGunluguScreen    && React.createElement(window.MaceraGunluguScreen,    {profile,onNavigate:setPage})}
+            {page==='profil_kart'       && window.ProfilKartScreen       && React.createElement(window.ProfilKartScreen,       {profile,onNavigate:setPage})}
+            {page==='grup_mesaj'        && window.GrupMesajScreen        && React.createElement(window.GrupMesajScreen,        {profile,onNavigate:setPage,showNotif})}
           </div>
           </div>
 
           <BottomNav page={page} onChange={setPage} items={navItems} notifMap={{ chat: notifications.filter(n=>n.type==='message'&&Date.now()-n.ts<300000).length }} />
+
+          {/* Müzik Toggle FAB */}
+          <button onClick={()=>setMusicOn(m=>!m)} title={musicOn?'Müziği Kapat':'Müziği Aç'} style={{position:'fixed',bottom:80,right:14,width:40,height:40,borderRadius:'50%',border:'1px solid rgba(200,155,60,0.35)',background:'rgba(11,8,0,0.92)',backdropFilter:'blur(8px)',zIndex:1200,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.1rem',cursor:'pointer',boxShadow:'0 2px 12px rgba(0,0,0,0.5)',transition:'all 0.2s'}}>
+            {musicOn ? '🔊' : '🔇'}
+          </button>
 
           {toast && <Notif msg={toast.msg} type={toast.type} onClose={()=>setToast(null)} />}
           {notifOpen && <NotifPanel notifications={notifications} onClose={()=>setNotifOpen(false)} onClear={()=>setNotifications([])} />}
