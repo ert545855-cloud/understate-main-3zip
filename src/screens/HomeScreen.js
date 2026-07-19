@@ -400,7 +400,76 @@ function HomePage({ profile, onNavigate }) {
         ))}
       </div>
 
-      {/* ── Quick categories ── */}
+      {/* ── YENİ: Günlük Aktiviteler Kısayolu ── */}
+      <div style={{marginBottom:'0.75rem'}}>
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:'0.72rem',fontWeight:700,color:'#C9A227',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.45rem',display:'flex',alignItems:'center',gap:6}}>
+          <span>⚡</span> Günlük Aktiviteler
+          <div style={{flex:1,height:1,background:'linear-gradient(90deg,rgba(200,155,60,0.3),transparent)',marginLeft:4}} />
+        </div>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'0.45rem'}}>
+          {[
+            {icon:'🎡',label:'Fal Çarkı',page:'fal_carki',color:'#A78BFA',desc:'Günde 1 çevirme'},
+            {icon:'📋',label:'Günlük Görev',page:'gunluk_gorev',color:'#C9A227',desc:'Ödül kazan'},
+            {icon:'⚡',label:'Hızlı Merkez',page:'hizli_merkez',color:'#60A5FA',desc:'Transfer & stat'},
+          ].map((a) => (
+            <button key={a.page} onClick={() => onNavigate(a.page)}
+              style={{background:'#1B212B',border:`1px solid ${a.color}22`,borderRadius:'14px',padding:'0.75rem 0.5rem',display:'flex',flexDirection:'column',alignItems:'center',gap:'0.2rem',cursor:'pointer',WebkitTapHighlightColor:'transparent',transition:'all 0.15s',position:'relative',overflow:'hidden'}}>
+              <div style={{position:'absolute',top:0,left:0,right:0,height:'2px',background:a.color,opacity:0.6}} />
+              <span style={{fontSize:'1.5rem',lineHeight:1}}>{a.icon}</span>
+              <span style={{fontSize:'0.68rem',fontWeight:800,color:'#EDE7DA',textAlign:'center',lineHeight:1.2}}>{a.label}</span>
+              <span style={{fontSize:'0.56rem',color:'#8893A1',textAlign:'center'}}>{a.desc}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* ── YENİ: Zanaat & Kervan Sistemi ── */}
+      <div style={{marginBottom:'0.75rem'}}>
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:'0.72rem',fontWeight:700,color:'#C9A227',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.45rem',display:'flex',alignItems:'center',gap:6}}>
+          <span>🏺</span> Zanaat & Ticaret
+          <div style={{flex:1,height:1,background:'linear-gradient(90deg,rgba(200,155,60,0.3),transparent)',marginLeft:4}} />
+        </div>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'0.45rem'}}>
+          {[
+            {icon:'⚒️',label:'Zanaat',page:'zanaat',color:'#3E8C5A',desc:'Usta ol'},
+            {icon:'🛡️',label:'Kervan Koru',page:'kervan_koruma',color:'#F97316',desc:'Sikke kazan'},
+            {icon:'🤝',label:'Lonca Anlaşma',page:'lonca_anlasma',color:'#C9A227',desc:'Ticaret yap'},
+          ].map((a) => (
+            <button key={a.page} onClick={() => onNavigate(a.page)}
+              style={{background:'#1B212B',border:`1px solid ${a.color}22`,borderRadius:'14px',padding:'0.75rem 0.5rem',display:'flex',flexDirection:'column',alignItems:'center',gap:'0.2rem',cursor:'pointer',WebkitTapHighlightColor:'transparent',transition:'all 0.15s',position:'relative',overflow:'hidden'}}>
+              <div style={{position:'absolute',top:0,left:0,right:0,height:'2px',background:a.color,opacity:0.6}} />
+              <span style={{fontSize:'1.5rem',lineHeight:1}}>{a.icon}</span>
+              <span style={{fontSize:'0.68rem',fontWeight:800,color:'#EDE7DA',textAlign:'center',lineHeight:1.2}}>{a.label}</span>
+              <span style={{fontSize:'0.56rem',color:'#8893A1',textAlign:'center'}}>{a.desc}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* ── YENİ: Strateji Kısayolları ── */}
+      <div style={{marginBottom:'0.75rem'}}>
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:'0.72rem',fontWeight:700,color:'#C9A227',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.45rem',display:'flex',alignItems:'center',gap:6}}>
+          <span>⚔️</span> Strateji & Casusluk
+          <div style={{flex:1,height:1,background:'linear-gradient(90deg,rgba(200,155,60,0.3),transparent)',marginLeft:4}} />
+        </div>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'0.45rem'}}>
+          {[
+            {icon:'🕵️',label:'Casus Zinciri',page:'casus_chain',color:'#B8423C',desc:'3 aşamalı görev'},
+            {icon:'🏅',label:'Sezon',page:'sezon',color:'#60A5FA',desc:'Sıralama & ödül'},
+            {icon:'⭐',label:'İtibar',page:'itibar',color:'#F9A825',desc:'Şöhretini artır'},
+          ].map((a) => (
+            <button key={a.page} onClick={() => onNavigate(a.page)}
+              style={{background:'#1B212B',border:`1px solid ${a.color}22`,borderRadius:'14px',padding:'0.75rem 0.5rem',display:'flex',flexDirection:'column',alignItems:'center',gap:'0.2rem',cursor:'pointer',WebkitTapHighlightColor:'transparent',transition:'all 0.15s',position:'relative',overflow:'hidden'}}>
+              <div style={{position:'absolute',top:0,left:0,right:0,height:'2px',background:a.color,opacity:0.6}} />
+              <span style={{fontSize:'1.5rem',lineHeight:1}}>{a.icon}</span>
+              <span style={{fontSize:'0.68rem',fontWeight:800,color:'#EDE7DA',textAlign:'center',lineHeight:1.2}}>{a.label}</span>
+              <span style={{fontSize:'0.56rem',color:'#8893A1',textAlign:'center'}}>{a.desc}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Hızlı Erişim (orijinal) ── */}
       <div style={{background:'#1B212B',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'1rem',boxShadow:'none'}}>
         <div style={{fontFamily:"'Cinzel',serif",fontSize:'1rem',fontWeight:800,color:'#EDE7DA',marginBottom:'0.75rem'}}>Hızlı Erişim</div>
         <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'0.45rem'}}>
