@@ -30,6 +30,8 @@ const { connectDB }      = require('./database/connection');
 const { initSocket }     = require('./socket/index');
 const { getPublicAdConfig } = require('./config/admob');
 const logger             = require('./utils/logger');
+const { ensureStorageBucket, SUPABASE_URL, ANON_KEY } = require('./services/supabaseService');
+const { initRealtimeBridge, closeRealtimeBridge }     = require('./socket/realtimeBridge');
 
 const app  = express();
 const PORT = process.env.PORT || 8080;
@@ -86,6 +88,20 @@ app.get('/config.js', (req, res) => {
   res.set('Content-Type', 'application/javascript');
   res.set('Cache-Control', 'no-cache');
   res.send(`window.__BACKEND_URL__ = ${JSON.stringify(publicUrl)};`);
+});
+
+// ── Supabase public config (frontend direct erişim için) ─────────────────────
+app.get('/supabase-config.js', (req, res) => {
+  res.set('Content-Type', 'application/javascript');
+  res.set('Cache-Control', 'no-cache');
+  res.send([
+    `window.__SUPABASE_URL__ = ${JSON.stringify(SUPABASE_URL)};`,
+    `window.__SUPABASE_ANON_KEY__ = ${JSON.stringify(ANON_KEY)};`,
+    // Supabase JS client init (anon key varsa)
+    ANON_KEY
+      ? `if(typeof supabase!=='undefined'){ window.__sb = supabase.createClient(window.__SUPABASE_URL__, window.__SUPABASE_ANON_KEY__); }`
+      : `/* SUPABASE_ANON_KEY tanımlı değil — window.__sb oluşturulmadı */`,
+  ].join('\n'));
 });
 
 // ── Statik dosyalar ───────────────────────────────────────────────────────────
@@ -177,6 +193,8 @@ app.use('/api/unvan',        require('./routes/unvan'));
 app.use('/api/grup-mesaj',   require('./routes/grupMesaj'));
 app.use('/api/adventure-log',require('./routes/adventureLog'));
 app.use('/api/players',      require('./routes/playerSearch'));
+// ── Supabase REST API — Admin & Upload ────────────────────────
+app.use('/api/admin/sb',     require('./routes/adminSupabase'));
 
 app.get('/health',            (_req, res) => res.json({ status: 'OK', ts: Date.now() }));
 app.get('/api/admob-config',  (_req, res) => res.json(getPublicAdConfig(process.env.NODE_ENV !== 'production')));
@@ -268,11 +286,16 @@ initSocket(io);
 // Padişahlık socket bağlantısı
 try { require('./routes/padisahlik').setIO(io); } catch(_) {}
 
+// ── Supabase: Storage bucket + Realtime bridge ────────────────────────────────
+ensureStorageBucket().catch(e => logger.warn('[Storage] Başlatma uyarısı:', e.message));
+initRealtimeBridge(io).catch(e => logger.warn('[Realtime] Bridge uyarısı:', e.message));
+
 server.listen(PORT, '0.0.0.0', () => {
   logger.success(`SALTANAT ONLINE sunucusu başlatıldı → port ${PORT}`);
 });
 
 process.on('uncaughtException',  (err) => logger.error('UncaughtException:', err.message));
 process.on('unhandledRejection', (r)   => logger.error('UnhandledRejection:', String(r)));
+process.on('SIGTERM', () => { closeRealtimeBridge(); server.close(); });
 
 module.exports = { app, server, io };

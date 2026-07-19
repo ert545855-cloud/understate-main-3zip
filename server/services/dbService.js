@@ -625,6 +625,18 @@ module.exports = {
   saveUserGameData,
   // Admin
   getAllUsers, getUserCount,
-  SUPABASE_URL: '',
-  SUPABASE_ANON_KEY: '',
+  // ── Supabase JS client köprüsü (REST/Table API) ──────────────
+  // Mevcut pg rotaları db.query() kullanmaya devam eder.
+  // Yeni kod için db.from('tablo').select/insert/update/delete() kullanılabilir.
+  from(table) {
+    try {
+      const { supabaseAdmin } = require('./supabaseService');
+      if (!supabaseAdmin) throw new Error('supabaseAdmin yok');
+      return supabaseAdmin.from(table);
+    } catch (e) {
+      throw new Error(`db.from() kullanılamıyor: ${e.message}`);
+    }
+  },
+  get SUPABASE_URL()     { return process.env.SUPABASE_URL || 'https://zrablcffjvqtmlhwgpme.supabase.co'; },
+  get SUPABASE_ANON_KEY(){ return process.env.SUPABASE_ANON_KEY || ''; },
 };
