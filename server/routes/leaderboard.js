@@ -200,4 +200,82 @@ router.get('/extended', asyncHandler(async (req, res) => {
   }
 }));
 
+// ── Çok Kategorili Liderlik Tahtası ─────────────────────────────────────────
+// GET /api/leaderboard/:category  (zenginlik | ordu | toprak | itibar)
+
+router.get('/:category', asyncHandler(async (req, res) => {
+  if (!db.isReady()) return res.json({ success: false, data: [] });
+
+  const cat   = req.params.category;
+  const limit = Math.min(parseInt(req.query.limit) || 50, 100);
+
+  let rows = [];
+
+  try {
+    if (cat === 'zenginlik') {
+      ({ rows } = await db.query(
+        `SELECT id, username, level, city,
+                COALESCE(money,0) AS money,
+                COALESCE(bank_balance,0) AS bank_balance,
+                (COALESCE(money,0) + COALESCE(bank_balance,0)) AS toplam_servet
+         FROM users
+         ORDER BY toplam_servet DESC
+         LIMIT $1`, [limit]
+      ));
+    } else if (cat === 'ordu') {
+      ({ rows } = await db.query(
+        `SELECT id, username, level, city,
+                COALESCE(weapons,0) AS weapons,
+                COALESCE(ammo,0) AS ammo,
+                COALESCE(war_elo,1000) AS war_elo,
+                COALESCE(war_league,'bronz') AS war_league,
+                (COALESCE(weapons,0)*5 + COALESCE(ammo,0)*3 + COALESCE(level,1)*10) AS guc_puani
+         FROM users
+         ORDER BY guc_puani DESC
+         LIMIT $1`, [limit]
+      ));
+    } else if (cat === 'toprak') {
+      // Eyalet sayacı üzerinden
+      ({ rows } = await db.query(
+        `SELECT e.beylik_id, e.eyalet_sayisi,
+                u.username, u.level, u.city
+         FROM eyalet_fetih_sayaci e
+         JOIN padisahlik_donemleri d ON d.id = e.donem_id
+         LEFT JOIN users u ON u.id::text = e.beylik_id
+         WHERE d.durum IN ('normal','genel_sefer')
+         ORDER BY e.eyalet_sayisi DESC
+         LIMIT $1`, [limit]
+      ).catch(() => ({ rows: [] })));
+
+      // Fallback: eyalet vali verisinden
+      if (!rows.length) {
+        ({ rows } = await db.query(
+          `SELECT u.id, u.username, u.level, u.city,
+                  COUNT(ev.user_id) AS eyalet_sayisi
+           FROM eyalet_vali ev
+           JOIN users u ON u.id::text = ev.user_id
+           GROUP BY u.id, u.username, u.level, u.city
+           ORDER BY eyalet_sayisi DESC
+           LIMIT $1`, [limit]
+        ).catch(() => ({ rows: [] })));
+      }
+    } else if (cat === 'itibar') {
+      ({ rows } = await db.query(
+        `SELECT id, username, level, city,
+                COALESCE(itibar_score,100) AS itibar_score,
+                COALESCE(merit_points,0) AS merit_points
+         FROM users
+         ORDER BY itibar_score DESC, merit_points DESC
+         LIMIT $1`, [limit]
+      ));
+    } else {
+      return res.status(400).json({ success: false, error: 'Geçersiz kategori. zenginlik | ordu | toprak | itibar' });
+    }
+  } catch (err) {
+    return res.status(500).json({ success: false, error: err.message });
+  }
+
+  res.json({ success: true, category: cat, data: rows });
+}));
+
 module.exports = router;

@@ -67,6 +67,15 @@ router.post('/attack', authMiddleware, asyncHandler(async (req, res) => {
   const { targetId } = req.body;
   if (!targetId || targetId === req.user.id) return res.status(400).json({ success: false, message: 'Geçersiz hedef' });
 
+  // Genel Sefer kontrolü — aktifse cooldown/koruma kalkanları devre dışı
+  let genelSeferAktif = false;
+  try {
+    const { rows: gsRows } = await db.query(
+      `SELECT id FROM padisahlik_donemleri WHERE durum='genel_sefer' LIMIT 1`
+    );
+    genelSeferAktif = gsRows.length > 0;
+  } catch (_) {}
+
   const [atkR, defR] = await Promise.all([
     db.query(`SELECT id,username,level,war_elo,win_streak,max_streak,money,fame_score,season_score,revenge_on,revenge_until FROM users WHERE id=$1`, [req.user.id]),
     db.query(`SELECT id,username,level,war_elo,win_streak,max_streak,money,fame_score,season_score FROM users WHERE id=$1`, [targetId])
@@ -153,10 +162,17 @@ router.post('/attack', authMiddleware, asyncHandler(async (req, res) => {
     )
   ]);
 
+  // Genel Sefer'de ganimet %50 artar (cooldown'suz saldırı bonusu)
+  const genelSeferLoot = genelSeferAktif ? Math.floor(lootMoney * 0.5) : 0;
+  if (genelSeferAktif && genelSeferLoot > 0 && atkWins) {
+    await db.query(`UPDATE users SET money=money+$1 WHERE id=$2`, [genelSeferLoot, atk.id]);
+  }
+
   const result = { success:true, attackerWins:atkWins, attackerPower:atkPow, defenderPower:defPow,
-    lootMoney, eloChange:atkEloDelta, newElo:newAtkElo, newLeague:toLeague(newAtkElo),
-    newStreak:newAtkStreak, isRevenge, logId:logRow?.id,
-    attacker:atk.username, defender:def.username };
+    lootMoney: lootMoney + genelSeferLoot, eloChange:atkEloDelta, newElo:newAtkElo,
+    newLeague:toLeague(newAtkElo), newStreak:newAtkStreak, isRevenge, logId:logRow?.id,
+    attacker:atk.username, defender:def.username,
+    genelSefer: genelSeferAktif };
 
   if (global._io) global._io.emit('war:result', result);
   if (global._io) global._io.to(`user_${def.id}`).emit('war:attacked', { by: atk.username, lostMoney: lootMoney });
@@ -200,6 +216,56 @@ router.post('/claim-challenge', authMiddleware, asyncHandler(async (req, res) =>
   if (tpl.reward_xp)    { updates.push(db.query(`UPDATE users SET xp=xp+$1 WHERE id=$2`, [tpl.reward_xp, req.user.id])); }
   await Promise.all(updates);
   res.json({ success: true, reward_money: tpl.reward_money, reward_xp: tpl.reward_xp });
+}));
+
+/* ── POST /api/war/repair — hasar görmüş bina/eyaleti sikke karşılığı onar ── */
+router.post('/repair', authMiddleware, asyncHandler(async (req, res) => {
+  if (!db.isReady()) return res.status(503).json({ success: false, error: 'Veritabanı hazır değil' });
+
+  const { binaId } = req.body;
+  if (!binaId) return res.status(400).json({ success: false, error: 'binaId gerekli' });
+
+  // Hasar kaydını bul
+  const { rows: binaRows } = await db.query(
+    `SELECT * FROM bina_hasar WHERE id=$1 AND onarildi_mi=FALSE`, [binaId]
+  );
+  if (!binaRows.length) return res.status(404).json({ success: false, error: 'Hasar kaydı bulunamadı veya zaten onarıldı' });
+
+  const bina = binaRows[0];
+
+  // Onarım maliyeti: hasar miktarının 10 katı Sikke
+  const maliyet = bina.hasar_miktari * 10;
+
+  // Kullanıcı bakiye kontrolü
+  const { rows: userRows } = await db.query(
+    `SELECT money FROM users WHERE id=$1 FOR UPDATE`, [req.user.id]
+  );
+  const u = userRows[0];
+  if (!u) return res.status(404).json({ success: false, error: 'Kullanıcı bulunamadı' });
+  if ((u.money || 0) < maliyet) {
+    return res.status(400).json({ success: false, error: `Onarım için ${maliyet.toLocaleString('tr-TR')} 🪙 gerekli` });
+  }
+
+  await db.query(`UPDATE users SET money=money-$1 WHERE id=$2`, [maliyet, req.user.id]);
+  await db.query(`UPDATE bina_hasar SET onarildi_mi=TRUE WHERE id=$1`, [binaId]);
+
+  if (global._io) {
+    global._io.to(`user_${req.user.id}`).emit('war:repair_done', { binaId, binaAdi: bina.bina_adi });
+  }
+
+  res.json({ success: true, message: `${bina.bina_adi} onarıldı`, harcanan: maliyet });
+}));
+
+/* ── GET /api/war/hasar-listesi — benim beyliğimin hasarları ─────────────── */
+router.get('/hasar-listesi', authMiddleware, asyncHandler(async (req, res) => {
+  if (!db.isReady()) return res.json({ success: true, hasarlar: [] });
+  const { beylikId } = req.query;
+  const hedef = beylikId || req.user.id;
+  const { rows } = await db.query(
+    `SELECT * FROM bina_hasar WHERE beylik_id=$1 AND onarildi_mi=FALSE ORDER BY created_at DESC`,
+    [hedef]
+  ).catch(() => ({ rows: [] }));
+  res.json({ success: true, hasarlar: rows });
 }));
 
 module.exports = router;

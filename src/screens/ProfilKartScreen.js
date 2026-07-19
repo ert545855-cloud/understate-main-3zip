@@ -80,6 +80,45 @@ window.ProfilKartScreen = function({ profile, onNavigate }) {
         React.createElement('button',{onClick:copy,style:{padding:'12px',borderRadius:12,border:'none',background:copied?GR:`linear-gradient(135deg,${G},#A07828)`,color:'#0F0800',fontWeight:800,fontSize:'0.85rem',cursor:'pointer',transition:'all 0.2s'}},copied?'✅ Kopyalandı!':'📋 Metni Kopyala'),
         React.createElement('button',{onClick:()=>{const url=`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;window.open(url,'_blank');},style:{padding:'12px',borderRadius:12,border:`1px solid rgba(255,255,255,0.15)`,background:'rgba(255,255,255,0.06)',color:T,fontWeight:700,fontSize:'0.85rem',cursor:'pointer'}},
           '🐦 Twitter/X\'te Paylaş')
+      ),
+      // Kozmetik butonu
+      React.createElement('div',{style:{marginTop:8}},
+        React.createElement('button',{onClick:()=>onNavigate&&onNavigate('_kozmetik_modal_'+Date.now()),
+          style:{width:'100%',padding:'12px',borderRadius:12,border:`1px solid rgba(200,155,60,0.3)`,background:'rgba(200,155,60,0.08)',color:G,fontWeight:700,fontSize:'0.82rem',cursor:'pointer'},
+          onClick:()=>{
+            const tok=localStorage.getItem('rep_token')||'';
+            fetch('/api/cosmetics/liste',{headers:{Authorization:`Bearer ${tok}`}})
+              .then(r=>r.json())
+              .then(d=>{
+                if(!d.success) return;
+                const modal=document.createElement('div');
+                modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px';
+                modal.innerHTML=`<div style="background:#1A0E00;border:1px solid rgba(200,155,60,0.3);border-radius:16px;padding:20px;max-width:400px;width:100%;max-height:80vh;overflow-y:auto">
+                  <div style="font-family:'Cinzel',serif;font-size:1rem;font-weight:800;color:#C89B3C;margin-bottom:12px">🎨 KOZMETİK MAĞAZA</div>
+                  <div style="font-size:0.68rem;color:#A9A6A0;margin-bottom:14px">Görsel özelleştirmeler — rekabete etkisi yoktur</div>
+                  ${(d.liste||[]).map(k=>`
+                    <div style="display:flex;align-items:center;justify-content:space-between;background:#2D1800;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;margin-bottom:6px">
+                      <div>
+                        <div style="font-size:0.82rem;font-weight:700;color:#F5EBD7">${k.emoji} ${k.ad}</div>
+                        <div style="font-size:0.62rem;color:#A9A6A0;margin-top:2px">${k.aciklama}</div>
+                      </div>
+                      <button onclick="(async()=>{
+                        if(${k.sahipMi}){this.disabled=true;return;}
+                        this.textContent='...';
+                        const r=await fetch('/api/cosmetics/satin-al',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+localStorage.getItem('rep_token')},body:JSON.stringify({kozmetikId:'${k.id}'})});
+                        const dd=await r.json();
+                        alert(dd.message||dd.error||'Hata');
+                        document.body.removeChild(document.body.querySelector('[data-kozm]'));
+                      })()" style="padding:6px 12px;border-radius:8px;border:none;background:${k.sahipMi?'rgba(62,140,90,0.2)':'rgba(200,155,60,0.85)'};color:${k.sahipMi?'#3E8C5A':'#0F0800'};font-weight:700;font-size:0.7rem;cursor:pointer;white-space:nowrap">${k.sahipMi?'✅ Sahip':k.maliyet.toLocaleString('tr-TR')+' 🪙'}</button>
+                    </div>`).join('')}
+                  <button onclick="document.body.removeChild(this.closest('[data-kozm]')||this.parentNode.parentNode)" style="width:100%;padding:10px;border-radius:10px;border:none;background:rgba(255,255,255,0.06);color:#A9A6A0;font-weight:700;cursor:pointer;margin-top:8px">Kapat</button>
+                </div>`;
+                modal.setAttribute('data-kozm','1');
+                modal.addEventListener('click',e=>{if(e.target===modal)document.body.removeChild(modal);});
+                document.body.appendChild(modal);
+              }).catch(()=>alert('Kozmetik yüklenemedi'));
+          }
+        },'🎨 Kozmetik Mağaza')
       )
     )
   );

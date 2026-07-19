@@ -1186,6 +1186,20 @@ function App() {
         } catch(e){}
       });
 
+      // ── Padişahlık olayları ────────────────────────────────────
+      s.on('padisah:ilan_edildi', (data) => {
+        try {
+          localStorage.setItem('rep_padisahlik', JSON.stringify({ padisahBeylikId: data.beylikId, ts: Date.now() }));
+          showNotif(`👑 Yeni Padişah Beyliği: ${data.beylikId}`, 'success', '👑');
+        } catch(_) {}
+      });
+      s.on('genel_sefer:basladi', () => {
+        try { showNotif('⚔️ GENEL SEFER BAŞLADI! Tüm saldırılar serbest!', 'warning', '⚔️'); } catch(_) {}
+      });
+      s.on('genel_sefer:bitti', () => {
+        try { showNotif('🏳️ Genel Sefer sona erdi. Padişah seçiliyor...', 'info', '🏳️'); } catch(_) {}
+      });
+
       // ── Game event — tüm clientlara yayınlanan canlı olay ──────
       s.on('gameEvent', (data) => {
         try {
@@ -1502,6 +1516,7 @@ function App() {
             {page==='macera_gunlugu'    && window.MaceraGunluguScreen    && React.createElement(window.MaceraGunluguScreen,    {profile,onNavigate:setPage})}
             {page==='profil_kart'       && window.ProfilKartScreen       && React.createElement(window.ProfilKartScreen,       {profile,onNavigate:setPage})}
             {page==='grup_mesaj'        && window.GrupMesajScreen        && React.createElement(window.GrupMesajScreen,        {profile,onNavigate:setPage,showNotif})}
+            {page==='padisahlik'        && window.PadisahlikScreen       && React.createElement(window.PadisahlikScreen,       {profile,setProfile,showNotif,onNavigate:setPage})}
           </div>
           </div>
 

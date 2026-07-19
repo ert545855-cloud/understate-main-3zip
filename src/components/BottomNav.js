@@ -128,7 +128,8 @@ const NAV_GROUPS = [
 
 // Devlet grubuna Ruzname ekle
 NAV_GROUPS.find(g => g.id === 'devlet')?.items?.push(
-  { id:'ruzname', icon:'📆', svgIcon:'tasks', label:'Ruzname', rgb:'201,162,39' }
+  { id:'ruzname',    icon:'📆', svgIcon:'tasks',  label:'Ruzname',       rgb:'201,162,39' },
+  { id:'padisahlik', icon:'👑', svgIcon:'crown',  label:'Padişahlık',    rgb:'201,162,39' }
 );
 
 const NAV_GROUP_TKEYS = { home:'home', ekonomi:'economy', savas:'battle', devlet:'state', sosyal:'social' };

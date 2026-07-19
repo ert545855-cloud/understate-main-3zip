@@ -1,0 +1,40 @@
+Bu Saltanat Online projesine yeni SVG asset'ler ekledim (attached: throne.svg, mercenary.svg,
+repair.svg, flag.svg, treaty.svg, medal-tiers.svg, padisah-badge.svg, sikke-coin.svg,
+genel-sefer-banner.svg). Bunları projeye entegre et:
+
+1) DOSYALARI YERLEŞTİR:
+   - throne.svg, mercenary.svg, repair.svg, flag.svg, treaty.svg, medal-tiers.svg
+     → assets/icons/ klasörüne kopyala (mevcut money.svg, crown.svg ile aynı klasör)
+   - padisah-badge.svg, sikke-coin.svg → assets/badges/ klasörüne kopyala (klasör yoksa oluştur)
+   - genel-sefer-banner.svg → assets/ui/ klasörüne kopyala
+
+2) src/components/Icon.jsx İÇİNDEKİ ICON_MAP OBJESİNE EKLE:
+   throne:        '/assets/icons/throne.svg',
+   mercenary:     '/assets/icons/mercenary.svg',
+   repair:        '/assets/icons/repair.svg',
+   flag:          '/assets/icons/flag.svg',
+   treaty:        '/assets/icons/treaty.svg',
+   'medal-tiers': '/assets/icons/medal-tiers.svg',
+
+3) src/components/BottomNav.js İÇİNDEKİ NAV_GROUPS DİZİSİNDE:
+   - 'devlet' grubundaki { id:'padisahlik', ... } öğesinin svgIcon değerini 'throne' yap
+     (eğer bu öğe henüz yoksa, önceki promptta tanımladığım Padişahlık Savaşı Sistemi
+     ile birlikte ekle).
+   - 'leaderboard' öğesinin svgIcon değerini 'medal-tiers' olarak güncelle.
+   - Diplomasi ekranına giden nav öğesinin svgIcon'unu 'treaty' yap.
+
+4) YENİ ÖZELLİKLERDE KULLAN:
+   - Padişahlık ekranında (PadisahlikScreen.js), Genel Sefer modu aktifken sayfanın en
+     üstüne genel-sefer-banner.svg'yi büyük bir uyarı görseli olarak yerleştir (img src
+     veya background-image), altına gerçek geri sayım sayacını (mevcut timer component'i
+     ile) bindir.
+   - Padişah ilan edilen oyuncunun profilinde (ProfilKartScreen.js veya HomeScreen'de
+     profil kartı neredeyse) padisah-badge.svg'yi 64-80px boyutunda rozet olarak göster
+     — sadece o oyuncu padisah_beylik_id ile eşleşiyorsa render et.
+   - Para/sikke gösterilen yerlerde (özellikle Padişahlık ve savaş ekranlarında) mevcut
+     money.svg yerine sikke-coin.svg kullanmayı değerlendir, tutarlılık için diğer
+     ekranlardaki money.svg kullanımına dokunma.
+   - mercenary.svg → paralı asker kiralama butonunda, repair.svg → savaş hasarı onarım
+     butonunda, flag.svg → kozmetik market sekmesinde ikon olarak kullan.
+
+5) Entegrasyon bitince hangi dosyaların değiştiğini/eklendiğini özetle.

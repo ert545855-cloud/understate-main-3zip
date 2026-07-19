@@ -14,6 +14,59 @@ const ANLASMA_TIPLERI = [
 
 const LS_DIPLO = 'rep_diplomasi';
 
+// ── Sözleşme Geçmişi bileşeni ───────────────────────────────────────────────
+function DiplomasiSozlesmeGecmisi({ profile, showNotif }) {
+  const G='#C89B3C', M='#A9A6A0', T='#F5EBD7', S='#2D1800', R='#B8423C', GR='#3E8C5A';
+  const token = (() => { try { return localStorage.getItem('rep_token')||''; } catch { return ''; } })();
+
+  const [liste, setListe]   = React.useState([]);
+  const [yukleniyor, setYuk]= React.useState(true);
+
+  const yukle = () => {
+    setYuk(true);
+    fetch('/api/diplomacy/sozlesmeler', { headers:{ Authorization:`Bearer ${token}` } })
+      .then(r=>r.json())
+      .then(d=>{ if(d.success) setListe(d.sozlesmeler||[]); })
+      .catch(()=>{})
+      .finally(()=>setYuk(false));
+  };
+
+  React.useEffect(()=>{ yukle(); },[]);
+
+  const TUR_EMOJIS = {
+    ittifak:'⚔️', ateskes:'☮️', saldirmazlik:'🤝', harac:'💰', ticaret:'🛤️', savunma:'🛡️'
+  };
+
+  if (yukleniyor) return React.createElement('div',{style:{textAlign:'center',padding:'40px',color:M}},'⏳ Yükleniyor...');
+
+  return React.createElement('div',null,
+    React.createElement('div',{style:{fontFamily:"'Cinzel',serif",fontSize:'0.8rem',color:G,fontWeight:700,marginBottom:10}},'📋 SÖZLEŞME GEÇMİŞİ'),
+    React.createElement('div',{style:{fontSize:'0.65rem',color:M,marginBottom:12}},'Tüm anlaşmalar ve ihanetler kalıcı olarak kayıtlıdır.'),
+    !liste.length
+      ? React.createElement('div',{style:{textAlign:'center',padding:'30px',color:M,fontSize:'0.8rem'}},'Henüz kayıtlı sözleşme yok.')
+      : React.createElement('div',{style:{display:'flex',flexDirection:'column',gap:6}},
+          liste.map(s=>
+            React.createElement('div',{key:s.id,style:{
+              background:S, border:`1px solid ${s.durum==='bozuldu'?'rgba(184,66,60,0.4)':s.durum==='aktif'?'rgba(62,140,90,0.3)':'rgba(255,255,255,0.07)'}`,
+              borderRadius:12, padding:'10px 14px',
+            }},
+              React.createElement('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:4}},
+                React.createElement('div',{style:{fontSize:'0.8rem',fontWeight:700,color:T}},
+                  `${TUR_EMOJIS[s.tur]||'📜'} ${s.beylik_a_ad} ↔ ${s.beylik_b_ad}`),
+                React.createElement('div',{style:{fontSize:'0.62rem',fontWeight:700,color:s.durum==='aktif'?GR:s.durum==='bozuldu'?R:M}},
+                  s.durum==='aktif'?'✅ Aktif':s.durum==='bozuldu'?'💔 Bozuldu':'⏰ Süresi Doldu')
+              ),
+              React.createElement('div',{style:{fontSize:'0.65rem',color:M}},
+                `${s.tur.charAt(0).toUpperCase()+s.tur.slice(1)} · ${new Date(s.olusturma_tarihi).toLocaleDateString('tr-TR')}`),
+              s.durum==='bozuldu' && s.bozan_beylik_id &&
+                React.createElement('div',{style:{fontSize:'0.62rem',color:R,marginTop:4,fontWeight:700}},
+                  `⚠️ İhanetkâr: ${s.bozan_beylik_id}  |  İtibar -30`)
+            )
+          )
+        )
+  );
+}
+
 window.DiplomasiScreen = function DiplomasiScreen({ profile, setProfile, showNotif, setCurrentPage, serverBeyliks }) {
   const [anlasmalar, setAnlasmalar] = React.useState(() => { try { return JSON.parse(localStorage.getItem(LS_DIPLO)||'[]'); } catch { return []; } });
   const [aktifSekme, setAktifSekme] = React.useState('mevcut');
@@ -181,7 +234,7 @@ window.DiplomasiScreen = function DiplomasiScreen({ profile, setProfile, showNot
             )
       ),
 
-      aktifSekme === 'gecmis' && React.createElement('div', { style:{textAlign:'center',padding:'40px',color:M,fontSize:'0.8rem'} }, '📋 Geçmiş kayıtlar yakında...')
+      aktifSekme === 'gecmis' && React.createElement(DiplomasiSozlesmeGecmisi, { profile, showNotif })
     )
   );
 };

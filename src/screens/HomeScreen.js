@@ -212,7 +212,20 @@ function HomePage({ profile, onNavigate }) {
           <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'0.75rem'}}>
             <div>
               <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.2rem',fontWeight:600}}>{T('playerProfile')}</div>
-              <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.35rem',fontWeight:900,color:'#EDE7DA'}}>{profile?.username||'Oyuncu'}</div>
+              <div style={{display:'flex',alignItems:'center',gap:6}}>
+                <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.35rem',fontWeight:900,color:'#EDE7DA'}}>{profile?.username||'Oyuncu'}</div>
+                {/* Padişah rozeti — localStorage'da padisah_beylik_id varsa ve kullanıcının beyliği eşleşiyorsa */}
+                {(()=>{
+                  try {
+                    const pad=JSON.parse(localStorage.getItem('rep_padisahlik')||'null');
+                    const beyliks=JSON.parse(localStorage.getItem('rep_beyliks')||'[]');
+                    if(!pad?.padisahBeylikId) return null;
+                    const benimBeylik=beyliks.find(b=>b.kurucuId===profile?.id||(b.uyeler||[]).includes(profile?.id));
+                    if(!benimBeylik||String(benimBeylik.id)!==String(pad.padisahBeylikId)) return null;
+                    return React.createElement('span',{title:'Padişah Beyliği',style:{fontSize:'1.1rem',filter:'drop-shadow(0 0 6px rgba(200,155,60,0.9))'}}, '👑');
+                  } catch{return null;}
+                })()}
+              </div>
               <div style={{fontSize:'0.65rem',color:'#8893A1',marginTop:'0.1rem'}}>{lvl.title} • {lvl.pct}% {T('nextLevel')}</div>
             </div>
             <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>

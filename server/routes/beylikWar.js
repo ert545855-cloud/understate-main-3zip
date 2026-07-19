@@ -99,6 +99,14 @@ router.post('/resolve/:id', authMiddleware, asyncHandler(async (req, res) => {
     attacker: war.attacker_beylik, defender: war.defender_beylik
   });
 
+  // Padişahlık fetih sayacını artır — galip beyliği sunucu tarafında kaydeder
+  if (attackerWins && war.attacker_beylik) {
+    try {
+      const padisahlikRoute = require('./padisahlik');
+      await padisahlikRoute.incrementFetihSayaci(war.attacker_beylik);
+    } catch (_) {}
+  }
+
   res.json({ success: true, status, attackerWins, spoils });
 }));
 

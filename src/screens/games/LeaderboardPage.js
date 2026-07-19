@@ -8,10 +8,14 @@ function LeaderboardPage({ profile, onNavigate }) {
   const card = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
   const TABS = [
-    {id:'level',  label:'📈 Seviye',  apiKey:'level'},
-    {id:'money',  label:'💰 Servet',  apiKey:'money'},
-    {id:'score',  label:'⭐ Skor',    apiKey:'score'},
-    {id:'gang',   label:'💀 Çete',    apiKey:'gang'},
+    {id:'level',     label:'📈 Seviye',   apiKey:'level',     cat:null},
+    {id:'money',     label:'💰 Servet',   apiKey:'money',     cat:null},
+    {id:'score',     label:'⭐ Skor',     apiKey:'score',     cat:null},
+    {id:'gang',      label:'💀 Çete',     apiKey:'gang',      cat:null},
+    {id:'zenginlik', label:'🏦 Zenginlik',apiKey:'zenginlik', cat:'zenginlik'},
+    {id:'ordu',      label:'⚔️ Ordu',     apiKey:'ordu',      cat:'ordu'},
+    {id:'toprak',    label:'🗺️ Toprak',   apiKey:'toprak',    cat:'toprak'},
+    {id:'itibar',    label:'⭐ İtibar',   apiKey:'itibar',    cat:'itibar'},
   ];
   const [tab, setTab] = React.useState('level');
   const [data, setData] = React.useState({});
@@ -23,22 +27,44 @@ function LeaderboardPage({ profile, onNavigate }) {
     try {
       const res = await fetch('/api/leaderboard/all');
       const d = await res.json();
-      if (d.success) { setData(d.data); setLastFetch(Date.now()); }
+      if (d.success) setData(prev => ({ ...prev, ...d.data }));
+      setLastFetch(Date.now());
+    } catch {}
+    setLoading(false);
+  };
+
+  // Kategori sekmelerini ayrı endpoint'ten çek
+  const fetchCategory = async (cat) => {
+    if (data[cat]) return; // zaten yüklü
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/leaderboard/${cat}`);
+      const d   = await res.json();
+      if (d.success) setData(prev => ({ ...prev, [cat]: d.data }));
     } catch {}
     setLoading(false);
   };
 
   React.useEffect(() => { fetchAll(); }, []);
 
+  React.useEffect(() => {
+    const t = TABS.find(x => x.id === tab);
+    if (t?.cat) fetchCategory(t.cat);
+  }, [tab]);
+
   const sorted = (data[tab] || []).slice(0, 50);
   const myRank = sorted.findIndex(u => u.id === cu.id || u.username === cu.username) + 1;
   const medal = i => i===0?{icon:'🥇',color:'#C9A227',glow:'rgba(255,215,0,0.3)'}:i===1?{icon:'🥈',color:'#C0C0C0',glow:'rgba(192,192,192,0.3)'}:i===2?{icon:'🥉',color:'#CD7F32',glow:'rgba(205,127,50,0.3)'}:null;
 
   const fmtVal = (u) => {
-    if (tab==='money') return fmtWord(u.money || 0);
-    if (tab==='level') return `Seviye ${u.level || 1}`;
-    if (tab==='score') return Number(u.score || 0).toLocaleString('tr-TR');
-    if (tab==='gang')  return u.gang_name || '—';
+    if (tab==='money')     return fmtWord(u.money || 0);
+    if (tab==='level')     return `Seviye ${u.level || 1}`;
+    if (tab==='score')     return Number(u.score || 0).toLocaleString('tr-TR');
+    if (tab==='gang')      return u.gang_name || '—';
+    if (tab==='zenginlik') return `${Number(u.toplam_servet||0).toLocaleString('tr-TR')} 🪙`;
+    if (tab==='ordu')      return `${Number(u.guc_puani||0).toLocaleString('tr-TR')} ⚡`;
+    if (tab==='toprak')    return `${u.eyalet_sayisi||0} 🗺️`;
+    if (tab==='itibar')    return `${u.itibar_score||100} ⭐`;
     return '—';
   };
 
@@ -51,10 +77,22 @@ function LeaderboardPage({ profile, onNavigate }) {
         </button>
       </div>
       {lastFetch > 0 && <div style={{fontSize:'0.62rem',color:'#8893A1'}}>Son güncelleme: {new Date(lastFetch).toLocaleTimeString('tr-TR')}</div>}
+      {/* Temel kategoriler */}
       <div style={{display:'flex',background:'rgba(237,231,218,0.03)',borderRadius:'12px',padding:'3px',gap:'3px'}}>
-        {TABS.map(t=>(
+        {TABS.filter(t=>!t.cat).map(t=>(
           <button key={t.id} onClick={()=>setTab(t.id)}
             style={{flex:1,padding:'0.45rem 0.2rem',borderRadius:'9px',border:'none',cursor:'pointer',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.72rem',transition:'all 0.15s',whiteSpace:'nowrap',
+              background:tab===t.id?'rgba(255,215,0,0.15)':'transparent',
+              color:tab===t.id?'#C9A227':dark?'#64748B':'#94A3B8'}}>
+            {t.label}
+          </button>
+        ))}
+      </div>
+      {/* Genişletilmiş kategoriler */}
+      <div style={{display:'flex',background:'rgba(237,231,218,0.03)',borderRadius:'12px',padding:'3px',gap:'3px',flexWrap:'wrap'}}>
+        {TABS.filter(t=>t.cat).map(t=>(
+          <button key={t.id} onClick={()=>setTab(t.id)}
+            style={{flex:'1 1 auto',padding:'0.4rem 0.2rem',borderRadius:'9px',border:'none',cursor:'pointer',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.68rem',transition:'all 0.15s',whiteSpace:'nowrap',
               background:tab===t.id?'rgba(255,215,0,0.15)':'transparent',
               color:tab===t.id?'#C9A227':dark?'#64748B':'#94A3B8'}}>
             {t.label}
