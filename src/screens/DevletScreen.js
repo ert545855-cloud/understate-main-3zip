@@ -1,11 +1,22 @@
+// Eğitim seviyesi ikon render yardımcısı (Ravenmore PNG)
+function EduIcon({ size=28 }) {
+  return React.createElement('img', { src:'/icons/64/tome.png', width:size, height:size, style:{imageRendering:'pixelated',verticalAlign:'middle'} });
+}
+function ScrollIcon({ size=28 }) {
+  return React.createElement('img', { src:'/icons/64/scroll.png', width:size, height:size, style:{imageRendering:'pixelated',verticalAlign:'middle'} });
+}
+function HelmetIcon({ size=28 }) {
+  return React.createElement('img', { src:'/icons/64/helmet.png', width:size, height:size, style:{imageRendering:'pixelated',verticalAlign:'middle'} });
+}
+
 const EDU_LEVELS = [
-  { id:'ilkokul',      label:'İlkokul',      icon:'📖', costPerClick:0,      clicksNeeded:50,   desc:'Temel okuma yazma',        grade:'4. Sınıf',  color:'#4C9A6B' },
-  { id:'ortaokul',     label:'Ortaokul',     icon:'📓', costPerClick:500,    clicksNeeded:100,  desc:'Temel bilimler',           grade:'8. Sınıf',  color:'#C9A227' },
-  { id:'lise',         label:'Lise',         icon:'🎒', costPerClick:1000,   clicksNeeded:200,  desc:'Sosyal ve fen bilimleri',  grade:'12. Sınıf', color:'#C9A227' },
-  { id:'universite',   label:'Üniversite',   icon:'🎓', costPerClick:5000,   clicksNeeded:500,  desc:'Lisans eğitimi',           grade:'Lisans',    color:'#C9A227' },
-  { id:'yukseklisans', label:'Yüksek Lisans',icon:'📜', costPerClick:20000,  clicksNeeded:1000, desc:'Uzmanlık eğitimi',         grade:'MSc/MBA',   color:'#C24B43' },
-  { id:'doktora',      label:'Doktora',      icon:'🔬', costPerClick:50000,  clicksNeeded:2000, desc:'Araştırma ve akademi',     grade:'PhD',       color:'#C24B43' },
-  { id:'profesor',     label:'Profesör',     icon:'🏛️', costPerClick:75000,  clicksNeeded:3000, desc:'Akademik kariyer zirvesi', grade:'Prof.Dr.',  color:'#F97316' },
+  { id:'ilkokul',      label:'İlkokul',      imgSrc:'/icons/64/scroll.png',    costPerClick:0,      clicksNeeded:50,   desc:'Temel okuma yazma',        grade:'4. Sınıf',  color:'#4C9A6B' },
+  { id:'ortaokul',     label:'Ortaokul',     imgSrc:'/icons/64/scroll.png',    costPerClick:500,    clicksNeeded:100,  desc:'Temel bilimler',           grade:'8. Sınıf',  color:'#C9A227' },
+  { id:'lise',         label:'Lise',         imgSrc:'/icons/64/tome.png',      costPerClick:1000,   clicksNeeded:200,  desc:'Sosyal ve fen bilimleri',  grade:'12. Sınıf', color:'#C9A227' },
+  { id:'universite',   label:'Üniversite',   imgSrc:'/icons/64/tome.png',      costPerClick:5000,   clicksNeeded:500,  desc:'Lisans eğitimi',           grade:'Lisans',    color:'#C9A227' },
+  { id:'yukseklisans', label:'Yüksek Lisans',imgSrc:'/icons/64/wand.png',      costPerClick:20000,  clicksNeeded:1000, desc:'Uzmanlık eğitimi',         grade:'MSc/MBA',   color:'#C24B43' },
+  { id:'doktora',      label:'Doktora',      imgSrc:'/icons/64/wand.png',      costPerClick:50000,  clicksNeeded:2000, desc:'Araştırma ve akademi',     grade:'PhD',       color:'#C24B43' },
+  { id:'profesor',     label:'Profesör',     imgSrc:'/icons/64/upg_wand.png',  costPerClick:75000,  clicksNeeded:3000, desc:'Akademik kariyer zirvesi', grade:'Prof.Dr.',  color:'#F97316' },
 ];
 // Eğitim tıklamaları için bekleme süreleri (ms)
 // Normal: 5 dakika, VIP: 2.5 dakika, Paket: 1 saniye
@@ -536,8 +547,14 @@ function EducationPage({ profile, setProfile, showNotif }) {
         const cdSecs = Math.ceil(cooldownLeft/1000);
         return (
           <div style={{...card,border:'1px solid rgba(201,162,39,0.3)',background:'rgba(201,162,39,0.07)',marginBottom:'0.75rem'}}>
-            <div style={{fontSize:'0.72rem',color:'#C9A227',fontWeight:700,marginBottom:'0.4rem'}}>📚 Devam Eden Eğitim</div>
-            <div style={{fontWeight:800,color:'#EDE7DA',marginBottom:'0.3rem'}}>{lvl.icon} {lvl.label}</div>
+            <div style={{display:'flex',alignItems:'center',gap:'0.4rem',marginBottom:'0.4rem'}}>
+              <img src='/icons/64/tome.png' width={18} height={18} style={{imageRendering:'pixelated'}} />
+              <span style={{fontSize:'0.72rem',color:'#C9A227',fontWeight:700}}>Devam Eden Eğitim</span>
+            </div>
+            <div style={{fontWeight:800,color:'#EDE7DA',marginBottom:'0.3rem',display:'flex',alignItems:'center',gap:'0.4rem'}}>
+              <img src={lvl.imgSrc} width={22} height={22} style={{imageRendering:'pixelated'}} />
+              {lvl.label}
+            </div>
             <div style={{height:'6px',background:'rgba(237,231,218,0.06)',borderRadius:'3px',marginBottom:'0.3rem'}}>
               <div style={{height:'100%',width:`${pct}%`,background:'linear-gradient(90deg,#C9A227,#E5C14B)',borderRadius:'3px',transition:'width 0.3s'}} />
             </div>
@@ -561,7 +578,9 @@ function EducationPage({ profile, setProfile, showNotif }) {
         return (
           <div key={lvl.id} style={{...card,border:`1px solid ${isDone?'rgba(76,154,107,0.3)':isActive?'rgba(201,162,39,0.4)':'rgba(255,255,255,0.06)'}`,background:isDone?'rgba(76,154,107,0.05)':isActive?'rgba(201,162,39,0.05)':'rgba(11,21,39,0.9)'}}>
             <div style={{display:'flex',alignItems:'center',gap:'0.75rem'}}>
-              <div style={{fontSize:'1.6rem',flexShrink:0,opacity:isDone?1:0.6}}>{lvl.icon}</div>
+              <div style={{flexShrink:0,opacity:isDone?1:0.5}}>
+                <img src={lvl.imgSrc} width={32} height={32} style={{imageRendering:'pixelated',display:'block'}} />
+              </div>
               <div style={{flex:1,minWidth:0}}>
                 <div style={{display:'flex',alignItems:'center',gap:'0.4rem',flexWrap:'wrap'}}>
                   <span style={{fontWeight:800,color:isDone?'#4C9A6B':isActive?'#C9A227':'#EDE7DA'}}>{lvl.label}</span>
@@ -612,7 +631,10 @@ function EducationPage({ profile, setProfile, showNotif }) {
                 <span style={{fontSize:'0.65rem',color:met?'#4C9A6B':'#C24B43',flexShrink:0}}>{met?'✅':'❌'}</span>
                 <div>
                   <div style={{fontSize:'0.7rem',fontWeight:700,color:'#EDE7DA'}}>{pos}</div>
-                  <div style={{fontSize:'0.58rem',color:'#8893A1'}}>{reqLvl?.icon} {reqLvl?.label}</div>
+                  <div style={{fontSize:'0.58rem',color:'#8893A1',display:'flex',alignItems:'center',gap:'3px'}}>
+                    {reqLvl && <img src={reqLvl.imgSrc} width={12} height={12} style={{imageRendering:'pixelated'}} />}
+                    {reqLvl?.label}
+                  </div>
                 </div>
               </div>
             );
@@ -640,7 +662,7 @@ function EducationPage({ profile, setProfile, showNotif }) {
 // ═══════════════════════════════════════════════════════
 const CITY_POSITIONS = [
   {
-    id:'vali', label:'Nahiye Valisi', icon:'🏙️', color:'#C9A227', eduReq:'lise',
+    id:'vali', label:'Nahiye Valisi', icon:'🏙️', imgSrc:'/icons/64/helmet.png', color:'#C9A227', eduReq:'lise',
     duties:[
       {id:'butce_onay',         label:'Bütçe Onayla',        cd:24*3600000, reward:{xp:500,  money:50000,  desc:'Yıllık bütçeyi onayla'}},
       {id:'insan_kaynagi',      label:'İK Yönetimi',         cd:12*3600000, reward:{xp:300,  money:25000,  desc:'Personel ata ve çıkar'}},
@@ -725,10 +747,15 @@ function CityGovPage({ profile, setProfile, showNotif }) {
           <div key={pos.id} style={{...card,border:`1px solid ${hasPos?`rgba(${pos.color.match(/\d+/g)?.slice(0,3).join(',')},0.35)`:'rgba(255,255,255,0.07)'}`,background:hasPos?`rgba(${pos.color.match(/\d+/g)?.slice(0,3).join(',')},0.06)`:'rgba(11,21,39,0.9)'}}>
             <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'0.55rem'}}>
               <div style={{display:'flex',alignItems:'center',gap:'0.6rem'}}>
-                <div style={{fontSize:'1.5rem'}}>{pos.icon}</div>
+                <div style={{flexShrink:0}}>
+                  {pos.imgSrc ? <img src={pos.imgSrc} width={32} height={32} style={{imageRendering:'pixelated',display:'block'}} /> : <span style={{fontSize:'1.5rem'}}>{pos.icon}</span>}
+                </div>
                 <div>
                   <div style={{fontWeight:800,color:'#EDE7DA',fontSize:'0.9rem'}}>{pos.label}</div>
-                  <div style={{fontSize:'0.62rem',color:'#8893A1'}}>{EDU_LEVELS.find(e=>e.id===pos.eduReq)?.icon} {EDU_LEVELS.find(e=>e.id===pos.eduReq)?.label} gerekli</div>
+                  <div style={{fontSize:'0.62rem',color:'#8893A1',display:'flex',alignItems:'center',gap:'3px'}}>
+                    {EDU_LEVELS.find(e=>e.id===pos.eduReq) && <img src={EDU_LEVELS.find(e=>e.id===pos.eduReq).imgSrc} width={13} height={13} style={{imageRendering:'pixelated'}} />}
+                    {EDU_LEVELS.find(e=>e.id===pos.eduReq)?.label} gerekli
+                  </div>
                 </div>
               </div>
               {hasPos
@@ -782,7 +809,12 @@ function CityGovPage({ profile, setProfile, showNotif }) {
         <div onClick={()=>setApplyModal(null)} style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.75)',zIndex:9999,display:'flex',alignItems:'center',justifyContent:'center',padding:'1.5rem'}}>
           <div onClick={e=>e.stopPropagation()} style={{background:'#0F0800',border:'1px solid rgba(99,102,241,0.35)',borderRadius:'14px',padding:'1.5rem',maxWidth:'340px',width:'100%',boxShadow:'0 25px 60px rgba(0,0,0,0.6)'}}>
             <div style={{textAlign:'center',marginBottom:'1.2rem'}}>
-              <div style={{fontSize:'2.5rem',marginBottom:'0.5rem'}}>{applyModal.icon}</div>
+              <div style={{display:'flex',justifyContent:'center',marginBottom:'0.5rem'}}>
+                {applyModal.imgSrc
+                  ? <img src={applyModal.imgSrc} width={52} height={52} style={{imageRendering:'pixelated'}} />
+                  : <span style={{fontSize:'2.5rem'}}>{applyModal.icon}</span>
+                }
+              </div>
               <div style={{fontFamily:"'Cinzel',serif",fontWeight:900,color:'#EDE7DA',fontSize:'1.1rem',marginBottom:'0.3rem'}}>{applyModal.label}</div>
               <div style={{fontSize:'0.72rem',color:'#8893A1'}}>Bu makama başvurmak istediğini onaylıyor musun?</div>
             </div>

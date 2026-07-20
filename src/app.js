@@ -7,48 +7,90 @@ const {
 // ═══════════════════════════════════════════════════════
 // SVG ICON COMPONENT
 // ═══════════════════════════════════════════════════════
+// ── Ravenmore Icon Pack — PNG ikonları (64×64) ─────────────────────────────
 const _ICON_MAP = {
-  money:            'assets/icons/money.svg',
-  bank:             'assets/icons/bank.svg',
-  government:       'assets/icons/government.svg',
-  user:             'assets/icons/user.svg',
-  briefcase:        'assets/icons/briefcase.svg',
-  settings:         'assets/icons/settings.svg',
-  crown:            'assets/icons/crown.svg',
-  vote:             'assets/icons/vote.svg',
-  law:              'assets/icons/law.svg',
-  chart:            'assets/icons/chart.svg',
-  weapon:           'assets/icons/weapon.svg',
-  map:              'assets/icons/map.svg',
-  education:        'assets/icons/education.svg',
-  truck:            'assets/icons/truck.svg',
-  factory:          'assets/icons/factory.svg',
-  // New icons
-  home:             'assets/icons/home.svg',
-  sword:            'assets/icons/sword.svg',
-  users:            'assets/icons/users.svg',
-  chat:             'assets/icons/chat.svg',
-  shield:           'assets/icons/shield.svg',
-  newspaper:        'assets/icons/newspaper.svg',
-  trophy:           'assets/icons/trophy.svg',
-  mining:           'assets/icons/mining.svg',
-  farm:             'assets/icons/farm.svg',
-  tasks:            'assets/icons/tasks.svg',
-  // Job icons
-  'job-trash':      'assets/icons/jobs/trash.svg',
-  'job-chef':       'assets/icons/jobs/chef.svg',
-  'job-porter':     'assets/icons/jobs/porter.svg',
-  'job-warehouse':  'assets/icons/jobs/warehouse.svg',
-  'job-miner':      'assets/icons/jobs/miner.svg',
-  'job-engineer':   'assets/icons/jobs/engineer.svg',
-  'job-doctor':     'assets/icons/jobs/doctor.svg',
-  'job-programmer': 'assets/icons/jobs/programmer.svg',
-  'job-pilot':      'assets/icons/jobs/pilot.svg',
+  // Ekonomi & Kaynak
+  money:            '/icons/64/coin.png',
+  bank:             '/icons/64/gemBlue.png',
+  coin:             '/icons/64/coin.png',
+  gem:              '/icons/64/gemGold.png',
+  gemBlue:          '/icons/64/gemBlue.png',
+  gemGreen:         '/icons/64/gemGreen.png',
+  gemRed:           '/icons/64/gemRed.png',
+  chart:            '/icons/64/gemGreen.png',
+  // Devlet & Yönetim
+  government:       '/icons/64/scroll.png',
+  crown:            '/icons/64/helmet.png',
+  vote:             '/icons/64/scroll.png',
+  law:              '/icons/64/scroll.png',
+  throne:           '/icons/64/helmet.png',
+  // Savaş & Ordu
+  sword:            '/icons/64/sword.png',
+  weapon:           '/icons/64/axe.png',
+  axe:              '/icons/64/axe.png',
+  shield:           '/icons/64/shield.png',
+  shieldSmall:      '/icons/64/shieldSmall.png',
+  bow:              '/icons/64/bow.png',
+  dagger:           '/icons/64/dagger.png',
+  wand:             '/icons/64/wand.png',
+  // Yapı & Üretim
+  factory:          '/icons/64/hammer.png',
+  hammer:           '/icons/64/hammer.png',
+  tools:            '/icons/64/tools.png',
+  mining:           '/icons/64/hammer.png',
+  // İnsanlar & Sosyal
+  user:             '/icons/64/armor.png',
+  users:            '/icons/64/axeDouble.png',
+  chat:             '/icons/64/envelope.png',
+  envelope:         '/icons/64/envelope.png',
+  // Ekipman & Eşya
+  briefcase:        '/icons/64/backpack.png',
+  backpack:         '/icons/64/backpack.png',
+  settings:         '/icons/64/tools.png',
+  home:             '/icons/64/shieldSmall.png',
+  heart:            '/icons/64/heart.png',
+  // Bilgi & Görev
+  education:        '/icons/64/tome.png',
+  tome:             '/icons/64/tome.png',
+  scroll:           '/icons/64/scroll.png',
+  newspaper:        '/icons/64/scroll.png',
+  tasks:            '/icons/64/scroll.png',
+  // Başarı & Ödül
+  trophy:           '/icons/64/gemRed.png',
+  // Harita & Keşif
+  map:              '/icons/64/map.png',
+  farm:             '/icons/64/tools.png',
+  truck:            '/icons/64/swordWood.png',
+  // Sağlık & İksir
+  potionBlue:       '/icons/64/potionBlue.png',
+  potionGreen:      '/icons/64/potionGreen.png',
+  potionRed:        '/icons/64/potionRed.png',
+  // Yükseltilmiş
+  'upg-sword':      '/icons/64/upg_sword.png',
+  'upg-shield':     '/icons/64/upg_shield.png',
+  'upg-armor':      '/icons/64/upg_armor.png',
+  'upg-axe':        '/icons/64/upg_axe.png',
+  'upg-bow':        '/icons/64/upg_bow.png',
+  'upg-hammer':     '/icons/64/upg_hammer.png',
+  // İş ikonları
+  'job-trash':      '/icons/64/tools.png',
+  'job-chef':       '/icons/64/potionGreen.png',
+  'job-porter':     '/icons/64/backpack.png',
+  'job-warehouse':  '/icons/64/backpack.png',
+  'job-miner':      '/icons/64/hammer.png',
+  'job-engineer':   '/icons/64/tools.png',
+  'job-doctor':     '/icons/64/potionRed.png',
+  'job-programmer': '/icons/64/tome.png',
+  'job-pilot':      '/icons/64/bow.png',
 };
 function SvgIcon({ name, size=24, style={} }) {
   const src = _ICON_MAP[name];
   if (!src) return null;
-  return React.createElement('img', { src, alt:name, width:size, height:size, style:{display:'inline-block',flexShrink:0,...style} });
+  // Ravenmore PNGs — renkli ikonlar, filter gereksiz
+  return React.createElement('img', {
+    src, alt:name, width:size, height:size,
+    style:{ display:'inline-block', flexShrink:0, imageRendering:'pixelated', ...style }
+  });
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1368,6 +1410,9 @@ function App() {
 
   const notifCount = notifications.filter(n => Date.now()-n.ts < 300000).length;
 
+  // JWT token — Devlet sayfaları için gerekli (bolge_savasi, kale_kusatma vb.)
+  const token = localStorage.getItem('us_jwt') || '';
+
   const isAdmin = profile?.role === 'admin' || profile?.isAdmin === true || profile?.email === 'admin@saltanat.online';
   const pageProps = { profile, setProfile, showNotif, onNavigate: setPage, eyaletData, setEyaletData };
   const navItems = isAdmin
@@ -1517,6 +1562,7 @@ function App() {
             {page==='profil_kart'       && window.ProfilKartScreen       && React.createElement(window.ProfilKartScreen,       {profile,onNavigate:setPage})}
             {page==='grup_mesaj'        && window.GrupMesajScreen        && React.createElement(window.GrupMesajScreen,        {profile,onNavigate:setPage,showNotif})}
             {page==='padisahlik'        && window.PadisahlikScreen       && React.createElement(window.PadisahlikScreen,       {profile,setProfile,showNotif,onNavigate:setPage})}
+            {page==='party_center'      && window.PartyCenterScreen      && React.createElement(window.PartyCenterScreen,      {profile,setProfile,showNotif,onNavigate:setPage,parties})}
           </div>
           </div>
 

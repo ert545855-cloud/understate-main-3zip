@@ -76,6 +76,7 @@ const NAV_GROUPS = [
       { id:'lonca',           icon:'⚒️', svgIcon:'briefcase',   label:'Loncalar',   rgb:'201,162,39' },
       { id:'tenders',         icon:'🏗️', svgIcon:'briefcase',   label:'İhaleler',   rgb:'201,162,39' },
       { id:'wiki',            icon:'📚', svgIcon:'education',   label:'Wiki',       rgb:'201,162,39' },
+      { id:'party_center',    icon:'⚜️', svgIcon:'scroll',      label:'Parti',       rgb:'201,162,39' },
     ],
   },
   {
@@ -237,7 +238,7 @@ function BottomNav({ page, onChange, items, notifMap }) {
               }
             },
               it.svgIcon
-                ? React.createElement(SvgIcon, { name:it.svgIcon, size:22, style:{ filter: active ? `brightness(0) invert(1) sepia(1) saturate(4) hue-rotate(5deg) drop-shadow(0 0 6px rgba(${it.rgb},0.65))` : 'brightness(0) invert(1)', opacity:active?1:0.55, transition:'all 0.15s' } })
+                ? React.createElement(SvgIcon, { name:it.svgIcon, size:26, style:{ opacity:active?1:0.45, filter: active ? `drop-shadow(0 0 5px rgba(${it.rgb},0.8))` : 'none', transition:'all 0.15s' } })
                 : React.createElement('span', { style:{ fontSize:'1.25rem', lineHeight:1, filter:active?`drop-shadow(0 0 6px rgba(${it.rgb},0.65))`:'none', display:'inline-block', opacity:active?1:0.8 } }, it.icon),
               React.createElement('span', {
                 style:{ fontSize:'0.63rem', fontWeight:700, color: active ? clr : BN_DS.muted, textAlign:'center', lineHeight:1.25, letterSpacing:'0.01em', fontFamily:"'Inter',sans-serif" }
@@ -310,7 +311,7 @@ function BottomNav({ page, onChange, items, notifMap }) {
               style:{ width:32, height:32, display:'flex', alignItems:'center', justifyContent:'center', position:'relative' }
             },
               group.svgIcon
-                ? React.createElement(SvgIcon, { name:group.svgIcon, size:21, style:{ opacity: lit?1:0.5, filter: lit ? `brightness(0) invert(1) sepia(1) saturate(4) hue-rotate(5deg) drop-shadow(0 0 7px rgba(${groupRgb},0.7))` : 'brightness(0) invert(1)', transition:'opacity 0.18s, filter 0.18s' } })
+                ? React.createElement(SvgIcon, { name:group.svgIcon, size:24, style:{ opacity: lit?1:0.4, filter: lit ? `drop-shadow(0 0 6px rgba(${groupRgb},0.85))` : 'none', transition:'opacity 0.18s, filter 0.18s' } })
                 : React.createElement('span', { style:{ fontSize:'1.2rem', lineHeight:1, display:'inline-block', opacity: lit?1:0.5, filter: lit?`drop-shadow(0 0 7px rgba(${groupRgb},0.7))`:'none', transition:'opacity 0.18s, filter 0.18s' } }, group.icon),
               hasNotif && React.createElement('span', {
                 style:{ position:'absolute', top:0, right:0, width:7, height:7, borderRadius:'50%', background:'#EF5350', border:'1.5px solid rgba(11,15,22,0.97)', boxShadow:'0 0 6px rgba(239,83,80,0.7)' }
