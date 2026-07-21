@@ -1,0 +1,27 @@
+- [UNDERSTATE stack & architecture](understate-stack.md) — Babel-standalone React monolith (src/app.js), external screens as window globals in src/screens/*.js.
+- [UNDERSTATE localStorage conventions](understate-localstorage.md) — All useLs() keys use rep_ prefix; daily task state key is rep_dailyTaskState; user profile is rep_userProfile.
+- [Multiplayer Architecture](multiplayer-arch.md) — full real-time multiplayer + DB persistence layer design decisions for gangs/parties/alliances/elections/laws/announcements.
+- [Socket Emit Patterns](socket-emit-patterns.md) — gang/party/alliance/election/law mutations emit to server inline in app.js state setters.
+- [Turkey Province Map](turkey-map.md) — window.TurkeyProvinceMap + window.TurkeyMapScreen; TURKEY_OUTLINE_PATH + PROVINCE_MAP_DATA globals; TR_REGION_MAP for region lookup.
+- [Ottoman Eyalet System](ottoman-eyalet.md) — 29 Ottoman provinces in OttomanEyaletScreen.js; window.OttomanEyaletScreen + window.VaililikEkrani; vali data stored in rep_valiVerisi localStorage; nav ids: eyalet_harita, valilik.
+- [Ammo (Mermi) System](ammo-system.md) — gang.ammo field; 3 types (standart/agir/ap); power = base + weapons*5 + ammo*3.
+- [Factory Devlet/Ozel Split](factory-split.md) — DEVLET_TYPES (cheaper, stable) vs OZEL_TYPES (expensive, higher income); mermi factory included in both.
+- [Design System v11 Palette](design-system-v2.md) — WARM Ottoman: bg=#1A0E00, surface=#2D1800, gold=#C89B3C, text=#F5EBD7, muted=#A9A6A0, success=#3E8C5A, error=#B8423C. Cinzel serif headings. CSS :root vars fully rewritten.
+- [i18n Architecture](i18n-arch.md) — window.LANG_TR/EN/AZ/DE set by src/i18n/*.js; window.i18n.t(key,lang) is the runtime source of truth; useT() delegates to window.i18n.t with TRANSLATIONS fallback.
+- [Currency System](currency-system.md) — ₺ replaced with 🪙 (Sikke); UnderCoin/UC replaced with Altın/⚜️; profile.money=Sikke, profile.altin/underCoin=Altın; fmtAltin() shows ⚜️ suffix.
+- [PoliticsPage Meclis](politics-meclis.md) — meclis sub-tab removed from PoliticsScreen; standalone PartyCenterScreen.js routed as party_center in Devlet nav.
+- [Score Calculation](score-calc.md) — calcScore(p) in app.js; useEffect auto-updates profile.score on level/xp/money/merits/edu changes.
+- [DB Proper Tables](db-proper-tables.md) — gangs/parties/alliances use SQL tables, not game_state KV; getFullGameState wantedKeys excludes these three.
+- [Removed Systems](removed-systems.md) — gang/çete, aile/family, parti/party, sendika/union, belediye/municipality all replaced. Ottoman vocab: fabrika→atölye, sendika→lonca, belediye→valilik, devlet başkanı→Padişah, genelkurmay→Seraskerlik, meclis→Divan.
+- [Babel Global Scope Hook Clash](babel-hook-clash.md) — app.js declares useState/useEffect globally; new component files MUST NOT redeclare them. Use React.useState directly.
+- [Family Factory Anti-cheat](family-factory-anticheat.md) — family_factories DB table; collection timing server-validated; DB-backed rate limiter in dbRateLimiter.js.
+- [Security & Deploy Hardening](security-hardening.md) — JWT_SECRET + DATABASE_URL fail-fast; render.yaml uses node server/main.js as startCommand.
+- [Kasa Yöneticisi Role](kasa-yoneticisi.md) — family rank 'kasaci'; boss appoints via changeRank; withdraw() allows isLeader || hasPerm('treasury').
+- [Party Rank Schema](party-rank-schema.md) — 6-tier PARTY_RANKS in PartyCenterScreen.js; yonetim tab with org chart + rank assignment + kabine.
+- [Gang Wars System](gang-wars.md) — rep_gangWars localStorage; 12h timer auto-resolve; power = base + weapons*5 + ammo*3; policeBonus adds to defender side; wars tab in GangPage.
+- [War & Social Systems](war-social-systems.md) — migration 005; 18 new DB tables; 8 new routes; 9 new screens; ELO/leagues, region wars, siege, duel, suikast, beylik wars, turnuva, intrigue cards, announcements, gifts.
+- [Police Ministry](police-ministry.md) — PoliceMinistryPage in DevletScreen.js; rep_policeCount / rep_policeBudget; page route police_ministry; police confer +3 defense per officer in gang wars.
+- [Live News Feed](live-news.md) — NewspaperPage 🔴 Canlı tab reads rep_gameEvents (set by window._pushGameEvent); auto-refreshes every 5s.
+- [DB schema drift vs code](db-schema-drift.md) — migrations 001/002 missing many columns/tables actual routes query; caused register/login/bank/2FA/etc failures. See 003 migration.
+- [Duplicate local state bug pattern](duplicate-local-state.md) — screens using their own useLs('gangs'/'parties',[]) instead of app.js top-level synced state silently desync from server broadcasts.
+- [Route error-handling convention](route-async-handler.md) — server/middleware/asyncHandler.js wraps async route handlers lacking inline try/catch; forwards errors to global Express error middleware.

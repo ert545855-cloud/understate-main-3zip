@@ -1,0 +1,51 @@
+Bu proje UNDERSTATE / SALTANAT ONLINE isimli bir Node.js + Express + Socket.io
+backend ve React tabanlı Capacitor frontend'e sahip multiplayer oyun. Şu anda
+bazı sekmeler (özellikle "Beylik Savaşı") hata veriyor. Projeyi baştan sona,
+sistemli şekilde tara ve tüm hataları bul ve düzelt:
+
+1. FRONTEND-BACKEND EŞLEŞMESİ
+   - src/screens klasöründeki her ekranın (özellikle BeylikSavasiScreen.js,
+     WarSystemScreen.js, BolgeSavasiScreen.js, SavasKayitScreen.js) çağırdığı
+     her API endpoint'ini ve socket event'ini çıkar
+   - server/routes klasöründeki route dosyalarıyla (özellikle beylikWar.js,
+     warSystem.js) bu endpoint'leri tek tek eşleştir
+   - URL, HTTP metodu (GET/POST/PUT/DELETE) ve gönderilen/beklenen JSON alan
+     isimlerinde uyuşmazlık var mı kontrol et
+   - server/socket klasöründeki (gameHandler.js, roomHandler.js) emit/on
+     event isimlerinin frontend'deki socketClient.js ile birebir aynı olup
+     olmadığını doğrula
+
+2. VERİTABANI ŞEMASI
+   - server/migrations klasöründeki tüm .sql dosyalarını sırayla oku
+   - beylik/savaş ile ilgili route ve servislerin SELECT/INSERT/UPDATE
+     yaptığı her tabloyu ve kolonu çıkar
+   - Bu tablo/kolonların migration dosyalarında gerçekten oluşturulmuş olup
+     olmadığını doğrula, eksik tablo/kolon varsa yeni bir migration dosyası
+     (011_...) olarak ekle
+   - Foreign key ilişkilerinin doğru kurulduğunu kontrol et
+
+3. HATA YAKALAMA VE LOGLAMA
+   - server/routes/beylikWar.js ve warSystem.js dosyalarındaki her route'un
+     try/catch veya express-async-errors ile düzgün hata yakaladığını
+     doğrula, sessiz başarısızlık (silent fail) olan yer var mı bul
+   - server/utils/logger.js üzerinden hataların console'a düzgün yazıldığını
+     kontrol et, gerekirse eksik log ekle
+
+4. RUNTIME TEST
+   - npm run lint komutunu çalıştır, syntax hatalarını listele
+   - node --check ile server/routes ve server/services altındaki tüm .js
+     dosyalarını tek tek kontrol et
+   - Sunucuyu başlat, "Beylik Savaşı" sekmesini açmayı simüle eden bir
+     istek gönder (curl veya test script ile), dönen hatayı ve stack
+     trace'i tam olarak yakala
+
+5. RAPOR
+   - Bulduğun her hatayı: [dosya adı] - [satır] - [hata açıklaması] -
+     [yapılan düzeltme] formatında bir liste halinde özetle
+   - Sadece "Beylik Savaşı" ile sınırlı kalma, aynı yöntemle diğer
+     sekmeleri de (TeamWarPage.js, BolgeSavasiScreen.js dahil) tara ve
+     benzer yapısal hatalar varsa onları da düzelt
+
+Değişiklik yaparken mevcut çalışan özellikleri BOZMA, sadece hatalı olan
+kısımları düzelt. Her düzeltmeden sonra ilgili route/servisi tekrar
+node --check ile doğrula.

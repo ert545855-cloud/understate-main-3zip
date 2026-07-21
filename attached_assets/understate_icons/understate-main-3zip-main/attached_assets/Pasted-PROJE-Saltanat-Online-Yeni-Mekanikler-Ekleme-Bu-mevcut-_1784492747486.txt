@@ -1,0 +1,87 @@
+PROJE: Saltanat Online — Yeni Mekanikler Ekleme
+
+Bu, mevcut bir React (babel-standalone, build adımı yok) + Express + Socket.io + PostgreSQL
+projesidir. Ekranlar src/screens/*.js altında window.* globalleri olarak tanımlı, index.html
+içindeki SCREEN_FILES dizisine eklenmeden hiçbir ekran yüklenmez — YENİ EKRAN EKLERSEN
+MUTLAKA index.html'deki SCREEN_FILES listesine ve src/components/BottomNav.js içindeki
+NAV_GROUPS dizisine de ekle, yoksa dosya oluşur ama görünmez. Backend route'ları
+server/routes/*.js altında, server/main.js içinde mount ediliyor.
+
+Aşağıdaki 5 özelliği, mevcut kod stiline (Türkçe değişken/route isimleri, mevcut auth/JWT
+middleware, mevcut DB bağlantı havuzu) sadık kalarak sırayla ekle. Her özellikten sonra
+hatasız çalıştığını doğrula, sonra bir sonrakine geç.
+
+──────────────────────────────────────────────────────────
+1) PADİŞAHLIK SAVAŞI SİSTEMİ (90 günlük döngü + 3 günlük Genel Sefer)
+──────────────────────────────────────────────────────────
+BACKEND:
+- server/routes/padisahlik.js oluştur (server/routes/sezon.js'i referans al, benzer yapı).
+- Yeni tablo: padisahlik_donemleri (id, baslangic_tarihi, bitis_tarihi, genel_sefer_baslangic,
+  genel_sefer_bitis, padisah_beylik_id, durum: 'normal'|'genel_sefer'|'tamamlandi')
+- Yeni tablo: eyalet_fetih_sayaci (donem_id, beylik_id, eyalet_sayisi, guncelleme_tarihi)
+- Zamanlayıcı (node-cron veya mevcut projede kullanılan zamanlama yöntemiyle): her 90 günde
+  bir yeni dönem başlat, 87. günde "Genel Sefer" moduna geç (3 gün sürsün).
+- Genel Sefer modundayken: mevcut saldırı cooldown'larını ve koruma kalkanlarını (varsa
+  ilgili war/beylikWar route'larında) devre dışı bırak.
+- Dönem bitince: en çok eyalete sahip beylik başkanını padisah_beylik_id olarak işaretle,
+  o beyliğe global vergi toplama yetkisi ver (mevcut tax.js route'una entegre et), yeni
+  dönemde eyalet sayaçlarını sıfırla ama asker/bina/sikke ilerlemesini KORU.
+- Socket.io event'leri: 'genel_sefer:basladi', 'genel_sefer:bitti', 'padisah:ilan_edildi'
+  yayınla (mevcut server/socket/ yapısını kullan).
+
+FRONTEND:
+- src/screens/PadisahlikScreen.js oluştur: normal dönemde geri sayım + "Fetih Tahtası"
+  (canlı eyalet sayısı sıralaması), Genel Sefer'de büyük kırmızı uyarı banner + saldırı
+  butonlarının cooldown'suz olduğunu gösteren UI.
+- index.html SCREEN_FILES dizisine 'src/screens/PadisahlikScreen.js' ekle.
+- src/components/BottomNav.js → 'devlet' grubuna { id:'padisahlik', icon:'👑',
+  svgIcon:'crown', label:'Padişahlık', rgb:'201,162,39' } ekle.
+- src/app.js içine page==='padisahlik' render bloğu ekle (mevcut diğer sayfaların
+  yanına, aynı pattern'de: window.PadisahlikScreen kontrolü ile).
+- Padişah olan oyuncunun profilinde/HomeScreen benzeri ana ekranda özel taht rozeti göster.
+
+──────────────────────────────────────────────────────────
+2) SİKKE HARCAMA NOKTALARI (Gold Sink)
+──────────────────────────────────────────────────────────
+- server/routes/mercenary.js: Genel Sefer sırasında aktif olan "paralı asker kiralama"
+  endpoint'i (POST /api/mercenary/hire) — sadece padisahlik_donemleri.durum='genel_sefer'
+  iken çalışsın, sikke karşılığı anlık asker ekle.
+- server/routes/warSystem.js içine "onarım" endpoint'i ekle: saldırıya uğrayan bina/eyaletin
+  hasar durumunu sikke karşılığı sıfırlayan POST /api/war/repair.
+- server/routes/cosmetics.js: bayrak/arma/taht teması satın alma (rekabete etki etmez,
+  sadece profilde/beylik sayfasında görsel).
+- Frontend: bu üç özelliği ilgili mevcut ekranlara (PadisahlikScreen, WarSystemScreen
+  yerine kullanılan güncel savaş ekranı, ProfilKartScreen) küçük modal/buton olarak ekle,
+  yeni ayrı nav item AÇMA — mevcut ekranların içine göm.
+
+──────────────────────────────────────────────────────────
+3) DİPLOMASİ SÖZLEŞME LOGU + İHANET MEKANİĞİ
+──────────────────────────────────────────────────────────
+- server/routes/diplomacy.js'e yeni tablo ekle: diplomasi_sozlesmeler
+  (id, beylik_a_id, beylik_b_id, tur:'ittifak'|'ateskes', durum:'aktif'|'bozuldu',
+  olusturma_tarihi, bozulma_tarihi, bozan_beylik_id)
+- Bir ittifak/ateşkes tek taraflı bozulduğunda: bozan beyliğin itibar puanını
+  (mevcut server/routes/itibar.js sistemini kullan) düşür, bu olay diplomasi logunda
+  KALICI olarak görünsün (silinemez).
+- src/screens/DiplomasiScreen.js'e "Sözleşme Geçmişi" sekmesi ekle: kim kiminle ne zaman
+  anlaştı/bozdu, herkese açık şekilde listelensin.
+
+──────────────────────────────────────────────────────────
+4) ÇOK KATEGORİLİ LİDERLİK TAHTASI
+──────────────────────────────────────────────────────────
+- server/routes/leaderboard.js'i genişlet: mevcut tek sıralamaya ek olarak
+  GET /api/leaderboard/:category (category = 'zenginlik'|'ordu'|'toprak'|'itibar')
+  endpoint'leri ekle, her biri ilgili tablodan (economy, army, eyalet, itibar) veri çeksin.
+- src/screens/games/LeaderboardPage.js'e üstte kategori sekmeleri (tab) ekle, her sekme
+  ilgili endpoint'i çağırsın.
+
+──────────────────────────────────────────────────────────
+GENEL KURALLAR
+──────────────────────────────────────────────────────────
+- Her yeni tablo için server/migrations/ altına yeni bir migration dosyası ekle
+  (mevcut numaralandırma sırasını takip et, IF NOT EXISTS kullan, idempotent olsun).
+- Yeni route'ları server/main.js içinde mevcut pattern'e uygun mount et.
+- Tüm yeni endpoint'lerde mevcut JWT auth middleware'i kullan.
+- Türkçe UI metinlerinde mevcut tonu koru (Osmanlı/imparatorluk teması, "beylik",
+  "eyalet", "sikke", "divan" gibi terimler).
+- İşin sonunda değişen/eklenen dosyaların listesini özetle.

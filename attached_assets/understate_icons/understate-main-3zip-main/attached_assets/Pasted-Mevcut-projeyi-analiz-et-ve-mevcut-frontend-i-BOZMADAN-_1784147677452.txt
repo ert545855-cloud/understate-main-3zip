@@ -1,0 +1,283 @@
+Mevcut projeyi analiz et ve mevcut frontend'i BOZMADAN profesyonel bir MMORPG/strateji oyunu altyapısına dönüştür.
+
+Proje adı: Saltanat Online
+
+İSTEKLER
+
+- Mevcut React frontend korunacak.
+- UnderState geçen tüm kullanıcıya görünen isimleri Saltanat Online yap.
+- Kod yapısını temizle ve yeniden organize et.
+- TypeScript hatalarını düzelt.
+- Eksik servisleri oluştur.
+
+BACKEND
+
+Node.js
+Express
+TypeScript
+Prisma ORM
+PostgreSQL
+
+AUTH
+
+JWT Authentication
+
+Refresh Token
+
+Admin Login
+
+2FA desteği
+
+Discord OAuth hazır olsun
+
+Google OAuth hazır olsun
+
+DATABASE
+
+Oyuncular
+
+Karakterler
+
+Aileler
+
+Çeteler
+
+Hükümetler
+
+Şehirler
+
+Harita Bölgeleri
+
+Savaşlar
+
+Diplomasi
+
+Ekonomi
+
+VIP
+
+Banlar
+
+Loglar
+
+Bildirimler
+
+Market
+
+Görevler
+
+ADMIN PANEL
+
+Modern React Admin Dashboard oluştur.
+
+Özellikler
+
+Oyuncu Ara
+
+Oyuncuyu Banla
+
+Ban Kaldır
+
+VIP Tanımla
+
+Para Ekle
+
+Altın Ekle
+
+Eşya Ver
+
+Enerji Ver
+
+Oyuncu Profilini Düzenle
+
+Çete Yönet
+
+Aile Yönet
+
+Hükümet Yönet
+
+Canlı Online Oyuncular
+
+Sunucu İstatistikleri
+
+Sunucu Bakım Modu
+
+Toplu Duyuru
+
+Toplu Mail
+
+Log Sistemi
+
+Audit Log
+
+Discord Webhook
+
+AWS
+
+Projeyi tamamen AWS üzerinde çalışacak şekilde hazırla.
+
+Docker kullan.
+
+docker-compose oluştur.
+
+AWS ECS desteği
+
+AWS RDS PostgreSQL
+
+AWS S3
+
+AWS CloudFront
+
+AWS Secrets Manager
+
+AWS IAM
+
+AWS ALB
+
+AWS Route53
+
+AWS Certificate Manager
+
+AWS CloudWatch
+
+AWS Auto Scaling
+
+Redis
+
+Socket.io
+
+NGINX Reverse Proxy
+
+DOSYA YAPISI
+
+client/
+
+server/
+
+admin/
+
+shared/
+
+database/
+
+docker/
+
+infrastructure/
+
+CI/CD
+
+GitHub Actions
+
+Automatic Build
+
+Automatic Test
+
+Automatic Deploy
+
+GÜVENLİK
+
+Rate Limit
+
+Helmet
+
+CORS
+
+XSS Koruması
+
+SQL Injection Koruması
+
+Validation
+
+Input Sanitization
+
+Role Based Access
+
+OWNER
+
+ADMIN
+
+MODERATOR
+
+GAME MASTER
+
+PLAYER
+
+OYUN API
+
+REST API
+
+WebSocket
+
+Socket.io
+
+API Documentation (Swagger)
+
+Gerçek zamanlı:
+
+Mesajlaşma
+
+Çete
+
+Aile
+
+Hükümet
+
+Savaş
+
+Bildirim
+
+Canlı Ekonomi
+
+HARİTA
+
+Türkiye Haritası
+
+81 İl
+
+İl Kontrol Sistemi
+
+Harita API
+
+RENKLER
+
+Siyah
+
+Altın
+
+Koyu Gri
+
+Premium görünüm.
+
+SON
+
+Eksik tüm sistemleri oluştur.
+
+Eksik componentleri tamamla.
+
+Eksik servisleri oluştur.
+
+Eksik database tablolarını oluştur.
+
+Eksik API endpointlerini oluştur.
+
+Kod tekrarlarını kaldır.
+
+Production hazır hale getir.
+
+Kodun tamamı çalışır durumda olsun.
+
+Hiçbir placeholder bırakma.
+
+Mock data yerine gerçek çalışan sistem kur.
+
+Kod sonunda README oluştur.
+
+AWS deployment adımlarını yaz.
+
+Docker komutlarını yaz.
+
+Migration dosyalarını oluştur.
+
+Seed dosyalarını oluştur.
+
+Hiçbir mevcut çalışan özelliği bozma.

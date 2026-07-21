@@ -1,0 +1,95 @@
+İncelemeyi yaptım, zip'i açıp sunucu (Node/Socket.io) ve istemci (React/Capacitor) kodunu taradım. Aşağıda önce "online gerektiren" bölümlerin tam listesini, sonra da tarif ettiğin hataların kök nedenini, en sonda da direkt kopyalayıp geliştiriciye/AI'ya verebileceğin fix promptunu bulacaksın.
+1) Oyunda online (sunucu/socket) gerektiren bölümler — sırasıyla
+Giriş / Kimlik
+
+Kayıt & Giriş (AuthScreen) — Supabase üzerinden
+Token yenileme / oturum (JWT refresh)
+
+Ana Sayfa
+3. Online oyuncu sayısı, canlı bildirimler (HomeScreen)
+Ekonomi grubu
+4. Market (alım-satım, fiyat senkronu)
+5. Şirketler / İmparatorluk (EconomicEmpireScreen)
+6. Fabrika (FactoryPage)
+7. Sendikalar (UnionScreen)
+8. Borsa/portföy (portfolioService)
+Savaş grubu
+9. Çete (Gang) kurma/katılma/savaş — gang:create, gang:join, gang:war
+10. Aile (Family) kurma — aynı gang:create altyapısını type:'family' ile kullanıyor
+11. PvP dövüş
+12. Ordu / Genelkurmay / Bağımsız Ordu Sistemi
+13. Koruma anlaşmaları (ProtectionDealsScreen)
+14. Çete Kasası
+15. Mahkeme/Suç (Crime)
+Devlet grubu
+16. Parti kurma/katılma — party:create, party:join, party:updateInfluence
+17. Seçimler (election)
+18. Meclis / Güç Üçgeni
+19. Belediye/Şehir yönetimi, ihaleler (tender)
+20. İttifak (alliance), Dünya haritası
+Sosyal grup
+21. Sohbet (chat), Klan sohbeti, DM
+22. Oyuncular listesi (online players)
+23. Gazete/Duyurular (canlı yayın)
+24. Liderlik tablosu (leaderboard)
+25. Bildirimler (notification broadcast)
+Bunların hepsi server/socket/gameHandler.js içinde ayrı event namespace'leri olarak tanımlı (party:, gang:, election:, chat:, trade:, pvp:, spy:, territory: vb.).
+2) Bulduğum kök neden
+Sistemde iki ayrı, birbirinden habersiz veritabanı katmanı var:
+
+supabaseService.js → sadece kayıt/giriş (auth) işlemlerinde kullanılıyor, SUPABASE_URL/SUPABASE_ANON_KEY env değişkenlerine bağlı.
+dbService.js (server/database/connection.js üzerinden) → parti, çete, aile, ekonomi gibi tüm oyun verisi bunun üzerinden yazılıyor, ayrı bir DATABASE_URL env değişkenine bağlı.
+
+Eğer DATABASE_URL tanımlı değilse veya bağlantı kurulamazsa (connection.js içinde 5 saniyelik timeout ile sessizce başarısız oluyor), db.isReady() false döner. Bu durumda:
+
+Kayıt/giriş çalışmaya devam eder (çünkü Supabase ayrı ve bağlı) → "hesap açılıyor" dediğin kısım budur.
+Ama party:create, gang:create gibi handler'lar db.isReady() false olduğu için veriyi hiç kaydetmez, sonra db.getParties()/getGangs() çağrısı da boş dizi döner ve bu boş dizi tüm bağlı kullanıcılara broadcast edilir (io.emit('partyUpdate', { parties: [] ... })). Yani parti/çete ekranda "kuruldu" gibi görünür (yerelde optimistic olarak eklendi), ama sunucudan gelen boş liste her istemcinin ekranındaki listeyi anında sıfırlar → "kuruldu gözüküyor, sonra kayboluyor" dediğin tam olarak bu.
+Ayrıca hemen her yerde .catch(() => {}) ile hatalar yutuluyor, bu yüzden istemciye ya da loglara anlamlı bir hata bilgisi düşmüyor; sadece "işlem yapınca hata veriyor" gibi belirsiz bir davranış görüyorsun.
+
+Alt bar / ekrana sığmama şikayeti muhtemelen ayrı bir konu: css/styles.css içinde modal ve bottom-nav/mobile-bottom-nav için z-index ve max-height:90dvh gibi kurallar var; parti/aile/çete kurma modalı ile alt navigasyon çubuğunun z-index veya viewport yüksekliği çakışıyor olabilir — bunu ayrı bir CSS/layout hatası olarak fix promptuna da ekledim.
+3) Kopyalayıp verebileceğin fix promptu
+Bu Node.js/Express + Socket.io backend ve React/Capacitor frontend projesinde şu hataları teşhis edip düzelt:
+
+BAĞLAM:
+- server/services/supabaseService.js  → sadece auth (kayıt/giriş) için, SUPABASE_URL/SUPABASE_ANON_KEY kullanıyor
+- server/services/dbService.js + server/database/connection.js → tüm oyun verisi (parti, çete, aile, ekonomi vb.) için, DATABASE_URL kullanıyor
+- server/socket/gameHandler.js → party:create, gang:create, party:sync, gang:sync gibi event handler'lar burada
+
+SORUN 1 — Kurulan parti/aile/çete birkaç saniye sonra kayboluyor:
+- gameHandler.js içindeki 'party:create' ve 'gang:create' handler'larında, db.isReady() false ise
+  (DATABASE_URL bağlı değilse) veri hiç kaydedilmiyor, ardından db.getParties()/getGangs() boş dizi
+  dönüyor ve bu boş dizi io.emit('partyUpdate'/'gangUpdate') ile TÜM istemcilere broadcast ediliyor,
+  bu da istemcideki optimistic (yerel) eklenen kaydı siliyor.
+- Bunu düzelt: db.isReady() false ise ya (a) işlemi tamamen reddet ve istemciye açık bir hata event'i
+  gönder (ör. socket.emit('party:createError', {reason:'db_not_ready'})), ya da (b) in-memory fallback
+  store kullan (server/socket/onlineStore.js var, oraya bak) ve gerçek DB'ye yazılana kadar veriyi
+  bellekte tut, ASLA boş diziyi broadcast ederek mevcut state'i ezme.
+- Tüm .catch(() => {}) bloklarını logger.error ile logla ve mümkünse ilgili socket'e hata event'i gönder;
+  sessizce yutma.
+
+SORUN 2 — Hesap açılıyor ama sonraki işlemler hata veriyor:
+- Auth (supabaseService/SUPABASE_URL) ile oyun verisi (dbService/DATABASE_URL) FARKLI veritabanı
+  bağlantıları kullanıyor. Ortam değişkenlerini kontrol et: DATABASE_URL tanımlı mı, gerçekten
+  bağlanabiliyor mu (server/database/connection.js içindeki connectDB() log çıktısına bak).
+- Ya iki backend'i tek bir veritabanına (tercihen Supabase/Postgres tek bağlantı) birleştir, ya da
+  DATABASE_URL'i doğru şekilde ayarlayıp iki servisin de aynı veritabanına yazdığını doğrula.
+- Sunucu başlangıcında DB bağlantısı başarısızsa bunu sadece log'a değil, istemciye de
+  'dbStatus: error' event'i geldiğinde kullanıcıya görünür bir uyarı/banner göster
+  (App.js / socketClient.js tarafında bu event zaten dinleniyor mu kontrol et, yoksa ekle).
+
+SORUN 3 — Alt navigasyon çubuğu parti/aile/çete kurma alanlarını kısıtlıyor, ekrana sığmıyor:
+- css/styles.css içindeki .modal, .modal-overlay, .bottom-nav, .mobile-bottom-nav kurallarını incele.
+- Parti/Aile/Çete kurma modalinin z-index'i .bottom-nav'ın z-index'inden düşük olabilir ya da
+  modal max-height: 90dvh alt navigasyon yüksekliğini hesaba katmıyor olabilir.
+- PartyCenterScreen.js, FamilyCenterScreen.js ve GangPage.js içindeki kurma formu/modal wrapper'larını
+  bulup, safe-area / bottom-nav yüksekliği kadar padding-bottom eklendiğinden ve
+  modal-overlay'in bottom-nav'ın ÜZERİNDE (daha yüksek z-index'te) render edildiğinden emin ol.
+
+TEST:
+- DATABASE_URL'i geçici olarak kaldırıp sunucuyu başlat, parti/çete oluşturmayı dene; artık ya
+  net bir hata mesajı gösterilmeli ya da veri kaybolmadan bellek fallback'inde kalmalı — sessizce
+  kaybolmamalı.
+- Sonra DATABASE_URL'i doğru değerle geri koyup aynı testi tekrar yap, veri kalıcı olmalı.
+
+Her düzeltmeyi ayrı ayrı özetle, hangi dosyada ne değiştirdiğini belirt.
+Bu promptu Claude Code, Cursor ya da başka bir AI kodlama asistanına verirsen kod tabanına doğrudan erişip düzeltmeleri yapabilir. İstersen ben de bu projeyi burada (bash/dosya araçlarıyla) adım adım düzeltmeye başlayabilirim — istersen önce SORUN 1'den (parti/çete kaybolma hatası) başlayalım mı?

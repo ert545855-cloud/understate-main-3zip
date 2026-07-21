@@ -1,0 +1,52 @@
+GÖREV: Mevcut bir web/mobil oyun uygulamasının (React tabanlı, inline style objeleriyle yazılmış) GÖRSEL TASARIMINI, varlıklarını ve menü/navigasyon şemasını komple yeniden tasarla. OYUN MANTIĞI, ÖZELLİKLER, API ÇAĞRILARI, VERİ MODELİ DEĞİŞMEYECEK — sadece görsel katman değişecek.
+
+KESİNLİKLE DOKUNMA:
+- server/ klasöründeki hiçbir dosya, API endpoint yolu, socket event adı
+- prop isimleri, fonksiyon imzaları, state alan adları (money, bankMoney, underCoin, level, xp, hp, creditScore vb.)
+- oyun ekonomisi/dengesi (fiyat, oran, cooldown, ödül miktarı)
+- her ekranın iş mantığı
+
+UYGULANACAK TASARIM SİSTEMİ (sabit, değiştirilmeyecek):
+
+Renk paleti — sadece bu tonlar kullanılacak, ekran bazlı keyfi renk YOK:
+- Zemin: #11151C
+- Yüzey/kart: #1B212B
+- İmza vurgu (altın/pirinç): #C9A227 — sadece birincil aksiyon butonları, aktif sekme göstergesi ve aşağıda tanımlı "ledger" sayı bloğu için kullanılır
+- Birincil metin: #EDE7DA
+- İkincil metin: #8893A1
+- İşlevsel başarı: #4C9A6B (sadece gerçek kazanç/onay bildirimlerinde)
+- İşlevsel hata: #C24B43 (sadece gerçek hata/kayıp bildirimlerinde)
+Bunların dışında hiçbir ekranda kendine ait tema rengi olmayacak (örnek: kumarhane artık sarı, suç ekranı artık kırmızı temalı OLMAYACAK — hepsi yukarıdaki paleti kullanacak).
+
+Tipografi:
+- Başlık yüzü: Syne (700/800 ağırlık) — SADECE ekran başlığı ve o ekranın "ana sayısı" için, başka yerde kullanılmaz
+- Gövde/UI yüzü: Inter — buton, etiket, normal metin
+- Sayısal/veri yüzü: JetBrains Mono — TÜM para/istatistik/sayaç/geri sayım değerleri bununla yazılır, başka font kullanılmaz
+
+İmza bileşeni (tüm uygulamada tutarlı tekrar eden tek görsel motif):
+Her parasal/sayısal değer şu kalıpla render edilir: üstte ince 2px #C9A227 çizgi, altında JetBrains Mono + #C9A227 renkli sayı, yanında küçük #8893A1 renkli etiket. Banka, kumarhane, fabrik, kredi puanı, sayaçlar — hepsi bu tek "resmi makbuz satırı" bileşenini kullanır. Bunu tek bir paylaşılan bileşen (örn. <LedgerValue label amount />) olarak oluştur ve her ekranda bunu çağır, tekrar tekrar elle stil yazma.
+
+Kart/bileşen kuralları:
+- Kart köşe yuvarlaklığı: 10px, buton: 8px
+- Kenarlıklar: renkli/kalın değil, ince tek çizgi (1px, rgba(237,231,219,0.08))
+- Birincil aksiyon butonu: #C9A227 kenarlıklı/dolgulu, ikincil butonlar nötr/şeffaf
+- Alt navigasyon: dolgun "hap" arka plan yerine, aktif sekmede ince altın alt çizgi göstergesi
+- Emoji yerine tutarlı bir SVG ikon seti (fonksiyonel ikonlarda emoji kullanılmaz, emoji sadece dekoratif/durum belirten yerlerde serbest)
+
+ÇOK DİLLİ DESTEK (yeni özellik):
+- Şu an i18n altyapısı yok, metinler kod içine Türkçe hardcoded. Merkezi bir çeviri sözlüğü/i18n katmanına taşı.
+- 4 dil: Türkçe (varsayılan), İngilizce, Azerbaycan Türkçesi, Almanca.
+- Tüm buton metni, başlık, bildirim mesajı (showNotif dahil), form etiketi sözlükten gelsin.
+- Header/ayarlarda bayraklı bir dil seçici olsun, seçim localStorage'da saklansın.
+- Çeviri key'leri düzenli ve okunabilir olsun (örn. "bank.withdraw.insufficientFunds").
+- Para birimi (₺) ve oyun ekonomisi dile göre değişmez, sadece metinler çevrilir.
+
+TESLİMAT SIRASI:
+1. Önce yukarıdaki tasarım sistemini uygulayan 2-3 temel bileşeni (buton, kart, LedgerValue, alt nav) kur ve örnek bir ekranda göster, onay al.
+2. i18n altyapısını kur (sözlük yapısı + dil seçici) — bunu tasarım geçişiyle paralel yap, çünkü ekranları yeniden yazarken metinleri sözlüğe taşımak aynı anda daha verimli.
+3. Sonra ekran ekran, mevcut işlevi bozmadan yukarıdaki tasarım sistemine geçir.
+
+KISITLAR:
+- Performans ve mevcut mobil/responsive davranış korunmalı.
+- Yeni bağımlılık eklenecekse (ikon kütüphanesi, i18n kütüphanesi, font yükleme) önce listele, onaylat.
+- Yukarıdaki palet ve tipografi DIŞINA çıkma — her ekran için "kendi rengini" uydurma dürtüsüne karşı dur, tutarlılık asıl amaç.

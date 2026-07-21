@@ -1,0 +1,185 @@
+Sen bir frontend geliştiricisin. Bu projede üç kritik bug var — hepsini düzelt:
+
+---
+
+## 1. LIGHT MODE (MOBİL) — METİN RENKLERİ BOZUK
+
+`css/styles.css` dosyasında ~1173. satırda başlayan `@media(max-width:900px)` bloğu 
+YANLIŞ bir light theme uyguluyor. Sorun: tüm elementlere `color: #EDE7DA` (krem/beyaz) 
+atanmış ama arka plan `#F0F2F5` (açık gri) — metinler görünmüyor.
+
+Light mode'da düzeltilmesi gereken color değerleri:
+
+```css
+@media(max-width:900px) {
+    body { 
+        background: #F0F2F5 !important;
+        color: #1A2332 !important;  /* #EDE7DA YERİNE KOYU RENK */
+    }
+    .card, .mp-card, .mp-section, .mp-header, .mp-menu-row { 
+        background: #FFFFFF !important;
+        color: #1A2332 !important;  /* #EDE7DA YERİNE */
+    }
+    .card-title, .mp-header-title, .mp-menu-row-label, .mp-card-label,
+    .mp-section-title, .mp-list-name { 
+        color: #1A2332 !important;  /* #EDE7DA YERİNE */
+    }
+    .mp-menu-row-label { color: #1A2332 !important; }
+    .mp-list-name { color: #1A2332 !important; }
+    /* Muted text */
+    .mp-card-sub, .mp-list-sub, .mp-member-role { color: #5A6A7A !important; }
+}
+```
+
+**Arama yap:** `css/styles.css` içinde `#EDE7DA` olan tüm `color` satırlarını bul 
+(background değil, sadece color). Bunların hepsini içinde bulundukları selector'ın 
+arka plan rengine göre uygun koyu renk ile değiştir. Light arka plan varsa → `#1A2332`, 
+dark arka plan varsa → `#EDE7DA` bırak.
+
+---
+
+## 2. BOTTOM NAV — YAZI ÇOK KÜÇÜK VE OKUNAMAZ
+
+`src/components/BottomNav.js` dosyasında iki font-size problemi var:
+
+**Ana tab label** (satır ~yaklaşık 155):
+```js
+fontSize:'0.48rem'  // Bu 7.7px — çok küçük!
+```
+Bunu şu değere değiştir:
+```js
+fontSize:'0.62rem'  // 9.9px — okunabilir minimum
+```
+
+**Sub-menu item label** (satır ~yaklaşık 110):
+```js
+fontSize:'0.57rem'  // Bu 9.1px — çok küçük!
+```
+Bunu şu değere değiştir:
+```js
+fontSize:'0.68rem'  // 10.9px — daha okunabilir
+```
+
+Ayrıca alt nav bar yüksekliğini 62px'den 66px'e çıkar (`const navH = 66;`) 
+böylece ikonlar ve metinler sıkışmaz.
+
+---
+
+## 3. DARK/LIGHT MODE TOGGLEİ DÜZELT
+
+Şu an `@media(max-width:900px)` ile mobilede zorla light mode uygulanıyor. 
+Bu yanlış — kullanıcı tercihine göre ya da sistem ayarına göre olmalı.
+
+`css/styles.css` dosyasında bu media query bloğunu şöyle değiştir:
+
+**Mevcut (yanlış):**
+```css
+@media(max-width:900px) {
+    body { background: #F0F2F5 !important; color: #EDE7DA !important; }
+    /* ... tüm light theme kuralları ... */
+}
+```
+
+**Olması gereken — iki adım:**
+
+**Adım A:** Media query'yi kaldır, light mode'u bir class ile yönet:
+```css
+body.mode-light {
+    background: #F0F2F5 !important;
+    color: #1A2332 !important;
+    --bg: #F0F2F5;
+    --bg2: #FFFFFF;
+    --bg3: #E8ECF0;
+    --text: #1A2332;
+    --text-muted: #5A6A7A;
+    --border: rgba(0,0,0,0.08);
+    --border2: rgba(0,0,0,0.14);
+    --card-bg: #FFFFFF;
+}
+body.mode-light .card, body.mode-light .mp-card, body.mode-light .mp-section,
+body.mode-light .mp-header, body.mode-light .mp-menu-row,
+body.mode-light .app-wrap, body.mode-light .mobile-page,
+body.mode-light .sidebar-main {
+    background: #FFFFFF !important;
+    color: #1A2332 !important;
+    border-color: rgba(0,0,0,0.08) !important;
+}
+body.mode-light .card-title, body.mode-light .mp-header-title,
+body.mode-light .mp-menu-row-label, body.mode-light .mp-card-label,
+body.mode-light .mp-section-title, body.mode-light .mp-list-name,
+body.mode-light .text-muted { 
+    color: #1A2332 !important; 
+}
+body.mode-light .mp-card-sub, body.mode-light .mp-list-sub { 
+    color: #5A6A7A !important; 
+}
+/* Dark mode (default — zaten var, sadece class ile de destekle) */
+body.mode-dark, body:not(.mode-light) {
+    background: #11151C;
+    color: #EDE7DA;
+}
+```
+
+**Adım B:** `src/app.jsx` veya tema yönetimi olan dosyada toggle logic'i bul 
+(muhtemelen `localStorage.getItem('theme')` veya benzeri bir şey var). 
+Yoksa şunu ekle — body'ye class atayan bir toggle fonksiyonu:
+
+```js
+// Tema yükleme (app başlangıcında çağır)
+function loadTheme() {
+    const saved = localStorage.getItem('colorMode') || 'dark';
+    document.body.classList.remove('mode-light', 'mode-dark');
+    document.body.classList.add('mode-' + saved);
+}
+
+// Toggle fonksiyonu (settings butonuna bağla)
+function toggleColorMode() {
+    const isLight = document.body.classList.contains('mode-light');
+    const next = isLight ? 'dark' : 'light';
+    document.body.classList.remove('mode-light', 'mode-dark');
+    document.body.classList.add('mode-' + next);
+    localStorage.setItem('colorMode', next);
+}
+
+// Sayfa yüklenince çağır
+loadTheme();
+```
+
+Eğer uygulamada zaten bir Settings veya tema toggle UI'ı varsa, 
+mevcut toggle butonunu/ikonunu bulup `toggleColorMode()` fonksiyonuna bağla.
+
+---
+
+## 4. BOZUK GÖRSELLER — IMG TAG KONTROLLERİ
+
+`src/components/` ve `src/screens/` altındaki tüm `.js` / `.jsx` dosyalarında 
+`<img` tag'larını tara. Şu kontrolleri yap:
+
+1. `src` değeri boş string veya undefined olabilecek dinamik bir değer mi? Varsa:
+```js
+// Yanlış:
+<img src={user.avatar} />
+
+// Doğru (fallback ile):
+<img src={user.avatar || '/icon-96.png'} onError={e => { e.target.src='/icon-96.png'; }} />
+```
+
+2. Görselin yolu `/assets/` ile mi başlıyor? Eğer `assets/` klasörü proje root'unda ise 
+path'lerin doğru olduğunu kontrol et.
+
+3. `<img>` olan her yerde `alt=""` attribute'u ekle (erişilebilirlik + broken image icon gizleme):
+```js
+<img src={...} alt="" onError={e => { e.target.style.display='none'; }} />
+```
+
+Bu `onError` handler broken image ikonunu tamamen gizler.
+
+---
+
+## ÖZET — SIRASYLA YAP:
+
+1. `css/styles.css` → `@media(max-width:900px)` bloğunu `body.mode-light` class'ına taşı, renkleri düzelt
+2. `css/styles.css` → `body.mode-light` içinde tüm `color: #EDE7DA` değerlerini `#1A2332` yap
+3. `src/components/BottomNav.js` → font-size'ları büyüt, navH'ı 66'ya çıkar
+4. Tema toggle fonksiyonlarını ekle / mevcut olanı düzelt
+5. Tüm `<img>` tag'larına `onError` fallback ekle
