@@ -121,6 +121,9 @@ app.use('/css',     express.static(path.join(root, 'css'), staticOpts));
 app.use('/js',      express.static(path.join(root, 'js'), staticOpts));
 app.use('/src',     express.static(path.join(root, 'src'), staticOpts));
 app.use('/assets',  express.static(path.join(root, 'assets'), staticOpts));
+// Eski yollar (/icons/..., /sounds/...) public/ altında duruyor — kırık ikon/ses olmasın
+app.use('/icons',   express.static(path.join(root, 'public', 'icons'), staticOpts));
+app.use('/sounds',  express.static(path.join(root, 'public', 'sounds'), staticOpts));
 
 // ── API rotaları ──────────────────────────────────────────────────────────────
 const adminRoute    = require('./routes/admin');
@@ -193,6 +196,7 @@ app.use('/api/unvan',        require('./routes/unvan'));
 app.use('/api/grup-mesaj',   require('./routes/grupMesaj'));
 app.use('/api/adventure-log',require('./routes/adventureLog'));
 app.use('/api/players',      require('./routes/playerSearch'));
+app.use('/api/world',        require('./routes/world'));          // Dünya Haritası — ülke sahipliği
 // ── Supabase REST API — Admin & Upload ────────────────────────
 app.use('/api/admin/sb',     require('./routes/adminSupabase'));
 
