@@ -90,7 +90,7 @@ router.post('/resend-verify', authLimiter, authMiddleware, async (req, res) => {
       email_verify_token:  hashedToken,
       email_verify_expiry: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
     });
-    const baseUrl   = process.env.PUBLIC_URL || `${req.protocol}://${req.get('host')}`;
+    const baseUrl   = process.env.PUBLIC_URL || process.env.RENDER_EXTERNAL_URL || `${req.protocol}://${req.get('host')}`;
     const verifyUrl = `${baseUrl}/api/auth/verify-email?token=${rawToken}&userId=${user.id}`;
     await mailService.sendEmailVerification(user.email, user.username, verifyUrl);
     logger.info(`Doğrulama maili yeniden gönderildi: ${user.username}`);

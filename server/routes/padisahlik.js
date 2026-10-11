@@ -32,10 +32,10 @@ async function getAktifDonem() {
        VALUES ($1,$2,$3,$4,'normal') RETURNING *`,
       [now.toISOString(), bitis.toISOString(), gsBas.toISOString(), bitis.toISOString()]
     );
-    logger.info('[Padişahlık] Yeni dönem başlatıldı, id=' + ins.rows[0].id);
+    logger.info('[Cumhurbaşkanlığı] Yeni dönem başlatıldı, id=' + ins.rows[0].id);
     return ins.rows[0];
   } catch (e) {
-    logger.error('[Padişahlık] getAktifDonem hatası:', e.message);
+    logger.error('[Cumhurbaşkanlığı] getAktifDonem hatası:', e.message);
     return null;
   }
 }
@@ -57,7 +57,7 @@ async function donemKontrolEt(io) {
         `UPDATE padisahlik_donemleri SET durum='genel_sefer' WHERE id=$1`, [donem.id]
       );
       if (io) io.emit('genel_sefer:basladi', { donemId: donem.id, bitis: donem.bitis_tarihi });
-      logger.info('[Padişahlık] ⚔️ GENEL SEFER BAŞLADI — dönem id=' + donem.id);
+      logger.info('[Cumhurbaşkanlığı] ⚔️ GENEL SEFER BAŞLADI — dönem id=' + donem.id);
       return;
     }
 
@@ -77,10 +77,10 @@ async function donemKontrolEt(io) {
 
       if (io) io.emit('genel_sefer:bitti',    { donemId: donem.id });
       if (io && padisahBeylikId) io.emit('padisah:ilan_edildi', { beylikId: padisahBeylikId });
-      logger.info('[Padişahlık] 👑 DÖNEM TAMAMLANDI — Padişah beyliği=' + padisahBeylikId);
+      logger.info('[Cumhurbaşkanlığı] 👑 DÖNEM TAMAMLANDI — Cumhurbaşkanı devleti=' + padisahBeylikId);
     }
   } catch (e) {
-    logger.error('[Padişahlık] donemKontrolEt hatası:', e.message);
+    logger.error('[Cumhurbaşkanlığı] donemKontrolEt hatası:', e.message);
   }
 }
 
@@ -136,9 +136,9 @@ async function incrementFetihSayaci(beylikId, miktar) {
                      guncelleme_tarihi = NOW()`,
       [donem.id, beylikId, sayi]
     );
-    logger.info(`[Padişahlık] Fetih kaydedildi: beylikId=${beylikId}, dönem=${donem.id}`);
+    logger.info(`[Cumhurbaşkanlığı] Fetih kaydedildi: beylikId=${beylikId}, dönem=${donem.id}`);
   } catch (e) {
-    logger.error('[Padişahlık] incrementFetihSayaci hatası:', e.message);
+    logger.error('[Cumhurbaşkanlığı] incrementFetihSayaci hatası:', e.message);
   }
 }
 

@@ -45,7 +45,7 @@ const OTTOMAN_EYALETLER = [
 ];
 
 const BOLGE_RENKLERI = {
-  'Anadolu':      '#F0B33E',
+  'Anadolu':      '#3CC8F0',
   'Rumeli':       '#8B6BF2',
   'Arap Diyarı':  '#3ECF7A',
   'Kuzey Afrika': '#EF5350',
@@ -118,13 +118,13 @@ window.OttomanEyaletScreen = function OttomanEyaletScreen({ cu, setCurrentPage, 
   const doluSayi = Object.keys(valiVerisi).length;
 
   return React.createElement('div', {
-    style: { minHeight: '100vh', background: '#0F0800', padding: '0 0 80px 0', fontFamily: "'Inter',sans-serif" }
+    style: { minHeight: '100vh', background: '#0A0F17', padding: '0 0 80px 0', fontFamily: "'Inter',sans-serif" }
   },
     // Başlık
     React.createElement('div', {
       style: {
-        background: 'linear-gradient(135deg,#1a1000 0%,#2d1e00 50%,#1a1000 100%)',
-        borderBottom: '1px solid rgba(240,179,62,0.25)',
+        background: 'linear-gradient(135deg,#0F1724 0%,#2d1e00 50%,#0F1724 100%)',
+        borderBottom: '1px solid rgba(60,200,240,0.25)',
         padding: '16px 16px 12px',
       }
     },
@@ -135,7 +135,7 @@ window.OttomanEyaletScreen = function OttomanEyaletScreen({ cu, setCurrentPage, 
         }, '← Geri'),
         React.createElement('div', { style: { fontSize: '1.3rem' } }, '🗺️'),
         React.createElement('div', null,
-          React.createElement('div', { style: { fontFamily: "'Cinzel',serif", fontWeight: 900, fontSize: '1.1rem', color: '#F0B33E' } }, 'Osmanlı Eyaletleri'),
+          React.createElement('div', { style: { fontFamily: "'Rajdhani',sans-serif", fontWeight: 900, fontSize: '1.1rem', color: '#3CC8F0' } }, 'Osmanlı Eyaletleri'),
           React.createElement('div', { style: { fontSize: '0.68rem', color: '#8893A1', marginTop: 1 } }, `${toplam} eyalet · ${doluSayi} valili · ${toplam - doluSayi} boş`)
         )
       ),
@@ -146,10 +146,10 @@ window.OttomanEyaletScreen = function OttomanEyaletScreen({ cu, setCurrentPage, 
           ['⚔️', 'Toplam Asker', OTTOMAN_EYALETLER.reduce((s,e)=>s+e.asker,0).toLocaleString('tr')],
           ['👑', 'Dolu Valilik', `${doluSayi}/${toplam}`],
         ].map(([ic, baslik, deger]) =>
-          React.createElement('div', { key: baslik, style: { background: 'rgba(240,179,62,0.07)', border: '1px solid rgba(240,179,62,0.15)', borderRadius: 10, padding: '8px 10px', textAlign: 'center' } },
+          React.createElement('div', { key: baslik, style: { background: 'rgba(60,200,240,0.07)', border: '1px solid rgba(60,200,240,0.15)', borderRadius: 10, padding: '8px 10px', textAlign: 'center' } },
             React.createElement('div', { style: { fontSize: '1rem' } }, ic),
             React.createElement('div', { style: { fontSize: '0.62rem', color: '#8893A1', marginTop: 2 } }, baslik),
-            React.createElement('div', { style: { fontSize: '0.78rem', fontWeight: 700, color: '#F0B33E', fontFamily: "'JetBrains Mono',monospace" } }, deger)
+            React.createElement('div', { style: { fontSize: '0.78rem', fontWeight: 700, color: '#3CC8F0', fontFamily: "'JetBrains Mono',monospace" } }, deger)
           )
         )
       )
@@ -165,9 +165,9 @@ window.OttomanEyaletScreen = function OttomanEyaletScreen({ cu, setCurrentPage, 
             flexShrink: 0,
             padding: '5px 12px',
             borderRadius: 20,
-            border: `1px solid ${aktifBolge === b ? '#F0B33E' : 'rgba(255,255,255,0.1)'}`,
-            background: aktifBolge === b ? 'rgba(240,179,62,0.15)' : 'rgba(255,255,255,0.03)',
-            color: aktifBolge === b ? '#F0B33E' : '#8893A1',
+            border: `1px solid ${aktifBolge === b ? '#3CC8F0' : 'rgba(255,255,255,0.1)'}`,
+            background: aktifBolge === b ? 'rgba(60,200,240,0.15)' : 'rgba(255,255,255,0.03)',
+            color: aktifBolge === b ? '#3CC8F0' : '#8893A1',
             fontSize: '0.7rem',
             fontWeight: aktifBolge === b ? 700 : 400,
             cursor: 'pointer',
@@ -181,7 +181,7 @@ window.OttomanEyaletScreen = function OttomanEyaletScreen({ cu, setCurrentPage, 
     React.createElement('div', { style: { padding: '0 12px', display: 'flex', flexDirection: 'column', gap: 8 } },
       filtreliEyaletler.map(eyalet => {
         const vali = valiVerisi[eyalet.id];
-        const boluRenk = BOLGE_RENKLERI[eyalet.bolge] || '#F0B33E';
+        const boluRenk = BOLGE_RENKLERI[eyalet.bolge] || '#3CC8F0';
         const benimEyalet = vali?.valiId === cu?.id;
 
         return React.createElement('div', {
@@ -189,9 +189,9 @@ window.OttomanEyaletScreen = function OttomanEyaletScreen({ cu, setCurrentPage, 
           onClick: () => setSeciliEyalet(eyalet),
           style: {
             background: benimEyalet
-              ? 'linear-gradient(135deg,rgba(240,179,62,0.12),rgba(240,179,62,0.05))'
+              ? 'linear-gradient(135deg,rgba(60,200,240,0.12),rgba(60,200,240,0.05))'
               : 'rgba(27,33,43,0.8)',
-            border: `1px solid ${benimEyalet ? 'rgba(240,179,62,0.4)' : 'rgba(255,255,255,0.07)'}`,
+            border: `1px solid ${benimEyalet ? 'rgba(60,200,240,0.4)' : 'rgba(255,255,255,0.07)'}`,
             borderLeft: `3px solid ${boluRenk}`,
             borderRadius: 12,
             padding: '12px 14px',
@@ -204,8 +204,8 @@ window.OttomanEyaletScreen = function OttomanEyaletScreen({ cu, setCurrentPage, 
           React.createElement('div', { style: { fontSize: '1.8rem', flexShrink: 0 } }, eyalet.bayrak),
           React.createElement('div', { style: { flex: 1, minWidth: 0 } },
             React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 } },
-              React.createElement('span', { style: { fontSize: '0.85rem', fontWeight: 700, color: '#EDE7DA' } }, eyalet.ad),
-              benimEyalet && React.createElement('span', { style: { fontSize: '0.6rem', background: 'rgba(240,179,62,0.2)', border: '1px solid rgba(240,179,62,0.4)', borderRadius: 6, padding: '1px 5px', color: '#F0B33E', fontWeight: 700 } }, 'VALİNİZ'),
+              React.createElement('span', { style: { fontSize: '0.85rem', fontWeight: 700, color: '#E6EDF5' } }, eyalet.ad),
+              benimEyalet && React.createElement('span', { style: { fontSize: '0.6rem', background: 'rgba(60,200,240,0.2)', border: '1px solid rgba(60,200,240,0.4)', borderRadius: 6, padding: '1px 5px', color: '#3CC8F0', fontWeight: 700 } }, 'VALİNİZ'),
             ),
             React.createElement('div', { style: { fontSize: '0.65rem', color: '#8893A1', marginBottom: 4 } }, `📍 ${eyalet.merkez} · ${eyalet.bolge}`),
             React.createElement('div', { style: { display: 'flex', gap: 10 } },
@@ -217,7 +217,7 @@ window.OttomanEyaletScreen = function OttomanEyaletScreen({ cu, setCurrentPage, 
             vali
               ? React.createElement('div', null,
                   React.createElement('div', { style: { fontSize: '0.6rem', color: '#8893A1' } }, '👑 Vali'),
-                  React.createElement('div', { style: { fontSize: '0.72rem', fontWeight: 700, color: '#F0B33E' } }, vali.valiAdi)
+                  React.createElement('div', { style: { fontSize: '0.72rem', fontWeight: 700, color: '#3CC8F0' } }, vali.valiAdi)
                 )
               : React.createElement('div', { style: { fontSize: '0.65rem', color: '#EF5350', fontWeight: 600 } }, '⚠️ Boş')
           )
@@ -231,12 +231,12 @@ window.OttomanEyaletScreen = function OttomanEyaletScreen({ cu, setCurrentPage, 
       onClick: (e) => { if(e.target === e.currentTarget) setSeciliEyalet(null); }
     },
       React.createElement('div', {
-        style: { background: '#1B212B', border: '1px solid rgba(240,179,62,0.3)', borderRadius: 16, padding: '1.5rem', maxWidth: 380, width: '100%', maxHeight: '85vh', overflowY: 'auto' }
+        style: { background: '#152032', border: '1px solid rgba(60,200,240,0.3)', borderRadius: 16, padding: '1.5rem', maxWidth: 380, width: '100%', maxHeight: '85vh', overflowY: 'auto' }
       },
         React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 } },
           React.createElement('div', { style: { fontSize: '3rem' } }, seciliEyalet.bayrak),
           React.createElement('div', null,
-            React.createElement('div', { style: { fontFamily: "'Cinzel',serif", fontSize: '1.1rem', fontWeight: 900, color: '#F0B33E' } }, seciliEyalet.ad),
+            React.createElement('div', { style: { fontFamily: "'Rajdhani',sans-serif", fontSize: '1.1rem', fontWeight: 900, color: '#3CC8F0' } }, seciliEyalet.ad),
             React.createElement('div', { style: { fontSize: '0.72rem', color: '#8893A1' } }, `📍 ${seciliEyalet.merkez} · ${seciliEyalet.bolge}`)
           )
         ),
@@ -250,7 +250,7 @@ window.OttomanEyaletScreen = function OttomanEyaletScreen({ cu, setCurrentPage, 
           ].map(([ic, baslik, deger]) =>
             React.createElement('div', { key: baslik, style: { background: 'rgba(255,255,255,0.03)', borderRadius: 10, padding: '10px 12px' } },
               React.createElement('div', { style: { fontSize: '0.65rem', color: '#8893A1' } }, `${ic} ${baslik}`),
-              React.createElement('div', { style: { fontSize: '0.9rem', fontWeight: 700, color: '#EDE7DA', fontFamily: "'JetBrains Mono',monospace" } }, deger)
+              React.createElement('div', { style: { fontSize: '0.9rem', fontWeight: 700, color: '#E6EDF5', fontFamily: "'JetBrains Mono',monospace" } }, deger)
             )
           )
         ),
@@ -259,9 +259,9 @@ window.OttomanEyaletScreen = function OttomanEyaletScreen({ cu, setCurrentPage, 
         React.createElement('div', { style: { marginBottom: 14 } },
           React.createElement('div', { style: { fontSize: '0.72rem', color: '#8893A1', marginBottom: 6 } }, '👑 MEVCUT VALİ'),
           valiVerisi[seciliEyalet.id]
-            ? React.createElement('div', { style: { background: 'rgba(240,179,62,0.08)', border: '1px solid rgba(240,179,62,0.2)', borderRadius: 10, padding: '10px 12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' } },
+            ? React.createElement('div', { style: { background: 'rgba(60,200,240,0.08)', border: '1px solid rgba(60,200,240,0.2)', borderRadius: 10, padding: '10px 12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' } },
                 React.createElement('div', null,
-                  React.createElement('div', { style: { fontSize: '0.85rem', fontWeight: 700, color: '#F0B33E' } }, `👑 ${valiVerisi[seciliEyalet.id].valiAdi}`),
+                  React.createElement('div', { style: { fontSize: '0.85rem', fontWeight: 700, color: '#3CC8F0' } }, `👑 ${valiVerisi[seciliEyalet.id].valiAdi}`),
                   React.createElement('div', { style: { fontSize: '0.62rem', color: '#8893A1' } }, `Atanma: ${new Date(valiVerisi[seciliEyalet.id].atamaTarihi).toLocaleDateString('tr')}`)
                 ),
                 (isSultan || valiVerisi[seciliEyalet.id].valiId === cu?.id) && React.createElement('button', {
@@ -279,8 +279,8 @@ window.OttomanEyaletScreen = function OttomanEyaletScreen({ cu, setCurrentPage, 
             disabled: !!kullanicivaliEyaleti,
             style: {
               flex: 1, padding: '10px 14px', borderRadius: 12, border: 'none',
-              background: kullanicivaliEyaleti ? '#2a2a2a' : '#F0B33E',
-              color: kullanicivaliEyaleti ? '#555' : '#0F0800',
+              background: kullanicivaliEyaleti ? '#2a2a2a' : '#3CC8F0',
+              color: kullanicivaliEyaleti ? '#555' : '#0A0F17',
               fontWeight: 800, fontSize: '0.82rem', cursor: kullanicivaliEyaleti ? 'not-allowed' : 'pointer'
             }
           }, kullanicivaliEyaleti ? '⚠️ Başka eyaletiniz var' : '👑 Vali Ol'),
@@ -305,13 +305,13 @@ window.VaililikEkrani = function VaililikEkrani({ cu, setCurrentPage }) {
 
   const DS = window.DS || {};
 
-  return React.createElement('div', { style: { minHeight: '100vh', background: '#0F0800', fontFamily: "'Inter',sans-serif" } },
+  return React.createElement('div', { style: { minHeight: '100vh', background: '#0A0F17', fontFamily: "'Inter',sans-serif" } },
     // Header
-    React.createElement('div', { style: { background: 'linear-gradient(135deg,#1a1000,#2d1e00)', borderBottom: '1px solid rgba(240,179,62,0.25)', padding: '16px' } },
+    React.createElement('div', { style: { background: 'linear-gradient(135deg,#0F1724,#2d1e00)', borderBottom: '1px solid rgba(60,200,240,0.25)', padding: '16px' } },
       React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 } },
         React.createElement('button', { onClick: () => setCurrentPage('home'), style: { background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '6px 10px', color: '#8893A1', fontSize: '0.75rem', cursor: 'pointer' } }, '← Geri'),
         React.createElement('div', { style: { fontSize: '1.2rem' } }, '👑'),
-        React.createElement('div', { style: { fontFamily: "'Cinzel',serif", fontWeight: 900, fontSize: '1.1rem', color: '#F0B33E' } }, 'Valilik')
+        React.createElement('div', { style: { fontFamily: "'Rajdhani',sans-serif", fontWeight: 900, fontSize: '1.1rem', color: '#3CC8F0' } }, 'Valilik')
       )
     ),
 
@@ -319,9 +319,9 @@ window.VaililikEkrani = function VaililikEkrani({ cu, setCurrentPage }) {
       benimEyalet
         ? React.createElement('div', null,
             // Eyalet kartı
-            React.createElement('div', { style: { background: 'linear-gradient(135deg,rgba(240,179,62,0.15),rgba(240,179,62,0.05))', border: '1px solid rgba(240,179,62,0.35)', borderRadius: 16, padding: '20px', marginBottom: 20 } },
+            React.createElement('div', { style: { background: 'linear-gradient(135deg,rgba(60,200,240,0.15),rgba(60,200,240,0.05))', border: '1px solid rgba(60,200,240,0.35)', borderRadius: 16, padding: '20px', marginBottom: 20 } },
               React.createElement('div', { style: { fontSize: '3rem', textAlign: 'center', marginBottom: 8 } }, benimEyalet.bayrak),
-              React.createElement('div', { style: { textAlign: 'center', fontFamily: "'Cinzel',serif", fontSize: '1.2rem', fontWeight: 900, color: '#F0B33E', marginBottom: 4 } }, benimEyalet.ad),
+              React.createElement('div', { style: { textAlign: 'center', fontFamily: "'Rajdhani',sans-serif", fontSize: '1.2rem', fontWeight: 900, color: '#3CC8F0', marginBottom: 4 } }, benimEyalet.ad),
               React.createElement('div', { style: { textAlign: 'center', fontSize: '0.72rem', color: '#8893A1', marginBottom: 16 } }, `📍 ${benimEyalet.merkez} · ${benimEyalet.bolge}`),
               React.createElement('div', { style: { textAlign: 'center', fontSize: '0.8rem', color: '#8893A1', fontStyle: 'italic', marginBottom: 16 } }, benimEyalet.aciklama),
               React.createElement('div', { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 } },
@@ -331,16 +331,16 @@ window.VaililikEkrani = function VaililikEkrani({ cu, setCurrentPage }) {
                   ['🗺️', 'Bölge', benimEyalet.bolge],
                   ['👑', 'Unvan', 'Vali'],
                 ].map(([ic, baslik, deger]) =>
-                  React.createElement('div', { key: baslik, style: { background: 'rgba(240,179,62,0.06)', borderRadius: 10, padding: '10px 12px' } },
+                  React.createElement('div', { key: baslik, style: { background: 'rgba(60,200,240,0.06)', borderRadius: 10, padding: '10px 12px' } },
                     React.createElement('div', { style: { fontSize: '0.62rem', color: '#8893A1' } }, `${ic} ${baslik}`),
-                    React.createElement('div', { style: { fontSize: '0.9rem', fontWeight: 700, color: '#F0B33E' } }, deger)
+                    React.createElement('div', { style: { fontSize: '0.9rem', fontWeight: 700, color: '#3CC8F0' } }, deger)
                   )
                 )
               )
             ),
             // Vali yetkileri
             React.createElement('div', { style: { background: 'rgba(27,33,43,0.8)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: '16px' } },
-              React.createElement('div', { style: { fontWeight: 700, color: '#EDE7DA', fontSize: '0.85rem', marginBottom: 12 } }, '⚡ Vali Yetkileri'),
+              React.createElement('div', { style: { fontWeight: 700, color: '#E6EDF5', fontSize: '0.85rem', marginBottom: 12 } }, '⚡ Vali Yetkileri'),
               [
                 ['💰', 'Vergi Toplama', 'Eyaletinizden günlük vergi geliri alırsınız'],
                 ['⚔️', 'Asker Sevk', 'Eyalet ordusunu devlet seferlerine katabilirsiniz'],
@@ -350,7 +350,7 @@ window.VaililikEkrani = function VaililikEkrani({ cu, setCurrentPage }) {
                 React.createElement('div', { key: baslik, style: { display: 'flex', gap: 10, marginBottom: 10, padding: '8px 10px', background: 'rgba(255,255,255,0.02)', borderRadius: 10 } },
                   React.createElement('div', { style: { fontSize: '1.2rem', flexShrink: 0 } }, ic),
                   React.createElement('div', null,
-                    React.createElement('div', { style: { fontSize: '0.78rem', fontWeight: 600, color: '#EDE7DA' } }, baslik),
+                    React.createElement('div', { style: { fontSize: '0.78rem', fontWeight: 600, color: '#E6EDF5' } }, baslik),
                     React.createElement('div', { style: { fontSize: '0.65rem', color: '#8893A1' } }, acik)
                   )
                 )
@@ -359,11 +359,11 @@ window.VaililikEkrani = function VaililikEkrani({ cu, setCurrentPage }) {
           )
         : React.createElement('div', { style: { textAlign: 'center', padding: '40px 20px' } },
             React.createElement('div', { style: { fontSize: '3rem', marginBottom: 12 } }, '🏛️'),
-            React.createElement('div', { style: { fontFamily: "'Cinzel',serif", fontSize: '1.1rem', fontWeight: 700, color: '#EDE7DA', marginBottom: 8 } }, 'Henüz Valiliğiniz Yok'),
+            React.createElement('div', { style: { fontFamily: "'Rajdhani',sans-serif", fontSize: '1.1rem', fontWeight: 700, color: '#E6EDF5', marginBottom: 8 } }, 'Henüz Valiliğiniz Yok'),
             React.createElement('div', { style: { fontSize: '0.78rem', color: '#8893A1', marginBottom: 20, lineHeight: 1.5 } }, 'Eyaletler sayfasından boş bir eyalete başvurarak vali olabilirsiniz. Vali olarak eyaletinizden vergi geliri elde eder, asker sevk edebilirsiniz.'),
             React.createElement('button', {
               onClick: () => setCurrentPage('eyalet_harita'),
-              style: { padding: '12px 24px', borderRadius: 14, border: 'none', background: '#F0B33E', color: '#0F0800', fontWeight: 800, fontSize: '0.9rem', cursor: 'pointer' }
+              style: { padding: '12px 24px', borderRadius: 14, border: 'none', background: '#3CC8F0', color: '#0A0F17', fontWeight: 800, fontSize: '0.9rem', cursor: 'pointer' }
             }, '🗺️ Eyaletleri Gör')
           )
     )

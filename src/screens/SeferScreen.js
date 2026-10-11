@@ -3,11 +3,11 @@
 // ═══════════════════════════════════════════════════════════════
 function SeferScreen({ profile, setProfile, showNotif }) {
   const { dark } = useTheme();
-  const bg      = dark ? '#1A0E00' : '#F8FAFC';
-  const surface = dark ? '#2D1800' : '#EDE7DA';
-  const gold    = '#C89B3C';
-  const text    = dark ? '#F5EBD7' : '#2D1800';
-  const muted   = '#A9A6A0';
+  const bg      = dark ? '#0F1724' : '#F8FAFC';
+  const surface = dark ? '#152032' : '#E6EDF5';
+  const gold    = '#3CC8F0';
+  const text    = dark ? '#E6EDF5' : '#152032';
+  const muted   = '#93A4B8';
   const red     = '#B8423C';
   const green   = '#3E8C5A';
 
@@ -62,7 +62,7 @@ function SeferScreen({ profile, setProfile, showNotif }) {
     const h1 = (d) => setCampaigns(prev => [d.campaign, ...prev]);
     const h2 = (d) => setCampaigns(prev => prev.map(c => c.id === d.id ? d : c));
     const h3 = (d) => {
-      showNotif(d.victory ? `⚔️ ${d.name} seferi zaferle bitti!` : `💀 ${d.name} seferi yenilgiyle bitti`, d.victory ? 'success' : 'error');
+      showNotif(d.victory ? `⚔️ ${d.name} harekâtı zaferle bitti!` : `💀 ${d.name} harekâtı yenilgiyle bitti`, d.victory ? 'success' : 'error');
       load();
     };
     s.on('campaign:new', h1);
@@ -80,7 +80,7 @@ function SeferScreen({ profile, setProfile, showNotif }) {
       });
       const data = await res.json();
       if (data.success) {
-        showNotif('⚔️ Sefer başlatıldı! Katılımcılar bekleniyor…', 'success');
+        showNotif('⚔️ Harekât başlatıldı! Katılımcılar bekleniyor…', 'success');
         setShowCreate(false); load();
       } else showNotif(data.message || 'Hata', 'error');
     } catch(e) { showNotif('Bağlantı hatası', 'error'); }
@@ -126,12 +126,12 @@ function SeferScreen({ profile, setProfile, showNotif }) {
       {/* Başlık */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
         <div>
-          <div style={{ fontFamily: "'Cinzel',serif", fontSize: '1.2rem', fontWeight: 900, color: gold }}>⚔️ Seferler</div>
+          <div style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: '1.2rem', fontWeight: 900, color: gold }}>⚔️ Harekâtlar</div>
           <div style={{ fontSize: '0.72rem', color: muted }}>İttifak seferleri — birlikte savaş, birlikte kazan</div>
         </div>
         <button onClick={() => setShowCreate(true)}
           style={{ background: red, color: '#fff', border: 'none', borderRadius: '8px', padding: '0.5rem 0.85rem', fontWeight: 700, cursor: 'pointer', fontSize: '0.8rem' }}>
-          + Sefer
+          + Harekât
         </button>
       </div>
 
@@ -140,7 +140,7 @@ function SeferScreen({ profile, setProfile, showNotif }) {
         {[['active','⚔️ Aktif'],['history','📜 Tarih']].map(([k,l]) => (
           <button key={k} onClick={() => setTab(k)}
             style={{ flex: 1, padding: '0.5rem', borderRadius: '8px', border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: '0.8rem',
-              background: tab===k ? gold : surface, color: tab===k ? '#1A0E00' : muted }}>
+              background: tab===k ? gold : surface, color: tab===k ? '#0F1724' : muted }}>
             {l}
           </button>
         ))}
@@ -151,7 +151,7 @@ function SeferScreen({ profile, setProfile, showNotif }) {
       ) : filteredCampaigns.length === 0 ? (
         <div style={{ textAlign: 'center', color: muted, padding: '2rem', fontSize: '0.85rem' }}>
           {tab === 'active' ? 'Aktif sefer yok' : 'Henüz tamamlanmış sefer yok'}<br/><br/>
-          {tab === 'active' && <button onClick={() => setShowCreate(true)} style={{ background: gold, color: '#1A0E00', border: 'none', borderRadius: '8px', padding: '0.5rem 1rem', cursor: 'pointer', fontWeight: 700 }}>⚔️ Sefer Başlat</button>}
+          {tab === 'active' && <button onClick={() => setShowCreate(true)} style={{ background: gold, color: '#0F1724', border: 'none', borderRadius: '8px', padding: '0.5rem 1rem', cursor: 'pointer', fontWeight: 700 }}>⚔️ Harekât Başlat</button>}
         </div>
       ) : filteredCampaigns.map(c => {
         const isParticipant = (c.participants||[]).some(p => p.user_id === profile?.id);
@@ -184,7 +184,7 @@ function SeferScreen({ profile, setProfile, showNotif }) {
             {/* Ödüller */}
             <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
               {[
-                [`🪙 ${Math.floor(c.reward_sikke/(c.participants?.length||1)).toLocaleString('tr-TR')}`, gold],
+                [`₺ ${Math.floor(c.reward_sikke/(c.participants?.length||1)).toLocaleString('tr-TR')}`, gold],
                 [`⭐ ${Math.floor(c.reward_xp/(c.participants?.length||1))} XP`, '#60A5FA'],
                 [`💎 ${Math.floor(c.reward_merits/(c.participants?.length||1))} Liyakat`, '#A78BFA'],
               ].map(([l, col]) => (
@@ -193,9 +193,14 @@ function SeferScreen({ profile, setProfile, showNotif }) {
             </div>
 
             {/* Süre */}
+            {c.status === 'active' && window.BattleFX && React.createElement(window.BattleFX, {
+              mode: 'battle', height: 84,
+              label: `${c.target_name || c.name || 'Cephe'}: çatışma sürüyor`,
+              sub: `${c.participants?.length || 0} birlik savaşıyor`,
+            })}
             {['recruiting','active'].includes(c.status) && (
               <div style={{ fontSize: '0.72rem', color: muted, marginBottom: '0.5rem' }}>
-                {c.status === 'recruiting' ? `⏳ Sefer başlangıcı: ${timeStr(timeLeft)}` : `⚔️ Savaş bitiyor: ${timeStr(timeLeft)}`}
+                {c.status === 'recruiting' ? `⏳ Harekât başlangıcı: ${timeStr(timeLeft)}` : `⚔️ Savaş bitiyor: ${timeStr(timeLeft)}`}
               </div>
             )}
 
@@ -203,7 +208,7 @@ function SeferScreen({ profile, setProfile, showNotif }) {
             {c.status === 'recruiting' && (
               <button onClick={() => isParticipant ? leave(c.id) : join(c.id)}
                 style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: 'none',
-                  background: isParticipant ? muted+'44' : gold, color: isParticipant ? muted : '#1A0E00',
+                  background: isParticipant ? muted+'44' : gold, color: isParticipant ? muted : '#0F1724',
                   cursor: 'pointer', fontWeight: 700, fontSize: '0.85rem' }}>
                 {isParticipant ? '❌ Ayrıl' : '⚔️ Katıl'}
               </button>
@@ -215,8 +220,8 @@ function SeferScreen({ profile, setProfile, showNotif }) {
       {/* Sefer Oluştur Modalı */}
       {showCreate && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: '1rem' }}>
-          <div style={{ background: dark?'#2D1800':'#fff', borderRadius: '16px', padding: '1.5rem', maxWidth: '400px', width: '100%', border: `1px solid ${gold}44`, maxHeight: '85vh', overflowY: 'auto' }}>
-            <div style={{ fontFamily: "'Cinzel',serif", fontSize: '1.1rem', fontWeight: 800, color: gold, marginBottom: '1rem' }}>⚔️ Sefer Başlat</div>
+          <div style={{ background: dark?'#152032':'#fff', borderRadius: '16px', padding: '1.5rem', maxWidth: '400px', width: '100%', border: `1px solid ${gold}44`, maxHeight: '85vh', overflowY: 'auto' }}>
+            <div style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: '1.1rem', fontWeight: 800, color: gold, marginBottom: '1rem' }}>⚔️ Harekât Başlat</div>
 
             <div style={{ marginBottom: '0.75rem' }}>
               <label style={{ fontSize: '0.75rem', color: muted }}>Hedef Seç</label>
@@ -227,7 +232,7 @@ function SeferScreen({ profile, setProfile, showNotif }) {
                       background: selTarget===i ? red+'22' : 'transparent', cursor: 'pointer', textAlign: 'left', color: text }}>
                     <div style={{ fontWeight: 700, fontSize: '0.82rem' }}>{t.name}</div>
                     <div style={{ fontSize: '0.68rem', color: muted }}>
-                      Güç: {t.power.toLocaleString('tr-TR')} · 🪙{t.reward_sikke.toLocaleString('tr-TR')} · ⭐{t.reward_xp} XP · 💎{t.reward_merits}
+                      Güç: {t.power.toLocaleString('tr-TR')} · ₺{t.reward_sikke.toLocaleString('tr-TR')} · ⭐{t.reward_xp} XP · 💎{t.reward_merits}
                     </div>
                   </button>
                 ))}
@@ -237,7 +242,7 @@ function SeferScreen({ profile, setProfile, showNotif }) {
             <div style={{ marginBottom: '0.75rem' }}>
               <label style={{ fontSize: '0.75rem', color: muted }}>Katılım Süresi (saat)</label>
               <input type="number" min={1} max={48} value={recruitHours} onChange={e => setRecruitHours(parseInt(e.target.value)||12)}
-                style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: `1px solid ${gold}33`, background: dark?'#1A0E00':'#F5EBD7', color: text, marginTop: '0.25rem', boxSizing: 'border-box' }} />
+                style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: `1px solid ${gold}33`, background: dark?'#0F1724':'#E6EDF5', color: text, marginTop: '0.25rem', boxSizing: 'border-box' }} />
               <div style={{ fontSize: '0.68rem', color: muted, marginTop: '0.2rem' }}>Bu süre dolduktan sonra savaş 1 saat sürer.</div>
             </div>
 

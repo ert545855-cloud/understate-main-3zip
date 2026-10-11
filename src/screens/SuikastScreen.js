@@ -7,7 +7,7 @@ window.SuikastScreen = function SuikastScreen({ profile, token, onlinePlayers })
   const [loading, setLoading] = React.useState('');
   const [msg, setMsg] = React.useState({ text:'', ok:true });
 
-  const ds = { bg:'#0D1117', surface:'rgba(255,255,255,0.04)', gold:'#C9A227', border:'rgba(255,255,255,0.08)', text:'#EDE7DA', muted:'#8893A1', red:'#FF6B6B', green:'#4CAF50' };
+  const ds = { bg:'#0D1117', surface:'rgba(255,255,255,0.04)', gold:'#3CC8F0', border:'rgba(255,255,255,0.08)', text:'#E6EDF5', muted:'#8893A1', red:'#FF6B6B', green:'#4CAF50' };
 
   const fetchContracts = async () => {
     try {
@@ -23,7 +23,7 @@ window.SuikastScreen = function SuikastScreen({ profile, token, onlinePlayers })
     if (window._socket) {
       window._socket.on('assassination:new', fetchContracts);
       window._socket.on('assassination:completed', (data) => {
-        window._pushGameEvent && window._pushGameEvent({ type:'crime', text:`💀 ${data.killer} → ${data.target} suikastı gerçekleştirdi! (${data.reward} 🪙)`, ts:Date.now() });
+        window._pushGameEvent && window._pushGameEvent({ type:'crime', text:`💀 ${data.killer} → ${data.target} suikastı gerçekleştirdi! (${data.reward} ₺)`, ts:Date.now() });
         fetchContracts();
       });
     }
@@ -34,7 +34,7 @@ window.SuikastScreen = function SuikastScreen({ profile, token, onlinePlayers })
 
   const postContract = async () => {
     if (!targetId) return show('Hedef seç', false);
-    if (parseInt(reward) < 100) return show('Ödül en az 100 🪙 olmalı', false);
+    if (parseInt(reward) < 100) return show('Ödül en az 100 ₺ olmalı', false);
     setLoading('post');
     try {
       const r = await fetch('/api/assassination/post', {
@@ -97,7 +97,7 @@ window.SuikastScreen = function SuikastScreen({ profile, token, onlinePlayers })
               React.createElement('div', { style:{ fontSize:'0.75rem', color:ds.muted }}, `Yayınlayan: ${c.poster_name} · ${timeLeft(c.expires_at)} kaldı`)
             ),
             React.createElement('div', { style:{ textAlign:'right' }},
-              React.createElement('div', { style:{ fontWeight:900, fontSize:'1.1rem', color:ds.gold }}, `${c.reward} 🪙`),
+              React.createElement('div', { style:{ fontWeight:900, fontSize:'1.1rem', color:ds.gold }}, `${c.reward} ₺`),
               React.createElement('div', { style:{ fontSize:'0.7rem', color:ds.muted }}, 'Ödül')
             )
           ),
@@ -127,13 +127,13 @@ window.SuikastScreen = function SuikastScreen({ profile, token, onlinePlayers })
         )
       ),
       React.createElement('div', { style:{ marginBottom:'14px' }},
-        React.createElement('label', { style:{ fontSize:'0.8rem', color:ds.muted, display:'block', marginBottom:'4px' }}, `Ödül: ${reward} 🪙`),
+        React.createElement('label', { style:{ fontSize:'0.8rem', color:ds.muted, display:'block', marginBottom:'4px' }}, `Ödül: ${reward} ₺`),
         React.createElement('input', { type:'range', min:100, max:Math.min(50000, profile?.money||0), step:100,
           value:reward, onChange:e=>setReward(e.target.value), style:{ width:'100%', accentColor:'#8B0000' }})
       ),
       React.createElement('button', { onClick:postContract, disabled:loading==='post',
         style:{ width:'100%', padding:'10px', borderRadius:'10px', border:'none', cursor:'pointer', fontWeight:700, background:'#8B0000', color:'#FFD0D0' }},
-        loading==='post' ? '⏳ Yayınlanıyor...' : `💀 Kontratı Yayınla (${reward} 🪙)`
+        loading==='post' ? '⏳ Yayınlanıyor...' : `💀 Kontratı Yayınla (${reward} ₺)`
       )
     )
   );

@@ -2,7 +2,7 @@
 // SALTANAT ONLINE — Casus Operasyon Zinciri (3 Aşamalı)
 // ═══════════════════════════════════════════════════════════════
 window.CasusChainScreen = function CasusChainScreen({ profile, onNavigate, showNotif }) {
-  const G='#C89B3C', BG='#0F0800', T='#F5EBD7', M='#A9A6A0', S='#2D1800', R='#B8423C', GR='#3E8C5A';
+  const G='#3CC8F0', BG='#0A0F17', T='#E6EDF5', M='#93A4B8', S='#152032', R='#B8423C', GR='#3E8C5A';
   const jwt = () => localStorage.getItem('us_jwt') || '';
 
   const [missions, setMissions]   = React.useState([]);
@@ -57,7 +57,7 @@ window.CasusChainScreen = function CasusChainScreen({ profile, onNavigate, showN
       });
       const d = await r.json();
       if (d.success) {
-        if (d.completed) showNotif && showNotif(`✅ Görev tamamlandı! +🪙${d.reward_sikke?.toLocaleString('tr-TR')} +⭐${d.reward_xp} XP`, 'success');
+        if (d.completed) showNotif && showNotif(`✅ Görev tamamlandı! +₺${d.reward_sikke?.toLocaleString('tr-TR')} +⭐${d.reward_xp} XP`, 'success');
         else if (d.failed) showNotif && showNotif('❌ Casus yakalandı! Görev başarısız.', 'error');
         else if (d.advanced) showNotif && showNotif(`➡️ Aşama ${d.mission?.stage}: ${STAGE_LABELS[d.mission?.stage] || ''}`, 'success');
         load();
@@ -90,20 +90,20 @@ window.CasusChainScreen = function CasusChainScreen({ profile, onNavigate, showN
 
   const cardStyle = {
     background: S, borderRadius: 14, padding: '14px', marginBottom: 10,
-    border: '1px solid rgba(200,155,60,0.2)',
+    border: '1px solid rgba(60,200,240,0.2)',
     boxShadow: '0 2px 12px rgba(0,0,0,0.4)'
   };
 
   return React.createElement('div', { style:{ minHeight:'100vh', background:BG, fontFamily:"'Inter',sans-serif", paddingBottom: 80 }},
 
     // Header
-    React.createElement('div', { style:{ background:'linear-gradient(135deg,#1a0800,#2d1400)', borderBottom:'1px solid rgba(200,155,60,0.2)', padding:'14px 16px' }},
+    React.createElement('div', { style:{ background:'linear-gradient(135deg,#0A0F17,#2d1400)', borderBottom:'1px solid rgba(60,200,240,0.2)', padding:'14px 16px' }},
       React.createElement('div', { style:{ display:'flex', alignItems:'center', gap:10 }},
         onNavigate && React.createElement('button', { onClick:()=>onNavigate('home'),
           style:{ background:'rgba(255,255,255,0.06)', border:'1px solid rgba(255,255,255,0.1)', borderRadius:10, padding:'6px 10px', color:M, fontSize:'0.75rem', cursor:'pointer' }}, '← Geri'),
         React.createElement('span', { style:{ fontSize:'1.5rem' }}, '🕵️'),
         React.createElement('div', null,
-          React.createElement('div', { style:{ fontFamily:"'Cinzel',serif", fontWeight:900, fontSize:'1.1rem', color:G }}, 'Casus Teşkilatı'),
+          React.createElement('div', { style:{ fontFamily:"'Rajdhani',sans-serif", fontWeight:900, fontSize:'1.1rem', color:G }}, 'Casus Teşkilatı'),
           React.createElement('div', { style:{ fontSize:'0.62rem', color:M }}, `3 Aşamalı Görev Zinciri  •  Aktif: ${activeMissions.length}`)
         )
       )
@@ -114,8 +114,8 @@ window.CasusChainScreen = function CasusChainScreen({ profile, onNavigate, showN
       [['active','⚔️ Aktif'], ['history','📜 Geçmiş'], ['start','+ Başlat']].map(([k,l]) =>
         React.createElement('button', { key:k, onClick:()=>setTab(k),
           style:{ flex:1, padding:'8px 6px', borderRadius:10, border:'none', cursor:'pointer', fontWeight:700, fontSize:'0.75rem',
-            background: tab===k ? G : 'rgba(255,255,255,0.05)', color: tab===k ? '#0F0800' : M,
-            boxShadow: tab===k ? '0 2px 8px rgba(200,155,60,0.3)' : 'none' }}, l)
+            background: tab===k ? G : 'rgba(255,255,255,0.05)', color: tab===k ? '#0A0F17' : M,
+            boxShadow: tab===k ? '0 2px 8px rgba(60,200,240,0.3)' : 'none' }}, l)
       )
     ),
 
@@ -129,7 +129,7 @@ window.CasusChainScreen = function CasusChainScreen({ profile, onNavigate, showN
               React.createElement('div', { style:{ fontSize:'0.9rem', fontWeight:600, color:T, marginBottom:8 }}, 'Aktif Görev Yok'),
               React.createElement('div', { style:{ fontSize:'0.75rem', color:M, marginBottom:20 }}, '3 aşamalı bir casus görevi başlatın'),
               React.createElement('button', { onClick:()=>setTab('start'),
-                style:{ background:G, color:'#0F0800', border:'none', borderRadius:10, padding:'10px 24px', fontWeight:700, cursor:'pointer' }}, '+ Yeni Görev')
+                style:{ background:G, color:'#0A0F17', border:'none', borderRadius:10, padding:'10px 24px', fontWeight:700, cursor:'pointer' }}, '+ Yeni Görev')
             )
           : activeMissions.map(m => {
               const def = types[m.mission_type] || {};
@@ -137,7 +137,7 @@ window.CasusChainScreen = function CasusChainScreen({ profile, onNavigate, showN
               const endKey = `stage${m.stage}_ends_at`;
               const progress = [1,2,3].map(s => s < m.stage ? 'done' : s === m.stage ? 'active' : 'pending');
 
-              return React.createElement('div', { key:m.id, style:{ ...cardStyle, border:`1px solid ${ready?G+'44':'rgba(200,155,60,0.15)'}` }},
+              return React.createElement('div', { key:m.id, style:{ ...cardStyle, border:`1px solid ${ready?G+'44':'rgba(60,200,240,0.15)'}` }},
                 // Başlık
                 React.createElement('div', { style:{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:10 }},
                   React.createElement('div', null,
@@ -146,7 +146,7 @@ window.CasusChainScreen = function CasusChainScreen({ profile, onNavigate, showN
                     React.createElement('div', { style:{ fontSize:'0.7rem', color:M, marginTop:2 }}, `🎯 ${m.target_name}`)
                   ),
                   React.createElement('div', { style:{ textAlign:'right' }},
-                    React.createElement('div', { style:{ fontSize:'0.65rem', color:G, fontWeight:700 }}, `🪙${(m.reward_sikke||0).toLocaleString('tr-TR')}`),
+                    React.createElement('div', { style:{ fontSize:'0.65rem', color:G, fontWeight:700 }}, `₺${(m.reward_sikke||0).toLocaleString('tr-TR')}`),
                     React.createElement('div', { style:{ fontSize:'0.62rem', color:'#60A5FA' }}, `+⭐${m.reward_xp} XP`)
                   )
                 ),
@@ -180,8 +180,8 @@ window.CasusChainScreen = function CasusChainScreen({ profile, onNavigate, showN
                   React.createElement('button', { onClick:()=>advance(m.id), disabled:!ready,
                     style:{ flex:3, padding:'9px', borderRadius:9, border:'none', cursor: ready?'pointer':'not-allowed', fontWeight:700, fontSize:'0.8rem',
                       background: ready ? (m.stage===3 ? GR : G) : 'rgba(255,255,255,0.05)',
-                      color: ready ? '#0F0800' : M,
-                      boxShadow: ready ? `0 2px 12px rgba(200,155,60,0.3)` : 'none' }},
+                      color: ready ? '#0A0F17' : M,
+                      boxShadow: ready ? `0 2px 12px rgba(60,200,240,0.3)` : 'none' }},
                     m.stage===3 ? '⚡ Sabotajı Tamamla' : `➡️ Aşama ${m.stage+1}e Geç`),
                   React.createElement('button', { onClick:()=>abort(m.id),
                     style:{ flex:1, padding:'9px', borderRadius:9, border:`1px solid rgba(184,66,60,0.3)`, background:'transparent', color:R, cursor:'pointer', fontSize:'0.7rem', fontWeight:600 }}, 'İptal')
@@ -208,7 +208,7 @@ window.CasusChainScreen = function CasusChainScreen({ profile, onNavigate, showN
                     React.createElement('div', { style:{ fontSize:'0.8rem', fontWeight:800, color: succeeded?GR:R }},
                       succeeded ? '✅ Başarılı' : m.status==='captured'?'🚨 Yakalandı':'❌ Başarısız'),
                     succeeded && React.createElement('div', { style:{ fontSize:'0.65rem', color:G }},
-                      `+🪙${(m.reward_sikke||0).toLocaleString('tr-TR')}`)
+                      `+₺${(m.reward_sikke||0).toLocaleString('tr-TR')}`)
                   )
                 )
               );
@@ -229,10 +229,10 @@ window.CasusChainScreen = function CasusChainScreen({ profile, onNavigate, showN
                   React.createElement('div', { style:{ fontWeight:800, fontSize:'0.85rem', color:selType===id?G:T }},
                     `${def.emoji} ${def.label}`),
                   React.createElement('div', { style:{ fontSize:'0.65rem', color:M, marginTop:2 }},
-                    `Risk: %${def.risk} • 🪙${(def.reward_sikke||0).toLocaleString('tr-TR')} • ⭐${def.reward_xp} XP`)
+                    `Risk: %${def.risk} • ₺${(def.reward_sikke||0).toLocaleString('tr-TR')} • ⭐${def.reward_xp} XP`)
                 ),
                 React.createElement('div', { style:{ fontSize:'0.75rem', fontWeight:700, color:selType===id?G:M }},
-                  `🪙${(def.maliyet||0).toLocaleString('tr-TR')}`)
+                  `₺${(def.maliyet||0).toLocaleString('tr-TR')}`)
               )
             )
           )
@@ -241,8 +241,8 @@ window.CasusChainScreen = function CasusChainScreen({ profile, onNavigate, showN
         // Hedef adı
         React.createElement('div', { style:{ marginBottom:14 }},
           React.createElement('div', { style:{ fontSize:'0.7rem', color:G, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.08em', marginBottom:6 }}, 'Hedef Adı'),
-          React.createElement('input', { type:'text', value:target, onChange:e=>setTarget(e.target.value), placeholder:'Hedef beylik veya oyuncu adı…',
-            style:{ width:'100%', padding:'11px 14px', borderRadius:10, border:'1px solid rgba(200,155,60,0.25)', background:'rgba(255,255,255,0.04)', color:T, fontSize:'0.85rem', outline:'none', boxSizing:'border-box' }})
+          React.createElement('input', { type:'text', value:target, onChange:e=>setTarget(e.target.value), placeholder:'Hedef devlet veya oyuncu adı…',
+            style:{ width:'100%', padding:'11px 14px', borderRadius:10, border:'1px solid rgba(60,200,240,0.25)', background:'rgba(255,255,255,0.04)', color:T, fontSize:'0.85rem', outline:'none', boxSizing:'border-box' }})
         ),
 
         // Aşama önizleme
@@ -260,9 +260,9 @@ window.CasusChainScreen = function CasusChainScreen({ profile, onNavigate, showN
         ),
 
         React.createElement('button', { onClick:startMission,
-          style:{ width:'100%', padding:'13px', borderRadius:12, border:'none', background:`linear-gradient(135deg,${G},#A07828)`,
-            color:'#0F0800', fontWeight:800, fontSize:'0.9rem', cursor:'pointer',
-            boxShadow:'0 4px 16px rgba(200,155,60,0.35)' }},
+          style:{ width:'100%', padding:'13px', borderRadius:12, border:'none', background:`linear-gradient(135deg,${G},#1E8FB8)`,
+            color:'#0A0F17', fontWeight:800, fontSize:'0.9rem', cursor:'pointer',
+            boxShadow:'0 4px 16px rgba(60,200,240,0.35)' }},
           `🕵️ Görevi Başlat`)
       )
     )

@@ -7,7 +7,7 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
   const [cabinet, setCabinet] = useLs('cabinet', {});
   const [sub, setSub] = useState('parties');
   const [createModal, setCreateModal] = useState(false);
-  const [pForm, setPForm] = useState({ name:'', ideology:'merkez', desc:'', color:'#C9A227' });
+  const [pForm, setPForm] = useState({ name:'', ideology:'merkez', desc:'', color:'#3CC8F0' });
   const [lawModal, setLawModal] = useState(false);
   const [lawForm, setLawForm] = useState({ title:'', desc:'', category:'vergi' });
   const [managePartyModal, setManagePartyModal] = useState(false);
@@ -25,10 +25,10 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
 
   const myParty = parties.find(p => p.leaderId===profile?.uid || (p.members||[]).includes(profile?.uid));
   const isLeader = myParty?.leaderId === profile?.uid;
-  const isPadisah = cabinet['Padişah'] === profile?.username;
+  const isPadisah = cabinet['Cumhurbaşkanı'] === profile?.username;
 
   const CABINET_ROLES = [
-    'Padişah','Divan Reisi','Divan Üyesi',
+    'Cumhurbaşkanı','Kabine Reisi','Kabine Üyesi',
     'İçişleri Bakanı','Nahiye Valisi','Vali',
     'Serasker','Ticaret Bakanı','Maliye Bakanı'
   ];
@@ -43,7 +43,7 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
       const myG = allGs.find(g=>g.id===profile.gang);
       if (myG) { showNotif(`${myG.type==='family'?'👨‍👩‍👧‍👦 Aile':'⚔️ Çete'} üyeleri parti kuramazlar. Önce ayrılın.`, 'error'); return; }
     }
-    if ((profile?.money||0) < PARTY_CREATE_COST) { showNotif(`Parti kurmak için 🪙${PARTY_CREATE_COST.toLocaleString('tr-TR')} gerekli`, 'error'); return; }
+    if ((profile?.money||0) < PARTY_CREATE_COST) { showNotif(`Parti kurmak için ₺${PARTY_CREATE_COST.toLocaleString('tr-TR')} gerekli`, 'error'); return; }
     const eduDiploma = profile?.education?.diploma || profile?.diplomaLevel || 'ilkokul';
     const eduCycles = profile?.education?.educationCycles || 0;
     const eduOrder = ['ilkokul','ortaokul','lise','universite','yukseklisans','doktora','profesor'];
@@ -245,18 +245,18 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
   const sortedCandidates = [...(elections.candidates||[])].sort((a,b)=>(b.votes||0)-(a.votes||0));
   const userVoted = !!(elections.votes||{})[profile?.uid];
   const myVote = (elections.votes||{})[profile?.uid];
-  const inputSt = {width:'100%',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box'};
+  const inputSt = {width:'100%',background:'rgba(230,237,245,0.03)',border:'1px solid rgba(230,237,245,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#E6EDF5',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box'};
   const subs = [{id:'parties',label:'🏛️ Partiler'},{id:'harita',label:'🗺️ Harita'},{id:'management',label:'⚙️ Yönetim'},{id:'govpanel',label:'🏛️ Makam'},{id:'laws',label:'⚖️ Yasalar'},{id:'election',label:'🗳️ Seçim'}];
 
   const ALL_POSITIONS = [
-    { id:'padisah', title:'Padişah', icon:'👑', desc:'En yüksek yönetim makamı', req:'Parti üyesi olmak zorunlu', openTo:'parti', electionKey:'presElection' },
-    { id:'divan_reisi', title:'Divan Reisi', icon:'🏛️', desc:'Meclis oturumlarını yönetir', req:'Divan Üyesi seçilmek gerekir', openTo:'mp', electionKey:'speakerElection' },
-    { id:'divan üyesi', title:'Divan Üyesi', icon:'📋', desc:'Yasama organı üyesi', req:'Parti üyesi olmak zorunlu', openTo:'parti', electionKey:'mpElection' },
-    { id:'icisleri', title:'İçişleri Bakanı', icon:'🚔', desc:'Güvenlik ve polis operasyonları', req:'Padişah atar', openTo:'atama', electionKey:null },
+    { id:'padisah', title:'Cumhurbaşkanı', icon:'👑', desc:'En yüksek yönetim makamı', req:'Parti üyesi olmak zorunlu', openTo:'parti', electionKey:'presElection' },
+    { id:'divan_reisi', title:'Kabine Reisi', icon:'🏛️', desc:'Meclis oturumlarını yönetir', req:'Kabine Üyesi seçilmek gerekir', openTo:'mp', electionKey:'speakerElection' },
+    { id:'divan üyesi', title:'Kabine Üyesi', icon:'📋', desc:'Yasama organı üyesi', req:'Parti üyesi olmak zorunlu', openTo:'parti', electionKey:'mpElection' },
+    { id:'icisleri', title:'İçişleri Bakanı', icon:'🚔', desc:'Güvenlik ve polis operasyonları', req:'Cumhurbaşkanı atar', openTo:'atama', electionKey:null },
     { id:'valilik', title:'Nahiye Valisi', icon:'🏙️', desc:'Şehir yönetimi ve projeleri', req:'Genel seçimle belirlenir', openTo:'genel', electionKey:'mayorElection' },
-    { id:'vali', title:'Vali', icon:'🏛️', desc:'İl yönetimi ve kalkınma', req:'Padişah atar', openTo:'atama', electionKey:null },
+    { id:'vali', title:'Vali', icon:'🏛️', desc:'İl yönetimi ve kalkınma', req:'Cumhurbaşkanı atar', openTo:'atama', electionKey:null },
     { id:'seraskerlik', title:'Serasker', icon:'⚔️', desc:'Ordunun tek komutanı — savaş başlatır', req:'Herkes aday olabilir (parti şartı yok)', openTo:'herkese', electionKey:'generalElection' },
-    { id:'ticaret', title:'Ticaret Bakanı', icon:'📦', desc:'Ekonomi ve ticaret anlaşmaları', req:'Padişah atar', openTo:'atama', electionKey:null },
+    { id:'ticaret', title:'Ticaret Bakanı', icon:'📦', desc:'Ekonomi ve ticaret anlaşmaları', req:'Cumhurbaşkanı atar', openTo:'atama', electionKey:null },
     { id:'maliye', title:'Maliye Bakanı', icon:'💸', desc:'Para basma, vergi ve faiz oranı', req:'Parti üyesi olmak zorunlu', openTo:'parti', electionKey:'financeElection' },
   ];
 
@@ -265,7 +265,7 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
       <div style={{display:'flex',gap:'4px',padding:'0.5rem 0.7rem',overflowX:'auto',scrollbarWidth:'none',background:'rgba(6,12,24,0.97)',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
         {subs.map(s => (
           <button key={s.id} onClick={()=>setSub(s.id)}
-            style={{padding:'0.38rem 0.75rem',borderRadius:'8px',border:`1px solid ${sub===s.id?'rgba(201,162,39,0.35)':'rgba(255,255,255,0.07)'}`,background:sub===s.id?'rgba(201,162,39,0.10)':'rgba(255,255,255,0.03)',color:sub===s.id?'#C9A227':'#8893A1',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.76rem',cursor:'pointer',whiteSpace:'nowrap',flexShrink:0}}>
+            style={{padding:'0.38rem 0.75rem',borderRadius:'8px',border:`1px solid ${sub===s.id?'rgba(60,200,240,0.35)':'rgba(255,255,255,0.07)'}`,background:sub===s.id?'rgba(60,200,240,0.10)':'rgba(255,255,255,0.03)',color:sub===s.id?'#3CC8F0':'#8893A1',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.76rem',cursor:'pointer',whiteSpace:'nowrap',flexShrink:0}}>
             {s.label}
           </button>
         ))}
@@ -274,8 +274,8 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
 
         {sub==='harita' && (
           <div>
-            <div style={{background:'rgba(201,162,39,0.08)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'14px',padding:'1rem',marginBottom:'0.75rem'}}>
-              <div style={{fontSize:'0.65rem',color:'#C9A227',fontWeight:800,textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:'0.5rem'}}>🗺️ Parti Yayılım Haritası</div>
+            <div style={{background:'rgba(60,200,240,0.08)',border:'1px solid rgba(60,200,240,0.2)',borderRadius:'14px',padding:'1rem',marginBottom:'0.75rem'}}>
+              <div style={{fontSize:'0.65rem',color:'#3CC8F0',fontWeight:800,textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:'0.5rem'}}>🗺️ Parti Yayılım Haritası</div>
               <div style={{fontSize:'0.7rem',color:'#8893A1',marginBottom:'0.6rem'}}>Üye sayısına göre her ilde hangi partinin baskın olduğunu gösterir.</div>
               <TurkeyMap parties={parties} partyMode={true} />
               {parties.length > 0 ? (
@@ -284,9 +284,9 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
                     const allU = (() => { try { return JSON.parse(localStorage.getItem('rep_users')||'[]'); } catch { return []; } })();
                     const cities = new Set((p.members||[]).map(uid => allU.find(u=>u.id===uid)?.city).filter(Boolean));
                     return (
-                      <div key={p.id} style={{display:'flex',alignItems:'center',gap:'4px',background:'rgba(237,231,218,0.03)',borderRadius:'6px',padding:'3px 9px',border:'1px solid rgba(237,231,218,0.08)'}}>
-                        <div style={{width:'8px',height:'8px',borderRadius:'50%',background:p.color||'#C9A227',flexShrink:0}}/>
-                        <span style={{fontSize:'0.66rem',color:'#EDE7DA',fontWeight:700}}>{p.name}</span>
+                      <div key={p.id} style={{display:'flex',alignItems:'center',gap:'4px',background:'rgba(230,237,245,0.03)',borderRadius:'6px',padding:'3px 9px',border:'1px solid rgba(230,237,245,0.08)'}}>
+                        <div style={{width:'8px',height:'8px',borderRadius:'50%',background:p.color||'#3CC8F0',flexShrink:0}}/>
+                        <span style={{fontSize:'0.66rem',color:'#E6EDF5',fontWeight:700}}>{p.name}</span>
                         <span style={{fontSize:'0.58rem',color:'#8893A1'}}>({cities.size} il)</span>
                       </div>
                     );
@@ -297,16 +297,16 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
               )}
             </div>
 
-            <div style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'14px',padding:'1rem'}}>
-              <div style={{fontWeight:800,color:'#EDE7DA',fontSize:'0.85rem',marginBottom:'0.6rem'}}>🏛️ Güncel Kabine</div>
+            <div style={{background:'rgba(230,237,245,0.02)',border:'1px solid rgba(230,237,245,0.08)',borderRadius:'14px',padding:'1rem'}}>
+              <div style={{fontWeight:800,color:'#E6EDF5',fontSize:'0.85rem',marginBottom:'0.6rem'}}>🏛️ Güncel Kabine</div>
               {Object.entries(cabinet).length === 0 ? (
                 <div style={{textAlign:'center',color:'#8893A1',padding:'1rem',fontSize:'0.8rem'}}>Henüz kabine oluşturulmamış</div>
               ) : (
                 <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.4rem'}}>
                   {CABINET_ROLES.map(role => (
-                    <div key={role} style={{background:'rgba(237,231,218,0.02)',borderRadius:'8px',padding:'0.5rem 0.65rem',border:'1px solid rgba(255,255,255,0.05)'}}>
+                    <div key={role} style={{background:'rgba(230,237,245,0.02)',borderRadius:'8px',padding:'0.5rem 0.65rem',border:'1px solid rgba(255,255,255,0.05)'}}>
                       <div style={{fontSize:'0.6rem',color:'#8893A1',marginBottom:'1px'}}>{role}</div>
-                      <div style={{fontSize:'0.78rem',fontWeight:700,color:cabinet[role]?'#C9A227':'#3B4E63',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{cabinet[role]||'Boş'}</div>
+                      <div style={{fontSize:'0.78rem',fontWeight:700,color:cabinet[role]?'#3CC8F0':'#3B4E63',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{cabinet[role]||'Boş'}</div>
                     </div>
                   ))}
                 </div>
@@ -318,11 +318,11 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
         {sub==='parties' && (
           <div>
             {myParty ? (
-              <div style={{background:'linear-gradient(135deg,rgba(201,162,39,0.10),rgba(11,21,39,0.9))',border:'1px solid rgba(201,162,39,0.3)',borderRadius:'14px',padding:'1rem',marginBottom:'0.75rem'}}>
+              <div style={{background:'linear-gradient(135deg,rgba(60,200,240,0.10),rgba(11,21,39,0.9))',border:'1px solid rgba(60,200,240,0.3)',borderRadius:'14px',padding:'1rem',marginBottom:'0.75rem'}}>
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:'0.5rem'}}>
                   <div>
-                    <div style={{fontSize:'0.65rem',color:'#C9A227',fontWeight:700,textTransform:'uppercase',marginBottom:'0.2rem'}}>{isLeader?'👑 Parti Lideri':'✅ Üye'}</div>
-                    <div style={{fontWeight:900,color:'#EDE7DA',fontSize:'1.05rem'}}>{myParty.name}</div>
+                    <div style={{fontSize:'0.65rem',color:'#3CC8F0',fontWeight:700,textTransform:'uppercase',marginBottom:'0.2rem'}}>{isLeader?'👑 Parti Lideri':'✅ Üye'}</div>
+                    <div style={{fontWeight:900,color:'#E6EDF5',fontSize:'1.05rem'}}>{myParty.name}</div>
                     <div style={{fontSize:'0.7rem',color:'#8893A1',marginTop:'0.15rem'}}>{myParty.memberCount} üye • {myParty.ideology} • %{myParty.support||0} destek</div>
                   </div>
                   <div style={{textAlign:'right'}}>
@@ -337,20 +337,20 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
                 </div>
               </div>
             ) : (
-              <Btn variant='ghost' size='sm' onClick={()=>setCreateModal(true)} style={{marginBottom:'0.75rem',width:'100%'}}>🏛️ Yeni Parti Kur (🪙100.000 + Üniversite)</Btn>
+              <Btn variant='ghost' size='sm' onClick={()=>setCreateModal(true)} style={{marginBottom:'0.75rem',width:'100%'}}>🏛️ Yeni Parti Kur (₺100.000 + Üniversite)</Btn>
             )}
             {parties.map(party => (
-              <Card key={party.id} style={{marginBottom:'0.5rem',padding:'0.85rem',border:`1px solid ${party.id===myParty?.id?'rgba(201,162,39,0.3)':'rgba(255,255,255,0.05)'}`}}>
+              <Card key={party.id} style={{marginBottom:'0.5rem',padding:'0.85rem',border:`1px solid ${party.id===myParty?.id?'rgba(60,200,240,0.3)':'rgba(255,255,255,0.05)'}`}}>
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',gap:'0.5rem'}}>
                   <div style={{flex:1,minWidth:0}}>
                     <div style={{display:'flex',alignItems:'center',gap:'0.4rem',marginBottom:'0.2rem'}}>
-                      <div style={{width:'10px',height:'10px',borderRadius:'50%',background:party.color||'#C9A227',flexShrink:0}} />
-                      <div style={{fontWeight:800,color:'#EDE7DA',fontSize:'0.9rem'}}>{party.name}</div>
+                      <div style={{width:'10px',height:'10px',borderRadius:'50%',background:party.color||'#3CC8F0',flexShrink:0}} />
+                      <div style={{fontWeight:800,color:'#E6EDF5',fontSize:'0.9rem'}}>{party.name}</div>
                     </div>
                     <div style={{fontSize:'0.7rem',color:'#8893A1'}}>{party.memberCount||0} üye • {party.ideology}</div>
                     {party.desc && <div style={{fontSize:'0.68rem',color:'#8893A1',marginTop:'0.2rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{party.desc}</div>}
                     <div style={{marginTop:'0.4rem'}}>
-                      <ProgressBar pct={party.support||0} color='#C9A227' h={3} />
+                      <ProgressBar pct={party.support||0} color='#3CC8F0' h={3} />
                       <div style={{fontSize:'0.58rem',color:'#8893A1',marginTop:'2px'}}>%{party.support||0} destek</div>
                     </div>
                   </div>
@@ -377,17 +377,17 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
             ) : (
               <div>
                 {/* Party header stats */}
-                <Card style={{marginBottom:'0.65rem',background:'linear-gradient(135deg,rgba(201,162,39,0.1),rgba(11,21,39,0.95))'}}>
+                <Card style={{marginBottom:'0.65rem',background:'linear-gradient(135deg,rgba(60,200,240,0.1),rgba(11,21,39,0.95))'}}>
                   <div style={{display:'flex',alignItems:'center',gap:'0.5rem',marginBottom:'0.65rem'}}>
-                    <div style={{width:'10px',height:'10px',borderRadius:'50%',background:myParty.color||'#C9A227',flexShrink:0}} />
-                    <div style={{fontWeight:900,color:'#EDE7DA',fontSize:'1rem'}}>{myParty.name}</div>
+                    <div style={{width:'10px',height:'10px',borderRadius:'50%',background:myParty.color||'#3CC8F0',flexShrink:0}} />
+                    <div style={{fontWeight:900,color:'#E6EDF5',fontSize:'1rem'}}>{myParty.name}</div>
                     {isLeader&&<Tag color='gold'>👑 Lider</Tag>}
                   </div>
                   <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'0.35rem',marginBottom:'0.65rem'}}>
                     {[['👑','Lider',myParty.leaderName||'?'],['👥','Üye',myParty.memberCount||1],['📊','Destek',`%${myParty.support||0}`],['💰','Kasa',fmtWord(myParty.treasury||0)]].map(([ic,lb,v])=>(
-                      <div key={lb} style={{background:'rgba(237,231,218,0.03)',borderRadius:'8px',padding:'0.5rem',textAlign:'center'}}>
+                      <div key={lb} style={{background:'rgba(230,237,245,0.03)',borderRadius:'8px',padding:'0.5rem',textAlign:'center'}}>
                         <div style={{fontSize:'0.9rem',marginBottom:'0.1rem'}}>{ic}</div>
-                        <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.75rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{v}</div>
+                        <div style={{fontWeight:700,color:'#E6EDF5',fontSize:'0.75rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{v}</div>
                         <div style={{fontSize:'0.55rem',color:'#8893A1',textTransform:'uppercase'}}>{lb}</div>
                       </div>
                     ))}
@@ -401,20 +401,20 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
 
                 {/* Leader-only action panel */}
                 {isLeader && (
-                  <Card style={{marginBottom:'0.65rem',border:'1px solid rgba(201,162,39,0.2)'}}>
-                    <div style={{fontWeight:700,color:'#C9A227',marginBottom:'0.65rem',fontSize:'0.82rem',textTransform:'uppercase',letterSpacing:'0.06em'}}>👑 Lider Yetkileri</div>
+                  <Card style={{marginBottom:'0.65rem',border:'1px solid rgba(60,200,240,0.2)'}}>
+                    <div style={{fontWeight:700,color:'#3CC8F0',marginBottom:'0.65rem',fontSize:'0.82rem',textTransform:'uppercase',letterSpacing:'0.06em'}}>👑 Lider Yetkileri</div>
                     <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.4rem',marginBottom:'0.5rem'}}>
                       {[
                         {label:'📢 Propaganda', cd:6*3600000, id:'prop', onClick:()=>partyAction('prop',6*3600000,()=>{setParties(prev=>prev.map(p=>p.id===myParty.id?{...p,support:Math.min(100,(p.support||0)+3)}:p));showNotif('📢 Propaganda başarılı! +3% destek','success');})},
                         {label:'🎯 Üye Kazan', cd:8*3600000, id:'recruit', onClick:()=>partyAction('recruit',8*3600000,()=>{setProfile(pr=>{const np={...pr,xp:(pr.xp||0)+200};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;});showNotif('🎯 Üyelik sürücüsü! +200 XP','success');})},
-                        {label:'💼 Bağış Kampanyası', cd:12*3600000, id:'fundraise', onClick:()=>partyAction('fundraise',12*3600000,()=>{setParties(prev=>prev.map(p=>p.id===myParty.id?{...p,treasury:(p.treasury||0)+10000}:p));showNotif('💼 Kampanya başarılı! +🪙10.000 kasa','success');})},
+                        {label:'💼 Bağış Kampanyası', cd:12*3600000, id:'fundraise', onClick:()=>partyAction('fundraise',12*3600000,()=>{setParties(prev=>prev.map(p=>p.id===myParty.id?{...p,treasury:(p.treasury||0)+10000}:p));showNotif('💼 Kampanya başarılı! +₺10.000 kasa','success');})},
                         {label:'🗞️ Basın Açıklaması', cd:4*3600000, id:'press', onClick:()=>partyAction('press',4*3600000,()=>{setParties(prev=>prev.map(p=>p.id===myParty.id?{...p,support:Math.min(100,(p.support||0)+1)}:p));setProfile(pr=>{const np={...pr,xp:(pr.xp||0)+150};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;});showNotif('🗞️ Basın açıklaması yayınlandı! +1% destek, +150 XP','success');})},
                       ].map(a => {
                         const key = `party_${myParty.id}_${a.id}`;
                         const rem = Math.max(0, a.cd - (Date.now() - (govCooldowns[key]||0)));
                         return (
                           <button key={a.id} onClick={a.onClick} disabled={rem>0}
-                            style={{padding:'0.55rem 0.4rem',background:rem>0?'rgba(255,255,255,0.03)':'rgba(201,162,39,0.08)',border:`1px solid ${rem>0?'rgba(255,255,255,0.07)':'rgba(201,162,39,0.25)'}`,borderRadius:'10px',color:rem>0?'#3B4E63':'#C9A227',cursor:rem>0?'not-allowed':'pointer',fontWeight:700,fontSize:'0.72rem',fontFamily:"'Inter',sans-serif",textAlign:'center',lineHeight:1.3}}>
+                            style={{padding:'0.55rem 0.4rem',background:rem>0?'rgba(255,255,255,0.03)':'rgba(60,200,240,0.08)',border:`1px solid ${rem>0?'rgba(255,255,255,0.07)':'rgba(60,200,240,0.25)'}`,borderRadius:'10px',color:rem>0?'#3B4E63':'#3CC8F0',cursor:rem>0?'not-allowed':'pointer',fontWeight:700,fontSize:'0.72rem',fontFamily:"'Inter',sans-serif",textAlign:'center',lineHeight:1.3}}>
                             {a.label}{rem>0&&<div style={{fontSize:'0.6rem',marginTop:'2px',color:'#8893A1'}}>⏳{Math.ceil(rem/3600000)}s</div>}
                           </button>
                         );
@@ -431,7 +431,7 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
                 {/* Party Influence Farming - Leader and Deputy Only */}
                 {(isLeader || myParty?.deputies?.includes(profile?.uid)) && (
                   <Card style={{marginBottom:'0.65rem',border:'1px solid rgba(167,139,250,0.25)',background:'linear-gradient(135deg,rgba(167,139,250,0.06),rgba(11,21,39,0.95))'}}>
-                    <div style={{fontWeight:700,color:'#EDE7DA',marginBottom:'0.65rem',fontSize:'0.82rem',textTransform:'uppercase',letterSpacing:'0.06em'}}>⚡ ETKİ PUANI KAZAN</div>
+                    <div style={{fontWeight:700,color:'#E6EDF5',marginBottom:'0.65rem',fontSize:'0.82rem',textTransform:'uppercase',letterSpacing:'0.06em'}}>⚡ ETKİ PUANI KAZAN</div>
                     <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.6rem',lineHeight:1.5}}>
                       Parti faaliyetleri yürüterek etki puanı kazanın. Sadece lider ve parti yöneticileri bu bölümü kullanabilir.
                     </div>
@@ -446,9 +446,9 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
                         const rem = Math.max(0, a.cd - (Date.now() - (govCooldowns[key]||0)));
                         return (
                           <button key={a.id} disabled={rem>0} onClick={()=>{if(rem>0)return;a.fn();setGovCooldowns(prev=>({...prev,[key]:Date.now()}));}}
-                            style={{padding:'0.55rem 0.4rem',background:rem>0?'rgba(255,255,255,0.03)':'rgba(167,139,250,0.1)',border:`1px solid ${rem>0?'rgba(255,255,255,0.07)':'rgba(201,162,39,0.25)'}`,borderRadius:'10px',color:rem>0?'#3B4E63':'#EDE7DA',cursor:rem>0?'not-allowed':'pointer',fontWeight:700,fontSize:'0.7rem',fontFamily:"'Inter',sans-serif",textAlign:'center',lineHeight:1.3}}>
+                            style={{padding:'0.55rem 0.4rem',background:rem>0?'rgba(255,255,255,0.03)':'rgba(167,139,250,0.1)',border:`1px solid ${rem>0?'rgba(255,255,255,0.07)':'rgba(60,200,240,0.25)'}`,borderRadius:'10px',color:rem>0?'#3B4E63':'#E6EDF5',cursor:rem>0?'not-allowed':'pointer',fontWeight:700,fontSize:'0.7rem',fontFamily:"'Inter',sans-serif",textAlign:'center',lineHeight:1.3}}>
                             {a.label}
-                            <div style={{fontSize:'0.6rem',marginTop:'2px',color:rem>0?'#3B4E63':'#C9A227'}}>+{a.inf} Etki • +{a.xp} XP</div>
+                            <div style={{fontSize:'0.6rem',marginTop:'2px',color:rem>0?'#3B4E63':'#3CC8F0'}}>+{a.inf} Etki • +{a.xp} XP</div>
                             {rem>0&&<div style={{fontSize:'0.58rem',marginTop:'1px',color:'#8893A1'}}>⏳{Math.ceil(rem/3600000)}s</div>}
                           </button>
                         );
@@ -456,20 +456,20 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
                     </div>
                     <div style={{marginTop:'0.5rem',fontSize:'0.65rem',color:'#8893A1',display:'flex',justifyContent:'space-between'}}>
                       <span>Toplam Etki Puanı:</span>
-                      <span style={{color:'#EDE7DA',fontWeight:700}}>{(myParty.influencePoints||0).toLocaleString()} ⚡</span>
+                      <span style={{color:'#E6EDF5',fontWeight:700}}>{(myParty.influencePoints||0).toLocaleString()} ⚡</span>
                     </div>
                   </Card>
                 )}
 
                 {/* Members list */}
                 <Card>
-                  <div style={{fontWeight:700,color:'#EDE7DA',marginBottom:'0.65rem',fontSize:'0.85rem'}}>👥 Parti Üyeleri ({myParty.memberCount||1})</div>
+                  <div style={{fontWeight:700,color:'#E6EDF5',marginBottom:'0.65rem',fontSize:'0.85rem'}}>👥 Parti Üyeleri ({myParty.memberCount||1})</div>
                   {(myParty.members||[]).map((uid,i) => (
                     <div key={uid} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0.45rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
                       <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
-                        <div style={{width:'28px',height:'28px',borderRadius:'50%',background:'rgba(201,162,39,0.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.85rem'}}>{uid===myParty.leaderId?'👑':'👤'}</div>
+                        <div style={{width:'28px',height:'28px',borderRadius:'50%',background:'rgba(60,200,240,0.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.85rem'}}>{uid===myParty.leaderId?'👑':'👤'}</div>
                         <div>
-                          <div style={{fontSize:'0.82rem',fontWeight:700,color:uid===profile?.uid?'#C9A227':'#EDE7DA'}}>
+                          <div style={{fontSize:'0.82rem',fontWeight:700,color:uid===profile?.uid?'#3CC8F0':'#E6EDF5'}}>
                             {uid===profile?.uid?profile?.username:`Üye #${i+1}`} {uid===myParty.leaderId&&<Tag color='gold'>Lider</Tag>}
                           </div>
                           {uid===myParty.leaderId&&<div style={{fontSize:'0.62rem',color:'#8893A1'}}>Parti kurucusu</div>}
@@ -490,7 +490,7 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
         {sub==='govpanel' && (
           <div>
             {/* Info banner */}
-            <div style={{background:'rgba(201,162,39,0.08)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'12px',padding:'0.75rem',marginBottom:'0.75rem',fontSize:'0.78rem',color:'#C9A227'}}>
+            <div style={{background:'rgba(60,200,240,0.08)',border:'1px solid rgba(60,200,240,0.2)',borderRadius:'12px',padding:'0.75rem',marginBottom:'0.75rem',fontSize:'0.78rem',color:'#3CC8F0'}}>
               🏛️ Devlet makamlarını yönet. Her makam sahibi özel yetkiler kullanabilir.
             </div>
 
@@ -502,7 +502,7 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
               const totalInf = allParties.reduce((s,p)=>s+(p.influencePoints||0),0)||1;
               const eligibleP = allParties.filter(p=>(p.influencePoints||0)/totalInf>=THRESH_PCT);
               // D'Hondt algorithm
-              const seatsData = eligibleP.map(p=>({name:p.name,color:p.color||'#C9A227',influencePoints:p.influencePoints||0,seats:0}));
+              const seatsData = eligibleP.map(p=>({name:p.name,color:p.color||'#3CC8F0',influencePoints:p.influencePoints||0,seats:0}));
               for(let i=0;i<TOTAL_SEATS;i++){
                 let bi=0,bs=-1;
                 seatsData.forEach((p,idx)=>{const sc=p.influencePoints/(p.seats+1);if(sc>bs){bs=sc;bi=idx;}});
@@ -510,10 +510,10 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
               }
               const totalAssigned = seatsData.reduce((s,p)=>s+p.seats,0);
               return (
-                <div style={{background:'rgba(201,162,39,0.06)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'14px',padding:'1rem',marginBottom:'0.75rem'}}>
+                <div style={{background:'rgba(60,200,240,0.06)',border:'1px solid rgba(60,200,240,0.2)',borderRadius:'14px',padding:'1rem',marginBottom:'0.75rem'}}>
                   <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.65rem'}}>
-                    <div style={{fontFamily:"'Cinzel',serif",fontWeight:800,color:'#C9A227',fontSize:'0.88rem'}}>🏛️ Meclis Koltuk Dağılımı</div>
-                    <div style={{fontSize:'0.68rem',color:'#8893A1',fontWeight:700}}>{TOTAL_SEATS} Divan Üyesi</div>
+                    <div style={{fontFamily:"'Rajdhani',sans-serif",fontWeight:800,color:'#3CC8F0',fontSize:'0.88rem'}}>🏛️ Meclis Koltuk Dağılımı</div>
+                    <div style={{fontSize:'0.68rem',color:'#8893A1',fontWeight:700}}>{TOTAL_SEATS} Kabine Üyesi</div>
                   </div>
                   {/* Yarı daire görsel */}
                   <div style={{marginBottom:'0.65rem'}}>
@@ -521,7 +521,7 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
                       {seatsData.length > 0 ? seatsData.map((p,i)=>(
                         <div key={i} style={{flex:p.seats,background:p.color,minWidth:p.seats>0?'2px':'0',transition:'flex 0.4s'}} title={`${p.name}: ${p.seats} koltuk`} />
                       )) : (
-                        <div style={{flex:1,background:'rgba(237,231,218,0.05)',borderRadius:'100px'}} />
+                        <div style={{flex:1,background:'rgba(230,237,245,0.05)',borderRadius:'100px'}} />
                       )}
                     </div>
                   </div>
@@ -530,7 +530,7 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
                     <div key={i} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0.35rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
                       <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
                         <div style={{width:'10px',height:'10px',borderRadius:'3px',background:p.color,flexShrink:0}} />
-                        <span style={{fontSize:'0.78rem',color:'#EDE7DA',fontWeight:600}}>{p.name}</span>
+                        <span style={{fontSize:'0.78rem',color:'#E6EDF5',fontWeight:600}}>{p.name}</span>
                       </div>
                       <div style={{display:'flex',alignItems:'center',gap:'0.6rem'}}>
                         <span style={{fontSize:'0.65rem',color:'#8893A1'}}>%{Math.round(p.seats/TOTAL_SEATS*100)}</span>
@@ -554,7 +554,7 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
             {/* My positions */}
             {CABINET_ROLES.filter(r => cabinet[r]===profile?.username).length > 0 && (
               <div style={{marginBottom:'0.75rem'}}>
-                <div style={{fontSize:'0.72rem',color:'#C9A227',fontWeight:800,textTransform:'uppercase',letterSpacing:'0.06em',marginBottom:'0.4rem'}}>⭐ Senin Makamların</div>
+                <div style={{fontSize:'0.72rem',color:'#3CC8F0',fontWeight:800,textTransform:'uppercase',letterSpacing:'0.06em',marginBottom:'0.4rem'}}>⭐ Senin Makamların</div>
                 {CABINET_ROLES.filter(r => cabinet[r]===profile?.username).map(role => {
                   const def = GOV_ROLE_DEFS[role];
                   if (!def) return null;
@@ -562,17 +562,17 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
                   const rem = Math.max(0, def.cd - (Date.now() - (govCooldowns[key]||0)));
                   const canAct = rem === 0;
                   return (
-                    <Card key={role} style={{marginBottom:'0.5rem',border:'1px solid rgba(201,162,39,0.25)',background:'linear-gradient(135deg,rgba(201,162,39,0.06),rgba(11,21,39,0.95))'}}>
+                    <Card key={role} style={{marginBottom:'0.5rem',border:'1px solid rgba(60,200,240,0.25)',background:'linear-gradient(135deg,rgba(60,200,240,0.06),rgba(11,21,39,0.95))'}}>
                       <div style={{display:'flex',alignItems:'flex-start',gap:'0.65rem'}}>
                         <div style={{fontSize:'1.75rem',flexShrink:0,lineHeight:1}}>{def.icon}</div>
                         <div style={{flex:1,minWidth:0}}>
                           <div style={{display:'flex',alignItems:'center',gap:'0.4rem',marginBottom:'0.1rem'}}>
-                            <div style={{fontWeight:800,color:'#C9A227',fontSize:'0.9rem'}}>{role}</div>
+                            <div style={{fontWeight:800,color:'#3CC8F0',fontSize:'0.9rem'}}>{role}</div>
                             <Tag color='gold'>Aktif</Tag>
                           </div>
                           <div style={{fontSize:'0.7rem',color:'#8893A1',marginBottom:'0.5rem'}}>{def.desc}</div>
                           <div style={{display:'flex',gap:'0.4rem',marginBottom:'0.4rem',fontSize:'0.68rem'}}>
-                            {def.xp>0&&<span style={{background:'rgba(201,162,39,0.10)',padding:'2px 8px',borderRadius:'6px',color:'#C9A227',fontWeight:700}}>+{def.xp} XP</span>}
+                            {def.xp>0&&<span style={{background:'rgba(60,200,240,0.10)',padding:'2px 8px',borderRadius:'6px',color:'#3CC8F0',fontWeight:700}}>+{def.xp} XP</span>}
                             {def.money>0&&<span style={{background:'rgba(76,154,107,0.12)',padding:'2px 8px',borderRadius:'6px',color:'#4C9A6B',fontWeight:700}}>+{fmtWord(def.money)}</span>}
                           </div>
                           {canAct ? (
@@ -600,12 +600,12 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
               const isMyRole = assigned===profile?.username;
               const def = GOV_ROLE_DEFS[role];
               return (
-                <Card key={role} style={{marginBottom:'0.4rem',padding:'0.75rem',border:`1px solid ${isMyRole?'rgba(201,162,39,0.3)':assigned?'rgba(255,255,255,0.07)':'rgba(255,255,255,0.03)'}`}}>
+                <Card key={role} style={{marginBottom:'0.4rem',padding:'0.75rem',border:`1px solid ${isMyRole?'rgba(60,200,240,0.3)':assigned?'rgba(255,255,255,0.07)':'rgba(255,255,255,0.03)'}`}}>
                   <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
                     <div style={{display:'flex',alignItems:'center',gap:'0.6rem'}}>
                       <div style={{fontSize:'1.3rem',flexShrink:0}}>{def?.icon||'🏛️'}</div>
                       <div>
-                        <div style={{fontWeight:700,color:isMyRole?'#C9A227':'#EDE7DA',fontSize:'0.82rem'}}>{role}</div>
+                        <div style={{fontWeight:700,color:isMyRole?'#3CC8F0':'#E6EDF5',fontSize:'0.82rem'}}>{role}</div>
                         {assigned
                           ? <div style={{fontSize:'0.68rem',color:isMyRole?'#4C9A6B':'#8893A1',marginTop:'1px'}}>👤 {assigned}{isMyRole?' (Sen)':''}</div>
                           : <div style={{fontSize:'0.68rem',color:'#8893A1',fontStyle:'italic',marginTop:'1px'}}>Boş — Atanmamış</div>}
@@ -643,7 +643,7 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
                 <Card key={law.id} style={{marginBottom:'0.6rem',padding:'1rem',border:`1px solid ${law.status==='passed'?'rgba(76,154,107,0.3)':expired?'rgba(194,75,67,0.2)':'rgba(255,255,255,0.06)'}`}}>
                   <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:'0.5rem'}}>
                     <div style={{flex:1,minWidth:0}}>
-                      <div style={{fontWeight:800,color:'#EDE7DA',fontSize:'0.9rem',marginBottom:'0.2rem'}}>{law.title}</div>
+                      <div style={{fontWeight:800,color:'#E6EDF5',fontSize:'0.9rem',marginBottom:'0.2rem'}}>{law.title}</div>
                       <div style={{fontSize:'0.68rem',color:'#8893A1'}}>{law.partyName} • {law.proposedBy}</div>
                       {law.desc && <div style={{fontSize:'0.72rem',color:'#8893A1',marginTop:'0.25rem'}}>{law.desc}</div>}
                     </div>
@@ -677,9 +677,9 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
 
         {sub==='election' && (() => {
           const VOTE_POSITIONS = [
-            {key:'padisah',   title:'Padişah',      icon:'👑',  openTo:'parti'},
-            {key:'divan_reisi',   title:'Divan Reisi',       icon:'🏛️', openTo:'parti'},
-            {key:'divan üyesi',     title:'Divan Üyesi',         icon:'📜',  openTo:'parti'},
+            {key:'padisah',   title:'Cumhurbaşkanı',      icon:'👑',  openTo:'parti'},
+            {key:'divan_reisi',   title:'Kabine Reisi',       icon:'🏛️', openTo:'parti'},
+            {key:'divan üyesi',     title:'Kabine Üyesi',         icon:'📜',  openTo:'parti'},
             {key:'icisleri_bakani',  title:'İçişleri Bakanı',      icon:'🛡️', openTo:'atama'},
             {key:'vali', title:'Nahiye Valisi',     icon:'🏙️', openTo:'genel'},
             {key:'vali',             title:'Vali',                 icon:'🏢',  openTo:'atama'},
@@ -694,7 +694,7 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
             <div>
               {/* ── Parti Etki Puanı & Seçim Hakkı ── */}
               <div style={{background:'rgba(167,139,250,0.07)',border:'1px solid rgba(167,139,250,0.25)',borderRadius:'14px',padding:'0.85rem',marginBottom:'0.75rem'}}>
-                <div style={{fontWeight:800,color:'#EDE7DA',fontSize:'0.8rem',marginBottom:'0.5rem',display:'flex',alignItems:'center',gap:'0.4rem'}}>
+                <div style={{fontWeight:800,color:'#E6EDF5',fontSize:'0.8rem',marginBottom:'0.5rem',display:'flex',alignItems:'center',gap:'0.4rem'}}>
                   ⚡ Parti Etki Puanı Sıralaması
                   <span style={{fontSize:'0.62rem',color:'#8893A1',fontWeight:400}}>— İlk 5 parti seçime aday çıkarabilir</span>
                 </div>
@@ -705,23 +705,23 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
                   const isMyP = p.id === myPartyId;
                   return (
                     <div key={p.id} style={{display:'flex',alignItems:'center',gap:'0.5rem',padding:'0.4rem 0.5rem',borderRadius:'8px',marginBottom:'3px',background:isMyP?'rgba(167,139,250,0.08)':'transparent'}}>
-                      <div style={{width:'20px',textAlign:'center',fontSize:'0.72rem',fontWeight:800,color:i<3?['#C9A227','#C0C0C0','#CD7F32'][i]:'#3B4E63',flexShrink:0}}>{i<3?['🥇','🥈','🥉'][i]:`#${i+1}`}</div>
-                      <div style={{width:'8px',height:'8px',borderRadius:'50%',background:p.color||'#C9A227',flexShrink:0}}/>
-                      <div style={{flex:1,fontSize:'0.78rem',fontWeight:isMyP?800:600,color:isMyP?'#EDE7DA':'#EDE7DA',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{p.name}{isMyP?' (Senin)':''}</div>
-                      <div style={{fontSize:'0.72rem',fontWeight:800,color:'#C9A227',flexShrink:0}}>{(p.influencePoints||0).toLocaleString()} ⚡</div>
+                      <div style={{width:'20px',textAlign:'center',fontSize:'0.72rem',fontWeight:800,color:i<3?['#3CC8F0','#C0C0C0','#CD7F32'][i]:'#3B4E63',flexShrink:0}}>{i<3?['🥇','🥈','🥉'][i]:`#${i+1}`}</div>
+                      <div style={{width:'8px',height:'8px',borderRadius:'50%',background:p.color||'#3CC8F0',flexShrink:0}}/>
+                      <div style={{flex:1,fontSize:'0.78rem',fontWeight:isMyP?800:600,color:isMyP?'#E6EDF5':'#E6EDF5',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{p.name}{isMyP?' (Senin)':''}</div>
+                      <div style={{fontSize:'0.72rem',fontWeight:800,color:'#3CC8F0',flexShrink:0}}>{(p.influencePoints||0).toLocaleString()} ⚡</div>
                       {canRun ? (
                         <span style={{fontSize:'0.58rem',fontWeight:800,color:'#4C9A6B',background:'rgba(76,154,107,0.12)',border:'1px solid rgba(76,154,107,0.25)',borderRadius:'5px',padding:'1px 6px',flexShrink:0}}>✅ ADAY</span>
                       ) : (
-                        <span style={{fontSize:'0.58rem',fontWeight:800,color:'#8893A1',background:'rgba(237,231,218,0.03)',borderRadius:'5px',padding:'1px 6px',flexShrink:0}}>❌</span>
+                        <span style={{fontSize:'0.58rem',fontWeight:800,color:'#8893A1',background:'rgba(230,237,245,0.03)',borderRadius:'5px',padding:'1px 6px',flexShrink:0}}>❌</span>
                       )}
                     </div>
                   );
                 })}
               </div>
 
-              <div style={{background:'linear-gradient(135deg,rgba(201,162,39,0.08),rgba(11,21,39,0.9))',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'14px',padding:'0.85rem',marginBottom:'0.75rem',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+              <div style={{background:'linear-gradient(135deg,rgba(60,200,240,0.08),rgba(11,21,39,0.9))',border:'1px solid rgba(60,200,240,0.2)',borderRadius:'14px',padding:'0.85rem',marginBottom:'0.75rem',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
                 <div>
-                  <div style={{fontWeight:800,color:'#C9A227',fontSize:'0.85rem'}}>🗳️ SEÇİM ODASI</div>
+                  <div style={{fontWeight:800,color:'#3CC8F0',fontSize:'0.85rem'}}>🗳️ SEÇİM ODASI</div>
                   <div style={{fontSize:'0.7rem',color:'#8893A1',marginTop:'0.2rem'}}>9 devlet makamı için oylamalar</div>
                 </div>
                 <div style={{textAlign:'right'}}>
@@ -772,7 +772,7 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
                   showNotif(`🗳️ ${pos.title} oyunuz kullanıldı! +100 XP`, 'success');
                 };
 
-                const borderColor = isActive ? 'rgba(76,154,107,0.35)' : hasEnded ? 'rgba(201,162,39,0.2)' : 'rgba(255,255,255,0.06)';
+                const borderColor = isActive ? 'rgba(76,154,107,0.35)' : hasEnded ? 'rgba(60,200,240,0.2)' : 'rgba(255,255,255,0.06)';
                 const bgColor = isActive ? 'rgba(76,154,107,0.04)' : 'rgba(255,255,255,0.02)';
 
                 return (
@@ -781,7 +781,7 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
                       <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
                         <span style={{fontSize:'1.4rem'}}>{pos.icon}</span>
                         <div>
-                          <div style={{fontWeight:800,color:'#EDE7DA',fontSize:'0.88rem'}}>{pos.title}</div>
+                          <div style={{fontWeight:800,color:'#E6EDF5',fontSize:'0.88rem'}}>{pos.title}</div>
                           <div style={{fontSize:'0.62rem',color:'#8893A1',marginTop:'1px'}}>
                             {isActive ? `${candidates.length} aday • ${(el.userVotedIds||[]).length} oy` : hasEnded ? `🏆 Kazanan: ${el.winner}` : 'Seçim bekleniyor'}
                           </div>
@@ -789,27 +789,27 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
                       </div>
                       <div style={{display:'flex',flexDirection:'column',alignItems:'flex-end',gap:'3px'}}>
                         {isActive && <span style={{fontSize:'0.6rem',fontWeight:800,color:'#4C9A6B',background:'rgba(76,154,107,0.12)',border:'1px solid rgba(76,154,107,0.25)',borderRadius:'6px',padding:'1px 7px'}}>● AKTİF</span>}
-                        {hasEnded && <span style={{fontSize:'0.6rem',fontWeight:800,color:'#C9A227',background:'rgba(201,162,39,0.08)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'6px',padding:'1px 7px'}}>✅ BİTTİ</span>}
-                        {!isActive && !hasEnded && <span style={{fontSize:'0.6rem',color:'#8893A1',background:'rgba(237,231,218,0.03)',borderRadius:'6px',padding:'1px 7px'}}>beklemede</span>}
-                        {cabinet[pos.title] && <span style={{fontSize:'0.62rem',color:'#C9A227',fontWeight:700}}>👤 {cabinet[pos.title]}</span>}
+                        {hasEnded && <span style={{fontSize:'0.6rem',fontWeight:800,color:'#3CC8F0',background:'rgba(60,200,240,0.08)',border:'1px solid rgba(60,200,240,0.25)',borderRadius:'6px',padding:'1px 7px'}}>✅ BİTTİ</span>}
+                        {!isActive && !hasEnded && <span style={{fontSize:'0.6rem',color:'#8893A1',background:'rgba(230,237,245,0.03)',borderRadius:'6px',padding:'1px 7px'}}>beklemede</span>}
+                        {cabinet[pos.title] && <span style={{fontSize:'0.62rem',color:'#3CC8F0',fontWeight:700}}>👤 {cabinet[pos.title]}</span>}
                       </div>
                     </div>
 
                     {pos.openTo === 'atama' && !isActive && (
-                      <div style={{fontSize:'0.7rem',color:'#8893A1',background:'rgba(237,231,218,0.02)',borderRadius:'8px',padding:'0.4rem 0.6rem'}}>
-                        🏛️ Bu makam Padişah tarafından atanır.
+                      <div style={{fontSize:'0.7rem',color:'#8893A1',background:'rgba(230,237,245,0.02)',borderRadius:'8px',padding:'0.4rem 0.6rem'}}>
+                        🏛️ Bu makam Cumhurbaşkanı tarafından atanır.
                       </div>
                     )}
 
                     {(isActive || candidates.length > 0) && (
                       <>
                         {canSelfReg && (
-                          <button onClick={selfRegister} style={{width:'100%',marginBottom:'0.5rem',padding:'0.35rem',borderRadius:'8px',border:'1px solid rgba(201,162,39,0.35)',background:'rgba(201,162,39,0.08)',color:'#C9A227',fontWeight:700,fontSize:'0.73rem',cursor:'pointer'}}>
+                          <button onClick={selfRegister} style={{width:'100%',marginBottom:'0.5rem',padding:'0.35rem',borderRadius:'8px',border:'1px solid rgba(60,200,240,0.35)',background:'rgba(60,200,240,0.08)',color:'#3CC8F0',fontWeight:700,fontSize:'0.73rem',cursor:'pointer'}}>
                             📝 Adaylığını Koy
                           </button>
                         )}
                         {isCandidate && isActive && (
-                          <div style={{fontSize:'0.68rem',color:'#C9A227',fontWeight:700,marginBottom:'0.4rem',textAlign:'center'}}>📝 Bu seçimde adaysın</div>
+                          <div style={{fontSize:'0.68rem',color:'#3CC8F0',fontWeight:700,marginBottom:'0.4rem',textAlign:'center'}}>📝 Bu seçimde adaysın</div>
                         )}
                         {alreadyVoted && (
                           <div style={{fontSize:'0.68rem',color:'#4C9A6B',fontWeight:700,marginBottom:'0.4rem',padding:'0.3rem 0.6rem',background:'rgba(76,154,107,0.07)',borderRadius:'7px',textAlign:'center'}}>
@@ -824,22 +824,22 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
                               const isMine = c.username===profile?.username;
                               const isMyVote = myVotedFor===c.username;
                               return (
-                                <div key={c.username} style={{background: isWinner?'rgba(201,162,39,0.06)':isMine?'rgba(201,162,39,0.06)':'rgba(255,255,255,0.02)',border:`1px solid ${isWinner?'rgba(201,162,39,0.25)':isMine?'rgba(201,162,39,0.2)':'rgba(255,255,255,0.05)'}`,borderRadius:'10px',padding:'0.5rem 0.6rem'}}>
+                                <div key={c.username} style={{background: isWinner?'rgba(60,200,240,0.06)':isMine?'rgba(60,200,240,0.06)':'rgba(255,255,255,0.02)',border:`1px solid ${isWinner?'rgba(60,200,240,0.25)':isMine?'rgba(60,200,240,0.2)':'rgba(255,255,255,0.05)'}`,borderRadius:'10px',padding:'0.5rem 0.6rem'}}>
                                   <div style={{display:'flex',alignItems:'center',gap:'0.5rem',marginBottom:'0.3rem'}}>
                                     <span style={{fontSize:'0.8rem',width:'18px',flexShrink:0}}>{i===0&&c.voteCount>0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}.`}</span>
                                     <div style={{flex:1,minWidth:0}}>
                                       <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                                        <span style={{fontWeight:800,color:isMine?'#C9A227':'#EDE7DA',fontSize:'0.8rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{c.username}{isMine?' (Sen)':''}</span>
-                                        <span style={{fontSize:'0.72rem',color:'#C9A227',fontWeight:700,flexShrink:0,marginLeft:'0.3rem'}}>{c.voteCount} oy {pct>0&&`(${pct}%)`}</span>
+                                        <span style={{fontWeight:800,color:isMine?'#3CC8F0':'#E6EDF5',fontSize:'0.8rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{c.username}{isMine?' (Sen)':''}</span>
+                                        <span style={{fontSize:'0.72rem',color:'#3CC8F0',fontWeight:700,flexShrink:0,marginLeft:'0.3rem'}}>{c.voteCount} oy {pct>0&&`(${pct}%)`}</span>
                                       </div>
                                     </div>
                                     {isActive && !alreadyVoted && !isMine && (
                                       <button onClick={()=>voteFor(c.username)} style={{flexShrink:0,padding:'3px 10px',borderRadius:'7px',border:'1px solid rgba(76,154,107,0.4)',background:'rgba(76,154,107,0.08)',color:'#4C9A6B',cursor:'pointer',fontSize:'0.7rem',fontWeight:800}}>Oy Ver</button>
                                     )}
                                     {isMyVote && <span style={{flexShrink:0,fontSize:'0.6rem',color:'#4C9A6B',fontWeight:800,background:'rgba(76,154,107,0.08)',borderRadius:'6px',padding:'2px 6px'}}>✓ Oyum</span>}
-                                    {isWinner && !isActive && <span style={{flexShrink:0,fontSize:'0.65rem',color:'#C9A227',fontWeight:800}}>🏆</span>}
+                                    {isWinner && !isActive && <span style={{flexShrink:0,fontSize:'0.65rem',color:'#3CC8F0',fontWeight:800}}>🏆</span>}
                                   </div>
-                                  <ProgressBar pct={pct} color={isWinner?'#C9A227':isMine?'#C9A227':'#C9A227'} h={3} />
+                                  <ProgressBar pct={pct} color={isWinner?'#3CC8F0':isMine?'#3CC8F0':'#3CC8F0'} h={3} />
                                 </div>
                               );
                             })}
@@ -864,26 +864,26 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
           {[['name','Parti Adı','Parti adı',false],['desc','Açıklama','Kısa bir açıklama...',true]].map(([k,l,ph,ta])=>(
             <div key={k} style={{marginBottom:'0.85rem'}}>
               <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.4rem',fontWeight:700}}>{l}</div>
-              {ta ? <textarea value={pForm[k]} onChange={e=>setPForm(p=>({...p,[k]:e.target.value}))} placeholder={ph} rows={2} style={{width:'100%',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'14px',outline:'none',resize:'none',boxSizing:'border-box'}} />
+              {ta ? <textarea value={pForm[k]} onChange={e=>setPForm(p=>({...p,[k]:e.target.value}))} placeholder={ph} rows={2} style={{width:'100%',background:'rgba(230,237,245,0.03)',border:'1px solid rgba(230,237,245,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#E6EDF5',fontFamily:"'Inter',sans-serif",fontSize:'14px',outline:'none',resize:'none',boxSizing:'border-box'}} />
               : <input value={pForm[k]} onChange={e=>setPForm(p=>({...p,[k]:e.target.value}))} placeholder={ph} style={inputSt} />}
             </div>
           ))}
           <div style={{marginBottom:'0.85rem'}}>
             <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.4rem',fontWeight:700}}>Siyasi Eğilim</div>
             <select value={pForm.ideology} onChange={e=>setPForm(p=>({...p,ideology:e.target.value}))} style={inputSt}>
-              {['sol','merkez-sol','merkez','merkez-sağ','sağ','liberal','milliyetçi','eko-yeşil'].map(v=><option key={v} value={v} style={{background:'#1B212B'}}>{v.charAt(0).toUpperCase()+v.slice(1)}</option>)}
+              {['sol','merkez-sol','merkez','merkez-sağ','sağ','liberal','milliyetçi','eko-yeşil'].map(v=><option key={v} value={v} style={{background:'#152032'}}>{v.charAt(0).toUpperCase()+v.slice(1)}</option>)}
             </select>
           </div>
           <div style={{marginBottom:'1rem'}}>
             <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.4rem',fontWeight:700}}>Parti Rengi</div>
             <div style={{display:'flex',gap:'0.4rem',flexWrap:'wrap'}}>
-              {['#C9A227','#C24B43','#4C9A6B','#EDE7DA','#8893A1','#F97316','#A07D1C','#E5C14B'].map(c=>(
+              {['#3CC8F0','#C24B43','#4C9A6B','#E6EDF5','#8893A1','#F97316','#1E8FB8','#E5C14B'].map(c=>(
                 <button key={c} onClick={()=>setPForm(p=>({...p,color:c}))} style={{width:'28px',height:'28px',borderRadius:'50%',background:c,border:`3px solid ${pForm.color===c?'#fff':'transparent'}`,cursor:'pointer',outline:'none'}} />
               ))}
             </div>
           </div>
-          <div style={{background:'rgba(201,162,39,0.06)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'10px',padding:'0.65rem',fontSize:'0.78rem',color:'#C9A227',marginBottom:'1rem'}}>
-            💡 Parti kurmak için 🪙100.000 ve Üniversite diploması gerektirir. Bakiye: {fmtWord(profile?.money||0)}
+          <div style={{background:'rgba(60,200,240,0.06)',border:'1px solid rgba(60,200,240,0.2)',borderRadius:'10px',padding:'0.65rem',fontSize:'0.78rem',color:'#3CC8F0',marginBottom:'1rem'}}>
+            💡 Parti kurmak için ₺100.000 ve Üniversite diploması gerektirir. Bakiye: {fmtWord(profile?.money||0)}
           </div>
           <Btn variant='primary' size='full' onClick={createParty}>🏛️ Partiyi Kur</Btn>
         </Modal>
@@ -894,8 +894,8 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
           {(myParty.members||[]).map((uid,i) => (
             <div key={uid} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0.55rem 0',borderBottom:'1px solid rgba(255,255,255,0.05)'}}>
               <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
-                <div style={{width:'30px',height:'30px',borderRadius:'50%',background:'rgba(201,162,39,0.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.85rem'}}>{uid===myParty.leaderId?'👑':'👤'}</div>
-                <div style={{fontSize:'0.82rem',fontWeight:700,color:uid===profile?.uid?'#C9A227':'#EDE7DA'}}>
+                <div style={{width:'30px',height:'30px',borderRadius:'50%',background:'rgba(60,200,240,0.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.85rem'}}>{uid===myParty.leaderId?'👑':'👤'}</div>
+                <div style={{fontSize:'0.82rem',fontWeight:700,color:uid===profile?.uid?'#3CC8F0':'#E6EDF5'}}>
                   {uid===profile?.uid?profile?.username:`Üye #${i+1}`} {uid===myParty.leaderId&&'(Lider)'}
                 </div>
               </div>
@@ -911,9 +911,9 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
         <Modal title="💰 Parti Kasasına Bağış" onClose={()=>{setDonateModal(false);setDonateAmount('');}}>
           <div style={{marginBottom:'1rem'}}>
             <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.4rem',fontWeight:700}}>Bağış Miktarı</div>
-            <input type="number" value={donateAmount} onChange={e=>setDonateAmount(e.target.value)} placeholder="🪙 Tutar" style={inputSt} />
+            <input type="number" value={donateAmount} onChange={e=>setDonateAmount(e.target.value)} placeholder="₺ Tutar" style={inputSt} />
             <div style={{display:'flex',gap:'0.4rem',marginTop:'0.5rem',flexWrap:'wrap'}}>
-              {[5000,10000,25000,50000].map(n=><button key={n} onClick={()=>setDonateAmount(String(n))} style={{padding:'0.3rem 0.65rem',borderRadius:'8px',border:'1px solid rgba(237,231,218,0.1)',background:'rgba(237,231,218,0.03)',color:'#8893A1',fontSize:'0.72rem',cursor:'pointer',fontWeight:700}}>{fmtWord(n)}</button>)}
+              {[5000,10000,25000,50000].map(n=><button key={n} onClick={()=>setDonateAmount(String(n))} style={{padding:'0.3rem 0.65rem',borderRadius:'8px',border:'1px solid rgba(230,237,245,0.1)',background:'rgba(230,237,245,0.03)',color:'#8893A1',fontSize:'0.72rem',cursor:'pointer',fontWeight:700}}>{fmtWord(n)}</button>)}
             </div>
           </div>
           <Btn variant='gold' size='full' onClick={donateToParty}>💰 Bağış Yap</Btn>
@@ -925,14 +925,14 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
           {[['title','Yasa Başlığı','Örn: Vergi indirimi yasası',false],['desc','Açıklama','Yasa hakkında açıklama...',true]].map(([k,l,ph,ta])=>(
             <div key={k} style={{marginBottom:'0.85rem'}}>
               <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.4rem',fontWeight:700}}>{l}</div>
-              {ta ? <textarea value={lawForm[k]} onChange={e=>setLawForm(p=>({...p,[k]:e.target.value}))} placeholder={ph} rows={3} style={{width:'100%',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'14px',outline:'none',resize:'none',boxSizing:'border-box'}} />
+              {ta ? <textarea value={lawForm[k]} onChange={e=>setLawForm(p=>({...p,[k]:e.target.value}))} placeholder={ph} rows={3} style={{width:'100%',background:'rgba(230,237,245,0.03)',border:'1px solid rgba(230,237,245,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#E6EDF5',fontFamily:"'Inter',sans-serif",fontSize:'14px',outline:'none',resize:'none',boxSizing:'border-box'}} />
               : <input value={lawForm[k]} onChange={e=>setLawForm(p=>({...p,[k]:e.target.value}))} placeholder={ph} style={inputSt} />}
             </div>
           ))}
           <div style={{marginBottom:'1rem'}}>
             <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.4rem',fontWeight:700}}>Kategori</div>
             <select value={lawForm.category} onChange={e=>setLawForm(p=>({...p,category:e.target.value}))} style={inputSt}>
-              {['vergi','güvenlik','ekonomi','eğitim','sağlık','çevre','sosyal','diğer'].map(v=><option key={v} value={v} style={{background:'#1B212B'}}>{v.charAt(0).toUpperCase()+v.slice(1)}</option>)}
+              {['vergi','güvenlik','ekonomi','eğitim','sağlık','çevre','sosyal','diğer'].map(v=><option key={v} value={v} style={{background:'#152032'}}>{v.charAt(0).toUpperCase()+v.slice(1)}</option>)}
             </select>
           </div>
           <Btn variant='primary' size='full' onClick={proposeLaw}>⚖️ Yasayı Öner</Btn>
@@ -941,7 +941,7 @@ function PoliticsPage({ profile, setProfile, showNotif }) {
 
       {transferModal&&(
         <Modal title="🔄 Liderliği Devret" onClose={()=>{setTransferModal(false);setTransferTarget('');}}>
-          <div style={{background:'rgba(201,162,39,0.06)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'10px',padding:'0.65rem',fontSize:'0.78rem',color:'#C9A227',marginBottom:'1rem'}}>
+          <div style={{background:'rgba(60,200,240,0.06)',border:'1px solid rgba(60,200,240,0.2)',borderRadius:'10px',padding:'0.65rem',fontSize:'0.78rem',color:'#3CC8F0',marginBottom:'1rem'}}>
             ⚠️ Liderliği devrettikten sonra artık lider yetkilerine sahip olmayacaksın.
           </div>
           <div style={{marginBottom:'1rem'}}>
@@ -1002,7 +1002,7 @@ const PROVINCE_MAP_DATA = [
   {n:'Tunceli',x:587,y:179},{n:'Uşak',x:155,y:203},{n:'Van',x:749,y:213},
   {n:'Yalova',x:149,y:94},{n:'Yozgat',x:384,y:140},{n:'Zonguldak',x:257,y:51}
 ];
-const GANG_PALETTE = ['#C24B43','#F97316','#EAB308','#4C9A6B','#C9A227','#A07D1C','#E5C14B','#C24B43','#8893A1','#4C9A6B','#C24B43','#EDE7DA'];
+const GANG_PALETTE = ['#C24B43','#F97316','#EAB308','#4C9A6B','#3CC8F0','#1E8FB8','#E5C14B','#C24B43','#8893A1','#4C9A6B','#C24B43','#E6EDF5'];
 
 // Simplified Turkey country outline path (based on border province coordinates)
 const TURKEY_OUTLINE_PATH = "M 27,122 L 27,92 L 34,39 L 62,35 L 74,76 L 100,68 L 140,55 L 140,75 L 178,92 L 197,88 L 229,84 L 257,51 L 280,41 L 292,65 L 341,55 L 400,19 L 429,60 L 450,60 L 516,77 L 537,81 L 594,76 L 628,75 L 684,66 L 721,70 L 738,98 L 778,135 L 778,160 L 765,264 L 749,260 L 711,266 L 688,244 L 654,246 L 638,278 L 554,287 L 494,292 L 483,311 L 447,291 L 443,330 L 420,318 L 378,306 L 355,312 L 210,301 L 193,280 L 111,283 L 89,249 L 59,217 L 27,180 Z";
@@ -1018,7 +1018,7 @@ function TurkeyMap({ territories={}, gangs=[], parties=[], partyMode=false, onCi
 
   const partyColorMap = React.useMemo(() => {
     const m = {};
-    parties.forEach(p => { m[p.id] = p.color || '#C9A227'; });
+    parties.forEach(p => { m[p.id] = p.color || '#3CC8F0'; });
     return m;
   }, [parties.map(p=>p.id+p.color).join(',')]);
 
@@ -1051,7 +1051,7 @@ function TurkeyMap({ territories={}, gangs=[], parties=[], partyMode=false, onCi
   const getColor = (n) => {
     if (partyMode) {
       const pid = cityDominance[n];
-      return pid ? (partyColorMap[pid] || '#C9A227') : null;
+      return pid ? (partyColorMap[pid] || '#3CC8F0') : null;
     }
     const t = territories[n];
     return t ? (gangColorMap[t.gangId] || '#888') : null;
@@ -1071,7 +1071,7 @@ function TurkeyMap({ territories={}, gangs=[], parties=[], partyMode=false, onCi
     : gangs.filter(g => Object.values(gangDominance).includes(g.id)).slice(0,8);
 
   return (
-    <div style={{position:'relative',width:'100%',borderRadius:'12px',overflow:'hidden',background:'rgba(4,9,20,0.97)',border:'1px solid rgba(237,231,218,0.08)'}}>
+    <div style={{position:'relative',width:'100%',borderRadius:'12px',overflow:'hidden',background:'rgba(4,9,20,0.97)',border:'1px solid rgba(230,237,245,0.08)'}}>
       <svg viewBox="0 0 820 360" style={{width:'100%',height:'auto',display:'block'}} xmlns="http://www.w3.org/2000/svg">
         <defs>
           <filter id="tmglow" x="-50%" y="-50%" width="200%" height="200%">
@@ -1134,7 +1134,7 @@ function TurkeyMap({ territories={}, gangs=[], parties=[], partyMode=false, onCi
             <g>
               <rect x={bx-58} y={by-15} width={116} height={owner ? 32 : 22} rx="5"
                 fill="rgba(5,10,22,0.97)" stroke="rgba(255,255,255,0.2)" strokeWidth="0.7"/>
-              <text x={bx} y={by-1} textAnchor="middle" fontSize="9.5" fontWeight="800" fill="#EDE7DA" fontFamily="'Inter',sans-serif">{hovered}</text>
+              <text x={bx} y={by-1} textAnchor="middle" fontSize="9.5" fontWeight="800" fill="#E6EDF5" fontFamily="'Inter',sans-serif">{hovered}</text>
               {owner && <text x={bx} y={by+13} textAnchor="middle" fontSize="8" fill={color||'#8893A1'} fontFamily="'Inter',sans-serif">{owner}</text>}
             </g>
           );
@@ -1144,8 +1144,8 @@ function TurkeyMap({ territories={}, gangs=[], parties=[], partyMode=false, onCi
       {legendItems.length > 0 && (
         <div style={{display:'flex',flexWrap:'wrap',gap:'0.35rem',padding:'0.5rem 0.75rem',borderTop:'1px solid rgba(255,255,255,0.06)'}}>
           {legendItems.map((item,i) => (
-            <div key={item.id||i} style={{display:'flex',alignItems:'center',gap:'0.3rem',background:'rgba(237,231,218,0.02)',borderRadius:'6px',padding:'0.2rem 0.45rem',border:'1px solid rgba(237,231,218,0.08)'}}>
-              <div style={{width:'8px',height:'8px',borderRadius:'2px',background:partyMode?(item.color||'#C9A227'):(GANG_PALETTE[i%GANG_PALETTE.length]),flexShrink:0}}/>
+            <div key={item.id||i} style={{display:'flex',alignItems:'center',gap:'0.3rem',background:'rgba(230,237,245,0.02)',borderRadius:'6px',padding:'0.2rem 0.45rem',border:'1px solid rgba(230,237,245,0.08)'}}>
+              <div style={{width:'8px',height:'8px',borderRadius:'2px',background:partyMode?(item.color||'#3CC8F0'):(GANG_PALETTE[i%GANG_PALETTE.length]),flexShrink:0}}/>
               <span style={{fontSize:'0.6rem',color:'#8893A1',fontWeight:600,whiteSpace:'nowrap'}}>{item.name}</span>
             </div>
           ))}
@@ -1167,8 +1167,8 @@ function TerritorySystem({ profile, setProfile, showNotif, myGang, gangs, setGan
   const [nowTs, setNowTs] = useState(Date.now());
   useEffect(() => { const t = setInterval(() => { setTick(p=>p+1); setNowTs(Date.now()); }, 1000); return () => clearInterval(t); }, []);
 
-  const bg = dark ? '#1A0E00' : '#F8FAFC';
-  const card = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
+  const bg = dark ? '#0F1724' : '#F8FAFC';
+  const card = dark ? 'rgba(255,255,255,0.04)' : '#E6EDF5';
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
 
   const uid = profile?.uid || profile?.id;
@@ -1186,7 +1186,7 @@ function TerritorySystem({ profile, setProfile, showNotif, myGang, gangs, setGan
     }
     const current = territories[city];
     const cost = 150000;
-    if ((profile?.money || 0) < cost) { showNotif(`Bölge almak için 🪙${fmtWord(cost)} gerekli!`, 'error'); return; }
+    if ((profile?.money || 0) < cost) { showNotif(`Bölge almak için ₺${fmtWord(cost)} gerekli!`, 'error'); return; }
     const weapons = myGang?.weapons || 0;
     const myPower = (myGang?.power || 10) + (weapons * 5);
     if (current && current.gangId !== myGang.id) {
@@ -1242,15 +1242,15 @@ function TerritorySystem({ profile, setProfile, showNotif, myGang, gangs, setGan
         <div style={{fontSize:'0.65rem',color:'#C24B43',fontWeight:800,textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.2rem'}}>🗺️ BÖLGE KONTROLÜ</div>
         <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'0.4rem'}}>
           {[['🗺️','Kontrol',myTerritories.length+' il'],['💰','Gelir',fmtWord(totalIncome)+'/saat'],['⚡','Güç',(myGang?.power||0)+((myGang?.weapons||0)*5)]].map(([ic,lb,v])=>(
-            <div key={lb} style={{background:'rgba(237,231,218,0.03)',borderRadius:'8px',padding:'0.4rem',textAlign:'center'}}>
+            <div key={lb} style={{background:'rgba(230,237,245,0.03)',borderRadius:'8px',padding:'0.4rem',textAlign:'center'}}>
               <div style={{fontSize:'0.85rem'}}>{ic}</div>
-              <div style={{fontWeight:800,color:'#EDE7DA',fontSize:'0.78rem'}}>{v}</div>
+              <div style={{fontWeight:800,color:'#E6EDF5',fontSize:'0.78rem'}}>{v}</div>
               <div style={{fontSize:'0.55rem',color:'#8893A1',textTransform:'uppercase'}}>{lb}</div>
             </div>
           ))}
         </div>
         {!myGang && <div style={{marginTop:'0.5rem',fontSize:'0.75rem',color:'#E08C87',textAlign:'center'}}>Bölge almak için bir çeteye katıl!</div>}
-        <div style={{marginTop:'0.5rem',fontSize:'0.65rem',color:'#8893A1'}}>💡 Bölge almak: 🪙150.000 • Ele geçirme sonrası 1 gün savaş yok • Kaybedince 2 hafta savaş yok</div>
+        <div style={{marginTop:'0.5rem',fontSize:'0.65rem',color:'#8893A1'}}>💡 Bölge almak: ₺150.000 • Ele geçirme sonrası 1 gün savaş yok • Kaybedince 2 hafta savaş yok</div>
       </div>
 
       {/* ── Türkiye Haritası ── */}
@@ -1274,7 +1274,7 @@ function TerritorySystem({ profile, setProfile, showNotif, myGang, gangs, setGan
               const count = Object.values(territories).filter(t => t.gangId === g.id).length;
               if (!count) return null;
               return (
-                <div key={g.id} style={{display:'flex',alignItems:'center',gap:'4px',background:'rgba(237,231,218,0.03)',borderRadius:'5px',padding:'2px 8px',border:'1px solid rgba(237,231,218,0.08)'}}>
+                <div key={g.id} style={{display:'flex',alignItems:'center',gap:'4px',background:'rgba(230,237,245,0.03)',borderRadius:'5px',padding:'2px 8px',border:'1px solid rgba(230,237,245,0.08)'}}>
                   <div style={{width:'7px',height:'7px',borderRadius:'50%',background:GANG_PALETTE[i%GANG_PALETTE.length],flexShrink:0}}/>
                   <span style={{fontSize:'0.62rem',color:'#8893A1',fontWeight:700}}>{g.name}</span>
                   <span style={{fontSize:'0.58rem',color:'#8893A1'}}>({count} il)</span>
@@ -1304,11 +1304,11 @@ function TerritorySystem({ profile, setProfile, showNotif, myGang, gangs, setGan
           return (
             <div key={city} style={{background:isOurs?'rgba(76,154,107,0.08)':ter?'rgba(194,75,67,0.06)':card,border:`1px solid ${isOurs?'rgba(76,154,107,0.35)':ter?'rgba(194,75,67,0.2)':border}`,borderRadius:'10px',padding:'0.55rem 0.65rem',cursor:'pointer'}}
               onClick={()=>myGang&&isGangLeader&&!isOurs&&!warBlocked?setAttackModal(city):null}>
-              <div style={{fontSize:'0.75rem',fontWeight:800,color:isOurs?'#4C9A6B':ter?'#E08C87':'#EDE7DA',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{city}</div>
+              <div style={{fontSize:'0.75rem',fontWeight:800,color:isOurs?'#4C9A6B':ter?'#E08C87':'#E6EDF5',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{city}</div>
               <div style={{fontSize:'0.6rem',color:'#8893A1',marginTop:'1px'}}>
                 {isOurs?'✅ Bizim':ter?`⚔️ ${ter.gangName||'?'}`:warBlocked?'🕊️ Barış':'Boş'}
               </div>
-              {warBlocked&&!isOurs&&<div style={{fontSize:'0.55rem',color:'#C9A227',marginTop:'1px'}}>🛡️ {warRemStr} sonra açılır</div>}
+              {warBlocked&&!isOurs&&<div style={{fontSize:'0.55rem',color:'#3CC8F0',marginTop:'1px'}}>🛡️ {warRemStr} sonra açılır</div>}
             </div>
           );
         })}
@@ -1323,7 +1323,7 @@ function TerritorySystem({ profile, setProfile, showNotif, myGang, gangs, setGan
             ) : (
               <div>Boş bölge! Hemen sahiplen.</div>
             )}
-            <div style={{marginTop:'0.5rem',color:'#C9A227'}}>💰 Maliyet: 🪙150.000<br/>🔫 Silah bonusu: +{(myGang?.weapons||0)*5} güç</div>
+            <div style={{marginTop:'0.5rem',color:'#3CC8F0'}}>💰 Maliyet: ₺150.000<br/>🔫 Silah bonusu: +{(myGang?.weapons||0)*5} güç</div>
           </div>
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.5rem'}}>
             <Btn variant='ghost' size='md' onClick={()=>setAttackModal(null)}>İptal</Btn>
@@ -1340,7 +1340,7 @@ function TerritorySystem({ profile, setProfile, showNotif, myGang, gangs, setGan
 // ═══════════════════════════════════════════════════════
 function WeaponSystem({ profile, setProfile, showNotif, myGang, gangs, setGangs, isGangLeader }) {
   const { dark } = useTheme();
-  const card   = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
+  const card   = dark ? 'rgba(255,255,255,0.04)' : '#E6EDF5';
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
   const [buyQty,  setBuyQty]  = useState(1);
   const [ammoQty, setAmmoQty] = useState(1);
@@ -1365,7 +1365,7 @@ function WeaponSystem({ profile, setProfile, showNotif, myGang, gangs, setGangs,
     if (!isGangLeader) { showNotif('Silah sadece çete lideri tarafından alınabilir!', 'error'); return; }
     const qty   = Math.max(1, parseInt(buyQty) || 1);
     const total = qty * WEAPON_COST;
-    if ((profile?.money || 0) < total) { showNotif(`Yetersiz para! Gerekli: 🪙${fmtWord(total)}`, 'error'); return; }
+    if ((profile?.money || 0) < total) { showNotif(`Yetersiz para! Gerekli: ₺${fmtWord(total)}`, 'error'); return; }
     setGangs(prev => prev.map(g => g.id === myGang.id ? { ...g, weapons: (g.weapons || 0) + qty } : g));
     setProfile(p => { const np = { ...p, money: (p.money||0) - total, xp: (p.xp||0) + qty * 50 }; localStorage.setItem('rep_userProfile', JSON.stringify(np)); return np; });
     showNotif(`🔫 ${qty} silah satın alındı! +${qty*50} XP`, 'success');
@@ -1377,7 +1377,7 @@ function WeaponSystem({ profile, setProfile, showNotif, myGang, gangs, setGangs,
     const gain = Math.floor(qty * WEAPON_COST * 0.7);
     setGangs(prev => prev.map(g => g.id === myGang.id ? { ...g, weapons: (g.weapons || 0) - qty } : g));
     setProfile(p => { const np = { ...p, money: (p.money||0) + gain }; localStorage.setItem('rep_userProfile', JSON.stringify(np)); return np; });
-    showNotif(`💰 ${qty} silah satıldı. +🪙${fmtWord(gain)}`, 'success');
+    showNotif(`💰 ${qty} silah satıldı. +₺${fmtWord(gain)}`, 'success');
   };
 
   const buyAmmo = () => {
@@ -1387,7 +1387,7 @@ function WeaponSystem({ profile, setProfile, showNotif, myGang, gangs, setGangs,
     const ammoType = AMMO_TYPES[ammoTab];
     const qty   = Math.max(1, parseInt(ammoQty) || 1);
     const total = qty * ammoType.costPerBox;
-    if ((profile?.money || 0) < total) { showNotif(`Yetersiz para! Gerekli: 🪙${fmtWord(total)}`, 'error'); return; }
+    if ((profile?.money || 0) < total) { showNotif(`Yetersiz para! Gerekli: ₺${fmtWord(total)}`, 'error'); return; }
     const powerGain = qty * ammoType.powerPerBox;
     setGangs(prev => prev.map(g => g.id === myGang.id ? { ...g, ammo: (g.ammo || 0) + powerGain } : g));
     setProfile(p => { const np = { ...p, money: (p.money||0) - total, xp: (p.xp||0) + qty * 80 }; localStorage.setItem('rep_userProfile', JSON.stringify(np)); return np; });
@@ -1400,7 +1400,7 @@ function WeaponSystem({ profile, setProfile, showNotif, myGang, gangs, setGangs,
     const gain = Math.floor(pwr * 40000);
     setGangs(prev => prev.map(g => g.id === myGang.id ? { ...g, ammo: Math.max(0, (g.ammo || 0) - pwr) } : g));
     setProfile(p => { const np = { ...p, money: (p.money||0) + gain }; localStorage.setItem('rep_userProfile', JSON.stringify(np)); return np; });
-    showNotif(`💰 Mermi satıldı. +🪙${fmtWord(gain)}`, 'success');
+    showNotif(`💰 Mermi satıldı. +₺${fmtWord(gain)}`, 'success');
   };
 
   return (
@@ -1412,7 +1412,7 @@ function WeaponSystem({ profile, setProfile, showNotif, myGang, gangs, setGangs,
           {[
             ['🔫', 'Silah',       myWeapons,          '#C24B43'],
             ['🔴', 'Mermi Gücü',  myAmmo,              '#F97316'],
-            ['⚡', 'Silah Bonusu',`+${weaponPower}`,    '#C9A227'],
+            ['⚡', 'Silah Bonusu',`+${weaponPower}`,    '#3CC8F0'],
             ['💥', 'Mermi Bonusu',`+${ammoPower}`,      '#FB923C'],
           ].map(([ic,lb,v,c]) => (
             <div key={lb} style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 8, padding: '0.4rem', textAlign: 'center' }}>
@@ -1435,16 +1435,16 @@ function WeaponSystem({ profile, setProfile, showNotif, myGang, gangs, setGangs,
         <>
           {/* ── Silah bölümü ── */}
           <div style={{ background: card, border: `1px solid ${border}`, borderRadius: 14, padding: '1rem', marginBottom: '0.65rem' }}>
-            <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#C24B43', marginBottom: '0.65rem' }}>🔫 Silah Al (🪙{fmtWord(WEAPON_COST)}/adet · +5 güç)</div>
+            <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#C24B43', marginBottom: '0.65rem' }}>🔫 Silah Al (₺{fmtWord(WEAPON_COST)}/adet · +5 güç)</div>
             <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
               <div style={{ flex: 1, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, display: 'flex', alignItems: 'center' }}>
-                <button onClick={() => setBuyQty(q => Math.max(1, q - 1))} style={{ background: 'none', border: 'none', color: '#EDE7DA', padding: '0.5rem 0.75rem', cursor: 'pointer', fontSize: '1rem' }}>-</button>
-                <span style={{ flex: 1, textAlign: 'center', color: '#EDE7DA', fontWeight: 800 }}>{buyQty}</span>
-                <button onClick={() => setBuyQty(q => q + 1)} style={{ background: 'none', border: 'none', color: '#EDE7DA', padding: '0.5rem 0.75rem', cursor: 'pointer', fontSize: '1rem' }}>+</button>
+                <button onClick={() => setBuyQty(q => Math.max(1, q - 1))} style={{ background: 'none', border: 'none', color: '#E6EDF5', padding: '0.5rem 0.75rem', cursor: 'pointer', fontSize: '1rem' }}>-</button>
+                <span style={{ flex: 1, textAlign: 'center', color: '#E6EDF5', fontWeight: 800 }}>{buyQty}</span>
+                <button onClick={() => setBuyQty(q => q + 1)} style={{ background: 'none', border: 'none', color: '#E6EDF5', padding: '0.5rem 0.75rem', cursor: 'pointer', fontSize: '1rem' }}>+</button>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 2 }}>
                 <div style={{ fontSize: '0.65rem', color: '#8893A1' }}>Toplam</div>
-                <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#C24B43' }}>🪙{fmtWord(buyQty * WEAPON_COST)}</div>
+                <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#C24B43' }}>₺{fmtWord(buyQty * WEAPON_COST)}</div>
               </div>
             </div>
             <div style={{ display: 'flex', gap: '0.35rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
@@ -1455,8 +1455,8 @@ function WeaponSystem({ profile, setProfile, showNotif, myGang, gangs, setGangs,
               <div style={{ display: 'flex', gap: '0.35rem', marginTop: '0.5rem', flexWrap: 'wrap' }}>
                 {[1,5,10].filter(n => n <= myWeapons).map(n => (
                   <button key={n} onClick={() => sellWeapons(n)} disabled={!isGangLeader}
-                    style={{ flex: 1, padding: '0.4rem', borderRadius: 8, border: '1px solid rgba(201,162,39,0.25)', background: 'rgba(201,162,39,0.07)', color: '#C9A227', fontWeight: 700, fontSize: '0.72rem', cursor: 'pointer' }}>
-                    {n} sat (+🪙{fmtWord(Math.floor(n * WEAPON_COST * 0.7))})
+                    style={{ flex: 1, padding: '0.4rem', borderRadius: 8, border: '1px solid rgba(60,200,240,0.25)', background: 'rgba(60,200,240,0.07)', color: '#3CC8F0', fontWeight: 700, fontSize: '0.72rem', cursor: 'pointer' }}>
+                    {n} sat (+₺{fmtWord(Math.floor(n * WEAPON_COST * 0.7))})
                   </button>
                 ))}
               </div>
@@ -1488,19 +1488,19 @@ function WeaponSystem({ profile, setProfile, showNotif, myGang, gangs, setGangs,
                       <div style={{ fontSize: '0.62rem', color: '#8893A1', marginTop: 2 }}>{at.desc} · +{at.powerPerBox} güç/kutu</div>
                     </div>
                     <div style={{ textAlign: 'right' }}>
-                      <div style={{ fontWeight: 800, color: '#C24B43', fontSize: '0.9rem' }}>🪙{fmtWord(at.costPerBox)}</div>
+                      <div style={{ fontWeight: 800, color: '#C24B43', fontSize: '0.9rem' }}>₺{fmtWord(at.costPerBox)}</div>
                       <div style={{ fontSize: '0.58rem', color: '#8893A1' }}>kutu başı</div>
                     </div>
                   </div>
                   <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
                     <div style={{ flex: 1, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, display: 'flex', alignItems: 'center' }}>
-                      <button onClick={() => setAmmoQty(q => Math.max(1, q - 1))} style={{ background: 'none', border: 'none', color: '#EDE7DA', padding: '0.5rem 0.75rem', cursor: 'pointer', fontSize: '1rem' }}>-</button>
-                      <span style={{ flex: 1, textAlign: 'center', color: '#EDE7DA', fontWeight: 800 }}>{ammoQty}</span>
-                      <button onClick={() => setAmmoQty(q => q + 1)} style={{ background: 'none', border: 'none', color: '#EDE7DA', padding: '0.5rem 0.75rem', cursor: 'pointer', fontSize: '1rem' }}>+</button>
+                      <button onClick={() => setAmmoQty(q => Math.max(1, q - 1))} style={{ background: 'none', border: 'none', color: '#E6EDF5', padding: '0.5rem 0.75rem', cursor: 'pointer', fontSize: '1rem' }}>-</button>
+                      <span style={{ flex: 1, textAlign: 'center', color: '#E6EDF5', fontWeight: 800 }}>{ammoQty}</span>
+                      <button onClick={() => setAmmoQty(q => q + 1)} style={{ background: 'none', border: 'none', color: '#E6EDF5', padding: '0.5rem 0.75rem', cursor: 'pointer', fontSize: '1rem' }}>+</button>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 2 }}>
                       <div style={{ fontSize: '0.65rem', color: '#8893A1' }}>+{ammoQty * at.powerPerBox} güç</div>
-                      <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#F97316' }}>🪙{fmtWord(ammoQty * at.costPerBox)}</div>
+                      <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#F97316' }}>₺{fmtWord(ammoQty * at.costPerBox)}</div>
                     </div>
                   </div>
                   <div style={{ display: 'flex', gap: '0.35rem', marginBottom: '0.5rem' }}>
@@ -1520,8 +1520,8 @@ function WeaponSystem({ profile, setProfile, showNotif, myGang, gangs, setGangs,
                 <div style={{ display: 'flex', gap: '0.35rem' }}>
                   {[10,50,100].filter(n => n <= myAmmo).map(n => (
                     <button key={n} onClick={() => sellAmmo(n)} disabled={!isGangLeader}
-                      style={{ flex: 1, padding: '0.35rem', borderRadius: 8, border: '1px solid rgba(201,162,39,0.2)', background: 'rgba(201,162,39,0.06)', color: '#C9A227', fontWeight: 700, fontSize: '0.68rem', cursor: 'pointer' }}>
-                      {n} sat (+🪙{fmtWord(n * 40000)})
+                      style={{ flex: 1, padding: '0.35rem', borderRadius: 8, border: '1px solid rgba(60,200,240,0.2)', background: 'rgba(60,200,240,0.06)', color: '#3CC8F0', fontWeight: 700, fontSize: '0.68rem', cursor: 'pointer' }}>
+                      {n} sat (+₺{fmtWord(n * 40000)})
                     </button>
                   ))}
                 </div>

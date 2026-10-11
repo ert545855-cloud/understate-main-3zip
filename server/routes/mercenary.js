@@ -38,7 +38,7 @@ router.post('/hire', authMiddleware, asyncHandler(async (req, res) => {
     `SELECT id FROM padisahlik_donemleri WHERE durum='genel_sefer' LIMIT 1`
   );
   if (!donemRows.length) {
-    return res.status(403).json({ success: false, error: 'Paralı asker yalnızca Genel Sefer sırasında kiralanabilir' });
+    return res.status(403).json({ success: false, error: 'Paralı asker yalnızca Seferberlik sırasında kiralanabilir' });
   }
   const donemId = donemRows[0].id;
 
@@ -53,7 +53,7 @@ router.post('/hire', authMiddleware, asyncHandler(async (req, res) => {
   const u = userRows[0];
   if (!u) return res.status(404).json({ success: false, error: 'Kullanıcı bulunamadı' });
   if ((u.money || 0) < paket.maliyet) {
-    return res.status(400).json({ success: false, error: `Yetersiz Sikke — ${paket.maliyet.toLocaleString('tr-TR')} gerekli` });
+    return res.status(400).json({ success: false, error: `Yetersiz Para — ${paket.maliyet.toLocaleString('tr-TR')} gerekli` });
   }
 
   await db.query(

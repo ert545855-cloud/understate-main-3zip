@@ -5,13 +5,13 @@
 // ═══════════════════════════════════════════════════════
 
 const LONCA_TIPLERI = [
-  { id:'kuyumcu',   ad:'Kuyumcular Loncası',  icon:'💍', aciklama:'Altın ve gümüş işçileri. Takı, sikke ve süs eşyası üretir.',     bonus:'+20% Altın geliri',  renk:'#C89B3C' },
-  { id:'tacir',     ad:'Tüccarlar Loncası',   icon:'🛒', aciklama:'İpek Yolu tüccarları. Eyaletler arası ticaret yapar.',            bonus:'+15% Ticaret geliri',renk:'#3E8C5A' },
+  { id:'kuyumcu',   ad:'Kuyumcular Loncası',  icon:'💍', aciklama:'Altın ve gümüş işçileri. Takı, para ve süs eşyası üretir.',     bonus:'+20% Altın geliri',  renk:'#3CC8F0' },
+  { id:'tacir',     ad:'Tüccarlar Loncası',   icon:'🛒', aciklama:'İpek Yolu tüccarları. Bölgeler arası ticaret yapar.',            bonus:'+15% Ticaret geliri',renk:'#3E8C5A' },
   { id:'demirci',   ad:'Demirciler Loncası',  icon:'⚒️', aciklama:'Silah ve zırh ustası demirciler. Orduya teçhizat sağlar.',        bonus:'+25% Silah gücü',    renk:'#6B7280' },
   { id:'mimarlar',  ad:'Mimarlar Loncası',    icon:'🏛️', aciklama:'Cami, kervansaray ve köprü inşa eden usta mimarlar.',             bonus:'+30% İnşaat hızı',   renk:'#8B6BF2' },
   { id:'eczaci',    ad:'Eczacılar Loncası',   icon:'🌿', aciklama:'Baharat ve ilaç tüccarları. Sağlık ve zehir bilimleri.',          bonus:'+10% HP/gün',        renk:'#3ECF7A' },
   { id:'denizci',   ad:'Denizciler Loncası',  icon:'⚓', aciklama:'Kaptan ve denizciler. Deniz ticareti ve keşif seferleri.',         bonus:'+40% Deniz geliri',  renk:'#38BDF8' },
-  { id:'alim',      ad:'Alimler Loncası',     icon:'📚', aciklama:'Medrese mezunu bilginler. Eğitim ve diplomasi işleri.',           bonus:'+20% XP kazanımı',   renk:'#F0B33E' },
+  { id:'alim',      ad:'Alimler Loncası',     icon:'📚', aciklama:'Medrese mezunu bilginler. Eğitim ve diplomasi işleri.',           bonus:'+20% XP kazanımı',   renk:'#3CC8F0' },
   { id:'kasap',     ad:'Kasaplar Loncası',    icon:'🥩', aciklama:'Et, hayvan ve deri ticareti yapan esnaf.',                        bonus:'+15% Askeri yiyecek',renk:'#B8423C' },
 ];
 
@@ -43,9 +43,9 @@ window.GuildScreen = function GuildScreen({ cu, setCurrentPage, allUsers }) {
   }
 
   const SEKMELER = [
-    { id:'loncalar', icon:'🏛️', label:'Loncalar'   },
+    { id:'loncalar', icon:'🏛️', label:'Sendikalar'   },
     { id:'benim',    icon:'⭐', label:'Loncam'     },
-    { id:'pazar',    icon:'🛒', label:'Lonca Pazarı'},
+    { id:'pazar',    icon:'🛒', label:'Sendika Pazarı'},
   ];
 
   return React.createElement('div', {
@@ -53,21 +53,21 @@ window.GuildScreen = function GuildScreen({ cu, setCurrentPage, allUsers }) {
   },
     // Başlık
     React.createElement('div', {
-      style:{ background:'linear-gradient(135deg,#0d0e1a,#141830)', borderBottom:'1px solid rgba(200,155,60,0.2)', padding:'16px 16px 12px' }
+      style:{ background:'linear-gradient(135deg,#0d0e1a,#141830)', borderBottom:'1px solid rgba(60,200,240,0.2)', padding:'16px 16px 12px' }
     },
       React.createElement('div', { style:{ display:'flex', alignItems:'center', gap:10, marginBottom:12 } },
-        React.createElement('button', { onClick:()=>setCurrentPage('home'), style:{ background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.1)', borderRadius:10, padding:'6px 10px', color:'#A9A6A0', fontSize:'0.75rem', cursor:'pointer' } }, '← Geri'),
+        React.createElement('button', { onClick:()=>setCurrentPage('home'), style:{ background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.1)', borderRadius:10, padding:'6px 10px', color:'#93A4B8', fontSize:'0.75rem', cursor:'pointer' } }, '← Geri'),
         React.createElement('div', { style:{ fontSize:'1.5rem' } }, '⚒️'),
         React.createElement('div', null,
-          React.createElement('div', { style:{ fontFamily:"'Cinzel',serif", fontWeight:700, fontSize:'1.1rem', color:'#C89B3C' } }, 'Esnaf Loncaları'),
-          React.createElement('div', { style:{ fontSize:'0.65rem', color:'#A9A6A0' } }, `${LONCA_TIPLERI.length} lonca · ${Object.keys(uyeLiklar).length} üye`)
+          React.createElement('div', { style:{ fontFamily:"'Rajdhani',sans-serif", fontWeight:700, fontSize:'1.1rem', color:'#3CC8F0' } }, 'Esnaf Loncaları'),
+          React.createElement('div', { style:{ fontSize:'0.65rem', color:'#93A4B8' } }, `${LONCA_TIPLERI.length} sendika · ${Object.keys(uyeLiklar).length} üye`)
         )
       ),
       React.createElement('div', { style:{ display:'flex', gap:6 } },
         SEKMELER.map(s =>
           React.createElement('button', {
             key:s.id, onClick:()=>setAktifSekme(s.id),
-            style:{ flex:1, padding:'7px 4px', borderRadius:10, border:`1px solid ${aktifSekme===s.id?'rgba(200,155,60,0.45)':'rgba(255,255,255,0.07)'}`, background:aktifSekme===s.id?'rgba(200,155,60,0.12)':'rgba(255,255,255,0.02)', color:aktifSekme===s.id?'#C89B3C':'#A9A6A0', fontSize:'0.62rem', cursor:'pointer', textAlign:'center', fontWeight:aktifSekme===s.id?700:400 }
+            style:{ flex:1, padding:'7px 4px', borderRadius:10, border:`1px solid ${aktifSekme===s.id?'rgba(60,200,240,0.45)':'rgba(255,255,255,0.07)'}`, background:aktifSekme===s.id?'rgba(60,200,240,0.12)':'rgba(255,255,255,0.02)', color:aktifSekme===s.id?'#3CC8F0':'#93A4B8', fontSize:'0.62rem', cursor:'pointer', textAlign:'center', fontWeight:aktifSekme===s.id?700:400 }
           },
             React.createElement('div', { style:{ fontSize:'0.9rem' } }, s.icon),
             React.createElement('div', null, s.label)
@@ -91,10 +91,10 @@ window.GuildScreen = function GuildScreen({ cu, setCurrentPage, allUsers }) {
             React.createElement('div', { style:{ fontSize:'2rem', flexShrink:0 } }, l.icon),
             React.createElement('div', { style:{ flex:1 } },
               React.createElement('div', { style:{ display:'flex', alignItems:'center', gap:6, marginBottom:2 } },
-                React.createElement('span', { style:{ fontFamily:"'Cinzel',serif", fontSize:'0.85rem', fontWeight:700, color:'#F5EBD7' } }, l.ad),
+                React.createElement('span', { style:{ fontFamily:"'Rajdhani',sans-serif", fontSize:'0.85rem', fontWeight:700, color:'#E6EDF5' } }, l.ad),
                 benimBurada && React.createElement('span', { style:{ fontSize:'0.58rem', background:`${l.renk}22`, border:`1px solid ${l.renk}55`, borderRadius:6, padding:'1px 5px', color:l.renk, fontWeight:700 } }, 'ÜYESİNİZ')
               ),
-              React.createElement('div', { style:{ fontSize:'0.62rem', color:'#A9A6A0', marginBottom:3 } }, l.aciklama.substring(0,55)+'...'),
+              React.createElement('div', { style:{ fontSize:'0.62rem', color:'#93A4B8', marginBottom:3 } }, l.aciklama.substring(0,55)+'...'),
               React.createElement('div', { style:{ fontSize:'0.62rem', color:l.renk, fontWeight:600 } }, `⚡ ${l.bonus}`)
             )
           );
@@ -110,18 +110,18 @@ window.GuildScreen = function GuildScreen({ cu, setCurrentPage, allUsers }) {
               return React.createElement('div', null,
                 React.createElement('div', { style:{ background:`linear-gradient(135deg,${l.renk}15,${l.renk}05)`, border:`1px solid ${l.renk}40`, borderRadius:20, padding:'20px', textAlign:'center', marginBottom:16 } },
                   React.createElement('div', { style:{ fontSize:'3rem', marginBottom:8 } }, l.icon),
-                  React.createElement('div', { style:{ fontFamily:"'Cinzel',serif", fontSize:'1.1rem', fontWeight:700, color:l.renk, marginBottom:4 } }, l.ad),
-                  React.createElement('div', { style:{ fontSize:'0.72rem', color:'#A9A6A0', marginBottom:10 } }, l.aciklama),
+                  React.createElement('div', { style:{ fontFamily:"'Rajdhani',sans-serif", fontSize:'1.1rem', fontWeight:700, color:l.renk, marginBottom:4 } }, l.ad),
+                  React.createElement('div', { style:{ fontSize:'0.72rem', color:'#93A4B8', marginBottom:10 } }, l.aciklama),
                   React.createElement('div', { style:{ background:`${l.renk}15`, borderRadius:10, padding:'8px 14px', display:'inline-block' } },
-                    React.createElement('div', { style:{ fontSize:'0.65rem', color:'#A9A6A0' } }, 'Unvanınız'),
-                    React.createElement('div', { style:{ fontFamily:"'Cinzel',serif", fontSize:'0.9rem', fontWeight:700, color:l.renk } }, uyeLiklar[benimLoncaId]?.unvan || 'Çırak')
+                    React.createElement('div', { style:{ fontSize:'0.65rem', color:'#93A4B8' } }, 'Unvanınız'),
+                    React.createElement('div', { style:{ fontFamily:"'Rajdhani',sans-serif", fontSize:'0.9rem', fontWeight:700, color:l.renk } }, uyeLiklar[benimLoncaId]?.unvan || 'Çırak')
                   )
                 ),
                 React.createElement('div', { style:{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:12 } },
                   [['⚡','Bonus',l.bonus],['📅','Katılma',new Date(uyeLiklar[benimLoncaId]?.katilma||Date.now()).toLocaleDateString('tr')]].map(([ic,lab,val])=>
                     React.createElement('div', { key:lab, style:{ background:'#1B1E25', borderRadius:12, padding:'10px', textAlign:'center' } },
-                      React.createElement('div', { style:{ fontSize:'0.62rem', color:'#A9A6A0', marginBottom:2 } }, `${ic} ${lab}`),
-                      React.createElement('div', { style:{ fontSize:'0.78rem', fontWeight:700, color:'#F5EBD7' } }, val)
+                      React.createElement('div', { style:{ fontSize:'0.62rem', color:'#93A4B8', marginBottom:2 } }, `${ic} ${lab}`),
+                      React.createElement('div', { style:{ fontSize:'0.78rem', fontWeight:700, color:'#E6EDF5' } }, val)
                     )
                   )
                 ),
@@ -130,9 +130,9 @@ window.GuildScreen = function GuildScreen({ cu, setCurrentPage, allUsers }) {
             })()
           : React.createElement('div', { style:{ textAlign:'center', padding:'50px 20px' } },
               React.createElement('div', { style:{ fontSize:'3rem', marginBottom:12 } }, '⚒️'),
-              React.createElement('div', { style:{ fontFamily:"'Cinzel',serif", fontSize:'1rem', fontWeight:700, color:'#F5EBD7', marginBottom:8 } }, 'Henüz Loncaya Üye Değilsiniz'),
-              React.createElement('div', { style:{ fontSize:'0.75rem', color:'#A9A6A0', marginBottom:16 } }, 'Loncalar sekmesinden bir loncaya katılın.'),
-              React.createElement('button', { onClick:()=>setAktifSekme('loncalar'), style:{ padding:'10px 24px', borderRadius:12, border:'none', background:'#C89B3C', color:'#0F1115', fontWeight:800, fontSize:'0.85rem', cursor:'pointer' } }, '🏛️ Loncaları Gör')
+              React.createElement('div', { style:{ fontFamily:"'Rajdhani',sans-serif", fontSize:'1rem', fontWeight:700, color:'#E6EDF5', marginBottom:8 } }, 'Henüz Loncaya Üye Değilsiniz'),
+              React.createElement('div', { style:{ fontSize:'0.75rem', color:'#93A4B8', marginBottom:16 } }, 'Sendikalar sekmesinden bir loncaya katılın.'),
+              React.createElement('button', { onClick:()=>setAktifSekme('loncalar'), style:{ padding:'10px 24px', borderRadius:12, border:'none', background:'#3CC8F0', color:'#0F1115', fontWeight:800, fontSize:'0.85rem', cursor:'pointer' } }, '🏛️ Loncaları Gör')
             )
       ),
 
@@ -140,8 +140,8 @@ window.GuildScreen = function GuildScreen({ cu, setCurrentPage, allUsers }) {
       aktifSekme === 'pazar' && React.createElement('div', null,
         React.createElement('div', { style:{ textAlign:'center', padding:'30px 20px' } },
           React.createElement('div', { style:{ fontSize:'2.5rem', marginBottom:12 } }, '🛒'),
-          React.createElement('div', { style:{ fontFamily:"'Cinzel',serif", fontSize:'0.95rem', fontWeight:700, color:'#F5EBD7', marginBottom:8 } }, 'Lonca Pazarı'),
-          React.createElement('div', { style:{ fontSize:'0.75rem', color:'#A9A6A0' } }, 'Loncalar arası özel ticaret yakında açılıyor...')
+          React.createElement('div', { style:{ fontFamily:"'Rajdhani',sans-serif", fontSize:'0.95rem', fontWeight:700, color:'#E6EDF5', marginBottom:8 } }, 'Sendika Pazarı'),
+          React.createElement('div', { style:{ fontSize:'0.75rem', color:'#93A4B8' } }, 'Sendikalar arası özel ticaret yakında açılıyor...')
         )
       )
     ),
@@ -156,11 +156,11 @@ window.GuildScreen = function GuildScreen({ cu, setCurrentPage, allUsers }) {
       },
         React.createElement('div', { style:{ textAlign:'center', marginBottom:16 } },
           React.createElement('div', { style:{ fontSize:'3rem', marginBottom:8 } }, seciliLonca.icon),
-          React.createElement('div', { style:{ fontFamily:"'Cinzel',serif", fontSize:'1.05rem', fontWeight:700, color:seciliLonca.renk } }, seciliLonca.ad)
+          React.createElement('div', { style:{ fontFamily:"'Rajdhani',sans-serif", fontSize:'1.05rem', fontWeight:700, color:seciliLonca.renk } }, seciliLonca.ad)
         ),
-        React.createElement('div', { style:{ fontSize:'0.75rem', color:'#A9A6A0', lineHeight:1.6, marginBottom:14 } }, seciliLonca.aciklama),
+        React.createElement('div', { style:{ fontSize:'0.75rem', color:'#93A4B8', lineHeight:1.6, marginBottom:14 } }, seciliLonca.aciklama),
         React.createElement('div', { style:{ background:`${seciliLonca.renk}12`, border:`1px solid ${seciliLonca.renk}30`, borderRadius:10, padding:'10px 14px', marginBottom:16 } },
-          React.createElement('div', { style:{ fontSize:'0.62rem', color:'#A9A6A0' } }, 'Üyelik Bonusu'),
+          React.createElement('div', { style:{ fontSize:'0.62rem', color:'#93A4B8' } }, 'Üyelik Bonusu'),
           React.createElement('div', { style:{ fontSize:'0.88rem', fontWeight:700, color:seciliLonca.renk } }, `⚡ ${seciliLonca.bonus}`)
         ),
         React.createElement('div', { style:{ display:'flex', gap:8 } },
@@ -168,7 +168,7 @@ window.GuildScreen = function GuildScreen({ cu, setCurrentPage, allUsers }) {
             onClick:()=>loncayaKatil(seciliLonca.id),
             style:{ flex:1, padding:'10px', borderRadius:12, border:'none', background:seciliLonca.renk, color:'#0F1115', fontWeight:800, fontSize:'0.82rem', cursor:'pointer' }
           }, '✅ Katıl'),
-          React.createElement('button', { onClick:()=>setSeciliLonca(null), style:{ padding:'10px 14px', borderRadius:12, border:'1px solid rgba(255,255,255,0.1)', background:'rgba(255,255,255,0.03)', color:'#A9A6A0', fontSize:'0.82rem', cursor:'pointer' } }, 'Kapat')
+          React.createElement('button', { onClick:()=>setSeciliLonca(null), style:{ padding:'10px 14px', borderRadius:12, border:'1px solid rgba(255,255,255,0.1)', background:'rgba(255,255,255,0.03)', color:'#93A4B8', fontSize:'0.82rem', cursor:'pointer' } }, 'Kapat')
         )
       )
     )

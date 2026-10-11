@@ -11,7 +11,7 @@ const _HEADER_LANGS = [
   { code:'de', flag:'🇩🇪', label:'DE' },
 ];
 
-function Header({ profile, notifCount, onNotif, page, onNavigate }) {
+function Header({ profile, notifCount, onNotif, page, onNavigate, musicOn, onToggleMusic }) {
   const onlineCnt = useOnlineCount();
   const lvl       = getLevelInfo(profile?.xp || 0);
   const T         = useT();
@@ -35,7 +35,7 @@ function Header({ profile, notifCount, onNotif, page, onNavigate }) {
   return (
     <div style={{
       position:'sticky', top:0, zIndex:100,
-      background:'#1A0E00',
+      background:'#0F1724',
       paddingTop:'env(safe-area-inset-top, 0px)',
       borderBottom:'1px solid rgba(255,255,255,0.1)',
       boxShadow:'0 2px 16px rgba(3,6,20,0.6)',
@@ -49,7 +49,7 @@ function Header({ profile, notifCount, onNotif, page, onNavigate }) {
         <div style={{
           whiteSpace:'nowrap', fontSize:'0.56rem',
           fontFamily:"'JetBrains Mono',monospace",
-          color:'#A9A6A0',
+          color:'#93A4B8',
           animation:'ticker 35s linear infinite',
           paddingLeft:'100%',
         }}>
@@ -69,18 +69,18 @@ function Header({ profile, notifCount, onNotif, page, onNavigate }) {
           <div style={{display:'flex',flexDirection:'column',justifyContent:'center',minWidth:0}}>
             <div style={{
               fontFamily:"'Inter',sans-serif", fontSize:'0.77rem', fontWeight:700,
-              color:'#F5EBD7', lineHeight:1.2,
+              color:'#E6EDF5', lineHeight:1.2,
               whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis',
             }}>
               {profile?.username || '—'}
             </div>
             <div style={{display:'flex',alignItems:'center',gap:'0.28rem',flexWrap:'nowrap',overflow:'hidden'}}>
-              <span style={{fontSize:'0.55rem',color:'#C89B3C',fontWeight:700,whiteSpace:'nowrap',fontFamily:"'Inter',sans-serif"}}>
+              <span style={{fontSize:'0.55rem',color:'#3CC8F0',fontWeight:700,whiteSpace:'nowrap',fontFamily:"'Inter',sans-serif"}}>
                 {lvl.title}
               </span>
               {orgLabel && <>
                 <span style={{fontSize:'0.48rem',color:'rgba(255,255,255,0.25)'}}>•</span>
-                <span style={{fontSize:'0.55rem',color:'#A9A6A0',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',fontFamily:"'Inter',sans-serif"}}>
+                <span style={{fontSize:'0.55rem',color:'#93A4B8',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',fontFamily:"'Inter',sans-serif"}}>
                   {orgLabel}
                 </span>
               </>}
@@ -106,12 +106,12 @@ function Header({ profile, notifCount, onNotif, page, onNavigate }) {
         <div className="hdr-altin" style={{
           display:'flex', alignItems:'center', gap:'4px',
           padding:'0.3rem 0.6rem',
-          background:'rgba(200,155,60,0.06)',
-          border:'1.5px solid rgba(200,155,60,0.25)',
+          background:'rgba(60,200,240,0.06)',
+          border:'1.5px solid rgba(60,200,240,0.25)',
           borderRadius:'999px', flexShrink:0,
         }}>
-          <span style={{fontSize:'0.72rem'}}>⚜️</span>
-          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.66rem',fontWeight:800,color:'#E8C06A',lineHeight:1}}>
+          <span style={{fontSize:'0.72rem'}}>💎</span>
+          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.66rem',fontWeight:800,color:'#9BE6FB',lineHeight:1}}>
             {fmt(profile?.altin||profile?.underCoin||0)}
           </div>
         </div>
@@ -125,7 +125,7 @@ function Header({ profile, notifCount, onNotif, page, onNavigate }) {
               border:'1px solid rgba(255,255,255,0.14)',
               borderRadius:'999px', padding:'0.3rem 0.5rem',
               cursor:'pointer', fontSize:'0.78rem',
-              color:'#A9A6A0', display:'flex', alignItems:'center',
+              color:'#93A4B8', display:'flex', alignItems:'center',
               gap:'2px', lineHeight:1,
               fontFamily:"'Inter',sans-serif",
             }}
@@ -136,21 +136,27 @@ function Header({ profile, notifCount, onNotif, page, onNavigate }) {
           {showLangMenu && (
             <div style={{
               position:'absolute', top:'calc(100% + 4px)', right:0,
-              background:'#2D1800', border:'1px solid rgba(255,255,255,0.14)',
+              background:'#152032', border:'1px solid rgba(255,255,255,0.14)',
               borderRadius:'14px', padding:'4px', zIndex:200,
               display:'flex', flexDirection:'column', gap:'2px',
               boxShadow:'0 8px 24px rgba(3,6,20,0.7)',
               minWidth:'80px',
             }}>
+              {onToggleMusic && (
+                <button onClick={()=>{ onToggleMusic(); setShowLangMenu(false); }}
+                  style={{ background:'transparent', border:'1px solid transparent', borderRadius:'999px', padding:'5px 10px', cursor:'pointer', display:'flex', alignItems:'center', gap:'6px', color:'#E6EDF5', fontSize:'0.75rem', fontFamily:"'Inter',sans-serif", fontWeight:600, whiteSpace:'nowrap', borderBottom:'1px solid rgba(255,255,255,0.08)' }}>
+                  <span>{musicOn ? '🔊' : '🔇'}</span><span>{musicOn ? 'Müziği kapat' : 'Müziği aç'}</span>
+                </button>
+              )}
               {_HEADER_LANGS.map(l => (
                 <button key={l.code}
                   onClick={()=>changeLang(l.code)}
                   style={{
-                    background: l.code===(lang||'tr') ? 'rgba(240,179,62,0.18)' : 'transparent',
-                    border: l.code===(lang||'tr') ? '1px solid rgba(240,179,62,0.4)' : '1px solid transparent',
+                    background: l.code===(lang||'tr') ? 'rgba(60,200,240,0.18)' : 'transparent',
+                    border: l.code===(lang||'tr') ? '1px solid rgba(60,200,240,0.4)' : '1px solid transparent',
                     borderRadius:'999px', padding:'5px 10px',
                     cursor:'pointer', display:'flex', alignItems:'center', gap:'6px',
-                    color: l.code===(lang||'tr') ? '#C89B3C' : '#F5EBD7',
+                    color: l.code===(lang||'tr') ? '#3CC8F0' : '#E6EDF5',
                     fontSize:'0.75rem', fontFamily:"'Inter',sans-serif", fontWeight:600,
                     whiteSpace:'nowrap',
                   }}
@@ -191,14 +197,14 @@ function Header({ profile, notifCount, onNotif, page, onNavigate }) {
             border:'1px solid rgba(255,255,255,0.14)',
             borderRadius:'999px', padding:'0.3rem 0.48rem',
             cursor:'pointer', fontSize:'0.86rem',
-            color:'#A9A6A0', flexShrink:0,
+            color:'#93A4B8', flexShrink:0,
           }}
         >
           🔔
           {notifCount > 0 && (
             <span style={{
               position:'absolute', top:'-3px', right:'-3px',
-              background:'#B8423C', color:'#F5EBD7',
+              background:'#B8423C', color:'#E6EDF5',
               fontSize:'0.49rem', fontWeight:900,
               minWidth:'13px', height:'13px', borderRadius:'7px',
               display:'flex', alignItems:'center', justifyContent:'center',

@@ -106,7 +106,7 @@ router.post('/:id/bid', authMiddleware, asyncHandler(async (req, res) => {
   if (new Date(a.ends_at) < new Date()) return res.status(400).json({ success: false, message: 'Artırma sona erdi' });
   if (a.seller_id === req.user.id) return res.status(400).json({ success: false, message: 'Kendi artırmana teklif veremezsin' });
   const minBid = Math.ceil(a.current_price * (1 + MIN_BID_STEP));
-  if (bid < minBid) return res.status(400).json({ success: false, message: `Minimum teklif: ${minBid} 🪙` });
+  if (bid < minBid) return res.status(400).json({ success: false, message: `Minimum teklif: ${minBid} ₺` });
   // Teklifi kaydet
   await sb.query(
     `INSERT INTO auction_bids(auction_id,bidder_id,bidder_name,amount) VALUES($1,$2,$3,$4)`,

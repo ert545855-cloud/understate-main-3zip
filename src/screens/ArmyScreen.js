@@ -37,11 +37,11 @@ window.ArmyScreen = function ArmyScreen({ cu, allUsers, setCurrentPage }) {
   // ── Askeri bütçe ──
   var militaryBudget = stored('rep_militaryBudget', 0);
   var fmtMoney = function(n) {
-    if (!n) return '🪙0';
-    if (n >= 1e9) return '🪙' + (n/1e9).toFixed(1) + 'Mr';
-    if (n >= 1e6) return '🪙' + (n/1e6).toFixed(1) + 'M';
-    if (n >= 1e3) return '🪙' + (n/1e3).toFixed(0) + 'K';
-    return '🪙' + n;
+    if (!n) return '₺0';
+    if (n >= 1e9) return '₺' + (n/1e9).toFixed(1) + 'Mr';
+    if (n >= 1e6) return '₺' + (n/1e6).toFixed(1) + 'M';
+    if (n >= 1e3) return '₺' + (n/1e3).toFixed(0) + 'K';
+    return '₺' + n;
   };
   var fmtTime = function(ms) {
     if (ms <= 0) return 'Hazır';
@@ -92,7 +92,7 @@ window.ArmyScreen = function ArmyScreen({ cu, allUsers, setCurrentPage }) {
   };
 
   // ── Styles ──
-  var bg = '#1A0E00', card = '#1E293B', border = 'rgba(255,255,255,0.08)';
+  var bg = '#0F1724', card = '#1E293B', border = 'rgba(255,255,255,0.08)';
   var red = '#C24B43', gold = '#F5C800';
 
   var soldierCount = Object.keys(stored('us_army2_soldiers', {})).length;
@@ -104,9 +104,9 @@ window.ArmyScreen = function ArmyScreen({ cu, allUsers, setCurrentPage }) {
 
     // Header
     e('div', { style:{ background:'linear-gradient(135deg,#1a0505,#2d0808,#1a0505)', borderBottom:'2px solid '+red, padding:'16px 16px 12px', display:'flex', alignItems:'center', gap:12 } },
-      e('button', { onClick:function(){setCurrentPage('home');}, style:{ background:'rgba(237,231,218,0.07)', border:'none', borderRadius:10, color:'#8893A1', fontSize:'1rem', cursor:'pointer', padding:'6px 12px' } }, '← Geri'),
+      e('button', { onClick:function(){setCurrentPage('home');}, style:{ background:'rgba(230,237,245,0.07)', border:'none', borderRadius:10, color:'#8893A1', fontSize:'1rem', cursor:'pointer', padding:'6px 12px' } }, '← Geri'),
       e('div', { style:{ flex:1 } },
-        e('div', { style:{ fontFamily:"'Cinzel',serif", fontSize:'1.1rem', fontWeight:900, color:'#EDE7DA', letterSpacing:'0.05em' } }, '🪖 GENELKURMAY BAŞKANLIĞI'),
+        e('div', { style:{ fontFamily:"'Rajdhani',sans-serif", fontSize:'1.1rem', fontWeight:900, color:'#E6EDF5', letterSpacing:'0.05em' } }, '🪖 GENELKURMAY BAŞKANLIĞI'),
         e('div', { style:{ fontSize:'0.7rem', color:'#8893A1', marginTop:2 } }, 'Türk Silahlı Kuvvetleri Komutanlığı')
       )
     ),
@@ -114,8 +114,8 @@ window.ArmyScreen = function ArmyScreen({ cu, allUsers, setCurrentPage }) {
     // Msg
     msg && e('div', { style:{
       margin:'12px 16px 0', padding:'10px 14px', borderRadius:10, fontSize:'0.82rem', fontWeight:600,
-      background: msg.type==='success' ? 'rgba(76,154,107,0.15)' : msg.type==='error' ? 'rgba(194,75,67,0.15)' : 'rgba(201,162,39,0.15)',
-      border:'1px solid '+(msg.type==='success' ? 'rgba(76,154,107,0.4)' : msg.type==='error' ? 'rgba(194,75,67,0.4)' : 'rgba(201,162,39,0.4)'),
+      background: msg.type==='success' ? 'rgba(76,154,107,0.15)' : msg.type==='error' ? 'rgba(194,75,67,0.15)' : 'rgba(60,200,240,0.15)',
+      border:'1px solid '+(msg.type==='success' ? 'rgba(76,154,107,0.4)' : msg.type==='error' ? 'rgba(194,75,67,0.4)' : 'rgba(60,200,240,0.4)'),
       color: msg.type==='success' ? '#4C9A6B' : msg.type==='error' ? '#E08C87' : '#E5C14B',
     } }, msg.text),
 
@@ -140,7 +140,7 @@ window.ArmyScreen = function ArmyScreen({ cu, allUsers, setCurrentPage }) {
           ? e('div', { style:{ display:'flex', alignItems:'center', gap:12 } },
               e('div', { style:{ width:52, height:52, borderRadius:'50%', background:'rgba(245,200,0,0.15)', border:'2px solid '+gold, display:'flex', alignItems:'center', justifyContent:'center', fontSize:'1.5rem' } }, '🪖'),
               e('div', {},
-                e('div', { style:{ fontWeight:900, fontSize:'1.05rem', color:gold, fontFamily:"'Cinzel',serif" } }, chiefName),
+                e('div', { style:{ fontWeight:900, fontSize:'1.05rem', color:gold, fontFamily:"'Rajdhani',sans-serif" } }, chiefName),
                 e('div', { style:{ fontSize:'0.72rem', color:'#8893A1', marginTop:2 } }, '⭐⭐⭐⭐ Serasker'),
                 e('div', { style:{ fontSize:'0.68rem', color:'#8893A1', marginTop:1 } }, 'Askeri Bütçe: ' + fmtMoney(militaryBudget))
               )
@@ -156,7 +156,7 @@ window.ArmyScreen = function ArmyScreen({ cu, allUsers, setCurrentPage }) {
         [
           { label:'Aktif Emir',    value:activeOrders.length,          icon:'📋', color:red     },
           { label:'Askeri Bütçe', value:fmtMoney(militaryBudget),      icon:'💰', color:gold    },
-          { label:'Ordu Gücü',    value:armyPower + ' puan',           icon:'⚔️', color:'#C9A227' },
+          { label:'Ordu Gücü',    value:armyPower + ' puan',           icon:'⚔️', color:'#3CC8F0' },
           { label:'Toplam Asker', value:soldierCount + ' kişi',        icon:'🪖', color:'#4C9A6B' },
         ].map(function(stat) {
           return e('div', { key:stat.label, style:{ background:card, border:'1px solid '+border, borderRadius:12, padding:'12px 10px', textAlign:'center' } },

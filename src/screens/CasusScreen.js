@@ -6,11 +6,11 @@
 
 const OPERASYONLAR = [
   { id:'kesif',     emoji:'🔭', ad:'Keşif',            acik:'Hedefin hazinesi ve ordu gücünü öğren',          maliyet:500,    risk:10, sure:300,   tip:'bilgi',  odul:'Bilgi' },
-  { id:'casusluk',  emoji:'🕵️', ad:'Casusluk',         acik:'Hedefin beylik üyelerini ve planlarını gör',     maliyet:2000,   risk:25, sure:900,   tip:'bilgi',  odul:'Rapor' },
-  { id:'sabotaj',   emoji:'🔥', ad:'Sabotaj',           acik:'Hedefin hazinesinden %3-8 çal',                  maliyet:5000,   risk:40, sure:1800,  tip:'saldiri',odul:'Sikke' },
+  { id:'casusluk',  emoji:'🕵️', ad:'Casusluk',         acik:'Hedefin devlet üyelerini ve planlarını gör',     maliyet:2000,   risk:25, sure:900,   tip:'bilgi',  odul:'Rapor' },
+  { id:'sabotaj',   emoji:'🔥', ad:'Sabotaj',           acik:'Hedefin hazinesinden %3-8 çal',                  maliyet:5000,   risk:40, sure:1800,  tip:'saldiri',odul:'Para' },
   { id:'suikast',   emoji:'🗡️', ad:'Suikast Girişimi',  acik:'Hedef oyuncunun HP\'sini %30 düşür',            maliyet:8000,   risk:55, sure:3600,  tip:'saldiri',odul:'HP hasarı' },
   { id:'provokas',  emoji:'😈', ad:'Provokasyon',       acik:'Hedef beylikte iç çatışma çıkar, -500 prestij', maliyet:12000,  risk:45, sure:7200,  tip:'saldiri',odul:'Prestij hasarı' },
-  { id:'ajan',      emoji:'🥸', ad:'Ajan Yerleştir',    acik:'Beyliğe gizli ajan yer — 24s boyunca bilgi akışı',maliyet:20000, risk:30, sure:86400, tip:'uzun',   odul:'24s rapor' },
+  { id:'ajan',      emoji:'🥸', ad:'Ajan Yerleştir',    acik:'Devlete gizli ajan yer — 24s boyunca bilgi akışı',maliyet:20000, risk:30, sure:86400, tip:'uzun',   odul:'24s rapor' },
 ];
 
 const LS_AKTIF = 'rep_casusAktif';
@@ -48,7 +48,7 @@ window.CasusScreen = function CasusScreen({ profile, setProfile, showNotif, setC
 
   function baslatOp(op) {
     if (!hedef) { showNotif('Önce hedef seçin', 'error'); return; }
-    if ((profile?.money||0) < op.maliyet) { showNotif(`Yetersiz Sikke — ${op.maliyet.toLocaleString('tr-TR')} gerekli`, 'error'); return; }
+    if ((profile?.money||0) < op.maliyet) { showNotif(`Yetersiz Para — ${op.maliyet.toLocaleString('tr-TR')} gerekli`, 'error'); return; }
     const aktifAyni = aktifOp.find(a => a.opId === op.id);
     if (aktifAyni) { showNotif('Bu operasyon zaten devam ediyor', 'error'); return; }
 
@@ -102,7 +102,7 @@ window.CasusScreen = function CasusScreen({ profile, setProfile, showNotif, setC
     showNotif(sonucObj.basarili ? `✅ ${o.opAd} başarılı!` : `❌ Operasyon başarısız`, sonucObj.basarili ? 'success' : 'error');
   }
 
-  const G='#C89B3C', BG='#0F0800', T='#F5EBD7', M='#A9A6A0', S='#2D1800';
+  const G='#3CC8F0', BG='#0A0F17', T='#E6EDF5', M='#93A4B8', S='#152032';
 
   function kalanSure(bitisTs) {
     const fark = bitisTs - Date.now();
@@ -114,13 +114,13 @@ window.CasusScreen = function CasusScreen({ profile, setProfile, showNotif, setC
   }
 
   return React.createElement('div', { style:{minHeight:'100vh',background:BG,fontFamily:"'Inter',sans-serif",paddingBottom:90} },
-    React.createElement('div', { style:{background:'linear-gradient(135deg,#1a1000,#2d1e00)',borderBottom:'1px solid rgba(200,155,60,0.25)',padding:'14px 16px'} },
+    React.createElement('div', { style:{background:'linear-gradient(135deg,#0F1724,#2d1e00)',borderBottom:'1px solid rgba(60,200,240,0.25)',padding:'14px 16px'} },
       React.createElement('div', { style:{display:'flex',alignItems:'center',gap:10} },
         React.createElement('button', { onClick:()=>setCurrentPage('home'), style:{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:10,padding:'6px 10px',color:M,fontSize:'0.75rem',cursor:'pointer'} }, '← Geri'),
         React.createElement('span', { style:{fontSize:'1.4rem'} }, '🕵️'),
         React.createElement('div', null,
-          React.createElement('div', { style:{fontFamily:"'Cinzel',serif",fontWeight:900,fontSize:'1.1rem',color:G} }, 'Casus Teşkilatı'),
-          React.createElement('div', { style:{fontSize:'0.62rem',color:M} }, `Mevcut: 🪙${(profile?.money||0).toLocaleString('tr-TR')}`)
+          React.createElement('div', { style:{fontFamily:"'Rajdhani',sans-serif",fontWeight:900,fontSize:'1.1rem',color:G} }, 'Casus Teşkilatı'),
+          React.createElement('div', { style:{fontSize:'0.62rem',color:M} }, `Mevcut: ₺${(profile?.money||0).toLocaleString('tr-TR')}`)
         )
       )
     ),
@@ -133,7 +133,7 @@ window.CasusScreen = function CasusScreen({ profile, setProfile, showNotif, setC
           const kalan = op.bitisTs - Date.now();
           const toplam = op.bitisTs - op.baslangicTs;
           const ilerleme = Math.max(0, Math.min(100, ((toplam - kalan) / toplam) * 100));
-          return React.createElement('div', { key:op.id, style:{background:'rgba(200,155,60,0.06)',border:'1px solid rgba(200,155,60,0.2)',borderRadius:10,padding:'10px 12px',marginBottom:6} },
+          return React.createElement('div', { key:op.id, style:{background:'rgba(60,200,240,0.06)',border:'1px solid rgba(60,200,240,0.2)',borderRadius:10,padding:'10px 12px',marginBottom:6} },
             React.createElement('div', { style:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:6} },
               React.createElement('div', { style:{fontSize:'0.8rem',fontWeight:700,color:T} }, `${op.opEmoji} ${op.opAd} → ${op.hedefAd}`),
               React.createElement('div', { style:{fontSize:'0.68rem',fontWeight:700,color:G,fontFamily:"'JetBrains Mono',monospace"} }, kalanSure(op.bitisTs))
@@ -147,26 +147,26 @@ window.CasusScreen = function CasusScreen({ profile, setProfile, showNotif, setC
 
       // Hedef seçimi
       React.createElement('div', { style:{marginBottom:14} },
-        React.createElement('div', { style:{fontSize:'0.65rem',color:G,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:6} }, '🎯 Hedef Beylik'),
+        React.createElement('div', { style:{fontSize:'0.65rem',color:G,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:6} }, '🎯 Hedef Devlet'),
         rakipler.length === 0
-          ? React.createElement('div', { style:{background:'rgba(27,33,43,0.7)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:10,padding:'20px',textAlign:'center',color:M,fontSize:'0.75rem'} }, 'Henüz rakip beylik yok')
+          ? React.createElement('div', { style:{background:'rgba(27,33,43,0.7)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:10,padding:'20px',textAlign:'center',color:M,fontSize:'0.75rem'} }, 'Henüz rakip devlet yok')
           : React.createElement('div', { style:{display:'flex',gap:6,flexWrap:'wrap'} },
               rakipler.map(b =>
                 React.createElement('button', { key:b.id, onClick:()=>setHedef(hedef?.id===b.id?null:b),
                   style:{padding:'6px 12px',borderRadius:20,border:`1px solid ${hedef?.id===b.id?'#B8423C':'rgba(255,255,255,0.1)'}`,background:hedef?.id===b.id?'rgba(184,66,60,0.15)':'rgba(255,255,255,0.03)',color:hedef?.id===b.id?'#B8423C':M,fontSize:'0.7rem',fontWeight:700,cursor:'pointer'} },
-                  `⚜️ ${b.ad}`)
+                  `🏛️ ${b.ad}`)
               )
             )
       ),
 
       // Operasyon listesi
-      React.createElement('div', { style:{fontFamily:"'Cinzel',serif",fontSize:'0.75rem',color:G,fontWeight:700,marginBottom:8} }, '🕵️ Operasyonlar'),
+      React.createElement('div', { style:{fontFamily:"'Rajdhani',sans-serif",fontSize:'0.75rem',color:G,fontWeight:700,marginBottom:8} }, '🕵️ Operasyonlar'),
       React.createElement('div', { style:{display:'flex',flexDirection:'column',gap:6} },
         OPERASYONLAR.map(op => {
           const aktif = aktifOp.find(a => a.opId === op.id);
           const maliyetYeterli = (profile?.money||0) >= op.maliyet;
           return React.createElement('div', { key:op.id,
-            style:{background:aktif?'rgba(200,155,60,0.05)':'rgba(27,33,43,0.7)',border:`1px solid ${aktif?'rgba(200,155,60,0.2)':op.tip==='saldiri'?'rgba(184,66,60,0.15)':'rgba(255,255,255,0.07)'}`,borderRadius:10,padding:'10px 12px',display:'flex',alignItems:'center',gap:10} },
+            style:{background:aktif?'rgba(60,200,240,0.05)':'rgba(27,33,43,0.7)',border:`1px solid ${aktif?'rgba(60,200,240,0.2)':op.tip==='saldiri'?'rgba(184,66,60,0.15)':'rgba(255,255,255,0.07)'}`,borderRadius:10,padding:'10px 12px',display:'flex',alignItems:'center',gap:10} },
             React.createElement('span', { style:{fontSize:'1.4rem',flexShrink:0} }, op.emoji),
             React.createElement('div', { style:{flex:1,minWidth:0} },
               React.createElement('div', { style:{fontSize:'0.82rem',fontWeight:700,color:T,marginBottom:2} }, op.ad),
@@ -178,7 +178,7 @@ window.CasusScreen = function CasusScreen({ profile, setProfile, showNotif, setC
               )
             ),
             React.createElement('div', { style:{textAlign:'right',flexShrink:0} },
-              React.createElement('div', { style:{fontSize:'0.68rem',color:G,fontWeight:700,fontFamily:"'JetBrains Mono',monospace",marginBottom:4} }, `🪙${op.maliyet.toLocaleString('tr-TR')}`),
+              React.createElement('div', { style:{fontSize:'0.68rem',color:G,fontWeight:700,fontFamily:"'JetBrains Mono',monospace",marginBottom:4} }, `₺${op.maliyet.toLocaleString('tr-TR')}`),
               aktif
                 ? React.createElement('div', { style:{fontSize:'0.6rem',color:G,fontWeight:700} }, '⏳ Aktif')
                 : React.createElement('button', { onClick:()=>baslatOp(op), disabled:!hedef||!maliyetYeterli,
@@ -191,7 +191,7 @@ window.CasusScreen = function CasusScreen({ profile, setProfile, showNotif, setC
 
       // Operasyon logu
       log.length > 0 && React.createElement('div', { style:{marginTop:16} },
-        React.createElement('div', { style:{fontFamily:"'Cinzel',serif",fontSize:'0.75rem',color:G,fontWeight:700,marginBottom:8} }, '📋 Operasyon Kaydı'),
+        React.createElement('div', { style:{fontFamily:"'Rajdhani',sans-serif",fontSize:'0.75rem',color:G,fontWeight:700,marginBottom:8} }, '📋 Operasyon Kaydı'),
         React.createElement('div', { style:{display:'flex',flexDirection:'column',gap:4} },
           log.slice(0,10).map(e =>
             React.createElement('div', { key:e.id, style:{background:'rgba(27,33,43,0.5)',border:`1px solid ${e.basarili?'rgba(62,140,90,0.2)':'rgba(184,66,60,0.2)'}`,borderLeft:`3px solid ${e.basarili?'#3E8C5A':'#B8423C'}`,borderRadius:8,padding:'8px 10px'} },

@@ -8,13 +8,13 @@ const { authMiddleware } = require('../middleware/authMiddleware');
 const db = require('../services/dbService');
 
 const DILIMLER = [
-  { id:'kucuk_sikke',  emoji:'🪙',  label:'200 Sikke',      type:'money',  amount:200,   weight:30 },
-  { id:'orta_sikke',   emoji:'🪙🪙', label:'750 Sikke',      type:'money',  amount:750,   weight:18 },
-  { id:'buyuk_sikke',  emoji:'💰',  label:'2000 Sikke',     type:'money',  amount:2000,  weight:8  },
+  { id:'kucuk_sikke',  emoji:'₺',  label:'200 Para',      type:'money',  amount:200,   weight:30 },
+  { id:'orta_sikke',   emoji:'₺₺', label:'750 Para',      type:'money',  amount:750,   weight:18 },
+  { id:'buyuk_sikke',  emoji:'💰',  label:'2000 Para',     type:'money',  amount:2000,  weight:8  },
   { id:'xp_kucuk',     emoji:'⭐',  label:'50 XP',          type:'xp',     amount:50,    weight:25 },
   { id:'xp_buyuk',     emoji:'🌟',  label:'200 XP',         type:'xp',     amount:200,   weight:10 },
-  { id:'altin_kucuk',  emoji:'⚜️',  label:'5 Altın',        type:'altin',  amount:5,     weight:12 },
-  { id:'altin_orta',   emoji:'⚜️⚜️', label:'20 Altın',      type:'altin',  amount:20,    weight:4  },
+  { id:'altin_kucuk',  emoji:'🏛️',  label:'5 Altın',        type:'altin',  amount:5,     weight:12 },
+  { id:'altin_orta',   emoji:'🏛️🏛️', label:'20 Altın',      type:'altin',  amount:20,    weight:4  },
   { id:'merits',       emoji:'💎',  label:'10 Liyakat',     type:'merits', amount:10,    weight:8  },
   { id:'bos1',         emoji:'💨',  label:'Bir Dahaki',     type:'empty',  amount:0,     weight:20 },
   { id:'bos2',         emoji:'☁️',  label:'Şansı Kaçırdın', type:'empty',  amount:0,     weight:15 },

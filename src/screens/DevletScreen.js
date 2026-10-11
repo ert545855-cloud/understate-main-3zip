@@ -1,22 +1,22 @@
 // Eğitim seviyesi ikon render yardımcısı (Ravenmore PNG)
 function EduIcon({ size=28 }) {
-  return React.createElement('img', { src:'/icons/64/tome.png', width:size, height:size, style:{imageRendering:'pixelated',verticalAlign:'middle'} });
+  return React.createElement('img', { src:'/public/icons/64/tome.png', width:size, height:size, style:{imageRendering:'pixelated',verticalAlign:'middle'} });
 }
 function ScrollIcon({ size=28 }) {
-  return React.createElement('img', { src:'/icons/64/scroll.png', width:size, height:size, style:{imageRendering:'pixelated',verticalAlign:'middle'} });
+  return React.createElement('img', { src:'/public/icons/64/scroll.png', width:size, height:size, style:{imageRendering:'pixelated',verticalAlign:'middle'} });
 }
 function HelmetIcon({ size=28 }) {
-  return React.createElement('img', { src:'/icons/64/helmet.png', width:size, height:size, style:{imageRendering:'pixelated',verticalAlign:'middle'} });
+  return React.createElement('img', { src:'/public/icons/64/helmet.png', width:size, height:size, style:{imageRendering:'pixelated',verticalAlign:'middle'} });
 }
 
 const EDU_LEVELS = [
-  { id:'ilkokul',      label:'İlkokul',      imgSrc:'/icons/64/scroll.png',    costPerClick:0,      clicksNeeded:50,   desc:'Temel okuma yazma',        grade:'4. Sınıf',  color:'#4C9A6B' },
-  { id:'ortaokul',     label:'Ortaokul',     imgSrc:'/icons/64/scroll.png',    costPerClick:500,    clicksNeeded:100,  desc:'Temel bilimler',           grade:'8. Sınıf',  color:'#C9A227' },
-  { id:'lise',         label:'Lise',         imgSrc:'/icons/64/tome.png',      costPerClick:1000,   clicksNeeded:200,  desc:'Sosyal ve fen bilimleri',  grade:'12. Sınıf', color:'#C9A227' },
-  { id:'universite',   label:'Üniversite',   imgSrc:'/icons/64/tome.png',      costPerClick:5000,   clicksNeeded:500,  desc:'Lisans eğitimi',           grade:'Lisans',    color:'#C9A227' },
-  { id:'yukseklisans', label:'Yüksek Lisans',imgSrc:'/icons/64/wand.png',      costPerClick:20000,  clicksNeeded:1000, desc:'Uzmanlık eğitimi',         grade:'MSc/MBA',   color:'#C24B43' },
-  { id:'doktora',      label:'Doktora',      imgSrc:'/icons/64/wand.png',      costPerClick:50000,  clicksNeeded:2000, desc:'Araştırma ve akademi',     grade:'PhD',       color:'#C24B43' },
-  { id:'profesor',     label:'Profesör',     imgSrc:'/icons/64/upg_wand.png',  costPerClick:75000,  clicksNeeded:3000, desc:'Akademik kariyer zirvesi', grade:'Prof.Dr.',  color:'#F97316' },
+  { id:'ilkokul',      label:'İlkokul',      imgSrc:'/public/icons/64/scroll.png',    costPerClick:0,      clicksNeeded:50,   desc:'Temel okuma yazma',        grade:'4. Sınıf',  color:'#4C9A6B' },
+  { id:'ortaokul',     label:'Ortaokul',     imgSrc:'/public/icons/64/scroll.png',    costPerClick:500,    clicksNeeded:100,  desc:'Temel bilimler',           grade:'8. Sınıf',  color:'#3CC8F0' },
+  { id:'lise',         label:'Lise',         imgSrc:'/public/icons/64/tome.png',      costPerClick:1000,   clicksNeeded:200,  desc:'Sosyal ve fen bilimleri',  grade:'12. Sınıf', color:'#3CC8F0' },
+  { id:'universite',   label:'Üniversite',   imgSrc:'/public/icons/64/tome.png',      costPerClick:5000,   clicksNeeded:500,  desc:'Lisans eğitimi',           grade:'Lisans',    color:'#3CC8F0' },
+  { id:'yukseklisans', label:'Yüksek Lisans',imgSrc:'/public/icons/64/wand.png',      costPerClick:20000,  clicksNeeded:1000, desc:'Uzmanlık eğitimi',         grade:'MSc/MBA',   color:'#C24B43' },
+  { id:'doktora',      label:'Doktora',      imgSrc:'/public/icons/64/wand.png',      costPerClick:50000,  clicksNeeded:2000, desc:'Araştırma ve akademi',     grade:'PhD',       color:'#C24B43' },
+  { id:'profesor',     label:'Profesör',     imgSrc:'/public/icons/64/upg_wand.png',  costPerClick:75000,  clicksNeeded:3000, desc:'Akademik kariyer zirvesi', grade:'Prof.Dr.',  color:'#F97316' },
 ];
 // Eğitim tıklamaları için bekleme süreleri (ms)
 // Normal: 5 dakika, VIP: 2.5 dakika, Paket: 1 saniye
@@ -137,7 +137,7 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
     if (!myParty) { showNotif('Önce bir partiye katıl!', 'error'); return; }
     const rem = Math.max(0, act.cd - (now - (cds[act.id]||0)));
     if (rem > 0) return;
-    if ((profile?.money||0) < act.cost) { showNotif(`Yeterli para yok! 🪙${act.cost.toLocaleString('tr-TR')} gerekli`, 'error'); return; }
+    if ((profile?.money||0) < act.cost) { showNotif(`Yeterli para yok! ₺${act.cost.toLocaleString('tr-TR')} gerekli`, 'error'); return; }
     const mult = act.eduBonus ? eduMult : (act.tpBonus ? tpMult : 1.0);
     const finalInf = Math.round(act.inf * mult);
     const finalXp  = Math.round(act.xp * mult);
@@ -189,7 +189,7 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
   };
 
   const donatToParty = (lobi, tier) => {
-    if ((profile?.money||0) < tier.amount) { showNotif(`Yeterli para yok! 🪙${tier.amount.toLocaleString('tr-TR')} gerekli`, 'error'); return; }
+    if ((profile?.money||0) < tier.amount) { showNotif(`Yeterli para yok! ₺${tier.amount.toLocaleString('tr-TR')} gerekli`, 'error'); return; }
     setLobiler(prev=>prev.map(l=>l.id===lobi.id ? {...l, totalDonated:(l.totalDonated||0)+tier.amount, totalInf:(l.totalInf||0)+tier.inf} : l));
     // Optimistic local update
     setParties(prev=>prev.map(p=>p.id===lobi.partyId?{...p,influencePoints:(p.influencePoints||0)+tier.inf}:p));
@@ -202,7 +202,7 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
       return np;
     });
     setLobiDonateModal(null);
-    showNotif(`💰 ${tier.label}: 🪙${tier.amount.toLocaleString('tr-TR')} bağışlandı → ${lobi.partyName} +${tier.inf} Etki Puanı`, 'success');
+    showNotif(`💰 ${tier.label}: ₺${tier.amount.toLocaleString('tr-TR')} bağışlandı → ${lobi.partyName} +${tier.inf} Etki Puanı`, 'success');
   };
 
   const fmtCd = (ms) => { if(ms<=0)return null; const s=Math.ceil(ms/1000); return `${s}sn`; };
@@ -216,13 +216,13 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
 
   return (
     <div style={{padding:'0.75rem',background:bg,minHeight:'100%'}}>
-      <div style={{fontWeight:800,color:'#C9A227',fontSize:'1.05rem',marginBottom:'0.15rem',letterSpacing:'0.03em'}}>⚡ Devlet Etki Puanı</div>
+      <div style={{fontWeight:800,color:'#3CC8F0',fontSize:'1.05rem',marginBottom:'0.15rem',letterSpacing:'0.03em'}}>⚡ Devlet Etki Puanı</div>
       <div style={{fontSize:'0.75rem',color:'#8893A1',marginBottom:'0.75rem'}}>Faaliyetlerle partine etki puanı kazan. Eğitim ve ticaret puanın bonus verir.</div>
 
       {/* Bonus kartları */}
       <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.5rem',marginBottom:'0.75rem'}}>
-        <div style={{background:'rgba(201,162,39,0.07)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'10px',padding:'0.6rem',textAlign:'center'}}>
-          <div style={{fontSize:'0.65rem',color:'#C9A227',fontWeight:700,marginBottom:'2px'}}>🎓 Eğitim Bonusu</div>
+        <div style={{background:'rgba(60,200,240,0.07)',border:'1px solid rgba(60,200,240,0.2)',borderRadius:'10px',padding:'0.6rem',textAlign:'center'}}>
+          <div style={{fontSize:'0.65rem',color:'#3CC8F0',fontWeight:700,marginBottom:'2px'}}>🎓 Eğitim Bonusu</div>
           <div style={{fontSize:'1rem',fontWeight:800,color:'#E5C14B'}}>×{eduMult.toFixed(1)}</div>
           <div style={{fontSize:'0.6rem',color:'#8893A1'}}>{EDU_LEVELS.find(e=>e.id===diploma)?.label||'İlkokul'}</div>
         </div>
@@ -235,13 +235,13 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
 
       {/* Parti bilgisi */}
       {myParty ? (
-        <div style={{background:'rgba(167,139,250,0.08)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'12px',padding:'0.65rem',marginBottom:'0.75rem',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+        <div style={{background:'rgba(167,139,250,0.08)',border:'1px solid rgba(60,200,240,0.25)',borderRadius:'12px',padding:'0.65rem',marginBottom:'0.75rem',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
           <div>
-            <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.85rem'}}>{myParty.name}</div>
+            <div style={{fontWeight:700,color:'#E6EDF5',fontSize:'0.85rem'}}>{myParty.name}</div>
             <div style={{fontSize:'0.65rem',color:'#8893A1'}}>Senin partin</div>
           </div>
           <div style={{textAlign:'right'}}>
-            <div style={{fontWeight:800,color:'#C9A227',fontSize:'1rem'}}>{(myParty.influencePoints||0).toLocaleString()} ⚡</div>
+            <div style={{fontWeight:800,color:'#3CC8F0',fontSize:'1rem'}}>{(myParty.influencePoints||0).toLocaleString()} ⚡</div>
             <div style={{fontSize:'0.65rem',color:'#8893A1'}}>Etki Puanı</div>
           </div>
         </div>
@@ -253,11 +253,11 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
 
       {/* ── AİLE FONU — Bekleyen Davetler (sadece aile lideri) ── */}
       {pendingForMe.length>0 && (
-        <div style={{background:'rgba(201,162,39,0.06)',border:'1px solid rgba(201,162,39,0.35)',borderRadius:'12px',padding:'0.75rem',marginBottom:'0.75rem'}}>
-          <div style={{fontWeight:700,color:'#C9A227',fontSize:'0.82rem',marginBottom:'0.5rem'}}>📨 Lobi Daveti</div>
+        <div style={{background:'rgba(60,200,240,0.06)',border:'1px solid rgba(60,200,240,0.35)',borderRadius:'12px',padding:'0.75rem',marginBottom:'0.75rem'}}>
+          <div style={{fontWeight:700,color:'#3CC8F0',fontSize:'0.82rem',marginBottom:'0.5rem'}}>📨 Lobi Daveti</div>
           {pendingForMe.map(lobi=>(
-            <div key={lobi.id} style={{background:'rgba(237,231,218,0.03)',borderRadius:'10px',padding:'0.6rem',marginBottom:'0.4rem'}}>
-              <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.82rem'}}>{lobi.partyName}</div>
+            <div key={lobi.id} style={{background:'rgba(230,237,245,0.03)',borderRadius:'10px',padding:'0.6rem',marginBottom:'0.4rem'}}>
+              <div style={{fontWeight:700,color:'#E6EDF5',fontSize:'0.82rem'}}>{lobi.partyName}</div>
               <div style={{fontSize:'0.65rem',color:'#8893A1',marginBottom:'0.5rem'}}>Lider: {lobi.partyLeaderName} • Lobi kurmak istiyor</div>
               <div style={{display:'flex',gap:'0.5rem'}}>
                 <button onClick={()=>acceptLobi(lobi)} style={{flex:1,background:'rgba(76,154,107,0.12)',border:'1px solid rgba(76,154,107,0.4)',borderRadius:'8px',padding:'5px',color:'#4C9A6B',cursor:'pointer',fontWeight:700,fontSize:'0.72rem'}}>✅ Kabul Et</button>
@@ -270,20 +270,20 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
 
       {/* ── AİLE FONU — Aktif Lobiler (sadece taraflar görür) ── */}
       {visibleLobiler.length>0 && (
-        <div style={{background:'rgba(201,162,39,0.06)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'12px',padding:'0.75rem',marginBottom:'0.75rem'}}>
-          <div style={{fontWeight:700,color:'#C9A227',fontSize:'0.82rem',marginBottom:'0.5rem'}}>💼 Aile Fonu Anlaşmaları</div>
+        <div style={{background:'rgba(60,200,240,0.06)',border:'1px solid rgba(60,200,240,0.25)',borderRadius:'12px',padding:'0.75rem',marginBottom:'0.75rem'}}>
+          <div style={{fontWeight:700,color:'#3CC8F0',fontSize:'0.82rem',marginBottom:'0.5rem'}}>💼 Aile Fonu Anlaşmaları</div>
           {visibleLobiler.map(lobi=>{
             const isMine = myFamily && lobi.familyId===myFamily.id;
             return (
-              <div key={lobi.id} style={{background:'rgba(237,231,218,0.03)',borderRadius:'10px',padding:'0.65rem',marginBottom:'0.4rem'}}>
+              <div key={lobi.id} style={{background:'rgba(230,237,245,0.03)',borderRadius:'10px',padding:'0.65rem',marginBottom:'0.4rem'}}>
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:'0.35rem'}}>
                   <div>
-                    <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.82rem'}}>👨‍👩‍👧‍👦 {lobi.familyName} → 🏛️ {lobi.partyName}</div>
-                    <div style={{fontSize:'0.62rem',color:'#8893A1'}}>Toplam bağış: 🪙{(lobi.totalDonated||0).toLocaleString('tr-TR')} • +{(lobi.totalInf||0).toLocaleString()} Etki</div>
+                    <div style={{fontWeight:700,color:'#E6EDF5',fontSize:'0.82rem'}}>👨‍👩‍👧‍👦 {lobi.familyName} → 🏛️ {lobi.partyName}</div>
+                    <div style={{fontSize:'0.62rem',color:'#8893A1'}}>Toplam bağış: ₺{(lobi.totalDonated||0).toLocaleString('tr-TR')} • +{(lobi.totalInf||0).toLocaleString()} Etki</div>
                   </div>
                 </div>
                 {isMine && (
-                  <button onClick={()=>setLobiDonateModal(lobi)} style={{width:'100%',background:'rgba(201,162,39,0.1)',border:'1px solid rgba(201,162,39,0.4)',borderRadius:'8px',padding:'5px',color:'#C9A227',cursor:'pointer',fontWeight:700,fontSize:'0.72rem'}}>
+                  <button onClick={()=>setLobiDonateModal(lobi)} style={{width:'100%',background:'rgba(60,200,240,0.1)',border:'1px solid rgba(60,200,240,0.4)',borderRadius:'8px',padding:'5px',color:'#3CC8F0',cursor:'pointer',fontWeight:700,fontSize:'0.72rem'}}>
                     💰 Bağış Yap
                   </button>
                 )}
@@ -295,13 +295,13 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
 
       {/* ── Lobi Kur butonu — sadece parti lideri ── */}
       {isPartyLeader && (
-        <button onClick={()=>setShowLobiModal(true)} style={{width:'100%',background:'rgba(201,162,39,0.08)',border:'1px solid rgba(201,162,39,0.35)',borderRadius:'12px',padding:'0.65rem',color:'#C9A227',cursor:'pointer',fontWeight:700,fontSize:'0.8rem',marginBottom:'0.75rem',textAlign:'center'}}>
+        <button onClick={()=>setShowLobiModal(true)} style={{width:'100%',background:'rgba(60,200,240,0.08)',border:'1px solid rgba(60,200,240,0.35)',borderRadius:'12px',padding:'0.65rem',color:'#3CC8F0',cursor:'pointer',fontWeight:700,fontSize:'0.8rem',marginBottom:'0.75rem',textAlign:'center'}}>
           🤝 Aile ile Lobi Kur
         </button>
       )}
 
       {/* Faaliyetler */}
-      <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.82rem',marginBottom:'0.4rem'}}>🎯 Faaliyetler</div>
+      <div style={{fontWeight:700,color:'#E6EDF5',fontSize:'0.82rem',marginBottom:'0.4rem'}}>🎯 Faaliyetler</div>
       <div style={{display:'flex',flexDirection:'column',gap:'0.4rem',marginBottom:'0.85rem'}}>
         {PARTI_ETKI_ACTIONS.map(act => {
           const rem = Math.max(0, act.cd - (now - (cds[act.id]||0)));
@@ -315,14 +315,14 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
             <div key={act.id} style={{background:card,border:`1px solid ${onCd?'rgba(255,255,255,0.06)':bonusActive?'rgba(251,191,36,0.3)':'rgba(167,139,250,0.2)'}`,borderRadius:'12px',padding:'0.6rem 0.75rem',display:'flex',alignItems:'center',gap:'0.6rem'}}>
               <div style={{fontSize:'1.4rem',flexShrink:0}}>{act.icon}</div>
               <div style={{flex:1,minWidth:0}}>
-                <div style={{fontWeight:700,color:onCd?'#3B4E63':'#EDE7DA',fontSize:'0.82rem',display:'flex',alignItems:'center',gap:'0.3rem'}}>
+                <div style={{fontWeight:700,color:onCd?'#3B4E63':'#E6EDF5',fontSize:'0.82rem',display:'flex',alignItems:'center',gap:'0.3rem'}}>
                   {act.label}
-                  {bonusActive&&<span style={{fontSize:'0.58rem',background:'rgba(251,191,36,0.2)',color:'#C9A227',border:'1px solid rgba(251,191,36,0.3)',borderRadius:'4px',padding:'0px 4px',fontWeight:700}}>BONUS</span>}
+                  {bonusActive&&<span style={{fontSize:'0.58rem',background:'rgba(251,191,36,0.2)',color:'#3CC8F0',border:'1px solid rgba(251,191,36,0.3)',borderRadius:'4px',padding:'0px 4px',fontWeight:700}}>BONUS</span>}
                 </div>
                 <div style={{fontSize:'0.62rem',color:'#8893A1'}}>{act.desc}</div>
                 <div style={{fontSize:'0.65rem',marginTop:'2px',display:'flex',gap:'0.5rem',flexWrap:'wrap'}}>
-                  <span style={{color:'#C24B43'}}>🪙{act.cost.toLocaleString('tr-TR')}</span>
-                  <span style={{color:bonusActive?'#E5C14B':'#C9A227'}}>+{finalInf} Etki{bonusActive?` (×${mult.toFixed(1)})`:''}</span>
+                  <span style={{color:'#C24B43'}}>₺{act.cost.toLocaleString('tr-TR')}</span>
+                  <span style={{color:bonusActive?'#E5C14B':'#3CC8F0'}}>+{finalInf} Etki{bonusActive?` (×${mult.toFixed(1)})`:''}</span>
                   <span style={{color:'#6B7280'}}>+{Math.round(act.xp*mult)} XP</span>
                 </div>
               </div>
@@ -332,9 +332,9 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
                 ) : !hasParty ? (
                   <span style={{fontSize:'0.62rem',color:'#8893A1'}}>Parti yok</span>
                 ) : !canAfford ? (
-                  <span style={{fontSize:'0.62rem',color:'#C24B43',fontWeight:700}}>Yetersiz 🪙</span>
+                  <span style={{fontSize:'0.62rem',color:'#C24B43',fontWeight:700}}>Yetersiz ₺</span>
                 ) : (
-                  <button onClick={()=>doAction(act)} style={{background:'rgba(201,162,39,0.12)',border:'1px solid rgba(201,162,39,0.3)',borderRadius:'8px',padding:'5px 12px',color:'#EDE7DA',cursor:'pointer',fontWeight:700,fontSize:'0.72rem',whiteSpace:'nowrap'}}>Yap</button>
+                  <button onClick={()=>doAction(act)} style={{background:'rgba(60,200,240,0.12)',border:'1px solid rgba(60,200,240,0.3)',borderRadius:'8px',padding:'5px 12px',color:'#E6EDF5',cursor:'pointer',fontWeight:700,fontSize:'0.72rem',whiteSpace:'nowrap'}}>Yap</button>
                 )}
               </div>
             </div>
@@ -343,7 +343,7 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
       </div>
 
       {/* Parti Sıralaması */}
-      <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.82rem',marginBottom:'0.4rem'}}>🏆 Parti Etki Puanı Sıralaması</div>
+      <div style={{fontWeight:700,color:'#E6EDF5',fontSize:'0.82rem',marginBottom:'0.4rem'}}>🏆 Parti Etki Puanı Sıralaması</div>
       <div style={{background:card,border:`1px solid ${bdr}`,borderRadius:'12px',overflow:'hidden',marginBottom:'1.5rem'}}>
         {allParties.length===0 ? (
           <div style={{padding:'1.5rem',textAlign:'center',color:'#8893A1',fontSize:'0.8rem'}}>Henüz parti yok</div>
@@ -353,13 +353,13 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
           return (
             <div key={p.id} style={{display:'flex',alignItems:'center',gap:'0.6rem',padding:'0.6rem 0.75rem',borderBottom:i<allParties.length-1?`1px solid ${bdr}`:'none',background:isMe?'rgba(167,139,250,0.07)':'transparent'}}>
               <div style={{width:'24px',textAlign:'center',fontWeight:800,fontSize:i<3?'1rem':'0.78rem',color:i<3?'inherit':'#8893A1',flexShrink:0}}>{i<3?medals[i]:`#${i+1}`}</div>
-              <div style={{width:'10px',height:'10px',borderRadius:'50%',background:p.color||'#C9A227',flexShrink:0}}/>
+              <div style={{width:'10px',height:'10px',borderRadius:'50%',background:p.color||'#3CC8F0',flexShrink:0}}/>
               <div style={{flex:1,minWidth:0}}>
-                <div style={{fontWeight:isMe?800:600,color:isMe?'#EDE7DA':'#EDE7DA',fontSize:'0.82rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{p.name}{isMe&&<span style={{fontSize:'0.6rem',color:'#C9A227',marginLeft:'4px'}}>(Senin)</span>}</div>
+                <div style={{fontWeight:isMe?800:600,color:isMe?'#E6EDF5':'#E6EDF5',fontSize:'0.82rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{p.name}{isMe&&<span style={{fontSize:'0.6rem',color:'#3CC8F0',marginLeft:'4px'}}>(Senin)</span>}</div>
                 <div style={{fontSize:'0.62rem',color:'#8893A1'}}>{p.memberCount||1} üye • %{p.support||0} destek</div>
               </div>
               <div style={{textAlign:'right',flexShrink:0}}>
-                <div style={{fontWeight:800,color:'#C9A227',fontSize:'0.88rem'}}>{(p.influencePoints||0).toLocaleString()} ⚡</div>
+                <div style={{fontWeight:800,color:'#3CC8F0',fontSize:'0.88rem'}}>{(p.influencePoints||0).toLocaleString()} ⚡</div>
                 <div style={{fontSize:'0.6rem',color:'#8893A1'}}>etki puanı</div>
               </div>
             </div>
@@ -371,27 +371,27 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
       {showLobiModal && (
         <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.7)',zIndex:9999,display:'flex',alignItems:'center',justifyContent:'center',padding:'1rem'}} onClick={()=>setShowLobiModal(false)}>
           <div style={{background:dark?'#131E30':'#fff',borderRadius:'10px',padding:'1.25rem',width:'100%',maxWidth:'360px',maxHeight:'80vh',overflowY:'auto'}} onClick={e=>e.stopPropagation()}>
-            <div style={{fontWeight:800,color:'#C9A227',fontSize:'0.95rem',marginBottom:'0.5rem'}}>🤝 Lobi Davet Gönder</div>
+            <div style={{fontWeight:800,color:'#3CC8F0',fontSize:'0.95rem',marginBottom:'0.5rem'}}>🤝 Lobi Davet Gönder</div>
             <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.75rem'}}>Bir aile seç ve lobi daveti gönder. Aile lideri kabul ederse lobi kurulur.</div>
             {allFamilies.length===0 ? (
               <div style={{textAlign:'center',color:'#8893A1',fontSize:'0.82rem',padding:'1rem'}}>Henüz kurulmuş aile yok</div>
             ) : allFamilies.map(f=>{
               const existing = lobiler.find(l=>l.partyId===myPartyId&&l.familyId===f.id&&l.status!=='rejected');
               return (
-                <div key={f.id} style={{display:'flex',alignItems:'center',gap:'0.6rem',padding:'0.6rem',background:'rgba(237,231,218,0.03)',borderRadius:'10px',marginBottom:'0.4rem'}}>
+                <div key={f.id} style={{display:'flex',alignItems:'center',gap:'0.6rem',padding:'0.6rem',background:'rgba(230,237,245,0.03)',borderRadius:'10px',marginBottom:'0.4rem'}}>
                   <div style={{flex:1}}>
-                    <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.82rem'}}>👨‍👩‍👧‍👦 {f.name}</div>
+                    <div style={{fontWeight:700,color:'#E6EDF5',fontSize:'0.82rem'}}>👨‍👩‍👧‍👦 {f.name}</div>
                     <div style={{fontSize:'0.62rem',color:'#8893A1'}}>{f.memberCount||1} üye</div>
                   </div>
                   {existing ? (
-                    <span style={{fontSize:'0.65rem',color:'#C9A227',fontWeight:700}}>{existing.status==='pending'?'⏳ Bekliyor':'✅ Aktif'}</span>
+                    <span style={{fontSize:'0.65rem',color:'#3CC8F0',fontWeight:700}}>{existing.status==='pending'?'⏳ Bekliyor':'✅ Aktif'}</span>
                   ) : (
-                    <button onClick={()=>sendLobiInvite(f)} style={{background:'rgba(201,162,39,0.1)',border:'1px solid rgba(201,162,39,0.4)',borderRadius:'8px',padding:'4px 10px',color:'#C9A227',cursor:'pointer',fontWeight:700,fontSize:'0.7rem'}}>Davet Et</button>
+                    <button onClick={()=>sendLobiInvite(f)} style={{background:'rgba(60,200,240,0.1)',border:'1px solid rgba(60,200,240,0.4)',borderRadius:'8px',padding:'4px 10px',color:'#3CC8F0',cursor:'pointer',fontWeight:700,fontSize:'0.7rem'}}>Davet Et</button>
                   )}
                 </div>
               );
             })}
-            <button onClick={()=>setShowLobiModal(false)} style={{width:'100%',marginTop:'0.5rem',background:'rgba(237,231,218,0.05)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'8px',padding:'7px',color:'#8893A1',cursor:'pointer',fontSize:'0.75rem'}}>Kapat</button>
+            <button onClick={()=>setShowLobiModal(false)} style={{width:'100%',marginTop:'0.5rem',background:'rgba(230,237,245,0.05)',border:'1px solid rgba(230,237,245,0.1)',borderRadius:'8px',padding:'7px',color:'#8893A1',cursor:'pointer',fontSize:'0.75rem'}}>Kapat</button>
           </div>
         </div>
       )}
@@ -400,19 +400,19 @@ function PartiEtkiPage({ profile, setProfile, parties, setParties, showNotif, ga
       {lobiDonateModal && (
         <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.7)',zIndex:9999,display:'flex',alignItems:'center',justifyContent:'center',padding:'1rem'}} onClick={()=>setLobiDonateModal(null)}>
           <div style={{background:dark?'#131E30':'#fff',borderRadius:'10px',padding:'1.25rem',width:'100%',maxWidth:'340px'}} onClick={e=>e.stopPropagation()}>
-            <div style={{fontWeight:800,color:'#C9A227',fontSize:'0.95rem',marginBottom:'0.25rem'}}>💰 Bağış Yap</div>
-            <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.75rem'}}>→ {lobiDonateModal.partyName} • Bakiye: 🪙{(profile?.money||0).toLocaleString('tr-TR')}</div>
+            <div style={{fontWeight:800,color:'#3CC8F0',fontSize:'0.95rem',marginBottom:'0.25rem'}}>💰 Bağış Yap</div>
+            <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.75rem'}}>→ {lobiDonateModal.partyName} • Bakiye: ₺{(profile?.money||0).toLocaleString('tr-TR')}</div>
             {LOBI_DONATION_TIERS.map(tier=>{
               const canAfford=(profile?.money||0)>=tier.amount;
               return (
                 <button key={tier.id} onClick={()=>canAfford&&donatToParty(lobiDonateModal,tier)} disabled={!canAfford}
-                  style={{width:'100%',display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.65rem 0.75rem',marginBottom:'0.4rem',background:canAfford?'rgba(201,162,39,0.1)':'rgba(255,255,255,0.03)',border:`1px solid ${canAfford?'rgba(201,162,39,0.35)':'rgba(255,255,255,0.07)'}`,borderRadius:'10px',color:canAfford?'#E5C14B':'#3B4E63',cursor:canAfford?'pointer':'not-allowed',textAlign:'left'}}>
+                  style={{width:'100%',display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.65rem 0.75rem',marginBottom:'0.4rem',background:canAfford?'rgba(60,200,240,0.1)':'rgba(255,255,255,0.03)',border:`1px solid ${canAfford?'rgba(60,200,240,0.35)':'rgba(255,255,255,0.07)'}`,borderRadius:'10px',color:canAfford?'#E5C14B':'#3B4E63',cursor:canAfford?'pointer':'not-allowed',textAlign:'left'}}>
                   <span style={{fontWeight:700,fontSize:'0.8rem'}}>{tier.label}</span>
-                  <span style={{fontSize:'0.75rem'}}>🪙{tier.amount.toLocaleString('tr-TR')} → +{tier.inf} ⚡</span>
+                  <span style={{fontSize:'0.75rem'}}>₺{tier.amount.toLocaleString('tr-TR')} → +{tier.inf} ⚡</span>
                 </button>
               );
             })}
-            <button onClick={()=>setLobiDonateModal(null)} style={{width:'100%',marginTop:'0.25rem',background:'rgba(237,231,218,0.05)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'8px',padding:'7px',color:'#8893A1',cursor:'pointer',fontSize:'0.75rem'}}>İptal</button>
+            <button onClick={()=>setLobiDonateModal(null)} style={{width:'100%',marginTop:'0.25rem',background:'rgba(230,237,245,0.05)',border:'1px solid rgba(230,237,245,0.1)',borderRadius:'8px',padding:'7px',color:'#8893A1',cursor:'pointer',fontSize:'0.75rem'}}>İptal</button>
           </div>
         </div>
       )}
@@ -500,40 +500,40 @@ function EducationPage({ profile, setProfile, showNotif }) {
   };
 
   const resetEducation = () => {
-    if ((profile?.money||0) < 100000) { showNotif('❌ Yeniden başlamak için 🪙100.000 gerekli!','error'); return; }
+    if ((profile?.money||0) < 100000) { showNotif('❌ Yeniden başlamak için ₺100.000 gerekli!','error'); return; }
     setProfile(p => {
       const np = {...p, money:(p.money||0)-100000, education:{diploma:'ilkokul', activeLevel:null, clicksDone:0, lastClick:0, educationCycles:p.education?.educationCycles||0}, diplomaLevel:'ilkokul'};
       localStorage.setItem('rep_userProfile', JSON.stringify(np));
       return np;
     });
-    showNotif('🔄 Eğitim sıfırlandı! İlkokul seviyesinden başlıyorsun. -🪙100.000','info');
+    showNotif('🔄 Eğitim sıfırlandı! İlkokul seviyesinden başlıyorsun. -₺100.000','info');
   };
 
-  const card = { background:'rgba(11,21,39,0.9)', border:'1px solid rgba(237,231,218,0.08)', borderRadius:'14px', padding:'0.85rem', marginBottom:'0.5rem' };
+  const card = { background:'rgba(11,21,39,0.9)', border:'1px solid rgba(230,237,245,0.08)', borderRadius:'14px', padding:'0.85rem', marginBottom:'0.5rem' };
   const cd = getCooldown();
   const cdStr = cd >= 60000 ? `${Math.floor(cd/60000)}dk` : `${Math.floor(cd/1000)}sn`;
 
   return (
     <div style={{padding:'0.7rem'}}>
-      <div style={{background:'linear-gradient(135deg,rgba(201,162,39,0.15),rgba(11,21,39,0.97))',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'12px',padding:'1.2rem',marginBottom:'0.75rem',textAlign:'center'}}>
+      <div style={{background:'linear-gradient(135deg,rgba(60,200,240,0.15),rgba(11,21,39,0.97))',border:'1px solid rgba(60,200,240,0.25)',borderRadius:'12px',padding:'1.2rem',marginBottom:'0.75rem',textAlign:'center'}}>
         <div style={{fontSize:'2rem',marginBottom:'0.3rem'}}>🎓</div>
-        <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.15rem',fontWeight:900,color:'#EDE7DA'}}>EĞİTİM SİSTEMİ</div>
+        <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:'1.15rem',fontWeight:900,color:'#E6EDF5'}}>EĞİTİM SİSTEMİ</div>
         <div style={{fontSize:'0.72rem',color:'#8893A1',marginTop:'0.2rem'}}>Tıklayarak çalış, diploma kazan, yüksek makamlara ulaş</div>
         <div style={{marginTop:'0.6rem',display:'flex',alignItems:'center',justifyContent:'center',gap:'0.5rem',flexWrap:'wrap'}}>
-          <span style={{background:'rgba(167,139,250,0.2)',border:'1px solid rgba(201,162,39,0.3)',borderRadius:'8px',padding:'0.2rem 0.65rem',fontSize:'0.75rem',color:'#EDE7DA',fontWeight:800}}>
+          <span style={{background:'rgba(167,139,250,0.2)',border:'1px solid rgba(60,200,240,0.3)',borderRadius:'8px',padding:'0.2rem 0.65rem',fontSize:'0.75rem',color:'#E6EDF5',fontWeight:800}}>
             {EDU_LEVELS.find(e=>e.id===diploma)?.icon} {EDU_LEVELS.find(e=>e.id===diploma)?.label}
           </span>
-          <span style={{background:'rgba(201,162,39,0.1)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'8px',padding:'0.2rem 0.65rem',fontSize:'0.72rem',color:'#C9A227',fontWeight:700}}>
+          <span style={{background:'rgba(60,200,240,0.1)',border:'1px solid rgba(60,200,240,0.25)',borderRadius:'8px',padding:'0.2rem 0.65rem',fontSize:'0.72rem',color:'#3CC8F0',fontWeight:700}}>
             ⏱ {cdStr} bekleme{hasEduPackage?' (Paket)':isVip?' (VIP)':''}
           </span>
           {educationCycles > 0 && (
-            <span style={{background:'rgba(201,162,39,0.14)',border:'1px solid rgba(201,162,39,0.4)',borderRadius:'8px',padding:'0.2rem 0.65rem',fontSize:'0.72rem',color:'#C9A227',fontWeight:800}}>
+            <span style={{background:'rgba(60,200,240,0.14)',border:'1px solid rgba(60,200,240,0.4)',borderRadius:'8px',padding:'0.2rem 0.65rem',fontSize:'0.72rem',color:'#3CC8F0',fontWeight:800}}>
               🔄 {educationCycles}. döngü tamamlandı
             </span>
           )}
         </div>
         {educationCycles > 0 && (
-          <div style={{marginTop:'0.5rem',fontSize:'0.68rem',color:'#C9A227',background:'rgba(201,162,39,0.06)',borderRadius:'8px',padding:'0.35rem 0.75rem',display:'inline-block'}}>
+          <div style={{marginTop:'0.5rem',fontSize:'0.68rem',color:'#3CC8F0',background:'rgba(60,200,240,0.06)',borderRadius:'8px',padding:'0.35rem 0.75rem',display:'inline-block'}}>
             🏛️ Profil rozetine "{educationCycles}× Profesör" eklendi
           </div>
         )}
@@ -546,21 +546,21 @@ function EducationPage({ profile, setProfile, showNotif }) {
         const cooldownLeft = Math.max(0, cd - (now - lastClick));
         const cdSecs = Math.ceil(cooldownLeft/1000);
         return (
-          <div style={{...card,border:'1px solid rgba(201,162,39,0.3)',background:'rgba(201,162,39,0.07)',marginBottom:'0.75rem'}}>
+          <div style={{...card,border:'1px solid rgba(60,200,240,0.3)',background:'rgba(60,200,240,0.07)',marginBottom:'0.75rem'}}>
             <div style={{display:'flex',alignItems:'center',gap:'0.4rem',marginBottom:'0.4rem'}}>
-              <img src='/icons/64/tome.png' width={18} height={18} style={{imageRendering:'pixelated'}} />
-              <span style={{fontSize:'0.72rem',color:'#C9A227',fontWeight:700}}>Devam Eden Eğitim</span>
+              <img src='/public/icons/64/tome.png' width={18} height={18} style={{imageRendering:'pixelated'}} />
+              <span style={{fontSize:'0.72rem',color:'#3CC8F0',fontWeight:700}}>Devam Eden Eğitim</span>
             </div>
-            <div style={{fontWeight:800,color:'#EDE7DA',marginBottom:'0.3rem',display:'flex',alignItems:'center',gap:'0.4rem'}}>
+            <div style={{fontWeight:800,color:'#E6EDF5',marginBottom:'0.3rem',display:'flex',alignItems:'center',gap:'0.4rem'}}>
               <img src={lvl.imgSrc} width={22} height={22} style={{imageRendering:'pixelated'}} />
               {lvl.label}
             </div>
-            <div style={{height:'6px',background:'rgba(237,231,218,0.06)',borderRadius:'3px',marginBottom:'0.3rem'}}>
-              <div style={{height:'100%',width:`${pct}%`,background:'linear-gradient(90deg,#C9A227,#E5C14B)',borderRadius:'3px',transition:'width 0.3s'}} />
+            <div style={{height:'6px',background:'rgba(230,237,245,0.06)',borderRadius:'3px',marginBottom:'0.3rem'}}>
+              <div style={{height:'100%',width:`${pct}%`,background:'linear-gradient(90deg,#3CC8F0,#E5C14B)',borderRadius:'3px',transition:'width 0.3s'}} />
             </div>
             <div style={{fontSize:'0.7rem',color:'#8893A1'}}>{clicksDone}/{lvl.clicksNeeded} tıklama ({pct}%) • {cooldownLeft > 0 ? `⏳ ${cdSecs}sn bekle` : '✅ Tıklayabilirsin'}</div>
             <button onClick={()=>clickStudy(lvl)} disabled={cooldownLeft>0}
-              style={{marginTop:'0.6rem',width:'100%',padding:'0.6rem',borderRadius:'10px',border:'none',background:cooldownLeft>0?'rgba(255,255,255,0.06)':'linear-gradient(135deg,#C9A227,#C9A227)',color:cooldownLeft>0?'#3B4E63':'#fff',fontWeight:800,fontSize:'0.85rem',cursor:cooldownLeft>0?'not-allowed':'pointer',transition:'all 0.2s'}}>
+              style={{marginTop:'0.6rem',width:'100%',padding:'0.6rem',borderRadius:'10px',border:'none',background:cooldownLeft>0?'rgba(255,255,255,0.06)':'linear-gradient(135deg,#3CC8F0,#3CC8F0)',color:cooldownLeft>0?'#3B4E63':'#fff',fontWeight:800,fontSize:'0.85rem',cursor:cooldownLeft>0?'not-allowed':'pointer',transition:'all 0.2s'}}>
               {cooldownLeft>0 ? `⏳ ${cdSecs}sn` : `📖 Çalış (${fmtWord(lvl.costPerClick)})`}
             </button>
           </div>
@@ -576,39 +576,39 @@ function EducationPage({ profile, setProfile, showNotif }) {
         const cdSecs = Math.ceil(cooldownLeft/1000);
         const pct = isActive ? Math.round(clicksDone / lvl.clicksNeeded * 100) : 0;
         return (
-          <div key={lvl.id} style={{...card,border:`1px solid ${isDone?'rgba(76,154,107,0.3)':isActive?'rgba(201,162,39,0.4)':'rgba(255,255,255,0.06)'}`,background:isDone?'rgba(76,154,107,0.05)':isActive?'rgba(201,162,39,0.05)':'rgba(11,21,39,0.9)'}}>
+          <div key={lvl.id} style={{...card,border:`1px solid ${isDone?'rgba(76,154,107,0.3)':isActive?'rgba(60,200,240,0.4)':'rgba(255,255,255,0.06)'}`,background:isDone?'rgba(76,154,107,0.05)':isActive?'rgba(60,200,240,0.05)':'rgba(11,21,39,0.9)'}}>
             <div style={{display:'flex',alignItems:'center',gap:'0.75rem'}}>
               <div style={{flexShrink:0,opacity:isDone?1:0.5}}>
                 <img src={lvl.imgSrc} width={32} height={32} style={{imageRendering:'pixelated',display:'block'}} />
               </div>
               <div style={{flex:1,minWidth:0}}>
                 <div style={{display:'flex',alignItems:'center',gap:'0.4rem',flexWrap:'wrap'}}>
-                  <span style={{fontWeight:800,color:isDone?'#4C9A6B':isActive?'#C9A227':'#EDE7DA'}}>{lvl.label}</span>
+                  <span style={{fontWeight:800,color:isDone?'#4C9A6B':isActive?'#3CC8F0':'#E6EDF5'}}>{lvl.label}</span>
                   {isDone && <span style={{background:'rgba(76,154,107,0.2)',border:'1px solid rgba(76,154,107,0.4)',borderRadius:'6px',padding:'1px 6px',fontSize:'0.6rem',color:'#4C9A6B',fontWeight:700}}>✅ Mezun</span>}
-                  {isActive && <span style={{background:'rgba(201,162,39,0.14)',border:'1px solid rgba(201,162,39,0.3)',borderRadius:'6px',padding:'1px 6px',fontSize:'0.6rem',color:'#C9A227',fontWeight:700}}>📚 {clicksDone}/{lvl.clicksNeeded}</span>}
+                  {isActive && <span style={{background:'rgba(60,200,240,0.14)',border:'1px solid rgba(60,200,240,0.3)',borderRadius:'6px',padding:'1px 6px',fontSize:'0.6rem',color:'#3CC8F0',fontWeight:700}}>📚 {clicksDone}/{lvl.clicksNeeded}</span>}
                 </div>
                 <div style={{fontSize:'0.65rem',color:'#8893A1'}}>{lvl.grade} • {lvl.desc}</div>
                 {!isDone && lvl.clicksNeeded > 0 && (
-                  <div style={{fontSize:'0.65rem',color:'#C9A227',marginTop:'0.15rem'}}>
+                  <div style={{fontSize:'0.65rem',color:'#3CC8F0',marginTop:'0.15rem'}}>
                     {fmtWord(lvl.costPerClick)}/tıklama • {lvl.clicksNeeded} tıklama • ~{fmtWord(lvl.costPerClick*lvl.clicksNeeded)} toplam
                   </div>
                 )}
                 {isActive && (
-                  <div style={{marginTop:'0.3rem',height:'4px',background:'rgba(237,231,218,0.05)',borderRadius:'2px'}}>
-                    <div style={{height:'100%',width:`${pct}%`,background:'#C9A227',borderRadius:'2px',transition:'width 0.3s'}} />
+                  <div style={{marginTop:'0.3rem',height:'4px',background:'rgba(230,237,245,0.05)',borderRadius:'2px'}}>
+                    <div style={{height:'100%',width:`${pct}%`,background:'#3CC8F0',borderRadius:'2px',transition:'width 0.3s'}} />
                   </div>
                 )}
                 {lvl.id === 'ilkokul' && <div style={{fontSize:'0.65rem',color:'#4C9A6B',marginTop:'0.15rem'}}>Ücretsiz • Herkeste var</div>}
               </div>
               {!isDone && isNext && !isActive && (
                 <button onClick={()=>clickStudy(lvl)}
-                  style={{padding:'0.4rem 0.75rem',borderRadius:'10px',border:'none',background:'linear-gradient(135deg,#C9A227,#C9A227)',color:'#EDE7DA',fontWeight:700,fontSize:'0.75rem',cursor:'pointer',flexShrink:0,whiteSpace:'nowrap'}}>
+                  style={{padding:'0.4rem 0.75rem',borderRadius:'10px',border:'none',background:'linear-gradient(135deg,#3CC8F0,#3CC8F0)',color:'#E6EDF5',fontWeight:700,fontSize:'0.75rem',cursor:'pointer',flexShrink:0,whiteSpace:'nowrap'}}>
                   Başla
                 </button>
               )}
               {isActive && (
                 <button onClick={()=>clickStudy(lvl)} disabled={cooldownLeft>0}
-                  style={{padding:'0.4rem 0.75rem',borderRadius:'10px',border:'none',background:cooldownLeft>0?'rgba(255,255,255,0.06)':'linear-gradient(135deg,#C9A227,#C9A227)',color:cooldownLeft>0?'#3B4E63':'#fff',fontWeight:700,fontSize:'0.75rem',cursor:cooldownLeft>0?'not-allowed':'pointer',flexShrink:0,whiteSpace:'nowrap'}}>
+                  style={{padding:'0.4rem 0.75rem',borderRadius:'10px',border:'none',background:cooldownLeft>0?'rgba(255,255,255,0.06)':'linear-gradient(135deg,#3CC8F0,#3CC8F0)',color:cooldownLeft>0?'#3B4E63':'#fff',fontWeight:700,fontSize:'0.75rem',cursor:cooldownLeft>0?'not-allowed':'pointer',flexShrink:0,whiteSpace:'nowrap'}}>
                   {cooldownLeft>0?`⏳${cdSecs}s`:'📖 Çalış'}
                 </button>
               )}
@@ -620,8 +620,8 @@ function EducationPage({ profile, setProfile, showNotif }) {
         );
       })}
 
-      <div style={{...card,marginTop:'0.75rem',background:'rgba(201,162,39,0.06)',border:'1px solid rgba(201,162,39,0.2)'}}>
-        <div style={{fontWeight:800,color:'#C9A227',marginBottom:'0.65rem',fontSize:'0.85rem'}}>🏛️ Makam Gereksinimleri</div>
+      <div style={{...card,marginTop:'0.75rem',background:'rgba(60,200,240,0.06)',border:'1px solid rgba(60,200,240,0.2)'}}>
+        <div style={{fontWeight:800,color:'#3CC8F0',marginBottom:'0.65rem',fontSize:'0.85rem'}}>🏛️ Makam Gereksinimleri</div>
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.35rem'}}>
           {Object.entries(EDU_POSITION_REQS).map(([pos, req]) => {
             const reqLvl = EDU_LEVELS.find(e=>e.id===req);
@@ -630,7 +630,7 @@ function EducationPage({ profile, setProfile, showNotif }) {
               <div key={pos} style={{display:'flex',alignItems:'center',gap:'0.4rem',padding:'0.3rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
                 <span style={{fontSize:'0.65rem',color:met?'#4C9A6B':'#C24B43',flexShrink:0}}>{met?'✅':'❌'}</span>
                 <div>
-                  <div style={{fontSize:'0.7rem',fontWeight:700,color:'#EDE7DA'}}>{pos}</div>
+                  <div style={{fontSize:'0.7rem',fontWeight:700,color:'#E6EDF5'}}>{pos}</div>
                   <div style={{fontSize:'0.58rem',color:'#8893A1',display:'flex',alignItems:'center',gap:'3px'}}>
                     {reqLvl && <img src={reqLvl.imgSrc} width={12} height={12} style={{imageRendering:'pixelated'}} />}
                     {reqLvl?.label}
@@ -650,7 +650,7 @@ function EducationPage({ profile, setProfile, showNotif }) {
         </div>
         <button onClick={resetEducation}
           style={{width:'100%',padding:'0.6rem',borderRadius:'10px',border:'1px solid rgba(194,75,67,0.25)',background:'rgba(194,75,67,0.08)',color:'#E08C87',fontWeight:700,fontSize:'0.83rem',cursor:'pointer',fontFamily:'inherit'}}>
-          🔄 Yeniden Başla (🪙100.000)
+          🔄 Yeniden Başla (₺100.000)
         </button>
       </div>
     </div>
@@ -662,7 +662,7 @@ function EducationPage({ profile, setProfile, showNotif }) {
 // ═══════════════════════════════════════════════════════
 const CITY_POSITIONS = [
   {
-    id:'vali', label:'Nahiye Valisi', icon:'🏙️', imgSrc:'/icons/64/helmet.png', color:'#C9A227', eduReq:'lise',
+    id:'vali', label:'Nahiye Valisi', icon:'🏙️', imgSrc:'/public/icons/64/helmet.png', color:'#3CC8F0', eduReq:'lise',
     duties:[
       {id:'butce_onay',         label:'Bütçe Onayla',        cd:24*3600000, reward:{xp:500,  money:50000,  desc:'Yıllık bütçeyi onayla'}},
       {id:'insan_kaynagi',      label:'İK Yönetimi',         cd:12*3600000, reward:{xp:300,  money:25000,  desc:'Personel ata ve çıkar'}},
@@ -727,14 +727,14 @@ function CityGovPage({ profile, setProfile, showNotif }) {
     return h > 0 ? `${h}s ${m}dk` : m > 0 ? `${m}dk ${s}sn` : `${s}sn`;
   };
 
-  const card = { background:'rgba(11,21,39,0.9)', border:'1px solid rgba(237,231,218,0.08)', borderRadius:'14px', padding:'0.9rem', marginBottom:'0.55rem' };
+  const card = { background:'rgba(11,21,39,0.9)', border:'1px solid rgba(230,237,245,0.08)', borderRadius:'14px', padding:'0.9rem', marginBottom:'0.55rem' };
 
   return (
     <div style={{padding:'0.7rem'}}>
       <div style={{background:'linear-gradient(135deg,rgba(99,102,241,0.15),rgba(11,21,39,0.97))',border:'1px solid rgba(99,102,241,0.25)',borderRadius:'12px',padding:'1.2rem',marginBottom:'0.75rem'}}>
         <div style={{fontSize:'0.6rem',color:'#818CF8',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.2rem'}}>ŞEHİR YÖNETİMİ</div>
-        <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA',marginBottom:'0.1rem'}}>Makamlar & Görevler</div>
-        <div style={{fontSize:'0.7rem',color:'#8893A1'}}>Liyakat: <span style={{color:'#C9A227',fontWeight:700}}>{profile?.meritPoints||0}</span> puan • Diploma: <span style={{color:'#C9A227',fontWeight:700}}>{EDU_LEVELS.find(e=>e.id===myDiploma)?.label}</span></div>
+        <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:'1.1rem',fontWeight:900,color:'#E6EDF5',marginBottom:'0.1rem'}}>Makamlar & Görevler</div>
+        <div style={{fontSize:'0.7rem',color:'#8893A1'}}>Liyakat: <span style={{color:'#3CC8F0',fontWeight:700}}>{profile?.meritPoints||0}</span> puan • Diploma: <span style={{color:'#3CC8F0',fontWeight:700}}>{EDU_LEVELS.find(e=>e.id===myDiploma)?.label}</span></div>
       </div>
 
       {CITY_POSITIONS.map(pos => {
@@ -751,7 +751,7 @@ function CityGovPage({ profile, setProfile, showNotif }) {
                   {pos.imgSrc ? <img src={pos.imgSrc} width={32} height={32} style={{imageRendering:'pixelated',display:'block'}} /> : <span style={{fontSize:'1.5rem'}}>{pos.icon}</span>}
                 </div>
                 <div>
-                  <div style={{fontWeight:800,color:'#EDE7DA',fontSize:'0.9rem'}}>{pos.label}</div>
+                  <div style={{fontWeight:800,color:'#E6EDF5',fontSize:'0.9rem'}}>{pos.label}</div>
                   <div style={{fontSize:'0.62rem',color:'#8893A1',display:'flex',alignItems:'center',gap:'3px'}}>
                     {EDU_LEVELS.find(e=>e.id===pos.eduReq) && <img src={EDU_LEVELS.find(e=>e.id===pos.eduReq).imgSrc} width={13} height={13} style={{imageRendering:'pixelated'}} />}
                     {EDU_LEVELS.find(e=>e.id===pos.eduReq)?.label} gerekli
@@ -765,7 +765,7 @@ function CityGovPage({ profile, setProfile, showNotif }) {
             </div>
 
             {!eduMet && <div style={{fontSize:'0.65rem',color:'#C24B43',marginBottom:'0.4rem'}}>❌ {EDU_LEVELS.find(e=>e.id===pos.eduReq)?.label} diploması gerekli</div>}
-            {eduMet && !supportMet && pos.minSupport > 0 && <div style={{fontSize:'0.65rem',color:'#C9A227',marginBottom:'0.4rem'}}>⚠️ {pos.minSupport} liyakat puanı gerekli (şu an: {profile?.meritPoints||0})</div>}
+            {eduMet && !supportMet && pos.minSupport > 0 && <div style={{fontSize:'0.65rem',color:'#3CC8F0',marginBottom:'0.4rem'}}>⚠️ {pos.minSupport} liyakat puanı gerekli (şu an: {profile?.meritPoints||0})</div>}
 
             {hasPos && (
               <div>
@@ -779,9 +779,9 @@ function CityGovPage({ profile, setProfile, showNotif }) {
                 {pos.duties.map(duty => {
                   const cdLabel = getCooldownLabel(pos, duty);
                   return (
-                    <div key={duty.id} style={{background:'rgba(237,231,218,0.02)',borderRadius:'10px',padding:'0.55rem 0.7rem',marginBottom:'0.3rem',display:'flex',alignItems:'center',gap:'0.6rem',border:'1px solid rgba(255,255,255,0.05)'}}>
+                    <div key={duty.id} style={{background:'rgba(230,237,245,0.02)',borderRadius:'10px',padding:'0.55rem 0.7rem',marginBottom:'0.3rem',display:'flex',alignItems:'center',gap:'0.6rem',border:'1px solid rgba(255,255,255,0.05)'}}>
                       <div style={{flex:1}}>
-                        <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.8rem'}}>{duty.label}</div>
+                        <div style={{fontWeight:700,color:'#E6EDF5',fontSize:'0.8rem'}}>{duty.label}</div>
                         <div style={{fontSize:'0.62rem',color:'#8893A1'}}>{duty.reward.desc} • +{duty.reward.xp} XP • +{fmtWord(duty.reward.money)}</div>
                       </div>
                       <button onClick={()=>doduty(pos,duty)}
@@ -798,16 +798,16 @@ function CityGovPage({ profile, setProfile, showNotif }) {
         );
       })}
 
-      <div style={{...card,background:'rgba(201,162,39,0.05)',border:'1px solid rgba(201,162,39,0.15)'}}>
-        <div style={{fontWeight:800,color:'#C9A227',marginBottom:'0.4rem',fontSize:'0.82rem'}}>📖 Makam Hakkında</div>
+      <div style={{...card,background:'rgba(60,200,240,0.05)',border:'1px solid rgba(60,200,240,0.15)'}}>
+        <div style={{fontWeight:800,color:'#3CC8F0',marginBottom:'0.4rem',fontSize:'0.82rem'}}>📖 Makam Hakkında</div>
         <div style={{fontSize:'0.7rem',color:'#8893A1',lineHeight:1.6}}>
-          Saltanat Online'da şehir yönetimi gerçekçi bir hiyerarşi sistemiyle çalışır. Her makamın zorunlu görevleri vardır; bu görevler yapılmazsa makam kaybedilebilir. Daha yüksek makamlara çıkmak için hem eğitim diploması hem de liyakat puanı gerekmektedir. Holding sahipleri belirli makamlara gizlice destek verebilir.
+          Siyaset RP'da şehir yönetimi gerçekçi bir hiyerarşi sistemiyle çalışır. Her makamın zorunlu görevleri vardır; bu görevler yapılmazsa makam kaybedilebilir. Daha yüksek makamlara çıkmak için hem eğitim diploması hem de liyakat puanı gerekmektedir. Holding sahipleri belirli makamlara gizlice destek verebilir.
         </div>
       </div>
 
       {applyModal && (
         <div onClick={()=>setApplyModal(null)} style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.75)',zIndex:9999,display:'flex',alignItems:'center',justifyContent:'center',padding:'1.5rem'}}>
-          <div onClick={e=>e.stopPropagation()} style={{background:'#0F0800',border:'1px solid rgba(99,102,241,0.35)',borderRadius:'14px',padding:'1.5rem',maxWidth:'340px',width:'100%',boxShadow:'0 25px 60px rgba(0,0,0,0.6)'}}>
+          <div onClick={e=>e.stopPropagation()} style={{background:'#0A0F17',border:'1px solid rgba(99,102,241,0.35)',borderRadius:'14px',padding:'1.5rem',maxWidth:'340px',width:'100%',boxShadow:'0 25px 60px rgba(0,0,0,0.6)'}}>
             <div style={{textAlign:'center',marginBottom:'1.2rem'}}>
               <div style={{display:'flex',justifyContent:'center',marginBottom:'0.5rem'}}>
                 {applyModal.imgSrc
@@ -815,7 +815,7 @@ function CityGovPage({ profile, setProfile, showNotif }) {
                   : <span style={{fontSize:'2.5rem'}}>{applyModal.icon}</span>
                 }
               </div>
-              <div style={{fontFamily:"'Cinzel',serif",fontWeight:900,color:'#EDE7DA',fontSize:'1.1rem',marginBottom:'0.3rem'}}>{applyModal.label}</div>
+              <div style={{fontFamily:"'Rajdhani',sans-serif",fontWeight:900,color:'#E6EDF5',fontSize:'1.1rem',marginBottom:'0.3rem'}}>{applyModal.label}</div>
               <div style={{fontSize:'0.72rem',color:'#8893A1'}}>Bu makama başvurmak istediğini onaylıyor musun?</div>
             </div>
             <div style={{background:'rgba(99,102,241,0.08)',border:'1px solid rgba(99,102,241,0.2)',borderRadius:'12px',padding:'0.85rem',marginBottom:'1rem'}}>
@@ -836,8 +836,8 @@ function CityGovPage({ profile, setProfile, showNotif }) {
               {applyModal.perks.map(p=><div key={p}>• {p}</div>)}
             </div>
             <div style={{display:'flex',gap:'0.5rem'}}>
-              <button onClick={()=>setApplyModal(null)} style={{flex:1,padding:'0.65rem',borderRadius:'12px',border:'1px solid rgba(237,231,218,0.1)',background:'rgba(237,231,218,0.03)',color:'#8893A1',fontWeight:700,fontSize:'0.82rem',cursor:'pointer'}}>İptal</button>
-              <button onClick={()=>applyForPosition(applyModal)} style={{flex:2,padding:'0.65rem',borderRadius:'12px',border:'none',background:'linear-gradient(135deg,#6366F1,#4F46E5)',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontWeight:800,fontSize:'0.85rem',cursor:'pointer'}}>✅ Başvuruyu Onayla</button>
+              <button onClick={()=>setApplyModal(null)} style={{flex:1,padding:'0.65rem',borderRadius:'12px',border:'1px solid rgba(230,237,245,0.1)',background:'rgba(230,237,245,0.03)',color:'#8893A1',fontWeight:700,fontSize:'0.82rem',cursor:'pointer'}}>İptal</button>
+              <button onClick={()=>applyForPosition(applyModal)} style={{flex:2,padding:'0.65rem',borderRadius:'12px',border:'none',background:'linear-gradient(135deg,#6366F1,#4F46E5)',color:'#E6EDF5',fontFamily:"'Inter',sans-serif",fontWeight:800,fontSize:'0.85rem',cursor:'pointer'}}>✅ Başvuruyu Onayla</button>
             </div>
           </div>
         </div>
@@ -904,24 +904,24 @@ function SecretFundingCard({ holding, holdings, setHoldings, parties, profile, s
   };
 
   return (
-    <div style={{background:'rgba(11,21,39,0.95)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'14px',padding:'0.85rem',marginBottom:'0.55rem'}}>
+    <div style={{background:'rgba(11,21,39,0.95)',border:'1px solid rgba(230,237,245,0.08)',borderRadius:'14px',padding:'0.85rem',marginBottom:'0.55rem'}}>
       <div style={{display:'flex',alignItems:'center',gap:'0.6rem',marginBottom:'0.65rem'}}>
         <span style={{fontSize:'1.4rem'}}>{holding.sectorIcon}</span>
         <div>
-          <div style={{fontWeight:800,color:'#EDE7DA',fontSize:'0.88rem'}}>{holding.name}</div>
+          <div style={{fontWeight:800,color:'#E6EDF5',fontSize:'0.88rem'}}>{holding.name}</div>
           <div style={{fontSize:'0.62rem',color:'#8893A1'}}>Değer: {fmtWord(holding.value)} • Maks. fon: {fmtWord(Math.floor((holding.value||0)*0.1))}</div>
         </div>
       </div>
       <div style={{display:'flex',gap:'0.4rem',marginBottom:'0.4rem'}}>
         <select value={targetPartyId} onChange={e=>setTargetPartyId(e.target.value)}
-          style={{flex:1,background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'9px',padding:'0.5rem 0.7rem',color:targetPartyId?'#EDE7DA':'#8893A1',fontFamily:"'Inter',sans-serif",fontSize:'0.8rem',outline:'none'}}>
+          style={{flex:1,background:'rgba(230,237,245,0.03)',border:'1px solid rgba(230,237,245,0.1)',borderRadius:'9px',padding:'0.5rem 0.7rem',color:targetPartyId?'#E6EDF5':'#8893A1',fontFamily:"'Inter',sans-serif",fontSize:'0.8rem',outline:'none'}}>
           <option value=''>-- Hedef parti seç --</option>
-          {parties.map(p=><option key={p.id} value={p.id} style={{background:'#1B212B'}}>{p.name} ({p.ideology})</option>)}
+          {parties.map(p=><option key={p.id} value={p.id} style={{background:'#152032'}}>{p.name} ({p.ideology})</option>)}
         </select>
       </div>
       <div style={{display:'flex',gap:'0.4rem',marginBottom:'0.5rem'}}>
         <input type='number' value={amount} onChange={e=>setAmount(e.target.value)} placeholder='Transfer tutarı...'
-          style={{flex:1,background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'9px',padding:'0.5rem 0.7rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'0.8rem',outline:'none'}} />
+          style={{flex:1,background:'rgba(230,237,245,0.03)',border:'1px solid rgba(230,237,245,0.1)',borderRadius:'9px',padding:'0.5rem 0.7rem',color:'#E6EDF5',fontFamily:"'Inter',sans-serif",fontSize:'0.8rem',outline:'none'}} />
         <button onClick={doFund} style={{padding:'0.5rem 0.85rem',borderRadius:'9px',border:'none',background:'rgba(194,75,67,0.12)',color:'#E08C87',fontWeight:700,fontSize:'0.78rem',cursor:'pointer',border:'1px solid rgba(194,75,67,0.25)'}}>
           🕵️ Gönder
         </button>
@@ -967,7 +967,7 @@ function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangW
     const n = parseInt(hireCount)||0;
     if (n<=0||n>100) { showNotif('1-100 arası bir sayı girin','error'); return; }
     const cost = n*POLICE_COST_PER;
-    if (policeBudget < cost) { showNotif(`Yeterli polis bütçesi yok! (Gereken: 🪙${cost.toLocaleString()})`, 'error'); return; }
+    if (policeBudget < cost) { showNotif(`Yeterli polis bütçesi yok! (Gereken: ₺${cost.toLocaleString()})`, 'error'); return; }
     const newCount = policeCount + n;
     setPoliceCount(newCount);
     setPoliceBudget(p=>p-cost);
@@ -975,7 +975,7 @@ function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangW
     const newActions = [action,...policeActions].slice(0,50);
     setPoliceActions(newActions);
     setHireModal(false); setHireCount('');
-    showNotif(`✅ ${n} polis memuru işe alındı! -🪙${cost.toLocaleString()} bütçe`, 'success');
+    showNotif(`✅ ${n} polis memuru işe alındı! -₺${cost.toLocaleString()} bütçe`, 'success');
     try{window._pushGameEvent?.('polis_ise_alim','🚔 Polis İşe Alımı',`${n} yeni polis memuru göreve başladı.`,'🚔','devlet');}catch(e){}
     try{window._socket?.emit('police:update',{state:{officers:newCount,budget:policeBudget-cost,operations:newActions}});}catch(e){}
   };
@@ -1006,15 +1006,15 @@ function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangW
     try{window._socket?.emit('police:update',{state:{officers:newCount2,budget:policeBudget,operations:newActions2}});}catch(e){}
   };
 
-  const card = {background:'rgba(11,21,39,0.9)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'12px',padding:'0.85rem',marginBottom:'0.55rem'};
+  const card = {background:'rgba(11,21,39,0.9)',border:'1px solid rgba(230,237,245,0.08)',borderRadius:'12px',padding:'0.85rem',marginBottom:'0.55rem'};
 
   return (
     <div style={{padding:'0.7rem'}}>
       <div style={{background:'linear-gradient(135deg,rgba(59,130,246,0.12),rgba(11,21,39,0.97))',border:'1px solid rgba(59,130,246,0.25)',borderRadius:'12px',padding:'1.1rem',marginBottom:'0.75rem'}}>
         <div style={{fontSize:'0.6rem',color:'#60A5FA',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.2rem'}}>DEVLET SİSTEMİ</div>
-        <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA',marginBottom:'0.15rem'}}>🚔 İçişleri Bakanlığı</div>
+        <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:'1.1rem',fontWeight:900,color:'#E6EDF5',marginBottom:'0.15rem'}}>🚔 İçişleri Bakanlığı</div>
         <div style={{fontSize:'0.72rem',color:'#8893A1'}}>Polis teşkilatı yönetimi ve çete operasyonları</div>
-        {!hasAuth && <div style={{marginTop:'0.5rem',background:'rgba(194,75,67,0.08)',border:'1px solid rgba(194,75,67,0.2)',borderRadius:'8px',padding:'0.5rem',fontSize:'0.72rem',color:'#E08C87'}}>⚠️ Bu sayfayı yönetmek için İçişleri Bakanı veya Padişah olmanız gerekiyor.</div>}
+        {!hasAuth && <div style={{marginTop:'0.5rem',background:'rgba(194,75,67,0.08)',border:'1px solid rgba(194,75,67,0.2)',borderRadius:'8px',padding:'0.5rem',fontSize:'0.72rem',color:'#E08C87'}}>⚠️ Bu sayfayı yönetmek için İçişleri Bakanı veya Cumhurbaşkanı olmanız gerekiyor.</div>}
       </div>
 
       <div style={{display:'flex',gap:'4px',marginBottom:'0.75rem',overflowX:'auto',scrollbarWidth:'none'}}>
@@ -1030,10 +1030,10 @@ function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangW
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'0.4rem',marginBottom:'0.75rem'}}>
             {[
               ['🚔','Polis Sayısı',policeCount,'#60A5FA'],
-              ['💰','Bütçe',`🪙${(policeBudget/1000000).toFixed(1)}M`,'#4C9A6B'],
-              ['⚔️','Aktif Operasyon',gangWarsActive.filter(w=>(w.policeBonus||0)>0).length,'#C9A227'],
+              ['💰','Bütçe',`₺${(policeBudget/1000000).toFixed(1)}M`,'#4C9A6B'],
+              ['⚔️','Aktif Operasyon',gangWarsActive.filter(w=>(w.policeBonus||0)>0).length,'#3CC8F0'],
             ].map(([ic,lb,v,c])=>(
-              <div key={lb} style={{background:`rgba(237,231,218,0.02)`,border:`1px solid ${c}22`,borderRadius:'10px',padding:'0.65rem 0.35rem',textAlign:'center'}}>
+              <div key={lb} style={{background:`rgba(230,237,245,0.02)`,border:`1px solid ${c}22`,borderRadius:'10px',padding:'0.65rem 0.35rem',textAlign:'center'}}>
                 <div style={{fontSize:'0.58rem',color:'#8893A1',textTransform:'uppercase',marginBottom:'0.15rem',letterSpacing:'0.04em'}}>{ic} {lb}</div>
                 <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.88rem',fontWeight:800,color:c}}>{v}</div>
               </div>
@@ -1044,7 +1044,7 @@ function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangW
             <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.65rem'}}>Her polis = <strong style={{color:'#60A5FA'}}>3 savunma gücü</strong> (çete savaşlarında)</div>
             {[
               ['🏙️','Şehir Koruma',policeDeployment.cityProtection||0,'#4C9A6B'],
-              ['⚔️','Savaş Müdahalesi',policeCount-(policeDeployment.cityProtection||0),'#C9A227'],
+              ['⚔️','Savaş Müdahalesi',policeCount-(policeDeployment.cityProtection||0),'#3CC8F0'],
             ].map(([ic,lb,v,c])=>(
               <div key={lb} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.3rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
                 <span style={{fontSize:'0.72rem',color:'#4A5A6A'}}>{ic} {lb}</span>
@@ -1057,7 +1057,7 @@ function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangW
             {gangWarsActive.length===0&&<div style={{fontSize:'0.78rem',color:'#3B4E63'}}>Şu an aktif savaş yok.</div>}
             {gangWarsActive.map(w=>(
               <div key={w.id} style={{padding:'0.5rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
-                <div style={{fontSize:'0.8rem',fontWeight:700,color:'#EDE7DA'}}>{w.attackerName} ⚔️ {w.defenderName}</div>
+                <div style={{fontSize:'0.8rem',fontWeight:700,color:'#E6EDF5'}}>{w.attackerName} ⚔️ {w.defenderName}</div>
                 <div style={{fontSize:'0.65rem',color:'#8893A1'}}>Polis Katkısı: <span style={{color:'#60A5FA',fontWeight:700}}>{w.policeBonus||0} güç</span> (savunma tarafına)</div>
               </div>
             ))}
@@ -1068,8 +1068,8 @@ function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangW
       {sub==='hire'&&(
         <div>
           <div style={{...card}}>
-            <div style={{fontWeight:700,color:'#EDE7DA',marginBottom:'0.4rem',fontSize:'0.85rem'}}>👮 Polis Kadrosu</div>
-            <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.65rem'}}>Mevcut polis: <strong style={{color:'#60A5FA'}}>{policeCount}</strong> memur · İşe alım maliyeti: 🪙50.000/memur · Aylık maaş: 🪙10.000/memur</div>
+            <div style={{fontWeight:700,color:'#E6EDF5',marginBottom:'0.4rem',fontSize:'0.85rem'}}>👮 Polis Kadrosu</div>
+            <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.65rem'}}>Mevcut polis: <strong style={{color:'#60A5FA'}}>{policeCount}</strong> memur · İşe alım maliyeti: ₺50.000/memur · Aylık maaş: ₺10.000/memur</div>
             {hasAuth&&<button onClick={()=>setHireModal(true)} style={{width:'100%',padding:'0.65rem',borderRadius:'10px',border:'none',background:'linear-gradient(135deg,#3B82F6,#1D4ED8)',color:'#fff',fontWeight:800,fontSize:'0.85rem',cursor:'pointer',fontFamily:"'Inter',sans-serif"}}>+ Polis Personeli İşe Al</button>}
             {hasAuth&&policeCount>0&&<div style={{marginTop:'0.5rem',display:'flex',gap:'0.4rem',flexWrap:'wrap'}}>
               {[5,10,25].map(n=>(
@@ -1095,7 +1095,7 @@ function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangW
               return (
                 <div key={w.id} style={{background:'rgba(194,75,67,0.05)',border:'1px solid rgba(194,75,67,0.2)',borderRadius:'10px',padding:'0.75rem',marginBottom:'0.5rem'}}>
                   <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:'0.4rem'}}>
-                    <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.85rem'}}>{w.attackerName} ⚔️ {w.defenderName}</div>
+                    <div style={{fontWeight:700,color:'#E6EDF5',fontSize:'0.85rem'}}>{w.attackerName} ⚔️ {w.defenderName}</div>
                     <div style={{fontSize:'0.62rem',color:'#C24B43'}}>{h}s {m}dk kaldı</div>
                   </div>
                   <div style={{fontSize:'0.65rem',color:'#8893A1',marginBottom:'0.5rem'}}>Mevcut polis katkısı: <strong style={{color:'#60A5FA'}}>{w.policeBonus||0} güç</strong> (savunma)</div>
@@ -1118,10 +1118,10 @@ function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangW
         <div>
           <div style={{...card,background:'rgba(76,154,107,0.04)',border:'1px solid rgba(76,154,107,0.15)'}}>
             <div style={{fontWeight:700,color:'#4C9A6B',marginBottom:'0.5rem',fontSize:'0.85rem'}}>💰 Polis Bütçesi</div>
-            <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'1.4rem',fontWeight:900,color:'#4C9A6B',marginBottom:'0.5rem'}}>🪙{policeBudget.toLocaleString()}</div>
+            <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'1.4rem',fontWeight:900,color:'#4C9A6B',marginBottom:'0.5rem'}}>₺{policeBudget.toLocaleString()}</div>
             <div style={{fontSize:'0.7rem',color:'#8893A1',lineHeight:1.5}}>
               Mevcut kadro: {policeCount} memur<br/>
-              Aylık maaş gideri: 🪙{(policeCount*POLICE_SALARY).toLocaleString()}<br/>
+              Aylık maaş gideri: ₺{(policeCount*POLICE_SALARY).toLocaleString()}<br/>
               Bütçe kaynağı: Devlet hazinesi transferi
             </div>
             {hasAuth&&(
@@ -1136,9 +1136,9 @@ function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangW
                       t2.balance=(t2.balance||0)-n;
                       localStorage.setItem('rep_treasury',JSON.stringify(t2));
                       setPoliceBudget(p=>p+n);
-                      showNotif(`✅ 🪙${(n/1000000).toFixed(0)}M polis bütçesine transfer edildi`,'success');
+                      showNotif(`✅ ₺${(n/1000000).toFixed(0)}M polis bütçesine transfer edildi`,'success');
                     }} style={{padding:'0.35rem 0.75rem',borderRadius:'8px',border:`1px solid ${canAfford?'rgba(76,154,107,0.3)':'rgba(255,255,255,0.06)'}`,background:canAfford?'rgba(76,154,107,0.1)':'rgba(255,255,255,0.02)',color:canAfford?'#4C9A6B':'#3B4E63',cursor:canAfford?'pointer':'default',fontSize:'0.72rem',fontWeight:700,fontFamily:"'Inter',sans-serif"}}>
-                      +🪙{(n/1000000).toFixed(0)}M
+                      +₺{(n/1000000).toFixed(0)}M
                     </button>
                   );
                 })}
@@ -1155,10 +1155,10 @@ function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangW
           {policeActions.slice(0,15).map(a=>(
             <div key={a.id} style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',padding:'0.55rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
               <div>
-                <div style={{fontSize:'0.8rem',fontWeight:700,color:'#EDE7DA'}}>
+                <div style={{fontSize:'0.8rem',fontWeight:700,color:'#E6EDF5'}}>
                   {a.type==='hire'?`👮 +${a.count} polis işe alındı`:a.type==='fire'?`🚫 ${a.count} polis görevden alındı`:`⚔️ ${a.count} polis savaşa konuşlandırıldı`}
                 </div>
-                <div style={{fontSize:'0.62rem',color:'#8893A1'}}>{a.by||'Yönetim'} · {a.cost?`🪙${a.cost.toLocaleString()} · `:''}{new Date(a.ts).toLocaleString('tr-TR',{hour:'2-digit',minute:'2-digit'})}</div>
+                <div style={{fontSize:'0.62rem',color:'#8893A1'}}>{a.by||'Yönetim'} · {a.cost?`₺${a.cost.toLocaleString()} · `:''}{new Date(a.ts).toLocaleString('tr-TR',{hour:'2-digit',minute:'2-digit'})}</div>
               </div>
               {a.powBonus&&<div style={{fontSize:'0.7rem',color:'#60A5FA',fontWeight:700}}>+{a.powBonus} güç</div>}
             </div>
@@ -1168,12 +1168,12 @@ function PoliceMinistryPage({ profile, setProfile, showNotif, gangWars, setGangW
 
       {hireModal&&(
         <div onClick={()=>setHireModal(false)} style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.7)',display:'flex',alignItems:'center',justifyContent:'center',zIndex:9999}}>
-          <div onClick={e=>e.stopPropagation()} style={{background:'#1B212B',border:'1px solid rgba(237,231,218,0.12)',borderRadius:'16px',padding:'1.25rem',width:'min(90vw,360px)'}}>
-            <div style={{fontWeight:800,color:'#EDE7DA',fontSize:'0.95rem',marginBottom:'0.75rem'}}>👮 Polis İşe Al</div>
-            <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.6rem'}}>Bütçe: 🪙{policeBudget.toLocaleString()} · Her polis: 🪙50.000</div>
+          <div onClick={e=>e.stopPropagation()} style={{background:'#152032',border:'1px solid rgba(230,237,245,0.12)',borderRadius:'16px',padding:'1.25rem',width:'min(90vw,360px)'}}>
+            <div style={{fontWeight:800,color:'#E6EDF5',fontSize:'0.95rem',marginBottom:'0.75rem'}}>👮 Polis İşe Al</div>
+            <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.6rem'}}>Bütçe: ₺{policeBudget.toLocaleString()} · Her polis: ₺50.000</div>
             <input type="number" value={hireCount} onChange={e=>setHireCount(e.target.value)} placeholder="Kaç polis? (max 100)" min="1" max="100"
-              style={{width:'100%',background:'rgba(237,231,218,0.05)',border:'1px solid rgba(96,165,250,0.3)',borderRadius:'8px',padding:'0.6rem 0.8rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'0.9rem',outline:'none',marginBottom:'0.65rem',boxSizing:'border-box'}} />
-            {hireCount>0&&<div style={{fontSize:'0.72rem',color:'#60A5FA',marginBottom:'0.65rem'}}>Toplam maliyet: 🪙{((parseInt(hireCount)||0)*50000).toLocaleString()}</div>}
+              style={{width:'100%',background:'rgba(230,237,245,0.05)',border:'1px solid rgba(96,165,250,0.3)',borderRadius:'8px',padding:'0.6rem 0.8rem',color:'#E6EDF5',fontFamily:"'Inter',sans-serif",fontSize:'0.9rem',outline:'none',marginBottom:'0.65rem',boxSizing:'border-box'}} />
+            {hireCount>0&&<div style={{fontSize:'0.72rem',color:'#60A5FA',marginBottom:'0.65rem'}}>Toplam maliyet: ₺{((parseInt(hireCount)||0)*50000).toLocaleString()}</div>}
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.5rem'}}>
               <button onClick={()=>{setHireModal(false);setHireCount('');}} style={{padding:'0.55rem',borderRadius:'9px',border:'1px solid rgba(255,255,255,0.08)',background:'rgba(255,255,255,0.03)',color:'#8893A1',cursor:'pointer',fontWeight:700,fontFamily:"'Inter',sans-serif"}}>İptal</button>
               <button onClick={hirePolice} style={{padding:'0.55rem',borderRadius:'9px',border:'none',background:'linear-gradient(135deg,#3B82F6,#1D4ED8)',color:'#fff',cursor:'pointer',fontWeight:700,fontFamily:"'Inter',sans-serif"}}>İşe Al</button>

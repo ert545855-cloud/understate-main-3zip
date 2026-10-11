@@ -58,7 +58,7 @@ router.post('/send', authMiddleware, asyncHandler(async (req, res) => {
     `SELECT COUNT(*) FROM caravans WHERE owner_id=$1 AND status='travelling'`,
     [req.user.id]
   );
-  if (parseInt(active[0].count) >= 3) return res.status(400).json({ success: false, message: 'En fazla 3 aktif kervan gönderebilirsin' });
+  if (parseInt(active[0].count) >= 3) return res.status(400).json({ success: false, message: 'En fazla 3 aktif konvoy gönderebilirsin' });
   const ct     = CARGO_TYPES[cargo_type];
   const amount = Math.max(10, Math.min(1000, parseInt(cargo_amount)));
   const income = Math.floor(ct.baseIncome * (amount / 100));
@@ -77,16 +77,16 @@ router.post('/:id/collect', authMiddleware, asyncHandler(async (req, res) => {
     `SELECT * FROM caravans WHERE id=$1 AND owner_id=$2 FOR UPDATE`,
     [parseInt(req.params.id), req.user.id]
   );
-  if (!rows.length) return res.status(404).json({ success: false, message: 'Kervan bulunamadı' });
+  if (!rows.length) return res.status(404).json({ success: false, message: 'Konvoy bulunamadı' });
   const c = rows[0];
-  if (c.status !== 'arrived') return res.status(400).json({ success: false, message: 'Kervan henüz varmadı' });
+  if (c.status !== 'arrived') return res.status(400).json({ success: false, message: 'Konvoy henüz varmadı' });
   await sb.query(
     `UPDATE caravans SET status='collected',collected_at=NOW() WHERE id=$1`,
     [c.id]
   );
   // Kullanıcı parasına ekle
   await sb.query(`UPDATE users SET money=money+$1 WHERE id=$2`, [c.income, req.user.id]);
-  res.json({ success: true, income: c.income, message: `Kervan geliri toplandı: ${c.income.toLocaleString()} 🪙` });
+  res.json({ success: true, income: c.income, message: `Konvoy geliri toplandı: ${c.income.toLocaleString()} ₺` });
 }));
 
 // POST /api/caravans/:id/raid — kervan soy
@@ -95,7 +95,7 @@ router.post('/:id/raid', authMiddleware, asyncHandler(async (req, res) => {
     `SELECT * FROM caravans WHERE id=$1 AND status='travelling' FOR UPDATE`,
     [parseInt(req.params.id)]
   );
-  if (!rows.length) return res.status(404).json({ success: false, message: 'Soyulacak kervan bulunamadı' });
+  if (!rows.length) return res.status(404).json({ success: false, message: 'Soyulacak konvoy bulunamadı' });
   const c = rows[0];
   if (c.owner_id === req.user.id) return res.status(400).json({ success: false, message: 'Kendi kervanını soyamazsın' });
   // Güç karşılaştırması
@@ -114,7 +114,7 @@ router.post('/:id/raid', authMiddleware, asyncHandler(async (req, res) => {
     } catch(e) {}
     res.json({ success: true, result: 'raided', loot: Math.floor(c.income * 0.7) });
   } else {
-    res.json({ success: true, result: 'failed', message: 'Kervan korumaları püskürttü!' });
+    res.json({ success: true, result: 'failed', message: 'Konvoy korumaları püskürttü!' });
   }
 }));
 

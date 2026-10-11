@@ -6,7 +6,7 @@ function SpyPage({ profile, setProfile, showNotif }) {
   const [spyCooldown, setSpyCooldown] = useLs('spyCooldown', {});
   const [tab, setTab] = useState('ops');
   const { dark } = useTheme();
-  const bg = dark ? '#1A0E00' : '#F8FAFC';
+  const bg = dark ? '#0F1724' : '#F8FAFC';
   const cu = profile || {};
   const now = Date.now();
 
@@ -29,7 +29,7 @@ function SpyPage({ profile, setProfile, showNotif }) {
       setSpyOps(prev => [entry, ...prev].slice(0, 30));
       setProfile(prev => ({ ...prev, money:data.newMoney, meritPoints:data.newMerits, merit_points:data.newMerits }));
       localStorage.setItem('rep_userProfile', JSON.stringify({ ...cu, money:data.newMoney, meritPoints:data.newMerits }));
-      if (data.success) showNotif(`✅ ${op?.name||'Operasyon'} başarılı! +🪙${data.moneyDelta?.toLocaleString()} +${data.merit}🏅`, 'success');
+      if (data.success) showNotif(`✅ ${op?.name||'Operasyon'} başarılı! +₺${data.moneyDelta?.toLocaleString()} +${data.merit}🏅`, 'success');
       else              showNotif(`💔 ${op?.name||'Operasyon'} başarısız! Ajan ele geçirildi.`, 'error');
     };
     sock.on('spy:result', onResult);
@@ -41,7 +41,7 @@ function SpyPage({ profile, setProfile, showNotif }) {
     const last = spyCooldown[uid+'_'+op.id] || 0;
     const rem  = op.cd - (now - last);
     if (rem > 0) { showNotif(`⏳ ${op.name} için ${Math.ceil(rem/3600000)}sa bekle!`, 'error'); return; }
-    if ((cu.money||0) < op.cost) { showNotif(`❌ 🪙${op.cost.toLocaleString()} gerekli!`, 'error'); return; }
+    if ((cu.money||0) < op.cost) { showNotif(`❌ ₺${op.cost.toLocaleString()} gerekli!`, 'error'); return; }
     const sock = window._socket;
     if (!sock?.connected) { showNotif('❌ Sunucuya bağlı değilsiniz', 'error'); return; }
     setSpyCooldown(prev => ({ ...prev, [uid+'_'+op.id]: now }));
@@ -50,10 +50,10 @@ function SpyPage({ profile, setProfile, showNotif }) {
 
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>
-      <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.3rem',fontWeight:900,color:'#C9A227',marginBottom:'1rem'}}>🕵️ İstihbarat Servisi</div>
+      <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#3CC8F0',marginBottom:'1rem'}}>🕵️ İstihbarat Servisi</div>
       <div style={{display:'flex',gap:'0.4rem',marginBottom:'1rem'}}>
         {[{k:'ops',l:'🕵️ Operasyonlar'},{k:'log',l:'📋 Geçmiş'}].map(t=>(
-          <button key={t.k} onClick={()=>setTab(t.k)} style={{padding:'0.4rem 1rem',borderRadius:'2rem',border:`1px solid ${tab===t.k?'#C9A227':'rgba(255,255,255,0.12)'}`,background:tab===t.k?'rgba(201,162,39,0.12)':'transparent',color:tab===t.k?'#C9A227':'#999',cursor:'pointer',fontWeight:tab===t.k?700:400,fontSize:'0.83rem',fontFamily:'inherit'}}>{t.l}</button>
+          <button key={t.k} onClick={()=>setTab(t.k)} style={{padding:'0.4rem 1rem',borderRadius:'2rem',border:`1px solid ${tab===t.k?'#3CC8F0':'rgba(255,255,255,0.12)'}`,background:tab===t.k?'rgba(60,200,240,0.12)':'transparent',color:tab===t.k?'#3CC8F0':'#999',cursor:'pointer',fontWeight:tab===t.k?700:400,fontSize:'0.83rem',fontFamily:'inherit'}}>{t.l}</button>
         ))}
       </div>
 
@@ -71,16 +71,16 @@ function SpyPage({ profile, setProfile, showNotif }) {
                   <span style={{fontWeight:700,fontSize:'0.9rem'}}>{op.name}</span>
                 </div>
                 <div style={{textAlign:'right',fontSize:'0.72rem',color:'#888'}}>
-                  <div>Maliyet: 🪙{op.cost.toLocaleString()}</div>
-                  <div style={{color:'#4C9A6B'}}>Ödül: 🪙{op.reward.money.toLocaleString()}</div>
+                  <div>Maliyet: ₺{op.cost.toLocaleString()}</div>
+                  <div style={{color:'#4C9A6B'}}>Ödül: ₺{op.reward.money.toLocaleString()}</div>
                 </div>
               </div>
               <div style={{fontSize:'0.75rem',color:'#888',marginBottom:'0.5rem'}}>{op.desc}</div>
               <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                <div style={{fontSize:'0.7rem',color:'#C9A227'}}>Başarı: %{Math.round(op.successRate*100)} · +{op.reward.merit}🏅</div>
-                {!ready && <span style={{fontSize:'0.68rem',color:'#C9A227'}}>⏳ {rem>3600000?`${Math.ceil(rem/3600000)}sa`:`${Math.ceil(rem/60000)}dk`}</span>}
+                <div style={{fontSize:'0.7rem',color:'#3CC8F0'}}>Başarı: %{Math.round(op.successRate*100)} · +{op.reward.merit}🏅</div>
+                {!ready && <span style={{fontSize:'0.68rem',color:'#3CC8F0'}}>⏳ {rem>3600000?`${Math.ceil(rem/3600000)}sa`:`${Math.ceil(rem/60000)}dk`}</span>}
               </div>
-              <button onClick={()=>doOp(op)} disabled={!ready||(cu.money||0)<op.cost} style={{width:'100%',marginTop:'0.5rem',padding:'0.45rem',borderRadius:'8px',border:'none',background:ready&&(cu.money||0)>=op.cost?'rgba(167,139,250,0.2)':'rgba(255,255,255,0.04)',color:ready&&(cu.money||0)>=op.cost?'#C9A227':'#555',cursor:ready&&(cu.money||0)>=op.cost?'pointer':'not-allowed',fontWeight:700,fontSize:'0.8rem',fontFamily:'inherit'}}>
+              <button onClick={()=>doOp(op)} disabled={!ready||(cu.money||0)<op.cost} style={{width:'100%',marginTop:'0.5rem',padding:'0.45rem',borderRadius:'8px',border:'none',background:ready&&(cu.money||0)>=op.cost?'rgba(167,139,250,0.2)':'rgba(255,255,255,0.04)',color:ready&&(cu.money||0)>=op.cost?'#3CC8F0':'#555',cursor:ready&&(cu.money||0)>=op.cost?'pointer':'not-allowed',fontWeight:700,fontSize:'0.8rem',fontFamily:'inherit'}}>
                 {ready?`${op.icon} Operasyonu Başlat`:'Bekleniyor…'}
               </button>
             </div>
@@ -91,14 +91,14 @@ function SpyPage({ profile, setProfile, showNotif }) {
       {tab==='log'&&<div>
         {spyOps.length===0&&<div style={{textAlign:'center',color:'#555',padding:'2rem'}}>Henüz operasyon yok.</div>}
         {spyOps.map(op=>(
-          <div key={op.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.6rem',background:'rgba(237,231,218,0.02)',borderRadius:'8px',marginBottom:'0.4rem',border:`1px solid ${op.result==='success'?'rgba(76,154,107,0.2)':'rgba(194,75,67,0.15)'}`}}>
+          <div key={op.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.6rem',background:'rgba(230,237,245,0.02)',borderRadius:'8px',marginBottom:'0.4rem',border:`1px solid ${op.result==='success'?'rgba(76,154,107,0.2)':'rgba(194,75,67,0.15)'}`}}>
             <div>
               <div style={{fontWeight:600,fontSize:'0.85rem'}}>{op.icon} {op.op}</div>
               <div style={{fontSize:'0.68rem',color:'#888'}}>{op.date}</div>
             </div>
             <div style={{textAlign:'right'}}>
               <div style={{fontWeight:700,color:op.result==='success'?'#4C9A6B':'#C24B43',fontSize:'0.82rem'}}>{op.result==='success'?'✅ Başarılı':'💔 Başarısız'}</div>
-              {op.reward&&<div style={{fontSize:'0.68rem',color:'#4C9A6B'}}>+🪙{op.reward.money?.toLocaleString()}</div>}
+              {op.reward&&<div style={{fontSize:'0.68rem',color:'#4C9A6B'}}>+₺{op.reward.money?.toLocaleString()}</div>}
             </div>
           </div>
         ))}

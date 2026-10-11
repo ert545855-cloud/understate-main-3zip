@@ -9,7 +9,7 @@ window.MeyhanScreen = function MeyhanScreen({ profile, token }) {
   const [msg, setMsg] = React.useState({ text:'', ok:true });
   const chatRef = React.useRef(null);
 
-  const ds = { bg:'#0B0906', surface:'rgba(255,220,150,0.04)', gold:'#C9A227', amber:'#D4872C', border:'rgba(255,200,100,0.1)', text:'#EDE7DA', muted:'#A8956A', green:'#4CAF50', red:'#FF6B6B' };
+  const ds = { bg:'#0B0906', surface:'rgba(255,220,150,0.04)', gold:'#3CC8F0', amber:'#D4872C', border:'rgba(255,200,100,0.1)', text:'#E6EDF5', muted:'#A8956A', green:'#4CAF50', red:'#FF6B6B' };
 
   const fetchTables = async () => {
     try {
@@ -101,7 +101,7 @@ window.MeyhanScreen = function MeyhanScreen({ profile, token }) {
       React.createElement('div', { style:{ fontSize:'0.78rem', color:ds.muted }}, 'Bir masaya otur, sipariş ver, sohbet et.')
     ),
 
-    msg.text && React.createElement('div', { style:{ background: msg.ok ? 'rgba(201,162,39,0.1)' : 'rgba(255,80,80,0.1)', border:`1px solid ${msg.ok ? ds.gold : ds.red}`, borderRadius:'8px', padding:'10px 14px', marginBottom:'1rem', fontSize:'0.82rem', color: msg.ok ? ds.gold : ds.red }}, msg.text),
+    msg.text && React.createElement('div', { style:{ background: msg.ok ? 'rgba(60,200,240,0.1)' : 'rgba(255,80,80,0.1)', border:`1px solid ${msg.ok ? ds.gold : ds.red}`, borderRadius:'8px', padding:'10px 14px', marginBottom:'1rem', fontSize:'0.82rem', color: msg.ok ? ds.gold : ds.red }}, msg.text),
 
     // If seated — show chat + menu
     myTable ? React.createElement('div', null,
@@ -136,7 +136,7 @@ window.MeyhanScreen = function MeyhanScreen({ profile, token }) {
             style:{ padding:'10px 8px', borderRadius:'10px', border:`1px solid ${ds.border}`, cursor:'pointer', background:'rgba(255,200,100,0.04)', color:ds.text, textAlign:'center' }},
             React.createElement('div', { style:{ fontSize:'1.4rem', marginBottom:'3px' }}, item.emoji),
             React.createElement('div', { style:{ fontSize:'0.75rem', fontWeight:700 }}, item.name),
-            React.createElement('div', { style:{ fontSize:'0.7rem', color:ds.muted }}, `${item.price} 🪙 · +${item.xp} XP`)
+            React.createElement('div', { style:{ fontSize:'0.7rem', color:ds.muted }}, `${item.price} ₺ · +${item.xp} XP`)
           )
         )
       )

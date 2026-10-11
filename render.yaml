@@ -3,7 +3,7 @@ services:
     name: understate
     runtime: node
     plan: free
-    buildCommand: npm install
+    buildCommand: npm ci --omit=dev || npm install --omit=dev
     startCommand: node server/main.js
     healthCheckPath: /health
     envVars:
@@ -11,13 +11,15 @@ services:
         value: production
       # PORT, Render tarafından otomatik olarak inject edilir — sabit değer girmeyin.
       - key: DATABASE_URL
-        sync: false    # Render Dashboard'dan elle girilecek (zorunlu, fail-fast)
+        sync: false    # Dashboard'dan girilir (Render Postgres "Internal Database URL" ya da Supabase). Yoksa sunucu açılır ama kayıt tutmaz.
       - key: JWT_SECRET
-        sync: false    # Render Dashboard'dan elle girilecek (zorunlu, fail-fast)
-      - key: PUBLIC_URL
-        value: https://understate.onrender.com
-      - key: ALLOWED_ORIGINS
-        value: https://understate.onrender.com,capacitor://localhost
+        generateValue: true   # Render rastgele güçlü bir anahtar üretir (mevcut değer varsa korunur)
+      - key: NODE_VERSION
+        value: "22"
+      # PUBLIC_URL / ALLOWED_ORIGINS artık gerekmiyor: sunucu Render adresini (RENDER_EXTERNAL_URL)
+      # ve isteğin geldiği alan adını kendisi kullanır. Sabit "understate.onrender.com" değeri,
+      # servis farklı bir adla açıldığında socket ve girişin bozulmasına yol açıyordu.
+      # Özel alan adı kullanıyorsan Dashboard'dan PUBLIC_URL ekleyebilirsin (e-posta bağlantıları için).
       - key: ADMIN_USERS
         value: admin
       - key: BETA_MODE

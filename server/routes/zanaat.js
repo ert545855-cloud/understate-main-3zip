@@ -12,7 +12,7 @@ const CRAFT_TIERS = [
   { level: 1, title: 'Çırak',  emoji: '🔨', xpNeeded:    0, speedBonus: 1.0,  incomeBonus: 0,    craftSlots: 1 },
   { level: 2, title: 'Kalfa',  emoji: '⚒️',  xpNeeded:  200, speedBonus: 1.15, incomeBonus: 0.05, craftSlots: 2 },
   { level: 3, title: 'Usta',   emoji: '🛠️',  xpNeeded:  600, speedBonus: 1.35, incomeBonus: 0.12, craftSlots: 3 },
-  { level: 4, title: 'Üstad',  emoji: '⚜️',  xpNeeded: 1500, speedBonus: 1.60, incomeBonus: 0.22, craftSlots: 4 },
+  { level: 4, title: 'Üstad',  emoji: '🏛️',  xpNeeded: 1500, speedBonus: 1.60, incomeBonus: 0.22, craftSlots: 4 },
 ];
 
 const RECIPES = [
@@ -59,7 +59,7 @@ router.post('/craft', authMiddleware, asyncHandler(async (req, res) => {
   // Sikke kontrolü
   const { rows: user } = await db.query(`SELECT money FROM users WHERE id=$1`, [req.user.id]);
   if ((user[0]?.money || 0) < recipe.maliyet) {
-    return res.status(400).json({ success: false, message: `Yetersiz Sikke — ${recipe.maliyet.toLocaleString('tr-TR')} gerekli` });
+    return res.status(400).json({ success: false, message: `Yetersiz Para — ${recipe.maliyet.toLocaleString('tr-TR')} gerekli` });
   }
 
   // Tier hızı bonusu

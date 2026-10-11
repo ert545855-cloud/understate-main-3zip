@@ -51,8 +51,10 @@ pool.on('error', (err) => {
   // Don't set _connected=false on individual client errors — pool auto-reconnects
 });
 
+const _HAS_DB_CONFIG = Boolean(buildPoolConfig().connectionString);
 function isReady() {
-  return Boolean(process.env.DATABASE_URL);
+  // DATABASE_URL, SUPABASE_DB_URL veya RDS_* — hangisi verildiyse
+  return _HAS_DB_CONFIG;
 }
 
 // Called by connection.js after the first successful query to guarantee the flag is set

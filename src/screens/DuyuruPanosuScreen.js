@@ -7,7 +7,7 @@ window.DuyuruPanosuScreen = function DuyuruPanosuScreen({ profile, token }) {
   const [loading, setLoading] = React.useState(false);
   const [msg, setMsg] = React.useState('');
 
-  const ds = { bg:'#0D1117', surface:'rgba(255,255,255,0.04)', gold:'#C9A227', border:'rgba(255,255,255,0.08)', text:'#EDE7DA', muted:'#8893A1', red:'#FF6B6B', green:'#4CAF50' };
+  const ds = { bg:'#0D1117', surface:'rgba(255,255,255,0.04)', gold:'#3CC8F0', border:'rgba(255,255,255,0.08)', text:'#E6EDF5', muted:'#8893A1', red:'#FF6B6B', green:'#4CAF50' };
 
   const CATS = [
     { id:'hepsi', label:'Hepsi', emoji:'📋', color:ds.muted },

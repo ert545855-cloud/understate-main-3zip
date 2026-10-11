@@ -12,8 +12,8 @@ window.SezonScreen = function SezonScreen({ profile, token, onNavigate }) {
 
   const ds = {
     bg: '#0D1117', surface: 'rgba(255,255,255,0.04)',
-    gold: '#C9A227', border: 'rgba(255,255,255,0.08)',
-    text: '#EDE7DA', muted: '#8893A1',
+    gold: '#3CC8F0', border: 'rgba(255,255,255,0.08)',
+    text: '#E6EDF5', muted: '#8893A1',
     green: '#4CAF50', red: '#FF6B6B',
     card: 'rgba(30,35,48,0.95)',
   };
@@ -69,7 +69,7 @@ window.SezonScreen = function SezonScreen({ profile, token, onNavigate }) {
     : 0;
 
   const TIER_COLORS = {
-    'Padişah': '#C9A227',
+    'Padişah': '#3CC8F0',
     'Vezir': '#A0A0A0',
     'Bey': '#CD7F32',
     'Ağa': '#4C9A6B',
@@ -77,9 +77,9 @@ window.SezonScreen = function SezonScreen({ profile, token, onNavigate }) {
   };
 
   const getTier = (rank) => {
-    if (rank <= 1) return 'Padişah';
-    if (rank <= 3) return 'Vezir';
-    if (rank <= 10) return 'Bey';
+    if (rank <= 1) return 'Cumhurbaşkanı';
+    if (rank <= 3) return 'Bakan';
+    if (rank <= 10) return 'Lider';
     if (rank <= 50) return 'Ağa';
     return 'Vatandaş';
   };
@@ -109,7 +109,7 @@ window.SezonScreen = function SezonScreen({ profile, token, onNavigate }) {
       React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' } },
         React.createElement('span', { style: { fontSize: '2rem' } }, currentTheme.emoji),
         React.createElement('div', null,
-          React.createElement('div', { style: { fontFamily: "'Cinzel', serif", fontSize: '1.1rem', fontWeight: 800, color: ds.gold } },
+          React.createElement('div', { style: { fontFamily: "'Rajdhani',sans-serif", fontSize: '1.1rem', fontWeight: 800, color: ds.gold } },
             sezon ? `${currentTheme.label} - Sezon ${sezon.number}` : 'Sezon Bilgisi'
           ),
           React.createElement('div', { style: { fontSize: '0.72rem', color: ds.muted } },
@@ -131,7 +131,7 @@ window.SezonScreen = function SezonScreen({ profile, token, onNavigate }) {
       ),
       // My rank badge
       myRank && React.createElement('div', {
-        style: { marginTop: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(201,162,39,0.1)', border: '1px solid rgba(201,162,39,0.2)', borderRadius: '8px', padding: '0.45rem 0.75rem' }
+        style: { marginTop: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(60,200,240,0.1)', border: '1px solid rgba(60,200,240,0.2)', borderRadius: '8px', padding: '0.45rem 0.75rem' }
       },
         React.createElement('span', null, '🏅'),
         React.createElement('span', { style: { fontSize: '0.8rem', fontWeight: 700, color: ds.gold } },
@@ -156,7 +156,7 @@ window.SezonScreen = function SezonScreen({ profile, token, onNavigate }) {
         onClick: () => setTab(t.id),
         style: {
           flex: 1, padding: '0.65rem', border: 'none', cursor: 'pointer',
-          background: tab === t.id ? 'rgba(201,162,39,0.12)' : 'transparent',
+          background: tab === t.id ? 'rgba(60,200,240,0.12)' : 'transparent',
           color: tab === t.id ? ds.gold : ds.muted,
           fontSize: '0.75rem', fontWeight: 700, fontFamily: "'Inter', sans-serif",
           borderBottom: tab === t.id ? `2px solid ${ds.gold}` : '2px solid transparent',
@@ -176,13 +176,13 @@ window.SezonScreen = function SezonScreen({ profile, token, onNavigate }) {
       !loading && tab === 'bilgi' && React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: '0.75rem' } },
         // Season info card
         React.createElement('div', { style: { background: ds.card, border: `1px solid ${ds.border}`, borderRadius: '12px', padding: '1rem' } },
-          React.createElement('div', { style: { fontFamily: "'Cinzel', serif", fontSize: '0.85rem', fontWeight: 700, color: ds.gold, marginBottom: '0.75rem' } },
-            '⚜️ Sezon Nasıl Çalışır?'
+          React.createElement('div', { style: { fontFamily: "'Rajdhani',sans-serif", fontSize: '0.85rem', fontWeight: 700, color: ds.gold, marginBottom: '0.75rem' } },
+            '🏛️ Sezon Nasıl Çalışır?'
           ),
           [
             ['📅', 'Süre', '30 gün boyunca sürer. Her ay yeni sezon başlar.'],
-            ['⭐', 'Puan Kazan', 'Savaş gal, lonca görevi, zanaat üretimi ve günlük görevlerle puan kazan.'],
-            ['🏆', 'Sıralama', 'En yüksek puanlı oyuncular Padişah, Vezir, Bey unvanı kazanır.'],
+            ['⭐', 'Puan Kazan', 'Savaş gal, sendika görevi, zanaat üretimi ve günlük görevlerle puan kazan.'],
+            ['🏆', 'Sıralama', 'En yüksek puanlı oyuncular Cumhurbaşkanı, Bakan, Lider unvanı kazanır.'],
             ['🎁', 'Ödüller', 'Sezon sonunda sıralamana göre özel ödüller ve unvanlar verilir.'],
             ['🔄', 'Sıfırlama', 'Her sezon sonunda puanlar sıfırlanır, unvanlar profilde kalır.'],
           ].map(([icon, title, desc]) => React.createElement('div', {
@@ -199,18 +199,18 @@ window.SezonScreen = function SezonScreen({ profile, token, onNavigate }) {
 
         // Point sources
         React.createElement('div', { style: { background: ds.card, border: `1px solid ${ds.border}`, borderRadius: '12px', padding: '1rem' } },
-          React.createElement('div', { style: { fontFamily: "'Cinzel', serif", fontSize: '0.85rem', fontWeight: 700, color: ds.gold, marginBottom: '0.75rem' } },
+          React.createElement('div', { style: { fontFamily: "'Rajdhani',sans-serif", fontSize: '0.85rem', fontWeight: 700, color: ds.gold, marginBottom: '0.75rem' } },
             '⚡ Puan Kaynakları'
           ),
           [
             { action: '⚔️ Savaş Gali', pts: '+50 puan', color: '#C24B43' },
             { action: '🏰 Kale Kuşatma', pts: '+100 puan', color: '#C24B43' },
-            { action: '🎯 Düello Zaferi', pts: '+30 puan', color: '#C9A227' },
+            { action: '🎯 Düello Zaferi', pts: '+30 puan', color: '#3CC8F0' },
             { action: '⚒️ Zanaat Üretimi', pts: '+10 puan', color: '#4C9A6B' },
             { action: '📅 Günlük Görev', pts: '+20 puan', color: '#4C9A6B' },
-            { action: '🤝 Lonca Görevi', pts: '+25 puan', color: '#4C9A6B' },
+            { action: '🤝 Sendika Görevi', pts: '+25 puan', color: '#4C9A6B' },
             { action: '🗳️ Seçime Katılım', pts: '+15 puan', color: '#8893A1' },
-            { action: '📜 Kervan Tamamlama', pts: '+35 puan', color: '#C9A227' },
+            { action: '📜 Konvoy Tamamlama', pts: '+35 puan', color: '#3CC8F0' },
           ].map(({ action, pts, color }) => React.createElement('div', {
             key: action,
             style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.45rem 0', borderBottom: `1px solid ${ds.border}` }
@@ -222,15 +222,15 @@ window.SezonScreen = function SezonScreen({ profile, token, onNavigate }) {
 
         // Tiers
         React.createElement('div', { style: { background: ds.card, border: `1px solid ${ds.border}`, borderRadius: '12px', padding: '1rem' } },
-          React.createElement('div', { style: { fontFamily: "'Cinzel', serif", fontSize: '0.85rem', fontWeight: 700, color: ds.gold, marginBottom: '0.75rem' } },
+          React.createElement('div', { style: { fontFamily: "'Rajdhani',sans-serif", fontSize: '0.85rem', fontWeight: 700, color: ds.gold, marginBottom: '0.75rem' } },
             '👑 Unvan Kademeleri'
           ),
           [
-            { tier: 'Padişah', rank: '#1', color: '#C9A227', icon: '👑', bonus: '500 ⚜️ + Özel çerçeve' },
-            { tier: 'Vezir', rank: '#2-3', color: '#A0A0A0', icon: '⭐', bonus: '250 ⚜️ + Gümüş çerçeve' },
-            { tier: 'Bey', rank: '#4-10', color: '#CD7F32', icon: '🥉', bonus: '100 ⚜️ + Bronz çerçeve' },
-            { tier: 'Ağa', rank: '#11-50', color: '#4C9A6B', icon: '🏅', bonus: '50 ⚜️ + Ağa rozeti' },
-            { tier: 'Vatandaş', rank: '#51+', color: '#8893A1', icon: '🎖️', bonus: '10 ⚜️ Katılım ödülü' },
+            { tier: 'Cumhurbaşkanı', rank: '#1', color: '#3CC8F0', icon: '👑', bonus: '500 🏛️ + Özel çerçeve' },
+            { tier: 'Bakan', rank: '#2-3', color: '#A0A0A0', icon: '⭐', bonus: '250 🏛️ + Gümüş çerçeve' },
+            { tier: 'Lider', rank: '#4-10', color: '#CD7F32', icon: '🥉', bonus: '100 🏛️ + Bronz çerçeve' },
+            { tier: 'Ağa', rank: '#11-50', color: '#4C9A6B', icon: '🏅', bonus: '50 🏛️ + Ağa rozeti' },
+            { tier: 'Vatandaş', rank: '#51+', color: '#8893A1', icon: '🎖️', bonus: '10 🏛️ Katılım ödülü' },
           ].map(({ tier, rank, color, icon, bonus }) => React.createElement('div', {
             key: tier,
             style: { display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.55rem 0', borderBottom: `1px solid ${ds.border}` }
@@ -260,8 +260,8 @@ window.SezonScreen = function SezonScreen({ profile, token, onNavigate }) {
             return React.createElement('div', {
               key: r.userId || idx,
               style: {
-                background: isMe ? 'rgba(201,162,39,0.1)' : ds.card,
-                border: `1px solid ${isMe ? 'rgba(201,162,39,0.35)' : ds.border}`,
+                background: isMe ? 'rgba(60,200,240,0.1)' : ds.card,
+                border: `1px solid ${isMe ? 'rgba(60,200,240,0.35)' : ds.border}`,
                 borderRadius: '10px', padding: '0.75rem',
                 display: 'flex', alignItems: 'center', gap: '0.65rem',
               }
@@ -286,37 +286,37 @@ window.SezonScreen = function SezonScreen({ profile, token, onNavigate }) {
       ),
 
       !loading && tab === 'oduller' && React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: '0.75rem' } },
-        React.createElement('div', { style: { background: 'rgba(201,162,39,0.08)', border: '1px solid rgba(201,162,39,0.2)', borderRadius: '10px', padding: '0.75rem', fontSize: '0.78rem', color: ds.gold, lineHeight: 1.5 } },
+        React.createElement('div', { style: { background: 'rgba(60,200,240,0.08)', border: '1px solid rgba(60,200,240,0.2)', borderRadius: '10px', padding: '0.75rem', fontSize: '0.78rem', color: ds.gold, lineHeight: 1.5 } },
           '🎁 Ödüller sezon sonunda otomatik olarak hesabınıza aktarılır. Sezon boyunca puan kazanmaya devam edin!'
         ),
 
         [
           {
-            tier: 'Padişah 👑', rank: 'Sıra #1', color: '#C9A227',
-            rewards: ['500 ⚜️ Altın', 'Padişah profil çerçevesi', '"Sultan" özel unvanı', 'Efsanevi ekipman paketi'],
+            tier: 'Cumhurbaşkanı 👑', rank: 'Sıra #1', color: '#3CC8F0',
+            rewards: ['500 🏛️ Altın', 'Cumhurbaşkanı profil çerçevesi', '"Cumhurbaşkanı" özel unvanı', 'Efsanevi ekipman paketi'],
           },
           {
-            tier: 'Vezir ⭐', rank: 'Sıra #2-3', color: '#A0A0A0',
-            rewards: ['250 ⚜️ Altın', 'Vezir profil çerçevesi', '"Sadrazam" unvanı', 'Nadir ekipman paketi'],
+            tier: 'Bakan ⭐', rank: 'Sıra #2-3', color: '#A0A0A0',
+            rewards: ['250 🏛️ Altın', 'Bakan profil çerçevesi', '"Başbakan" unvanı', 'Nadir ekipman paketi'],
           },
           {
-            tier: 'Bey 🥉', rank: 'Sıra #4-10', color: '#CD7F32',
-            rewards: ['100 ⚜️ Altın', 'Bey profil çerçevesi', '"Bey" unvanı', 'Orta ekipman paketi'],
+            tier: 'Lider 🥉', rank: 'Sıra #4-10', color: '#CD7F32',
+            rewards: ['100 🏛️ Altın', 'Lider profil çerçevesi', '"Lider" unvanı', 'Orta ekipman paketi'],
           },
           {
             tier: 'Ağa 🏅', rank: 'Sıra #11-50', color: '#4C9A6B',
-            rewards: ['50 ⚜️ Altın', '"Ağa" unvanı', 'Küçük ekipman paketi'],
+            rewards: ['50 🏛️ Altın', '"Ağa" unvanı', 'Küçük ekipman paketi'],
           },
           {
             tier: 'Vatandaş 🎖️', rank: 'Sıra #51+', color: '#8893A1',
-            rewards: ['10 ⚜️ Altın', 'Katılım rozeti'],
+            rewards: ['10 🏛️ Altın', 'Katılım rozeti'],
           },
         ].map(({ tier, rank, color, rewards: rList }) => React.createElement('div', {
           key: tier,
           style: { background: ds.card, border: `1px solid ${ds.border}`, borderRadius: '12px', overflow: 'hidden' }
         },
-          React.createElement('div', { style: { background: `rgba(${color === '#C9A227' ? '201,162,39' : color === '#A0A0A0' ? '160,160,160' : color === '#CD7F32' ? '205,127,50' : color === '#4C9A6B' ? '76,154,107' : '136,147,161'},0.12)`, padding: '0.65rem 0.85rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' } },
-            React.createElement('span', { style: { fontSize: '0.85rem', fontWeight: 800, color, fontFamily: "'Cinzel', serif" } }, tier),
+          React.createElement('div', { style: { background: `rgba(${color === '#3CC8F0' ? '60,200,240' : color === '#A0A0A0' ? '160,160,160' : color === '#CD7F32' ? '205,127,50' : color === '#4C9A6B' ? '76,154,107' : '136,147,161'},0.12)`, padding: '0.65rem 0.85rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' } },
+            React.createElement('span', { style: { fontSize: '0.85rem', fontWeight: 800, color, fontFamily: "'Rajdhani',sans-serif" } }, tier),
             React.createElement('span', { style: { fontSize: '0.7rem', color: ds.muted } }, rank)
           ),
           React.createElement('div', { style: { padding: '0.65rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '0.3rem' } },

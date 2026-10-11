@@ -1,4 +1,4 @@
-# Saltanat Online
+# Siyaset RP (eski adı: Saltanat Online)
 
 SALTANAT ONLINE (v8.0) is a Turkish-language, mobile-friendly multiplayer city & state
 simulation game. It's a Babel-standalone React single-file frontend (`index.html`

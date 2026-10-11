@@ -48,9 +48,9 @@ router.get('/current', authMiddleware, async (req, res) => {
     }
 
     const rewards = [
-      { tier: 'Padişah', rank: 1,  altin: 500, frame: 'rainbow', title: 'Sultan' },
-      { tier: 'Vezir',   rank: 3,  altin: 250, frame: 'gold',    title: 'Sadrazam' },
-      { tier: 'Bey',     rank: 10, altin: 100, frame: 'silver',  title: 'Bey' },
+      { tier: 'Cumhurbaşkanı', rank: 1,  altin: 500, frame: 'rainbow', title: 'Cumhurbaşkanı' },
+      { tier: 'Bakan',   rank: 3,  altin: 250, frame: 'gold',    title: 'Başbakan' },
+      { tier: 'Lider',     rank: 10, altin: 100, frame: 'silver',  title: 'Lider' },
       { tier: 'Ağa',     rank: 50, altin: 50,  frame: null,      title: 'Ağa' },
       { tier: 'Vatandaş',rank: 999,altin: 10,  frame: null,      title: null },
     ];

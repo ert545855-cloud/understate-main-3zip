@@ -10,16 +10,16 @@ const { asyncHandler }   = require('../middleware/asyncHandler');
 
 const KOZMETIKLER = [
   // Bayraklar
-  { id:'bayrak_altin',    tur:'bayrak',       ad:'Altın Tuğra Bayrağı',   emoji:'🏳️', maliyet:5000,  aciklama:'Beyliğinizde parlak altın tuğra' },
-  { id:'bayrak_hilal',    tur:'bayrak',       ad:'Hilal Bayrağı',         emoji:'☪️',  maliyet:3000,  aciklama:'Klasik Osmanlı hilali' },
+  { id:'bayrak_altin',    tur:'bayrak',       ad:'Altın Amblem Bayrağı',   emoji:'🏳️', maliyet:5000,  aciklama:'Devletinizde parlak altın amblem' },
+  { id:'bayrak_hilal',    tur:'bayrak',       ad:'Hilal Bayrağı',         emoji:'☪️',  maliyet:3000,  aciklama:'Ay-yıldızlı klasik bayrak' },
   { id:'bayrak_arslan',   tur:'bayrak',       ad:'Arslan Bayrağı',         emoji:'🦁',  maliyet:8000,  aciklama:'Güç simgesi arslan figürü' },
   // Armalar
   { id:'arma_kartal',     tur:'arma',         ad:'Kartal Arması',          emoji:'🦅',  maliyet:6000,  aciklama:'Çift başlı kartal arması' },
-  { id:'arma_kılıç',      tur:'arma',         ad:'Kılıç Arması',           emoji:'⚔️',  maliyet:4000,  aciklama:'Savaşçı beyliklerin tercihi' },
-  { id:'arma_taç',        tur:'arma',         ad:'Taç Arması',             emoji:'👑',  maliyet:12000, aciklama:'Sadece padişahlara yakışır' },
+  { id:'arma_kılıç',      tur:'arma',         ad:'Kılıç Arması',           emoji:'⚔️',  maliyet:4000,  aciklama:'Savaşçı devletlerin tercihi' },
+  { id:'arma_taç',        tur:'arma',         ad:'Taç Arması',             emoji:'👑',  maliyet:12000, aciklama:'Sadece liderlere yakışır' },
   // Taht temaları
-  { id:'taht_altin',      tur:'taht_temasi',  ad:'Altın Taht Teması',      emoji:'✨',  maliyet:15000, aciklama:'Profiliniz altın ışıltısıyla parlar' },
-  { id:'taht_lacivert',   tur:'taht_temasi',  ad:'Lacivert Divan Teması',  emoji:'💙',  maliyet:10000, aciklama:'Sultanî mavi tonlar' },
+  { id:'taht_altin',      tur:'taht_temasi',  ad:'Altın Makam Teması',      emoji:'✨',  maliyet:15000, aciklama:'Profiliniz altın ışıltısıyla parlar' },
+  { id:'taht_lacivert',   tur:'taht_temasi',  ad:'Lacivert Kabine Teması',  emoji:'💙',  maliyet:10000, aciklama:'Resmî lacivert tonlar' },
   { id:'taht_kırmızı',    tur:'taht_temasi',  ad:'Kırmızı Hükümet Teması', emoji:'❤️',  maliyet:10000, aciklama:'Güç ve otorite kırmızısı' },
 ];
 
@@ -61,7 +61,7 @@ router.post('/satin-al', authMiddleware, asyncHandler(async (req, res) => {
   if ((u.money || 0) < kozmetik.maliyet) {
     return res.status(400).json({
       success: false,
-      error: `Yetersiz Sikke — ${kozmetik.maliyet.toLocaleString('tr-TR')} gerekli`
+      error: `Yetersiz Para — ${kozmetik.maliyet.toLocaleString('tr-TR')} gerekli`
     });
   }
 

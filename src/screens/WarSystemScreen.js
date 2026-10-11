@@ -6,10 +6,10 @@
 
 const WAR_DS = {
   bg: '#12161f',
-  border: 'rgba(201,162,39,0.25)',
-  gold: '#C9A227',
+  border: 'rgba(60,200,240,0.25)',
+  gold: '#3CC8F0',
   red: '#C24B43',
-  text: '#EDE7DA',
+  text: '#E6EDF5',
   muted: '#9aa1ad',
 };
 
@@ -27,7 +27,7 @@ function WarMap({ provinces, fronts, onSelect, selectedId }) {
   );
 
   const contPath = React.useMemo(() => pointsToPath(outline, 2), [outline]);
-  const FACTION_COLORS = { player: '201,162,39', ally: '76,154,107', enemy: '194,75,67', neutral: '90,96,107' };
+  const FACTION_COLORS = { player: '60,200,240', ally: '76,154,107', enemy: '194,75,67', neutral: '90,96,107' };
 
   return React.createElement('svg', {
     viewBox: '0 0 1000 1000',
@@ -91,7 +91,7 @@ function WarDeclarationsFeed({ declarations }) {
   const items = declarations || [];
   return React.createElement('div', { style: { background: WAR_DS.bg, border: `1px solid ${WAR_DS.border}`, borderRadius: 14, padding: 16 } },
     React.createElement('div', {
-      style: { fontSize: '0.85rem', color: WAR_DS.gold, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 12, fontFamily: "'Cinzel',serif" }
+      style: { fontSize: '0.85rem', color: WAR_DS.gold, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 12, fontFamily: "'Rajdhani',sans-serif" }
     }, 'Savaş İlanları'),
     ...items.map((w, i) => React.createElement('div', {
       key: i,
@@ -122,7 +122,7 @@ function BattleReportCard({ report }) {
   return React.createElement('div', {
     style: { background: 'linear-gradient(180deg,#171b25,#12161f)', border: `1px solid ${WAR_DS.border}`, borderRadius: 14, padding: 16, fontFamily: "'Inter',sans-serif", color: WAR_DS.text }
   },
-    React.createElement('div', { style: { fontFamily: "'Cinzel',serif", fontSize: '0.95rem', color: WAR_DS.gold, marginBottom: 10, letterSpacing: 1 } }, r.title),
+    React.createElement('div', { style: { fontFamily: "'Rajdhani',sans-serif", fontSize: '0.95rem', color: WAR_DS.gold, marginBottom: 10, letterSpacing: 1 } }, r.title),
     Row('Saldıran', r.attacker),
     Row('Savunan', r.defender),
     Row('Sonuç', r.result, r.won ? 'win' : 'loss'),

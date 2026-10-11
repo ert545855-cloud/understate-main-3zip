@@ -4,7 +4,7 @@
  */
 
 const BREVO_URL  = 'https://api.brevo.com/v3/smtp/email';
-const SENDER     = { name: 'Saltanat Online', email: 'basemirhan28@gmail.com' };
+const SENDER     = { name: 'Siyaset RP', email: 'basemirhan28@gmail.com' };
 
 async function _send({ to, toName, subject, html, type = 'general' }) {
   const key = process.env.BREVO_API_KEY;
@@ -47,11 +47,11 @@ body{margin:0;background:#0F1115;font-family:'Segoe UI',Arial,sans-serif;color:#
 .footer{text-align:center;color:#3E4450;font-size:.73rem;margin-top:28px;border-top:1px solid rgba(200,155,60,.12);padding-top:16px}
 </style></head><body><div class="wrap">
 <div class="logo">
-  <div class="logo-title">⚔ SALTANAT ONLİNE</div>
-  <div class="logo-sub">Osmanlı Strateji &amp; Rol Yapma Oyunu</div>
+  <div class="logo-title">⚔ SİYASET RP ONLİNE</div>
+  <div class="logo-sub">Devlet Strateji &amp; Rol Yapma Oyunu</div>
 </div>
 ${content}
-<div class="footer">© 2026 Saltanat Online — Tüm hakları saklıdır.</div>
+<div class="footer">© 2026 Siyaset RP — Tüm hakları saklıdır.</div>
 </div></body></html>`;
 }
 
@@ -63,18 +63,18 @@ function _card(borderColor, content) {
 function sendWelcome(to, username) {
   const html = _layout(_card('rgba(200,155,60,.35)', `
     <h1 style="color:#F5EBD7;font-size:1.4rem;margin:0 0 12px">🎮 Hoş geldin, <span style="color:#C89B3C">${username}</span>!</h1>
-    <p style="color:#A9A6A0;line-height:1.7">Saltanat Online'a katıldın. Osmanlı döneminde geçen, binlerce oyuncunun aynı dünyada yaşadığı strateji ve rol yapma oyununa hoş geldin.</p>
+    <p style="color:#A9A6A0;line-height:1.7">Siyaset RP'a katıldın. Devlet döneminde geçen, binlerce oyuncunun aynı dünyada yaşadığı strateji ve rol yapma oyununa hoş geldin.</p>
     <hr style="border:none;border-top:1px solid rgba(200,155,60,.15);margin:16px 0">
     <p style="color:#F5EBD7;font-weight:600;margin-bottom:10px">Başlangıç bonusların:</p>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
-      ${[['🪙10.000','Başlangıç Akçesi'],['50 Altın','Altın Sikke'],['Lv1','Seviye']].map(([v,l])=>`
+      ${[['₺10.000','Başlangıç Akçesi'],['50 Altın','Altın Para'],['Lv1','Seviye']].map(([v,l])=>`
       <div style="flex:1;min-width:90px;background:rgba(200,155,60,.1);border:1px solid rgba(200,155,60,.25);border-radius:10px;padding:12px;text-align:center">
         <div style="font-size:1.1rem;font-weight:800;color:#C89B3C">${v}</div>
         <div style="font-size:.7rem;color:#A9A6A0;text-transform:uppercase;margin-top:3px">${l}</div>
       </div>`).join('')}
     </div>
   `));
-  return _send({ to, toName: username, subject: '⚔ Saltanat Online\'a Hoş Geldin!', html, type: 'welcome' });
+  return _send({ to, toName: username, subject: '⚔ Siyaset RP\'a Hoş Geldin!', html, type: 'welcome' });
 }
 
 // ── Email Doğrulama ───────────────────────────────────────────────────────────
@@ -82,14 +82,14 @@ function sendEmailVerification(to, username, verifyUrl) {
   const html = _layout(_card('rgba(62,140,90,.3)', `
     <h1 style="color:#F5EBD7;font-size:1.3rem;margin:0 0 12px">✉️ E-posta Adresini Doğrula</h1>
     <p style="color:#A9A6A0;line-height:1.7">Merhaba <strong style="color:#F5EBD7">${username}</strong>,</p>
-    <p style="color:#A9A6A0;line-height:1.7">Saltanat Online hesabını aktive etmek için aşağıdaki butona tıkla.</p>
+    <p style="color:#A9A6A0;line-height:1.7">Siyaset RP hesabını aktive etmek için aşağıdaki butona tıkla.</p>
     <div style="text-align:center;margin:24px 0">
       <a href="${verifyUrl}" style="background:linear-gradient(135deg,#C89B3C,#E8B84B);color:#0F1115;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:800;font-size:15px;display:inline-block;letter-spacing:.05em">✉️ E-postamı Doğrula</a>
     </div>
     <p style="color:#C89B3C;font-size:.82rem;text-align:center">⚠️ Bu bağlantı 24 saat geçerlidir.</p>
     <p style="color:#3E4450;font-size:.82rem;text-align:center">Bu isteği sen yapmadıysan bu maili yoksay.</p>
   `));
-  return _send({ to, toName: username, subject: '✉️ Saltanat Online — E-posta Doğrulama', html, type: 'email_verify' });
+  return _send({ to, toName: username, subject: '✉️ Siyaset RP — E-posta Doğrulama', html, type: 'email_verify' });
 }
 
 // ── Şifre Sıfırlama ───────────────────────────────────────────────────────────
@@ -97,14 +97,14 @@ function sendPasswordReset(to, username, resetUrl) {
   const html = _layout(_card('rgba(184,66,60,.3)', `
     <h1 style="color:#F5EBD7;font-size:1.3rem;margin:0 0 12px">🔐 Şifre Sıfırlama</h1>
     <p style="color:#A9A6A0;line-height:1.7">Merhaba <strong style="color:#F5EBD7">${username}</strong>,</p>
-    <p style="color:#A9A6A0;line-height:1.7">Saltanat Online hesabın için şifre sıfırlama talebinde bulundun.</p>
+    <p style="color:#A9A6A0;line-height:1.7">Siyaset RP hesabın için şifre sıfırlama talebinde bulundun.</p>
     <div style="text-align:center;margin:24px 0">
       <a href="${resetUrl}" style="background:linear-gradient(135deg,#B8423C,#D45550);color:#fff;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:700;font-size:15px;display:inline-block">🔐 Şifremi Sıfırla</a>
     </div>
     <p style="color:#C89B3C;font-size:.82rem;text-align:center">⚠️ Bu bağlantı 1 saat geçerlidir.</p>
     <p style="color:#3E4450;font-size:.82rem;text-align:center">Bu isteği sen yapmadıysan yoksay — şifren değişmeyecek.</p>
   `));
-  return _send({ to, toName: username, subject: '🔐 Saltanat Online — Şifre Sıfırlama', html, type: 'password_reset' });
+  return _send({ to, toName: username, subject: '🔐 Siyaset RP — Şifre Sıfırlama', html, type: 'password_reset' });
 }
 
 // ── Ban Bildirimi ─────────────────────────────────────────────────────────────
@@ -117,7 +117,7 @@ function sendBanNotification(to, username, reason, until) {
     <p style="color:#A9A6A0">Ban süresi: <strong style="color:#E8A5A5">${untilStr}</strong></p>
     <p style="color:#3E4450;font-size:.82rem">Haksız olduğunu düşünüyorsan yöneticilere itiraz edebilirsin.</p>
   `));
-  return _send({ to, toName: username, subject: '🚫 Saltanat Online — Hesap Askıya Alındı', html, type: 'ban' });
+  return _send({ to, toName: username, subject: '🚫 Siyaset RP — Hesap Askıya Alındı', html, type: 'ban' });
 }
 
 // ── Seçim Sonucu ──────────────────────────────────────────────────────────────
@@ -138,7 +138,7 @@ function sendNotification(to, username, title, message) {
     <p style="color:#A9A6A0;line-height:1.7">Merhaba <strong style="color:#F5EBD7">${username}</strong>,</p>
     <p style="color:#A9A6A0;line-height:1.7">${message}</p>
   `));
-  return _send({ to, toName: username, subject: `📢 Saltanat Online: ${title}`, html, type: 'notification' });
+  return _send({ to, toName: username, subject: `📢 Siyaset RP: ${title}`, html, type: 'notification' });
 }
 
 module.exports = {

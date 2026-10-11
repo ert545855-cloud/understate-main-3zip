@@ -3,11 +3,11 @@
 // ═══════════════════════════════════════════════════════════════
 function AuctionHouseScreen({ profile, setProfile, showNotif }) {
   const { dark } = useTheme();
-  const bg      = dark ? '#1A0E00' : '#F8FAFC';
-  const surface = dark ? '#2D1800' : '#EDE7DA';
-  const gold    = '#C89B3C';
-  const text    = dark ? '#F5EBD7' : '#2D1800';
-  const muted   = '#A9A6A0';
+  const bg      = dark ? '#0F1724' : '#F8FAFC';
+  const surface = dark ? '#152032' : '#E6EDF5';
+  const gold    = '#3CC8F0';
+  const text    = dark ? '#E6EDF5' : '#152032';
+  const muted   = '#93A4B8';
 
   const [tab, setTab]           = React.useState('active');   // active | my | bids
   const [auctions, setAuctions] = React.useState([]);
@@ -94,12 +94,12 @@ function AuctionHouseScreen({ profile, setProfile, showNotif }) {
     } catch(e) { showNotif('Bağlantı hatası', 'error'); }
   };
 
-  const ITEM_ICONS = { sikke:'🪙', altin:'⚜️', silah:'⚔️', mermi:'💣', esya:'📦' };
-  const ITEM_NAMES = { sikke:'Sikke', altin:'Altın', silah:'Silah', mermi:'Mermi', esya:'Eşya' };
+  const ITEM_ICONS = { sikke:'₺', altin:'🏛️', silah:'⚔️', mermi:'💣', esya:'📦' };
+  const ITEM_NAMES = { sikke:'Para', altin:'Altın', silah:'Silah', mermi:'Mermi', esya:'Eşya' };
 
   const cardStyle = {
     background: surface, borderRadius: '10px', padding: '0.85rem',
-    border: `1px solid ${dark ? 'rgba(200,155,60,0.15)' : 'rgba(0,0,0,0.07)'}`,
+    border: `1px solid ${dark ? 'rgba(60,200,240,0.15)' : 'rgba(0,0,0,0.07)'}`,
     marginBottom: '0.5rem', cursor: 'pointer'
   };
 
@@ -108,11 +108,11 @@ function AuctionHouseScreen({ profile, setProfile, showNotif }) {
       {/* Başlık */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
         <div>
-          <div style={{ fontFamily: "'Cinzel',serif", fontSize: '1.2rem', fontWeight: 900, color: gold }}>🏺 Artırma Evi</div>
-          <div style={{ fontSize: '0.72rem', color: muted }}>Osmanlı çarşısında al-sat yap</div>
+          <div style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: '1.2rem', fontWeight: 900, color: gold }}>🏺 Artırma Evi</div>
+          <div style={{ fontSize: '0.72rem', color: muted }}>Devlet çarşısında al-sat yap</div>
         </div>
         <button onClick={() => setShowCreate(true)}
-          style={{ background: gold, color: '#1A0E00', border: 'none', borderRadius: '8px', padding: '0.5rem 0.85rem', fontWeight: 700, cursor: 'pointer', fontSize: '0.8rem' }}>
+          style={{ background: gold, color: '#0F1724', border: 'none', borderRadius: '8px', padding: '0.5rem 0.85rem', fontWeight: 700, cursor: 'pointer', fontSize: '0.8rem' }}>
           + Listele
         </button>
       </div>
@@ -122,7 +122,7 @@ function AuctionHouseScreen({ profile, setProfile, showNotif }) {
         {[['active','🏛️ Aktif'],['my','📋 İlanlarım'],['bids','🤝 Tekliflerim']].map(([k,l]) => (
           <button key={k} onClick={() => { setTab(k); }}
             style={{ flex: 1, padding: '0.5rem', borderRadius: '8px', border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: '0.75rem',
-              background: tab === k ? gold : surface, color: tab === k ? '#1A0E00' : muted }}>
+              background: tab === k ? gold : surface, color: tab === k ? '#0F1724' : muted }}>
             {l}
           </button>
         ))}
@@ -134,7 +134,7 @@ function AuctionHouseScreen({ profile, setProfile, showNotif }) {
           {['','sikke','altin','silah','mermi','esya'].map(t => (
             <button key={t} onClick={() => setFilterType(t)}
               style={{ padding: '0.3rem 0.65rem', borderRadius: '20px', border: 'none', cursor: 'pointer', fontSize: '0.72rem',
-                background: filterType === t ? gold : surface, color: filterType === t ? '#1A0E00' : muted, fontWeight: 600 }}>
+                background: filterType === t ? gold : surface, color: filterType === t ? '#0F1724' : muted, fontWeight: 600 }}>
               {t ? (ITEM_ICONS[t] + ' ' + ITEM_NAMES[t]) : '🔍 Tümü'}
             </button>
           ))}
@@ -155,7 +155,7 @@ function AuctionHouseScreen({ profile, setProfile, showNotif }) {
               <div style={{ fontSize: '0.7rem', color: muted }}>{a.seller_username} · {a.bid_count} teklif · ⏳{timeLeft(a.ends_at)}</div>
             </div>
             <div style={{ textAlign: 'right' }}>
-              <div style={{ fontWeight: 800, color: gold, fontSize: '0.9rem' }}>{Number(a.current_price).toLocaleString('tr-TR')} 🪙</div>
+              <div style={{ fontWeight: 800, color: gold, fontSize: '0.9rem' }}>{Number(a.current_price).toLocaleString('tr-TR')} ₺</div>
               {a.buyout_price && <div style={{ fontSize: '0.65rem', color: muted }}>Hemen al: {Number(a.buyout_price).toLocaleString('tr-TR')}</div>}
             </div>
           </div>
@@ -165,28 +165,28 @@ function AuctionHouseScreen({ profile, setProfile, showNotif }) {
       {/* Teklif Modalı */}
       {selected && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: '1rem' }}>
-          <div style={{ background: dark ? '#2D1800' : '#fff', borderRadius: '16px', padding: '1.5rem', maxWidth: '380px', width: '100%', border: `1px solid ${gold}44` }}>
-            <div style={{ fontFamily: "'Cinzel',serif", fontSize: '1.1rem', fontWeight: 800, color: gold, marginBottom: '0.5rem' }}>🏺 {selected.item_name}</div>
+          <div style={{ background: dark ? '#152032' : '#fff', borderRadius: '16px', padding: '1.5rem', maxWidth: '380px', width: '100%', border: `1px solid ${gold}44` }}>
+            <div style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: '1.1rem', fontWeight: 800, color: gold, marginBottom: '0.5rem' }}>🏺 {selected.item_name}</div>
             <div style={{ fontSize: '0.8rem', color: muted, marginBottom: '1rem' }}>
               Satıcı: {selected.seller_username} · {selected.bid_count} teklif<br/>
-              Güncel fiyat: <strong style={{ color: gold }}>{Number(selected.current_price).toLocaleString('tr-TR')} 🪙</strong><br/>
-              Min. teklif: <strong>{Math.ceil(selected.current_price * 1.05).toLocaleString('tr-TR')} 🪙</strong><br/>
-              {selected.buyout_price && <>Hemen al: <strong>{Number(selected.buyout_price).toLocaleString('tr-TR')} 🪙</strong><br/></>}
+              Güncel fiyat: <strong style={{ color: gold }}>{Number(selected.current_price).toLocaleString('tr-TR')} ₺</strong><br/>
+              Min. teklif: <strong>{Math.ceil(selected.current_price * 1.05).toLocaleString('tr-TR')} ₺</strong><br/>
+              {selected.buyout_price && <>Hemen al: <strong>{Number(selected.buyout_price).toLocaleString('tr-TR')} ₺</strong><br/></>}
               Bitiş: {timeLeft(selected.ends_at)}
             </div>
             <input value={bidAmount} onChange={e => setBidAmount(e.target.value)} type="number"
               placeholder={`Min. ${Math.ceil(selected.current_price * 1.05).toLocaleString('tr-TR')}`}
-              style={{ width: '100%', padding: '0.65rem', borderRadius: '8px', border: `1px solid ${gold}44`, background: dark?'#1A0E00':'#F5EBD7', color: text, fontSize: '0.9rem', marginBottom: '0.75rem', boxSizing: 'border-box' }} />
+              style={{ width: '100%', padding: '0.65rem', borderRadius: '8px', border: `1px solid ${gold}44`, background: dark?'#0F1724':'#E6EDF5', color: text, fontSize: '0.9rem', marginBottom: '0.75rem', boxSizing: 'border-box' }} />
             <div style={{ display: 'flex', gap: '0.5rem' }}>
               <button onClick={() => setSelected(null)}
                 style={{ flex: 1, padding: '0.65rem', borderRadius: '8px', border: `1px solid ${gold}44`, background: 'transparent', color: muted, cursor: 'pointer', fontWeight: 600 }}>İptal</button>
               <button onClick={placeBid}
-                style={{ flex: 2, padding: '0.65rem', borderRadius: '8px', border: 'none', background: gold, color: '#1A0E00', cursor: 'pointer', fontWeight: 700 }}>Teklif Ver 🤝</button>
+                style={{ flex: 2, padding: '0.65rem', borderRadius: '8px', border: 'none', background: gold, color: '#0F1724', cursor: 'pointer', fontWeight: 700 }}>Teklif Ver 🤝</button>
             </div>
             {selected.buyout_price && (
               <button onClick={async () => { setBidAmount(selected.buyout_price); await placeBid(); }}
                 style={{ width: '100%', marginTop: '0.5rem', padding: '0.65rem', borderRadius: '8px', border: 'none', background: '#3E8C5A', color: '#fff', cursor: 'pointer', fontWeight: 700, fontSize: '0.85rem' }}>
-                ⚡ Hemen Al — {Number(selected.buyout_price).toLocaleString('tr-TR')} 🪙
+                ⚡ Hemen Al — {Number(selected.buyout_price).toLocaleString('tr-TR')} ₺
               </button>
             )}
           </div>
@@ -196,27 +196,27 @@ function AuctionHouseScreen({ profile, setProfile, showNotif }) {
       {/* Yeni Listeleme Modalı */}
       {showCreate && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: '1rem' }}>
-          <div style={{ background: dark ? '#2D1800' : '#fff', borderRadius: '16px', padding: '1.5rem', maxWidth: '380px', width: '100%', border: `1px solid ${gold}44` }}>
-            <div style={{ fontFamily: "'Cinzel',serif", fontSize: '1.1rem', fontWeight: 800, color: gold, marginBottom: '1rem' }}>🏺 Yeni İlan</div>
+          <div style={{ background: dark ? '#152032' : '#fff', borderRadius: '16px', padding: '1.5rem', maxWidth: '380px', width: '100%', border: `1px solid ${gold}44` }}>
+            <div style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: '1.1rem', fontWeight: 800, color: gold, marginBottom: '1rem' }}>🏺 Yeni İlan</div>
             <div style={{ marginBottom: '0.5rem' }}>
               <label style={{ fontSize: '0.75rem', color: muted }}>Eşya Türü</label>
               <select value={form.item_type} onChange={e => setForm(f => ({...f, item_type: e.target.value}))}
-                style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: `1px solid ${gold}44`, background: dark?'#1A0E00':'#F5EBD7', color: text, marginTop: '0.25rem' }}>
+                style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: `1px solid ${gold}44`, background: dark?'#0F1724':'#E6EDF5', color: text, marginTop: '0.25rem' }}>
                 {Object.entries(ITEM_NAMES).map(([k,v]) => <option key={k} value={k}>{ITEM_ICONS[k]} {v}</option>)}
               </select>
             </div>
-            {[['item_name','Eşya Adı','text'],['starting_price','Başlangıç Fiyatı (🪙)','number'],['buyout_price','Hemen Al Fiyatı (opsiyonel)','number'],['duration_hours','Süre (saat, 1–72)','number']].map(([k,l,t]) => (
+            {[['item_name','Eşya Adı','text'],['starting_price','Başlangıç Fiyatı (₺)','number'],['buyout_price','Hemen Al Fiyatı (opsiyonel)','number'],['duration_hours','Süre (saat, 1–72)','number']].map(([k,l,t]) => (
               <div key={k} style={{ marginBottom: '0.5rem' }}>
                 <label style={{ fontSize: '0.75rem', color: muted }}>{l}</label>
                 <input value={form[k]} onChange={e => setForm(f => ({...f, [k]: e.target.value}))} type={t}
-                  style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: `1px solid ${gold}44`, background: dark?'#1A0E00':'#F5EBD7', color: text, marginTop: '0.25rem', boxSizing: 'border-box' }} />
+                  style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: `1px solid ${gold}44`, background: dark?'#0F1724':'#E6EDF5', color: text, marginTop: '0.25rem', boxSizing: 'border-box' }} />
               </div>
             ))}
             <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.75rem' }}>
               <button onClick={() => setShowCreate(false)}
                 style={{ flex: 1, padding: '0.65rem', borderRadius: '8px', border: `1px solid ${gold}44`, background: 'transparent', color: muted, cursor: 'pointer', fontWeight: 600 }}>İptal</button>
               <button onClick={createListing}
-                style={{ flex: 2, padding: '0.65rem', borderRadius: '8px', border: 'none', background: gold, color: '#1A0E00', cursor: 'pointer', fontWeight: 700 }}>Listele 🏺</button>
+                style={{ flex: 2, padding: '0.65rem', borderRadius: '8px', border: 'none', background: gold, color: '#0F1724', cursor: 'pointer', fontWeight: 700 }}>Listele 🏺</button>
             </div>
           </div>
         </div>

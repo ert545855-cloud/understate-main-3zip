@@ -39,48 +39,48 @@ window.GücPuaniScreen = function GücPuaniScreen({ profile, setProfile, showNot
 
   const güç = window.hesaplaGucPuani(profile || {});
 
-  const GOLD = '#C89B3C';
-  const BG   = '#1A0E00';
-  const SURF = '#2D1800';
+  const GOLD = '#3CC8F0';
+  const BG   = '#0F1724';
+  const SURF = '#152032';
 
   const kategoriler = [
     { id:'gida',    label:'Gıda Puanı',    emoji:'🌾', deger:güç.gida,    color:'#4C9A6B', aciklama:'Tarım ve hayvancılıktan kazanılır. Ordu iaşesi için kritik.' },
-    { id:'alet',    label:'Alet Puanı',    emoji:'⚒️', deger:güç.alet,    color:'#C89B3C', aciklama:'Alet Atölyesi\'nde üretilen silah ve donanımdan kazanılır.' },
+    { id:'alet',    label:'Alet Puanı',    emoji:'⚒️', deger:güç.alet,    color:'#3CC8F0', aciklama:'Alet Atölyesi\'nde üretilen silah ve donanımdan kazanılır.' },
     { id:'maden',   label:'Maden Puanı',   emoji:'⛏️', deger:güç.maden,   color:'#8893A1', aciklama:'Madencilik faaliyetlerinden kazanılır. Hammadde katkısı.' },
     { id:'egitim',  label:'Eğitim Puanı',  emoji:'🎓', deger:güç.egitim,  color:'#5B8DD9', aciklama:'Diplomalar ve liyakat puanı eğitim gücüne katkı sağlar.' },
-    { id:'ordu',    label:'Ordu Gücü',     emoji:'🪖', deger:güç.ordu,    color:'#C24B43', aciklama:'Askere alınan Osmanlı birliklerinin toplam güç değeri.' },
+    { id:'ordu',    label:'Ordu Gücü',     emoji:'🪖', deger:güç.ordu,    color:'#C24B43', aciklama:'Askere alınan Devlet birliklerinin toplam güç değeri.' },
   ];
 
   const toplamBar = (deger, toplam) => toplam > 0 ? Math.min(100, Math.round(deger/toplam*100)) : 0;
 
   return React.createElement('div', {style:{minHeight:'100vh',background:BG,fontFamily:"'Inter',sans-serif",paddingBottom:90}},
     // Header
-    React.createElement('div', {style:{background:'linear-gradient(135deg,#2D1800,#3D2200,#2D1800)',borderBottom:'1px solid rgba(200,155,60,0.3)',padding:'14px 16px 14px'}},
+    React.createElement('div', {style:{background:'linear-gradient(135deg,#152032,#152032,#152032)',borderBottom:'1px solid rgba(60,200,240,0.3)',padding:'14px 16px 14px'}},
       React.createElement('div',{style:{display:'flex',alignItems:'center',gap:10,marginBottom:12}},
         React.createElement('span',{style:{fontSize:'1.6rem'}},'⚡'),
         React.createElement('div',null,
-          React.createElement('div',{style:{fontFamily:"'Cinzel',serif",fontWeight:900,fontSize:'1.15rem',color:GOLD}},'Güç Puanı Merkezi'),
-          React.createElement('div',{style:{fontSize:'0.68rem',color:'#A9A6A0'}},'Tüm puan türlerinin birleşimi → Beylik gücü'),
+          React.createElement('div',{style:{fontFamily:"'Rajdhani',sans-serif",fontWeight:900,fontSize:'1.15rem',color:GOLD}},'Güç Puanı Merkezi'),
+          React.createElement('div',{style:{fontSize:'0.68rem',color:'#93A4B8'}},'Tüm puan türlerinin birleşimi → Devlet gücü'),
         ),
       ),
       // Toplam büyük gösterge
-      React.createElement('div',{style:{background:'rgba(200,155,60,0.1)',border:'1px solid rgba(200,155,60,0.35)',borderRadius:14,padding:'16px',textAlign:'center',marginBottom:8}},
-        React.createElement('div',{style:{fontSize:'0.65rem',color:'#A9A6A0',letterSpacing:'0.12em',textTransform:'uppercase',fontFamily:"'Cinzel',serif",marginBottom:4}},'TOPLAM GÜÇ PUANI'),
+      React.createElement('div',{style:{background:'rgba(60,200,240,0.1)',border:'1px solid rgba(60,200,240,0.35)',borderRadius:14,padding:'16px',textAlign:'center',marginBottom:8}},
+        React.createElement('div',{style:{fontSize:'0.65rem',color:'#93A4B8',letterSpacing:'0.12em',textTransform:'uppercase',fontFamily:"'Rajdhani',sans-serif",marginBottom:4}},'TOPLAM GÜÇ PUANI'),
         React.createElement('div',{style:{fontFamily:"'JetBrains Mono',monospace",fontSize:'2.5rem',fontWeight:900,color:GOLD}}, güç.toplam.toLocaleString('tr-TR')),
-        React.createElement('div',{style:{fontSize:'0.65rem',color:'#8893A1',marginTop:4}}, 'Bu puan beylik savaşlarında kullanılır'),
+        React.createElement('div',{style:{fontSize:'0.65rem',color:'#8893A1',marginTop:4}}, 'Bu puan devlet savaşlarında kullanılır'),
       ),
     ),
 
     React.createElement('div',{style:{padding:12}},
 
       // Puan kategorileri
-      React.createElement('div',{style:{fontFamily:"'Cinzel',serif",fontSize:'0.65rem',fontWeight:700,color:'#8893A1',marginBottom:10,letterSpacing:'0.1em'}}, 'PUAN KATEGORİLERİ'),
+      React.createElement('div',{style:{fontFamily:"'Rajdhani',sans-serif",fontSize:'0.65rem',fontWeight:700,color:'#8893A1',marginBottom:10,letterSpacing:'0.1em'}}, 'PUAN KATEGORİLERİ'),
       kategoriler.map(k =>
         React.createElement('div',{key:k.id,style:{background:SURF,border:`1px solid ${k.color}33`,borderRadius:12,padding:'12px 14px',marginBottom:8}},
           React.createElement('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:6}},
             React.createElement('div',{style:{display:'flex',alignItems:'center',gap:8}},
               React.createElement('span',{style:{fontSize:'1.2rem'}},k.emoji),
-              React.createElement('span',{style:{fontWeight:800,color:'#EDE7DA',fontSize:'0.85rem'}},k.label),
+              React.createElement('span',{style:{fontWeight:800,color:'#E6EDF5',fontSize:'0.85rem'}},k.label),
             ),
             React.createElement('div',{style:{fontFamily:"'JetBrains Mono',monospace",fontWeight:800,color:k.color,fontSize:'1rem'}},k.deger.toLocaleString('tr-TR')),
           ),
@@ -95,18 +95,18 @@ window.GücPuaniScreen = function GücPuaniScreen({ profile, setProfile, showNot
       ),
 
       // Geliştirme kılavuzu
-      React.createElement('div',{style:{background:'rgba(200,155,60,0.05)',border:'1px solid rgba(200,155,60,0.15)',borderRadius:12,padding:14,marginTop:8}},
-        React.createElement('div',{style:{fontFamily:"'Cinzel',serif",fontWeight:700,color:GOLD,marginBottom:10,fontSize:'0.8rem'}},'💡 NASIL GELİŞTİRİLİR?'),
+      React.createElement('div',{style:{background:'rgba(60,200,240,0.05)',border:'1px solid rgba(60,200,240,0.15)',borderRadius:12,padding:14,marginTop:8}},
+        React.createElement('div',{style:{fontFamily:"'Rajdhani',sans-serif",fontWeight:700,color:GOLD,marginBottom:10,fontSize:'0.8rem'}},'💡 NASIL GELİŞTİRİLİR?'),
         [
           ['🌾','Gıda Puanı','Tarım → Ekin ek, hasat yap (her hasat +Gıda Puanı)'],
           ['⚒️','Alet Puanı','Maden → Alet Atölyesi → Kılıç/Yay/Ok/Zırh üret'],
           ['⛏️','Maden Puanı','Maden sekmesinden kaynak çıkar (+Maden Puanı)'],
           ['🎓','Eğitim Puanı','Eğitim tamamla + Liyakat puanı kazan'],
-          ['🪖','Ordu Gücü','Osmanlı Ordusu\'ndan asker al (Alet ile)'],
+          ['🪖','Ordu Gücü','Silahlı Kuvvetler\'ndan asker al (Alet ile)'],
         ].map(([em,lb,ac])=>React.createElement('div',{key:lb,style:{display:'flex',gap:8,padding:'7px 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}},
           React.createElement('span',{style:{fontSize:'1rem',flexShrink:0}},em),
           React.createElement('div',null,
-            React.createElement('div',{style:{fontSize:'0.73rem',fontWeight:700,color:'#EDE7DA'}},lb),
+            React.createElement('div',{style:{fontSize:'0.73rem',fontWeight:700,color:'#E6EDF5'}},lb),
             React.createElement('div',{style:{fontSize:'0.65rem',color:'#8893A1'}},ac),
           ),
         ))
@@ -118,13 +118,13 @@ window.GücPuaniScreen = function GücPuaniScreen({ profile, setProfile, showNot
           ['⛏️','Madencilik','mining'],
           ['⚒️','Alet Atölyesi','alet_atolyesi'],
           ['🌾','Tarım','farm'],
-          ['🪖','Osmanlı Ordusu','ottoman_ordu'],
+          ['🪖','Silahlı Kuvvetler','ottoman_ordu'],
           ['🎓','Eğitim','education'],
-          ['⚜️','Beylikler','politics'],
+          ['🏛️','Devletler','politics'],
         ].map(([em,lb,page])=>
-          React.createElement('button',{key:page,onClick:()=>onNavigate&&onNavigate(page),style:{background:SURF,border:'1px solid rgba(200,155,60,0.15)',borderRadius:10,padding:'10px 6px',display:'flex',flexDirection:'column',alignItems:'center',gap:4,cursor:'pointer',border:'1px solid rgba(255,255,255,0.07)'}},
+          React.createElement('button',{key:page,onClick:()=>onNavigate&&onNavigate(page),style:{background:SURF,border:'1px solid rgba(60,200,240,0.15)',borderRadius:10,padding:'10px 6px',display:'flex',flexDirection:'column',alignItems:'center',gap:4,cursor:'pointer',border:'1px solid rgba(255,255,255,0.07)'}},
             React.createElement('span',{style:{fontSize:'1.3rem'}},em),
-            React.createElement('span',{style:{fontSize:'0.65rem',color:'#A9A6A0',fontWeight:700,textAlign:'center'}},lb),
+            React.createElement('span',{style:{fontSize:'0.65rem',color:'#93A4B8',fontWeight:700,textAlign:'center'}},lb),
           )
         )
       ),

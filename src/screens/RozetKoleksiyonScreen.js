@@ -1,5 +1,5 @@
 window.RozetKoleksiyonScreen = function({ profile, onNavigate }) {
-  const G='#C89B3C',BG='#0F0800',T='#F5EBD7',M='#A9A6A0',S='#2D1800',GR='#3E8C5A',R='#B8423C',P='#A78BFA';
+  const G='#3CC8F0',BG='#0A0F17',T='#E6EDF5',M='#93A4B8',S='#152032',GR='#3E8C5A',R='#B8423C',P='#A78BFA';
   const lv = profile?.level||1;
   const money = profile?.money||0;
   const xp = profile?.xp||0;
@@ -12,9 +12,9 @@ window.RozetKoleksiyonScreen = function({ profile, onNavigate }) {
     {id:'lv50',  emoji:'💎', name:'Üstad',             desc:'Seviye 50\'ye ulaş',        cat:'Seviye',   earned: lv>=50, color:P},
     {id:'lv99',  emoji:'👑', name:'Efsane',            desc:'Seviye 99\'a ulaş',         cat:'Seviye',   earned: lv>=99, color:'#FF8C00'},
     // Ekonomi rozetleri
-    {id:'para1', emoji:'💰', name:'Esnaf',             desc:'100.000 Sikke kazan',       cat:'Ekonomi',  earned: money>=100000,   color:G},
-    {id:'para2', emoji:'🏦', name:'Banker',            desc:'1.000.000 Sikke biriktir',  cat:'Ekonomi',  earned: money>=1000000,  color:G},
-    {id:'para3', emoji:'💎', name:'Tâcir',             desc:'10M Sikke birikimi',        cat:'Ekonomi',  earned: money>=10000000, color:P},
+    {id:'para1', emoji:'💰', name:'Esnaf',             desc:'100.000 Para kazan',       cat:'Ekonomi',  earned: money>=100000,   color:G},
+    {id:'para2', emoji:'🏦', name:'Banker',            desc:'1.000.000 Para biriktir',  cat:'Ekonomi',  earned: money>=1000000,  color:G},
+    {id:'para3', emoji:'💎', name:'Tâcir',             desc:'10M Para birikimi',        cat:'Ekonomi',  earned: money>=10000000, color:P},
     // XP rozetleri
     {id:'xp1',   emoji:'⭐', name:'Yolcu',             desc:'1.000 XP kazan',            cat:'Deneyim',  earned: xp>=1000,   color:G},
     {id:'xp2',   emoji:'🌟', name:'Seyyah',            desc:'10.000 XP kazan',           cat:'Deneyim',  earned: xp>=10000,  color:G},
@@ -34,25 +34,25 @@ window.RozetKoleksiyonScreen = function({ profile, onNavigate }) {
   const pct = Math.round(earned/BADGES.length*100);
 
   return React.createElement('div',{style:{minHeight:'100vh',background:BG,fontFamily:"'Inter',sans-serif",paddingBottom:80}},
-    React.createElement('div',{style:{background:'linear-gradient(135deg,#1a0800,#2d1600)',borderBottom:'1px solid rgba(200,155,60,0.2)',padding:'14px 16px'}},
+    React.createElement('div',{style:{background:'linear-gradient(135deg,#0A0F17,#0F1724)',borderBottom:'1px solid rgba(60,200,240,0.2)',padding:'14px 16px'}},
       React.createElement('div',{style:{display:'flex',alignItems:'center',gap:10}},
         onNavigate && React.createElement('button',{onClick:()=>onNavigate('home'),style:{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:10,padding:'6px 10px',color:M,fontSize:'0.75rem',cursor:'pointer'}},'← Geri'),
         React.createElement('span',{style:{fontSize:'1.5rem'}},'🏅'),
         React.createElement('div',null,
-          React.createElement('div',{style:{fontFamily:"'Cinzel',serif",fontWeight:900,fontSize:'1.1rem',color:G}},'Rozet Koleksiyonu'),
+          React.createElement('div',{style:{fontFamily:"'Rajdhani',sans-serif",fontWeight:900,fontSize:'1.1rem',color:G}},'Rozet Koleksiyonu'),
           React.createElement('div',{style:{fontSize:'0.62rem',color:M}},`${earned}/${BADGES.length} rozet • %${pct} tamamlandı`)
         )
       )
     ),
     React.createElement('div',{style:{padding:'12px'}},
       // Progress bar
-      React.createElement('div',{style:{background:S,borderRadius:14,padding:'14px',marginBottom:12,border:'1px solid rgba(200,155,60,0.15)'}},
+      React.createElement('div',{style:{background:S,borderRadius:14,padding:'14px',marginBottom:12,border:'1px solid rgba(60,200,240,0.15)'}},
         React.createElement('div',{style:{display:'flex',justifyContent:'space-between',marginBottom:8}},
-          React.createElement('span',{style:{fontFamily:"'Cinzel',serif",fontSize:'0.8rem',color:G}},'İlerleme'),
+          React.createElement('span',{style:{fontFamily:"'Rajdhani',sans-serif",fontSize:'0.8rem',color:G}},'İlerleme'),
           React.createElement('span',{style:{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.8rem',fontWeight:800,color:G}},`%${pct}`)
         ),
         React.createElement('div',{style:{height:10,background:'rgba(255,255,255,0.06)',borderRadius:5,overflow:'hidden'}},
-          React.createElement('div',{style:{height:'100%',width:`${pct}%`,background:`linear-gradient(90deg,${G},#E8C06A)`,borderRadius:5,transition:'width 0.6s ease'}})
+          React.createElement('div',{style:{height:'100%',width:`${pct}%`,background:`linear-gradient(90deg,${G},#9BE6FB)`,borderRadius:5,transition:'width 0.6s ease'}})
         )
       ),
       // Category filter chips

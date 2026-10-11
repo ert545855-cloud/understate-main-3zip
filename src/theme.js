@@ -1,21 +1,21 @@
 "use strict";
 // ═══════════════════════════════════════════════════════
 // SALTANAT ONLINE DESIGN TOKENS — v11 "Ottoman AAA"
-// Palette: #0F1115 bg · #1B1E25 surface · #C89B3C gold
-//          #F5EBD7 text · #A9A6A0 muted · #3E8C5A success · #B8423C error
+// Palette: #0F1115 bg · #1B1E25 surface · #3CC8F0 gold
+//          #E6EDF5 text · #93A4B8 muted · #3E8C5A success · #B8423C error
 // ═══════════════════════════════════════════════════════
 const DS = {
   bg:         '#0F1115',
   bgDeep:     '#08090C',
   surface:    '#1B1E25',
   surfaceUp:  '#252933',
-  gold:       '#C89B3C',
-  goldDim:    'rgba(200,155,60,0.14)',
-  goldBorder: 'rgba(200,155,60,0.35)',
-  goldDark:   '#A07828',
-  goldLight:  '#E8C06A',
-  text:       '#F5EBD7',
-  muted:      '#A9A6A0',
+  gold:       '#3CC8F0',
+  goldDim:    'rgba(60,200,240,0.14)',
+  goldBorder: 'rgba(60,200,240,0.35)',
+  goldDark:   '#1E8FB8',
+  goldLight:  '#9BE6FB',
+  text:       '#E6EDF5',
+  muted:      '#93A4B8',
   success:    '#3E8C5A',
   successDim: 'rgba(62,140,90,0.14)',
   error:      '#B8423C',
@@ -28,7 +28,7 @@ const DS = {
   radiusSm:   '10px',
   radiusLg:   '22px',
   radiusPill: '999px',
-  fontTitle:  "'Cinzel', serif",
+  fontTitle:  "'Rajdhani',sans-serif",
   fontUI:     "'Inter', sans-serif",
   fontNum:    "'JetBrains Mono', monospace",
 };

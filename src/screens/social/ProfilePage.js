@@ -78,7 +78,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
       const r = await fetch('/api/streak/claim', { method:'POST', headers:{ Authorization:`Bearer ${token}` } });
       const d = await r.json();
       if (d.success) {
-        showNotif(`🎁 +${(d.reward?.money||0).toLocaleString('tr-TR')}🪙 +${d.reward?.xp||0}XP!`, 'success');
+        showNotif(`🎁 +${(d.reward?.money||0).toLocaleString('tr-TR')}₺ +${d.reward?.xp||0}XP!`, 'success');
         setStreak(prev => prev ? { ...prev, current_streak:d.streak, last_claim_date:new Date().toISOString().slice(0,10) } : prev);
         if (d.reward) setProfile(p => ({ ...p, money:(p.money||0)+(d.reward.money||0), xp:(p.xp||0)+(d.reward.xp||0) }));
       } else {
@@ -122,7 +122,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
 
   const doRequestLoan = async () => {
     const amt = parseInt(loanAmt);
-    if (!amt || amt < 1000) { showNotif('Minimum 1.000🪙 kredi alabilirsiniz', 'error'); return; }
+    if (!amt || amt < 1000) { showNotif('Minimum 1.000₺ kredi alabilirsiniz', 'error'); return; }
     const token = localStorage.getItem('us_jwt');
     const r = await fetch('/api/loans/request', {
       method:'POST', headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`},
@@ -130,7 +130,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
     });
     const d = await r.json();
     if (d.success) {
-      showNotif(`✅ ${amt.toLocaleString('tr-TR')}🪙 hesabınıza yüklendi!`, 'success');
+      showNotif(`✅ ${amt.toLocaleString('tr-TR')}₺ hesabınıza yüklendi!`, 'success');
       setProfile(p => ({ ...p, money:(p.money||0)+amt }));
       setLoanAmt('');
       _fetchLoans();
@@ -147,7 +147,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
     });
     const d = await r.json();
     if (d.success) {
-      showNotif(d.closed ? '✅ Krediniz kapatıldı!' : `✅ ${amount.toLocaleString('tr-TR')}🪙 ödendi`, 'success');
+      showNotif(d.closed ? '✅ Krediniz kapatıldı!' : `✅ ${amount.toLocaleString('tr-TR')}₺ ödendi`, 'success');
       setProfile(p => ({ ...p, money:(p.money||0)-amount }));
       _fetchLoans();
     } else {
@@ -171,7 +171,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
     };
     reader.readAsDataURL(file);
   };
-  const inputSt = {width:'100%',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box'};
+  const inputSt = {width:'100%',background:'rgba(230,237,245,0.03)',border:'1px solid rgba(230,237,245,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#E6EDF5',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box'};
   const savePhotoUrl = async () => {
     const u = {...profile, photoUrl: photoUrlInput.trim()};
     setProfile(u); localStorage.setItem('rep_userProfile', JSON.stringify(u));
@@ -221,7 +221,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
   return (
     <div style={{padding:'0.7rem'}}>
       {/* Profil kartı */}
-      <div style={{marginBottom:'0.75rem',borderRadius:'10px',overflow:'hidden',border:'1px solid rgba(237,231,218,0.08)',boxShadow:'0 4px 24px rgba(0,0,0,0.35)'}}>
+      <div style={{marginBottom:'0.75rem',borderRadius:'10px',overflow:'hidden',border:'1px solid rgba(230,237,245,0.08)',boxShadow:'0 4px 24px rgba(0,0,0,0.35)'}}>
         {profile?.bannerUrl && (
           <div style={{height:'80px',backgroundImage:`url(${profile.bannerUrl})`,backgroundSize:'cover',backgroundPosition:'center',position:'relative'}}>
             <div style={{position:'absolute',inset:0,background:'linear-gradient(to bottom,rgba(0,0,0,0.1),rgba(11,21,39,0.7))'}}/>
@@ -232,20 +232,20 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
             <Avatar profile={profile} size={72} />
           </div>
           <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'0.4rem',marginBottom:'0.2rem'}}>
-            <div style={{fontWeight:900,fontSize:'1.15rem',color:'#EDE7DA'}}>{profile?.username || 'Oyuncu'}</div>
+            <div style={{fontWeight:900,fontSize:'1.15rem',color:'#E6EDF5'}}>{profile?.username || 'Oyuncu'}</div>
             {profile?.activeTitle && profile.activeTitle !== 'vatandas' && (() => {
-              const TITLE_MAP = {esnaf:'🛒 Esnaf',ulema:'📖 Ulema',sipahi:'🐴 Sipahi',aga:'⚔️ Ağa',bey:'🏹 Bey',pasa:'🪖 Paşa',vezir:'⚜️ Vezir',sadrAzam:'👑 Sadrazam',padisah:'🔱 Padişah'};
+              const TITLE_MAP = {esnaf:'🛒 Esnaf',ulema:'📖 Ulema',sipahi:'🐴 Zırhlı Birlik',aga:'⚔️ Ağa',bey:'🏹 Lider',pasa:'🪖 General',vezir:'🏛️ Bakan',sadrAzam:'👑 Başbakan',padisah:'🔱 Cumhurbaşkanı'};
               const lbl = TITLE_MAP[profile.activeTitle];
-              return lbl ? <div style={{fontSize:'0.68rem',color:'#C9A227',fontWeight:700,marginTop:'2px',letterSpacing:'0.05em'}}>{lbl}</div> : null;
+              return lbl ? <div style={{fontSize:'0.68rem',color:'#3CC8F0',fontWeight:700,marginTop:'2px',letterSpacing:'0.05em'}}>{lbl}</div> : null;
             })()}
-            {profile?.premium && <span style={{background:'linear-gradient(90deg,#C9A227,#A07D1C)',color:'#000',fontSize:'0.55rem',fontWeight:800,padding:'2px 6px',borderRadius:'8px'}}>VIP</span>}
+            {profile?.premium && <span style={{background:'linear-gradient(90deg,#3CC8F0,#1E8FB8)',color:'#000',fontSize:'0.55rem',fontWeight:800,padding:'2px 6px',borderRadius:'8px'}}>VIP</span>}
           </div>
           <div style={{fontSize:'0.75rem',color:'#8893A1',marginBottom:'0.65rem'}}>{lvl.title} • {profile?.city} • Üye: {profile?.registeredAt ? new Date(profile.registeredAt).toLocaleDateString('tr-TR') : '-'}</div>
           <div style={{marginBottom:'0.4rem'}}>
             <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.65rem',color:'#8893A1',marginBottom:'0.25rem'}}>
               <span>Lv.{lvl.lvl}</span><span>{fmt(profile?.xp||0)} / {fmt(lvl.next.xp)} XP</span><span>Lv.{lvl.next.lvl}</span>
             </div>
-            <ProgressBar pct={lvl.pct} color='#C9A227' h={8} />
+            <ProgressBar pct={lvl.pct} color='#3CC8F0' h={8} />
           </div>
           <div style={{display:'flex',gap:'0.4rem',justifyContent:'center',marginTop:'0.65rem'}}>
             <Btn variant='ghost' size='sm' onClick={()=>setEditModal(true)}>✏️ Düzenle</Btn>
@@ -257,7 +257,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
       {/* Tabs */}
       <div style={{display:'flex',gap:'4px',marginBottom:'0.75rem'}}>
         {[['stats','📊'],['achievements',`🏆(${earnedCount})`],['unvanlar','🏅 Unvan'],['customize','📸'],['settings','⚙️ Ayarlar'],['kredi','💳 Kredi']].map(([v,l])=>(
-          <button key={v} onClick={()=>setTab(v)} style={{flex:1,padding:'0.4rem 0.2rem',borderRadius:'8px',border:`1px solid ${tab===v?'rgba(201,162,39,0.4)':'rgba(255,255,255,0.07)'}`,background:tab===v?'rgba(201,162,39,0.12)':'rgba(255,255,255,0.03)',color:tab===v?'#C9A227':'#8893A1',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.65rem',cursor:'pointer',whiteSpace:'nowrap'}}>
+          <button key={v} onClick={()=>setTab(v)} style={{flex:1,padding:'0.4rem 0.2rem',borderRadius:'8px',border:`1px solid ${tab===v?'rgba(60,200,240,0.4)':'rgba(255,255,255,0.07)'}`,background:tab===v?'rgba(60,200,240,0.12)':'rgba(255,255,255,0.03)',color:tab===v?'#3CC8F0':'#8893A1',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.65rem',cursor:'pointer',whiteSpace:'nowrap'}}>
             {l}
           </button>
         ))}
@@ -268,15 +268,15 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.5rem',marginBottom:'0.5rem'}}>
             {[
               ['💰','Nakit',fmtM(profile?.money),'#4C9A6B'],
-              ['🏦','Banka',fmtM(profile?.bank),'#C9A227'],
-              ['🪙','Altın',fmtAltin(profile?.underCoin),'#C9A227'],
-              ['🏅','Liyakat',fmt(profile?.meritPoints),'#C9A227'],
-              ['🤝','Ticaret Puanı',fmt(profile?.tradePoints),'#C9A227'],
-              ['🎓','Eğitim',EDU_LEVELS.find(e=>e.id===(profile?.education?.diploma||'ilkokul'))?.label||'İlkokul','#C9A227'],
+              ['🏦','Banka',fmtM(profile?.bank),'#3CC8F0'],
+              ['₺','Altın',fmtAltin(profile?.underCoin),'#3CC8F0'],
+              ['🏅','Liyakat',fmt(profile?.meritPoints),'#3CC8F0'],
+              ['🤝','Ticaret Puanı',fmt(profile?.tradePoints),'#3CC8F0'],
+              ['🎓','Eğitim',EDU_LEVELS.find(e=>e.id===(profile?.education?.diploma||'ilkokul'))?.label||'İlkokul','#3CC8F0'],
               ['❤️','Sağlık',`${profile?.health||100}%`,'#C24B43'],
               ['😊','Mutluluk',`${profile?.happiness||80}%`,'#C24B43'],
-              ['⚡','Enerji',`${profile?.energy||100}%`,'#C9A227'],
-              ['📊','Seviye',`Lv.${profile?.level||1}`,'#C9A227'],
+              ['⚡','Enerji',`${profile?.energy||100}%`,'#3CC8F0'],
+              ['📊','Seviye',`Lv.${profile?.level||1}`,'#3CC8F0'],
             ].map(([ic,lb,v,c])=>(
               <Card key={lb} style={{padding:'0.75rem'}}>
                 <div style={{fontSize:'0.6rem',color:'#8893A1',textTransform:'uppercase',marginBottom:'0.2rem'}}>{ic} {lb}</div>
@@ -289,7 +289,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
             {[['💬','Mesaj',profile?.stats?.messages||0],['🤝','Ticaret',profile?.stats?.trades||0],['⚔️','Savaş',profile?.stats?.battles||0],['🗳️','Oy',profile?.stats?.votes||0]].map(([ic,lb,v])=>(
               <div key={lb} style={{display:'flex',justifyContent:'space-between',padding:'0.45rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
                 <span style={{color:'#8893A1',fontSize:'0.85rem'}}>{ic} {lb}</span>
-                <span style={{color:'#EDE7DA',fontWeight:700,fontFamily:"'JetBrains Mono',monospace",fontSize:'0.85rem'}}>{fmt(v)}</span>
+                <span style={{color:'#E6EDF5',fontWeight:700,fontFamily:"'JetBrains Mono',monospace",fontSize:'0.85rem'}}>{fmt(v)}</span>
               </div>
             ))}
           </Card>
@@ -300,21 +300,21 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
             const sortedTrade=[...allU].sort((a,b)=>(b.tradePoints||0)-(a.tradePoints||0));
             const tradeRank=sortedTrade.findIndex(u=>u.id===profile?.id)+1;
             const tradeBonus=tradeRank===1?6:tradeRank===2?4:tradeRank<=5?3:tradeRank<=50?2:1;
-            const tradeColor=tradeBonus>=6?'#C9A227':tradeBonus>=4?'#FB923C':tradeBonus>=3?'#C9A227':tradeBonus>=2?'#C9A227':'#8893A1';
+            const tradeColor=tradeBonus>=6?'#3CC8F0':tradeBonus>=4?'#FB923C':tradeBonus>=3?'#3CC8F0':tradeBonus>=2?'#3CC8F0':'#8893A1';
             const tradeLabel=tradeBonus===6?'🏆 1. Sıra':tradeBonus===4?'🥈 2. Sıra':tradeBonus===3?'🥉 3-5. Sıra':tradeBonus===2?'📈 6-50. Sıra':'51+. Sıra';
             // Eğitim sıralaması
             const sortedEdu=[...allU].sort((a,b)=>(b.educationProgress||0)-(a.educationProgress||0));
             const eduRank=sortedEdu.findIndex(u=>u.id===profile?.id)+1;
             const eduBonus=eduRank===1?3:eduRank<=3?2:eduRank<=10?1:0;
-            const eduColor=eduBonus>=3?'#C9A227':eduBonus>=2?'#C9A227':eduBonus>=1?'#C9A227':'#8893A1';
+            const eduColor=eduBonus>=3?'#3CC8F0':eduBonus>=2?'#3CC8F0':eduBonus>=1?'#3CC8F0':'#8893A1';
             const eduLabel=eduBonus===3?'🏆 1. Sıra':eduBonus===2?'🥈 2-3. Sıra':eduBonus===1?'🥉 4-10. Sıra':'—';
             // Altın katsayısı
             const ucBonus=profile?.voteMultiplier||0;
             // Toplam
             const total=tradeBonus+eduBonus+ucBonus;
-            const totalColor=total>=8?'#C9A227':total>=5?'#C9A227':total>=3?'#C9A227':'#4C9A6B';
+            const totalColor=total>=8?'#3CC8F0':total>=5?'#3CC8F0':total>=3?'#3CC8F0':'#4C9A6B';
             return (
-              <Card style={{marginTop:'0.5rem',background:'rgba(201,162,39,0.04)',border:'1px solid rgba(201,162,39,0.18)'}}>
+              <Card style={{marginTop:'0.5rem',background:'rgba(60,200,240,0.04)',border:'1px solid rgba(60,200,240,0.18)'}}>
                 <div style={{fontSize:'0.72rem',color:'#8893A1',fontWeight:700,textTransform:'uppercase',marginBottom:'0.6rem'}}>🗳️ Oy Katsayısı Detayı</div>
                 {/* Ticaret Sıralaması */}
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.38rem 0.4rem',borderRadius:'6px',background:'rgba(96,165,250,0.05)',marginBottom:'0.25rem'}}>
@@ -339,23 +339,23 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
                   </div>
                 </div>
                 {/* Altın Katsayısı */}
-                <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.38rem 0.4rem',borderRadius:'6px',background:'rgba(201,162,39,0.05)',marginBottom:'0.3rem'}}>
+                <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.38rem 0.4rem',borderRadius:'6px',background:'rgba(60,200,240,0.05)',marginBottom:'0.3rem'}}>
                   <div>
-                    <span style={{color:'#8893A1',fontSize:'0.8rem'}}>🪙 Altın Katsayısı</span>
+                    <span style={{color:'#8893A1',fontSize:'0.8rem'}}>₺ Altın Katsayısı</span>
                     <span style={{color:'#8893A1',fontSize:'0.68rem',marginLeft:'0.3rem'}}>Ekonomi→UC</span>
                   </div>
-                  <span style={{color:ucBonus>0?'#C9A227':'#3B4E63',fontWeight:900,fontFamily:"'JetBrains Mono',monospace",fontSize:'0.82rem'}}>{ucBonus>0?`+${ucBonus}`:'—'}</span>
+                  <span style={{color:ucBonus>0?'#3CC8F0':'#3B4E63',fontWeight:900,fontFamily:"'JetBrains Mono',monospace",fontSize:'0.82rem'}}>{ucBonus>0?`+${ucBonus}`:'—'}</span>
                 </div>
                 {/* Toplam */}
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.45rem 0.6rem',borderRadius:'8px',background:'rgba(76,154,107,0.06)',border:`1px solid ${totalColor}30`}}>
-                  <span style={{color:'#EDE7DA',fontSize:'0.82rem',fontWeight:700}}>⚡ Toplam Oy Katsayısı</span>
+                  <span style={{color:'#E6EDF5',fontSize:'0.82rem',fontWeight:700}}>⚡ Toplam Oy Katsayısı</span>
                   <span style={{color:totalColor,fontWeight:900,fontFamily:"'JetBrains Mono',monospace",fontSize:'1rem'}}>{total}x</span>
                 </div>
                 {/* Açıklama */}
                 <div style={{fontSize:'0.59rem',color:'#8893A1',marginTop:'0.4rem',lineHeight:1.5}}>
                   <div>📊 Ticaret: 1.→6x · 2.→4x · 3-5.→3x · 6-50.→2x · 51+→1x</div>
                   <div>🎓 Eğitim: 1.→+3 · 2-3.→+2 · 4-10.→+1</div>
-                  <div>🪙 Altın: Her 500 Altın → +1 katsayı (Ekonomi → Dönüşüm)</div>
+                  <div>₺ Altın: Her 500 Altın → +1 katsayı (Ekonomi → Dönüşüm)</div>
                 </div>
               </Card>
             );
@@ -366,9 +366,9 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
       {tab==='achievements' && (
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.5rem'}}>
           {achievements.map(a => (
-            <Card key={a.id} style={{padding:'0.85rem',textAlign:'center',opacity:a.done?1:0.4,border:`1px solid ${a.done?'rgba(201,162,39,0.25)':'rgba(255,255,255,0.05)'}`}}>
+            <Card key={a.id} style={{padding:'0.85rem',textAlign:'center',opacity:a.done?1:0.4,border:`1px solid ${a.done?'rgba(60,200,240,0.25)':'rgba(255,255,255,0.05)'}`}}>
               <div style={{fontSize:'1.75rem',marginBottom:'0.35rem'}}>{a.icon}</div>
-              <div style={{fontWeight:800,color:a.done?'#C9A227':'#8893A1',fontSize:'0.8rem',marginBottom:'0.2rem'}}>{a.name}</div>
+              <div style={{fontWeight:800,color:a.done?'#3CC8F0':'#8893A1',fontSize:'0.8rem',marginBottom:'0.2rem'}}>{a.name}</div>
               <div style={{fontSize:'0.63rem',color:'#8893A1'}}>{a.desc}</div>
               {a.done && <div style={{fontSize:'0.6rem',color:'#4C9A6B',marginTop:'0.3rem'}}>✅ Tamamlandı</div>}
             </Card>
@@ -378,7 +378,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
 
       {tab==='settings' && (
         <Card>
-          <div style={{fontWeight:700,color:'#EDE7DA',marginBottom:'0.75rem'}}>⚙️ Hesap Ayarları</div>
+          <div style={{fontWeight:700,color:'#E6EDF5',marginBottom:'0.75rem'}}>⚙️ Hesap Ayarları</div>
 
           {/* Dil Seçimi */}
           <div style={{padding:'0.6rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)',marginBottom:'0.35rem'}}>
@@ -386,7 +386,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.35rem'}}>
               {[['tr','🇹🇷 Türkçe'],['en','🇬🇧 English'],['de','🇩🇪 Deutsch'],['az','🇦🇿 Azərbaycanca']].map(([code,label])=>(
                 <button key={code} onClick={async()=>{ const u={...profile,lang:code}; setProfile(u); localStorage.setItem('rep_userProfile',JSON.stringify(u)); if(u.uid){try{await saveUserProfile(u.uid,u);}catch{}} showNotif(`✅ Dil değiştirildi: ${label}`,'success'); }}
-                  style={{padding:'0.45rem 0.5rem',borderRadius:'8px',border:`1px solid ${(profile?.lang||'tr')===code?'rgba(201,162,39,0.5)':'rgba(255,255,255,0.08)'}`,background:(profile?.lang||'tr')===code?'rgba(201,162,39,0.15)':'rgba(255,255,255,0.03)',color:(profile?.lang||'tr')===code?'#C9A227':'#8893A1',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.75rem',cursor:'pointer',textAlign:'center'}}>
+                  style={{padding:'0.45rem 0.5rem',borderRadius:'8px',border:`1px solid ${(profile?.lang||'tr')===code?'rgba(60,200,240,0.5)':'rgba(255,255,255,0.08)'}`,background:(profile?.lang||'tr')===code?'rgba(60,200,240,0.15)':'rgba(255,255,255,0.03)',color:(profile?.lang||'tr')===code?'#3CC8F0':'#8893A1',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.75rem',cursor:'pointer',textAlign:'center'}}>
                   {label}
                 </button>
               ))}
@@ -395,7 +395,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
 
           <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.5rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
             <span style={{color:'#8893A1',fontSize:'0.85rem'}}>{dark ? '☀️ Aydınlık Mod' : '🌙 Karanlık Mod'}</span>
-            <button onClick={toggle} style={{background:dark?'#C9A227':'rgba(255,255,255,0.08)',border:'none',borderRadius:'14px',padding:'0.3rem 0.85rem',color:'#EDE7DA',fontSize:'0.75rem',fontWeight:700,cursor:'pointer'}}>
+            <button onClick={toggle} style={{background:dark?'#3CC8F0':'rgba(255,255,255,0.08)',border:'none',borderRadius:'14px',padding:'0.3rem 0.85rem',color:'#E6EDF5',fontSize:'0.75rem',fontWeight:700,cursor:'pointer'}}>
               {dark ? 'Açık' : 'Kapalı'}
             </button>
           </div>
@@ -407,7 +407,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
           ].map(([ic,lb,v])=>(
             <div key={lb} style={{display:'flex',justifyContent:'space-between',padding:'0.5rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
               <span style={{color:'#8893A1',fontSize:'0.85rem'}}>{ic} {lb}</span>
-              <span style={{color:'#EDE7DA',fontWeight:600,fontSize:'0.85rem'}}>{v}</span>
+              <span style={{color:'#E6EDF5',fontWeight:600,fontSize:'0.85rem'}}>{v}</span>
             </div>
           ))}
           <div style={{marginTop:'0.75rem'}}>
@@ -420,7 +420,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
             {streak ? (
               <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
                 <div>
-                  <span style={{color:'#C9A227',fontWeight:900,fontSize:'1.1rem',fontFamily:"'JetBrains Mono',monospace"}}>🔥 {streak.current_streak||0}</span>
+                  <span style={{color:'#3CC8F0',fontWeight:900,fontSize:'1.1rem',fontFamily:"'JetBrains Mono',monospace"}}>🔥 {streak.current_streak||0}</span>
                   <span style={{color:'#8893A1',fontSize:'0.7rem',marginLeft:'0.4rem'}}>gün · En iyi: {streak.longest_streak||0}</span>
                 </div>
                 <Btn variant={streak.last_claim_date===new Date().toISOString().slice(0,10)?'ghost':'primary'} size='sm'
@@ -440,17 +440,17 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
           <div style={{marginTop:'0.6rem',paddingTop:'0.6rem',borderTop:'1px solid rgba(255,255,255,0.05)'}}>
             <div style={{fontSize:'0.7rem',color:'#8893A1',fontWeight:700,marginBottom:'0.4rem'}}>🔗 Referans Kodun</div>
             <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
-              <code style={{background:'rgba(201,162,39,0.07)',border:'1px solid rgba(201,162,39,0.18)',borderRadius:'6px',padding:'0.3rem 0.55rem',color:'#C9A227',fontFamily:"'JetBrains Mono',monospace",fontSize:'0.85rem',flex:1,textAlign:'center',letterSpacing:'0.08em'}}>
+              <code style={{background:'rgba(60,200,240,0.07)',border:'1px solid rgba(60,200,240,0.18)',borderRadius:'6px',padding:'0.3rem 0.55rem',color:'#3CC8F0',fontFamily:"'JetBrains Mono',monospace",fontSize:'0.85rem',flex:1,textAlign:'center',letterSpacing:'0.08em'}}>
                 {referralCode||'—'}
               </code>
               {referralCode && (
                 <button onClick={()=>{navigator.clipboard?.writeText(referralCode).then(()=>showNotif('✅ Kopyalandı!','success')).catch(()=>{});}}
-                  style={{background:'rgba(201,162,39,0.07)',border:'1px solid rgba(201,162,39,0.18)',borderRadius:'7px',padding:'0.3rem 0.55rem',color:'#C9A227',cursor:'pointer',fontSize:'0.72rem',fontWeight:700,fontFamily:"'Inter',sans-serif"}}>
+                  style={{background:'rgba(60,200,240,0.07)',border:'1px solid rgba(60,200,240,0.18)',borderRadius:'7px',padding:'0.3rem 0.55rem',color:'#3CC8F0',cursor:'pointer',fontSize:'0.72rem',fontWeight:700,fontFamily:"'Inter',sans-serif"}}>
                   📋
                 </button>
               )}
             </div>
-            <div style={{fontSize:'0.6rem',color:'#8893A1',marginTop:'0.25rem'}}>Arkadaşın kullanırsa +2.000🪙 sen, +5.000🪙 sen</div>
+            <div style={{fontSize:'0.6rem',color:'#8893A1',marginTop:'0.25rem'}}>Arkadaşın kullanırsa +2.000₺ sen, +5.000₺ sen</div>
           </div>
         </Card>
       )}
@@ -458,7 +458,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
       {/* ── Şifre Değiştir Kartı ──────────────────────────────────────── */}
       {tab==='settings' && (
         <Card style={{marginTop:'0.5rem'}}>
-          <div style={{fontWeight:700,color:'#EDE7DA',marginBottom:'0.65rem',fontSize:'0.85rem'}}>🔑 Şifre Değiştir</div>
+          <div style={{fontWeight:700,color:'#E6EDF5',marginBottom:'0.65rem',fontSize:'0.85rem'}}>🔑 Şifre Değiştir</div>
           {pwMsg && (
             <div style={{background:pwMsg.startsWith('✅')?'rgba(76,154,107,0.1)':'rgba(194,75,67,0.1)',border:`1px solid ${pwMsg.startsWith('✅')?'rgba(76,154,107,0.3)':'rgba(194,75,67,0.3)'}`,borderRadius:'8px',padding:'0.45rem 0.7rem',marginBottom:'0.55rem',fontSize:'0.78rem',color:pwMsg.startsWith('✅')?'#4C9A6B':'#E08C87'}}>
               {pwMsg}
@@ -479,7 +479,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
       {/* ── 2FA Kartı ──────────────────────────────────────────────────── */}
       {tab==='settings' && (
         <Card style={{marginTop:'0.5rem'}}>
-          <div style={{fontWeight:700,color:'#EDE7DA',marginBottom:'0.65rem',fontSize:'0.85rem'}}>🛡️ İki Faktörlü Doğrulama (2FA)</div>
+          <div style={{fontWeight:700,color:'#E6EDF5',marginBottom:'0.65rem',fontSize:'0.85rem'}}>🛡️ İki Faktörlü Doğrulama (2FA)</div>
           {twoFAStatus === null ? (
             <div style={{color:'#8893A1',fontSize:'0.8rem',textAlign:'center',padding:'0.5rem'}}>Yükleniyor...</div>
           ) : twoFAStatus ? (
@@ -495,9 +495,9 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
             <div>
               <div style={{fontSize:'0.73rem',color:'#8893A1',marginBottom:'0.5rem'}}>Authenticator uygulamasıyla QR kodu okutun:</div>
               <div style={{textAlign:'center',marginBottom:'0.6rem'}}>
-                <img src={twoFASetup.qrCode} alt="QR" style={{width:'150px',height:'150px',borderRadius:'8px',background:'#1B212B',padding:'4px'}} />
+                <img src={twoFASetup.qrCode} alt="QR" style={{width:'150px',height:'150px',borderRadius:'8px',background:'#152032',padding:'4px'}} />
               </div>
-              <div style={{background:'rgba(17,21,28,0.6)',borderRadius:'6px',padding:'0.4rem 0.6rem',marginBottom:'0.6rem',fontFamily:"'JetBrains Mono',monospace",fontSize:'0.68rem',color:'#C9A227',textAlign:'center',wordBreak:'break-all'}}>
+              <div style={{background:'rgba(17,21,28,0.6)',borderRadius:'6px',padding:'0.4rem 0.6rem',marginBottom:'0.6rem',fontFamily:"'JetBrains Mono',monospace",fontSize:'0.68rem',color:'#3CC8F0',textAlign:'center',wordBreak:'break-all'}}>
                 {twoFASetup.secret}
               </div>
               <input type="text" inputMode="numeric" value={twoFAToken} onChange={e=>setTwoFAToken(e.target.value.replace(/\D/g,'').slice(0,6))}
@@ -517,54 +517,54 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
       {tab==='customize' && (
         <div>
           <Card style={{marginBottom:'0.65rem'}}>
-            <div style={{fontWeight:700,color:'#EDE7DA',marginBottom:'0.3rem',fontSize:'0.85rem'}}>📸 Profil Fotoğrafı</div>
+            <div style={{fontWeight:700,color:'#E6EDF5',marginBottom:'0.3rem',fontSize:'0.85rem'}}>📸 Profil Fotoğrafı</div>
 
             {/* Telefondan Yükle */}
             <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileUpload} style={{display:'none'}} />
-            <button onClick={()=>fileInputRef.current?.click()} style={{width:'100%',display:'flex',alignItems:'center',justifyContent:'center',gap:'0.5rem',padding:'0.7rem',marginBottom:'0.6rem',borderRadius:'12px',border:'2px dashed rgba(201,162,39,0.35)',background:'rgba(201,162,39,0.06)',color:'#C9A227',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.85rem',cursor:'pointer'}}>
+            <button onClick={()=>fileInputRef.current?.click()} style={{width:'100%',display:'flex',alignItems:'center',justifyContent:'center',gap:'0.5rem',padding:'0.7rem',marginBottom:'0.6rem',borderRadius:'12px',border:'2px dashed rgba(60,200,240,0.35)',background:'rgba(60,200,240,0.06)',color:'#3CC8F0',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.85rem',cursor:'pointer'}}>
               📱 Telefondan / Galeriden Seç
             </button>
 
             <div style={{fontSize:'0.65rem',color:'#8893A1',marginBottom:'0.4rem',textAlign:'center'}}>veya URL ile gir</div>
             <div style={{fontSize:'0.68rem',color:'#8893A1',marginBottom:'0.4rem'}}>URL gir (.jpg, .png, .gif, .webp)</div>
             <input value={photoUrlInput} onChange={e=>setPhotoUrlInput(e.target.value)} placeholder="https://resim-url.com/foto.jpg" style={inputSt}/>
-            {photoUrlInput && <img src={photoUrlInput} alt="preview" style={{width:'52px',height:'52px',borderRadius:'50%',objectFit:'cover',marginTop:'0.5rem',border:'2px solid rgba(201,162,39,0.3)',display:'block'}} onError={e=>e.target.style.display='none'}/>}
+            {photoUrlInput && <img src={photoUrlInput} alt="preview" style={{width:'52px',height:'52px',borderRadius:'50%',objectFit:'cover',marginTop:'0.5rem',border:'2px solid rgba(60,200,240,0.3)',display:'block'}} onError={e=>e.target.style.display='none'}/>}
             <Btn variant='primary' size='full' onClick={savePhotoUrl} style={{marginTop:'0.5rem'}}>✅ URL Kaydet</Btn>
           </Card>
 
           {profile?.premium ? (
             <>
-              <Card style={{marginBottom:'0.65rem',background:'linear-gradient(135deg,rgba(201,162,39,0.08),rgba(11,21,39,0.95))'}}>
-                <div style={{fontWeight:700,color:'#C9A227',marginBottom:'0.55rem',fontSize:'0.85rem'}}>💎 VIP Çerçeve Stili</div>
+              <Card style={{marginBottom:'0.65rem',background:'linear-gradient(135deg,rgba(60,200,240,0.08),rgba(11,21,39,0.95))'}}>
+                <div style={{fontWeight:700,color:'#3CC8F0',marginBottom:'0.55rem',fontSize:'0.85rem'}}>💎 VIP Çerçeve Stili</div>
                 <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'0.35rem',marginBottom:'0.5rem'}}>
                   {[{id:'rainbow',label:'🌈 Gökkuşağı'},{id:'fire',label:'🔥 Ateş'},{id:'ice',label:'❄️ Buz'},{id:'gold',label:'✨ Altın'},{id:'neon',label:'💚 Neon'},{id:'violet',label:'💜 Mor'},{id:'heart',label:'💗 Kalp'},{id:'',label:'⭕ Yok'}].map(({id,label})=>(
                     <button key={id||'none'} onClick={()=>saveVipFrame(id)}
-                      style={{padding:'0.4rem 0.15rem',borderRadius:'8px',border:`2px solid ${(profile?.vipFrame||'')===(id)?'#C9A227':'rgba(255,255,255,0.08)'}`,background:(profile?.vipFrame||'')===(id)?'rgba(201,162,39,0.2)':'rgba(255,255,255,0.02)',color:(profile?.vipFrame||'')===(id)?'#C9A227':'#8893A1',cursor:'pointer',fontSize:'0.6rem',fontWeight:700,fontFamily:"'Inter',sans-serif",textAlign:'center',lineHeight:1.3}}>
+                      style={{padding:'0.4rem 0.15rem',borderRadius:'8px',border:`2px solid ${(profile?.vipFrame||'')===(id)?'#3CC8F0':'rgba(255,255,255,0.08)'}`,background:(profile?.vipFrame||'')===(id)?'rgba(60,200,240,0.2)':'rgba(255,255,255,0.02)',color:(profile?.vipFrame||'')===(id)?'#3CC8F0':'#8893A1',cursor:'pointer',fontSize:'0.6rem',fontWeight:700,fontFamily:"'Inter',sans-serif",textAlign:'center',lineHeight:1.3}}>
                       {label}
                     </button>
                   ))}
                 </div>
-                <div style={{fontSize:'0.65rem',color:'#8893A1'}}>Seçili: <span style={{color:'#C9A227',fontWeight:700}}>{profile?.vipFrame||'Yok'}</span></div>
+                <div style={{fontSize:'0.65rem',color:'#8893A1'}}>Seçili: <span style={{color:'#3CC8F0',fontWeight:700}}>{profile?.vipFrame||'Yok'}</span></div>
               </Card>
 
-              <Card style={{marginBottom:'0.65rem',background:'linear-gradient(135deg,rgba(201,162,39,0.08),rgba(11,21,39,0.95))'}}>
-                <div style={{fontWeight:700,color:'#C9A227',marginBottom:'0.3rem',fontSize:'0.85rem'}}>🎭 GIF / Animasyonlu Avatar URL</div>
+              <Card style={{marginBottom:'0.65rem',background:'linear-gradient(135deg,rgba(60,200,240,0.08),rgba(11,21,39,0.95))'}}>
+                <div style={{fontWeight:700,color:'#3CC8F0',marginBottom:'0.3rem',fontSize:'0.85rem'}}>🎭 GIF / Animasyonlu Avatar URL</div>
                 <div style={{fontSize:'0.68rem',color:'#8893A1',marginBottom:'0.5rem'}}>Animasyonlu avatar (GIF desteği mevcut)</div>
                 <input value={avatarUrlInput} onChange={e=>setAvatarUrlInput(e.target.value)} placeholder="https://i.giphy.com/xxxx.gif" style={inputSt}/>
                 <Btn variant='ghost' size='full' onClick={saveAvatarUrl} style={{marginTop:'0.5rem'}}>✅ Kaydet</Btn>
               </Card>
 
-              <Card style={{background:'linear-gradient(135deg,rgba(201,162,39,0.08),rgba(11,21,39,0.95))'}}>
-                <div style={{fontWeight:700,color:'#C9A227',marginBottom:'0.3rem',fontSize:'0.85rem'}}>🖼️ Profil Banner / Arka Plan</div>
+              <Card style={{background:'linear-gradient(135deg,rgba(60,200,240,0.08),rgba(11,21,39,0.95))'}}>
+                <div style={{fontWeight:700,color:'#3CC8F0',marginBottom:'0.3rem',fontSize:'0.85rem'}}>🖼️ Profil Banner / Arka Plan</div>
                 <div style={{fontSize:'0.68rem',color:'#8893A1',marginBottom:'0.5rem'}}>Profil kartı arka plan görseli (GIF veya resim URL)</div>
                 <input value={bannerUrlInput} onChange={e=>setBannerUrlInput(e.target.value)} placeholder="https://example.com/banner.gif" style={inputSt}/>
                 <Btn variant='ghost' size='full' onClick={saveBannerUrl} style={{marginTop:'0.5rem'}}>✅ Kaydet</Btn>
               </Card>
             </>
           ) : (
-            <Card style={{textAlign:'center',padding:'1.75rem 1rem',background:'linear-gradient(135deg,rgba(201,162,39,0.08),rgba(11,21,39,0.95))'}}>
+            <Card style={{textAlign:'center',padding:'1.75rem 1rem',background:'linear-gradient(135deg,rgba(60,200,240,0.08),rgba(11,21,39,0.95))'}}>
               <div style={{fontSize:'2.2rem',marginBottom:'0.5rem'}}>💎</div>
-              <div style={{fontWeight:800,color:'#C9A227',fontSize:'0.95rem',marginBottom:'0.3rem'}}>VIP Özelleştirme</div>
+              <div style={{fontWeight:800,color:'#3CC8F0',fontSize:'0.95rem',marginBottom:'0.3rem'}}>VIP Özelleştirme</div>
               <div style={{fontSize:'0.75rem',color:'#8893A1',marginBottom:'0.75rem'}}>Çerçeve, GIF avatar ve profil banner için VIP üyelik gereklidir</div>
               <Btn variant='ghost' onClick={()=>showNotif('Premium sayfasına yönlendiriliyor... 💎','gold')}>💎 VIP Ol</Btn>
             </Card>
@@ -578,13 +578,13 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
           { id:'vatandas',  label:'Vatandaş',   emoji:'👤', minLevel:1,  desc:'Her yeni yurttaş' },
           { id:'esnaf',     label:'Esnaf',       emoji:'🛒', minLevel:3,  desc:'Çarşı ve ticarete adım atan' },
           { id:'ulema',     label:'Ulema',       emoji:'📖', minLevel:5,  desc:'İlim ve bilgi sahibi' },
-          { id:'sipahi',    label:'Sipahi',      emoji:'🐴', minLevel:10, desc:'Atlı savaşçı' },
+          { id:'sipahi',    label:'Zırhlı Birlik',      emoji:'🐴', minLevel:10, desc:'Atlı savaşçı' },
           { id:'aga',       label:'Ağa',         emoji:'⚔️', minLevel:15, desc:'Ordu komutanı' },
-          { id:'bey',       label:'Bey',         emoji:'🏹', minLevel:20, desc:'Sancak ve bölge yöneticisi' },
-          { id:'pasa',      label:'Paşa',        emoji:'🪖', minLevel:30, desc:'Yüksek rütbeli komutan' },
-          { id:'vezir',     label:'Vezir',       emoji:'⚜️', minLevel:40, desc:'Divan üyesi, devlet yöneticisi' },
-          { id:'sadrAzam',  label:'Sadrazam',    emoji:'👑', minLevel:50, desc:'Padişah\'ın baş yardımcısı' },
-          { id:'padisah',   label:'Padişah',     emoji:'🔱', minLevel:99, desc:'İmparatorun en yüce lakabı' },
+          { id:'bey',       label:'Lider',         emoji:'🏹', minLevel:20, desc:'Bayrak ve bölge yöneticisi' },
+          { id:'pasa',      label:'General',        emoji:'🪖', minLevel:30, desc:'Yüksek rütbeli komutan' },
+          { id:'vezir',     label:'Bakan',       emoji:'🏛️', minLevel:40, desc:'Kabine üyesi, devlet yöneticisi' },
+          { id:'sadrAzam',  label:'Başbakan',    emoji:'👑', minLevel:50, desc:'Cumhurbaşkanı\'ın baş yardımcısı' },
+          { id:'padisah',   label:'Cumhurbaşkanı',     emoji:'🔱', minLevel:99, desc:'İmparatorun en yüce lakabı' },
         ];
         const playerLevel = lvl?.lvl || 1;
         const activeTitle = profile?.activeTitle || 'vatandas';
@@ -599,22 +599,22 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
         const active = OTTOMAN_TITLES.find(t => t.id === activeTitle) || OTTOMAN_TITLES[0];
         return (
           <div>
-            <div style={{marginBottom:'0.75rem',padding:'0.65rem 0.85rem',background:'rgba(201,162,39,0.08)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'10px',textAlign:'center'}}>
+            <div style={{marginBottom:'0.75rem',padding:'0.65rem 0.85rem',background:'rgba(60,200,240,0.08)',border:'1px solid rgba(60,200,240,0.2)',borderRadius:'10px',textAlign:'center'}}>
               <div style={{fontSize:'0.68rem',color:'#8893A1',marginBottom:'0.25rem'}}>Aktif Unvanın</div>
-              <div style={{fontFamily:"'Cinzel',serif",fontWeight:800,color:'#C9A227',fontSize:'1.1rem'}}>{active.emoji} {active.label}</div>
+              <div style={{fontFamily:"'Rajdhani',sans-serif",fontWeight:800,color:'#3CC8F0',fontSize:'1.1rem'}}>{active.emoji} {active.label}</div>
             </div>
             {OTTOMAN_TITLES.map(t => {
               const unlocked = playerLevel >= t.minLevel;
               const isActive = activeTitle === t.id;
               return (
-                <div key={t.id} style={{display:'flex',alignItems:'center',gap:'0.65rem',padding:'0.7rem 0.85rem',marginBottom:'0.35rem',background:'rgba(237,231,218,0.02)',border:`1px solid ${isActive?'rgba(201,162,39,0.4)':'rgba(255,255,255,0.05)'}`,borderRadius:'10px',opacity:unlocked?1:0.45}}>
+                <div key={t.id} style={{display:'flex',alignItems:'center',gap:'0.65rem',padding:'0.7rem 0.85rem',marginBottom:'0.35rem',background:'rgba(230,237,245,0.02)',border:`1px solid ${isActive?'rgba(60,200,240,0.4)':'rgba(255,255,255,0.05)'}`,borderRadius:'10px',opacity:unlocked?1:0.45}}>
                   <span style={{fontSize:'1.4rem'}}>{t.emoji}</span>
                   <div style={{flex:1}}>
-                    <div style={{fontWeight:700,color:isActive?'#C9A227':'#EDE7DA',fontSize:'0.85rem'}}>{t.label}</div>
+                    <div style={{fontWeight:700,color:isActive?'#3CC8F0':'#E6EDF5',fontSize:'0.85rem'}}>{t.label}</div>
                     <div style={{fontSize:'0.65rem',color:'#8893A1'}}>{t.desc} • Lv.{t.minLevel}+</div>
                   </div>
-                  {isActive && <span style={{fontSize:'0.65rem',color:'#C9A227',fontWeight:700,padding:'3px 8px',background:'rgba(201,162,39,0.12)',borderRadius:'6px'}}>✓ Aktif</span>}
-                  {!isActive && unlocked && <button onClick={()=>doSetTitle(t.id)} style={{padding:'4px 12px',borderRadius:'8px',border:'1px solid rgba(201,162,39,0.3)',background:'rgba(201,162,39,0.08)',color:'#C9A227',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.72rem',cursor:'pointer'}}>Seç</button>}
+                  {isActive && <span style={{fontSize:'0.65rem',color:'#3CC8F0',fontWeight:700,padding:'3px 8px',background:'rgba(60,200,240,0.12)',borderRadius:'6px'}}>✓ Aktif</span>}
+                  {!isActive && unlocked && <button onClick={()=>doSetTitle(t.id)} style={{padding:'4px 12px',borderRadius:'8px',border:'1px solid rgba(60,200,240,0.3)',background:'rgba(60,200,240,0.08)',color:'#3CC8F0',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.72rem',cursor:'pointer'}}>Seç</button>}
                   {!unlocked && <span style={{fontSize:'0.65rem',color:'#8893A1',padding:'3px 8px',background:'rgba(255,255,255,0.03)',borderRadius:'6px'}}>🔒 Lv.{t.minLevel}</span>}
                 </div>
               );
@@ -629,7 +629,7 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
           <Card style={{marginBottom:'0.5rem'}}>
             <div style={{fontSize:'0.7rem',color:'#8893A1',fontWeight:700,textTransform:'uppercase',marginBottom:'0.5rem'}}>📊 Kredi Skoru</div>
             <div style={{display:'flex',alignItems:'center',gap:'0.75rem'}}>
-              <div style={{fontSize:'2rem',fontWeight:900,fontFamily:"'JetBrains Mono',monospace",color:(profile?.creditScore||profile?.credit_score||500)>=700?'#4C9A6B':(profile?.creditScore||profile?.credit_score||500)>=500?'#C9A227':'#C24B43'}}>
+              <div style={{fontSize:'2rem',fontWeight:900,fontFamily:"'JetBrains Mono',monospace",color:(profile?.creditScore||profile?.credit_score||500)>=700?'#4C9A6B':(profile?.creditScore||profile?.credit_score||500)>=500?'#3CC8F0':'#C24B43'}}>
                 {profile?.creditScore||profile?.credit_score||500}
               </div>
               <div>
@@ -641,28 +641,28 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
           </Card>
 
           <Card style={{marginBottom:'0.5rem'}}>
-            <div style={{fontWeight:700,color:'#EDE7DA',marginBottom:'0.6rem',fontSize:'0.85rem'}}>💳 Kredi Talebi</div>
+            <div style={{fontWeight:700,color:'#E6EDF5',marginBottom:'0.6rem',fontSize:'0.85rem'}}>💳 Kredi Talebi</div>
             <input type="number" value={loanAmt} onChange={e=>setLoanAmt(e.target.value)}
-              placeholder="Tutar girin (min 1.000🪙)" style={{...inputSt,marginBottom:'0.45rem'}} />
+              placeholder="Tutar girin (min 1.000₺)" style={{...inputSt,marginBottom:'0.45rem'}} />
             {parseInt(loanAmt)>=1000 && (
               <div style={{fontSize:'0.7rem',color:'#8893A1',marginBottom:'0.45rem'}}>
-                Tahmini faiz: %8 · Geri ödeme: ~{Math.ceil(parseInt(loanAmt)*1.08).toLocaleString('tr-TR')}🪙 (30 gün)
+                Tahmini faiz: %8 · Geri ödeme: ~{Math.ceil(parseInt(loanAmt)*1.08).toLocaleString('tr-TR')}₺ (30 gün)
               </div>
             )}
             <Btn variant='primary' size='full' onClick={doRequestLoan}>💳 Kredi Al</Btn>
           </Card>
 
           <Card>
-            <div style={{fontWeight:700,color:'#EDE7DA',marginBottom:'0.6rem',fontSize:'0.85rem'}}>📋 Kredilerim</div>
+            <div style={{fontWeight:700,color:'#E6EDF5',marginBottom:'0.6rem',fontSize:'0.85rem'}}>📋 Kredilerim</div>
             {loansLoading ? (
               <div style={{textAlign:'center',padding:'0.75rem',color:'#8893A1',fontSize:'0.8rem'}}>Yükleniyor...</div>
             ) : loans.length===0 ? (
               <div style={{textAlign:'center',padding:'0.75rem',color:'#8893A1',fontSize:'0.8rem'}}>Aktif kredi yok</div>
             ) : loans.map(loan=>(
-              <div key={loan.id} style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'0.6rem',marginBottom:'0.35rem'}}>
+              <div key={loan.id} style={{background:'rgba(230,237,245,0.02)',border:'1px solid rgba(230,237,245,0.08)',borderRadius:'10px',padding:'0.6rem',marginBottom:'0.35rem'}}>
                 <div style={{display:'flex',justifyContent:'space-between',marginBottom:'0.3rem'}}>
                   <div style={{display:'flex',alignItems:'center',gap:'0.4rem'}}>
-                    <span style={{color:'#EDE7DA',fontWeight:700,fontSize:'0.85rem'}}>{parseInt(loan.principal||loan.amount||0).toLocaleString('tr-TR')}🪙</span>
+                    <span style={{color:'#E6EDF5',fontWeight:700,fontSize:'0.85rem'}}>{parseInt(loan.principal||loan.amount||0).toLocaleString('tr-TR')}₺</span>
                     <Tag color={loan.status==='active'?'blue':loan.status==='paid'?'green':'red'}>
                       {loan.status==='active'?'Aktif':loan.status==='paid'?'Ödendi':'Gecikmiş'}
                     </Tag>
@@ -673,8 +673,8 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
                   <div>
                     <ProgressBar pct={Math.min(100,(parseInt(loan.amount_paid||0)/Math.max(1,parseInt(loan.amount_due||loan.total_due||loan.principal||1)))*100)} color='#4C9A6B' h={4} />
                     <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.67rem',color:'#8893A1',margin:'0.25rem 0 0.4rem'}}>
-                      <span>Ödenen: {parseInt(loan.amount_paid||0).toLocaleString('tr-TR')}🪙</span>
-                      <span>Kalan: {(parseInt(loan.amount_due||loan.total_due||0)-parseInt(loan.amount_paid||0)).toLocaleString('tr-TR')}🪙</span>
+                      <span>Ödenen: {parseInt(loan.amount_paid||0).toLocaleString('tr-TR')}₺</span>
+                      <span>Kalan: {(parseInt(loan.amount_due||loan.total_due||0)-parseInt(loan.amount_paid||0)).toLocaleString('tr-TR')}₺</span>
                     </div>
                     <Btn variant='ghost' size='sm' onClick={()=>doRepayLoan(loan.id,(parseInt(loan.amount_due||loan.total_due||0)-parseInt(loan.amount_paid||0)))}>
                       💰 Tamamını Öde
@@ -692,13 +692,13 @@ function ProfilePage({ profile, setProfile, onLogout, showNotif }) {
           <div style={{marginBottom:'0.85rem'}}>
             <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.4rem',fontWeight:700}}>Kullanıcı Adı</div>
             <input value={editForm.username} onChange={e=>setEditForm(p=>({...p,username:e.target.value}))}
-              style={{width:'100%',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box'}} />
+              style={{width:'100%',background:'rgba(230,237,245,0.03)',border:'1px solid rgba(230,237,245,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#E6EDF5',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box'}} />
           </div>
           <div style={{marginBottom:'1.25rem'}}>
             <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.4rem',fontWeight:700}}>Şehir</div>
             <select value={editForm.city} onChange={e=>setEditForm(p=>({...p,city:e.target.value}))}
-              style={{width:'100%',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box'}}>
-              {CITIES.map(c=><option key={c} value={c} style={{background:'#1B212B'}}>{c}</option>)}
+              style={{width:'100%',background:'rgba(230,237,245,0.03)',border:'1px solid rgba(230,237,245,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#E6EDF5',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box'}}>
+              {CITIES.map(c=><option key={c} value={c} style={{background:'#152032'}}>{c}</option>)}
             </select>
           </div>
           <Btn variant='primary' size='full' onClick={saveProfile}>✅ Kaydet</Btn>

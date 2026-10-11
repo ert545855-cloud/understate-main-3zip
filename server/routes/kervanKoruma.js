@@ -60,9 +60,9 @@ router.post('/create', authMiddleware, asyncHandler(async (req, res) => {
 router.post('/:id/guard', authMiddleware, asyncHandler(async (req, res) => {
   const id = parseInt(req.params.id);
   const { rows } = await db.query(`SELECT * FROM kervan_koruma WHERE id=$1 FOR UPDATE`, [id]);
-  if (!rows.length) return res.status(404).json({ success: false, message: 'Kervan bulunamadı' });
+  if (!rows.length) return res.status(404).json({ success: false, message: 'Konvoy bulunamadı' });
   const k = rows[0];
-  if (k.status !== 'open') return res.status(400).json({ success: false, message: 'Bu kervan zaten dolu' });
+  if (k.status !== 'open') return res.status(400).json({ success: false, message: 'Bu konvoy zaten dolu' });
   if (k.owner_id === req.user.id) return res.status(400).json({ success: false, message: 'Kendi kervanınızı koruyamazsınız' });
 
   const durationMs = (k.danger_level * 10 + 20) * 60000; // 20-70 dakika
@@ -87,7 +87,7 @@ router.post('/:id/complete', authMiddleware, asyncHandler(async (req, res) => {
   const { rows } = await db.query(`SELECT * FROM kervan_koruma WHERE id=$1 FOR UPDATE`, [id]);
   if (!rows.length) return res.status(404).json({ success: false, message: 'Bulunamadı' });
   const k = rows[0];
-  if (k.status !== 'active') return res.status(400).json({ success: false, message: 'Aktif kervan değil' });
+  if (k.status !== 'active') return res.status(400).json({ success: false, message: 'Aktif konvoy değil' });
   if (k.guard_id !== req.user.id && k.owner_id !== req.user.id) {
     return res.status(403).json({ success: false, message: 'Yetki yok' });
   }

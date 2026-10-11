@@ -5,20 +5,21 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Saltanat Online">
+    <meta name="apple-mobile-web-app-title" content="Siyaset RP">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#0A1628" media="(prefers-color-scheme: dark)"><meta name="theme-color" content="#F0F2F5" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0A0F17">
     <link rel="manifest" href="/manifest.json">
-    <title>Saltanat Online - Osmanlı Strateji &amp; Rol Yapma Oyunu</title>
+    <title>Siyaset RP — Devlet, Meclis ve Savaş Oyunu</title>
+    <meta name="description" content="Siyaset RP: devletini kur, meclisi yönet, fabrikalarda tank üret ve dünya haritasında harekât başlat. Çok oyunculu siyaset ve strateji oyunu.">
     <link rel="icon" href="favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="saltanat-icon.png">
+    <link rel="apple-touch-icon" href="siyaset-icon.png">
     <link rel="shortcut icon" href="favicon.png" type="image/png">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 
 
     <!-- App Styles -->
@@ -32,7 +33,7 @@
 <div id="mil-banner" style="
   display:none;
   position:fixed;
-  top:0; left:50%; transform:translateX(-50%);
+  top:env(safe-area-inset-top,0px); left:50%; transform:translateX(-50%);
   width:min(100vw,480px);
   z-index:9998;
   background:linear-gradient(135deg,#1a0000 0%,#3d0000 50%,#1a0000 100%);
@@ -76,7 +77,7 @@
 <div id="mec-banner" style="
   display:none;
   position:fixed;
-  top:0; left:50%; transform:translateX(-50%);
+  top:env(safe-area-inset-top,0px); left:50%; transform:translateX(-50%);
   width:min(100vw,480px);
   z-index:9997;
   background:linear-gradient(135deg,#050d1f 0%,#0a1f4a 50%,#050d1f 100%);
@@ -94,7 +95,7 @@
     </div>
     <button onclick="document.getElementById('mec-banner').style.display='none'" style="
       background:rgba(255,255,255,0.08);border:none;border-radius:8px;
-      color:#94A3B8;font-size:0.85rem;cursor:'pointer';padding:4px 8px;flex-shrink:0;
+      color:#94A3B8;font-size:0.85rem;cursor:pointer;padding:4px 8px;flex-shrink:0;
     ">✕</button>
   </div>
   <div id="mec-banner-bar" style="height:2px;background:#60A5FA;width:100%;transform-origin:left;"></div>
@@ -117,20 +118,22 @@
 
 
 <!-- LOADING SCREEN -->
-<div id="loading-screen" style="position:fixed;inset:0;z-index:9999;background:radial-gradient(ellipse at center,#3D2200 0%,#1A0E00 55%,#0A0600 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;font-family:'Inter',sans-serif;">
-  <div style="display:flex;flex-direction:column;align-items:center;gap:0.4rem;">
-    <div style="font-size:clamp(1rem,3vw,1.3rem);letter-spacing:0.4rem;color:#C89B3C;font-family:'Cinzel',serif;font-weight:700;opacity:0.8;">✦ SALTANAT ✦</div>
-    <div style="font-family:'Cinzel',serif;font-size:clamp(2rem,7vw,3.2rem);letter-spacing:0.25rem;font-weight:900;background:linear-gradient(135deg,#E8C96B 0%,#C89B3C 50%,#E8C96B 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-shadow:none;">ONLINE</div>
-    <div style="font-size:0.65rem;letter-spacing:0.35rem;color:rgba(200,155,60,0.6);font-family:'Cinzel',serif;text-transform:uppercase;">İmparatorluk Seninle Yükselir</div>
+<div id="loading-screen" style="position:fixed;inset:0;z-index:9999;background:radial-gradient(ellipse at center,#152032 0%,#0F1724 55%,#0A0F17 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;font-family:'Inter',sans-serif;">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:0.55rem;">
+    <img src="assets/brand/logo.svg" alt="" width="88" height="88" style="width:88px;height:88px;border-radius:22px;box-shadow:0 0 40px rgba(60,200,240,0.35);animation:lsPulse 2.4s ease-in-out infinite;">
+    <div style="font-family:'Rajdhani',sans-serif;font-size:clamp(2.1rem,8vw,3rem);font-weight:700;letter-spacing:0.08em;color:#E6EDF5;line-height:1;">SİYASET <span style="color:#3CC8F0;">RP</span></div>
+    <div style="font-size:0.72rem;letter-spacing:0.08em;color:rgba(230,237,245,0.55);font-family:'Inter',sans-serif;">Devletini kur, meclisi yönet, dünyayı değiştir</div>
   </div>
-  <div id="loading-bar-wrap" style="width:220px;height:2px;background:rgba(200,155,60,0.12);border-radius:2px;overflow:hidden;">
-    <div id="loading-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#C89B3C,#E8C96B);border-radius:2px;box-shadow:0 0 12px rgba(200,155,60,0.7);transition:width 0.4s ease;"></div>
+  <div id="loading-bar-wrap" style="width:220px;height:2px;background:rgba(60,200,240,0.12);border-radius:2px;overflow:hidden;">
+    <div id="loading-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#3CC8F0,#9BE6FB);border-radius:2px;box-shadow:0 0 12px rgba(60,200,240,0.7);transition:width 0.4s ease;"></div>
   </div>
-  <div id="loading-text" style="color:#C89B3C;font-size:0.75rem;letter-spacing:0.2rem;text-transform:uppercase;font-family:'Cinzel',serif;">İmparatorluk kuruluyor...</div>
+  <div id="loading-text" style="color:#3CC8F0;font-size:0.75rem;letter-spacing:0.2rem;text-transform:uppercase;font-family:'Rajdhani',sans-serif;">Devlet kuruluyor...</div>
   <div id="loading-error" style="display:none;color:#D00000;font-size:0.85rem;text-align:center;max-width:280px;line-height:1.6;"></div>
 </div>
 <style>
   #loading-screen { transition: opacity 0.5s ease; }
+  @keyframes lsPulse { 0%,100% { transform:scale(1); box-shadow:0 0 30px rgba(60,200,240,0.25); } 50% { transform:scale(1.04); box-shadow:0 0 50px rgba(60,200,240,0.5); } }
+  @media (prefers-reduced-motion: reduce) { #loading-screen img { animation:none !important; } }
   #loading-screen.fade-out { opacity: 0; pointer-events: none; }
 
   /* ── Ripple effect for ALL buttons ── */
@@ -211,6 +214,23 @@
     backendUrl = window.location.origin;
   }
   window._SOCKET_URL = backendUrl;
+  // APK (Capacitor) içinde sayfa https://localhost'tan açılır; '/api/...' gibi göreli istekler
+  // sunucuya ulaşamaz. Enjekte edilmiş backend URL varsa bunları otomatik olarak oraya yönlendir.
+  if (isCapacitor && injected) {
+    var _bk = String(injected).replace(/\/+$/, '');
+    var _isApi = function(u) { return typeof u === 'string' && /^\/(api|socket\.io)(\/|\?|$)/.test(u); };
+    if (window.fetch) {
+      var _origFetch = window.fetch.bind(window);
+      window.fetch = function(input, init) {
+        if (_isApi(input)) input = _bk + input;
+        return _origFetch(input, init);
+      };
+    }
+    if (navigator.sendBeacon) {
+      var _origBeacon = navigator.sendBeacon.bind(navigator);
+      navigator.sendBeacon = function(u, d) { return _origBeacon(_isApi(u) ? _bk + u : u, d); };
+    }
+  }
   window.__ENV__ = window.__ENV__ || {};
   window.__ENV__.SOCKET_URL = backendUrl;
   window.__ENV__.API_BASE    = backendUrl;
@@ -233,7 +253,7 @@ function _hideLoading() {
   var ls = document.getElementById('loading-screen');
   if (ls) { ls.classList.add('fade-out'); setTimeout(function() { ls.style.display = 'none'; }, 600); }
 }
-_advanceBar(10, 'İmparatorluk kuruluyor...');
+_advanceBar(10, 'Devlet kuruluyor...');
 
 // Eski IndexedDB önbelleklerini temizle (tüm kullanıcılarda stale kod kalmasın)
 try {
@@ -272,7 +292,10 @@ var SCREEN_FILES = [
   'src/i18n/de.js',
   'src/i18n/index.js',
   'src/theme.js',
+  'src/components/IconSet.js',
+  'src/components/GameApi.js',
   'src/components/UI.js',
+  'src/components/BattleFX.js',
   'src/components/Header.js',
   'src/components/BottomNav.js',
   'src/screens/AuthScreen.js',
@@ -325,9 +348,9 @@ var SCREEN_FILES = [
   'src/screens/TurkeyMapScreen.js',
   'src/screens/IndependentArmyScreen.js',
   // Yeni sistemler
-  'src/screens/AletAtölyesiScreen.js',
+  'src/screens/AletAtolyesiScreen.js',
   'src/screens/OttomanOrdusScreen.js',
-  'src/screens/GücPuaniScreen.js',
+  'src/screens/GucPuaniScreen.js',
   'src/screens/TurnuvaScreen.js',
   'src/screens/TakvimScreen.js',
   'src/screens/CasusScreen.js',
@@ -374,6 +397,11 @@ var SCREEN_FILES = [
   'src/screens/ProfilKartScreen.js',
   'src/screens/GrupMesajScreen.js',
   'src/screens/PadisahlikScreen.js',
+  'src/screens/PartyCenterScreen.js',
+  'src/screens/social/GangPage.js',
+  'src/screens/WorldMapScreen.js',
+  'src/screens/MilitaryScreen.js',
+  'src/components/Tutorial.js',
 ];
 
 function _babelOne(src) {
@@ -414,9 +442,18 @@ function compileAndRun() {
     .catch(function(err) { _showError('Yükleme hatası: ' + err.message); });
 }
 
+function _whenReady(cb, tries) {
+  tries = tries || 0;
+  if (window.Babel && window.React && window.ReactDOM) return cb();
+  if (tries > 300) { _showError('Oyun dosyaları yüklenemedi. İnternet bağlantını kontrol edip yenile.'); return; }
+  setTimeout(function() { _whenReady(cb, tries + 1); }, 100);
+}
+var _booted = false;
 function boot() {
+  if (_booted) return;
+  _booted = true;
   _advanceBar(70, 'Ordu hazırlanıyor...');
-  compileAndRun();
+  _whenReady(compileAndRun);
 }
 </script>
 
@@ -514,6 +551,12 @@ function boot() {
         market.forEach(function(c) { map[c.id||c.company_id] = c; });
         applyStateUpdate('stockMarket', map);
       }).catch(function(){});
+
+    // Dünya haritası ülke sahipliği
+    fetch(base+'/api/world/territories')
+      .then(function(r) { return r.ok ? r.json() : null; })
+      .then(function(d) { if (d && d.territories) applyStateUpdate('worldMap', d.territories); })
+      .catch(function(){});
 
     // Şehir sahipliği (game state'ten)
     fetch(base+'/api/game/state')
@@ -785,7 +828,7 @@ function boot() {
       // If military banner visible, push meclis banner down
       var milB = document.getElementById('mil-banner');
       var offset = (milB && milB.style.display !== 'none') ? (milB.offsetHeight || 64) : 0;
-      b.style.top = offset + 'px';
+      b.style.top = 'calc(env(safe-area-inset-top, 0px) + ' + offset + 'px)';
       // Reset and show
       b.style.display = 'none';
       void b.offsetWidth;
@@ -853,6 +896,16 @@ function boot() {
     _socket.on('combatResult', function(data) {
       window.dispatchEvent(new CustomEvent('combat-result', { detail: data }));
       applyStateUpdate('lastCombat', data);
+    });
+
+    // Askeri harekât güncellemeleri (server/routes/military.js) → ekranlara pencere olayı
+    _socket.on('operation:update', function(data) {
+      try { window.dispatchEvent(new CustomEvent('operation-update', { detail: data })); } catch(e) {}
+    });
+
+    // Dünya haritası: ülke sahipliği sunucudan gelir (server/routes/world.js)
+    _socket.on('worldMapUpdate', function(data) {
+      if (data && data.territories) applyStateUpdate('worldMap', data.territories);
     });
 
     _socket.on('cityOwnershipUpdate', function(data) {
@@ -1034,6 +1087,7 @@ function tryBoot() {
 // local fallback — CDN başarısız olursa dener
 function _loadLocal(path, onok, onfail) {
   var s = document.createElement('script');
+  s.async = false; // yedek dosyalar sırayla çalışsın (React → ReactDOM)
   s.src = path;
   s.onload = onok;
   s.onerror = onfail || function() { console.warn('[Boot] Local da yüklenemedi: ' + path); };

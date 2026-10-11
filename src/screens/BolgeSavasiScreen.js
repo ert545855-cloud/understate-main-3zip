@@ -63,12 +63,12 @@ window.BolgeSavasiScreen = function BolgeSavasiScreen({ profile, token }) {
     try {
       const r = await fetch('/api/region/collect-tax', { method:'POST', headers:{'Authorization':'Bearer '+token} });
       const d = await r.json();
-      setMsg(d.success ? `💰 ${d.collected} 🪙 vergi toplandı! (${d.regionCount} bölge)` : d.message);
+      setMsg(d.success ? `💰 ${d.collected} ₺ vergi toplandı! (${d.regionCount} bölge)` : d.message);
     } catch { setMsg('Hata'); }
     setTimeout(() => setMsg(''), 3000);
   };
 
-  const ds = { bg:'#0D1117', surface:'rgba(255,255,255,0.04)', gold:'#C9A227', border:'rgba(255,255,255,0.08)', text:'#EDE7DA', muted:'#8893A1' };
+  const ds = { bg:'#0D1117', surface:'rgba(255,255,255,0.04)', gold:'#3CC8F0', border:'rgba(255,255,255,0.08)', text:'#E6EDF5', muted:'#8893A1' };
 
   return React.createElement('div', { style:{ minHeight:'100vh', background:ds.bg, padding:'1rem', paddingBottom:'5rem', color:ds.text } },
     React.createElement('div', { style:{ display:'flex', gap:'8px', marginBottom:'1rem' } },
@@ -81,7 +81,7 @@ window.BolgeSavasiScreen = function BolgeSavasiScreen({ profile, token }) {
       )
     ),
 
-    msg && React.createElement('div', { style:{ background:'rgba(201,162,39,0.15)', border:`1px solid ${ds.gold}`, borderRadius:'8px', padding:'10px 14px', marginBottom:'1rem', fontSize:'0.85rem', color:ds.gold }}, msg),
+    msg && React.createElement('div', { style:{ background:'rgba(60,200,240,0.15)', border:`1px solid ${ds.gold}`, borderRadius:'8px', padding:'10px 14px', marginBottom:'1rem', fontSize:'0.85rem', color:ds.gold }}, msg),
 
     tab === 'harita' && React.createElement('div', { style:{ display:'flex', flexDirection:'column', gap:'10px' } },
       React.createElement('p', { style:{ fontSize:'0.8rem', color:ds.muted, margin:'0 0 4px' }},
@@ -91,7 +91,7 @@ window.BolgeSavasiScreen = function BolgeSavasiScreen({ profile, token }) {
         const ctrl = regions[b.id];
         const isMine = ctrl?.controller_id === profile?.id;
         return React.createElement('div', { key:b.id,
-          style:{ background: isMine ? 'rgba(201,162,39,0.1)' : ds.surface, border:`1px solid ${isMine ? ds.gold : ds.border}`, borderRadius:'12px', padding:'14px' }},
+          style:{ background: isMine ? 'rgba(60,200,240,0.1)' : ds.surface, border:`1px solid ${isMine ? ds.gold : ds.border}`, borderRadius:'12px', padding:'14px' }},
           React.createElement('div', { style:{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'8px' }},
             React.createElement('div', null,
               React.createElement('div', { style:{ fontWeight:700, fontSize:'0.95rem' }}, `${b.emoji} ${b.name}`),
@@ -100,13 +100,13 @@ window.BolgeSavasiScreen = function BolgeSavasiScreen({ profile, token }) {
               )
             ),
             React.createElement('div', { style:{ textAlign:'right' }},
-              React.createElement('div', { style:{ fontSize:'0.8rem', color:ds.gold }}, `💰 ${b.income} 🪙/gün`),
+              React.createElement('div', { style:{ fontSize:'0.8rem', color:ds.gold }}, `💰 ${b.income} ₺/gün`),
               myAttacks[b.id] && React.createElement('div', { style:{ fontSize:'0.7rem', color:ds.muted }}, `Senin saldırın: ${myAttacks[b.id]}`)
             )
           ),
           React.createElement('button', { onClick:()=>attack(b.id), disabled:loading,
             style:{ width:'100%', padding:'8px', borderRadius:'8px', border:'none', cursor:'pointer', fontWeight:700, fontSize:'0.85rem',
-              background: isMine ? 'rgba(201,162,39,0.2)' : 'rgba(255,60,60,0.15)', color: isMine ? ds.gold : '#FF6B6B' }},
+              background: isMine ? 'rgba(60,200,240,0.2)' : 'rgba(255,60,60,0.15)', color: isMine ? ds.gold : '#FF6B6B' }},
             loading ? '⚔️ Saldırılıyor...' : isMine ? '⚔️ Savun / Güçlendir' : '⚔️ Saldır'
           )
         );

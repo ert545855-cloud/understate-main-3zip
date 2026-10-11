@@ -5,7 +5,7 @@ window.PazarEtkinlikScreen = function PazarEtkinlikScreen({ profile, token }) {
   const [loading, setLoading] = React.useState('');
   const [msg, setMsg] = React.useState({ text:'', ok:true });
 
-  const ds = { bg:'#0D1117', surface:'rgba(255,255,255,0.04)', gold:'#C9A227', border:'rgba(255,255,255,0.08)', text:'#EDE7DA', muted:'#8893A1', green:'#4CAF50', red:'#FF6B6B' };
+  const ds = { bg:'#0D1117', surface:'rgba(255,255,255,0.04)', gold:'#3CC8F0', border:'rgba(255,255,255,0.08)', text:'#E6EDF5', muted:'#8893A1', green:'#4CAF50', red:'#FF6B6B' };
 
   const fetchStatus = async () => {
     try {
@@ -36,7 +36,7 @@ window.PazarEtkinlikScreen = function PazarEtkinlikScreen({ profile, token }) {
         body: JSON.stringify({ itemId })
       });
       const d = await r.json();
-      if (d.success) { show(`✅ ${d.item.emoji} ${d.item.name} satın alındı! (${d.item.price} 🪙)`); fetchStatus(); }
+      if (d.success) { show(`✅ ${d.item.emoji} ${d.item.name} satın alındı! (${d.item.price} ₺)`); fetchStatus(); }
       else show(d.message || 'Hata', false);
     } catch { show('Hata', false); }
     setLoading('');
@@ -48,7 +48,7 @@ window.PazarEtkinlikScreen = function PazarEtkinlikScreen({ profile, token }) {
 
   return React.createElement('div', { style:{ minHeight:'100vh', background:ds.bg, padding:'1rem', paddingBottom:'5rem', color:ds.text }},
     // Banner
-    React.createElement('div', { style:{ background:`linear-gradient(135deg, rgba(201,162,39,0.15), rgba(180,80,20,0.1))`, border:`1px solid rgba(201,162,39,0.25)`, borderRadius:'16px', padding:'18px', marginBottom:'1.2rem', textAlign:'center' }},
+    React.createElement('div', { style:{ background:`linear-gradient(135deg, rgba(60,200,240,0.15), rgba(180,80,20,0.1))`, border:`1px solid rgba(60,200,240,0.25)`, borderRadius:'16px', padding:'18px', marginBottom:'1.2rem', textAlign:'center' }},
       React.createElement('div', { style:{ fontSize:'2.5rem', marginBottom:'6px' }}, '🎪'),
       React.createElement('div', { style:{ fontWeight:900, fontSize:'1.2rem', color:ds.gold }}, 'Pazar Günü Özel'),
       React.createElement('div', { style:{ fontSize:'0.82rem', color:ds.muted, marginTop:'4px' }},
@@ -75,7 +75,7 @@ window.PazarEtkinlikScreen = function PazarEtkinlikScreen({ profile, token }) {
               React.createElement('div', { style:{ fontWeight:700 }}, item.name),
               React.createElement('div', { style:{ fontSize:'0.77rem', color:ds.muted }}, item.desc || ''),
               React.createElement('div', { style:{ display:'flex', gap:'8px', alignItems:'center', marginTop:'4px' }},
-                React.createElement('span', { style:{ fontWeight:700, color:ds.gold }}, `${item.price} 🪙`),
+                React.createElement('span', { style:{ fontWeight:700, color:ds.gold }}, `${item.price} ₺`),
                 React.createElement('span', { style:{ fontSize:'0.7rem', color:ds.muted, textDecoration:'line-through' }}, `${item.original_price}`),
                 React.createElement('span', { style:{ fontSize:'0.7rem', background:'rgba(80,200,80,0.15)', color:ds.green, padding:'1px 5px', borderRadius:'4px' }}, '-20%')
               )
@@ -110,7 +110,7 @@ window.PazarEtkinlikScreen = function PazarEtkinlikScreen({ profile, token }) {
           React.createElement('div', { key:p.id, style:{ background:ds.surface, border:`1px solid ${ds.border}`, borderRadius:'8px', padding:'8px 12px', display:'flex', justifyContent:'space-between' }},
             React.createElement('span', { style:{ fontSize:'0.85rem' }}, p.item_name),
             React.createElement('div', { style:{ textAlign:'right' }},
-              React.createElement('div', { style:{ fontSize:'0.8rem', color:ds.red }}, `-${p.price} 🪙`),
+              React.createElement('div', { style:{ fontSize:'0.8rem', color:ds.red }}, `-${p.price} ₺`),
               React.createElement('div', { style:{ fontSize:'0.68rem', color:ds.muted }}, new Date(p.created_at).toLocaleDateString('tr-TR'))
             )
           )

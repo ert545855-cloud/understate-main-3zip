@@ -9,7 +9,7 @@ window.MektupScreen = function MektupScreen({ profile, token, onlinePlayers }) {
   const [loading, setLoading] = React.useState('');
   const [msg, setMsg] = React.useState('');
 
-  const ds = { bg:'#0D1117', surface:'rgba(255,255,255,0.04)', gold:'#C9A227', border:'rgba(255,255,255,0.08)', text:'#EDE7DA', muted:'#8893A1', green:'#4CAF50', red:'#FF6B6B', parchment:'#F5E6C8' };
+  const ds = { bg:'#0D1117', surface:'rgba(255,255,255,0.04)', gold:'#3CC8F0', border:'rgba(255,255,255,0.08)', text:'#E6EDF5', muted:'#8893A1', green:'#4CAF50', red:'#FF6B6B', parchment:'#F5E6C8' };
 
   const fetchLetters = async () => {
     try {
@@ -70,8 +70,8 @@ window.MektupScreen = function MektupScreen({ profile, token, onlinePlayers }) {
 
   if (selected) return React.createElement('div', { style:{ minHeight:'100vh', background:ds.bg, padding:'1rem', paddingBottom:'5rem', color:ds.text }},
     React.createElement('button', { onClick:()=>setSelected(null), style:{ background:'none', border:'none', color:ds.muted, cursor:'pointer', fontSize:'0.85rem', marginBottom:'1rem' }}, '← Geri'),
-    React.createElement('div', { style:{ background:'rgba(245,230,200,0.04)', border:`1px solid rgba(201,162,39,0.25)`, borderRadius:'14px', padding:'20px' }},
-      React.createElement('div', { style:{ borderBottom:`1px solid rgba(201,162,39,0.2)`, paddingBottom:'12px', marginBottom:'14px' }},
+    React.createElement('div', { style:{ background:'rgba(245,230,200,0.04)', border:`1px solid rgba(60,200,240,0.25)`, borderRadius:'14px', padding:'20px' }},
+      React.createElement('div', { style:{ borderBottom:`1px solid rgba(60,200,240,0.2)`, paddingBottom:'12px', marginBottom:'14px' }},
         React.createElement('div', { style:{ fontWeight:800, fontSize:'1rem', marginBottom:'4px' }}, selected.subject || 'Mektup'),
         React.createElement('div', { style:{ fontSize:'0.78rem', color:ds.muted }},
           tab === 'gelen' ? `Gönderen: ${selected.sender_name}` : `Alıcı: ${selected.receiver_name}`
@@ -100,14 +100,14 @@ window.MektupScreen = function MektupScreen({ profile, token, onlinePlayers }) {
       )
     ),
 
-    msg && React.createElement('div', { style:{ background:'rgba(201,162,39,0.1)', border:`1px solid ${ds.gold}`, borderRadius:'8px', padding:'10px 14px', marginBottom:'1rem', fontSize:'0.82rem', color:ds.gold }}, msg),
+    msg && React.createElement('div', { style:{ background:'rgba(60,200,240,0.1)', border:`1px solid ${ds.gold}`, borderRadius:'8px', padding:'10px 14px', marginBottom:'1rem', fontSize:'0.82rem', color:ds.gold }}, msg),
 
     (tab === 'gelen' || tab === 'gonderilen') && React.createElement('div', { style:{ display:'flex', flexDirection:'column', gap:'6px' }},
       (tab === 'gelen' ? inbox : sent).length === 0 && React.createElement('div', { style:{ textAlign:'center', padding:'3rem', color:ds.muted }}, '📭 Mektup yok.'),
       (tab === 'gelen' ? inbox : sent).map(l =>
         React.createElement('div', { key:l.id, onClick:()=>openLetter(l), style:{ cursor:'pointer',
-          background: (!l.read && tab==='gelen') ? 'rgba(201,162,39,0.08)' : ds.surface,
-          border:`1px solid ${(!l.read && tab==='gelen') ? 'rgba(201,162,39,0.3)' : ds.border}`,
+          background: (!l.read && tab==='gelen') ? 'rgba(60,200,240,0.08)' : ds.surface,
+          border:`1px solid ${(!l.read && tab==='gelen') ? 'rgba(60,200,240,0.3)' : ds.border}`,
           borderRadius:'10px', padding:'12px 14px' }},
           React.createElement('div', { style:{ display:'flex', justifyContent:'space-between', alignItems:'center' }},
             React.createElement('div', null,

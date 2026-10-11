@@ -1,6 +1,6 @@
 {
   "appId": "com.saltanat.online",
-  "appName": "Saltanat Online",
+  "appName": "Siyaset RP",
   "webDir": "www",
   "server": {
     "androidScheme": "https"
@@ -8,7 +8,7 @@
   "plugins": {
     "SplashScreen": {
       "launchShowDuration": 2000,
-      "backgroundColor": "#0A1628",
+      "backgroundColor": "#0A0F17",
       "showSpinner": false
     },
     "AdMob": {

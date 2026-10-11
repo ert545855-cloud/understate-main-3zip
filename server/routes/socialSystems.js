@@ -42,7 +42,7 @@ router.post('/gifts/send', authMiddleware, asyncHandler(async (req, res) => {
   const { receiverId, amount, message } = req.body;
   const amt = parseInt(amount) || 0;
   if (!receiverId || receiverId === req.user.id) return res.status(400).json({ success: false });
-  if (amt < 10 || amt > 10000) return res.status(400).json({ success: false, message: 'Hediye 10–10,000 🪙 arasında olmalı' });
+  if (amt < 10 || amt > 10000) return res.status(400).json({ success: false, message: 'Hediye 10–10,000 ₺ arasında olmalı' });
 
   const { rows: [user] } = await db.query(`SELECT id,username,money FROM users WHERE id=$1`, [req.user.id]);
   if ((user.money || 0) < amt) return res.status(400).json({ success: false, message: 'Yetersiz para' });
@@ -98,16 +98,16 @@ router.post('/fame', authMiddleware, asyncHandler(async (req, res) => {
 
 /* ─── PALACE INTRIGUE (Saray İntrigi Kartları) ──────────── */
 const INTRIGUE_CARDS = [
-  { id:'vezir_ihbar',   text:'Vezir seni ihbar etti!',       effect:{money:-500},            emoji:'⚠️' },
-  { id:'saray_sairi',   text:'Saray şairi seni övdü!',       effect:{xp:50},                 emoji:'🎭' },
+  { id:'vezir_ihbar',   text:'Bakan seni ihbar etti!',       effect:{money:-500},            emoji:'⚠️' },
+  { id:'saray_sairi',   text:'Külliye şairi seni övdü!',       effect:{xp:50},                 emoji:'🎭' },
   { id:'altin_buldu',   text:'Hazinede gizli altın buldun!', effect:{money:800},              emoji:'💰' },
   { id:'hain_kefalet',  text:'Bir hain sana borçlandı.',     effect:{money:300},              emoji:'🤝' },
   { id:'yangın',        text:'Atölyen yandı!',               effect:{money:-400},             emoji:'🔥' },
-  { id:'pasa_armagan',  text:'Paşa bir armağan gönderdi!',   effect:{money:600, xp:20},      emoji:'🎁' },
+  { id:'pasa_armagan',  text:'General bir armağan gönderdi!',   effect:{money:600, xp:20},      emoji:'🎁' },
   { id:'casuslar',      text:'Casuslar tuzak kurdu.',        effect:{money:-300, xp:-10},    emoji:'🕵️' },
   { id:'zafer_kutlama', text:'Zafer kutlamasına davet edildin!', effect:{xp:80, fame:15},    emoji:'🎊' },
   { id:'veba',          text:'Şehirde veba çıktı, ticaret durdu.', effect:{money:-200},      emoji:'💀' },
-  { id:'sultan_lutuf',  text:'Sultan sana iltifat etti!',    effect:{xp:100, fame:25},       emoji:'👑' },
+  { id:'sultan_lutuf',  text:'Cumhurbaşkanı sana iltifat etti!',    effect:{xp:100, fame:25},       emoji:'👑' },
 ];
 
 router.post('/intrigue/draw', authMiddleware, asyncHandler(async (req, res) => {

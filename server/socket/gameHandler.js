@@ -772,7 +772,7 @@ function registerGameHandlers(io, socket) {
     const beyliks = data.beyliks.slice(0, 200); // maksimum 200 beylik
     if (db.isReady()) await db.setGameState('beyliks', beyliks).catch(() => {});
     io.emit('beylikUpdate', { beyliks, ts: Date.now() });
-    logger.debug(`[Beylik] sync by ${socket.username} — ${beyliks.length} beylik`);
+    logger.debug(`[Devlet] sync by ${socket.username} — ${beyliks.length} beylik`);
   });
 
   // ── BEYLIK kur (atomik) ────────────────────────────────────────────────────
@@ -784,7 +784,7 @@ function registerGameHandlers(io, socket) {
       : [];
     // İsim çakışması kontrolü
     if (current.find(b => b.ad?.toLowerCase() === data.beylik.ad?.toLowerCase())) {
-      socket.emit('beylik:kurError', { error: 'Bu isimde beylik var' }); return;
+      socket.emit('beylik:kurError', { error: 'Bu isimde devlet var' }); return;
     }
     const updated = [...current, data.beylik];
     if (db.isReady()) await db.setGameState('beyliks', updated).catch(() => {});
@@ -792,11 +792,11 @@ function registerGameHandlers(io, socket) {
     broadcastNotification(io, {
       id: `notif_beylik_${Date.now()}`,
       type: 'beylik',
-      icon: '⚜️',
-      title: 'Yeni Beylik Kuruldu!',
-      msg: `${socket.username} "${data.beylik.ad}" beyliğini kurdu!`,
+      icon: '🏛️',
+      title: 'Yeni Devlet Kuruldu!',
+      msg: `${socket.username} "${data.beylik.ad}" devletini kurdu!`,
     });
-    logger.info(`[Beylik] "${data.beylik.ad}" kuruldu — ${socket.username}`);
+    logger.info(`[Devlet] "${data.beylik.ad}" kuruldu — ${socket.username}`);
   });
 
   // ── BEYLIK katıl ──────────────────────────────────────────────────────────
@@ -854,7 +854,7 @@ function registerGameHandlers(io, socket) {
         msg: `${socket.username} ${data.eyaletId} eyaletinin yeni valisi oldu!`,
       });
     }
-    logger.info(`[Eyalet] ${data.action} "${data.eyaletId}" — ${socket.username}`);
+    logger.info(`[Bölge] ${data.action} "${data.eyaletId}" — ${socket.username}`);
   });
 
   // ── SAVAŞ İLANI — tüm oyunculara duyurulur ───────────────────────────────
@@ -1075,7 +1075,7 @@ function registerGameHandlers(io, socket) {
       type: 'transfer',
       icon: '💸',
       title: 'Para Aldınız!',
-      msg: `${socket.username} size 🪙${amount.toLocaleString('tr-TR')} gönderdi.`,
+      msg: `${socket.username} size ₺${amount.toLocaleString('tr-TR')} gönderdi.`,
     });
     const target = Array.from(onlinePlayers.values()).find(p => p.userId === data.toId);
     if (target) {
@@ -1087,7 +1087,7 @@ function registerGameHandlers(io, socket) {
         timestamp: Date.now(),
       });
     }
-    logger.debug(`[Transfer] ${socket.username} → userId:${data.toId} 🪙${amount}`);
+    logger.debug(`[Transfer] ${socket.username} → userId:${data.toId} ₺${amount}`);
   });
 
   // ── PVP attack (server-side validation + DB persist) ──────────────────────
@@ -1122,7 +1122,7 @@ function registerGameHandlers(io, socket) {
       io.to(defOnline.socketId).emit('pvp:attacked', { attacker:socket.username, won, stolen, newMoney:newDefMoney });
     }
     if (won && stolen > 100000) {
-      broadcastNotification(io, { id:`notif_pvp_${Date.now()}`, type:'pvp', icon:'⚔️', title:'Büyük Savaş!', msg:`${socket.username}, ${defender.username}'a saldırdı ve 🪙${stolen.toLocaleString()} aldı!` });
+      broadcastNotification(io, { id:`notif_pvp_${Date.now()}`, type:'pvp', icon:'⚔️', title:'Büyük Savaş!', msg:`${socket.username}, ${defender.username}'a saldırdı ve ₺${stolen.toLocaleString()} aldı!` });
     }
     logger.debug(`[PvP] ${socket.username} vs ${defender.username} → ${won?'WIN':'LOSS'} stolen=${stolen}`);
   });
@@ -1159,7 +1159,7 @@ function registerGameHandlers(io, socket) {
     const newMoney = (user.money||0) + total;
     await db.updateUser(socket.userId, { money:newMoney, game_data: JSON.stringify({ ...gd, mining: { ...mining, resources } }) }).catch(() => {});
     socket.emit('mining:sold', { ok:true, total, newMoney, resources });
-    logger.debug(`[Mining] ${socket.username} sold 🪙${total}`);
+    logger.debug(`[Mining] ${socket.username} sold ₺${total}`);
   });
 
   // ── SPY operations ────────────────────────────────────────────────────────

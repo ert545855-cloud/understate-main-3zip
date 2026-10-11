@@ -3,8 +3,8 @@
 // ═══════════════════════════════════════════════════════
 function EventsPage({ profile, setProfile, showNotif }) {
   const { dark } = useTheme();
-  const bg = dark ? '#1A0E00' : '#F8FAFC';
-  const card = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
+  const bg = dark ? '#0F1724' : '#F8FAFC';
+  const card = dark ? 'rgba(255,255,255,0.04)' : '#E6EDF5';
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
   const [events, setEvents] = useLs('rep_gameEvents', []);
   const [myResponses, setMyResponses] = useLs('eventResponses', {});
@@ -18,7 +18,7 @@ function EventsPage({ profile, setProfile, showNotif }) {
   }, []);
 
   const EVENT_ICONS = { security_crisis:'🚨', money_printed:'💸', war_declared:'⚔️', coup_rumors:'🎖️', monopoly:'🏭', corruption:'⚠️', election_win:'🏆', default:'📢' };
-  const EVENT_COLORS = { security_crisis:'#C24B43', money_printed:'#C9A227', war_declared:'#C24B43', coup_rumors:'#C9A227', monopoly:'#C9A227', corruption:'#C9A227', election_win:'#4C9A6B', default:'#8893A1' };
+  const EVENT_COLORS = { security_crisis:'#C24B43', money_printed:'#3CC8F0', war_declared:'#C24B43', coup_rumors:'#3CC8F0', monopoly:'#3CC8F0', corruption:'#3CC8F0', election_win:'#4C9A6B', default:'#8893A1' };
 
   const respondToEvent = (eventId, response) => {
     setMyResponses(prev => ({ ...prev, [eventId]: response }));
@@ -33,7 +33,7 @@ function EventsPage({ profile, setProfile, showNotif }) {
     <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>
       <div style={{background:'linear-gradient(135deg,rgba(194,75,67,0.12),rgba(11,21,39,0.97))',border:'1px solid rgba(194,75,67,0.25)',borderRadius:'14px',padding:'1rem',marginBottom:'0.75rem'}}>
         <div style={{fontSize:'0.6rem',color:'#C24B43',fontWeight:800,textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.2rem'}}>🚨 OYUN OLAYLARI</div>
-        <div style={{fontWeight:900,color:'#EDE7DA',fontSize:'1rem',marginBottom:'0.1rem'}}>Canlı Olaylar</div>
+        <div style={{fontWeight:900,color:'#E6EDF5',fontSize:'1rem',marginBottom:'0.1rem'}}>Canlı Olaylar</div>
         <div style={{fontSize:'0.72rem',color:'#8893A1'}}>Oyuncu eylemleri olayları tetikler. Tutumunu belirt, XP kazan!</div>
       </div>
 
@@ -71,7 +71,7 @@ function EventsPage({ profile, setProfile, showNotif }) {
                 <button onClick={()=>respondToEvent(evt.id,'oppose')} style={{flex:1,padding:'0.45rem',borderRadius:'8px',border:'1px solid rgba(194,75,67,0.25)',background:'rgba(194,75,67,0.08)',color:'#E08C87',fontWeight:700,fontSize:'0.72rem',cursor:'pointer'}}>❌ Karşı Çık (+100 XP)</button>
               </div>
             ) : (
-              <div style={{textAlign:'center',fontSize:'0.72rem',color:'#8893A1',padding:'0.3rem',background:'rgba(237,231,218,0.02)',borderRadius:'8px'}}>
+              <div style={{textAlign:'center',fontSize:'0.72rem',color:'#8893A1',padding:'0.3rem',background:'rgba(230,237,245,0.02)',borderRadius:'8px'}}>
                 Tutumun: <span style={{fontWeight:700,color:myResp==='support'?'#4C9A6B':myResp==='oppose'?'#C24B43':'#8893A1'}}>{myResp==='support'?'✅ Destekliyorsun':myResp==='oppose'?'❌ Karşı çıkıyorsun':'😐 Tarafsızsın'}</span>
               </div>
             )}

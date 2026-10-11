@@ -10,7 +10,7 @@ window.GangTreasuryScreen = function GangTreasuryScreen({ cu, gangs, allUsers, s
   const [contracts, setContracts] = React.useState(() => { try { return JSON.parse(localStorage.getItem("us_gangt_contracts") || "{}"); } catch { return {}; } });
   const [msg, setMsg]         = React.useState(null);
 
-  const fmtMoney = (n) => { if(!n)return "🪙0"; if(n>=1e9)return "🪙"+(n/1e9).toFixed(1)+"Mlr"; if(n>=1e6)return "🪙"+(n/1e6).toFixed(1)+"M"; if(n>=1e3)return "🪙"+(n/1e3).toFixed(0)+"K"; return "🪙"+n; };
+  const fmtMoney = (n) => { if(!n)return "₺0"; if(n>=1e9)return "₺"+(n/1e9).toFixed(1)+"Mlr"; if(n>=1e6)return "₺"+(n/1e6).toFixed(1)+"M"; if(n>=1e3)return "₺"+(n/1e3).toFixed(0)+"K"; return "₺"+n; };
   const showMsg = (text, type="info") => { setMsg({text,type}); setTimeout(()=>setMsg(null),3000); };
 
   const gangsArr = Array.isArray(gangs) ? gangs : [];
@@ -81,7 +81,7 @@ window.GangTreasuryScreen = function GangTreasuryScreen({ cu, gangs, allUsers, s
     if (!isLeader) return showMsg("Sadece çete lideri anlaşma yapabilir", "error");
     const familyName = prompt("Anlaşma yapılacak aile adı:");
     if (!familyName) return;
-    const weeklyFee = parseInt(prompt("Haftalık koruma ücreti (🪙):"));
+    const weeklyFee = parseInt(prompt("Haftalık koruma ücreti (₺):"));
     if (!weeklyFee || isNaN(weeklyFee)) return showMsg("Geçerli bir ücret girin", "error");
     const contract = {id:"c_"+Date.now(), familyName, weeklyFee, startDate:Date.now(), status:"active"};
     const updC = {...contracts, [myGang.id]:[...myContracts, contract]};
@@ -110,7 +110,7 @@ window.GangTreasuryScreen = function GangTreasuryScreen({ cu, gangs, allUsers, s
     <div>
       <div className="ministry-header">💰 {myGang.name} — Kasa & Lojistik</div>
       {msg&&(
-        <div style={{padding:"0.6rem 0.85rem",borderRadius:10,marginBottom:"0.75rem",background:msg.type==="success"?"rgba(76,154,107,0.12)":msg.type==="error"?"rgba(194,75,67,0.12)":"rgba(201,162,39,0.12)",border:`1px solid ${msg.type==="success"?"rgba(76,154,107,0.3)":msg.type==="error"?"rgba(194,75,67,0.3)":"rgba(201,162,39,0.3)"}`,color:msg.type==="success"?"#4C9A6B":msg.type==="error"?"#C24B43":"#C9A227",fontSize:"0.82rem",fontWeight:600}}>
+        <div style={{padding:"0.6rem 0.85rem",borderRadius:10,marginBottom:"0.75rem",background:msg.type==="success"?"rgba(76,154,107,0.12)":msg.type==="error"?"rgba(194,75,67,0.12)":"rgba(60,200,240,0.12)",border:`1px solid ${msg.type==="success"?"rgba(76,154,107,0.3)":msg.type==="error"?"rgba(194,75,67,0.3)":"rgba(60,200,240,0.3)"}`,color:msg.type==="success"?"#4C9A6B":msg.type==="error"?"#C24B43":"#3CC8F0",fontSize:"0.82rem",fontWeight:600}}>
           {msg.text}
         </div>
       )}
@@ -133,8 +133,8 @@ window.GangTreasuryScreen = function GangTreasuryScreen({ cu, gangs, allUsers, s
           <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:"0.45rem",marginBottom:"0.75rem"}}>
             {[
               {l:"Toplam Güç",v:totalPower,c:"#C24B43",icon:"⚔️"},
-              {l:"Üye Sayısı",v:(myGang.members||[]).length,c:"#C9A227",icon:"👥"},
-              {l:"Anlaşmalar",v:myContracts.length,c:"#C9A227",icon:"📋"},
+              {l:"Üye Sayısı",v:(myGang.members||[]).length,c:"#3CC8F0",icon:"👥"},
+              {l:"Anlaşmalar",v:myContracts.length,c:"#3CC8F0",icon:"📋"},
             ].map(s=>(
               <div key={s.l} style={{background:"rgba(255,255,255,0.04)",border:`1px solid ${s.c}22`,borderRadius:10,padding:"0.6rem",textAlign:"center"}}>
                 <div style={{fontSize:"1rem"}}>{s.icon}</div>
@@ -146,7 +146,7 @@ window.GangTreasuryScreen = function GangTreasuryScreen({ cu, gangs, allUsers, s
           {isLeader&&(
             <div style={{display:"flex",flexDirection:"column",gap:"0.4rem"}}>
               <button className="btn btn-primary" onClick={()=>setTab("weapons")}>🔫 Silah Al</button>
-              <button className="btn" style={{border:"1px solid rgba(201,162,39,0.4)",color:"#C9A227"}} onClick={()=>setTab("contracts")}>📋 Koruma Anlaşmaları</button>
+              <button className="btn" style={{border:"1px solid rgba(60,200,240,0.4)",color:"#3CC8F0"}} onClick={()=>setTab("contracts")}>📋 Koruma Anlaşmaları</button>
             </div>
           )}
         </div>

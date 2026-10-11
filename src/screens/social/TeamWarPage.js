@@ -3,8 +3,8 @@
 // ═══════════════════════════════════════════════════════
 function TeamWarPage({ profile, setProfile, showNotif }) {
   const { dark } = useTheme();
-  const bg = dark ? '#1A0E00' : '#F8FAFC';
-  const card = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
+  const bg = dark ? '#0F1724' : '#F8FAFC';
+  const card = dark ? 'rgba(255,255,255,0.04)' : '#E6EDF5';
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
   const [wars, setWars] = useLs('activeWars', []);
   const [cabinet] = useLs('cabinet', {});
@@ -78,7 +78,7 @@ function TeamWarPage({ profile, setProfile, showNotif }) {
   const createCityWar = () => {
     if (!isGeneral) { showNotif('Sadece Serasker savaş başlatabilir!','error'); return; }
     if (!warForm.city) { showNotif('Şehir seçin','error'); return; }
-    if (militaryBudget < 500000) { showNotif('Askeri bütçe yetersiz! (min 🪙500.000)','error'); return; }
+    if (militaryBudget < 500000) { showNotif('Askeri bütçe yetersiz! (min ₺500.000)','error'); return; }
     const attGang = gangs.find(g=>g.id===warForm.attackerId);
     const cityCtrl = territories[warForm.city];
     const ctrlGang = cityCtrl ? gangs.find(g=>g.id===cityCtrl.gangId) : null;
@@ -109,19 +109,19 @@ function TeamWarPage({ profile, setProfile, showNotif }) {
   const activeWars = wars.filter(w => w.status === 'active');
   const finishedWars = wars.filter(w => w.status === 'finished').slice(-5);
 
-  const tensionColor = tension >= 75 ? '#C24B43' : tension >= 50 ? '#C9A227' : '#4C9A6B';
+  const tensionColor = tension >= 75 ? '#C24B43' : tension >= 50 ? '#3CC8F0' : '#4C9A6B';
   const tensionLabel = tension >= 75 ? 'KRİTİK' : tension >= 50 ? 'YÜKSEK' : tension >= 25 ? 'ORTA' : 'DÜŞÜK';
 
   return (
     <div style={{padding:'0.75rem',background:bg,minHeight:'100%'}}>
       {/* Başlık */}
-      <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.25rem',fontWeight:900,color:'#C24B43',marginBottom:'0.75rem',display:'flex',alignItems:'center',gap:'0.5rem'}}>
+      <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:'1.25rem',fontWeight:900,color:'#C24B43',marginBottom:'0.75rem',display:'flex',alignItems:'center',gap:'0.5rem'}}>
         ⚔️ Savaşlar
         {isGeneral && <span style={{fontSize:'0.62rem',background:'rgba(194,75,67,0.12)',border:'1px solid rgba(194,75,67,0.3)',borderRadius:'6px',padding:'2px 8px',color:'#E08C87',fontWeight:700}}>👑 KOMUTAN</span>}
       </div>
 
       {/* Gerginlik göstergesi */}
-      <div style={{background:'rgba(237,231,218,0.02)',border:`1px solid ${tensionColor}30`,borderRadius:'12px',padding:'0.75rem',marginBottom:'0.75rem'}}>
+      <div style={{background:'rgba(230,237,245,0.02)',border:`1px solid ${tensionColor}30`,borderRadius:'12px',padding:'0.75rem',marginBottom:'0.75rem'}}>
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.4rem'}}>
           <div style={{fontSize:'0.72rem',color:'#8893A1',fontWeight:700}}>🌡️ Ülke Gerginliği</div>
           <div style={{display:'flex',alignItems:'center',gap:'0.4rem'}}>
@@ -129,8 +129,8 @@ function TeamWarPage({ profile, setProfile, showNotif }) {
             <span style={{fontSize:'0.6rem',fontWeight:800,color:tensionColor,background:`${tensionColor}18`,border:`1px solid ${tensionColor}35`,borderRadius:'5px',padding:'1px 6px'}}>{tensionLabel}</span>
           </div>
         </div>
-        <div style={{height:'8px',background:'rgba(237,231,218,0.05)',borderRadius:'100px',overflow:'hidden',marginBottom:'0.35rem'}}>
-          <div style={{height:'100%',width:`${tension}%`,background:`linear-gradient(90deg,#4C9A6B,${tension>=50?'#C9A227':'#4C9A6B'},${tension>=75?'#C24B43':'transparent'})`,borderRadius:'100px',transition:'width 0.6s'}} />
+        <div style={{height:'8px',background:'rgba(230,237,245,0.05)',borderRadius:'100px',overflow:'hidden',marginBottom:'0.35rem'}}>
+          <div style={{height:'100%',width:`${tension}%`,background:`linear-gradient(90deg,#4C9A6B,${tension>=50?'#3CC8F0':'#4C9A6B'},${tension>=75?'#C24B43':'transparent'})`,borderRadius:'100px',transition:'width 0.6s'}} />
         </div>
         <div style={{fontSize:'0.62rem',color:'#8893A1'}}>
           Çete bölge kontrolü, enflasyon ve aktif savaşlar gerginliği artırır
@@ -149,10 +149,10 @@ function TeamWarPage({ profile, setProfile, showNotif }) {
       {isGeneral && (
         <div style={{marginBottom:'0.75rem'}}>
           <button onClick={()=>setCreateModal(true)}
-            style={{width:'100%',padding:'0.7rem',background:'linear-gradient(135deg,rgba(194,75,67,0.15),rgba(194,75,67,0.08))',border:'1px solid rgba(194,75,67,0.3)',borderRadius:'12px',color:'#C24B43',cursor:'pointer',fontFamily:"'Cinzel',serif",fontWeight:800,fontSize:'0.88rem'}}>
+            style={{width:'100%',padding:'0.7rem',background:'linear-gradient(135deg,rgba(194,75,67,0.15),rgba(194,75,67,0.08))',border:'1px solid rgba(194,75,67,0.3)',borderRadius:'12px',color:'#C24B43',cursor:'pointer',fontFamily:"'Rajdhani',sans-serif",fontWeight:800,fontSize:'0.88rem'}}>
             ⚔️ Askeri Operasyon Başlat
           </button>
-          {militaryBudget < 500000 && <div style={{fontSize:'0.68rem',color:'#C9A227',textAlign:'center',marginTop:'0.3rem'}}>⚠️ Askeri bütçe yetersiz — min 🪙500.000 gerekli</div>}
+          {militaryBudget < 500000 && <div style={{fontSize:'0.68rem',color:'#3CC8F0',textAlign:'center',marginTop:'0.3rem'}}>⚠️ Askeri bütçe yetersiz — min ₺500.000 gerekli</div>}
         </div>
       )}
 
@@ -169,7 +169,7 @@ function TeamWarPage({ profile, setProfile, showNotif }) {
             const totalPow = aPow + dPow || 1;
             const aPct = Math.round(aPow/totalPow*100);
             return (
-              <div key={war.id} style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(194,75,67,0.25)',borderRadius:'14px',marginBottom:'0.65rem',overflow:'hidden'}}>
+              <div key={war.id} style={{background:'rgba(230,237,245,0.02)',border:'1px solid rgba(194,75,67,0.25)',borderRadius:'14px',marginBottom:'0.65rem',overflow:'hidden'}}>
                 {/* Şehir başlığı */}
                 <div style={{background:'rgba(194,75,67,0.08)',padding:'0.6rem 0.85rem',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                   <div style={{fontWeight:900,color:'#C24B43',fontSize:'0.9rem'}}>📍 {war.city}</div>
@@ -193,13 +193,13 @@ function TeamWarPage({ profile, setProfile, showNotif }) {
                     </div>
                     <div style={{display:'flex',alignItems:'center',justifyContent:'center',fontWeight:900,color:'#C24B43',fontSize:'0.9rem'}}>VS</div>
                     {/* Savunmacı */}
-                    <div style={{background:'rgba(201,162,39,0.07)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:'10px',padding:'0.65rem 0.5rem',textAlign:'center'}}>
+                    <div style={{background:'rgba(60,200,240,0.07)',border:'1px solid rgba(60,200,240,0.2)',borderRadius:'10px',padding:'0.65rem 0.5rem',textAlign:'center'}}>
                       <div style={{fontSize:'1.8rem',marginBottom:'0.25rem'}}>🛡️</div>
-                      <div style={{fontWeight:800,color:'#C9A227',fontSize:'0.78rem',marginBottom:'0.1rem'}}>{war.defenderName || 'Devlet Ordusu'}</div>
+                      <div style={{fontWeight:800,color:'#3CC8F0',fontSize:'0.78rem',marginBottom:'0.1rem'}}>{war.defenderName || 'Devlet Ordusu'}</div>
                       <div style={{fontSize:'0.6rem',color:'#8893A1',marginBottom:'0.3rem'}}>Devlet Kuvvetleri</div>
-                      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.9rem',fontWeight:900,color:'#C9A227'}}>{dPow.toLocaleString('tr-TR')}</div>
+                      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.9rem',fontWeight:900,color:'#3CC8F0'}}>{dPow.toLocaleString('tr-TR')}</div>
                       <div style={{fontSize:'0.55rem',color:'#4A5A6A',textTransform:'uppercase'}}>Güç Puanı</div>
-                      <div style={{fontSize:'0.62rem',color:'#C9A227',marginTop:'0.2rem'}}>{(war.defenderPlayers||[]).length} asker</div>
+                      <div style={{fontSize:'0.62rem',color:'#3CC8F0',marginTop:'0.2rem'}}>{(war.defenderPlayers||[]).length} asker</div>
                     </div>
                   </div>
 
@@ -207,11 +207,11 @@ function TeamWarPage({ profile, setProfile, showNotif }) {
                   <div style={{marginBottom:'0.65rem'}}>
                     <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.6rem',color:'#8893A1',marginBottom:'3px'}}>
                       <span style={{color:'#E08C87'}}>Saldırgan %{aPct}</span>
-                      <span style={{color:'#C9A227'}}>Savunmacı %{100-aPct}</span>
+                      <span style={{color:'#3CC8F0'}}>Savunmacı %{100-aPct}</span>
                     </div>
                     <div style={{height:'6px',borderRadius:'100px',overflow:'hidden',display:'flex'}}>
                       <div style={{width:`${aPct}%`,background:'#C24B43',transition:'width 0.5s'}} />
-                      <div style={{flex:1,background:'#C9A227'}} />
+                      <div style={{flex:1,background:'#3CC8F0'}} />
                     </div>
                   </div>
 
@@ -223,18 +223,18 @@ function TeamWarPage({ profile, setProfile, showNotif }) {
                         ✊ Saldır
                       </button>
                       <button onClick={()=>joinWar(war.id,'defender')}
-                        style={{padding:'0.5rem',borderRadius:'10px',border:'1px solid rgba(201,162,39,0.3)',background:'rgba(201,162,39,0.08)',color:'#C9A227',fontWeight:700,fontSize:'0.75rem',cursor:'pointer'}}>
+                        style={{padding:'0.5rem',borderRadius:'10px',border:'1px solid rgba(60,200,240,0.3)',background:'rgba(60,200,240,0.08)',color:'#3CC8F0',fontWeight:700,fontSize:'0.75rem',cursor:'pointer'}}>
                         🛡️ Savun
                       </button>
                     </div>
                   ) : (
                     <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-                      <span style={{fontSize:'0.75rem',color:mySide==='attacker'?'#E08C87':'#C9A227',fontWeight:700}}>
+                      <span style={{fontSize:'0.75rem',color:mySide==='attacker'?'#E08C87':'#3CC8F0',fontWeight:700}}>
                         {mySide==='attacker'?'✊ Saldırgan tarafındasın':'🛡️ Savunmacı tarafındasın'}
                       </span>
                       {isGeneral && (
                         <button onClick={()=>resolveWar(war.id)}
-                          style={{padding:'0.35rem 0.75rem',borderRadius:'8px',border:'none',background:'#C9A227',color:'#EDE7DA',fontWeight:800,fontSize:'0.7rem',cursor:'pointer'}}>
+                          style={{padding:'0.35rem 0.75rem',borderRadius:'8px',border:'none',background:'#3CC8F0',color:'#E6EDF5',fontWeight:800,fontSize:'0.7rem',cursor:'pointer'}}>
                           🏆 Sonuçlandır
                         </button>
                       )}
@@ -252,12 +252,12 @@ function TeamWarPage({ profile, setProfile, showNotif }) {
         <div>
           <div style={{fontSize:'0.65rem',color:'#8893A1',fontWeight:800,textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:'0.5rem'}}>📜 GEÇMIŞ SAVAŞLAR</div>
           {finishedWars.map(war => (
-            <div key={war.id} style={{background:'rgba(237,231,218,0.02)',border:`1px solid ${border}`,borderRadius:'10px',padding:'0.7rem',marginBottom:'0.4rem',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+            <div key={war.id} style={{background:'rgba(230,237,245,0.02)',border:`1px solid ${border}`,borderRadius:'10px',padding:'0.7rem',marginBottom:'0.4rem',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
               <div>
-                <div style={{fontSize:'0.75rem',fontWeight:700,color:'#EDE7DA'}}>📍 {war.city}</div>
+                <div style={{fontSize:'0.75rem',fontWeight:700,color:'#E6EDF5'}}>📍 {war.city}</div>
                 <div style={{fontSize:'0.62rem',color:'#8893A1',marginTop:'1px'}}>{war.attackerName} — {timeAgo(war.resolvedAt||war.createdAt)}</div>
               </div>
-              <span style={{fontSize:'0.68rem',fontWeight:700,color:'#C9A227',background:'rgba(201,162,39,0.08)',borderRadius:'6px',padding:'2px 8px'}}>
+              <span style={{fontSize:'0.68rem',fontWeight:700,color:'#3CC8F0',background:'rgba(60,200,240,0.08)',borderRadius:'6px',padding:'2px 8px'}}>
                 {war.winner==='defender'?'🛡️ Devlet Kazandı':'⚔️ Saldırgan Kazandı'}
               </span>
             </div>
@@ -279,7 +279,7 @@ function TeamWarPage({ profile, setProfile, showNotif }) {
           <div style={{marginBottom:'0.85rem'}}>
             <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.4rem',fontWeight:700}}>Çatışma Şehri</div>
             <select value={warForm.city} onChange={e=>setWarForm(p=>({...p,city:e.target.value}))}
-              style={{width:'100%',background:'rgba(237,231,218,0.04)',border:'1px solid rgba(255,255,255,0.12)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'15px',outline:'none',boxSizing:'border-box'}}>
+              style={{width:'100%',background:'rgba(230,237,245,0.04)',border:'1px solid rgba(255,255,255,0.12)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#E6EDF5',fontFamily:"'Inter',sans-serif",fontSize:'15px',outline:'none',boxSizing:'border-box'}}>
               <option value=''>— Şehir Seç —</option>
               {CITIES.map(c=><option key={c} value={c}>{c}</option>)}
             </select>
@@ -287,7 +287,7 @@ function TeamWarPage({ profile, setProfile, showNotif }) {
           <div style={{marginBottom:'0.85rem'}}>
             <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.4rem',fontWeight:700}}>Saldıran Güç (Çete)</div>
             <select value={warForm.attackerId} onChange={e=>setWarForm(p=>({...p,attackerId:e.target.value}))}
-              style={{width:'100%',background:'rgba(237,231,218,0.04)',border:'1px solid rgba(255,255,255,0.12)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'15px',outline:'none',boxSizing:'border-box'}}>
+              style={{width:'100%',background:'rgba(230,237,245,0.04)',border:'1px solid rgba(255,255,255,0.12)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#E6EDF5',fontFamily:"'Inter',sans-serif",fontSize:'15px',outline:'none',boxSizing:'border-box'}}>
               <option value=''>— Düşman Güç Seç —</option>
               {gangs.map(g=><option key={g.id} value={g.id}>{g.name} ({(g.members||[]).length} üye)</option>)}
               <option value='rebel'>İsyancı Kuvvetler</option>
@@ -297,11 +297,11 @@ function TeamWarPage({ profile, setProfile, showNotif }) {
             const ctrl = territories[warForm.city];
             const ctrlG = ctrl ? gangs.find(g=>g.id===ctrl.gangId) : null;
             return (
-              <div style={{background: ctrlG ? 'rgba(194,75,67,0.08)' : 'rgba(201,162,39,0.08)', border: ctrlG ? '1px solid rgba(194,75,67,0.25)' : '1px solid rgba(201,162,39,0.2)', borderRadius:'10px', padding:'0.65rem', fontSize:'0.78rem', color: ctrlG ? '#E08C87' : '#E5C14B', marginBottom:'1rem'}}>
+              <div style={{background: ctrlG ? 'rgba(194,75,67,0.08)' : 'rgba(60,200,240,0.08)', border: ctrlG ? '1px solid rgba(194,75,67,0.25)' : '1px solid rgba(60,200,240,0.2)', borderRadius:'10px', padding:'0.65rem', fontSize:'0.78rem', color: ctrlG ? '#E08C87' : '#E5C14B', marginBottom:'1rem'}}>
                 {ctrlG ? (
                   <>🎯 Hedef (bölge kontrolcüsü): <strong>{ctrlG.name}</strong> — Lider: <strong>{ctrlG.leaderName||'?'}</strong><br/><span style={{fontSize:'0.7rem',color:'#999'}}>Güç: {(ctrlG.power||0) + (ctrlG.weapons||0)*5} • {ctrlG.territory||0} bölge</span></>
                 ) : (
-                  <>🛡️ Savunmacı: <strong>Devlet Ordusu</strong> (🪙{fmtWord(militaryBudget)} bütçe + ordu gücü)</>
+                  <>🛡️ Savunmacı: <strong>Devlet Ordusu</strong> (₺{fmtWord(militaryBudget)} bütçe + ordu gücü)</>
                 )}
               </div>
             );

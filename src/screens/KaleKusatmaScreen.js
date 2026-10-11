@@ -6,7 +6,7 @@ window.KaleKusatmaScreen = function KaleKusatmaScreen({ profile, token }) {
   const [msg, setMsg] = React.useState('');
   const [tab, setTab] = React.useState('kaleler');
 
-  const ds = { bg:'#0D1117', surface:'rgba(255,255,255,0.04)', gold:'#C9A227', border:'rgba(255,255,255,0.08)', text:'#EDE7DA', muted:'#8893A1', red:'#FF6B6B', green:'#4CAF50' };
+  const ds = { bg:'#0D1117', surface:'rgba(255,255,255,0.04)', gold:'#3CC8F0', border:'rgba(255,255,255,0.08)', text:'#E6EDF5', muted:'#8893A1', red:'#FF6B6B', green:'#4CAF50' };
 
   const fetchData = async () => {
     try {
@@ -98,7 +98,7 @@ window.KaleKusatmaScreen = function KaleKusatmaScreen({ profile, token }) {
       )
     ),
 
-    msg && React.createElement('div', { style:{ background:'rgba(201,162,39,0.12)', border:`1px solid ${ds.gold}`, borderRadius:'8px', padding:'10px 14px', marginBottom:'1rem', fontSize:'0.85rem', color:ds.gold }}, msg),
+    msg && React.createElement('div', { style:{ background:'rgba(60,200,240,0.12)', border:`1px solid ${ds.gold}`, borderRadius:'8px', padding:'10px 14px', marginBottom:'1rem', fontSize:'0.85rem', color:ds.gold }}, msg),
 
     tab === 'kaleler' && React.createElement('div', { style:{ display:'flex', flexDirection:'column', gap:'10px' }},
       React.createElement('p', { style:{ fontSize:'0.78rem', color:ds.muted, margin:'0 0 4px' }}, '🏰 Bir kaleye saldır, 30 dakika içinde en fazla güç toplayan taraf kazanır.'),

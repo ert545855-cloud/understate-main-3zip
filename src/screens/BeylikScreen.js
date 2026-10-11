@@ -23,18 +23,18 @@ const SANCAKLAR = [
 ];
 
 const BEYLIK_UNVANLARI = [
-  { id:'bey',       label:'Bey',         emoji:'⚜️',  min:0 },
-  { id:'sancakbeyi',label:'Sancak Beyi', emoji:'🚩',  min:5 },
+  { id:'bey',       label:'Lider',         emoji:'🏛️',  min:0 },
+  { id:'sancakbeyi',label:'Bölge Valisi', emoji:'🚩',  min:5 },
   { id:'vali',      label:'Vali',        emoji:'🏰',  min:10 },
-  { id:'pasa',      label:'Paşa',        emoji:'🦅',  min:20 },
-  { id:'vezir',     label:'Vezir',       emoji:'👑',  min:50 },
+  { id:'pasa',      label:'General',        emoji:'🦅',  min:20 },
+  { id:'vezir',     label:'Bakan',       emoji:'👑',  min:50 },
 ];
 
 const IDEOLOJI_LISTESI = [
-  { id:'gazi',    label:'Gazi Yolu',     acik:'Savaş odaklı, fetih puanı +20%',  renk:'#B8423C' },
-  { id:'ticaret', label:'Ticaret Beyi',  acik:'Gelir odaklı, Sikke üretimi +15%',renk:'#C89B3C' },
-  { id:'dini',    label:'Dini Bey',      acik:'Sadakat odaklı, üye bağlılığı +25%',renk:'#5B8DD9' },
-  { id:'ilim',    label:'İlim Ocağı',    acik:'Bilim odaklı, XP kazanımı +10%',  renk:'#3E8C5A' },
+  { id:'gazi',    emoji:'🛡️', label:'Milliyetçi',     acik:'Savaş odaklı, fetih puanı +20%',  renk:'#B8423C' },
+  { id:'ticaret', emoji:'💼', label:'Liberal',  acik:'Gelir odaklı, Para üretimi +15%',renk:'#3CC8F0' },
+  { id:'dini',    emoji:'🕊️', label:'Muhafazakâr',      acik:'Sadakat odaklı, üye bağlılığı +25%',renk:'#5B8DD9' },
+  { id:'ilim',    emoji:'🔬', label:'Teknokrat',    acik:'Bilim odaklı, XP kazanımı +10%',  renk:'#3E8C5A' },
 ];
 
 window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, allUsers, serverBeyliks, setServerBeyliks, savasIlanlari }) {
@@ -44,7 +44,7 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
     try { return JSON.parse(localStorage.getItem('rep_beyliks') || '[]'); } catch { return []; }
   });
   const [tab, setTab] = React.useState('liste'); // 'liste' | 'kur' | 'yonet' | 'liderlik' | 'savas' | 'eyaletler'
-  const [kurForm, setKurForm] = React.useState({ ad: '', ideoloji: 'gazi', renk: '#C89B3C', motto: '' });
+  const [kurForm, setKurForm] = React.useState({ ad: '', ideoloji: 'gazi', renk: '#3CC8F0', motto: '' });
   const [seciliBeylik, setSeciliBeylik] = React.useState(null);
   const [katilOnay, setKatilOnay] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
@@ -83,7 +83,7 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
   }, [beyliks]);
 
   const savaşIlan = (hedefBeylik) => {
-    if (!benimBeylik) { showNotif('Önce bir beyliğe katıl', 'error'); return; }
+    if (!benimBeylik) { showNotif('Önce bir devlete katıl', 'error'); return; }
     if (hedefBeylik.id === benimBeylik.id) { showNotif('Kendinize savaş ilan edemezsiniz', 'error'); return; }
     const hedefGüç = hedefBeylik.gucPuani || 0;
     const kazanan = benimGüç >= hedefGüç ? benimBeylik : hedefBeylik;
@@ -117,15 +117,15 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
     localStorage.setItem('rep_beylikSavaslar', JSON.stringify(yeniListe));
     kaydetBeyliks(güncellenmisBeyliks);
     try { window._socket?.emit('savas:ilan', { saldiranId: benimBeylik.id, hedefId: hedefBeylik.id, kazananId: kazanan.id, fark }); } catch(_){}
-    try { window._pushGameEvent?.('beylik_savasi', `⚔️ Beylik Savaşı!`, `${benimBeylik.ad} vs ${hedefBeylik.ad} — Kazanan: ${kazanan.ad}`, '⚔️', 'savas'); } catch(_){}
+    try { window._pushGameEvent?.('beylik_savasi', `⚔️ Devlet Savaşı!`, `${benimBeylik.ad} vs ${hedefBeylik.ad} — Kazanan: ${kazanan.ad}`, '⚔️', 'savas'); } catch(_){}
     showNotif(benimKazandım ? `⚔️ Zafer! ${hedefBeylik.ad}'ı yendik! (+500 prestij)` : `❌ Yenildi. ${fark.toLocaleString('tr-TR')} güç farkı`, benimKazandım ? 'success' : 'error');
   };
 
   const sancakFethEt = (sancakId) => {
-    if (!benimBeylik) { showNotif('Önce beyliğe katıl', 'error'); return; }
+    if (!benimBeylik) { showNotif('Önce devlete katıl', 'error'); return; }
     const mevcut = sancakSahipleri[sancakId];
     if (mevcut?.id === benimBeylik.id) { showNotif('Bu sancak zaten sizin', 'info'); return; }
-    if (mevcut) { showNotif('Bu sancak başka beyliğe ait. Savaşarak ele geçir.', 'error'); return; }
+    if (mevcut) { showNotif('Bu sancak başka devlete ait. Savaşarak ele geçir.', 'error'); return; }
     const güncellenmis = beyliks.map(b => b.id === benimBeylik.id ? { ...b, eyaletler: [...(b.eyaletler||[]), sancakId], prestij:(b.prestij||0)+100 } : b);
     kaydetBeyliks(güncellenmis);
     showNotif(`🏰 ${SANCAKLAR.find(s=>s.id===sancakId)?.label} fethedildi! +100 Prestij`, 'success');
@@ -140,20 +140,20 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
   };
 
   const beylikKur = () => {
-    if (!kurForm.ad.trim()) { showNotif('Beylik adı gerekli', 'error'); return; }
-    if (kurForm.ad.trim().length < 3) { showNotif('Beylik adı en az 3 karakter olmalı', 'error'); return; }
-    if (benimBeylik) { showNotif('Zaten bir beyliğe üyesiniz', 'error'); return; }
+    if (!kurForm.ad.trim()) { showNotif('Devlet adı gerekli', 'error'); return; }
+    if (kurForm.ad.trim().length < 3) { showNotif('Devlet adı en az 3 karakter olmalı', 'error'); return; }
+    if (benimBeylik) { showNotif('Zaten bir devlete üyesiniz', 'error'); return; }
     if (sikke < BEYLIK_KUR_MALIYET.sikke) {
-      showNotif(`Beylik kurmak için 🪙${BEYLIK_KUR_MALIYET.sikke.toLocaleString('tr-TR')} Sikke gerekli`, 'error'); return;
+      showNotif(`Devlet kurmak için ₺${BEYLIK_KUR_MALIYET.sikke.toLocaleString('tr-TR')} Para gerekli`, 'error'); return;
     }
     if (altin < BEYLIK_KUR_MALIYET.altin) {
-      showNotif(`Beylik kurmak için ⚜️${BEYLIK_KUR_MALIYET.altin} Altın gerekli`, 'error'); return;
+      showNotif(`Devlet kurmak için 🏛️${BEYLIK_KUR_MALIYET.altin} Altın gerekli`, 'error'); return;
     }
     if (sadakat < BEYLIK_KUR_MALIYET.sadakat) {
-      showNotif(`Beylik kurmak için 💎${BEYLIK_KUR_MALIYET.sadakat.toLocaleString('tr-TR')} Sadakat Puanı gerekli`, 'error'); return;
+      showNotif(`Devlet kurmak için 💎${BEYLIK_KUR_MALIYET.sadakat.toLocaleString('tr-TR')} Sadakat Puanı gerekli`, 'error'); return;
     }
     if (beyliks.find(b => b.ad.toLowerCase() === kurForm.ad.trim().toLowerCase())) {
-      showNotif('Bu isimde bir beylik zaten var', 'error'); return;
+      showNotif('Bu isimde bir devlet zaten var', 'error'); return;
     }
     setLoading(true);
     const yeniBeylik = {
@@ -185,15 +185,15 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
     kaydetBeyliks([...beyliks, yeniBeylik]);
     setProfile(np);
     localStorage.setItem('rep_userProfile', JSON.stringify(np));
-    try { window._pushGameEvent?.('beylik_kuruldu', `⚜️ ${yeniBeylik.ad} Beyliği Kuruldu!`,
-      `${profile?.username||'Bir oyuncu'} "${yeniBeylik.ad}" beyliğini kurdu.`, '⚜️', 'beylik'); } catch(_) {}
-    showNotif(`⚜️ ${yeniBeylik.ad} Beyliği kuruldu!`, 'success');
+    try { window._pushGameEvent?.('beylik_kuruldu', `🏛️ ${yeniBeylik.ad} Devleti Kuruldu!`,
+      `${profile?.username||'Bir oyuncu'} "${yeniBeylik.ad}" devletini kurdu.`, '🏛️', 'beylik'); } catch(_) {}
+    showNotif(`🏛️ ${yeniBeylik.ad} Devleti kuruldu!`, 'success');
     setTab('yonet');
     setLoading(false);
   };
 
   const beyligeKatil = (beylik) => {
-    if (benimBeylik) { showNotif('Zaten bir beyliğe üyesiniz', 'error'); return; }
+    if (benimBeylik) { showNotif('Zaten bir devlete üyesiniz', 'error'); return; }
     // Sunucuya atomik katılım eventi — sunucu DB'ye yazar ve tüm oyunculara yayar
     try { window._socket?.emit('beylik:katil', { beylikId: beylik.id }); } catch(_) {}
     // Optimistik güncelleme
@@ -208,7 +208,7 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
     const np = { ...profile, beylikId: beylik.id, beylikUnvan: 'bey' };
     setProfile(np);
     localStorage.setItem('rep_userProfile', JSON.stringify(np));
-    showNotif(`⚜️ ${beylik.ad} Beyliği'ne katıldınız!`, 'success');
+    showNotif(`🏛️ ${beylik.ad} Devleti'ne katıldınız!`, 'success');
     setKatilOnay(null);
     setSeciliBeylik(null);
     setTab('yonet');
@@ -228,20 +228,20 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
     const np = { ...profile, beylikId: null, beylikUnvan: null };
     setProfile(np);
     localStorage.setItem('rep_userProfile', JSON.stringify(np));
-    showNotif('Beylikten ayrıldınız', 'info');
+    showNotif('Devletten ayrıldınız', 'info');
     setTab('liste');
   };
 
-  const RENK_SECENEKLERI = ['#C89B3C','#B8423C','#5B8DD9','#3E8C5A','#8B6BF2','#E87040','#F5EBD7'];
+  const RENK_SECENEKLERI = ['#3CC8F0','#B8423C','#5B8DD9','#3E8C5A','#8B6BF2','#E87040','#E6EDF5'];
 
   // ── Tema rengi ──────────────────────────────────────
-  const GOLD = '#C89B3C';
-  const BG   = '#1A0E00';
-  const SURF = '#2D1800';
+  const GOLD = '#3CC8F0';
+  const BG   = '#0F1724';
+  const SURF = '#152032';
 
   const cardStyle = {
     background: SURF,
-    border: '1px solid rgba(200,155,60,0.2)',
+    border: '1px solid rgba(60,200,240,0.2)',
     borderRadius: 14,
     padding: '14px 14px',
     marginBottom: 10,
@@ -251,9 +251,9 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
   const btnStyle = (primary) => ({
     padding: '10px 0',
     borderRadius: 12,
-    border: primary ? 'none' : '1px solid rgba(200,155,60,0.35)',
-    background: primary ? 'linear-gradient(135deg,#C89B3C,#8B6A1A)' : 'rgba(200,155,60,0.08)',
-    color: primary ? '#0F0800' : GOLD,
+    border: primary ? 'none' : '1px solid rgba(60,200,240,0.35)',
+    background: primary ? 'linear-gradient(135deg,#3CC8F0,#1E8FB8)' : 'rgba(60,200,240,0.08)',
+    color: primary ? '#0A0F17' : GOLD,
     fontWeight: 800,
     fontSize: '0.85rem',
     cursor: 'pointer',
@@ -266,34 +266,34 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
     // ── Header ──
     React.createElement('div', {
       style: {
-        background: 'linear-gradient(135deg,#2D1800 0%,#3D2200 50%,#2D1800 100%)',
-        borderBottom: '1px solid rgba(200,155,60,0.3)',
+        background: 'linear-gradient(135deg,#152032 0%,#152032 50%,#152032 100%)',
+        borderBottom: '1px solid rgba(60,200,240,0.3)',
         padding: '14px 16px 10px',
       }
     },
       React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 } },
-        React.createElement('div', { style: { fontSize: '1.6rem' } }, '⚜️'),
+        React.createElement('div', { style: { fontSize: '1.6rem' } }, '🏛️'),
         React.createElement('div', null,
-          React.createElement('div', { style: { fontFamily: "'Cinzel',serif", fontWeight: 900, fontSize: '1.15rem', color: GOLD } }, 'Beylikler'),
-          React.createElement('div', { style: { fontSize: '0.68rem', color: '#A9A6A0' } },
+          React.createElement('div', { style: { fontFamily: "'Rajdhani',sans-serif", fontWeight: 900, fontSize: '1.15rem', color: GOLD } }, 'Devletler'),
+          React.createElement('div', { style: { fontSize: '0.68rem', color: '#93A4B8' } },
             benimBeylik
-              ? `${benimBeylik.ad} · ${isKurucu ? 'Bey (Kurucu)' : 'Üye'}`
-              : `${beyliks.length} beylik kurulmuş`
+              ? `${benimBeylik.ad} · ${isKurucu ? 'Lider (Kurucu)' : 'Üye'}`
+              : `${beyliks.length} devlet kurulmuş`
           )
         ),
         benimBeylik && React.createElement('div', {
-          style: { marginLeft: 'auto', background: 'rgba(200,155,60,0.15)', border: '1px solid rgba(200,155,60,0.35)', borderRadius: 8, padding: '4px 10px', fontSize: '0.7rem', color: GOLD, fontWeight: 700 }
-        }, `⚜️ ${benimBeylik.ad}`)
+          style: { marginLeft: 'auto', background: 'rgba(60,200,240,0.15)', border: '1px solid rgba(60,200,240,0.35)', borderRadius: 8, padding: '4px 10px', fontSize: '0.7rem', color: GOLD, fontWeight: 700 }
+        }, `🏛️ ${benimBeylik.ad}`)
       ),
       // Stats bar
       React.createElement('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 6 } },
         [
-          ['🪙', 'Sikke', (sikke||0).toLocaleString('tr-TR')],
-          ['⚜️', 'Altın', (altin||0).toLocaleString('tr-TR')],
+          ['₺', 'Para', (sikke||0).toLocaleString('tr-TR')],
+          ['🏛️', 'Altın', (altin||0).toLocaleString('tr-TR')],
           ['💎', 'Sadakat', (sadakat||0).toLocaleString('tr-TR')],
         ].map(([ic,lb,val]) =>
-          React.createElement('div', { key: lb, style: { background: 'rgba(200,155,60,0.06)', border: '1px solid rgba(200,155,60,0.12)', borderRadius: 8, padding: '6px 8px', textAlign: 'center' } },
-            React.createElement('div', { style: { fontSize: '0.6rem', color: '#A9A6A0' } }, `${ic} ${lb}`),
+          React.createElement('div', { key: lb, style: { background: 'rgba(60,200,240,0.06)', border: '1px solid rgba(60,200,240,0.12)', borderRadius: 8, padding: '6px 8px', textAlign: 'center' } },
+            React.createElement('div', { style: { fontSize: '0.6rem', color: '#93A4B8' } }, `${ic} ${lb}`),
             React.createElement('div', { style: { fontSize: '0.78rem', fontWeight: 700, color: GOLD, fontFamily: "'JetBrains Mono',monospace" } }, val)
           )
         )
@@ -303,22 +303,22 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
     // Güç puanı banner
     React.createElement('div', { style:{ background:'rgba(194,75,67,0.08)', borderBottom:'1px solid rgba(194,75,67,0.2)', padding:'6px 16px', display:'flex', justifyContent:'space-between', alignItems:'center' } },
       React.createElement('span', {style:{fontSize:'0.72rem',color:'#C24B43',fontWeight:700}}, `⚡ Güç Puanı: ${benimGüç.toLocaleString('tr-TR')}`),
-      benimBeylik && React.createElement('span', {style:{fontSize:'0.68rem',color:'#8893A1'}}, `🗺️ ${(benimBeylik.eyaletler||[]).length} Sancak`),
+      benimBeylik && React.createElement('span', {style:{fontSize:'0.68rem',color:'#8893A1'}}, `🗺️ ${(benimBeylik.eyaletler||[]).length} Bayrak`),
     ),
 
     // ── Tab Bar ──
-    React.createElement('div', { style: { display: 'flex', gap: 2, padding: '8px 10px', borderBottom: '1px solid rgba(200,155,60,0.1)', overflowX:'auto', scrollbarWidth:'none' } },
+    React.createElement('div', { style: { display: 'flex', gap: 2, padding: '8px 10px', borderBottom: '1px solid rgba(60,200,240,0.1)', overflowX:'auto', scrollbarWidth:'none' } },
       [
-        ['liste','🏰 Beylikler'],
-        [benimBeylik ? 'yonet' : 'kur', benimBeylik ? '⚙️ Yönet' : '⚜️ Kur'],
-        ['eyaletler','🗺️ Sancaklar'],
+        ['liste','🏰 Devletler'],
+        [benimBeylik ? 'yonet' : 'kur', benimBeylik ? '⚙️ Yönet' : '🏛️ Kur'],
+        ['eyaletler','🗺️ Bayraklar'],
         ['savas','⚔️ Savaş'],
         ['liderlik','🏆 Güç Sıralaması'],
       ].map(([id,lb]) =>
         React.createElement('button', {
           key: id,
           onClick: () => setTab(id),
-          style: { flex: 1, padding: '7px 4px', borderRadius: 10, border: `1px solid ${tab===id ? GOLD : 'rgba(255,255,255,0.08)'}`, background: tab===id ? 'rgba(200,155,60,0.15)' : 'rgba(255,255,255,0.03)', color: tab===id ? GOLD : '#A9A6A0', fontWeight: 700, fontSize: '0.72rem', cursor: 'pointer' }
+          style: { flex: 1, padding: '7px 4px', borderRadius: 10, border: `1px solid ${tab===id ? GOLD : 'rgba(255,255,255,0.08)'}`, background: tab===id ? 'rgba(60,200,240,0.15)' : 'rgba(255,255,255,0.03)', color: tab===id ? GOLD : '#93A4B8', fontWeight: 700, fontSize: '0.72rem', cursor: 'pointer' }
         }, lb)
       )
     ),
@@ -330,37 +330,37 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
       tab === 'liste' && React.createElement('div', null,
         beyliks.length === 0
           ? React.createElement('div', { style: { textAlign: 'center', padding: '40px 20px' } },
-              React.createElement('div', { style: { fontSize: '3rem', marginBottom: 12 } }, '⚜️'),
-              React.createElement('div', { style: { fontFamily: "'Cinzel',serif", fontSize: '1.1rem', color: '#F5EBD7', marginBottom: 8 } }, 'Henüz Beylik Yok'),
-              React.createElement('div', { style: { fontSize: '0.78rem', color: '#A9A6A0', lineHeight: 1.6 } }, 'İlk beyliği kuran sen ol. 1M Sikke, 50 Altın ve 150k Sadakat Puanı gereklidir.'),
+              React.createElement('div', { style: { fontSize: '3rem', marginBottom: 12 } }, '🏛️'),
+              React.createElement('div', { style: { fontFamily: "'Rajdhani',sans-serif", fontSize: '1.1rem', color: '#E6EDF5', marginBottom: 8 } }, 'Henüz Devlet Yok'),
+              React.createElement('div', { style: { fontSize: '0.78rem', color: '#93A4B8', lineHeight: 1.6 } }, 'İlk devleti kuran sen ol. 1M Para, 50 Altın ve 150k Sadakat Puanı gereklidir.'),
               !benimBeylik && React.createElement('button', {
                 onClick: () => setTab('kur'),
                 style: { ...btnStyle(true), marginTop: 16, width: 180 }
-              }, '⚜️ Beylik Kur')
+              }, '🏛️ Devlet Kur')
             )
           : React.createElement('div', null,
-              React.createElement('div', { style: { fontSize: '0.68rem', color: '#A9A6A0', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 } },
-                `${beyliks.length} Beylik`),
+              React.createElement('div', { style: { fontSize: '0.68rem', color: '#93A4B8', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 } },
+                `${beyliks.length} Devlet`),
               beyliks.map(bey => {
                 const idlg = IDEOLOJI_LISTESI.find(x=>x.id===bey.ideoloji) || IDEOLOJI_LISTESI[0];
                 const benimmi = benimBeylik?.id === bey.id;
                 return React.createElement('div', {
                   key: bey.id,
                   onClick: () => setSeciliBeylik(bey),
-                  style: { ...cardStyle, borderLeft: `3px solid ${bey.renk || GOLD}`, background: benimmi ? 'rgba(200,155,60,0.08)' : SURF }
+                  style: { ...cardStyle, borderLeft: `3px solid ${bey.renk || GOLD}`, background: benimmi ? 'rgba(60,200,240,0.08)' : SURF }
                 },
                   React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 10 } },
-                    React.createElement('div', { style: { width: 40, height: 40, borderRadius: 10, background: `${bey.renk||GOLD}22`, border: `2px solid ${bey.renk||GOLD}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem', flexShrink: 0 } }, '⚜️'),
+                    React.createElement('div', { style: { width: 40, height: 40, borderRadius: 10, background: `${bey.renk||GOLD}22`, border: `2px solid ${bey.renk||GOLD}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem', flexShrink: 0 } }, '🏛️'),
                     React.createElement('div', { style: { flex: 1, minWidth: 0 } },
                       React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 6 } },
-                        React.createElement('span', { style: { fontWeight: 800, color: '#F5EBD7', fontSize: '0.9rem' } }, bey.ad),
-                        benimmi && React.createElement('span', { style: { fontSize: '0.58rem', background: 'rgba(200,155,60,0.2)', border: '1px solid rgba(200,155,60,0.4)', borderRadius: 5, padding: '1px 5px', color: GOLD, fontWeight: 700 } }, 'BENİM')
+                        React.createElement('span', { style: { fontWeight: 800, color: '#E6EDF5', fontSize: '0.9rem' } }, bey.ad),
+                        benimmi && React.createElement('span', { style: { fontSize: '0.58rem', background: 'rgba(60,200,240,0.2)', border: '1px solid rgba(60,200,240,0.4)', borderRadius: 5, padding: '1px 5px', color: GOLD, fontWeight: 700 } }, 'BENİM')
                       ),
-                      React.createElement('div', { style: { fontSize: '0.65rem', color: '#A9A6A0', marginTop: 2 } }, `${idlg.emoji} ${idlg.label} · 👥 ${bey.uyeSayisi||1} üye · 🏆 ${(bey.prestij||0).toLocaleString('tr-TR')} prestij`),
-                      React.createElement('div', { style: { fontSize: '0.62rem', color: '#A9A6A0', fontStyle: 'italic', marginTop: 2 } }, `"${bey.motto||'Adalet ve Zafer'}"`)
+                      React.createElement('div', { style: { fontSize: '0.65rem', color: '#93A4B8', marginTop: 2 } }, `${idlg.emoji} ${idlg.label} · 👥 ${bey.uyeSayisi||1} üye · 🏆 ${(bey.prestij||0).toLocaleString('tr-TR')} prestij`),
+                      React.createElement('div', { style: { fontSize: '0.62rem', color: '#93A4B8', fontStyle: 'italic', marginTop: 2 } }, `"${bey.motto||'Adalet ve Zafer'}"`)
                     ),
                     React.createElement('div', { style: { textAlign: 'right', flexShrink: 0 } },
-                      React.createElement('div', { style: { fontSize: '0.62rem', color: '#A9A6A0' } }, '👑 Bey'),
+                      React.createElement('div', { style: { fontSize: '0.62rem', color: '#93A4B8' } }, '👑 Lider'),
                       React.createElement('div', { style: { fontSize: '0.72rem', fontWeight: 700, color: GOLD } }, bey.kurucuAdi)
                     )
                   )
@@ -372,19 +372,19 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
       // ── KUR TAB ──
       tab === 'kur' && !benimBeylik && React.createElement('div', null,
         // Maliyet kutusu
-        React.createElement('div', { style: { background: 'linear-gradient(135deg,rgba(200,155,60,0.12),rgba(45,24,0,0.95))', border: '1px solid rgba(200,155,60,0.35)', borderRadius: 14, padding: '14px', marginBottom: 14 } },
-          React.createElement('div', { style: { fontFamily: "'Cinzel',serif", fontSize: '0.95rem', fontWeight: 900, color: GOLD, marginBottom: 10, textAlign: 'center' } }, '⚜️ Beylik Kurma Maliyeti'),
+        React.createElement('div', { style: { background: 'linear-gradient(135deg,rgba(60,200,240,0.12),rgba(21,32,50,0.95))', border: '1px solid rgba(60,200,240,0.35)', borderRadius: 14, padding: '14px', marginBottom: 14 } },
+          React.createElement('div', { style: { fontFamily: "'Rajdhani',sans-serif", fontSize: '0.95rem', fontWeight: 900, color: GOLD, marginBottom: 10, textAlign: 'center' } }, '🏛️ Devlet Kurma Maliyeti'),
           [
-            ['🪙', 'Sikke', BEYLIK_KUR_MALIYET.sikke, sikke],
-            ['⚜️', 'Altın', BEYLIK_KUR_MALIYET.altin, altin],
+            ['₺', 'Para', BEYLIK_KUR_MALIYET.sikke, sikke],
+            ['🏛️', 'Altın', BEYLIK_KUR_MALIYET.altin, altin],
             ['💎', 'Sadakat Puanı', BEYLIK_KUR_MALIYET.sadakat, sadakat],
           ].map(([ic, lb, gereken, sahip]) => {
             const yeterli = sahip >= gereken;
             return React.createElement('div', { key: lb, style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' } },
-              React.createElement('div', { style: { fontSize: '0.78rem', color: '#A9A6A0' } }, `${ic} ${lb}`),
+              React.createElement('div', { style: { fontSize: '0.78rem', color: '#93A4B8' } }, `${ic} ${lb}`),
               React.createElement('div', { style: { display: 'flex', gap: 8, alignItems: 'center' } },
                 React.createElement('span', { style: { fontSize: '0.72rem', color: yeterli ? '#3E8C5A' : '#B8423C', fontWeight: 700 } }, sahip.toLocaleString('tr-TR')),
-                React.createElement('span', { style: { fontSize: '0.65rem', color: '#A9A6A0' } }, '/ ' + gereken.toLocaleString('tr-TR')),
+                React.createElement('span', { style: { fontSize: '0.65rem', color: '#93A4B8' } }, '/ ' + gereken.toLocaleString('tr-TR')),
                 React.createElement('span', { style: { fontSize: '0.9rem' } }, yeterli ? '✅' : '❌')
               )
             );
@@ -392,24 +392,24 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
         ),
 
         // Form
-        React.createElement('div', { style: { background: SURF, border: '1px solid rgba(200,155,60,0.2)', borderRadius: 14, padding: '14px', marginBottom: 10 } },
-          React.createElement('div', { style: { fontSize: '0.72rem', color: '#A9A6A0', fontWeight: 700, marginBottom: 4 } }, 'BEYLİK ADI'),
+        React.createElement('div', { style: { background: SURF, border: '1px solid rgba(60,200,240,0.2)', borderRadius: 14, padding: '14px', marginBottom: 10 } },
+          React.createElement('div', { style: { fontSize: '0.72rem', color: '#93A4B8', fontWeight: 700, marginBottom: 4 } }, 'DEVLET ADI'),
           React.createElement('input', {
             value: kurForm.ad,
             onChange: e => setKurForm(f => ({...f, ad: e.target.value})),
             placeholder: 'Beyliğinizin adı...',
             maxLength: 32,
-            style: { width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid rgba(200,155,60,0.25)', background: 'rgba(200,155,60,0.05)', color: '#F5EBD7', fontSize: '0.9rem', marginBottom: 12, boxSizing: 'border-box', outline: 'none' }
+            style: { width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid rgba(60,200,240,0.25)', background: 'rgba(60,200,240,0.05)', color: '#E6EDF5', fontSize: '0.9rem', marginBottom: 12, boxSizing: 'border-box', outline: 'none' }
           }),
-          React.createElement('div', { style: { fontSize: '0.72rem', color: '#A9A6A0', fontWeight: 700, marginBottom: 4 } }, 'MOTTO'),
+          React.createElement('div', { style: { fontSize: '0.72rem', color: '#93A4B8', fontWeight: 700, marginBottom: 4 } }, 'MOTTO'),
           React.createElement('input', {
             value: kurForm.motto,
             onChange: e => setKurForm(f => ({...f, motto: e.target.value})),
             placeholder: '"Adalet ve Zafer"',
             maxLength: 64,
-            style: { width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid rgba(200,155,60,0.25)', background: 'rgba(200,155,60,0.05)', color: '#F5EBD7', fontSize: '0.85rem', marginBottom: 12, boxSizing: 'border-box', outline: 'none' }
+            style: { width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid rgba(60,200,240,0.25)', background: 'rgba(60,200,240,0.05)', color: '#E6EDF5', fontSize: '0.85rem', marginBottom: 12, boxSizing: 'border-box', outline: 'none' }
           }),
-          React.createElement('div', { style: { fontSize: '0.72rem', color: '#A9A6A0', fontWeight: 700, marginBottom: 8 } }, 'İDEOLOJİ'),
+          React.createElement('div', { style: { fontSize: '0.72rem', color: '#93A4B8', fontWeight: 700, marginBottom: 8 } }, 'İDEOLOJİ'),
           React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 12 } },
             IDEOLOJI_LISTESI.map(idlg =>
               React.createElement('div', {
@@ -419,14 +419,14 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
               },
                 React.createElement('div', { style: { width: 12, height: 12, borderRadius: '50%', background: idlg.renk, flexShrink: 0 } }),
                 React.createElement('div', null,
-                  React.createElement('div', { style: { fontSize: '0.8rem', fontWeight: 700, color: '#F5EBD7' } }, idlg.label),
-                  React.createElement('div', { style: { fontSize: '0.62rem', color: '#A9A6A0' } }, idlg.acik)
+                  React.createElement('div', { style: { fontSize: '0.8rem', fontWeight: 700, color: '#E6EDF5' } }, idlg.label),
+                  React.createElement('div', { style: { fontSize: '0.62rem', color: '#93A4B8' } }, idlg.acik)
                 ),
                 kurForm.ideoloji===idlg.id && React.createElement('div', { style: { marginLeft: 'auto', fontSize: '0.75rem', color: idlg.renk } }, '✓')
               )
             )
           ),
-          React.createElement('div', { style: { fontSize: '0.72rem', color: '#A9A6A0', fontWeight: 700, marginBottom: 8 } }, 'BAYRAK RENGİ'),
+          React.createElement('div', { style: { fontSize: '0.72rem', color: '#93A4B8', fontWeight: 700, marginBottom: 8 } }, 'BAYRAK RENGİ'),
           React.createElement('div', { style: { display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 14 } },
             RENK_SECENEKLERI.map(r =>
               React.createElement('div', {
@@ -440,7 +440,7 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
             onClick: beylikKur,
             disabled: loading || !kurForm.ad.trim(),
             style: { ...btnStyle(true), opacity: loading || !kurForm.ad.trim() ? 0.5 : 1 }
-          }, loading ? '⏳ Kuruluyor...' : '⚜️ Beyliği Kur')
+          }, loading ? '⏳ Kuruluyor...' : '🏛️ Devleti Kur')
         )
       ),
 
@@ -450,72 +450,72 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
           ? React.createElement('div', null,
               // Beylik kartı
               React.createElement('div', { style: { background: `linear-gradient(135deg,${benimBeylik.renk||GOLD}18,${SURF})`, border: `1px solid ${benimBeylik.renk||GOLD}44`, borderRadius: 16, padding: '16px', marginBottom: 14, textAlign: 'center' } },
-                React.createElement('div', { style: { fontSize: '2.5rem', marginBottom: 8 } }, '⚜️'),
-                React.createElement('div', { style: { fontFamily: "'Cinzel',serif", fontSize: '1.3rem', fontWeight: 900, color: benimBeylik.renk||GOLD, marginBottom: 4 } }, benimBeylik.ad),
-                React.createElement('div', { style: { fontSize: '0.75rem', color: '#A9A6A0', fontStyle: 'italic', marginBottom: 12 } }, `"${benimBeylik.motto||'Adalet ve Zafer'}"`),
+                React.createElement('div', { style: { fontSize: '2.5rem', marginBottom: 8 } }, '🏛️'),
+                React.createElement('div', { style: { fontFamily: "'Rajdhani',sans-serif", fontSize: '1.3rem', fontWeight: 900, color: benimBeylik.renk||GOLD, marginBottom: 4 } }, benimBeylik.ad),
+                React.createElement('div', { style: { fontSize: '0.75rem', color: '#93A4B8', fontStyle: 'italic', marginBottom: 12 } }, `"${benimBeylik.motto||'Adalet ve Zafer'}"`),
                 React.createElement('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 8 } },
                   [
                     ['👥','Üyeler',(benimBeylik.uyeSayisi||1)+''],
                     ['🏆','Prestij',(benimBeylik.prestij||0).toLocaleString('tr-TR')],
-                    ['🗺️','Eyalet',(benimBeylik.eyaletler||[]).length+''],
+                    ['🗺️','Bölge',(benimBeylik.eyaletler||[]).length+''],
                   ].map(([ic,lb,val]) =>
                     React.createElement('div', { key: lb, style: { background: 'rgba(255,255,255,0.04)', borderRadius: 10, padding: '8px' } },
                       React.createElement('div', { style: { fontSize: '1rem' } }, ic),
-                      React.createElement('div', { style: { fontSize: '0.6rem', color: '#A9A6A0' } }, lb),
-                      React.createElement('div', { style: { fontSize: '0.9rem', fontWeight: 700, color: '#F5EBD7' } }, val)
+                      React.createElement('div', { style: { fontSize: '0.6rem', color: '#93A4B8' } }, lb),
+                      React.createElement('div', { style: { fontSize: '0.9rem', fontWeight: 700, color: '#E6EDF5' } }, val)
                     )
                   )
                 )
               ),
               // İdeoloji bonusu
-              React.createElement('div', { style: { background: SURF, border: '1px solid rgba(200,155,60,0.15)', borderRadius: 12, padding: '12px 14px', marginBottom: 10 } },
-                React.createElement('div', { style: { fontWeight: 700, color: '#F5EBD7', fontSize: '0.82rem', marginBottom: 8 } }, '⚡ İdeoloji Bonusu'),
-                React.createElement('div', { style: { fontSize: '0.78rem', color: '#A9A6A0' } },
+              React.createElement('div', { style: { background: SURF, border: '1px solid rgba(60,200,240,0.15)', borderRadius: 12, padding: '12px 14px', marginBottom: 10 } },
+                React.createElement('div', { style: { fontWeight: 700, color: '#E6EDF5', fontSize: '0.82rem', marginBottom: 8 } }, '⚡ İdeoloji Bonusu'),
+                React.createElement('div', { style: { fontSize: '0.78rem', color: '#93A4B8' } },
                   IDEOLOJI_LISTESI.find(x=>x.id===benimBeylik.ideoloji)?.acik || '—'
                 )
               ),
               // Unvanlar
-              React.createElement('div', { style: { background: SURF, border: '1px solid rgba(200,155,60,0.15)', borderRadius: 12, padding: '12px 14px', marginBottom: 10 } },
-                React.createElement('div', { style: { fontWeight: 700, color: '#F5EBD7', fontSize: '0.82rem', marginBottom: 10 } }, '👑 Beylik Unvanları'),
+              React.createElement('div', { style: { background: SURF, border: '1px solid rgba(60,200,240,0.15)', borderRadius: 12, padding: '12px 14px', marginBottom: 10 } },
+                React.createElement('div', { style: { fontWeight: 700, color: '#E6EDF5', fontSize: '0.82rem', marginBottom: 10 } }, '👑 Devlet Unvanları'),
                 BEYLIK_UNVANLARI.map(u =>
                   React.createElement('div', { key: u.id, style: { display: 'flex', alignItems: 'center', gap: 8, padding: '6px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' } },
                     React.createElement('div', { style: { fontSize: '1rem', width: 24 } }, u.emoji),
-                    React.createElement('div', { style: { flex: 1, fontSize: '0.78rem', fontWeight: 600, color: '#F5EBD7' } }, u.label),
-                    React.createElement('div', { style: { fontSize: '0.65rem', color: '#A9A6A0' } }, `${u.min}+ üye`)
+                    React.createElement('div', { style: { flex: 1, fontSize: '0.78rem', fontWeight: 600, color: '#E6EDF5' } }, u.label),
+                    React.createElement('div', { style: { fontSize: '0.65rem', color: '#93A4B8' } }, `${u.min}+ üye`)
                   )
                 )
               ),
               !isKurucu && React.createElement('button', {
                 onClick: beyliktenAyril,
                 style: { ...btnStyle(false), color: '#B8423C', borderColor: 'rgba(184,66,60,0.4)' }
-              }, '🚪 Beylikten Ayrıl')
+              }, '🚪 Devletten Ayrıl')
             )
           : React.createElement('div', { style: { textAlign: 'center', padding: '30px 20px' } },
-              React.createElement('div', { style: { fontSize: '3rem', marginBottom: 12 } }, '⚜️'),
-              React.createElement('div', { style: { fontFamily: "'Cinzel',serif", fontSize: '1.1rem', color: '#F5EBD7', marginBottom: 8 } }, 'Beyliğiniz Yok'),
-              React.createElement('button', { onClick: () => setTab('kur'), style: { ...btnStyle(true), width: 180, margin: '0 auto' } }, '⚜️ Beylik Kur')
+              React.createElement('div', { style: { fontSize: '3rem', marginBottom: 12 } }, '🏛️'),
+              React.createElement('div', { style: { fontFamily: "'Rajdhani',sans-serif", fontSize: '1.1rem', color: '#E6EDF5', marginBottom: 8 } }, 'Devletiniz Yok'),
+              React.createElement('button', { onClick: () => setTab('kur'), style: { ...btnStyle(true), width: 180, margin: '0 auto' } }, '🏛️ Devlet Kur')
             )
       ),
 
       // ── EYALETLER / SANCAKLAR TAB ──
       tab === 'eyaletler' && React.createElement('div', null,
-        React.createElement('div', {style:{background:'rgba(200,155,60,0.06)',border:'1px solid rgba(200,155,60,0.18)',borderRadius:10,padding:'8px 12px',marginBottom:12,fontSize:'0.72rem',color:'#A9A6A0',lineHeight:1.6}},
-          '🗺️ Boş sancakları fethederek beyliğini genişlet. Başka beyliğin sancağını almak için ⚔️ Savaş sekmesinde güç savaşı başlat.'
+        React.createElement('div', {style:{background:'rgba(60,200,240,0.06)',border:'1px solid rgba(60,200,240,0.18)',borderRadius:10,padding:'8px 12px',marginBottom:12,fontSize:'0.72rem',color:'#93A4B8',lineHeight:1.6}},
+          '🗺️ Boş sancakları fethederek devletini genişlet. Başka devletin sancağını almak için ⚔️ Savaş sekmesinde güç savaşı başlat.'
         ),
         React.createElement('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8}},
           SANCAKLAR.map(s => {
             const sahip = sancakSahipleri[s.id];
             const benim = sahip?.id === benimBeylik?.id;
             const bos   = !sahip;
-            return React.createElement('div',{key:s.id,style:{background:benim?'rgba(200,155,60,0.1)':SURF,border:`1px solid ${benim?GOLD:bos?'rgba(255,255,255,0.08)':'rgba(194,75,67,0.25)'}`,borderRadius:12,padding:'10px 12px'}},
+            return React.createElement('div',{key:s.id,style:{background:benim?'rgba(60,200,240,0.1)':SURF,border:`1px solid ${benim?GOLD:bos?'rgba(255,255,255,0.08)':'rgba(194,75,67,0.25)'}`,borderRadius:12,padding:'10px 12px'}},
               React.createElement('div',{style:{fontSize:'1.3rem',marginBottom:4}},s.emoji),
-              React.createElement('div',{style:{fontSize:'0.78rem',fontWeight:800,color:'#EDE7DA',marginBottom:2,lineHeight:1.2}},s.label),
+              React.createElement('div',{style:{fontSize:'0.78rem',fontWeight:800,color:'#E6EDF5',marginBottom:2,lineHeight:1.2}},s.label),
               React.createElement('div',{style:{fontSize:'0.6rem',color:'#8893A1',marginBottom:6}},s.bolge+' Bölgesi'),
               benim
                 ? React.createElement('div',{style:{fontSize:'0.65rem',color:GOLD,fontWeight:700}}, '✅ Sizin Sancağınız')
                 : sahip
                   ? React.createElement('div',{style:{fontSize:'0.65rem',color:'#C24B43',fontWeight:700}},`🏴 ${sahip.ad}`)
-                  : React.createElement('button',{onClick:()=>sancakFethEt(s.id),style:{width:'100%',padding:'5px',borderRadius:7,border:'none',background:'linear-gradient(135deg,#C89B3C,#8B6A1A)',color:'#0F0800',fontWeight:800,fontSize:'0.7rem',cursor:'pointer'}}, '⚔️ Fethdet')
+                  : React.createElement('button',{onClick:()=>sancakFethEt(s.id),style:{width:'100%',padding:'5px',borderRadius:7,border:'none',background:'linear-gradient(135deg,#3CC8F0,#1E8FB8)',color:'#0A0F17',fontWeight:800,fontSize:'0.7rem',cursor:'pointer'}}, '⚔️ Fethdet')
             );
           })
         ),
@@ -525,25 +525,25 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
       tab === 'savas' && React.createElement('div', null,
         !benimBeylik && React.createElement('div',{style:{textAlign:'center',padding:'30px 20px',color:'#8893A1'}},
           React.createElement('div',{style:{fontSize:'2.5rem',marginBottom:8}},'⚔️'),
-          React.createElement('div',{style:{fontSize:'0.85rem'}},'Savaş için önce bir beyliğe katıl.')
+          React.createElement('div',{style:{fontSize:'0.85rem'}},'Savaş için önce bir devlete katıl.')
         ),
         benimBeylik && React.createElement('div', null,
           // Güç karşılaştırması
           React.createElement('div',{style:{background:SURF,border:'1px solid rgba(194,75,67,0.3)',borderRadius:12,padding:14,marginBottom:12}},
-            React.createElement('div',{style:{fontFamily:"'Cinzel',serif",fontWeight:800,color:'#C24B43',marginBottom:10,fontSize:'0.88rem'}},'⚔️ SAVAŞ SİSTEMİ'),
-            React.createElement('div',{style:{fontSize:'0.72rem',color:'#A9A6A0',lineHeight:1.7,marginBottom:8}},
+            React.createElement('div',{style:{fontFamily:"'Rajdhani',sans-serif",fontWeight:800,color:'#C24B43',marginBottom:10,fontSize:'0.88rem'}},'⚔️ SAVAŞ SİSTEMİ'),
+            React.createElement('div',{style:{fontSize:'0.72rem',color:'#93A4B8',lineHeight:1.7,marginBottom:8}},
               '• Güç puanın rakibin gücünden yüksekse kazanırsın\n• Güç farkı kadar puan kalır, sıfırlanma yok\n• Kazanan 1 boş sancak fetheder veya rakipten alır\n• Savaş Kazan = +500 Prestij'
             ),
             React.createElement('div',{style:{background:'rgba(194,75,67,0.08)',border:'1px solid rgba(194,75,67,0.2)',borderRadius:8,padding:'8px 12px'}},
-              React.createElement('div',{style:{fontSize:'0.65rem',color:'#A9A6A0'}}, 'Senin Gücün'),
+              React.createElement('div',{style:{fontSize:'0.65rem',color:'#93A4B8'}}, 'Senin Gücün'),
               React.createElement('div',{style:{fontFamily:"'JetBrains Mono',monospace",fontSize:'1.4rem',fontWeight:900,color:'#C24B43'}}, benimGüç.toLocaleString('tr-TR')),
               React.createElement('div',{style:{fontSize:'0.6rem',color:'#8893A1',marginTop:2}}, '⚡ Gıda + Alet + Maden + Eğitim + Ordu'),
             ),
           ),
           // Rakip beylikler
-          React.createElement('div',{style:{fontFamily:"'Cinzel',serif",fontSize:'0.65rem',fontWeight:700,color:'#8893A1',marginBottom:10,letterSpacing:'0.1em'}},'RAKİP BEYLİKLER'),
+          React.createElement('div',{style:{fontFamily:"'Rajdhani',sans-serif",fontSize:'0.65rem',fontWeight:700,color:'#8893A1',marginBottom:10,letterSpacing:'0.1em'}},'RAKİP DEVLETLER'),
           beyliks.filter(b=>b.id!==benimBeylik.id).length === 0
-            ? React.createElement('div',{style:{textAlign:'center',padding:'20px',color:'#8893A1',fontSize:'0.8rem'}},'Savaşacak başka beylik yok')
+            ? React.createElement('div',{style:{textAlign:'center',padding:'20px',color:'#8893A1',fontSize:'0.8rem'}},'Savaşacak başka devlet yok')
             : beyliks.filter(b=>b.id!==benimBeylik.id).map(bey => {
                 const hedefGüç = bey.gucPuani || 0;
                 const benimÜstün = benimGüç > hedefGüç;
@@ -551,7 +551,7 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
                 return React.createElement('div',{key:bey.id,style:{background:SURF,border:`1px solid ${benimÜstün?'rgba(76,154,107,0.25)':'rgba(194,75,67,0.25)'}`,borderRadius:12,padding:12,marginBottom:8}},
                   React.createElement('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}},
                     React.createElement('div',null,
-                      React.createElement('div',{style:{fontWeight:800,color:'#EDE7DA',fontSize:'0.88rem'}},bey.ad),
+                      React.createElement('div',{style:{fontWeight:800,color:'#E6EDF5',fontSize:'0.88rem'}},bey.ad),
                       React.createElement('div',{style:{fontSize:'0.62rem',color:'#8893A1'}},`👑 ${bey.kurucuAdi} · ${(bey.eyaletler||[]).length} sancak`),
                     ),
                     React.createElement('div',{style:{textAlign:'right'}},
@@ -566,11 +566,11 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
               }),
           // Savaş geçmişi
           savasList.length > 0 && React.createElement('div',{style:{marginTop:16}},
-            React.createElement('div',{style:{fontFamily:"'Cinzel',serif",fontSize:'0.65rem',fontWeight:700,color:'#8893A1',marginBottom:8,letterSpacing:'0.1em'}},'SAVAŞ GEÇMİŞİ'),
+            React.createElement('div',{style:{fontFamily:"'Rajdhani',sans-serif",fontSize:'0.65rem',fontWeight:700,color:'#8893A1',marginBottom:8,letterSpacing:'0.1em'}},'SAVAŞ GEÇMİŞİ'),
             savasList.slice(0,5).map(sv =>
               React.createElement('div',{key:sv.id,style:{background:'rgba(255,255,255,0.02)',border:'1px solid rgba(255,255,255,0.05)',borderRadius:8,padding:'8px 10px',marginBottom:4,display:'flex',justifyContent:'space-between',alignItems:'center'}},
                 React.createElement('div',null,
-                  React.createElement('div',{style:{fontSize:'0.72rem',color:'#EDE7DA',fontWeight:700}},`${sv.saldiranAd} vs ${sv.hedefAd}`),
+                  React.createElement('div',{style:{fontSize:'0.72rem',color:'#E6EDF5',fontWeight:700}},`${sv.saldiranAd} vs ${sv.hedefAd}`),
                   React.createElement('div',{style:{fontSize:'0.6rem',color:'#8893A1'}},`Kazanan: ${sv.kazananAd} · Fark: ${sv.fark?.toLocaleString?.()}`),
                 ),
                 React.createElement('div',{style:{fontSize:'0.65rem',color:sv.kazananId===benimBeylik.id?'#4C9A6B':'#C24B43',fontWeight:700}},
@@ -584,16 +584,16 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
 
       // ── LİDERLİK TAB ──
       tab === 'liderlik' && React.createElement('div', null,
-        React.createElement('div', { style: { fontSize: '0.68rem', color: '#A9A6A0', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 } }, '🏆 Güç Puanı Liderlik Tahtası'),
+        React.createElement('div', { style: { fontSize: '0.68rem', color: '#93A4B8', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 } }, '🏆 Güç Puanı Liderlik Tahtası'),
         [...beyliks].sort((a,b)=>(b.gucPuani||b.prestij||0)-(a.gucPuani||a.prestij||0)).map((bey,i) => {
           const madalya = i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
           const g = bey.gucPuani || 0;
           return React.createElement('div', { key: bey.id, style: { ...cardStyle, display: 'flex', alignItems: 'center', gap: 10 } },
             React.createElement('div', { style: { fontSize: '1.4rem', width: 32, textAlign: 'center', flexShrink: 0 } }, madalya || `${i+1}.`),
-            React.createElement('div', { style: { width: 36, height: 36, borderRadius: 10, background: `${bey.renk||GOLD}22`, border: `2px solid ${bey.renk||GOLD}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', flexShrink: 0 } }, '⚜️'),
+            React.createElement('div', { style: { width: 36, height: 36, borderRadius: 10, background: `${bey.renk||GOLD}22`, border: `2px solid ${bey.renk||GOLD}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', flexShrink: 0 } }, '🏛️'),
             React.createElement('div', { style: { flex: 1 } },
-              React.createElement('div', { style: { fontSize: '0.85rem', fontWeight: 700, color: '#F5EBD7' } }, bey.ad),
-              React.createElement('div', { style: { fontSize: '0.62rem', color: '#A9A6A0' } }, `👑 ${bey.kurucuAdi} · 🗺️ ${(bey.eyaletler||[]).length} sancak · 👥 ${bey.uyeSayisi||1} üye`)
+              React.createElement('div', { style: { fontSize: '0.85rem', fontWeight: 700, color: '#E6EDF5' } }, bey.ad),
+              React.createElement('div', { style: { fontSize: '0.62rem', color: '#93A4B8' } }, `👑 ${bey.kurucuAdi} · 🗺️ ${(bey.eyaletler||[]).length} sancak · 👥 ${bey.uyeSayisi||1} üye`)
             ),
             React.createElement('div', {style:{textAlign:'right'}},
               React.createElement('div', { style: { fontFamily: "'JetBrains Mono',monospace", fontSize: '0.85rem', fontWeight: 700, color: '#C24B43' } }, `⚡${g.toLocaleString('tr-TR')}`),
@@ -601,7 +601,7 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
             ),
           );
         }),
-        beyliks.length === 0 && React.createElement('div', { style: { textAlign: 'center', padding: '30px', color: '#A9A6A0', fontSize: '0.85rem' } }, 'Henüz beylik yok')
+        beyliks.length === 0 && React.createElement('div', { style: { textAlign: 'center', padding: '30px', color: '#93A4B8', fontSize: '0.85rem' } }, 'Henüz devlet yok')
       )
     ),
 
@@ -610,12 +610,12 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
       style: { position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' },
       onClick: e => { if(e.target===e.currentTarget){setSeciliBeylik(null);setKatilOnay(null);} }
     },
-      React.createElement('div', { style: { background: '#2D1800', border: '1px solid rgba(200,155,60,0.35)', borderRadius: 18, padding: '1.5rem', maxWidth: 360, width: '100%' } },
+      React.createElement('div', { style: { background: '#152032', border: '1px solid rgba(60,200,240,0.35)', borderRadius: 18, padding: '1.5rem', maxWidth: 360, width: '100%' } },
         React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 } },
-          React.createElement('div', { style: { width: 48, height: 48, borderRadius: 12, background: `${seciliBeylik.renk||GOLD}22`, border: `2px solid ${seciliBeylik.renk||GOLD}55`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.8rem', flexShrink: 0 } }, '⚜️'),
+          React.createElement('div', { style: { width: 48, height: 48, borderRadius: 12, background: `${seciliBeylik.renk||GOLD}22`, border: `2px solid ${seciliBeylik.renk||GOLD}55`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.8rem', flexShrink: 0 } }, '🏛️'),
           React.createElement('div', null,
-            React.createElement('div', { style: { fontFamily: "'Cinzel',serif", fontSize: '1.1rem', fontWeight: 900, color: seciliBeylik.renk||GOLD } }, seciliBeylik.ad),
-            React.createElement('div', { style: { fontSize: '0.68rem', color: '#A9A6A0', fontStyle: 'italic' } }, `"${seciliBeylik.motto||'Adalet ve Zafer'}"`)
+            React.createElement('div', { style: { fontFamily: "'Rajdhani',sans-serif", fontSize: '1.1rem', fontWeight: 900, color: seciliBeylik.renk||GOLD } }, seciliBeylik.ad),
+            React.createElement('div', { style: { fontSize: '0.68rem', color: '#93A4B8', fontStyle: 'italic' } }, `"${seciliBeylik.motto||'Adalet ve Zafer'}"`)
           )
         ),
         React.createElement('div', { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 14 } },
@@ -626,8 +626,8 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
             ['⚡','İdeoloji', IDEOLOJI_LISTESI.find(x=>x.id===seciliBeylik.ideoloji)?.label||'—'],
           ].map(([ic,lb,val]) =>
             React.createElement('div', { key: lb, style: { background: 'rgba(255,255,255,0.04)', borderRadius: 10, padding: '10px 12px' } },
-              React.createElement('div', { style: { fontSize: '0.62rem', color: '#A9A6A0' } }, `${ic} ${lb}`),
-              React.createElement('div', { style: { fontSize: '0.82rem', fontWeight: 700, color: '#F5EBD7' } }, val)
+              React.createElement('div', { style: { fontSize: '0.62rem', color: '#93A4B8' } }, `${ic} ${lb}`),
+              React.createElement('div', { style: { fontSize: '0.82rem', fontWeight: 700, color: '#E6EDF5' } }, val)
             )
           )
         ),
@@ -635,7 +635,7 @@ window.BeylikScreen = function BeylikScreen({ profile, setProfile, showNotif, al
           !benimBeylik && React.createElement('button', {
             onClick: () => { if(katilOnay===seciliBeylik.id) beyligeKatil(seciliBeylik); else setKatilOnay(seciliBeylik.id); },
             style: { ...btnStyle(true), flex: 1 }
-          }, katilOnay===seciliBeylik.id ? '✅ Onayla — Katıl' : '⚜️ Katıl'),
+          }, katilOnay===seciliBeylik.id ? '✅ Onayla — Katıl' : '🏛️ Katıl'),
           benimBeylik?.id===seciliBeylik.id && React.createElement('div', { style: { flex: 1, fontSize: '0.75rem', color: '#3E8C5A', padding: '10px', textAlign: 'center', fontWeight: 700 } }, '✅ Zaten Üyesiniz'),
           React.createElement('button', {
             onClick: () => { setSeciliBeylik(null); setKatilOnay(null); },
