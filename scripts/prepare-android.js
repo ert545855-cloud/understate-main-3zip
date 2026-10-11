@@ -51,11 +51,14 @@ console.log('  → index.html kopyalanıyor ve patch ediliyor...');
 let html = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
 
 // 1. Patch socket URL: inject production URL so app knows where to connect
+// Not: eski sürümde değişken adında boşluk vardı ("_SALTANAT ONLINE_SERVER_URL") ve bu satır
+// sözdizimi hatası verip hiç çalışmıyordu → APK sunucuya bağlanamıyordu.
 const socketPatch = `
 <script>
-// Capacitor native app — force production server URL
-window._SALTANAT ONLINE_SERVER_URL = '${PRODUCTION_URL}';
-window._SALTANAT ONLINE_IS_NATIVE  = true;
+// Capacitor native app — production sunucu adresi (index.html bunu __BACKEND_URL__ olarak okur)
+window.__BACKEND_URL__ = ${JSON.stringify(PRODUCTION_URL)};
+window._SALTANAT_SERVER_URL = window.__BACKEND_URL__;
+window._SALTANAT_IS_NATIVE  = true;
 </script>`;
 html = html.replace('<head>', '<head>' + socketPatch);
 
@@ -65,15 +68,18 @@ html = html.replace(/navigator\.serviceWorker\.register[^;]+;/, '// SW handled b
 // 3. Patch Socket.IO to connect to production
 html = html.replace(
   "io(window._US_SERVER_URL || ''",
-  "io(window._SALTANAT ONLINE_SERVER_URL || window._US_SERVER_URL || ''"
+  "io(window._SALTANAT_SERVER_URL || window._US_SERVER_URL || ''"
 );
 html = html.replace(
   "io('', {",
-  `io(window._SALTANAT ONLINE_SERVER_URL || '', {`
+  `io(window._SALTANAT_SERVER_URL || '', {`
 );
 
 fs.writeFileSync(path.join(WWW_DIR, 'index.html'), html);
-console.log('  ✓ index.html hazırlandı');
+// Sunucunun dinamik ürettiği /config.js APK içinde yok → statik kopyasını yaz
+fs.writeFileSync(path.join(WWW_DIR, 'config.js'), `window.__BACKEND_URL__ = ${JSON.stringify(PRODUCTION_URL)};\n`);
+fs.writeFileSync(path.join(WWW_DIR, 'supabase-config.js'), '/* APK: Supabase istemcisi sunucu üzerinden kullanılır */\n');
+console.log('  ✓ index.html + config.js hazırlandı');
 
 // ── Copy static assets ────────────────────────────────────────────────────────
 const COPY_DIRS = ['css', 'js', 'src', 'public', 'assets', 'audio', 'img', 'fonts'];
@@ -86,7 +92,7 @@ for (const dir of COPY_DIRS) {
 }
 
 // ── Copy root static files ────────────────────────────────────────────────────
-const ROOT_FILES = ['manifest.json', 'service-worker.js', 'favicon.ico'];
+const ROOT_FILES = ['manifest.json', 'service-worker.js', 'favicon.ico', 'favicon.png', 'saltanat-icon.png', 'saltanat-bg.jpg'];
 const ICON_FILES = fs.readdirSync(path.join(__dirname, '..')).filter(f => f.match(/^icon-\d+\.png$/));
 for (const f of [...ROOT_FILES, ...ICON_FILES]) {
   const src = path.join(__dirname, '..', f);
