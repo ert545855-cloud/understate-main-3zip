@@ -4,7 +4,7 @@ function SocialPage({ profile, showNotif }) {
   const [postImage, setPostImage] = useState('');
   const [showGifPicker, setShowGifPicker] = useState(false);
   const { dark } = useTheme();
-  const bg = dark ? '#1A0E00' : '#F8FAFC';
+  const bg = dark ? '#0F1724' : '#F8FAFC';
   const cu = profile || {};
 
   const SOCIAL_GIFS = [
@@ -58,14 +58,14 @@ function SocialPage({ profile, showNotif }) {
 
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>
-      <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.3rem',fontWeight:900,color:'#C9A227',marginBottom:'1rem'}}>📱 Sosyal Medya</div>
+      <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#3CC8F0',marginBottom:'1rem'}}>📱 Sosyal Medya</div>
       <div style={{background:'rgba(167,139,250,0.05)',border:'1px solid rgba(167,139,250,0.2)',borderRadius:'12px',padding:'1rem',marginBottom:'1rem'}}>
         <textarea value={newPost} onChange={e=>setNewPost(e.target.value)} placeholder={`${cu.username||'Oyuncu'} olarak ne düşünüyorsun?`} rows={3}
-          style={{width:'100%',background:'transparent',border:'none',outline:'none',color:'#EDE7DA',fontSize:'0.9rem',resize:'none',fontFamily:'inherit',marginBottom:'0.5rem'}} />
+          style={{width:'100%',background:'transparent',border:'none',outline:'none',color:'#E6EDF5',fontSize:'0.9rem',resize:'none',fontFamily:'inherit',marginBottom:'0.5rem'}} />
         {postImage && (
           <div style={{position:'relative',marginBottom:'0.5rem'}}>
             <img src={postImage} alt="önizleme" style={{maxWidth:'100%',maxHeight:'180px',borderRadius:'10px',objectFit:'cover',border:'1px solid rgba(167,139,250,0.2)'}} onError={e=>e.target.style.display='none'} />
-            <button onClick={()=>setPostImage('')} style={{position:'absolute',top:'4px',right:'4px',background:'rgba(17,21,28,0.9)',border:'none',borderRadius:'50%',width:'22px',height:'22px',color:'#EDE7DA',cursor:'pointer',fontSize:'0.75rem',display:'flex',alignItems:'center',justifyContent:'center'}}>✕</button>
+            <button onClick={()=>setPostImage('')} style={{position:'absolute',top:'4px',right:'4px',background:'rgba(17,21,28,0.9)',border:'none',borderRadius:'50%',width:'22px',height:'22px',color:'#E6EDF5',cursor:'pointer',fontSize:'0.75rem',display:'flex',alignItems:'center',justifyContent:'center'}}>✕</button>
           </div>
         )}
         {showGifPicker && (
@@ -82,15 +82,15 @@ function SocialPage({ profile, showNotif }) {
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:'0.4rem',flexWrap:'wrap'}}>
           <div style={{display:'flex',gap:'0.4rem',alignItems:'center',minWidth:0,flex:'1 1 auto'}}>
             <button onClick={()=>setShowGifPicker(v=>!v)} title="GIF ekle"
-              style={{background:showGifPicker?'rgba(167,139,250,0.2)':'rgba(255,255,255,0.05)',border:`1px solid ${showGifPicker?'rgba(167,139,250,0.5)':'rgba(255,255,255,0.1)'}`,borderRadius:'8px',padding:'0.3rem 0.55rem',color:showGifPicker?'#C9A227':'#666',cursor:'pointer',fontSize:'0.8rem',fontWeight:700}}>
+              style={{background:showGifPicker?'rgba(167,139,250,0.2)':'rgba(255,255,255,0.05)',border:`1px solid ${showGifPicker?'rgba(167,139,250,0.5)':'rgba(255,255,255,0.1)'}`,borderRadius:'8px',padding:'0.3rem 0.55rem',color:showGifPicker?'#3CC8F0':'#666',cursor:'pointer',fontSize:'0.8rem',fontWeight:700}}>
               🎞️ GIF
             </button>
             <input value={postImage} onChange={e=>setPostImage(e.target.value)} placeholder="Resim URL..."
-              style={{background:'rgba(237,231,218,0.04)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'8px',padding:'0.3rem 0.6rem',color:'#EDE7DA',fontFamily:'inherit',fontSize:'0.75rem',outline:'none',width:'130px',flex:'1 1 90px',minWidth:0}} />
+              style={{background:'rgba(230,237,245,0.04)',border:'1px solid rgba(230,237,245,0.1)',borderRadius:'8px',padding:'0.3rem 0.6rem',color:'#E6EDF5',fontFamily:'inherit',fontSize:'0.75rem',outline:'none',width:'130px',flex:'1 1 90px',minWidth:0}} />
           </div>
           <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
             <span style={{fontSize:'0.7rem',color:newPost.length>480?'#C24B43':'#666'}}>{newPost.length}/500</span>
-            <button onClick={()=>publishPost()} style={{padding:'0.45rem 1.1rem',background:'rgba(201,162,39,0.12)',border:'1px solid rgba(167,139,250,0.35)',borderRadius:'8px',color:'#C9A227',cursor:'pointer',fontWeight:700,fontFamily:'inherit',fontSize:'0.85rem'}}>📢 Paylaş</button>
+            <button onClick={()=>publishPost()} style={{padding:'0.45rem 1.1rem',background:'rgba(60,200,240,0.12)',border:'1px solid rgba(167,139,250,0.35)',borderRadius:'8px',color:'#3CC8F0',cursor:'pointer',fontWeight:700,fontFamily:'inherit',fontSize:'0.85rem'}}>📢 Paylaş</button>
           </div>
         </div>
       </div>
@@ -99,17 +99,17 @@ function SocialPage({ profile, showNotif }) {
         const mainImage = p.imageUrl || (textImgMatch ? textImgMatch[0] : null);
         const displayText = textImgMatch ? p.content.replace(textImgMatch[0],'').trim() : p.content;
         return (
-          <div key={p.id} style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'12px',padding:'1rem',marginBottom:'0.75rem'}}>
+          <div key={p.id} style={{background:'rgba(230,237,245,0.02)',border:'1px solid rgba(230,237,245,0.08)',borderRadius:'12px',padding:'1rem',marginBottom:'0.75rem'}}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:'0.5rem'}}>
               <div>
-                <div style={{fontWeight:700,color:'#C9A227',fontSize:'0.88rem'}}>{p.author}</div>
+                <div style={{fontWeight:700,color:'#3CC8F0',fontSize:'0.88rem'}}>{p.author}</div>
                 <div style={{fontSize:'0.65rem',color:'#666'}}>{p.city} · {p.date} {p.time}</div>
               </div>
               {p.author===cu.username&&<button onClick={()=>deletePost(p.id)} style={{background:'none',border:'none',color:'#C24B43',cursor:'pointer',fontSize:'0.85rem'}}>🗑️</button>}
             </div>
             {displayText && <div style={{fontSize:'0.88rem',color:'#ccc',lineHeight:1.6,marginBottom:'0.5rem'}}>{displayText}</div>}
             {mainImage && (
-              <img src={mainImage} alt="" style={{maxWidth:'100%',maxHeight:'220px',borderRadius:'10px',objectFit:'cover',display:'block',marginBottom:'0.5rem',border:'1px solid rgba(237,231,218,0.08)'}} onError={e=>e.target.style.display='none'} />
+              <img src={mainImage} alt="" style={{maxWidth:'100%',maxHeight:'220px',borderRadius:'10px',objectFit:'cover',display:'block',marginBottom:'0.5rem',border:'1px solid rgba(230,237,245,0.08)'}} onError={e=>e.target.style.display='none'} />
             )}
             <div style={{display:'flex',gap:'0.5rem'}}>
               <button onClick={()=>likePost(p.id)} style={{padding:'0.25rem 0.7rem',background:(p.likes||[]).includes(cu.username)?'rgba(194,75,67,0.15)':'rgba(255,255,255,0.04)',border:`1px solid ${(p.likes||[]).includes(cu.username)?'rgba(194,75,67,0.4)':'rgba(255,255,255,0.08)'}`,borderRadius:'6px',color:(p.likes||[]).includes(cu.username)?'#C24B43':'#999',cursor:'pointer',fontSize:'0.78rem',fontFamily:'inherit'}}>❤️ {(p.likes||[]).length}</button>

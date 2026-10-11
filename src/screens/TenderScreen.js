@@ -15,7 +15,7 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
 
   const jwt = () => localStorage.getItem('us_jwt') || '';
   const showMsg = (text, type="info") => { setMsg({text,type}); setTimeout(()=>setMsg(null),3500); };
-  const fmtMoney = (n) => { if(!n)return "🪙0"; if(n>=1e9)return "🪙"+(n/1e9).toFixed(1)+"Mlr"; if(n>=1e6)return "🪙"+(n/1e6).toFixed(1)+"M"; if(n>=1e3)return "🪙"+(n/1e3).toFixed(0)+"K"; return "🪙"+n; };
+  const fmtMoney = (n) => { if(!n)return "₺0"; if(n>=1e9)return "₺"+(n/1e9).toFixed(1)+"Mlr"; if(n>=1e6)return "₺"+(n/1e6).toFixed(1)+"M"; if(n>=1e3)return "₺"+(n/1e3).toFixed(0)+"K"; return "₺"+n; };
   const fmtTime  = (ms) => { if(ms<=0)return "Süresi Doldu"; const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000); return h>0?`${h}s ${m}dk`:`${m}dk`; };
 
   // Tick için sayaç (kalan süre güncelleme)
@@ -54,7 +54,7 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
   const userFamily   = fams.find(f=>f.leader===cu?.username||(Array.isArray(f.members)&&f.members.includes(cu?.username)));
 
   const relayTender = async (poolItem) => {
-    if (!isPadisah) return showMsg("Sadece Padişah ihale iletebilir", "error");
+    if (!isPadisah) return showMsg("Sadece Cumhurbaşkanı ihale iletebilir", "error");
     setLoading(true);
     try {
       const res = await fetch('/api/tender/relay', {
@@ -68,7 +68,7 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
       setPool(data.pool || []);
       showMsg(`✅ "${poolItem.title}" ihalesi duyuruldu!`, "success");
       setTab("list");
-      try { window._pushGameEvent?.('ihale_duyuruldu', `🏗️ İhale: ${poolItem.title}`, `Padişah ${cu.username} yeni ihale açtı. Taban: ${fmtMoney(poolItem.startBid||0)}`, '🏗️', 'ihale'); } catch(e){}
+      try { window._pushGameEvent?.('ihale_duyuruldu', `🏗️ İhale: ${poolItem.title}`, `Cumhurbaşkanı ${cu.username} yeni ihale açtı. Taban: ${fmtMoney(poolItem.startBid||0)}`, '🏗️', 'ihale'); } catch(e){}
     } catch { showMsg('Bağlantı hatası', 'error'); }
     finally { setLoading(false); }
   };
@@ -123,15 +123,15 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
     <div>
       <div className="ministry-header">🏗️ Devlet İhaleleri</div>
       <p style={{fontSize:"0.82rem",color:"#6B7C93",marginBottom:"0.6rem"}}>
-        İhaleler sistem tarafından otomatik oluşturulur. <strong style={{color:"#C9A227"}}>Padişah ihaleleri duyurur</strong>, aileler teklif verir, kazanan projeyi üstlenir.
+        İhaleler sistem tarafından otomatik oluşturulur. <strong style={{color:"#3CC8F0"}}>Cumhurbaşkanı ihaleleri duyurur</strong>, aileler teklif verir, kazanan projeyi üstlenir.
       </p>
 
       <div style={{background:"rgba(99,102,241,0.08)",border:"1px solid rgba(99,102,241,0.2)",borderRadius:10,padding:"0.55rem 0.75rem",marginBottom:"0.75rem",fontSize:"0.75rem",color:"#818CF8",lineHeight:1.5}}>
-        ℹ️ Tüm teklifler <strong>gerçek zamanlı</strong> senkronize edilir. Padişah kendi ihalesi <strong>oluşturamaz</strong> — sistem havuzundaki ihaleleri duyurur.
+        ℹ️ Tüm teklifler <strong>gerçek zamanlı</strong> senkronize edilir. Cumhurbaşkanı kendi ihalesi <strong>oluşturamaz</strong> — sistem havuzundaki ihaleleri duyurur.
       </div>
 
       {msg&&(
-        <div style={{padding:"0.6rem 0.85rem",borderRadius:10,marginBottom:"0.75rem",background:msg.type==="success"?"rgba(76,154,107,0.12)":msg.type==="error"?"rgba(194,75,67,0.12)":"rgba(201,162,39,0.12)",border:`1px solid ${msg.type==="success"?"rgba(76,154,107,0.3)":msg.type==="error"?"rgba(194,75,67,0.3)":"rgba(201,162,39,0.3)"}`,color:msg.type==="success"?"#4C9A6B":msg.type==="error"?"#C24B43":"#C9A227",fontSize:"0.82rem",fontWeight:600}}>
+        <div style={{padding:"0.6rem 0.85rem",borderRadius:10,marginBottom:"0.75rem",background:msg.type==="success"?"rgba(76,154,107,0.12)":msg.type==="error"?"rgba(194,75,67,0.12)":"rgba(60,200,240,0.12)",border:`1px solid ${msg.type==="success"?"rgba(76,154,107,0.3)":msg.type==="error"?"rgba(194,75,67,0.3)":"rgba(60,200,240,0.3)"}`,color:msg.type==="success"?"#4C9A6B":msg.type==="error"?"#C24B43":"#3CC8F0",fontSize:"0.82rem",fontWeight:600}}>
           {msg.text}
         </div>
       )}
@@ -149,14 +149,14 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
             <div style={{...card,textAlign:"center",padding:"2rem"}}>
               <div style={{fontSize:"2rem",marginBottom:"0.5rem"}}>🏗️</div>
               <div style={{color:"#5E7390",fontSize:"0.85rem",marginBottom:"0.5rem"}}>Henüz duyurulan ihale yok.</div>
-              <div style={{color:"#8893A1",fontSize:"0.75rem"}}>Padişah sistem havuzundan ihale duyurduğunda burada görünür.</div>
+              <div style={{color:"#8893A1",fontSize:"0.75rem"}}>Cumhurbaşkanı sistem havuzundan ihale duyurduğunda burada görünür.</div>
             </div>
           )}
           {tenders.map(tender=>{
             const remaining = tender.endsAt - now;
             const isOpen = tender.status==="open" && remaining>0;
             const isWinner = tender.currentBidder===cu?.username;
-            const statusColor = isOpen?"#4C9A6B":tender.status==="active"?"#C9A227":"#5E7390";
+            const statusColor = isOpen?"#4C9A6B":tender.status==="active"?"#3CC8F0":"#5E7390";
             const statusText  = isOpen?"Açık":tender.status==="active"?"Aktif Proje":tender.status==="completed"?"Tamamlandı":"Kapandı";
             return (
               <div key={tender.id} style={{...card,border:isWinner?"1px solid rgba(255,184,0,0.3)":"1px solid rgba(255,255,255,0.07)"}}>
@@ -176,7 +176,7 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
                 <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:"0.4rem",marginBottom:"0.65rem"}}>
                   {[
                     {l:"Mevcut Teklif",v:fmtMoney(tender.currentBid),c:"#FFB800"},
-                    {l:"Teklif Veren", v:tender.currentBidder||"—",c:"#C9A227"},
+                    {l:"Teklif Veren", v:tender.currentBidder||"—",c:"#3CC8F0"},
                     {l:"Kalan Süre",   v:fmtTime(remaining),c:remaining<3600000?"#C24B43":"#4C9A6B"},
                   ].map(s=>(
                     <div key={s.l} style={{background:"rgba(255,255,255,0.03)",borderRadius:8,padding:"0.4rem",textAlign:"center"}}>
@@ -204,7 +204,7 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
                 )}
                 {isWinner && tender.status==="active" && (
                   <div>
-                    <div style={{background:"rgba(201,162,39,0.08)",border:"1px solid rgba(201,162,39,0.25)",borderRadius:8,padding:"0.5rem",marginBottom:"0.4rem",fontSize:"0.78rem",color:"#C9A227"}}>
+                    <div style={{background:"rgba(60,200,240,0.08)",border:"1px solid rgba(60,200,240,0.25)",borderRadius:8,padding:"0.5rem",marginBottom:"0.4rem",fontSize:"0.78rem",color:"#3CC8F0"}}>
                       ⚠️ {tender.data?.lastControl ? `Son kontrol: ${new Date(tender.data.lastControl).toLocaleTimeString("tr-TR")}` : "Henüz kontrol yapılmadı!"} · Kaçırılan: {tender.data?.missedControls||0}
                     </div>
                     <button className="btn btn-primary" style={{width:"100%"}} onClick={()=>doControl(tender.id)} disabled={loading}>✅ Proje Kontrolü Yap</button>
@@ -254,8 +254,8 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
       {/* DEVLET BAŞKANI — SİSTEM İHALESİ DUYUR */}
       {tab==="relay" && isPadisah && (
         <div>
-          <div style={{...card,border:"1px solid rgba(201,162,39,0.3)",marginBottom:"0.75rem"}}>
-            <div style={{fontWeight:700,color:"#C9A227",fontSize:"0.85rem",marginBottom:"0.5rem"}}>📢 Padişah İhale İletme Paneli</div>
+          <div style={{...card,border:"1px solid rgba(60,200,240,0.3)",marginBottom:"0.75rem"}}>
+            <div style={{fontWeight:700,color:"#3CC8F0",fontSize:"0.85rem",marginBottom:"0.5rem"}}>📢 Cumhurbaşkanı İhale İletme Paneli</div>
             <p style={{fontSize:"0.78rem",color:"#8BA0B5",lineHeight:1.5,margin:"0 0 0.65rem 0"}}>
               Sistem tarafından hazırlanmış ihalelerden birini seçip duyurun. İhaleyi kendiniz oluşturamazsınız.
             </p>
@@ -286,7 +286,7 @@ window.TenderScreen = function TenderScreen({ cu, families, allUsers, setCurrent
                   {item.category && (
                     <span style={{background:"rgba(99,102,241,0.15)",border:"1px solid rgba(99,102,241,0.25)",borderRadius:5,padding:"0.1rem 0.45rem",fontSize:"0.6rem",fontWeight:700,color:"#818CF8",display:"inline-block",marginBottom:"0.25rem"}}>{item.category}</span>
                   )}
-                  <div style={{fontWeight:700,color:"#EDE7DA",fontSize:"0.95rem"}}>{item.title}</div>
+                  <div style={{fontWeight:700,color:"#E6EDF5",fontSize:"0.95rem"}}>{item.title}</div>
                   <div style={{fontSize:"0.72rem",color:"#5E7390",marginTop:"0.1rem",lineHeight:1.4}}>{item.description}</div>
                 </div>
               </div>

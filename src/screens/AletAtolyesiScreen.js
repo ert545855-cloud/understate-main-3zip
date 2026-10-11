@@ -8,9 +8,9 @@
 const ALET_HAMMADDELER = {
   demir:  { label:'Demir',   emoji:'🪨', color:'#8893A1' },
   kömür:  { label:'Kömür',   emoji:'🪨', color:'#4A4A4A' },
-  altın:  { label:'Altın',   emoji:'🟡', color:'#C89B3C' },
-  ahşap:  { label:'Ahşap',   emoji:'🪵', color:'#8B6A1A' },
-  deri:   { label:'Deri',    emoji:'🟤', color:'#8B6A1A' },
+  altın:  { label:'Altın',   emoji:'🟡', color:'#3CC8F0' },
+  ahşap:  { label:'Ahşap',   emoji:'🪵', color:'#1E8FB8' },
+  deri:   { label:'Deri',    emoji:'🟤', color:'#1E8FB8' },
 };
 
 const ALET_TARIFLER = [
@@ -32,14 +32,14 @@ const ALET_TARIFLER = [
     id:'kilicl3', label:'Kılıç (Lv.3)', emoji:'⚔️', kategori:'silah',
     seviye:3, aletPuani:90,
     malzeme:{ demir:35, altın:5, kömür:15 },
-    sure:180, aciklama:'Altın kakmalı Osmanlı kılıcı. Emirlere layık silah.',
+    sure:180, aciklama:'Altın kakmalı Devlet kılıcı. Emirlere layık silah.',
     oncekiSeviye:'kilicl2',
   },
   {
     id:'yayl1', label:'Yay', emoji:'🏹', kategori:'silah',
     seviye:1, aletPuani:50,
     malzeme:{ ahşap:8, deri:5 },
-    sure:45, aciklama:'Akıncı yayı. Uzak mesafeden etkili.',
+    sure:45, aciklama:'Özel Kuvvet yayı. Uzak mesafeden etkili.',
     sonrakiSeviye:'yayl2',
   },
   {
@@ -53,7 +53,7 @@ const ALET_TARIFLER = [
     id:'yayl3', label:'Yay (Lv.3)', emoji:'🏹', kategori:'silah',
     seviye:3, aletPuani:200,
     malzeme:{ ahşap:25, deri:18, altın:3 },
-    sure:240, aciklama:'Osmanlı geri-gerilmeli yayı. Akıncı birliklerinin gururu.',
+    sure:240, aciklama:'Devlet geri-gerilmeli yayı. Özel Kuvvet birliklerinin gururu.',
     oncekiSeviye:'yayl2',
   },
   {
@@ -88,7 +88,7 @@ const ALET_TARIFLER = [
     id:'kalkanl3', label:'Kalkan (Lv.3)', emoji:'🛡️', kategori:'savunma',
     seviye:3, aletPuani:55,
     malzeme:{ demir:30, altın:2, kömür:10 },
-    sure:120, aciklama:'Divitli büyük kalkan. Yeniçeri kalkanlı birliğinin simgesi.',
+    sure:120, aciklama:'Divitli büyük kalkan. Piyade kalkanlı birliğinin simgesi.',
     oncekiSeviye:'kalkanl2',
   },
   {
@@ -130,7 +130,7 @@ const ALET_TARIFLER = [
     id:'topl1', label:'Top Güllesi', emoji:'💣', kategori:'agir',
     seviye:1, aletPuani:80,
     malzeme:{ demir:30, kömür:20 },
-    sure:120, aciklama:'Dökme demir top güllesi. Osmanlı topçuluğunun temeli.',
+    sure:120, aciklama:'Dökme demir top güllesi. Devlet topçuluğunun temeli.',
     sonrakiSeviye:'topl2',
   },
   {
@@ -142,7 +142,7 @@ const ALET_TARIFLER = [
   },
 ];
 
-const KATEGORI_RENK = { silah:'#C24B43', savunma:'#5B8DD9', agir:'#C89B3C' };
+const KATEGORI_RENK = { silah:'#C24B43', savunma:'#5B8DD9', agir:'#3CC8F0' };
 const KATEGORI_ETIKET = { silah:'Silahlar', savunma:'Savunma', agir:'Ağır Topçu' };
 
 window.AletAtölyesiScreen = function AletAtölyesiScreen({ profile, setProfile, showNotif, onNavigate }) {
@@ -249,31 +249,31 @@ window.AletAtölyesiScreen = function AletAtölyesiScreen({ profile, setProfile,
   const filtreliTarifler = ALET_TARIFLER.filter(t => kategori === 'tümü' || t.kategori === kategori);
   const aktifÜretimler = üretimler.filter(u => !u.tamamlandi);
 
-  const GOLD = '#C89B3C';
-  const BG   = '#1A0E00';
-  const SURF = '#2D1800';
+  const GOLD = '#3CC8F0';
+  const BG   = '#0F1724';
+  const SURF = '#152032';
 
   const kGüç = ALET_TARIFLER.filter(t => t.seviye >= 2).length; // gelişmiş alet sayısı
 
   return React.createElement('div', { style:{minHeight:'100vh',background:BG,fontFamily:"'Inter',sans-serif",paddingBottom:90}},
     // Header
-    React.createElement('div', { style:{background:'linear-gradient(135deg,#2D1800,#3D2200,#2D1800)',borderBottom:'1px solid rgba(200,155,60,0.3)',padding:'14px 16px 10px'}},
+    React.createElement('div', { style:{background:'linear-gradient(135deg,#152032,#152032,#152032)',borderBottom:'1px solid rgba(60,200,240,0.3)',padding:'14px 16px 10px'}},
       React.createElement('div', {style:{display:'flex',alignItems:'center',gap:10,marginBottom:8}},
         React.createElement('div', {style:{fontSize:'1.6rem'}}, '⚒️'),
         React.createElement('div', null,
-          React.createElement('div', {style:{fontFamily:"'Cinzel',serif",fontWeight:900,fontSize:'1.15rem',color:GOLD}}, 'Alet Atölyesi'),
-          React.createElement('div', {style:{fontSize:'0.68rem',color:'#A9A6A0'}}, 'Hammaddeyi silaha dönüştür — Beyliğini güçlendir'),
+          React.createElement('div', {style:{fontFamily:"'Rajdhani',sans-serif",fontWeight:900,fontSize:'1.15rem',color:GOLD}}, 'Alet Atölyesi'),
+          React.createElement('div', {style:{fontSize:'0.68rem',color:'#93A4B8'}}, 'Hammaddeyi silaha dönüştür — Devletini güçlendir'),
         ),
       ),
       // Güç puanı banner
       React.createElement('div', {style:{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:6}},
         [
-          ['⚒️','Alet Puanı', aletPuani.toLocaleString('tr-TR'), '#C89B3C'],
+          ['⚒️','Alet Puanı', aletPuani.toLocaleString('tr-TR'), '#3CC8F0'],
           ['🪨','Demir/Kömür', `${stok.demir}/${stok.kömür}`, '#8893A1'],
-          ['🟡','Altın', stok.altın.toString(), '#C89B3C'],
+          ['🟡','Altın', stok.altın.toString(), '#3CC8F0'],
         ].map(([ic,lb,v,c]) =>
           React.createElement('div', {key:lb, style:{background:'rgba(0,0,0,0.3)',borderRadius:8,padding:'6px 8px',textAlign:'center'}},
-            React.createElement('div', {style:{fontSize:'0.58rem',color:'#A9A6A0',marginBottom:2}}, `${ic} ${lb}`),
+            React.createElement('div', {style:{fontSize:'0.58rem',color:'#93A4B8',marginBottom:2}}, `${ic} ${lb}`),
             React.createElement('div', {style:{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.82rem',fontWeight:700,color:c}}, v),
           )
         ),
@@ -281,9 +281,9 @@ window.AletAtölyesiScreen = function AletAtölyesiScreen({ profile, setProfile,
     ),
 
     // Tabs
-    React.createElement('div', {style:{display:'flex',background:'#1F0F00',borderBottom:'1px solid rgba(200,155,60,0.12)'}},
+    React.createElement('div', {style:{display:'flex',background:'#1F0F00',borderBottom:'1px solid rgba(60,200,240,0.12)'}},
       [['uret','⚒️ Üretim'],['envanter','📦 Envanter'],['aktif','🔄 İşlemler'+( aktifÜretimler.length>0 ? ` (${aktifÜretimler.length})`:'' )]].map(([id,label]) =>
-        React.createElement('button',{key:id,onClick:()=>setTab(id),style:{flex:1,padding:'10px 4px',border:'none',background:tab===id?'rgba(200,155,60,0.12)':'transparent',color:tab===id?GOLD:'#8893A1',fontWeight:700,fontSize:'0.73rem',cursor:'pointer',borderBottom:tab===id?`2px solid ${GOLD}`:'2px solid transparent'}},label)
+        React.createElement('button',{key:id,onClick:()=>setTab(id),style:{flex:1,padding:'10px 4px',border:'none',background:tab===id?'rgba(60,200,240,0.12)':'transparent',color:tab===id?GOLD:'#8893A1',fontWeight:700,fontSize:'0.73rem',cursor:'pointer',borderBottom:tab===id?`2px solid ${GOLD}`:'2px solid transparent'}},label)
       )
     ),
 
@@ -294,19 +294,19 @@ window.AletAtölyesiScreen = function AletAtölyesiScreen({ profile, setProfile,
       tab === 'uret' && React.createElement('div', null,
         // Kategori filtresi
         React.createElement('div', {style:{display:'flex',gap:6,marginBottom:12,overflowX:'auto',scrollbarWidth:'none'}},
-          [['tümü','Tümü','#8893A1'],['silah','Silahlar','#C24B43'],['savunma','Savunma','#5B8DD9'],['agir','Ağır','#C89B3C']].map(([id,lb,c])=>
-            React.createElement('button',{key:id,onClick:()=>setKategori(id),style:{padding:'6px 14px',borderRadius:20,border:`1px solid ${kategori===id?c:'rgba(255,255,255,0.1)'}`,background:kategori===id?`rgba(${c==='#C24B43'?'194,75,67':c==='#5B8DD9'?'91,141,217':'200,155,60'},0.15)`:'transparent',color:kategori===id?c:'#8893A1',fontWeight:700,fontSize:'0.72rem',cursor:'pointer',whiteSpace:'nowrap',flexShrink:0}},lb)
+          [['tümü','Tümü','#8893A1'],['silah','Silahlar','#C24B43'],['savunma','Savunma','#5B8DD9'],['agir','Ağır','#3CC8F0']].map(([id,lb,c])=>
+            React.createElement('button',{key:id,onClick:()=>setKategori(id),style:{padding:'6px 14px',borderRadius:20,border:`1px solid ${kategori===id?c:'rgba(255,255,255,0.1)'}`,background:kategori===id?`rgba(${c==='#C24B43'?'194,75,67':c==='#5B8DD9'?'91,141,217':'60,200,240'},0.15)`:'transparent',color:kategori===id?c:'#8893A1',fontWeight:700,fontSize:'0.72rem',cursor:'pointer',whiteSpace:'nowrap',flexShrink:0}},lb)
           )
         ),
         filtreliTarifler.map(tarif => {
           const aktifVar = aktifÜretimler.find(u => u.tarifId === tarif.id);
           const malzemeYeter = Object.entries(tarif.malzeme).every(([k,m]) => (stok[k]||0)>=m);
-          return React.createElement('div', {key:tarif.id, style:{background:SURF,border:`1px solid ${malzemeYeter?'rgba(200,155,60,0.2)':'rgba(255,255,255,0.06)'}`,borderRadius:12,padding:'12px',marginBottom:8}},
+          return React.createElement('div', {key:tarif.id, style:{background:SURF,border:`1px solid ${malzemeYeter?'rgba(60,200,240,0.2)':'rgba(255,255,255,0.06)'}`,borderRadius:12,padding:'12px',marginBottom:8}},
             React.createElement('div', {style:{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:6}},
               React.createElement('div', {style:{display:'flex',alignItems:'center',gap:8}},
                 React.createElement('span', {style:{fontSize:'1.4rem'}}, tarif.emoji),
                 React.createElement('div', null,
-                  React.createElement('div', {style:{fontWeight:800,color:'#EDE7DA',fontSize:'0.88rem'}}, tarif.label),
+                  React.createElement('div', {style:{fontWeight:800,color:'#E6EDF5',fontSize:'0.88rem'}}, tarif.label),
                   React.createElement('div', {style:{fontSize:'0.65rem',color:'#8893A1',marginTop:2}}, tarif.aciklama),
                 ),
               ),
@@ -326,10 +326,10 @@ window.AletAtölyesiScreen = function AletAtölyesiScreen({ profile, setProfile,
               })
             ),
             aktifVar
-              ? React.createElement('div', {style:{padding:'8px 12px',background:'rgba(201,162,39,0.08)',border:'1px solid rgba(201,162,39,0.2)',borderRadius:8,fontSize:'0.72rem',color:GOLD,fontWeight:700}},
+              ? React.createElement('div', {style:{padding:'8px 12px',background:'rgba(60,200,240,0.08)',border:'1px solid rgba(60,200,240,0.2)',borderRadius:8,fontSize:'0.72rem',color:GOLD,fontWeight:700}},
                   '⏳ Üretim devam ediyor...'
                 )
-              : React.createElement('button', {onClick:()=>üretimBaslat(tarif),disabled:!malzemeYeter,style:{width:'100%',padding:'8px',borderRadius:8,border:'none',background:malzemeYeter?'linear-gradient(135deg,#C89B3C,#8B6A1A)':'rgba(255,255,255,0.05)',color:malzemeYeter?'#0F0800':'#6B7687',fontWeight:800,fontSize:'0.82rem',cursor:malzemeYeter?'pointer':'not-allowed'}},
+              : React.createElement('button', {onClick:()=>üretimBaslat(tarif),disabled:!malzemeYeter,style:{width:'100%',padding:'8px',borderRadius:8,border:'none',background:malzemeYeter?'linear-gradient(135deg,#3CC8F0,#1E8FB8)':'rgba(255,255,255,0.05)',color:malzemeYeter?'#0A0F17':'#6B7687',fontWeight:800,fontSize:'0.82rem',cursor:malzemeYeter?'pointer':'not-allowed'}},
                   malzemeYeter ? `⚒️ Üret (${tarif.sure}s)` : '❌ Hammadde Yetersiz'
                 ),
           );
@@ -338,10 +338,10 @@ window.AletAtölyesiScreen = function AletAtölyesiScreen({ profile, setProfile,
 
       // ── Envanter Sekmesi ──
       tab === 'envanter' && React.createElement('div', null,
-        React.createElement('div', {style:{background:SURF,border:'1px solid rgba(200,155,60,0.2)',borderRadius:12,padding:14,marginBottom:12}},
-          React.createElement('div', {style:{fontFamily:"'Cinzel',serif",fontSize:'0.72rem',fontWeight:700,color:GOLD,marginBottom:8}}, '⚒️ TOPLAM ALET PUANI'),
+        React.createElement('div', {style:{background:SURF,border:'1px solid rgba(60,200,240,0.2)',borderRadius:12,padding:14,marginBottom:12}},
+          React.createElement('div', {style:{fontFamily:"'Rajdhani',sans-serif",fontSize:'0.72rem',fontWeight:700,color:GOLD,marginBottom:8}}, '⚒️ TOPLAM ALET PUANI'),
           React.createElement('div', {style:{fontFamily:"'JetBrains Mono',monospace",fontSize:'2rem',fontWeight:900,color:GOLD}}, aletPuani.toLocaleString('tr-TR')),
-          React.createElement('div', {style:{fontSize:'0.65rem',color:'#8893A1',marginTop:4}}, 'Alet puanları beyliğinin güç puanına katılır'),
+          React.createElement('div', {style:{fontSize:'0.65rem',color:'#8893A1',marginTop:4}}, 'Alet puanları devletinin güç puanına katılır'),
         ),
         Object.keys(ALET_HAMMADDELER).map(k => {
           const items = ALET_TARIFLER.filter(t => (envanter[t.id] || 0) > 0 && Object.keys(t.malzeme).includes(k) === false);
@@ -353,15 +353,15 @@ window.AletAtölyesiScreen = function AletAtölyesiScreen({ profile, setProfile,
               'Henüz üretilmiş alet yok. Hammadde topla ve üretim başlat!'
             )
           : React.createElement('div', null,
-              React.createElement('div', {style:{fontFamily:"'Cinzel',serif",fontSize:'0.65rem',fontWeight:700,color:'#8893A1',marginBottom:10,letterSpacing:'0.1em'}}, 'ÜRETİLMİŞ ALETLER'),
+              React.createElement('div', {style:{fontFamily:"'Rajdhani',sans-serif",fontSize:'0.65rem',fontWeight:700,color:'#8893A1',marginBottom:10,letterSpacing:'0.1em'}}, 'ÜRETİLMİŞ ALETLER'),
               Object.entries(envanter).filter(([_,adet])=>adet>0).map(([id, adet]) => {
                 const tarif = ALET_TARIFLER.find(t=>t.id===id);
                 if (!tarif) return null;
-                return React.createElement('div', {key:id, style:{background:SURF,border:'1px solid rgba(200,155,60,0.15)',borderRadius:10,padding:'10px 12px',marginBottom:8,display:'flex',justifyContent:'space-between',alignItems:'center'}},
+                return React.createElement('div', {key:id, style:{background:SURF,border:'1px solid rgba(60,200,240,0.15)',borderRadius:10,padding:'10px 12px',marginBottom:8,display:'flex',justifyContent:'space-between',alignItems:'center'}},
                   React.createElement('div', {style:{display:'flex',alignItems:'center',gap:8}},
                     React.createElement('span', {style:{fontSize:'1.3rem'}}, tarif.emoji),
                     React.createElement('div', null,
-                      React.createElement('div', {style:{fontWeight:700,color:'#EDE7DA',fontSize:'0.85rem'}}, tarif.label),
+                      React.createElement('div', {style:{fontWeight:700,color:'#E6EDF5',fontSize:'0.85rem'}}, tarif.label),
                       React.createElement('div', {style:{fontSize:'0.63rem',color:'#8893A1'}}, `Seviye ${tarif.seviye} · ${tarif.aletPuani} AP/adet`),
                     ),
                   ),
@@ -386,9 +386,9 @@ window.AletAtölyesiScreen = function AletAtölyesiScreen({ profile, setProfile,
               if (!tarif) return null;
               const kalan = Math.max(0, Math.ceil((u.bitisZamani - Date.now()) / 1000));
               const ilerleme = Math.min(100, Math.round(((Date.now()-u.baslamaZamani)/(u.bitisZamani-u.baslamaZamani))*100));
-              return React.createElement('div', {key:u.id, style:{background:SURF,border:'1px solid rgba(200,155,60,0.2)',borderRadius:12,padding:12,marginBottom:8}},
+              return React.createElement('div', {key:u.id, style:{background:SURF,border:'1px solid rgba(60,200,240,0.2)',borderRadius:12,padding:12,marginBottom:8}},
                 React.createElement('div', {style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:6}},
-                  React.createElement('div', {style:{fontWeight:800,color:'#EDE7DA',fontSize:'0.85rem'}}, `${tarif.emoji} ${tarif.label}`),
+                  React.createElement('div', {style:{fontWeight:800,color:'#E6EDF5',fontSize:'0.85rem'}}, `${tarif.emoji} ${tarif.label}`),
                   React.createElement('div', {style:{fontSize:'0.72rem',color:GOLD,fontWeight:700}}, kalan>0 ? `${kalan}s kaldı` : '✅ Hazır!'),
                 ),
                 React.createElement('div', {style:{height:6,background:'rgba(255,255,255,0.08)',borderRadius:3,overflow:'hidden'}},

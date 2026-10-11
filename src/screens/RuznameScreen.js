@@ -8,7 +8,7 @@ window.RuznameScreen = function RuznameScreen({ profile, token }) {
   const [loading, setLoading] = React.useState(false);
   const [msg, setMsg] = React.useState('');
 
-  const ds = { bg:'#0D1117', surface:'rgba(255,255,255,0.04)', gold:'#C9A227', border:'rgba(255,255,255,0.08)', text:'#EDE7DA', muted:'#8893A1', green:'#4CAF50', red:'#FF6B6B' };
+  const ds = { bg:'#0D1117', surface:'rgba(255,255,255,0.04)', gold:'#3CC8F0', border:'rgba(255,255,255,0.08)', text:'#E6EDF5', muted:'#8893A1', green:'#4CAF50', red:'#FF6B6B' };
 
   const fetchAll = async () => {
     try {
@@ -82,7 +82,7 @@ window.RuznameScreen = function RuznameScreen({ profile, token }) {
 
   return React.createElement('div', { style:{ minHeight:'100vh', background:ds.bg, padding:'1rem', paddingBottom:'5rem', color:ds.text }},
     // Write section
-    React.createElement('div', { style:{ background:`linear-gradient(135deg, rgba(201,162,39,0.08), transparent)`, border:`1px solid rgba(201,162,39,0.2)`, borderRadius:'14px', padding:'14px', marginBottom:'1rem' }},
+    React.createElement('div', { style:{ background:`linear-gradient(135deg, rgba(60,200,240,0.08), transparent)`, border:`1px solid rgba(60,200,240,0.2)`, borderRadius:'14px', padding:'14px', marginBottom:'1rem' }},
       React.createElement('div', { style:{ fontWeight:700, marginBottom:'8px', color:ds.gold }}, `📖 Bugünün Günlüğü${todayEntry ? ' (Güncellendi)' : ''}`),
       React.createElement('textarea', {
         value: content || (todayEntry?.content || ''),

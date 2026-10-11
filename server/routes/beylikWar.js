@@ -26,7 +26,7 @@ router.get('/history', authMiddleware, asyncHandler(async (req, res) => {
 /* POST /api/beylik-war/declare */
 router.post('/declare', authMiddleware, asyncHandler(async (req, res) => {
   const { attackerBeylik, defenderBeylik, defenderLeaderId } = req.body;
-  if (!attackerBeylik || !defenderBeylik) return res.status(400).json({ success: false, message: 'Beylik adları gerekli' });
+  if (!attackerBeylik || !defenderBeylik) return res.status(400).json({ success: false, message: 'Devlet adları gerekli' });
 
   // Dünya haritasından ülke için savaş: hedef ülke savunan beyliğin olmalı, ilan eden saldıran beyliğin lideri olmalı
   let targetCountry = null;
@@ -34,11 +34,11 @@ router.post('/declare', authMiddleware, asyncHandler(async (req, res) => {
     const world = require('./world');
     const owner = await world.ownerOf(req.body.targetCountry);
     if (!owner || owner.beylik_ad !== defenderBeylik)
-      return res.status(400).json({ success: false, message: 'Hedef ülke bu beyliğe ait değil' });
+      return res.status(400).json({ success: false, message: 'Hedef ülke bu devlete ait değil' });
     const beyliks = (await db.getGameState('beyliks').catch(() => null)) || [];
     const mine = (Array.isArray(beyliks) ? beyliks : Object.values(beyliks)).find(b => b && b.ad === attackerBeylik);
     if (!mine || String(mine.kurucuId) !== String(req.user.id))
-      return res.status(403).json({ success: false, message: 'Savaşı yalnızca saldıran beyliğin lideri ilan edebilir' });
+      return res.status(403).json({ success: false, message: 'Savaşı yalnızca saldıran devletin lideri ilan edebilir' });
     if (mine.ad === defenderBeylik) return res.status(400).json({ success: false, message: 'Kendi beyliğine savaş açamazsın' });
     const { rows: open } = await db.query(
       `SELECT id FROM beylik_wars WHERE status='active' AND spoils_region=$1 LIMIT 1`, [String(req.body.targetCountry).toUpperCase()]

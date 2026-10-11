@@ -1,5 +1,5 @@
 window.ArkadasListesiScreen = function({ profile, onNavigate, showNotif }) {
-  const G='#C89B3C',BG='#0F0800',T='#F5EBD7',M='#A9A6A0',S='#2D1800',GR='#3E8C5A',R='#B8423C';
+  const G='#3CC8F0',BG='#0A0F17',T='#E6EDF5',M='#93A4B8',S='#152032',GR='#3E8C5A',R='#B8423C';
   const jwt = () => localStorage.getItem('us_jwt')||'';
   const [friends, setFriends] = React.useState([]);
   const [requests, setRequests] = React.useState([]);
@@ -32,12 +32,12 @@ window.ArkadasListesiScreen = function({ profile, onNavigate, showNotif }) {
   };
 
   return React.createElement('div',{style:{minHeight:'100vh',background:BG,fontFamily:"'Inter',sans-serif",paddingBottom:80}},
-    React.createElement('div',{style:{background:'linear-gradient(135deg,#1a0800,#2d1600)',borderBottom:'1px solid rgba(200,155,60,0.2)',padding:'14px 16px'}},
+    React.createElement('div',{style:{background:'linear-gradient(135deg,#0A0F17,#0F1724)',borderBottom:'1px solid rgba(60,200,240,0.2)',padding:'14px 16px'}},
       React.createElement('div',{style:{display:'flex',alignItems:'center',gap:10}},
         onNavigate && React.createElement('button',{onClick:()=>onNavigate('home'),style:{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:10,padding:'6px 10px',color:M,fontSize:'0.75rem',cursor:'pointer'}},'← Geri'),
         React.createElement('span',{style:{fontSize:'1.5rem'}},'👫'),
         React.createElement('div',null,
-          React.createElement('div',{style:{fontFamily:"'Cinzel',serif",fontWeight:900,fontSize:'1.1rem',color:G}},'Arkadaşlar'),
+          React.createElement('div',{style:{fontFamily:"'Rajdhani',sans-serif",fontWeight:900,fontSize:'1.1rem',color:G}},'Arkadaşlar'),
           React.createElement('div',{style:{fontSize:'0.62rem',color:M}},`${friends.length} arkadaş • ${requests.length} bekleyen istek`)
         )
       )
@@ -45,8 +45,8 @@ window.ArkadasListesiScreen = function({ profile, onNavigate, showNotif }) {
     React.createElement('div',{style:{padding:'12px'}},
       // Arama kutusu
       React.createElement('div',{style:{display:'flex',gap:8,marginBottom:12}},
-        React.createElement('input',{value:searchUser,onChange:e=>setSearchUser(e.target.value),onKeyDown:e=>e.key==='Enter'&&sendRequest(),placeholder:'Oyuncu adı ile arkadaş ekle...',style:{flex:1,padding:'10px',borderRadius:10,border:'1px solid rgba(200,155,60,0.25)',background:S,color:T,fontSize:'0.85rem'}}),
-        React.createElement('button',{onClick:sendRequest,style:{padding:'10px 14px',borderRadius:10,border:'none',background:G,color:'#0F0800',fontWeight:700,fontSize:'0.8rem',cursor:'pointer'}},'+ Ekle')
+        React.createElement('input',{value:searchUser,onChange:e=>setSearchUser(e.target.value),onKeyDown:e=>e.key==='Enter'&&sendRequest(),placeholder:'Oyuncu adı ile arkadaş ekle...',style:{flex:1,padding:'10px',borderRadius:10,border:'1px solid rgba(60,200,240,0.25)',background:S,color:T,fontSize:'0.85rem'}}),
+        React.createElement('button',{onClick:sendRequest,style:{padding:'10px 14px',borderRadius:10,border:'none',background:G,color:'#0A0F17',fontWeight:700,fontSize:'0.8rem',cursor:'pointer'}},'+ Ekle')
       ),
       // Tabs
       React.createElement('div',{style:{display:'flex',gap:6,marginBottom:12}},
@@ -64,8 +64,8 @@ window.ArkadasListesiScreen = function({ profile, onNavigate, showNotif }) {
                 React.createElement('div',{style:{fontSize:'0.72rem',marginTop:6}},'Yukarıdan oyuncu adı ile istek gönder')
               )
             : friends.map(f=>
-                React.createElement('div',{key:f.id,style:{background:S,border:'1px solid rgba(200,155,60,0.15)',borderRadius:12,padding:'12px 14px',marginBottom:8,display:'flex',alignItems:'center',gap:12}},
-                  React.createElement('div',{style:{width:40,height:40,borderRadius:'50%',background:`linear-gradient(135deg,${G},#A07828)`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.2rem',fontWeight:900,color:'#0F0800'}},f.username?.[0]?.toUpperCase()||'?'),
+                React.createElement('div',{key:f.id,style:{background:S,border:'1px solid rgba(60,200,240,0.15)',borderRadius:12,padding:'12px 14px',marginBottom:8,display:'flex',alignItems:'center',gap:12}},
+                  React.createElement('div',{style:{width:40,height:40,borderRadius:'50%',background:`linear-gradient(135deg,${G},#1E8FB8)`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.2rem',fontWeight:900,color:'#0A0F17'}},f.username?.[0]?.toUpperCase()||'?'),
                   React.createElement('div',{style:{flex:1}},
                     React.createElement('div',{style:{fontWeight:700,color:T}},f.username),
                     React.createElement('div',{style:{fontSize:'0.62rem',color:M}},`Seviye ${f.level||1}${f.active_title?' • '+f.active_title:''}`)
@@ -76,7 +76,7 @@ window.ArkadasListesiScreen = function({ profile, onNavigate, showNotif }) {
           : requests.length===0
             ? React.createElement('div',{style:{textAlign:'center',padding:48,color:M}},'Bekleyen istek yok')
             : requests.map(r=>
-                React.createElement('div',{key:r.id,style:{background:S,border:'1px solid rgba(200,155,60,0.15)',borderRadius:12,padding:'12px 14px',marginBottom:8,display:'flex',alignItems:'center',gap:12}},
+                React.createElement('div',{key:r.id,style:{background:S,border:'1px solid rgba(60,200,240,0.15)',borderRadius:12,padding:'12px 14px',marginBottom:8,display:'flex',alignItems:'center',gap:12}},
                   React.createElement('div',{style:{width:40,height:40,borderRadius:'50%',background:'rgba(255,255,255,0.08)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.2rem'}},r.username?.[0]?.toUpperCase()||'?'),
                   React.createElement('div',{style:{flex:1}},
                     React.createElement('div',{style:{fontWeight:700,color:T}},r.username),

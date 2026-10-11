@@ -7,8 +7,8 @@
 const ANLASMA_TIPLERI = [
   { id:'saldirmazlik', emoji:'🤝', ad:'Saldırmazlık Paktı',  acik:'Her iki taraf birbirine saldıramaz',       sure:7,  maliyet:5000,  renk:'#3E8C5A' },
   { id:'ittifak',      emoji:'⚔️', ad:'Savaş İttifakı',       acik:'Ortak düşmana karşı birlikte savaş',      sure:14, maliyet:20000, renk:'#5B8DD9' },
-  { id:'harac',        emoji:'💰', ad:'Haraç Anlaşması',      acik:'Güçsüz taraf haftada 5.000🪙 öder',       sure:30, maliyet:0,     renk:'#B8423C' },
-  { id:'ticaret',      emoji:'🛤️', ad:'Ticaret Anlaşması',    acik:'İki beylik arası gelir +10%',             sure:14, maliyet:8000,  renk:'#C89B3C' },
+  { id:'harac',        emoji:'💰', ad:'Haraç Anlaşması',      acik:'Güçsüz taraf haftada 5.000₺ öder',       sure:30, maliyet:0,     renk:'#B8423C' },
+  { id:'ticaret',      emoji:'🛤️', ad:'Ticaret Anlaşması',    acik:'İki devlet arası gelir +10%',             sure:14, maliyet:8000,  renk:'#3CC8F0' },
   { id:'savunma',      emoji:'🛡️', ad:'Savunma Paktı',        acik:'Biriniz saldırıya uğrarsa diğeri yardım', sure:21, maliyet:15000, renk:'#9C5FDB' },
 ];
 
@@ -16,7 +16,7 @@ const LS_DIPLO = 'rep_diplomasi';
 
 // ── Sözleşme Geçmişi bileşeni ───────────────────────────────────────────────
 function DiplomasiSozlesmeGecmisi({ profile, showNotif }) {
-  const G='#C89B3C', M='#A9A6A0', T='#F5EBD7', S='#2D1800', R='#B8423C', GR='#3E8C5A';
+  const G='#3CC8F0', M='#93A4B8', T='#E6EDF5', S='#152032', R='#B8423C', GR='#3E8C5A';
   const token = (() => { try { return localStorage.getItem('rep_token')||''; } catch { return ''; } })();
 
   const [liste, setListe]   = React.useState([]);
@@ -40,7 +40,7 @@ function DiplomasiSozlesmeGecmisi({ profile, showNotif }) {
   if (yukleniyor) return React.createElement('div',{style:{textAlign:'center',padding:'40px',color:M}},'⏳ Yükleniyor...');
 
   return React.createElement('div',null,
-    React.createElement('div',{style:{fontFamily:"'Cinzel',serif",fontSize:'0.8rem',color:G,fontWeight:700,marginBottom:10}},'📋 SÖZLEŞME GEÇMİŞİ'),
+    React.createElement('div',{style:{fontFamily:"'Rajdhani',sans-serif",fontSize:'0.8rem',color:G,fontWeight:700,marginBottom:10}},'📋 SÖZLEŞME GEÇMİŞİ'),
     React.createElement('div',{style:{fontSize:'0.65rem',color:M,marginBottom:12}},'Tüm anlaşmalar ve ihanetler kalıcı olarak kayıtlıdır.'),
     !liste.length
       ? React.createElement('div',{style:{textAlign:'center',padding:'30px',color:M,fontSize:'0.8rem'}},'Henüz kayıtlı sözleşme yok.')
@@ -101,11 +101,11 @@ window.DiplomasiScreen = function DiplomasiScreen({ profile, setProfile, showNot
   }, []);
 
   function teklifGonder() {
-    if (!benimBeylik) { showNotif('Beylik sahibi değilsiniz', 'error'); return; }
-    if (!yeniForm.hedefBeylik) { showNotif('Hedef beylik seçin', 'error'); return; }
+    if (!benimBeylik) { showNotif('Devlet sahibi değilsiniz', 'error'); return; }
+    if (!yeniForm.hedefBeylik) { showNotif('Hedef devlet seçin', 'error'); return; }
     const tip = ANLASMA_TIPLERI.find(t => t.id === yeniForm.tip);
     if ((profile?.money||0) < tip.maliyet && tip.maliyet > 0) {
-      showNotif(`Yetersiz Sikke — ${tip.maliyet.toLocaleString('tr-TR')} gerekli`, 'error'); return;
+      showNotif(`Yetersiz Para — ${tip.maliyet.toLocaleString('tr-TR')} gerekli`, 'error'); return;
     }
     const teklif = {
       id: `diplo_${Date.now()}`,
@@ -148,30 +148,30 @@ window.DiplomasiScreen = function DiplomasiScreen({ profile, setProfile, showNot
     return `${Math.ceil(fark/86400000)} gün`;
   }
 
-  const G='#C89B3C', BG='#0F0800', T='#F5EBD7', M='#A9A6A0';
+  const G='#3CC8F0', BG='#0A0F17', T='#E6EDF5', M='#93A4B8';
 
   return React.createElement('div', { style:{minHeight:'100vh',background:BG,fontFamily:"'Inter',sans-serif",paddingBottom:90} },
-    React.createElement('div', { style:{background:'linear-gradient(135deg,#1a1000,#2d1e00)',borderBottom:'1px solid rgba(200,155,60,0.25)',padding:'14px 16px'} },
+    React.createElement('div', { style:{background:'linear-gradient(135deg,#0F1724,#2d1e00)',borderBottom:'1px solid rgba(60,200,240,0.25)',padding:'14px 16px'} },
       React.createElement('div', { style:{display:'flex',alignItems:'center',gap:10,marginBottom:10} },
         React.createElement('button', { onClick:()=>setCurrentPage('home'), style:{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:10,padding:'6px 10px',color:M,fontSize:'0.75rem',cursor:'pointer'} }, '← Geri'),
         React.createElement('span', { style:{fontSize:'1.4rem'} }, '🤝'),
         React.createElement('div', null,
-          React.createElement('div', { style:{fontFamily:"'Cinzel',serif",fontWeight:900,fontSize:'1.1rem',color:G} }, 'Resmi Diplomasi'),
+          React.createElement('div', { style:{fontFamily:"'Rajdhani',sans-serif",fontWeight:900,fontSize:'1.1rem',color:G} }, 'Resmi Diplomasi'),
           React.createElement('div', { style:{fontSize:'0.62rem',color:M} }, 'Antlaşma — İttifak — Haraç')
         )
       ),
       React.createElement('div', { style:{display:'flex',gap:4} },
         [['mevcut','📜 Anlaşmalar'],['yeni','✍️ Teklif Et'],['gecmis','📋 Geçmiş']].map(([id,lb])=>
           React.createElement('button', { key:id, onClick:()=>setAktifSekme(id),
-            style:{flex:1,padding:'7px 4px',borderRadius:10,border:`1px solid ${aktifSekme===id?G:'rgba(255,255,255,0.08)'}`,background:aktifSekme===id?'rgba(200,155,60,0.15)':'rgba(255,255,255,0.03)',color:aktifSekme===id?G:M,fontWeight:700,fontSize:'0.68rem',cursor:'pointer'} }, lb)
+            style:{flex:1,padding:'7px 4px',borderRadius:10,border:`1px solid ${aktifSekme===id?G:'rgba(255,255,255,0.08)'}`,background:aktifSekme===id?'rgba(60,200,240,0.15)':'rgba(255,255,255,0.03)',color:aktifSekme===id?G:M,fontWeight:700,fontSize:'0.68rem',cursor:'pointer'} }, lb)
         )
       )
     ),
 
     React.createElement('div', { style:{padding:'12px'} },
       // Onay bekleyen teklif
-      onayBekle && React.createElement('div', { style:{background:'rgba(200,155,60,0.1)',border:'2px solid rgba(200,155,60,0.4)',borderRadius:14,padding:'14px',marginBottom:14} },
-        React.createElement('div', { style:{fontFamily:"'Cinzel',serif",fontSize:'0.85rem',fontWeight:800,color:G,marginBottom:6} }, '📜 Gelen Teklif!'),
+      onayBekle && React.createElement('div', { style:{background:'rgba(60,200,240,0.1)',border:'2px solid rgba(60,200,240,0.4)',borderRadius:14,padding:'14px',marginBottom:14} },
+        React.createElement('div', { style:{fontFamily:"'Rajdhani',sans-serif",fontSize:'0.85rem',fontWeight:800,color:G,marginBottom:6} }, '📜 Gelen Teklif!'),
         React.createElement('div', { style:{fontSize:'0.78rem',color:T,marginBottom:4} },
           `${onayBekle.saldiranBeylikAd} → ${ANLASMA_TIPLERI.find(t=>t.id===onayBekle.tip)?.ad||onayBekle.tip}`),
         React.createElement('div', { style:{display:'flex',gap:8,marginTop:10} },
@@ -202,9 +202,9 @@ window.DiplomasiScreen = function DiplomasiScreen({ profile, setProfile, showNot
 
       aktifSekme === 'yeni' && React.createElement('div', null,
         !benimBeylik
-          ? React.createElement('div', { style:{textAlign:'center',padding:'40px',color:M,fontSize:'0.8rem'} }, 'Beylik sahibi olmalısınız')
+          ? React.createElement('div', { style:{textAlign:'center',padding:'40px',color:M,fontSize:'0.8rem'} }, 'Devlet sahibi olmalısınız')
           : React.createElement('div', null,
-              React.createElement('div', { style:{fontFamily:"'Cinzel',serif",fontSize:'0.8rem',color:G,fontWeight:700,marginBottom:8} }, '✍️ Anlaşma Türü'),
+              React.createElement('div', { style:{fontFamily:"'Rajdhani',sans-serif",fontSize:'0.8rem',color:G,fontWeight:700,marginBottom:8} }, '✍️ Anlaşma Türü'),
               React.createElement('div', { style:{display:'flex',flexDirection:'column',gap:6,marginBottom:14} },
                 ANLASMA_TIPLERI.map(tip =>
                   React.createElement('div', { key:tip.id, onClick:()=>setYeniForm(f=>({...f,tip:tip.id})),
@@ -212,24 +212,24 @@ window.DiplomasiScreen = function DiplomasiScreen({ profile, setProfile, showNot
                     React.createElement('span', { style:{fontSize:'1.2rem'} }, tip.emoji),
                     React.createElement('div', { style:{flex:1} },
                       React.createElement('div', { style:{fontSize:'0.78rem',fontWeight:700,color:T} }, tip.ad),
-                      React.createElement('div', { style:{fontSize:'0.62rem',color:M,marginTop:2} }, `${tip.acik} · ${tip.sure} gün · ${tip.maliyet?`🪙${tip.maliyet.toLocaleString('tr-TR')}`:'Ücretsiz'}`)
+                      React.createElement('div', { style:{fontSize:'0.62rem',color:M,marginTop:2} }, `${tip.acik} · ${tip.sure} gün · ${tip.maliyet?`₺${tip.maliyet.toLocaleString('tr-TR')}`:'Ücretsiz'}`)
                     ),
                     yeniForm.tip===tip.id && React.createElement('div', { style:{width:16,height:16,borderRadius:'50%',background:tip.renk,flexShrink:0} })
                   )
                 )
               ),
-              React.createElement('div', { style:{fontFamily:"'Cinzel',serif",fontSize:'0.8rem',color:G,fontWeight:700,marginBottom:8} }, '🎯 Hedef Beylik'),
+              React.createElement('div', { style:{fontFamily:"'Rajdhani',sans-serif",fontSize:'0.8rem',color:G,fontWeight:700,marginBottom:8} }, '🎯 Hedef Devlet'),
               React.createElement('div', { style:{display:'flex',gap:6,flexWrap:'wrap',marginBottom:14} },
                 rakipler.length===0
-                  ? React.createElement('div', { style:{color:M,fontSize:'0.75rem'} }, 'Rakip beylik yok')
+                  ? React.createElement('div', { style:{color:M,fontSize:'0.75rem'} }, 'Rakip devlet yok')
                   : rakipler.map(b =>
                       React.createElement('button', { key:b.id, onClick:()=>setYeniForm(f=>({...f,hedefBeylik:yeniForm.hedefBeylik?.id===b.id?null:b})),
-                        style:{padding:'6px 12px',borderRadius:20,border:`1px solid ${yeniForm.hedefBeylik?.id===b.id?G:'rgba(255,255,255,0.1)'}`,background:yeniForm.hedefBeylik?.id===b.id?'rgba(200,155,60,0.15)':'rgba(255,255,255,0.03)',color:yeniForm.hedefBeylik?.id===b.id?G:M,fontSize:'0.7rem',fontWeight:700,cursor:'pointer'} },
-                        `⚜️ ${b.ad}`)
+                        style:{padding:'6px 12px',borderRadius:20,border:`1px solid ${yeniForm.hedefBeylik?.id===b.id?G:'rgba(255,255,255,0.1)'}`,background:yeniForm.hedefBeylik?.id===b.id?'rgba(60,200,240,0.15)':'rgba(255,255,255,0.03)',color:yeniForm.hedefBeylik?.id===b.id?G:M,fontSize:'0.7rem',fontWeight:700,cursor:'pointer'} },
+                        `🏛️ ${b.ad}`)
                     )
               ),
               React.createElement('button', { onClick:teklifGonder, disabled:!yeniForm.hedefBeylik,
-                style:{width:'100%',padding:'12px',borderRadius:12,border:'none',background:yeniForm.hedefBeylik?G:'rgba(255,255,255,0.06)',color:yeniForm.hedefBeylik?'#0F0800':M,fontWeight:800,fontSize:'0.82rem',cursor:yeniForm.hedefBeylik?'pointer':'not-allowed'} },
+                style:{width:'100%',padding:'12px',borderRadius:12,border:'none',background:yeniForm.hedefBeylik?G:'rgba(255,255,255,0.06)',color:yeniForm.hedefBeylik?'#0A0F17':M,fontWeight:800,fontSize:'0.82rem',cursor:yeniForm.hedefBeylik?'pointer':'not-allowed'} },
                 '📜 Teklif Gönder')
             )
       ),

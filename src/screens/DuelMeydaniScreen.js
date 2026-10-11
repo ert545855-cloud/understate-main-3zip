@@ -8,7 +8,7 @@ window.DuelMeydaniScreen = function DuelMeydaniScreen({ profile, token, onlinePl
   const [loading, setLoading] = React.useState('');
   const [msg, setMsg] = React.useState({ text:'', ok:true });
 
-  const ds = { bg:'#0D1117', surface:'rgba(255,255,255,0.04)', gold:'#C9A227', border:'rgba(255,255,255,0.08)', text:'#EDE7DA', muted:'#8893A1', red:'#FF6B6B', green:'#4CAF50' };
+  const ds = { bg:'#0D1117', surface:'rgba(255,255,255,0.04)', gold:'#3CC8F0', border:'rgba(255,255,255,0.08)', text:'#E6EDF5', muted:'#8893A1', red:'#FF6B6B', green:'#4CAF50' };
 
   const fetchDuels = async () => {
     try {
@@ -24,7 +24,7 @@ window.DuelMeydaniScreen = function DuelMeydaniScreen({ profile, token, onlinePl
     if (window._socket) {
       window._socket.on('duel:result', fetchDuels);
       window._socket.on('duel:challenge', (data) => {
-        window._pushGameEvent && window._pushGameEvent({ type:'duel', text:`⚔️ ${data.from} sana düello meydan okudu! (Bahis: ${data.bet} 🪙)`, ts: Date.now() });
+        window._pushGameEvent && window._pushGameEvent({ type:'duel', text:`⚔️ ${data.from} sana düello meydan okudu! (Bahis: ${data.bet} ₺)`, ts: Date.now() });
         fetchDuels();
       });
     }
@@ -57,7 +57,7 @@ window.DuelMeydaniScreen = function DuelMeydaniScreen({ profile, token, onlinePl
       });
       const d = await r.json();
       if (d.success) {
-        if (d.status === 'completed') show(`${d.challengerWins ? '🏆 Davetçi' : '🥊 Rakip'} kazandı! Güç: ${d.challengerPower} vs ${d.challengedPower}. Ödül: ${d.prize} 🪙`);
+        if (d.status === 'completed') show(`${d.challengerWins ? '🏆 Davetçi' : '🥊 Rakip'} kazandı! Güç: ${d.challengerPower} vs ${d.challengedPower}. Ödül: ${d.prize} ₺`);
         else show('❌ Düello reddedildi');
         fetchDuels();
       } else show(d.message || 'Hata', false);
@@ -79,7 +79,7 @@ window.DuelMeydaniScreen = function DuelMeydaniScreen({ profile, token, onlinePl
       )
     ),
 
-    msg.text && React.createElement('div', { style:{ background: msg.ok ? 'rgba(201,162,39,0.12)' : 'rgba(255,80,80,0.1)', border:`1px solid ${msg.ok ? ds.gold : ds.red}`, borderRadius:'8px', padding:'10px 14px', marginBottom:'1rem', fontSize:'0.82rem', color: msg.ok ? ds.gold : ds.red }}, msg.text),
+    msg.text && React.createElement('div', { style:{ background: msg.ok ? 'rgba(60,200,240,0.12)' : 'rgba(255,80,80,0.1)', border:`1px solid ${msg.ok ? ds.gold : ds.red}`, borderRadius:'8px', padding:'10px 14px', marginBottom:'1rem', fontSize:'0.82rem', color: msg.ok ? ds.gold : ds.red }}, msg.text),
 
     tab === 'acik' && React.createElement('div', { style:{ display:'flex', flexDirection:'column', gap:'8px' }},
       !openDuels.length && React.createElement('div', { style:{ textAlign:'center', padding:'3rem', color:ds.muted }}, '⚔️ Açık düello yok. Sen bir tane oluştur!'),
@@ -87,11 +87,11 @@ window.DuelMeydaniScreen = function DuelMeydaniScreen({ profile, token, onlinePl
         const isChallenger = d.challenger_id === profile?.id;
         const isChallenged = d.challenged_id === profile?.id;
         return React.createElement('div', { key:d.id,
-          style:{ background:ds.surface, border:`1px solid rgba(201,162,39,0.2)`, borderRadius:'12px', padding:'12px' }},
+          style:{ background:ds.surface, border:`1px solid rgba(60,200,240,0.2)`, borderRadius:'12px', padding:'12px' }},
           React.createElement('div', { style:{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'8px' }},
             React.createElement('div', null,
               React.createElement('div', { style:{ fontWeight:700 }}, `⚔️ ${d.challenger_name} vs ${d.challenged_name}`),
-              React.createElement('div', { style:{ fontSize:'0.75rem', color:ds.muted }}, `Bahis: ${d.bet_amount} 🪙`)
+              React.createElement('div', { style:{ fontSize:'0.75rem', color:ds.muted }}, `Bahis: ${d.bet_amount} ₺`)
             ),
             React.createElement('span', { style:{ fontSize:'0.72rem', color:ds.gold }}, statusLabel(d.status))
           ),
@@ -116,7 +116,7 @@ window.DuelMeydaniScreen = function DuelMeydaniScreen({ profile, token, onlinePl
           React.createElement('div', { style:{ display:'flex', justifyContent:'space-between' }},
             React.createElement('div', null,
               React.createElement('div', { style:{ fontWeight:700 }}, `${d.challenger_name} vs ${d.challenged_name}`),
-              React.createElement('div', { style:{ fontSize:'0.75rem', color:ds.muted }}, `Bahis: ${d.bet_amount} 🪙`)
+              React.createElement('div', { style:{ fontSize:'0.75rem', color:ds.muted }}, `Bahis: ${d.bet_amount} ₺`)
             ),
             React.createElement('span', { style:{ fontSize:'0.75rem', fontWeight:700, color:statusColor(d.status) }}, statusLabel(d.status))
           )
@@ -138,14 +138,14 @@ window.DuelMeydaniScreen = function DuelMeydaniScreen({ profile, token, onlinePl
         )
       ),
       React.createElement('div', { style:{ marginBottom:'14px' }},
-        React.createElement('label', { style:{ fontSize:'0.8rem', color:ds.muted, display:'block', marginBottom:'4px' }}, `Bahis: ${betAmount} 🪙`),
+        React.createElement('label', { style:{ fontSize:'0.8rem', color:ds.muted, display:'block', marginBottom:'4px' }}, `Bahis: ${betAmount} ₺`),
         React.createElement('input', { type:'range', min:0, max:Math.min(5000, profile?.money||0), step:50,
           value:betAmount, onChange:e=>setBetAmount(e.target.value),
           style:{ width:'100%', accentColor:ds.gold }})
       ),
       React.createElement('button', { onClick:challenge, disabled:loading==='challenge',
         style:{ width:'100%', padding:'10px', borderRadius:'10px', border:'none', cursor:'pointer', fontWeight:700, background:ds.gold, color:'#000' }},
-        loading==='challenge' ? '⏳ Gönderiliyor...' : `⚔️ Meydan Oku${betAmount>0?` (${betAmount} 🪙 bahis)`:''}`
+        loading==='challenge' ? '⏳ Gönderiliyor...' : `⚔️ Meydan Oku${betAmount>0?` (${betAmount} ₺ bahis)`:''}`
       )
     )
   );

@@ -1,22 +1,22 @@
 "use strict";
 // ═══════════════════════════════════════════════════════
 // İMPARATORLUK HARİTASI — Voronoi tabanlı eyalet haritası
-// Palette: bg=#0B0F16  gold=#C9A227  text=#EDE7DA
+// Palette: bg=#0B0F16  gold=#3CC8F0  text=#E6EDF5
 // Kaynak veri: mapData.js (MAP_PROVINCES, MAP_CONTINENT_OUTLINE)
 // ═══════════════════════════════════════════════════════
 
 const EM_DS = {
   bg: '#0B0F16',
   sea: '#0d1420',
-  gold: '#C9A227',
-  text: '#EDE7DA',
+  gold: '#3CC8F0',
+  text: '#E6EDF5',
   muted: '#6B7687',
-  border: 'rgba(201,162,39,0.55)',
+  border: 'rgba(60,200,240,0.55)',
 };
 
 // Beylik/hanedan renkleri — owner alanına bu id'lerden biri atanır
 const FACTION_COLORS = {
-  player:   '201,162,39',   // altın — kendi beyliğin
+  player:   '60,200,240',   // altın — kendi beyliğin
   ally:     '76,154,107',   // yeşil — ittifak
   enemy:    '194,75,67',    // kırmızı — düşman
   neutral:  '90,96,107',    // gri — sahipsiz/NPC
@@ -92,7 +92,7 @@ function EmpireMap({ provinces, onSelect, selectedId }) {
           React.createElement('circle', { cx: p.cx, cy: p.cy, r: 4, fill: EM_DS.gold, stroke: '#1a1a1a', strokeWidth: 0.8 }),
           React.createElement('text', {
             x: p.cx, y: p.cy - 10, textAnchor: 'middle', fontSize: 13, fontWeight: 700,
-            fill: EM_DS.text, fontFamily: "'Cinzel',serif",
+            fill: EM_DS.text, fontFamily: "'Rajdhani',sans-serif",
             style: { paintOrder: 'stroke', stroke: '#05070b', strokeWidth: 3, strokeLinejoin: 'round' },
           }, p.name)
         );

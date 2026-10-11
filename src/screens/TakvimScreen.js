@@ -11,24 +11,24 @@ const AYLAR = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağus
 const TEKRAR_ETKINLIKLER = [
   { gun:1, saat:'08:00', sure:4,  tip:'savas',    emoji:'⚔️', ad:'Sabah Akını',        acik:'Tüm savaşlar aktif, güç bonusu +10%',                 renk:'#B8423C' },
   { gun:1, saat:'20:00', sure:3,  tip:'pazar',    emoji:'🛒', ad:'Haftalık Büyük Pazar', acik:'Özel indirimler, nadir eşyalar mevcut',             renk:'#3E8C5A' },
-  { gun:2, saat:'12:00', sure:2,  tip:'vergi',    emoji:'📋', ad:'Vergi Toplama',        acik:'Eyalet gelirleri toplanır, vali bonusu',            renk:'#5B8DD9' },
+  { gun:2, saat:'12:00', sure:2,  tip:'vergi',    emoji:'📋', ad:'Vergi Toplama',        acik:'Bölge gelirleri toplanır, vali bonusu',            renk:'#5B8DD9' },
   { gun:3, saat:'18:00', sure:6,  tip:'savas',    emoji:'⚔️', ad:'Çarşamba Seferi',      acik:'Özel savaş bölgesi açık, +20% ganimet',            renk:'#B8423C' },
-  { gun:4, saat:'10:00', sure:3,  tip:'sadakat',  emoji:'💎', ad:'Divan Oturumu',        acik:'Sadakat görevleri 2x ödül verir',                  renk:'#C89B3C' },
+  { gun:4, saat:'10:00', sure:3,  tip:'sadakat',  emoji:'💎', ad:'Kabine Oturumu',        acik:'Sadakat görevleri 2x ödül verir',                  renk:'#3CC8F0' },
   { gun:5, saat:'15:00', sure:4,  tip:'turnuva',  emoji:'🏆', ad:'Cuma Turnuvası',       acik:'Haftalık PvP turnuvası finali, ödüller dağıtılır', renk:'#FFD700' },
-  { gun:5, saat:'20:00', sure:8,  tip:'festival', emoji:'🎆', ad:'Cuma Gecesi Festivali', acik:'XP ve Sikke kazanımı 1.5x — tüm gece',           renk:'#9C5FDB' },
-  { gun:6, saat:'09:00', sure:12, tip:'sefer',    emoji:'🚩', ad:'Genel Sefer Penceresi', acik:'Büyük eyalet fetihleri bu pencerede yapılır',     renk:'#E67E22' },
+  { gun:5, saat:'20:00', sure:8,  tip:'festival', emoji:'🎆', ad:'Cuma Gecesi Festivali', acik:'XP ve Para kazanımı 1.5x — tüm gece',           renk:'#9C5FDB' },
+  { gun:6, saat:'09:00', sure:12, tip:'sefer',    emoji:'🚩', ad:'Seferberlik Penceresi', acik:'Büyük bölge fetihleri bu pencerede yapılır',     renk:'#E67E22' },
   { gun:0, saat:'16:00', sure:3,  tip:'festival', emoji:'🌙', ad:'Pazar Şöleni',          acik:'Tüm üretim binaları 2x verim',                   renk:'#9C5FDB' },
 ];
 
 // Tek seferlik yaklaşan olaylar (dinamik, sunucudan da gelebilir)
 const OZEL_ETKINLIKLER = [
-  { tarih:null, tip:'sefer', emoji:'🚩', ad:'Büyük Genel Sefer', acik:'Padişah fermanıyla açılan büyük fetih kampanyası', renk:'#E67E22', gunKalan:7 },
-  { tarih:null, tip:'festival', emoji:'🎆', ad:'Kurban Bayramı Şöleni', acik:'3 gün boyunca 2x Sikke + özel kostümler', renk:'#9C5FDB', gunKalan:18 },
-  { tarih:null, tip:'turnuva', emoji:'🏆', ad:'Aylık Şampiyona', acik:'En büyük beyliğe imparatorluk unvanı', renk:'#FFD700', gunKalan:23 },
+  { tarih:null, tip:'sefer', emoji:'🚩', ad:'Büyük Seferberlik', acik:'Cumhurbaşkanı fermanıyla açılan büyük fetih kampanyası', renk:'#E67E22', gunKalan:7 },
+  { tarih:null, tip:'festival', emoji:'🎆', ad:'Kurban Bayramı Şöleni', acik:'3 gün boyunca 2x Para + özel kostümler', renk:'#9C5FDB', gunKalan:18 },
+  { tarih:null, tip:'turnuva', emoji:'🏆', ad:'Aylık Şampiyona', acik:'En büyük devlete devlet unvanı', renk:'#FFD700', gunKalan:23 },
 ];
 
-const TIP_RENK = { savas:'#B8423C', pazar:'#3E8C5A', vergi:'#5B8DD9', sadakat:'#C89B3C', turnuva:'#FFD700', festival:'#9C5FDB', sefer:'#E67E22' };
-const TIP_ETIKET = { savas:'Savaş', pazar:'Pazar', vergi:'Vergi', sadakat:'Sadakat', turnuva:'Turnuva', festival:'Festival', sefer:'Sefer' };
+const TIP_RENK = { savas:'#B8423C', pazar:'#3E8C5A', vergi:'#5B8DD9', sadakat:'#3CC8F0', turnuva:'#FFD700', festival:'#9C5FDB', sefer:'#E67E22' };
+const TIP_ETIKET = { savas:'Savaş', pazar:'Pazar', vergi:'Vergi', sadakat:'Sadakat', turnuva:'Turnuva', festival:'Festival', sefer:'Harekât' };
 
 function zamanDonustur(gunSirasi, saatStr) {
   const [h, m] = saatStr.split(':').map(Number);
@@ -80,7 +80,7 @@ window.TakvimScreen = function TakvimScreen({ profile, setCurrentPage, showNotif
     });
 
   const aktifEtkinlikler = buHaftaEtkinlikler.filter(e => e.aktif);
-  const G='#C89B3C', BG='#0F0800', T='#F5EBD7', M='#A9A6A0';
+  const G='#3CC8F0', BG='#0A0F17', T='#E6EDF5', M='#93A4B8';
 
   // Haftalık plan ızgarası
   function HaftalikIzgara() {
@@ -90,7 +90,7 @@ window.TakvimScreen = function TakvimScreen({ profile, setCurrentPage, showNotif
         React.createElement('div', { style:{display:'grid',gridTemplateColumns:'60px repeat(7,1fr)',gap:2,marginBottom:4} },
           React.createElement('div', null),
           HAFTA_GUNLERI.map((g, i) =>
-            React.createElement('div', { key:g, style:{textAlign:'center',fontSize:'0.62rem',fontWeight:700,color:i===simdiGun?G:M,padding:'4px 2px',borderRadius:6,background:i===simdiGun?'rgba(200,155,60,0.1)':'transparent'} }, g)
+            React.createElement('div', { key:g, style:{textAlign:'center',fontSize:'0.62rem',fontWeight:700,color:i===simdiGun?G:M,padding:'4px 2px',borderRadius:6,background:i===simdiGun?'rgba(60,200,240,0.1)':'transparent'} }, g)
           )
         ),
         // Saatler + etkinlikler
@@ -113,12 +113,12 @@ window.TakvimScreen = function TakvimScreen({ profile, setCurrentPage, showNotif
 
   return React.createElement('div', { style:{minHeight:'100vh',background:BG,fontFamily:"'Inter',sans-serif",paddingBottom:90} },
     // Başlık
-    React.createElement('div', { style:{background:'linear-gradient(135deg,#1a1000,#2d1e00)',borderBottom:'1px solid rgba(200,155,60,0.25)',padding:'14px 16px'} },
+    React.createElement('div', { style:{background:'linear-gradient(135deg,#0F1724,#2d1e00)',borderBottom:'1px solid rgba(60,200,240,0.25)',padding:'14px 16px'} },
       React.createElement('div', { style:{display:'flex',alignItems:'center',gap:10,marginBottom:12} },
         React.createElement('button', { onClick:()=>setCurrentPage('home'), style:{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:10,padding:'6px 10px',color:M,fontSize:'0.75rem',cursor:'pointer'} }, '← Geri'),
         React.createElement('span', { style:{fontSize:'1.4rem'} }, '📅'),
         React.createElement('div', null,
-          React.createElement('div', { style:{fontFamily:"'Cinzel',serif",fontWeight:900,fontSize:'1.1rem',color:G} }, 'İmparatorluk Takvimi'),
+          React.createElement('div', { style:{fontFamily:"'Rajdhani',sans-serif",fontWeight:900,fontSize:'1.1rem',color:G} }, 'Devlet Takvimi'),
           React.createElement('div', { style:{fontSize:'0.62rem',color:M} }, `${HAFTA_GUNLERI[simdiGun]} · ${simdi.getDate()} ${AYLAR[simdi.getMonth()]}`)
         )
       ),
@@ -126,7 +126,7 @@ window.TakvimScreen = function TakvimScreen({ profile, setCurrentPage, showNotif
       React.createElement('div', { style:{display:'flex',gap:4} },
         [['bu_hafta','📅 Bu Hafta'],['ozel','✨ Özel Etkinlik'],['plan','🗓️ Plan']].map(([id,lb]) =>
           React.createElement('button', { key:id, onClick:()=>setAktifSekme(id),
-            style:{flex:1,padding:'7px 4px',borderRadius:10,border:`1px solid ${aktifSekme===id?G:'rgba(255,255,255,0.08)'}`,background:aktifSekme===id?'rgba(200,155,60,0.15)':'rgba(255,255,255,0.03)',color:aktifSekme===id?G:M,fontWeight:700,fontSize:'0.68rem',cursor:'pointer'} }, lb)
+            style:{flex:1,padding:'7px 4px',borderRadius:10,border:`1px solid ${aktifSekme===id?G:'rgba(255,255,255,0.08)'}`,background:aktifSekme===id?'rgba(60,200,240,0.15)':'rgba(255,255,255,0.03)',color:aktifSekme===id?G:M,fontWeight:700,fontSize:'0.68rem',cursor:'pointer'} }, lb)
         )
       )
     ),
@@ -175,7 +175,7 @@ window.TakvimScreen = function TakvimScreen({ profile, setCurrentPage, showNotif
             React.createElement('div', { style:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:6} },
               React.createElement('div', { style:{display:'flex',alignItems:'center',gap:8} },
                 React.createElement('span', { style:{fontSize:'1.5rem'} }, e.emoji),
-                React.createElement('span', { style:{fontFamily:"'Cinzel',serif",fontSize:'0.9rem',fontWeight:800,color:T} }, e.ad)
+                React.createElement('span', { style:{fontFamily:"'Rajdhani',sans-serif",fontSize:'0.9rem',fontWeight:800,color:T} }, e.ad)
               ),
               React.createElement('div', { style:{background:`${e.renk}22`,border:`1px solid ${e.renk}44`,borderRadius:8,padding:'4px 10px',textAlign:'center'} },
                 React.createElement('div', { style:{fontSize:'0.58rem',color:M} }, 'Kalan'),

@@ -8,7 +8,7 @@ window.SarayIntrigiScreen = function SarayIntrigiScreen({ profile, token }) {
     try { return JSON.parse(localStorage.getItem('rep_intrigu_history')||'[]'); } catch { return []; }
   });
 
-  const ds = { bg:'#0D1117', surface:'rgba(255,255,255,0.04)', gold:'#C9A227', border:'rgba(255,255,255,0.08)', text:'#EDE7DA', muted:'#8893A1' };
+  const ds = { bg:'#0D1117', surface:'rgba(255,255,255,0.04)', gold:'#3CC8F0', border:'rgba(255,255,255,0.08)', text:'#E6EDF5', muted:'#8893A1' };
 
   const draw = async () => {
     setLoading(true);
@@ -35,7 +35,7 @@ window.SarayIntrigiScreen = function SarayIntrigiScreen({ profile, token }) {
   const effectDesc = (card) => {
     if (!card?.effect) return '';
     const parts = [];
-    if (card.effect.money) parts.push(`${card.effect.money > 0 ? '+' : ''}${card.effect.money} 🪙`);
+    if (card.effect.money) parts.push(`${card.effect.money > 0 ? '+' : ''}${card.effect.money} ₺`);
     if (card.effect.xp) parts.push(`${card.effect.xp > 0 ? '+' : ''}${card.effect.xp} XP`);
     if (card.effect.fame) parts.push(`${card.effect.fame > 0 ? '+' : ''}${card.effect.fame} Şöhret`);
     return parts.join(' · ');
@@ -51,7 +51,7 @@ window.SarayIntrigiScreen = function SarayIntrigiScreen({ profile, token }) {
     // Header
     React.createElement('div', { style:{ textAlign:'center', marginBottom:'2rem' }},
       React.createElement('div', { style:{ fontSize:'2.5rem', marginBottom:'8px' }}, '🎴'),
-      React.createElement('div', { style:{ fontWeight:900, fontSize:'1.2rem', color:ds.gold }}, 'Saray İntrigi'),
+      React.createElement('div', { style:{ fontWeight:900, fontSize:'1.2rem', color:ds.gold }}, 'Siyasi Kulis'),
       React.createElement('div', { style:{ fontSize:'0.8rem', color:ds.muted, marginTop:'4px' }}, 'Günde bir kez kader kartı çek. Her kart bir sürpriz getirir.')
     ),
 
@@ -60,10 +60,10 @@ window.SarayIntrigiScreen = function SarayIntrigiScreen({ profile, token }) {
       !drawn ? React.createElement('div', {
         onClick: canDraw && !loading ? draw : undefined,
         style:{ width:'180px', height:'260px', borderRadius:'16px', cursor: canDraw ? 'pointer' : 'default',
-          background: canDraw ? `linear-gradient(135deg, #2D1800, #4A2800)` : 'rgba(255,255,255,0.04)',
+          background: canDraw ? `linear-gradient(135deg, #152032, #4A2800)` : 'rgba(255,255,255,0.04)',
           border:`2px solid ${canDraw ? ds.gold : ds.border}`,
           display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center',
-          boxShadow: canDraw ? `0 0 30px rgba(201,162,39,0.3)` : 'none',
+          boxShadow: canDraw ? `0 0 30px rgba(60,200,240,0.3)` : 'none',
           transition:'all 0.3s' }},
         React.createElement('div', { style:{ fontSize:'3rem', marginBottom:'12px' }}, loading ? '⏳' : '🎴'),
         React.createElement('div', { style:{ fontSize:'0.85rem', fontWeight:700, color: canDraw ? ds.gold : ds.muted, textAlign:'center' }},

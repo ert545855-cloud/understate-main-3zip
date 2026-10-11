@@ -197,6 +197,7 @@ app.use('/api/grup-mesaj',   require('./routes/grupMesaj'));
 app.use('/api/adventure-log',require('./routes/adventureLog'));
 app.use('/api/players',      require('./routes/playerSearch'));
 app.use('/api/world',        require('./routes/world'));          // Dünya Haritası — ülke sahipliği
+app.use('/api/military',     require('./routes/military'));       // Silahlı Kuvvetler — fabrika, asker, harekât
 // ── Supabase REST API — Admin & Upload ────────────────────────
 app.use('/api/admin/sb',     require('./routes/adminSupabase'));
 
@@ -289,6 +290,8 @@ initSocket(io);
 
 // Padişahlık socket bağlantısı
 try { require('./routes/padisahlik').setIO(io); } catch(_) {}
+// Askeri harekât sonuç döngüsü (4 sn'de bir varan / çatışması biten harekâtları işler)
+try { require('./routes/military').init(); } catch(e) { logger.warn('[Military] başlatılamadı:', e.message); }
 
 // ── Supabase: Storage bucket + Realtime bridge ────────────────────────────────
 ensureStorageBucket().catch(e => logger.warn('[Storage] Başlatma uyarısı:', e.message));

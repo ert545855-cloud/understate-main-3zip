@@ -101,7 +101,7 @@ async function getBills({ status, page = 1, limit = 20 } = {}) {
 async function spendCampaign(userId, { electionId, campaignType, amount }) {
   if (!db.isReady()) return { ok: false };
   amount = parseInt(amount);
-  if (amount < 1000) return { ok: false, message: 'Minimum kampanya harcaması 1.000🪙' };
+  if (amount < 1000) return { ok: false, message: 'Minimum kampanya harcaması 1.000₺' };
 
   const { rows: u } = await db.query(
     `SELECT money, game_data FROM users WHERE id=$1`, [userId]

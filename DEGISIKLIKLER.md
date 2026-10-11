@@ -1,4 +1,47 @@
-# Değişiklikler — Dünya Haritası + Mobil Düzeltmeler
+# Değişiklikler
+
+## Siyaset RP: yeni ad, modern tema, ordu ve harekât
+
+### Ad ve görünüm
+- Oyunun adı **Siyaset RP** oldu: başlık, yükleme ekranı, giriş ekranı, PWA bilgileri (`manifest.json`) ve Android uygulama adı değişti.
+- Osmanlı teması kaldırıldı:
+  - Kahverengi/altın renkler yerini lacivert ve camgöbeği (`#0A0F17`, `#3CC8F0`) renklere bıraktı.
+  - Cinzel yazı tipinin yerine Rajdhani kullanılıyor.
+  - Tuğralı logonun yerine yeni amblem geldi: `assets/brand/logo.svg` ve bundan üretilen `icon-*.png`, `favicon.png`, `siyaset-icon.png`.
+  - Giriş ekranının arka planı artık koyu dünya haritası ve tarama çizgisi. Tarih bilgileri yerine oyun ipuçları gösteriliyor.
+- Oyun terimleri modernleşti: Beylik → Devlet, Sikke → Para (₺), Padişah → Cumhurbaşkanı, Divan → Kabine, Sadrazam → Başbakan, Ferman → Kararname, Sefer → Harekât, Kervan → Konvoy, Lonca → Sendika, Saray → Külliye. İşler de modernleşti (Kurye, Güvenlik Görevlisi, Memur, Subay…). Değişiklik yalnızca ekrandaki yazılara uygulandı; kod, API ve veritabanı adları aynı kaldı.
+- Osmanlı'ya özgü ekranlar menüden kaldırıldı: Osmanlı Ordusu, Eyalet Haritası, Osmanlı Günü, Alet Atölyesi.
+- Alt menü ve ikonlar artık satır içi SVG: `src/components/IconSet.js` dosyası `scripts/gen-icon-set.js` ile üretiliyor. İkonlar temanın rengini alıyor. Yeni ikonlar: tank, asker, küre, İHA, obüs, tüfek, hedef.
+- Animasyonlar: sayfa geçişlerinde yumuşak görünme, dokunma geri bildirimi, sayaçların kayarak değişmesi, üretim bandı efekti.
+- Müzik aç/kapa düğmesi başlıktaki dil menüsüne taşındı; yüzen düğme içeriğin üstüne biniyordu.
+
+### Silahlı Kuvvetler (Savaş → Silahlı Kuvvetler)
+- Devlet hazinesi: her üye kendi parasından bağış yapabilir.
+- Fabrikalar: silah (tüfek), tank, topçu (obüs) ve İHA fabrikaları. Her türden en fazla 5 fabrika kurulabilir ve her biri 5 seviyeye kadar yükseltilebilir. Üretim saat başına birikir ve sunucuda geçen süreye göre hesaplanır. Ekranda canlı artar.
+- Asker basma: 1.000'lik partiler halinde. Her parti için tüfek, insan gücü ve hazine gerekir. İnsan gücü toprak ve üye sayısına göre yenilenir.
+- Fabrika kurma, yükseltme ve asker basma kararını yalnızca devlet lideri verebilir.
+- Sunucu tarafı:
+  - Rotalar `server/routes/military.js` içinde, tablolar `server/migrations/014_military.sql` içinde.
+  - Tablolar: `state_military`, `state_factories`, `military_operations`, `state_military_log`.
+
+### Askeri harekât ve savaş efektleri (Dünya Haritası)
+- Ülke kartındaki **Harekât** düğmesi planlama penceresini açar. Pencerede asker, tank, obüs ve İHA kaydırıcıları, saldırı gücü, tahmini direnç, mesafe, **varış süresi** (saat bilgisiyle) ve kazanma şansı görünür.
+- Birlikler haritada başkentten hedefe kavisli, hareketli bir okla ilerler. Üzerinde tank simgesi ve kalan süre yazar.
+- Varışta 45 saniyelik çatışma başlar: patlamalar, duman, iz mermileri ve kırmızı dalga efekti. Sonunda haritada "ZAFER" ya da "PÜSKÜRTÜLDÜ" etiketi çıkar.
+- Kazanılırsa ülke devlete geçer, sağ kalan birlikler geri döner. Başka devletin ülkesine yapılan harekâtta savunan devletin garnizonu da savaşır ve kayıp verir.
+- Bütün devletlerin harekâtları herkesin haritasında canlı görünür (`operation:update` olayı). Sol üstteki çip sıradaki harekâtı yakınlaştırarak gösterir. Yoldaki birlikler geri çağrılabilir.
+- **Savaş efekti şeridi** (`src/components/BattleFX.js`): Silahlı Kuvvetler ekranındaki harekât kartlarında yoldaki birlikler için ilerleyen konvoy, çatışmadaki birlikler için namlu alevi, iz mermisi, patlama, duman ve sarsıntı efekti gösterilir. Aynı efekt Harekâtlar ekranında savaşı başlamış harekâtlarda da çıkar.
+
+### Sekreter Elif ile başlangıç rehberi
+- İlk girişte özgün çizimli sekreter karakteri karşılar. Konuşurken ağzı oynar, göz kırpar, yazı harf harf belirir.
+- 7 adım var: vatan seç → ilk maaş → devlete katıl → orduyu tanı → fabrika kur → asker bas → ilk harekât.
+- Adımlar oyuncu gerçekten yaptıkça kendiliğinden tamamlanır. Panelde ilerleme çubuğu ve adım kutucukları görünür, hedef menü düğmesi parlar.
+- Bitince ₺25.000 ve 100 XP ödül verilir. Rehber küçültülebilir ya da atlanabilir.
+- Dosya: `src/components/Tutorial.js`
+
+---
+
+## Önceki sürüm: Dünya Haritası + mobil düzeltmeler
 
 ## Yeni: Dünya Haritası (Keşfet → Dünya Haritası)
 

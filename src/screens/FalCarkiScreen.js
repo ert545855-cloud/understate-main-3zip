@@ -2,7 +2,7 @@
 // SALTANAT ONLINE — Fal Çarkı (Günde 1 Kez)
 // ═══════════════════════════════════════════════════════════════
 window.FalCarkiScreen = function FalCarkiScreen({ profile, onNavigate, showNotif }) {
-  const G='#C89B3C', BG='#0F0800', T='#F5EBD7', M='#A9A6A0', S='#2D1800', GR='#3E8C5A';
+  const G='#3CC8F0', BG='#0A0F17', T='#E6EDF5', M='#93A4B8', S='#152032', GR='#3E8C5A';
   const jwt = () => localStorage.getItem('us_jwt') || '';
 
   const [status,   setStatus]   = React.useState(null);
@@ -64,20 +64,20 @@ window.FalCarkiScreen = function FalCarkiScreen({ profile, onNavigate, showNotif
     return `${h}sa ${m}dk ${s}sn`;
   };
 
-  const COLORS = ['#C89B3C','#B8423C','#3E8C5A','#A78BFA','#60A5FA','#F97316','#C89B3C','#B8423C','#3E8C5A','#A9A6A0'];
+  const COLORS = ['#3CC8F0','#B8423C','#3E8C5A','#A78BFA','#60A5FA','#F97316','#3CC8F0','#B8423C','#3E8C5A','#93A4B8'];
   const dilimler = status?.dilimler || [];
   const sliceAngle = dilimler.length > 0 ? 360 / dilimler.length : 36;
 
   return React.createElement('div', { style:{ minHeight:'100vh', background:BG, fontFamily:"'Inter',sans-serif", paddingBottom:80 }},
 
     // Header
-    React.createElement('div', { style:{ background:'linear-gradient(135deg,#1a0800,#2d1600)', borderBottom:'1px solid rgba(200,155,60,0.2)', padding:'14px 16px' }},
+    React.createElement('div', { style:{ background:'linear-gradient(135deg,#0A0F17,#0F1724)', borderBottom:'1px solid rgba(60,200,240,0.2)', padding:'14px 16px' }},
       React.createElement('div', { style:{ display:'flex', alignItems:'center', gap:10 }},
         onNavigate && React.createElement('button', { onClick:()=>onNavigate('home'),
           style:{ background:'rgba(255,255,255,0.06)', border:'1px solid rgba(255,255,255,0.1)', borderRadius:10, padding:'6px 10px', color:M, fontSize:'0.75rem', cursor:'pointer' }}, '← Geri'),
         React.createElement('span', { style:{ fontSize:'1.5rem' }}, '🎡'),
         React.createElement('div', null,
-          React.createElement('div', { style:{ fontFamily:"'Cinzel',serif", fontWeight:900, fontSize:'1.1rem', color:G }}, 'Fal Çarkı'),
+          React.createElement('div', { style:{ fontFamily:"'Rajdhani',sans-serif", fontWeight:900, fontSize:'1.1rem', color:G }}, 'Fal Çarkı'),
           React.createElement('div', { style:{ fontSize:'0.62rem', color:M }}, 'Her 20 saatte bir bedava çevirme')
         )
       )
@@ -93,7 +93,7 @@ window.FalCarkiScreen = function FalCarkiScreen({ profile, onNavigate, showNotif
           width:0, height:0,
           borderLeft:'12px solid transparent', borderRight:'12px solid transparent',
           borderTop:`24px solid ${G}`,
-          filter:'drop-shadow(0 2px 4px rgba(200,155,60,0.5))',
+          filter:'drop-shadow(0 2px 4px rgba(60,200,240,0.5))',
           zIndex:10
         }}),
 
@@ -102,7 +102,7 @@ window.FalCarkiScreen = function FalCarkiScreen({ profile, onNavigate, showNotif
           width:280, height:280,
           borderRadius:'50%',
           border:`6px solid ${G}`,
-          boxShadow:`0 0 40px rgba(200,155,60,0.3), 0 0 0 2px rgba(200,155,60,0.1)`,
+          boxShadow:`0 0 40px rgba(60,200,240,0.3), 0 0 0 2px rgba(60,200,240,0.1)`,
           overflow:'hidden',
           position:'relative',
           transition: spinning ? 'transform 3.2s cubic-bezier(0.17,0.67,0.12,0.99)' : 'none',
@@ -136,22 +136,22 @@ window.FalCarkiScreen = function FalCarkiScreen({ profile, onNavigate, showNotif
         React.createElement('div', { style:{
           position:'absolute', top:'50%', left:'50%', transform:'translate(-50%,-50%)',
           width:48, height:48, borderRadius:'50%',
-          background:`radial-gradient(circle,${G},#A07828)`,
-          border:`4px solid #0F0800`,
-          boxShadow:`0 0 16px rgba(200,155,60,0.6)`,
+          background:`radial-gradient(circle,${G},#1E8FB8)`,
+          border:`4px solid #0A0F17`,
+          boxShadow:`0 0 16px rgba(60,200,240,0.6)`,
           zIndex:5, display:'flex', alignItems:'center', justifyContent:'center',
           fontSize:'1.2rem'
-        }}, '⚜️')
+        }}, '🏛️')
       ),
 
       // Çevir butonu
       status?.canSpin
         ? React.createElement('button', { onClick:spin, disabled:spinning,
             style:{ padding:'14px 48px', borderRadius:14, border:'none', fontSize:'1rem', fontWeight:800,
-              fontFamily:"'Cinzel',serif", cursor:spinning?'not-allowed':'pointer',
-              background: spinning ? M+'44' : `linear-gradient(135deg,${G},#A07828)`,
-              color: spinning ? M : '#0F0800',
-              boxShadow: spinning ? 'none' : '0 6px 24px rgba(200,155,60,0.45)',
+              fontFamily:"'Rajdhani',sans-serif", cursor:spinning?'not-allowed':'pointer',
+              background: spinning ? M+'44' : `linear-gradient(135deg,${G},#1E8FB8)`,
+              color: spinning ? M : '#0A0F17',
+              boxShadow: spinning ? 'none' : '0 6px 24px rgba(60,200,240,0.45)',
               transition:'all 0.2s' }},
             spinning ? '🌀 Çark Dönüyor…' : '🎡 ÇEVİR!')
         : React.createElement('div', { style:{ textAlign:'center' }},
@@ -163,14 +163,14 @@ window.FalCarkiScreen = function FalCarkiScreen({ profile, onNavigate, showNotif
       // Sonuç kutusu
       result && React.createElement('div', { style:{
         marginTop:20, padding:'16px 24px', borderRadius:16,
-        background: result.type==='empty' ? 'rgba(255,255,255,0.04)' : `rgba(200,155,60,0.1)`,
+        background: result.type==='empty' ? 'rgba(255,255,255,0.04)' : `rgba(60,200,240,0.1)`,
         border: `1px solid ${result.type==='empty' ? 'rgba(255,255,255,0.1)' : G+'44'}`,
         textAlign:'center',
-        boxShadow: result.type!=='empty' ? '0 4px 20px rgba(200,155,60,0.2)' : 'none',
+        boxShadow: result.type!=='empty' ? '0 4px 20px rgba(60,200,240,0.2)' : 'none',
         animation:'slideUp 0.4s ease'
       }},
         React.createElement('div', { style:{ fontSize:'2.5rem', marginBottom:6 }}, result.emoji),
-        React.createElement('div', { style:{ fontFamily:"'Cinzel',serif", fontSize:'1rem', fontWeight:800, color: result.type==='empty'?M:G }},
+        React.createElement('div', { style:{ fontFamily:"'Rajdhani',sans-serif", fontSize:'1rem', fontWeight:800, color: result.type==='empty'?M:G }},
           result.label),
         result.type !== 'empty' && React.createElement('div', { style:{ fontSize:'0.72rem', color:M, marginTop:4 }}, 'Hesabınıza eklendi!')
       ),

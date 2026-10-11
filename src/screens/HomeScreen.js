@@ -142,11 +142,11 @@ function HomePage({ profile, onNavigate }) {
   const taskList = ALL_TASKS.filter(t => playerLevel >= t.minLv && playerLevel <= t.maxLv).slice(0, 4);
 
   const dynamicActivity = [
-    { text:`${profile?.username||'Sen'} oyuna giriş yaptı`, color:'#C9A227', time:'Az önce' },
-    { text:'Şehirde yeni bir bina inşa edildi', color:'#C9A227', time:'5dk' },
+    { text:`${profile?.username||'Sen'} oyuna giriş yaptı`, color:'#3CC8F0', time:'Az önce' },
+    { text:'Şehirde yeni bir bina inşa edildi', color:'#3CC8F0', time:'5dk' },
     { text:'Çete savaşı başladı', color:'#C24B43', time:'12dk' },
     { text:`Lv.${playerLevel} — ${lvl.title}`, color:'#4C9A6B', time:'1sa' },
-    { text:'Borsa: TECH +2.4%', color:'#C9A227', time:'2sa' },
+    { text:'Borsa: TECH +2.4%', color:'#3CC8F0', time:'2sa' },
   ];
   const recentActivity = (Array.isArray(activity) && activity.length > 0 ? activity : dynamicActivity).slice(0, 5);
 
@@ -155,7 +155,7 @@ function HomePage({ profile, onNavigate }) {
     {id:'ann2',title:'Ekonomi Uyarısı',body:'Merkez Bankası faiz kararı açıkladı.',category:'Ekonomi',icon:'💰',ts:Date.now()-7200000},
   ];
   const annList = [...announcements, ...defaultAnn].slice(0,5);
-  const catColor = {Siyaset:'#C24B43',Ekonomi:'#C9A227',Hukuk:'#C9A227',Etkinlik:'#4C9A6B',Sistem:'#C9A227'};
+  const catColor = {Siyaset:'#C24B43',Ekonomi:'#3CC8F0',Hukuk:'#3CC8F0',Etkinlik:'#4C9A6B',Sistem:'#3CC8F0'};
 
   const allAchievements = 16;
   const earnedAch = (() => {
@@ -189,7 +189,7 @@ function HomePage({ profile, onNavigate }) {
   const unreadCount = notifCount > 0 ? notifCount : (unreadDMs + (news?.length||0));
 
   return (
-    <div style={{padding:'0 0.75rem 1rem',background:'#0F0800',minHeight:'100%'}}>
+    <div style={{padding:'0 0.75rem 1rem',background:'#0A0F17',minHeight:'100%'}}>
       {/* ── Welcome card (stays dark) ── */}
       <div style={{borderRadius:'12px',marginBottom:'0.75rem',boxShadow:'0 6px 24px rgba(0,0,0,0.18)',marginTop:'0.75rem',overflow:'hidden'}}>
         {/* Banner */}
@@ -208,12 +208,12 @@ function HomePage({ profile, onNavigate }) {
             </div>
           </div>
         )}
-        <div style={{background:'#1B212B',padding:'1.2rem',paddingTop: profile?.bannerUrl ? '1.5rem' : '1.2rem'}}>
+        <div style={{background:'#152032',padding:'1.2rem',paddingTop: profile?.bannerUrl ? '1.5rem' : '1.2rem'}}>
           <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'0.75rem'}}>
             <div>
               <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.2rem',fontWeight:600}}>{T('playerProfile')}</div>
               <div style={{display:'flex',alignItems:'center',gap:6}}>
-                <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.35rem',fontWeight:900,color:'#EDE7DA'}}>{profile?.username||'Oyuncu'}</div>
+                <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:'1.35rem',fontWeight:900,color:'#E6EDF5'}}>{profile?.username||'Oyuncu'}</div>
                 {/* Padişah rozeti — localStorage'da padisah_beylik_id varsa ve kullanıcının beyliği eşleşiyorsa */}
                 {(()=>{
                   try {
@@ -222,7 +222,7 @@ function HomePage({ profile, onNavigate }) {
                     if(!pad?.padisahBeylikId) return null;
                     const benimBeylik=beyliks.find(b=>b.kurucuId===profile?.id||(b.uyeler||[]).includes(profile?.id));
                     if(!benimBeylik||String(benimBeylik.id)!==String(pad.padisahBeylikId)) return null;
-                    return React.createElement('img',{src:'/assets/badges/padisah-badge.svg',alt:'Padişah',title:'Padişah Beyliği',width:28,height:28,style:{filter:'drop-shadow(0 0 6px rgba(200,155,60,0.85))'}});
+                    return React.createElement('img',{src:'/assets/badges/padisah-badge.svg',alt:'Cumhurbaşkanı',title:'Cumhurbaşkanı Devleti',width:28,height:28,style:{filter:'drop-shadow(0 0 6px rgba(60,200,240,0.85))'}});
                   } catch{return null;}
                 })()}
               </div>
@@ -235,9 +235,9 @@ function HomePage({ profile, onNavigate }) {
                   <div style={{fontSize:'0.58rem',color:'rgba(255,255,255,0.45)',fontWeight:600}}>{T('viewProfile')}</div>
                 </div>
               )}
-              <button onClick={()=>onNavigate('oyun_ayarlari')} title="Oyun Ayarları" style={{background:'rgba(200,155,60,0.1)',border:'1px solid rgba(200,155,60,0.25)',borderRadius:'10px',padding:'8px 10px',color:'#C9A227',fontSize:'1.1rem',cursor:'pointer',lineHeight:1,display:'flex',flexDirection:'column',alignItems:'center',gap:'2px'}}>
+              <button onClick={()=>onNavigate('oyun_ayarlari')} title="Oyun Ayarları" style={{background:'rgba(60,200,240,0.1)',border:'1px solid rgba(60,200,240,0.25)',borderRadius:'10px',padding:'8px 10px',color:'#3CC8F0',fontSize:'1.1rem',cursor:'pointer',lineHeight:1,display:'flex',flexDirection:'column',alignItems:'center',gap:'2px'}}>
                 ⚙️
-                <span style={{fontSize:'0.45rem',color:'rgba(200,155,60,0.6)',fontWeight:700,letterSpacing:'0.05em'}}>AYARLAR</span>
+                <span style={{fontSize:'0.45rem',color:'rgba(60,200,240,0.6)',fontWeight:700,letterSpacing:'0.05em'}}>AYARLAR</span>
               </button>
             </div>
           </div>
@@ -245,20 +245,20 @@ function HomePage({ profile, onNavigate }) {
           <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.6rem',color:'#8893A1',marginBottom:'4px'}}>
             <span>{lvl.xp?.toLocaleString()} XP</span><span>→ {lvl.next?.xp?.toLocaleString()} XP</span>
           </div>
-          <div style={{height:'4px',background:'rgba(237,231,218,0.07)',borderRadius:'2px',overflow:'hidden'}}>
-            <div style={{height:'100%',width:`${lvl.pct}%`,background:'linear-gradient(90deg,#C9A227,#E5C14B)',borderRadius:'2px',transition:'width 0.5s'}}/>
+          <div style={{height:'4px',background:'rgba(230,237,245,0.07)',borderRadius:'2px',overflow:'hidden'}}>
+            <div style={{height:'100%',width:`${lvl.pct}%`,background:'linear-gradient(90deg,#3CC8F0,#E5C14B)',borderRadius:'2px',transition:'width 0.5s'}}/>
           </div>
         </div>
         <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'0.5rem'}}>
           {[
             {label:T('levelLabel'),value:lvl.lvl,icon:'⭐'},
             {label:T('prestigeLabel'),value:fmtShort(profile?.meritPoints||0),icon:'🏅'},
-            {label:T('moneyLabel'),value:'🪙'+fmtShort(money),icon:'💰'},
+            {label:T('moneyLabel'),value:'₺'+fmtShort(money),icon:'💰'},
           ].map(({label,value,icon})=>(
-            <div key={label} style={{textAlign:'center',background:'rgba(237,231,218,0.05)',borderRadius:'10px',padding:'0.5rem 0.2rem'}}>
+            <div key={label} style={{textAlign:'center',background:'rgba(230,237,245,0.05)',borderRadius:'10px',padding:'0.5rem 0.2rem'}}>
               <div style={{fontSize:'0.75rem',marginBottom:'0.1rem'}}>{icon}</div>
               <div style={{fontSize:'0.52rem',color:'#8893A1',textTransform:'uppercase',letterSpacing:'0.07em',fontWeight:700,marginBottom:'0.1rem'}}>{label}</div>
-              <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'1rem',fontWeight:900,color:'#EDE7DA'}}>{value}</div>
+              <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'1rem',fontWeight:900,color:'#E6EDF5'}}>{value}</div>
             </div>
           ))}
         </div>
@@ -266,37 +266,37 @@ function HomePage({ profile, onNavigate }) {
       </div>
 
       {/* ── Sadakat Puanı Banner ── */}
-      <div onClick={()=>onNavigate('sadakat')} style={{background:'linear-gradient(135deg,rgba(200,155,60,0.14),rgba(45,24,0,0.9))',border:'1px solid rgba(200,155,60,0.28)',borderRadius:'10px',padding:'0.75rem 1rem',marginBottom:'0.55rem',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'space-between',WebkitTapHighlightColor:'transparent'}}>
+      <div onClick={()=>onNavigate('sadakat')} style={{background:'linear-gradient(135deg,rgba(60,200,240,0.14),rgba(21,32,50,0.9))',border:'1px solid rgba(60,200,240,0.28)',borderRadius:'10px',padding:'0.75rem 1rem',marginBottom:'0.55rem',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'space-between',WebkitTapHighlightColor:'transparent'}}>
         <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
           <span style={{fontSize:'1.2rem'}}>💎</span>
           <div>
             <div style={{fontSize:'0.6rem',color:'#8893A1',textTransform:'uppercase',letterSpacing:'0.08em',fontWeight:700}}>Sadakat Puanı</div>
-            <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'1.15rem',fontWeight:900,color:'#C89B3C'}}>{(profile?.loyaltyPoints||0).toLocaleString('tr-TR')}</div>
+            <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:'1.15rem',fontWeight:900,color:'#3CC8F0'}}>{(profile?.loyaltyPoints||0).toLocaleString('tr-TR')}</div>
           </div>
         </div>
         <div style={{textAlign:'right'}}>
-          <div style={{fontSize:'0.6rem',color:'#8893A1',marginBottom:3}}>Beylik kurmak için 150.000</div>
-          <div style={{background:'rgba(200,155,60,0.15)',border:'1px solid rgba(200,155,60,0.3)',borderRadius:8,padding:'4px 10px',fontSize:'0.65rem',color:'#C89B3C',fontWeight:700}}>Görevler →</div>
+          <div style={{fontSize:'0.6rem',color:'#8893A1',marginBottom:3}}>Devlet kurmak için 150.000</div>
+          <div style={{background:'rgba(60,200,240,0.15)',border:'1px solid rgba(60,200,240,0.3)',borderRadius:8,padding:'4px 10px',fontSize:'0.65rem',color:'#3CC8F0',fontWeight:700}}>Görevler →</div>
         </div>
       </div>
 
       {/* ── 2-column stat cards ── */}
       <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.55rem',marginBottom:'0.75rem'}}>
         {[
-          {icon:'🔔',label:T('notifications'),value:unreadCount||0,sub:unreadCount>0?`${unreadCount} ${T('unread')}`:T('allClaimed'),color:'#C9A227',page:'chat'},
-          {icon:'🏆',label:T('achievements'),value:`${earnedAch}/${allAchievements}`,sub:`%${Math.round(earnedAch/(allAchievements||1)*100)} tamamlandı`,color:'#C9A227',page:'achievements'},
+          {icon:'🔔',label:T('notifications'),value:unreadCount||0,sub:unreadCount>0?`${unreadCount} ${T('unread')}`:T('allClaimed'),color:'#3CC8F0',page:'chat'},
+          {icon:'🏆',label:T('achievements'),value:`${earnedAch}/${allAchievements}`,sub:`%${Math.round(earnedAch/(allAchievements||1)*100)} tamamlandı`,color:'#3CC8F0',page:'achievements'},
           {icon:'📈',label:T('economy'),value:portfolioChange,sub:T('portfolio'),color:'#4C9A6B',positive:true,page:'economy'},
-          {icon:'⚡',label:T('players'),value:onlineCnt||0,sub:T('online'),color:'#C9A227',page:'players'},
+          {icon:'⚡',label:T('players'),value:onlineCnt||0,sub:T('online'),color:'#3CC8F0',page:'players'},
         ].map((item)=>(
           <div key={item.label} onClick={()=>onNavigate(item.page)}
-            style={{background:'#1B212B',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'0.9rem 0.85rem',cursor:'pointer',transition:'all 0.15s',WebkitTapHighlightColor:'transparent'}}>
+            style={{background:'#152032',border:'1px solid rgba(230,237,245,0.08)',borderRadius:'10px',padding:'0.9rem 0.85rem',cursor:'pointer',transition:'all 0.15s',WebkitTapHighlightColor:'transparent'}}>
             <div style={{display:'flex',alignItems:'center',gap:'0.35rem',marginBottom:'0.35rem'}}>
               <span style={{fontSize:'1rem'}}>{item.icon}</span>
               <span style={{fontSize:'0.65rem',fontWeight:700,color:'#8893A1',textTransform:'uppercase',letterSpacing:'0.05em'}}>{item.label}</span>
             </div>
             {(() => { const LV = window.LedgerValue; return LV
-              ? React.createElement(LV, {value:item.value, prefix:false, color:item.positive?'#4C9A6B':'#EDE7DA', style:{alignItems:'flex-start',background:'none',border:'none',padding:'0',marginBottom:'0.2rem'}})
-              : React.createElement('div',{style:{fontFamily:"'JetBrains Mono',monospace",fontSize:'1.3rem',fontWeight:900,color:item.positive?'#4C9A6B':'#EDE7DA',lineHeight:1,marginBottom:'0.2rem'}},item.value);
+              ? React.createElement(LV, {value:item.value, prefix:false, color:item.positive?'#4C9A6B':'#E6EDF5', style:{alignItems:'flex-start',background:'none',border:'none',padding:'0',marginBottom:'0.2rem'}})
+              : React.createElement('div',{style:{fontFamily:"'JetBrains Mono',monospace",fontSize:'1.3rem',fontWeight:900,color:item.positive?'#4C9A6B':'#E6EDF5',lineHeight:1,marginBottom:'0.2rem'}},item.value);
             })()}
             <div style={{fontSize:'0.63rem',color:'#8893A1'}}>{item.sub}</div>
           </div>
@@ -312,19 +312,19 @@ function HomePage({ profile, onNavigate }) {
         const todayReward = REWARDS[Math.min(streak, REWARDS.length-1)];
         const nextReward = REWARDS[Math.min(streak+1, REWARDS.length-1)];
         return (
-          <div style={{background:'#1B212B',borderRadius:'10px',padding:'1rem',marginBottom:'0.75rem',boxShadow:'0 4px 16px rgba(0,0,0,0.15)'}}>
+          <div style={{background:'#152032',borderRadius:'10px',padding:'1rem',marginBottom:'0.75rem',boxShadow:'0 4px 16px rgba(0,0,0,0.15)'}}>
             <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'0.65rem'}}>
               <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
                 <span style={{fontSize:'1.4rem'}}>🔥</span>
                 <div>
-                  <div style={{fontFamily:"'Cinzel',serif",fontSize:'0.95rem',fontWeight:800,color:'#EDE7DA'}}>{streak} Günlük Seri</div>
+                  <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:'0.95rem',fontWeight:800,color:'#E6EDF5'}}>{streak} Günlük Seri</div>
                   <div style={{fontSize:'0.62rem',color:'rgba(255,255,255,0.45)'}}>En uzun: {streakData?.longest_streak || 0} gün</div>
                 </div>
               </div>
               {!claimed ? (
                 <button onClick={claimStreakAPI} disabled={streakClaiming}
-                  style={{background:'linear-gradient(135deg,#C9A227,#A07D1C)',border:'none',borderRadius:'10px',padding:'0.5rem 1rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontWeight:800,fontSize:'0.78rem',cursor:'pointer'}}>
-                  {streakClaiming ? '⏳' : `🎁 +🪙${todayReward.toLocaleString('tr-TR')}`}
+                  style={{background:'linear-gradient(135deg,#3CC8F0,#1E8FB8)',border:'none',borderRadius:'10px',padding:'0.5rem 1rem',color:'#E6EDF5',fontFamily:"'Inter',sans-serif",fontWeight:800,fontSize:'0.78rem',cursor:'pointer'}}>
+                  {streakClaiming ? '⏳' : `🎁 +₺${todayReward.toLocaleString('tr-TR')}`}
                 </button>
               ) : (
                 <div style={{fontSize:'0.72rem',color:'#4C9A6B',fontWeight:700}}>✅ {T('claimedToday')}</div>
@@ -335,19 +335,19 @@ function HomePage({ profile, onNavigate }) {
                 const active = d <= streak;
                 const isToday = d === streak+1 && !claimed;
                 return (
-                  <div key={d} style={{flex:1,height:'6px',borderRadius:'100px',background:active?'#C9A227':isToday?'rgba(201,162,39,0.3)':'rgba(255,255,255,0.08)',transition:'all 0.3s'}} />
+                  <div key={d} style={{flex:1,height:'6px',borderRadius:'100px',background:active?'#3CC8F0':isToday?'rgba(60,200,240,0.3)':'rgba(255,255,255,0.08)',transition:'all 0.3s'}} />
                 );
               })}
             </div>
-            {!claimed && <div style={{fontSize:'0.62rem',color:'#8893A1',marginTop:'0.4rem'}}>Yarın: +🪙{nextReward.toLocaleString('tr-TR')} • Zinciri kırma!</div>}
+            {!claimed && <div style={{fontSize:'0.62rem',color:'#8893A1',marginTop:'0.4rem'}}>Yarın: +₺{nextReward.toLocaleString('tr-TR')} • Zinciri kırma!</div>}
           </div>
         );
       })()}
 
       {/* ── Daily Tasks ── */}
-      <div style={{background:'#1B212B',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'1rem',marginBottom:'0.75rem',boxShadow:'none'}}>
+      <div style={{background:'#152032',border:'1px solid rgba(230,237,245,0.08)',borderRadius:'10px',padding:'1rem',marginBottom:'0.75rem',boxShadow:'none'}}>
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.8rem'}}>
-          <div style={{fontFamily:"'Cinzel',serif",fontSize:'1rem',fontWeight:800,color:'#EDE7DA'}}>{T('dailyTasks')}</div>
+          <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:'1rem',fontWeight:800,color:'#E6EDF5'}}>{T('dailyTasks')}</div>
           <span style={{fontSize:'0.65rem',color:'#8893A1',fontWeight:600}}>{todayKey}</span>
         </div>
         {taskList.map((task,i)=>{
@@ -360,40 +360,40 @@ function HomePage({ profile, onNavigate }) {
               <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.25rem'}}>
                 <div style={{display:'flex',alignItems:'center',gap:'0.4rem'}}>
                   <span style={{fontSize:'0.95rem'}}>{task.icon}</span>
-                  <span style={{fontSize:'0.82rem',fontWeight:600,color:claimed?'#8893A1':'#EDE7DA',textDecoration:claimed?'line-through':'none'}}>{task.name}</span>
+                  <span style={{fontSize:'0.82rem',fontWeight:600,color:claimed?'#8893A1':'#E6EDF5',textDecoration:claimed?'line-through':'none'}}>{task.name}</span>
                 </div>
                 {claimed ? (
                   <span style={{fontSize:'0.65rem',color:'#4C9A6B',fontWeight:800}}>✅ Alındı</span>
                 ) : done ? (
-                  <button onClick={(e)=>claimTask(task,e)} style={{fontSize:'0.65rem',fontWeight:800,color:'#EDE7DA',background:'#4C9A6B',border:'none',borderRadius:'8px',padding:'0.2rem 0.55rem',cursor:'pointer'}}>🎁 Al</button>
+                  <button onClick={(e)=>claimTask(task,e)} style={{fontSize:'0.65rem',fontWeight:800,color:'#E6EDF5',background:'#4C9A6B',border:'none',borderRadius:'8px',padding:'0.2rem 0.55rem',cursor:'pointer'}}>🎁 Al</button>
                 ) : (
-                  <button onClick={(e)=>{e.stopPropagation();onNavigate(task.page);}} style={{fontSize:'0.65rem',fontWeight:700,color:'#C9A227',background:'none',border:'none',cursor:'pointer'}}>→ Git</button>
+                  <button onClick={(e)=>{e.stopPropagation();onNavigate(task.page);}} style={{fontSize:'0.65rem',fontWeight:700,color:'#3CC8F0',background:'none',border:'none',cursor:'pointer'}}>→ Git</button>
                 )}
               </div>
               <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
-                <div style={{flex:1,height:'5px',background:'rgba(237,231,218,0.1)',borderRadius:'100px',overflow:'hidden'}}>
-                  <div style={{height:'100%',width:`${pct}%`,background:claimed?'#4C9A6B':'linear-gradient(90deg,#C9A227,#C9A227)',borderRadius:'100px',transition:'width 0.5s'}} />
+                <div style={{flex:1,height:'5px',background:'rgba(230,237,245,0.1)',borderRadius:'100px',overflow:'hidden'}}>
+                  <div style={{height:'100%',width:`${pct}%`,background:claimed?'#4C9A6B':'linear-gradient(90deg,#3CC8F0,#3CC8F0)',borderRadius:'100px',transition:'width 0.5s'}} />
                 </div>
                 <span style={{fontSize:'0.6rem',color:'#8893A1',fontWeight:600,flexShrink:0}}>{prog}/{task.target}</span>
               </div>
-              <div style={{fontSize:'0.6rem',color:'#8893A1',marginTop:'0.15rem'}}>🎁 +🪙{task.reward.toLocaleString('tr-TR')} • +{task.xpReward} XP</div>
+              <div style={{fontSize:'0.6rem',color:'#8893A1',marginTop:'0.15rem'}}>🎁 +₺{task.reward.toLocaleString('tr-TR')} • +{task.xpReward} XP</div>
             </div>
           );
         })}
       </div>
 
       {/* ── Announcements (açılır pencereli) ── */}
-      <div style={{background:'#1B212B',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'1rem',marginBottom:'0.75rem',boxShadow:'none'}}>
+      <div style={{background:'#152032',border:'1px solid rgba(230,237,245,0.08)',borderRadius:'10px',padding:'1rem',marginBottom:'0.75rem',boxShadow:'none'}}>
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.7rem'}}>
-          <div style={{fontFamily:"'Cinzel',serif",fontSize:'1rem',fontWeight:800,color:'#EDE7DA'}}>{T('announcements2')}</div>
-          <button onClick={()=>onNavigate('duyurular')} style={{fontSize:'0.68rem',color:'#C9A227',fontWeight:700,background:'none',border:'none',cursor:'pointer'}}>Tümü →</button>
+          <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:'1rem',fontWeight:800,color:'#E6EDF5'}}>{T('announcements2')}</div>
+          <button onClick={()=>onNavigate('duyurular')} style={{fontSize:'0.68rem',color:'#3CC8F0',fontWeight:700,background:'none',border:'none',cursor:'pointer'}}>Tümü →</button>
         </div>
         {annList.slice(0,3).map(a=>(
           <button key={a.id||a.ts} onClick={()=>setAnnModal(a)}
             style={{width:'100%',display:'flex',alignItems:'center',gap:'0.6rem',padding:'0.5rem 0',borderBottom:'1px solid rgba(0,0,0,0.05)',background:'none',border:'none',cursor:'pointer',textAlign:'left'}}>
             <span style={{fontSize:'1.2rem',flexShrink:0}}>{a.icon||'📣'}</span>
             <div style={{flex:1,overflow:'hidden'}}>
-              <div style={{fontSize:'0.82rem',fontWeight:700,color:'#EDE7DA',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{a.title}</div>
+              <div style={{fontSize:'0.82rem',fontWeight:700,color:'#E6EDF5',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{a.title}</div>
               <div style={{fontSize:'0.68rem',color:catColor[a.category]||'#8893A1',fontWeight:600}}>{a.category} • {timeAgo(a.ts)}</div>
             </div>
             <span style={{fontSize:'0.7rem',color:'#8893A1',flexShrink:0}}>›</span>
@@ -402,11 +402,11 @@ function HomePage({ profile, onNavigate }) {
       </div>
 
       {/* ── Recent Activity ── */}
-      <div style={{background:'#1B212B',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'1rem',boxShadow:'none',marginBottom:'0.75rem'}}>
-        <div style={{fontFamily:"'Cinzel',serif",fontSize:'1rem',fontWeight:800,color:'#EDE7DA',marginBottom:'0.7rem'}}>Son Aktiviteler</div>
+      <div style={{background:'#152032',border:'1px solid rgba(230,237,245,0.08)',borderRadius:'10px',padding:'1rem',boxShadow:'none',marginBottom:'0.75rem'}}>
+        <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:'1rem',fontWeight:800,color:'#E6EDF5',marginBottom:'0.7rem'}}>Son Aktiviteler</div>
         {recentActivity.map((item,i,arr)=>(
           <div key={i} style={{display:'flex',alignItems:'center',gap:'0.6rem',padding:'0.55rem 0',borderBottom:i<arr.length-1?'1px solid rgba(0,0,0,0.05)':'none'}}>
-            <div style={{width:'8px',height:'8px',borderRadius:'50%',background:item.color||'#C9A227',flexShrink:0}} />
+            <div style={{width:'8px',height:'8px',borderRadius:'50%',background:item.color||'#3CC8F0',flexShrink:0}} />
             <span style={{flex:1,fontSize:'0.82rem',color:'#8893A1',fontWeight:500}}>{item.text||item.desc||item.content||'Aktivite'}</span>
             <span style={{fontSize:'0.67rem',color:'#8893A1'}}>{item.time||timeAgo(item.ts)}</span>
           </div>
@@ -415,21 +415,21 @@ function HomePage({ profile, onNavigate }) {
 
       {/* ── YENİ: Günlük Aktiviteler Kısayolu ── */}
       <div style={{marginBottom:'0.75rem'}}>
-        <div style={{fontFamily:"'Cinzel',serif",fontSize:'0.72rem',fontWeight:700,color:'#C9A227',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.45rem',display:'flex',alignItems:'center',gap:6}}>
+        <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:'0.72rem',fontWeight:700,color:'#3CC8F0',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.45rem',display:'flex',alignItems:'center',gap:6}}>
           <span>⚡</span> Günlük Aktiviteler
-          <div style={{flex:1,height:1,background:'linear-gradient(90deg,rgba(200,155,60,0.3),transparent)',marginLeft:4}} />
+          <div style={{flex:1,height:1,background:'linear-gradient(90deg,rgba(60,200,240,0.3),transparent)',marginLeft:4}} />
         </div>
         <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'0.45rem'}}>
           {[
             {icon:'🎡',label:'Fal Çarkı',page:'fal_carki',color:'#A78BFA',desc:'Günde 1 çevirme'},
-            {icon:'📋',label:'Günlük Görev',page:'gunluk_gorev',color:'#C9A227',desc:'Ödül kazan'},
+            {icon:'📋',label:'Günlük Görev',page:'gunluk_gorev',color:'#3CC8F0',desc:'Ödül kazan'},
             {icon:'⚡',label:'Hızlı Merkez',page:'hizli_merkez',color:'#60A5FA',desc:'Transfer & stat'},
           ].map((a) => (
             <button key={a.page} onClick={() => onNavigate(a.page)}
-              style={{background:'#1B212B',border:`1px solid ${a.color}22`,borderRadius:'14px',padding:'0.75rem 0.5rem',display:'flex',flexDirection:'column',alignItems:'center',gap:'0.2rem',cursor:'pointer',WebkitTapHighlightColor:'transparent',transition:'all 0.15s',position:'relative',overflow:'hidden'}}>
+              style={{background:'#152032',border:`1px solid ${a.color}22`,borderRadius:'14px',padding:'0.75rem 0.5rem',display:'flex',flexDirection:'column',alignItems:'center',gap:'0.2rem',cursor:'pointer',WebkitTapHighlightColor:'transparent',transition:'all 0.15s',position:'relative',overflow:'hidden'}}>
               <div style={{position:'absolute',top:0,left:0,right:0,height:'2px',background:a.color,opacity:0.6}} />
               <span style={{fontSize:'1.5rem',lineHeight:1}}>{a.icon}</span>
-              <span style={{fontSize:'0.68rem',fontWeight:800,color:'#EDE7DA',textAlign:'center',lineHeight:1.2}}>{a.label}</span>
+              <span style={{fontSize:'0.68rem',fontWeight:800,color:'#E6EDF5',textAlign:'center',lineHeight:1.2}}>{a.label}</span>
               <span style={{fontSize:'0.56rem',color:'#8893A1',textAlign:'center'}}>{a.desc}</span>
             </button>
           ))}
@@ -438,21 +438,21 @@ function HomePage({ profile, onNavigate }) {
 
       {/* ── YENİ: Zanaat & Kervan Sistemi ── */}
       <div style={{marginBottom:'0.75rem'}}>
-        <div style={{fontFamily:"'Cinzel',serif",fontSize:'0.72rem',fontWeight:700,color:'#C9A227',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.45rem',display:'flex',alignItems:'center',gap:6}}>
+        <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:'0.72rem',fontWeight:700,color:'#3CC8F0',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.45rem',display:'flex',alignItems:'center',gap:6}}>
           <span>🏺</span> Zanaat & Ticaret
-          <div style={{flex:1,height:1,background:'linear-gradient(90deg,rgba(200,155,60,0.3),transparent)',marginLeft:4}} />
+          <div style={{flex:1,height:1,background:'linear-gradient(90deg,rgba(60,200,240,0.3),transparent)',marginLeft:4}} />
         </div>
         <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'0.45rem'}}>
           {[
             {icon:'⚒️',label:'Zanaat',page:'zanaat',color:'#3E8C5A',desc:'Usta ol'},
-            {icon:'🛡️',label:'Kervan Koru',page:'kervan_koruma',color:'#F97316',desc:'Sikke kazan'},
-            {icon:'🤝',label:'Lonca Anlaşma',page:'lonca_anlasma',color:'#C9A227',desc:'Ticaret yap'},
+            {icon:'🛡️',label:'Konvoy Koru',page:'kervan_koruma',color:'#F97316',desc:'Para kazan'},
+            {icon:'🤝',label:'Sendika Anlaşma',page:'lonca_anlasma',color:'#3CC8F0',desc:'Ticaret yap'},
           ].map((a) => (
             <button key={a.page} onClick={() => onNavigate(a.page)}
-              style={{background:'#1B212B',border:`1px solid ${a.color}22`,borderRadius:'14px',padding:'0.75rem 0.5rem',display:'flex',flexDirection:'column',alignItems:'center',gap:'0.2rem',cursor:'pointer',WebkitTapHighlightColor:'transparent',transition:'all 0.15s',position:'relative',overflow:'hidden'}}>
+              style={{background:'#152032',border:`1px solid ${a.color}22`,borderRadius:'14px',padding:'0.75rem 0.5rem',display:'flex',flexDirection:'column',alignItems:'center',gap:'0.2rem',cursor:'pointer',WebkitTapHighlightColor:'transparent',transition:'all 0.15s',position:'relative',overflow:'hidden'}}>
               <div style={{position:'absolute',top:0,left:0,right:0,height:'2px',background:a.color,opacity:0.6}} />
               <span style={{fontSize:'1.5rem',lineHeight:1}}>{a.icon}</span>
-              <span style={{fontSize:'0.68rem',fontWeight:800,color:'#EDE7DA',textAlign:'center',lineHeight:1.2}}>{a.label}</span>
+              <span style={{fontSize:'0.68rem',fontWeight:800,color:'#E6EDF5',textAlign:'center',lineHeight:1.2}}>{a.label}</span>
               <span style={{fontSize:'0.56rem',color:'#8893A1',textAlign:'center'}}>{a.desc}</span>
             </button>
           ))}
@@ -461,9 +461,9 @@ function HomePage({ profile, onNavigate }) {
 
       {/* ── YENİ: Strateji Kısayolları ── */}
       <div style={{marginBottom:'0.75rem'}}>
-        <div style={{fontFamily:"'Cinzel',serif",fontSize:'0.72rem',fontWeight:700,color:'#C9A227',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.45rem',display:'flex',alignItems:'center',gap:6}}>
+        <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:'0.72rem',fontWeight:700,color:'#3CC8F0',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.45rem',display:'flex',alignItems:'center',gap:6}}>
           <span>⚔️</span> Strateji & Casusluk
-          <div style={{flex:1,height:1,background:'linear-gradient(90deg,rgba(200,155,60,0.3),transparent)',marginLeft:4}} />
+          <div style={{flex:1,height:1,background:'linear-gradient(90deg,rgba(60,200,240,0.3),transparent)',marginLeft:4}} />
         </div>
         <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'0.45rem'}}>
           {[
@@ -472,10 +472,10 @@ function HomePage({ profile, onNavigate }) {
             {icon:'⭐',label:'İtibar',page:'itibar',color:'#F9A825',desc:'Şöhretini artır'},
           ].map((a) => (
             <button key={a.page} onClick={() => onNavigate(a.page)}
-              style={{background:'#1B212B',border:`1px solid ${a.color}22`,borderRadius:'14px',padding:'0.75rem 0.5rem',display:'flex',flexDirection:'column',alignItems:'center',gap:'0.2rem',cursor:'pointer',WebkitTapHighlightColor:'transparent',transition:'all 0.15s',position:'relative',overflow:'hidden'}}>
+              style={{background:'#152032',border:`1px solid ${a.color}22`,borderRadius:'14px',padding:'0.75rem 0.5rem',display:'flex',flexDirection:'column',alignItems:'center',gap:'0.2rem',cursor:'pointer',WebkitTapHighlightColor:'transparent',transition:'all 0.15s',position:'relative',overflow:'hidden'}}>
               <div style={{position:'absolute',top:0,left:0,right:0,height:'2px',background:a.color,opacity:0.6}} />
               <span style={{fontSize:'1.5rem',lineHeight:1}}>{a.icon}</span>
-              <span style={{fontSize:'0.68rem',fontWeight:800,color:'#EDE7DA',textAlign:'center',lineHeight:1.2}}>{a.label}</span>
+              <span style={{fontSize:'0.68rem',fontWeight:800,color:'#E6EDF5',textAlign:'center',lineHeight:1.2}}>{a.label}</span>
               <span style={{fontSize:'0.56rem',color:'#8893A1',textAlign:'center'}}>{a.desc}</span>
             </button>
           ))}
@@ -484,26 +484,26 @@ function HomePage({ profile, onNavigate }) {
 
       {/* ── YENİ: Sosyal & Karakter ── */}
       <div style={{marginBottom:'0.75rem'}}>
-        <div style={{fontFamily:"'Cinzel',serif",fontSize:'0.72rem',fontWeight:700,color:'#C9A227',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.45rem',display:'flex',alignItems:'center',gap:6}}>
+        <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:'0.72rem',fontWeight:700,color:'#3CC8F0',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.45rem',display:'flex',alignItems:'center',gap:6}}>
           <span>👥</span> Sosyal & Karakter
-          <div style={{flex:1,height:1,background:'linear-gradient(90deg,rgba(200,155,60,0.3),transparent)',marginLeft:4}} />
+          <div style={{flex:1,height:1,background:'linear-gradient(90deg,rgba(60,200,240,0.3),transparent)',marginLeft:4}} />
         </div>
         <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'0.45rem'}}>
           {[
             {icon:'👫',label:'Arkadaşlar',page:'arkadas_listesi',color:'#A78BFA'},
-            {icon:'🎖️',label:'Unvanlar',  page:'unvan_sistemi', color:'#C9A227'},
-            {icon:'🏅',label:'Rozetler',  page:'rozet_koleksiyon',color:'#C9A227'},
+            {icon:'🎖️',label:'Unvanlar',  page:'unvan_sistemi', color:'#3CC8F0'},
+            {icon:'🏅',label:'Rozetler',  page:'rozet_koleksiyon',color:'#3CC8F0'},
             {icon:'📸',label:'Kart Paylaş',page:'profil_kart',  color:'#60A5FA'},
             {icon:'📖',label:'Maceram',   page:'macera_gunlugu',color:'#A78BFA'},
             {icon:'🔍',label:'Oyuncu Ara',page:'oyuncu_arama', color:'#60A5FA'},
             {icon:'💬',label:'Grup Chat', page:'grup_mesaj',    color:'#136,147,161'},
-            {icon:'🔔',label:'Bildirimler',page:'bildirim_gecmisi',color:'#C9A227'},
+            {icon:'🔔',label:'Bildirimler',page:'bildirim_gecmisi',color:'#3CC8F0'},
           ].map((a,i)=>(
             <button key={i} onClick={()=>onNavigate(a.page)}
-              style={{background:'#1B212B',border:`1px solid ${a.color}22`,borderRadius:'14px',padding:'0.7rem 0.3rem',display:'flex',flexDirection:'column',alignItems:'center',gap:'0.2rem',cursor:'pointer',WebkitTapHighlightColor:'transparent',transition:'all 0.15s',position:'relative',overflow:'hidden'}}>
+              style={{background:'#152032',border:`1px solid ${a.color}22`,borderRadius:'14px',padding:'0.7rem 0.3rem',display:'flex',flexDirection:'column',alignItems:'center',gap:'0.2rem',cursor:'pointer',WebkitTapHighlightColor:'transparent',transition:'all 0.15s',position:'relative',overflow:'hidden'}}>
               <div style={{position:'absolute',top:0,left:0,right:0,height:'2px',background:a.color,opacity:0.5}} />
               <span style={{fontSize:'1.3rem',lineHeight:1}}>{a.icon}</span>
-              <span style={{fontSize:'0.6rem',fontWeight:700,color:'#EDE7DA',textAlign:'center',lineHeight:1.2}}>{a.label}</span>
+              <span style={{fontSize:'0.6rem',fontWeight:700,color:'#E6EDF5',textAlign:'center',lineHeight:1.2}}>{a.label}</span>
             </button>
           ))}
         </div>
@@ -511,31 +511,31 @@ function HomePage({ profile, onNavigate }) {
 
       {/* ── YENİ: Devlet & Keşfet ── */}
       <div style={{marginBottom:'0.75rem'}}>
-        <div style={{fontFamily:"'Cinzel',serif",fontSize:'0.72rem',fontWeight:700,color:'#C9A227',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.45rem',display:'flex',alignItems:'center',gap:6}}>
+        <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:'0.72rem',fontWeight:700,color:'#3CC8F0',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.45rem',display:'flex',alignItems:'center',gap:6}}>
           <span>🏛️</span> Devlet & Keşfet
-          <div style={{flex:1,height:1,background:'linear-gradient(90deg,rgba(200,155,60,0.3),transparent)',marginLeft:4}} />
+          <div style={{flex:1,height:1,background:'linear-gradient(90deg,rgba(60,200,240,0.3),transparent)',marginLeft:4}} />
         </div>
         <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'0.45rem'}}>
           {[
-            {icon:'📜',label:'Ferman',     page:'ferman',          color:'#C9A227'},
+            {icon:'📜',label:'Kararname',     page:'ferman',          color:'#3CC8F0'},
             {icon:'🌳',label:'Yetenekler', page:'yetenek_agaci',   color:'#3E8C5A'},
-            {icon:'📅',label:'Etkinlikler',page:'etkinlik_takvimi',color:'#C9A227'},
-            {icon:'🕌',label:'Osmanlı Günü',page:'osmanli_gunu',   color:'#C9A227'},
+            {icon:'📅',label:'Etkinlikler',page:'etkinlik_takvimi',color:'#3CC8F0'},
+            {icon:'🎖️',label:'Ordu',page:'ordu',   color:'#E5484D'},
             {icon:'📊',label:'Pazar Graf.',page:'fiyat_grafik',    color:'#3E8C5A'},
           ].map((a,i)=>(
             <button key={i} onClick={()=>onNavigate(a.page)}
-              style={{background:'#1B212B',border:`1px solid ${a.color}22`,borderRadius:'14px',padding:'0.7rem 0.3rem',display:'flex',flexDirection:'column',alignItems:'center',gap:'0.2rem',cursor:'pointer',WebkitTapHighlightColor:'transparent',transition:'all 0.15s',position:'relative',overflow:'hidden'}}>
+              style={{background:'#152032',border:`1px solid ${a.color}22`,borderRadius:'14px',padding:'0.7rem 0.3rem',display:'flex',flexDirection:'column',alignItems:'center',gap:'0.2rem',cursor:'pointer',WebkitTapHighlightColor:'transparent',transition:'all 0.15s',position:'relative',overflow:'hidden'}}>
               <div style={{position:'absolute',top:0,left:0,right:0,height:'2px',background:a.color,opacity:0.5}} />
               <span style={{fontSize:'1.3rem',lineHeight:1}}>{a.icon}</span>
-              <span style={{fontSize:'0.6rem',fontWeight:700,color:'#EDE7DA',textAlign:'center',lineHeight:1.2}}>{a.label}</span>
+              <span style={{fontSize:'0.6rem',fontWeight:700,color:'#E6EDF5',textAlign:'center',lineHeight:1.2}}>{a.label}</span>
             </button>
           ))}
         </div>
       </div>
 
       {/* ── Hızlı Erişim (orijinal) ── */}
-      <div style={{background:'#1B212B',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'10px',padding:'1rem',boxShadow:'none'}}>
-        <div style={{fontFamily:"'Cinzel',serif",fontSize:'1rem',fontWeight:800,color:'#EDE7DA',marginBottom:'0.75rem'}}>Hızlı Erişim</div>
+      <div style={{background:'#152032',border:'1px solid rgba(230,237,245,0.08)',borderRadius:'10px',padding:'1rem',boxShadow:'none'}}>
+        <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:'1rem',fontWeight:800,color:'#E6EDF5',marginBottom:'0.75rem'}}>Hızlı Erişim</div>
         <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'0.45rem'}}>
           {[
             {icon:'💼',label:'İşler',page:'jobs'},
@@ -548,7 +548,7 @@ function HomePage({ profile, onNavigate }) {
             {icon:'🤝',label:'İttifak',page:'alliance'},
           ].map((a,i) => (
             <button key={i} onClick={() => onNavigate(a.page)}
-              style={{background:'#0F0800',border:'1px solid rgba(237,231,218,0.07)',borderRadius:'14px',padding:'0.7rem 0.3rem',display:'flex',flexDirection:'column',alignItems:'center',gap:'0.25rem',cursor:'pointer',WebkitTapHighlightColor:'transparent',transition:'all 0.15s'}}>
+              style={{background:'#0A0F17',border:'1px solid rgba(230,237,245,0.07)',borderRadius:'14px',padding:'0.7rem 0.3rem',display:'flex',flexDirection:'column',alignItems:'center',gap:'0.25rem',cursor:'pointer',WebkitTapHighlightColor:'transparent',transition:'all 0.15s'}}>
               <span style={{fontSize:'1.45rem',lineHeight:1}}>{a.icon}</span>
               <span style={{fontSize:'0.65rem',fontWeight:700,color:'#8893A1',textAlign:'center',lineHeight:1.2}}>{a.label}</span>
             </button>
@@ -558,7 +558,7 @@ function HomePage({ profile, onNavigate }) {
 
       {/* ── Destek Talebi Butonu ── */}
       <button onClick={()=>setSupportOpen(true)}
-        style={{width:'100%',display:'flex',alignItems:'center',gap:'0.75rem',background:'linear-gradient(135deg,rgba(194,75,67,0.08),rgba(201,162,39,0.05))',border:'1px solid rgba(194,75,67,0.2)',borderRadius:'10px',padding:'0.85rem 1rem',cursor:'pointer',fontFamily:"'Inter',sans-serif",textAlign:'left',marginBottom:'0.75rem',WebkitTapHighlightColor:'transparent'}}>
+        style={{width:'100%',display:'flex',alignItems:'center',gap:'0.75rem',background:'linear-gradient(135deg,rgba(194,75,67,0.08),rgba(60,200,240,0.05))',border:'1px solid rgba(194,75,67,0.2)',borderRadius:'10px',padding:'0.85rem 1rem',cursor:'pointer',fontFamily:"'Inter',sans-serif",textAlign:'left',marginBottom:'0.75rem',WebkitTapHighlightColor:'transparent'}}>
         <span style={{fontSize:'1.5rem'}}>🆘</span>
         <div>
           <div style={{fontSize:'0.9rem',fontWeight:800,color:'#C24B43'}}>Destek Talebi</div>
@@ -575,7 +575,7 @@ function HomePage({ profile, onNavigate }) {
         if(!myMsgs.length) return null;
         return (
           <div style={{background:'rgba(96,165,250,0.06)',border:'1px solid rgba(96,165,250,0.25)',borderRadius:'10px',padding:'0.85rem 1rem',marginBottom:'0.75rem'}}>
-            <div style={{fontSize:'0.78rem',fontWeight:800,color:'#C9A227',marginBottom:'0.5rem'}}>💬 Destek Cevaplarınız</div>
+            <div style={{fontSize:'0.78rem',fontWeight:800,color:'#3CC8F0',marginBottom:'0.5rem'}}>💬 Destek Cevaplarınız</div>
             {myMsgs.slice(-3).map(m=>(
               <div key={m.id} style={{marginBottom:'0.5rem',paddingBottom:'0.5rem',borderBottom:'1px solid rgba(255,255,255,0.05)'}}>
                 <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.2rem'}}>{new Date(m.ts).toLocaleDateString('tr-TR')} — {m.text.length>60?m.text.slice(0,60)+'…':m.text}</div>
@@ -592,7 +592,7 @@ function HomePage({ profile, onNavigate }) {
 
       {supportOpen && (
         <div onClick={()=>setSupportOpen(false)} style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.65)',zIndex:3000,display:'flex',alignItems:'flex-end',justifyContent:'center'}}>
-          <div onClick={e=>e.stopPropagation()} style={{background:'#1B212B',borderRadius:'24px 24px 0 0',padding:'1.5rem 1.25rem',width:'100%',maxWidth:'480px',animation:'slideUp 0.25s ease',boxShadow:'0 -8px 40px rgba(0,0,0,0.2)'}}>
+          <div onClick={e=>e.stopPropagation()} style={{background:'#152032',borderRadius:'24px 24px 0 0',padding:'1.5rem 1.25rem',width:'100%',maxWidth:'480px',animation:'slideUp 0.25s ease',boxShadow:'0 -8px 40px rgba(0,0,0,0.2)'}}>
             {supportSent ? (
               <div style={{textAlign:'center',padding:'1.5rem 0'}}>
                 <div style={{fontSize:'2.5rem',marginBottom:'0.5rem'}}>✅</div>
@@ -603,14 +603,14 @@ function HomePage({ profile, onNavigate }) {
               <>
                 <div style={{display:'flex',alignItems:'center',gap:'0.6rem',marginBottom:'1rem'}}>
                   <span style={{fontSize:'1.5rem'}}>🆘</span>
-                  <div style={{fontSize:'1rem',fontWeight:800,color:'#EDE7DA'}}>Destek Talebi</div>
+                  <div style={{fontSize:'1rem',fontWeight:800,color:'#E6EDF5'}}>Destek Talebi</div>
                   <button onClick={()=>setSupportOpen(false)} style={{marginLeft:'auto',background:'#F1F5F9',border:'none',borderRadius:'8px',padding:'0.3rem 0.65rem',cursor:'pointer',color:'#8893A1',fontSize:'0.85rem'}}>✕</button>
                 </div>
                 <div style={{fontSize:'0.8rem',color:'#8893A1',marginBottom:'0.6rem'}}>Kullanıcı: <strong>{profile?.username}</strong></div>
                 <textarea value={supportText} onChange={e=>setSupportText(e.target.value)}
                   placeholder="Sorununuzu veya talebinizi yazın..."
                   rows={4}
-                  style={{width:'100%',padding:'0.75rem',border:'1.5px solid rgba(201,162,39,0.25)',borderRadius:'12px',fontFamily:"'Inter',sans-serif",fontSize:'0.9rem',color:'#EDE7DA',resize:'none',outline:'none',boxSizing:'border-box',background:'#1B212B'}}
+                  style={{width:'100%',padding:'0.75rem',border:'1.5px solid rgba(60,200,240,0.25)',borderRadius:'12px',fontFamily:"'Inter',sans-serif",fontSize:'0.9rem',color:'#E6EDF5',resize:'none',outline:'none',boxSizing:'border-box',background:'#152032'}}
                 />
                 <button onClick={sendSupportMsg} disabled={!supportText.trim()}
                   style={{width:'100%',padding:'0.8rem',borderRadius:'14px',border:'none',background:supportText.trim()?'#C24B43':'#E2E8F0',color:supportText.trim()?'#fff':'#94A3B8',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.92rem',cursor:supportText.trim()?'pointer':'default',marginTop:'0.65rem',transition:'all 0.15s'}}>
@@ -625,16 +625,16 @@ function HomePage({ profile, onNavigate }) {
       {/* ── Duyuru Modal ── */}
       {annModal && (
         <div onClick={()=>setAnnModal(null)} style={{position:'fixed',inset:0,background:'rgba(17,21,28,0.9)',zIndex:2000,display:'flex',alignItems:'center',justifyContent:'center',padding:'1rem'}}>
-          <div onClick={e=>e.stopPropagation()} style={{background:'#1B212B',borderRadius:'14px',padding:'1.5rem',width:'100%',maxWidth:'400px',animation:'slideUp 0.2s ease',boxShadow:'0 20px 60px rgba(0,0,0,0.3)'}}>
+          <div onClick={e=>e.stopPropagation()} style={{background:'#152032',borderRadius:'14px',padding:'1.5rem',width:'100%',maxWidth:'400px',animation:'slideUp 0.2s ease',boxShadow:'0 20px 60px rgba(0,0,0,0.3)'}}>
             <div style={{display:'flex',alignItems:'center',gap:'0.75rem',marginBottom:'1rem'}}>
               <span style={{fontSize:'2rem'}}>{annModal.icon||'📣'}</span>
               <div>
-                <div style={{fontSize:'1rem',fontWeight:800,color:'#EDE7DA'}}>{annModal.title}</div>
+                <div style={{fontSize:'1rem',fontWeight:800,color:'#E6EDF5'}}>{annModal.title}</div>
                 <div style={{fontSize:'0.72rem',color:catColor[annModal.category]||'#8893A1',fontWeight:700}}>{annModal.category} • {timeAgo(annModal.ts)}</div>
               </div>
             </div>
             <div style={{fontSize:'0.88rem',color:'#334155',lineHeight:'1.65',marginBottom:'1.25rem'}}>{annModal.body||annModal.text}</div>
-            <button onClick={()=>setAnnModal(null)} style={{width:'100%',padding:'0.7rem',borderRadius:'12px',border:'none',background:'#C9A227',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.9rem',cursor:'pointer'}}>Kapat</button>
+            <button onClick={()=>setAnnModal(null)} style={{width:'100%',padding:'0.7rem',borderRadius:'12px',border:'none',background:'#3CC8F0',color:'#E6EDF5',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.9rem',cursor:'pointer'}}>Kapat</button>
           </div>
         </div>
       )}
@@ -649,9 +649,9 @@ function HomePage({ profile, onNavigate }) {
 // ═══════════════════════════════════════════════════════
 
 const ADMIN_POSITIONS = [
-  {key:'padisah',   title:'Padişah',       icon:'👑'},
-  {key:'divan_reisi',   title:'Divan Reisi',        icon:'🏛️'},
-  {key:'divan üyesi',     title:'Divan Üyesi',          icon:'📜'},
+  {key:'padisah',   title:'Cumhurbaşkanı',       icon:'👑'},
+  {key:'divan_reisi',   title:'Kabine Reisi',        icon:'🏛️'},
+  {key:'divan üyesi',     title:'Kabine Üyesi',          icon:'📜'},
   {key:'icisleri_bakani',  title:'İçişleri Bakanı',       icon:'🛡️'},
   {key:'vali', title:'Nahiye Valisi',      icon:'🏙️'},
   {key:'vali',             title:'Vali',                  icon:'🏢'},
@@ -679,7 +679,7 @@ function AdminElectionTab({ elections_multi, setElections_multi, setMsg, cs, inp
       username: p.leaderName || p.name,
       id: p.leaderId || p.id,
       partyName: p.name,
-      partyColor: p.color || '#C9A227',
+      partyColor: p.color || '#3CC8F0',
     }));
     const votes = {};
     cands.forEach(c => { votes[c.username] = 0; });
@@ -748,31 +748,31 @@ function AdminElectionTab({ elections_multi, setElections_multi, setMsg, cs, inp
               <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
                 <span style={{fontSize:'1.2rem'}}>{pos.icon}</span>
                 <div>
-                  <div style={{fontWeight:800,color:'#C9A227',fontSize:'0.85rem'}}>{pos.title}</div>
+                  <div style={{fontWeight:800,color:'#3CC8F0',fontSize:'0.85rem'}}>{pos.title}</div>
                   <div style={{fontSize:'0.65rem',color:'#8893A1'}}>
                     {cands.length} aday •
-                    {el.active ? <span style={{color:'#4C9A6B'}}> 🟢 Aktif</span> : el.winner ? <span style={{color:'#C9A227'}}> 🏆 {el.winner}</span> : <span style={{color:'#8893A1'}}> ⏸ Pasif</span>}
+                    {el.active ? <span style={{color:'#4C9A6B'}}> 🟢 Aktif</span> : el.winner ? <span style={{color:'#3CC8F0'}}> 🏆 {el.winner}</span> : <span style={{color:'#8893A1'}}> ⏸ Pasif</span>}
                   </div>
                 </div>
               </div>
               <div style={{display:'flex',gap:'0.3rem',flexWrap:'wrap',justifyContent:'flex-end'}}>
                 {!el.active
                   ? <button onClick={()=>startPos(pos.key)} style={{padding:'0.35rem 0.65rem',borderRadius:'8px',border:'1px solid rgba(76,154,107,0.4)',background:'rgba(76,154,107,0.08)',color:'#4C9A6B',cursor:'pointer',fontWeight:700,fontSize:'0.72rem',minHeight:32}}>▶ Başlat</button>
-                  : <button onClick={()=>endPos(pos.key)} style={{padding:'0.35rem 0.65rem',borderRadius:'8px',border:'1px solid rgba(201,162,39,0.3)',background:'rgba(201,162,39,0.08)',color:'#C9A227',cursor:'pointer',fontWeight:700,fontSize:'0.72rem',minHeight:32}}>🏁 Bitir</button>}
+                  : <button onClick={()=>endPos(pos.key)} style={{padding:'0.35rem 0.65rem',borderRadius:'8px',border:'1px solid rgba(60,200,240,0.3)',background:'rgba(60,200,240,0.08)',color:'#3CC8F0',cursor:'pointer',fontWeight:700,fontSize:'0.72rem',minHeight:32}}>🏁 Bitir</button>}
                 <button onClick={()=>resetPos(pos.key)} style={{padding:'0.35rem 0.55rem',borderRadius:'8px',border:'1px solid rgba(194,75,67,0.25)',background:'rgba(194,75,67,0.08)',color:'#E08C87',cursor:'pointer',fontWeight:700,fontSize:'0.72rem',minHeight:32}}>↺</button>
               </div>
             </div>
             {PARTY_BASED_KEYS.includes(pos.key) ? (
               <div style={{marginBottom:'0.4rem'}}>
-                <div style={{fontSize:'0.65rem',color:'#C9A227',marginBottom:'0.35rem',fontWeight:700}}>⚑ Parti Bazlı Seçim — İlk 10 Parti Otomatik Aday</div>
-                <button onClick={()=>loadPartyCandidates(pos.key)} style={{padding:'0.38rem 0.75rem',borderRadius:'8px',border:'1px solid rgba(201,162,39,0.35)',background:'rgba(167,139,250,0.1)',color:'#C9A227',cursor:'pointer',fontWeight:700,fontSize:'0.73rem',minHeight:32}}>🔄 Parti Liderlerini Yükle</button>
+                <div style={{fontSize:'0.65rem',color:'#3CC8F0',marginBottom:'0.35rem',fontWeight:700}}>⚑ Parti Bazlı Seçim — İlk 10 Parti Otomatik Aday</div>
+                <button onClick={()=>loadPartyCandidates(pos.key)} style={{padding:'0.38rem 0.75rem',borderRadius:'8px',border:'1px solid rgba(60,200,240,0.35)',background:'rgba(167,139,250,0.1)',color:'#3CC8F0',cursor:'pointer',fontWeight:700,fontSize:'0.73rem',minHeight:32}}>🔄 Parti Liderlerini Yükle</button>
               </div>
             ) : (
               <div style={{display:'flex',gap:'0.35rem',marginBottom:'0.4rem'}}>
                 <input value={candInput[pos.key]||''} onChange={e=>setCandInput(p=>({...p,[pos.key]:e.target.value}))}
                   onKeyDown={e=>e.key==='Enter'&&addCand(pos.key)}
                   placeholder="Kullanıcı adı ekle..." style={{...inp,flex:1,padding:'0.38rem 0.6rem',fontSize:'0.8rem'}}/>
-                <button onClick={()=>addCand(pos.key)} style={{padding:'0.38rem 0.65rem',borderRadius:'8px',border:'1px solid rgba(255,215,0,0.4)',background:'rgba(255,215,0,0.1)',color:'#C9A227',cursor:'pointer',fontWeight:700,fontSize:'0.75rem',whiteSpace:'nowrap',minHeight:34}}>+ Ekle</button>
+                <button onClick={()=>addCand(pos.key)} style={{padding:'0.38rem 0.65rem',borderRadius:'8px',border:'1px solid rgba(255,215,0,0.4)',background:'rgba(255,215,0,0.1)',color:'#3CC8F0',cursor:'pointer',fontWeight:700,fontSize:'0.75rem',whiteSpace:'nowrap',minHeight:34}}>+ Ekle</button>
               </div>
             )}
             {cands.length>0 && (
@@ -780,8 +780,8 @@ function AdminElectionTab({ elections_multi, setElections_multi, setMsg, cs, inp
                 {sorted.map((c,i)=>{
                   const pct = totalV>0?Math.round((votes[c.username]||0)/totalV*100):0;
                   return (
-                    <div key={c.username} style={{background:'rgba(237,231,218,0.04)',border:`1px solid ${i===0&&totalV>0?'rgba(201,162,39,0.4)':'rgba(255,255,255,0.08)'}`,borderRadius:'8px',padding:'3px 8px',display:'flex',alignItems:'center',gap:'0.3rem',fontSize:'0.72rem'}}>
-                      <span style={{color:i===0&&totalV>0?'#C9A227':'#94A3B8'}}>{i===0&&totalV>0?'🥇':i===1&&totalV>0?'🥈':i===2&&totalV>0?'🥉':'·'} {c.username}</span>
+                    <div key={c.username} style={{background:'rgba(230,237,245,0.04)',border:`1px solid ${i===0&&totalV>0?'rgba(60,200,240,0.4)':'rgba(255,255,255,0.08)'}`,borderRadius:'8px',padding:'3px 8px',display:'flex',alignItems:'center',gap:'0.3rem',fontSize:'0.72rem'}}>
+                      <span style={{color:i===0&&totalV>0?'#3CC8F0':'#94A3B8'}}>{i===0&&totalV>0?'🥇':i===1&&totalV>0?'🥈':i===2&&totalV>0?'🥉':'·'} {c.username}</span>
                       {totalV>0&&<span style={{color:'#8893A1',fontSize:'0.6rem'}}>({votes[c.username]||0} oy · {pct}%)</span>}
                       {!el.active&&<span onClick={()=>removeCand(pos.key,c.username)} style={{cursor:'pointer',color:'#C24B43',fontSize:'0.85rem',lineHeight:1,marginLeft:'0.15rem'}}>×</span>}
                     </div>
@@ -851,7 +851,7 @@ function AdminMakamlarTab({ allUsers, setAllUsersRaw, setMsg, cs, inp }) {
             <div style={{display:'flex',alignItems:'center',gap:'0.5rem',marginBottom:'0.4rem'}}>
               <span style={{fontSize:'1.1rem'}}>{m.icon}</span>
               <div style={{flex:1}}>
-                <div style={{fontWeight:700,color:'#C9A227',fontSize:'0.82rem'}}>{m.title}</div>
+                <div style={{fontWeight:700,color:'#3CC8F0',fontSize:'0.82rem'}}>{m.title}</div>
                 <div style={{fontSize:'0.67rem',color:current?'#4C9A6B':'#3B4E63'}}>{current?`👤 ${current}`:'Boş — Atanmamış'}</div>
               </div>
               {current&&<button onClick={()=>remove(m.title)} style={{padding:'0.25rem 0.5rem',borderRadius:'6px',border:'1px solid rgba(194,75,67,0.3)',background:'rgba(194,75,67,0.08)',color:'#E08C87',cursor:'pointer',fontSize:'0.68rem',fontWeight:700,minHeight:28}}>✕</button>}
@@ -860,19 +860,19 @@ function AdminMakamlarTab({ allUsers, setAllUsersRaw, setMsg, cs, inp }) {
               <input value={assignInputs[m.title]||''} onChange={e=>setAssignInputs(p=>({...p,[m.title]:e.target.value}))}
                 onKeyDown={e=>e.key==='Enter'&&assign(m.title)}
                 placeholder="Kullanıcı adı..." style={{...inp,flex:1,padding:'0.38rem 0.6rem',fontSize:'0.8rem'}}/>
-              <button onClick={()=>assign(m.title)} style={{padding:'0.38rem 0.7rem',borderRadius:'8px',border:'1px solid rgba(255,215,0,0.4)',background:'rgba(255,215,0,0.1)',color:'#C9A227',cursor:'pointer',fontWeight:700,fontSize:'0.75rem',minHeight:34}}>Ata</button>
+              <button onClick={()=>assign(m.title)} style={{padding:'0.38rem 0.7rem',borderRadius:'8px',border:'1px solid rgba(255,215,0,0.4)',background:'rgba(255,215,0,0.1)',color:'#3CC8F0',cursor:'pointer',fontWeight:700,fontSize:'0.75rem',minHeight:34}}>Ata</button>
             </div>
           </div>
         );
       })}
-      <div style={{...cs,borderColor:'rgba(201,162,39,0.25)',marginTop:'0.75rem'}}>
-        <div style={{fontWeight:800,color:'#C9A227',fontSize:'0.82rem',marginBottom:'0.6rem'}}>💎 VIP & Paket Ver</div>
+      <div style={{...cs,borderColor:'rgba(60,200,240,0.25)',marginTop:'0.75rem'}}>
+        <div style={{fontWeight:800,color:'#3CC8F0',fontSize:'0.82rem',marginBottom:'0.6rem'}}>💎 VIP & Paket Ver</div>
         {[...allUsers].filter(u=>!u.isBot).slice(0,20).map(u=>(
           <div key={u.id} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0.38rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
-            <div style={{fontSize:'0.78rem',color:'#EDE7DA',fontWeight:600}}>{u.username}</div>
+            <div style={{fontSize:'0.78rem',color:'#E6EDF5',fontWeight:600}}>{u.username}</div>
             <div style={{display:'flex',gap:'0.3rem'}}>
               <button onClick={()=>giveVIP(u)} style={{padding:'0.2rem 0.5rem',borderRadius:'6px',border:'1px solid rgba(236,72,153,0.4)',background:'rgba(236,72,153,0.1)',color:'#F472B6',cursor:'pointer',fontSize:'0.65rem',fontWeight:700}}>💎 VIP</button>
-              <button onClick={()=>giveEdu(u)} style={{padding:'0.2rem 0.5rem',borderRadius:'6px',border:'1px solid rgba(201,162,39,0.35)',background:'rgba(201,162,39,0.1)',color:'#C9A227',cursor:'pointer',fontSize:'0.65rem',fontWeight:700}}>📚 Edu</button>
+              <button onClick={()=>giveEdu(u)} style={{padding:'0.2rem 0.5rem',borderRadius:'6px',border:'1px solid rgba(60,200,240,0.35)',background:'rgba(60,200,240,0.1)',color:'#3CC8F0',cursor:'pointer',fontSize:'0.65rem',fontWeight:700}}>📚 Edu</button>
             </div>
           </div>
         ))}
@@ -882,11 +882,11 @@ function AdminMakamlarTab({ allUsers, setAllUsersRaw, setMsg, cs, inp }) {
 }
 
 const ACHIEVEMENTS_LIST = [
-  { id:'first_money',   icon:'💰', title:'İlk Kazanç',      desc:'🪙1.000 kazan',                   check: u => (u.money||0) >= 1000 },
-  { id:'first_10k',     icon:'💵', title:'Para Babası',      desc:'🪙10.000 kazan',                  check: u => (u.money||0) >= 10000 },
-  { id:'first_100k',    icon:'💸', title:'Varlıklı',         desc:'🪙100.000 kazan',                 check: u => (u.money||0) >= 100000 },
-  { id:'millionaire',   icon:'💎', title:'Milyoner',         desc:'🪙1.000.000 kazan',               check: u => (u.money||0) >= 1000000 },
-  { id:'billionaire',   icon:'🏆', title:'Milyarder',        desc:'🪙1 Milyar kazan',                check: u => (u.money||0) >= 1e9 },
+  { id:'first_money',   icon:'💰', title:'İlk Kazanç',      desc:'₺1.000 kazan',                   check: u => (u.money||0) >= 1000 },
+  { id:'first_10k',     icon:'💵', title:'Para Babası',      desc:'₺10.000 kazan',                  check: u => (u.money||0) >= 10000 },
+  { id:'first_100k',    icon:'💸', title:'Varlıklı',         desc:'₺100.000 kazan',                 check: u => (u.money||0) >= 100000 },
+  { id:'millionaire',   icon:'💎', title:'Milyoner',         desc:'₺1.000.000 kazan',               check: u => (u.money||0) >= 1000000 },
+  { id:'billionaire',   icon:'🏆', title:'Milyarder',        desc:'₺1 Milyar kazan',                check: u => (u.money||0) >= 1e9 },
   { id:'first_party',   icon:'🏛️', title:'Siyasetçi',        desc:'Bir partiye katıl',               check: (u,s) => !!(s.parties||[]).find(p=>(p.members||[]).includes(u.uid)) },
   { id:'party_leader',  icon:'👑', title:'Parti Lideri',     desc:'Bir parti kur',                   check: (u,s) => !!(s.parties||[]).find(p=>p.leaderId===u.uid) },
   { id:'first_holding', icon:'🏢', title:'İşadamı',          desc:'İlk şirketini kur',               check: (u,s) => (s.holdings||[]).some(h=>h.owner===u.uid) },
@@ -938,22 +938,22 @@ function AdminSupportTab({ setMsg, inp, cs }) {
     <div>
       <div style={{...cs,display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.65rem'}}>
         <div>
-          <div style={{fontWeight:800,color:'#EDE7DA',fontSize:'0.9rem'}}>💬 Destek Mesajları</div>
+          <div style={{fontWeight:800,color:'#E6EDF5',fontSize:'0.9rem'}}>💬 Destek Mesajları</div>
           <div style={{fontSize:'0.7rem',color:'#8893A1',marginTop:'0.2rem'}}>{supportMsgs.length} mesaj • {supportMsgs.filter(m=>m.status==='pending').length} yanıtsız</div>
         </div>
-        <button onClick={refresh} style={{padding:'0.3rem 0.65rem',borderRadius:'8px',border:'1px solid rgba(237,231,218,0.1)',background:'rgba(237,231,218,0.03)',color:'#8893A1',fontSize:'0.72rem',cursor:'pointer',fontFamily:"'Inter',sans-serif",fontWeight:700}}>🔄 Yenile</button>
+        <button onClick={refresh} style={{padding:'0.3rem 0.65rem',borderRadius:'8px',border:'1px solid rgba(230,237,245,0.1)',background:'rgba(230,237,245,0.03)',color:'#8893A1',fontSize:'0.72rem',cursor:'pointer',fontFamily:"'Inter',sans-serif",fontWeight:700}}>🔄 Yenile</button>
       </div>
       {supportMsgs.length === 0 && <div style={{...cs,textAlign:'center',color:'#8893A1',padding:'2rem',fontSize:'0.85rem'}}>Henüz destek mesajı yok</div>}
       {[...supportMsgs].reverse().map(m => (
         <div key={m.id} style={{...cs,border:`1px solid ${m.status==='pending'?'rgba(194,75,67,0.25)':'rgba(76,154,107,0.2)'}`,marginBottom:'0.5rem'}}>
           <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:'0.5rem'}}>
             <div>
-              <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.85rem'}}>👤 {m.from||'Anonim'}</div>
+              <div style={{fontWeight:700,color:'#E6EDF5',fontSize:'0.85rem'}}>👤 {m.from||'Anonim'}</div>
               <div style={{fontSize:'0.65rem',color:'#8893A1'}}>{new Date(m.ts).toLocaleString('tr-TR')} • <span style={{color:m.status==='pending'?'#C24B43':'#4C9A6B',fontWeight:700}}>{m.status==='pending'?'⏳ Yanıtsız':'✅ Yanıtlandı'}</span></div>
             </div>
             <button onClick={()=>deleteMsg(m.id)} style={{padding:'0.2rem 0.5rem',borderRadius:'6px',border:'1px solid rgba(194,75,67,0.25)',background:'rgba(194,75,67,0.08)',color:'#C24B43',fontSize:'0.7rem',cursor:'pointer',fontFamily:"'Inter',sans-serif"}}>🗑️</button>
           </div>
-          <div style={{background:'rgba(237,231,218,0.02)',borderRadius:'8px',padding:'0.6rem 0.75rem',fontSize:'0.82rem',color:'#C8D3DC',marginBottom:'0.5rem',lineHeight:1.5}}>{m.text}</div>
+          <div style={{background:'rgba(230,237,245,0.02)',borderRadius:'8px',padding:'0.6rem 0.75rem',fontSize:'0.82rem',color:'#C8D3DC',marginBottom:'0.5rem',lineHeight:1.5}}>{m.text}</div>
           {(m.replies||[]).map((r,i)=>(
             <div key={i} style={{background:'rgba(76,154,107,0.06)',borderRadius:'8px',padding:'0.4rem 0.75rem',fontSize:'0.78rem',color:'#4C9A6B',marginBottom:'0.3rem'}}>
               <span style={{fontWeight:700}}>⭐ {r.by}:</span> {r.text}
@@ -961,7 +961,7 @@ function AdminSupportTab({ setMsg, inp, cs }) {
           ))}
           <div style={{display:'flex',gap:'0.4rem',marginTop:'0.4rem'}}>
             <input value={replyTexts[m.id]||''} onChange={e=>setReplyTexts(prev=>({...prev,[m.id]:e.target.value}))} placeholder="Yanıt yaz..." style={{...inp,flex:1,fontSize:'0.78rem',padding:'0.4rem 0.65rem'}} />
-            <button onClick={()=>sendReply(m.id)} style={{padding:'0.4rem 0.75rem',borderRadius:'8px',border:'none',background:'#4C9A6B',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.75rem',cursor:'pointer',whiteSpace:'nowrap'}}>Yanıtla</button>
+            <button onClick={()=>sendReply(m.id)} style={{padding:'0.4rem 0.75rem',borderRadius:'8px',border:'none',background:'#4C9A6B',color:'#E6EDF5',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.75rem',cursor:'pointer',whiteSpace:'nowrap'}}>Yanıtla</button>
           </div>
         </div>
       ))}
@@ -1002,7 +1002,7 @@ function AdminPushTab({ setMsg, cs, inp }) {
 
   return (
     <div style={cs}>
-      <div style={{fontWeight:700,color:'#EDE7DA',marginBottom:'0.75rem',fontSize:'0.9rem'}}>📲 Push Bildirim Yayını</div>
+      <div style={{fontWeight:700,color:'#E6EDF5',marginBottom:'0.75rem',fontSize:'0.9rem'}}>📲 Push Bildirim Yayını</div>
 
       <div style={{display:'flex',gap:'0.5rem',marginBottom:'0.65rem'}}>
         {[['all','🌍 Tüm Kullanıcılar'],['user','👤 Belirli Kullanıcı']].map(([v,l])=>(
@@ -1023,7 +1023,7 @@ function AdminPushTab({ setMsg, cs, inp }) {
       <input value={pushUrl} onChange={e=>setPushUrl(e.target.value)} placeholder="Yönlendirme URL (ör: /)" style={{...inp,marginBottom:'0.65rem'}} />
 
       <button onClick={sendPush} disabled={pushLoading}
-        style={{width:'100%',padding:'0.75rem',borderRadius:'10px',border:'none',background:pushLoading?'rgba(194,75,67,0.3)':'rgba(194,75,67,0.85)',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.9rem',cursor:pushLoading?'not-allowed':'pointer'}}>
+        style={{width:'100%',padding:'0.75rem',borderRadius:'10px',border:'none',background:pushLoading?'rgba(194,75,67,0.3)':'rgba(194,75,67,0.85)',color:'#E6EDF5',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.9rem',cursor:pushLoading?'not-allowed':'pointer'}}>
         {pushLoading ? '⏳ Gönderiliyor...' : '📲 Push Gönder'}
       </button>
 
@@ -1237,8 +1237,8 @@ function AdminPage({ profile, showNotif, onNavigate }) {
   const bannedCount = allUsers.filter(u=>u.banned).length;
   const adminCount = allUsers.filter(u=>u.role==='admin').length;
 
-  const cs = {background:'rgba(237,231,218,0.03)',borderRadius:'14px',padding:'1rem',border:'1px solid rgba(237,231,218,0.08)',marginBottom:'0.65rem'};
-  const inp = {width:'100%',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'0.55rem 0.8rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'15px',outline:'none',boxSizing:'border-box'};
+  const cs = {background:'rgba(230,237,245,0.03)',borderRadius:'14px',padding:'1rem',border:'1px solid rgba(230,237,245,0.08)',marginBottom:'0.65rem'};
+  const inp = {width:'100%',background:'rgba(230,237,245,0.03)',border:'1px solid rgba(230,237,245,0.1)',borderRadius:'10px',padding:'0.55rem 0.8rem',color:'#E6EDF5',fontFamily:"'Inter',sans-serif",fontSize:'15px',outline:'none',boxSizing:'border-box'};
   const tabs = [['dashboard','📊 Panel'],['users','👥 Kullanıcılar'],['manage','🛡️ Yönet'],['announce','📢 Duyuru'],['push','📲 Push'],['support','💬 Destek'],['logs','📋 Log'],['economy','💰 Ekonomi'],['tools','🛠️ Araçlar'],['election','🗳️ Seçim'],['makamlar','👑 Makamlar']];
   const [elections_multi, setElections_multi] = useLs('rep_elections_multi', {});
 
@@ -1246,7 +1246,7 @@ function AdminPage({ profile, showNotif, onNavigate }) {
     <div style={{padding:'0.7rem',minHeight:'100%',background:'rgba(6,12,24,0.99)'}}>
       <div style={{background:'linear-gradient(135deg,rgba(194,75,67,0.15),rgba(11,21,39,0.95))',border:'1px solid rgba(194,75,67,0.25)',borderRadius:'10px',padding:'1rem 1.25rem',marginBottom:'0.75rem'}}>
         <div style={{fontSize:'0.6rem',color:'#E08C87',fontWeight:700,letterSpacing:'0.12em',textTransform:'uppercase',marginBottom:'0.2rem'}}>⚙️ YÖNETİM PANELİ</div>
-        <div style={{fontSize:'1.1rem',fontWeight:900,color:'#EDE7DA',fontFamily:"'Cinzel',serif"}}>Admin: {profile?.username}</div>
+        <div style={{fontSize:'1.1rem',fontWeight:900,color:'#E6EDF5',fontFamily:"'Rajdhani',sans-serif"}}>Admin: {profile?.username}</div>
         <div style={{fontSize:'0.7rem',color:'#8893A1',marginTop:'0.1rem'}}>{allUsers.length} kullanıcı • {onlineCnt} online • {bannedCount} banlı</div>
       </div>
 
@@ -1271,12 +1271,12 @@ function AdminPage({ profile, showNotif, onNavigate }) {
         <div>
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.5rem',marginBottom:'0.65rem'}}>
             {[
-              ['👥','Toplam Kullanıcı', allUsers.length, '#C9A227'],
+              ['👥','Toplam Kullanıcı', allUsers.length, '#3CC8F0'],
               ['🟢','Şu An Online', onlineCnt, '#4C9A6B'],
               ['🚫','Banlı', bannedCount, '#C24B43'],
-              ['⭐','Admin', adminCount, '#C9A227'],
+              ['⭐','Admin', adminCount, '#3CC8F0'],
               ['💰','Toplam Servet', fmtM(totalMoney), '#4C9A6B'],
-              ['🎮','Sürüm', 'v8.0', '#C9A227'],
+              ['🎮','Sürüm', 'v8.0', '#3CC8F0'],
             ].map(([ic,lbl,val,c]) => (
               <div key={lbl} style={{...cs,textAlign:'center',padding:'0.75rem'}}>
                 <div style={{fontSize:'1.3rem',marginBottom:'0.1rem'}}>{ic}</div>
@@ -1287,13 +1287,13 @@ function AdminPage({ profile, showNotif, onNavigate }) {
           </div>
 
           <div style={cs}>
-            <div style={{fontWeight:800,color:'#EDE7DA',marginBottom:'0.65rem',fontSize:'0.85rem'}}>🏆 En Zengin Oyuncular</div>
+            <div style={{fontWeight:800,color:'#E6EDF5',marginBottom:'0.65rem',fontSize:'0.85rem'}}>🏆 En Zengin Oyuncular</div>
             {[...allUsers].sort((a,b)=>(b.money||0)-(a.money||0)).slice(0,5).map((u,i)=>(
               <div key={u.id} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0.4rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
                 <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
                   <span style={{fontSize:'0.85rem'}}>{['🥇','🥈','🥉','4️⃣','5️⃣'][i]}</span>
                   <div>
-                    <div style={{fontSize:'0.8rem',fontWeight:700,color:u.banned?'#C24B43':'#EDE7DA'}}>{u.username} {u.banned?'🚫':''}{u.role==='admin'?'⭐':''}</div>
+                    <div style={{fontSize:'0.8rem',fontWeight:700,color:u.banned?'#C24B43':'#E6EDF5'}}>{u.username} {u.banned?'🚫':''}{u.role==='admin'?'⭐':''}</div>
                     <div style={{fontSize:'0.65rem',color:'#8893A1'}}>Lv.{u.level||1} • {u.city||'?'}</div>
                   </div>
                 </div>
@@ -1304,10 +1304,10 @@ function AdminPage({ profile, showNotif, onNavigate }) {
           </div>
 
           <div style={cs}>
-            <div style={{fontWeight:800,color:'#EDE7DA',marginBottom:'0.65rem',fontSize:'0.85rem'}}>⚡ Hızlı Erişim</div>
+            <div style={{fontWeight:800,color:'#E6EDF5',marginBottom:'0.65rem',fontSize:'0.85rem'}}>⚡ Hızlı Erişim</div>
             <div style={{display:'flex',flexWrap:'wrap',gap:'0.4rem'}}>
               {[['👥','Kullanıcılar','users'],['🛡️','Yönet','manage'],['📢','Duyuru','announce'],['📋','Loglar','logs'],['🛠️','Araçlar','tools']].map(([ic,lbl,t])=>(
-                <button key={t} onClick={()=>setTab(t)} style={{padding:'0.4rem 0.75rem',borderRadius:'8px',border:'1px solid rgba(237,231,218,0.1)',background:'rgba(237,231,218,0.03)',color:'#8893A1',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.75rem',cursor:'pointer'}}>{ic} {lbl}</button>
+                <button key={t} onClick={()=>setTab(t)} style={{padding:'0.4rem 0.75rem',borderRadius:'8px',border:'1px solid rgba(230,237,245,0.1)',background:'rgba(230,237,245,0.03)',color:'#8893A1',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.75rem',cursor:'pointer'}}>{ic} {lbl}</button>
               ))}
             </div>
           </div>
@@ -1319,7 +1319,7 @@ function AdminPage({ profile, showNotif, onNavigate }) {
         <div>
           <div style={{display:'flex',gap:'0.5rem',marginBottom:'0.65rem'}}>
             <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="İsim veya e-posta ara..." style={{...inp,flex:1}} />
-            <button onClick={refreshUsers} style={{padding:'0.55rem 0.75rem',borderRadius:'10px',border:'1px solid rgba(237,231,218,0.1)',background:'rgba(237,231,218,0.03)',color:'#8893A1',cursor:'pointer',fontWeight:700,fontSize:'0.8rem',whiteSpace:'nowrap'}}>↻</button>
+            <button onClick={refreshUsers} style={{padding:'0.55rem 0.75rem',borderRadius:'10px',border:'1px solid rgba(230,237,245,0.1)',background:'rgba(230,237,245,0.03)',color:'#8893A1',cursor:'pointer',fontWeight:700,fontSize:'0.8rem',whiteSpace:'nowrap'}}>↻</button>
           </div>
           <div style={{fontSize:'0.7rem',color:'#8893A1',marginBottom:'0.5rem'}}>{filteredUsers.length} kullanıcı gösteriliyor</div>
           {filteredUsers.map(u => (
@@ -1327,11 +1327,11 @@ function AdminPage({ profile, showNotif, onNavigate }) {
               onClick={()=>{setSelectedUser(u);setTab('manage');}}>
               <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
                 <div style={{display:'flex',alignItems:'center',gap:'0.6rem'}}>
-                  <div style={{width:'32px',height:'32px',borderRadius:'50%',background:u.banned?'rgba(194,75,67,0.2)':'rgba(201,162,39,0.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.9rem',flexShrink:0}}>
+                  <div style={{width:'32px',height:'32px',borderRadius:'50%',background:u.banned?'rgba(194,75,67,0.2)':'rgba(60,200,240,0.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.9rem',flexShrink:0}}>
                     {u.role==='admin'?'⭐':u.banned?'🚫':'👤'}
                   </div>
                   <div>
-                    <div style={{fontSize:'0.85rem',fontWeight:700,color:u.banned?'#E08C87':u.role==='admin'?'#C9A227':'#EDE7DA'}}>{u.username}</div>
+                    <div style={{fontSize:'0.85rem',fontWeight:700,color:u.banned?'#E08C87':u.role==='admin'?'#3CC8F0':'#E6EDF5'}}>{u.username}</div>
                     <div style={{fontSize:'0.65rem',color:'#8893A1'}}>{u.email} • Lv.{u.level||1} • {u.city||'?'}</div>
                   </div>
                 </div>
@@ -1355,7 +1355,7 @@ function AdminPage({ profile, showNotif, onNavigate }) {
               <div style={{display:'flex',flexWrap:'wrap',gap:'0.4rem'}}>
                 {allUsers.slice(0,10).map(u => (
                   <button key={u.id} onClick={()=>setSelectedUser(u)}
-                    style={{padding:'0.35rem 0.75rem',borderRadius:'8px',border:'1px solid rgba(237,231,218,0.1)',background:'rgba(237,231,218,0.03)',color:'#8893A1',fontFamily:"'Inter',sans-serif",fontSize:'0.78rem',cursor:'pointer',fontWeight:600}}>
+                    style={{padding:'0.35rem 0.75rem',borderRadius:'8px',border:'1px solid rgba(230,237,245,0.1)',background:'rgba(230,237,245,0.03)',color:'#8893A1',fontFamily:"'Inter',sans-serif",fontSize:'0.78rem',cursor:'pointer',fontWeight:600}}>
                     {u.role==='admin'?'⭐':u.banned?'🚫':'👤'} {u.username}
                   </button>
                 ))}
@@ -1363,26 +1363,26 @@ function AdminPage({ profile, showNotif, onNavigate }) {
             </div>
           ) : (
             <div>
-              <div style={{...cs,background:'linear-gradient(135deg,rgba(201,162,39,0.08),rgba(11,21,39,0.9))'}}>
+              <div style={{...cs,background:'linear-gradient(135deg,rgba(60,200,240,0.08),rgba(11,21,39,0.9))'}}>
                 <div style={{display:'flex',alignItems:'center',gap:'0.75rem',marginBottom:'0.75rem'}}>
-                  <div style={{width:'44px',height:'44px',borderRadius:'50%',background:selectedUser.banned?'rgba(194,75,67,0.2)':'rgba(201,162,39,0.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.2rem',flexShrink:0}}>
+                  <div style={{width:'44px',height:'44px',borderRadius:'50%',background:selectedUser.banned?'rgba(194,75,67,0.2)':'rgba(60,200,240,0.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.2rem',flexShrink:0}}>
                     {selectedUser.role==='admin'?'⭐':selectedUser.banned?'🚫':'👤'}
                   </div>
                   <div style={{flex:1}}>
-                    <div style={{fontWeight:900,color:'#EDE7DA',fontSize:'1rem'}}>{selectedUser.username}</div>
+                    <div style={{fontWeight:900,color:'#E6EDF5',fontSize:'1rem'}}>{selectedUser.username}</div>
                     <div style={{fontSize:'0.7rem',color:'#8893A1'}}>{selectedUser.email} • {selectedUser.city||'?'} • Lv.{selectedUser.level||1}</div>
                     <div style={{fontSize:'0.7rem',marginTop:'0.15rem'}}>
                       {selectedUser.banned && <span style={{color:'#C24B43',fontWeight:700}}>🚫 Banlı: {selectedUser.banReason}</span>}
-                      {selectedUser.role==='admin' && <span style={{color:'#C9A227',fontWeight:700}}>⭐ Admin</span>}
+                      {selectedUser.role==='admin' && <span style={{color:'#3CC8F0',fontWeight:700}}>⭐ Admin</span>}
                     </div>
                   </div>
-                  <button onClick={()=>setSelectedUser(null)} style={{background:'rgba(237,231,218,0.05)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'8px',padding:'0.3rem 0.6rem',color:'#8893A1',cursor:'pointer',fontWeight:700,fontSize:'0.78rem'}}>✕</button>
+                  <button onClick={()=>setSelectedUser(null)} style={{background:'rgba(230,237,245,0.05)',border:'1px solid rgba(230,237,245,0.1)',borderRadius:'8px',padding:'0.3rem 0.6rem',color:'#8893A1',cursor:'pointer',fontWeight:700,fontSize:'0.78rem'}}>✕</button>
                 </div>
                 <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'0.4rem',marginBottom:'0.75rem'}}>
                   {[['💰',fmtM(selectedUser.money||0),'Para'],['💎',selectedUser.underCoin||0,'Altın'],['⭐',selectedUser.level||1,'Seviye'],['📊',selectedUser.xp||0,'XP'],['❤️',selectedUser.hp||100,'HP'],['🏙️',selectedUser.city||'?','Şehir']].map(([ic,v,l])=>(
-                    <div key={l} style={{background:'rgba(237,231,218,0.02)',borderRadius:'8px',padding:'0.4rem',textAlign:'center'}}>
+                    <div key={l} style={{background:'rgba(230,237,245,0.02)',borderRadius:'8px',padding:'0.4rem',textAlign:'center'}}>
                       <div style={{fontSize:'0.9rem'}}>{ic}</div>
-                      <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.75rem'}}>{v}</div>
+                      <div style={{fontWeight:700,color:'#E6EDF5',fontSize:'0.75rem'}}>{v}</div>
                       <div style={{fontSize:'0.55rem',color:'#8893A1',textTransform:'uppercase'}}>{l}</div>
                     </div>
                   ))}
@@ -1394,25 +1394,25 @@ function AdminPage({ profile, showNotif, onNavigate }) {
                 <div style={{fontWeight:700,color:'#4C9A6B',marginBottom:'0.5rem',fontSize:'0.8rem'}}>💰 Para İşlemleri</div>
                 <div style={{display:'flex',gap:'0.4rem',marginBottom:'0.4rem'}}>
                   <input type="number" value={giftAmount} onChange={e=>setGiftAmount(e.target.value)} placeholder="Verilecek para" style={{...inp,flex:1}} />
-                  <button onClick={()=>giveMoney(selectedUser)} style={{padding:'0.55rem 0.75rem',borderRadius:'10px',border:'none',background:'#4C9A6B',color:'#EDE7DA',fontWeight:700,fontSize:'0.78rem',cursor:'pointer',whiteSpace:'nowrap'}}>+ Ver</button>
+                  <button onClick={()=>giveMoney(selectedUser)} style={{padding:'0.55rem 0.75rem',borderRadius:'10px',border:'none',background:'#4C9A6B',color:'#E6EDF5',fontWeight:700,fontSize:'0.78rem',cursor:'pointer',whiteSpace:'nowrap'}}>+ Ver</button>
                 </div>
                 <div style={{display:'flex',gap:'0.4rem',marginBottom:'0.4rem'}}>
                   <input type="number" value={editMoney} onChange={e=>setEditMoney(e.target.value)} placeholder="Bakiyeyi direkt ayarla" style={{...inp,flex:1}} />
-                  <button onClick={()=>setMoneyDirect(selectedUser)} style={{padding:'0.55rem 0.75rem',borderRadius:'10px',border:'none',background:'#C9A227',color:'#000',fontWeight:700,fontSize:'0.78rem',cursor:'pointer',whiteSpace:'nowrap'}}>Ayarla</button>
+                  <button onClick={()=>setMoneyDirect(selectedUser)} style={{padding:'0.55rem 0.75rem',borderRadius:'10px',border:'none',background:'#3CC8F0',color:'#000',fontWeight:700,fontSize:'0.78rem',cursor:'pointer',whiteSpace:'nowrap'}}>Ayarla</button>
                 </div>
                 <div style={{display:'flex',gap:'0.4rem',flexWrap:'wrap'}}>
                   {[1000,5000,10000,50000,100000,1000000].map(n=>(
-                    <button key={n} onClick={()=>{setGiftAmount(String(n));}} style={{padding:'0.25rem 0.55rem',borderRadius:'7px',border:'1px solid rgba(237,231,218,0.08)',background:'rgba(237,231,218,0.02)',color:'#8893A1',fontSize:'0.68rem',cursor:'pointer',fontWeight:700}}>{fmtM(n)}</button>
+                    <button key={n} onClick={()=>{setGiftAmount(String(n));}} style={{padding:'0.25rem 0.55rem',borderRadius:'7px',border:'1px solid rgba(230,237,245,0.08)',background:'rgba(230,237,245,0.02)',color:'#8893A1',fontSize:'0.68rem',cursor:'pointer',fontWeight:700}}>{fmtM(n)}</button>
                   ))}
                 </div>
               </div>
 
               {/* Altın ver */}
               <div style={cs}>
-                <div style={{fontWeight:700,color:'#C9A227',marginBottom:'0.5rem',fontSize:'0.8rem'}}>💎 Altın İşlemleri</div>
+                <div style={{fontWeight:700,color:'#3CC8F0',marginBottom:'0.5rem',fontSize:'0.8rem'}}>💎 Altın İşlemleri</div>
                 <div style={{display:'flex',gap:'0.4rem'}}>
                   <input type="number" value={giftUC} onChange={e=>setGiftUC(e.target.value)} placeholder="Verilecek Altın" style={{...inp,flex:1}} />
-                  <button onClick={()=>giveUC(selectedUser)} style={{padding:'0.55rem 0.75rem',borderRadius:'10px',border:'none',background:'#C9A227',color:'#EDE7DA',fontWeight:700,fontSize:'0.78rem',cursor:'pointer',whiteSpace:'nowrap'}}>+ Ver</button>
+                  <button onClick={()=>giveUC(selectedUser)} style={{padding:'0.55rem 0.75rem',borderRadius:'10px',border:'none',background:'#3CC8F0',color:'#E6EDF5',fontWeight:700,fontSize:'0.78rem',cursor:'pointer',whiteSpace:'nowrap'}}>+ Ver</button>
                 </div>
               </div>
 
@@ -1424,19 +1424,19 @@ function AdminPage({ profile, showNotif, onNavigate }) {
                 )}
                 <div style={{display:'flex',gap:'0.4rem',flexWrap:'wrap'}}>
                   <button onClick={()=>banToggle(selectedUser)}
-                    style={{padding:'0.45rem 0.85rem',borderRadius:'10px',border:'none',background:selectedUser.banned?'#4C9A6B':'#C24B43',color:'#EDE7DA',fontWeight:700,fontSize:'0.78rem',cursor:'pointer'}}>
+                    style={{padding:'0.45rem 0.85rem',borderRadius:'10px',border:'none',background:selectedUser.banned?'#4C9A6B':'#C24B43',color:'#E6EDF5',fontWeight:700,fontSize:'0.78rem',cursor:'pointer'}}>
                     {selectedUser.banned ? '✅ Banı Kaldır' : '🚫 Banla'}
                   </button>
                   <button onClick={()=>makeAdmin(selectedUser)}
-                    style={{padding:'0.45rem 0.85rem',borderRadius:'10px',border:'none',background:selectedUser.role==='admin'?'#64748B':'#C9A227',color:selectedUser.role==='admin'?'#fff':'#000',fontWeight:700,fontSize:'0.78rem',cursor:'pointer'}}>
+                    style={{padding:'0.45rem 0.85rem',borderRadius:'10px',border:'none',background:selectedUser.role==='admin'?'#64748B':'#3CC8F0',color:selectedUser.role==='admin'?'#fff':'#000',fontWeight:700,fontSize:'0.78rem',cursor:'pointer'}}>
                     {selectedUser.role==='admin' ? '↓ Admin Al' : '⭐ Admin Yap'}
                   </button>
                   <button onClick={()=>resetUser(selectedUser)}
-                    style={{padding:'0.45rem 0.85rem',borderRadius:'10px',border:'1px solid rgba(201,162,39,0.25)',background:'rgba(201,162,39,0.08)',color:'#C9A227',fontWeight:700,fontSize:'0.78rem',cursor:'pointer'}}>
+                    style={{padding:'0.45rem 0.85rem',borderRadius:'10px',border:'1px solid rgba(60,200,240,0.25)',background:'rgba(60,200,240,0.08)',color:'#3CC8F0',fontWeight:700,fontSize:'0.78rem',cursor:'pointer'}}>
                     ↺ Sıfırla
                   </button>
                   <button onClick={()=>giveEduPackage(selectedUser)}
-                    style={{padding:'0.45rem 0.85rem',borderRadius:'10px',border:'1px solid rgba(201,162,39,0.35)',background:'rgba(201,162,39,0.15)',color:'#C9A227',fontWeight:700,fontSize:'0.78rem',cursor:'pointer'}}>
+                    style={{padding:'0.45rem 0.85rem',borderRadius:'10px',border:'1px solid rgba(60,200,240,0.35)',background:'rgba(60,200,240,0.15)',color:'#3CC8F0',fontWeight:700,fontSize:'0.78rem',cursor:'pointer'}}>
                     🎓 Edu Paketi
                   </button>
                   <button onClick={()=>giveMaxEdu(selectedUser)}
@@ -1458,7 +1458,7 @@ function AdminPage({ profile, showNotif, onNavigate }) {
       {tab==='announce' && (
         <div>
           <div style={cs}>
-            <div style={{fontWeight:800,color:'#EDE7DA',marginBottom:'0.75rem',fontSize:'0.85rem'}}>📢 Sistem Duyurusu Yayınla</div>
+            <div style={{fontWeight:800,color:'#E6EDF5',marginBottom:'0.75rem',fontSize:'0.85rem'}}>📢 Sistem Duyurusu Yayınla</div>
             <div style={{marginBottom:'0.5rem'}}>
               <div style={{fontSize:'0.7rem',color:'#8893A1',fontWeight:700,marginBottom:'0.3rem'}}>Başlık *</div>
               <input value={annTitle} onChange={e=>setAnnTitle(e.target.value)} placeholder="Duyuru başlığı..."
@@ -1468,15 +1468,15 @@ function AdminPage({ profile, showNotif, onNavigate }) {
               <div style={{fontSize:'0.7rem',color:'#8893A1',fontWeight:700,marginBottom:'0.3rem'}}>Kategori & İkon</div>
               <div style={{display:'grid',gridTemplateColumns:'1fr auto',gap:'0.4rem'}}>
                 <select value={annCategory} onChange={e=>setAnnCategory(e.target.value)}
-                  style={{...inp,marginBottom:0,background:'rgba(237,231,218,0.03)',color:'#EDE7DA'}}>
+                  style={{...inp,marginBottom:0,background:'rgba(230,237,245,0.03)',color:'#E6EDF5'}}>
                   {['Sistem','Siyaset','Ekonomi','Hukuk','Etkinlik','Güvenlik','Eğitim'].map(c=>(
-                    <option key={c} value={c} style={{background:'#0F0800'}}>{c}</option>
+                    <option key={c} value={c} style={{background:'#0A0F17'}}>{c}</option>
                   ))}
                 </select>
                 <select value={annIcon} onChange={e=>setAnnIcon(e.target.value)}
-                  style={{...inp,marginBottom:0,width:'60px',background:'rgba(237,231,218,0.03)',color:'#EDE7DA',textAlign:'center'}}>
+                  style={{...inp,marginBottom:0,width:'60px',background:'rgba(230,237,245,0.03)',color:'#E6EDF5',textAlign:'center'}}>
                   {['📢','🏛️','💰','⚖️','🎉','🚔','🎓','⚠️','🔥','📌'].map(ic=>(
-                    <option key={ic} value={ic} style={{background:'#0F0800'}}>{ic}</option>
+                    <option key={ic} value={ic} style={{background:'#0A0F17'}}>{ic}</option>
                   ))}
                 </select>
               </div>
@@ -1492,21 +1492,21 @@ function AdminPage({ profile, showNotif, onNavigate }) {
                 style={{...inp,marginBottom:0}} />
               {annImage && <img src={annImage} alt="önizleme" style={{marginTop:'0.4rem',maxHeight:'80px',borderRadius:'8px',objectFit:'cover',width:'100%'}} onError={e=>e.target.style.display='none'} />}
             </div>
-            <button onClick={sendAnnouncement} style={{width:'100%',padding:'0.7rem',borderRadius:'10px',border:'none',background:'linear-gradient(135deg,#C9A227,#C9A227)',color:'#EDE7DA',fontWeight:700,fontSize:'0.85rem',cursor:'pointer'}}>
+            <button onClick={sendAnnouncement} style={{width:'100%',padding:'0.7rem',borderRadius:'10px',border:'none',background:'linear-gradient(135deg,#3CC8F0,#3CC8F0)',color:'#E6EDF5',fontWeight:700,fontSize:'0.85rem',cursor:'pointer'}}>
               {annIcon} Duyuruyu Yayınla
             </button>
           </div>
 
           <div style={cs}>
-            <div style={{fontWeight:700,color:'#EDE7DA',marginBottom:'0.65rem',fontSize:'0.85rem'}}>📋 Son Duyurular ({announcements.length})</div>
+            <div style={{fontWeight:700,color:'#E6EDF5',marginBottom:'0.65rem',fontSize:'0.85rem'}}>📋 Son Duyurular ({announcements.length})</div>
             {announcements.length===0 && <div style={{color:'#8893A1',fontSize:'0.8rem',textAlign:'center',padding:'1rem'}}>Henüz duyuru yok</div>}
             {announcements.map(a => (
               <div key={a.id} style={{padding:'0.6rem',borderBottom:'1px solid rgba(255,255,255,0.04)',borderRadius:'8px',marginBottom:'0.3rem'}}>
                 {a.imageUrl && <img src={a.imageUrl} alt="" style={{width:'100%',maxHeight:'100px',objectFit:'cover',borderRadius:'8px',marginBottom:'0.4rem'}} onError={e=>e.target.style.display='none'} />}
                 <div style={{display:'flex',alignItems:'center',gap:'0.4rem',marginBottom:'0.2rem'}}>
                   <span style={{fontSize:'0.9rem'}}>{a.icon||'📢'}</span>
-                  <span style={{fontSize:'0.82rem',fontWeight:800,color:'#EDE7DA'}}>{a.title||a.text}</span>
-                  {a.category && <span style={{fontSize:'0.55rem',padding:'0.1rem 0.4rem',borderRadius:'6px',background:'rgba(201,162,39,0.14)',color:'#C9A227',fontWeight:700}}>{a.category}</span>}
+                  <span style={{fontSize:'0.82rem',fontWeight:800,color:'#E6EDF5'}}>{a.title||a.text}</span>
+                  {a.category && <span style={{fontSize:'0.55rem',padding:'0.1rem 0.4rem',borderRadius:'6px',background:'rgba(60,200,240,0.14)',color:'#3CC8F0',fontWeight:700}}>{a.category}</span>}
                 </div>
                 {a.title && <div style={{fontSize:'0.78rem',color:'#8893A1',marginBottom:'0.2rem'}}>{a.body||a.text}</div>}
                 <div style={{fontSize:'0.62rem',color:'#8893A1'}}>{a.by} • {timeAgo(a.ts)}</div>
@@ -1535,7 +1535,7 @@ function AdminPage({ profile, showNotif, onNavigate }) {
             <div key={u.id} style={{...cs,marginBottom:'0.35rem',padding:'0.65rem',cursor:'pointer'}} onClick={()=>{setSelectedUser(u);setTab('manage');}}>
               <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
                 <div>
-                  <div style={{fontSize:'0.82rem',fontWeight:700,color:u.banned?'#E08C87':u.role==='admin'?'#C9A227':'#EDE7DA'}}>{u.role==='admin'?'⭐ ':u.banned?'🚫 ':''}{u.username}</div>
+                  <div style={{fontSize:'0.82rem',fontWeight:700,color:u.banned?'#E08C87':u.role==='admin'?'#3CC8F0':'#E6EDF5'}}>{u.role==='admin'?'⭐ ':u.banned?'🚫 ':''}{u.username}</div>
                   <div style={{fontSize:'0.65rem',color:'#8893A1'}}>{u.email||'—'} • {u.city||'?'} • Lv.{u.level||1}</div>
                 </div>
                 <div style={{textAlign:'right'}}>
@@ -1553,13 +1553,13 @@ function AdminPage({ profile, showNotif, onNavigate }) {
       {tab==='economy' && (
         <div>
           <div style={cs}>
-            <div style={{fontWeight:800,color:'#EDE7DA',marginBottom:'0.65rem',fontSize:'0.85rem'}}>💰 Ekonomi Özeti</div>
+            <div style={{fontWeight:800,color:'#E6EDF5',marginBottom:'0.65rem',fontSize:'0.85rem'}}>💰 Ekonomi Özeti</div>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.5rem',marginBottom:'0.65rem'}}>
               {[
                 ['💰','Toplam Para', fmtM(totalMoney), '#4C9A6B'],
-                ['📊','Ort. Bakiye', fmtM(allUsers.length>0?Math.floor(totalMoney/allUsers.length):0), '#C9A227'],
-                ['💎','Toplam VIP', allUsers.filter(u=>u.premium).length, '#C9A227'],
-                ['🪙','Toplam Altın', allUsers.reduce((s,u)=>s+(u.underCoin||0),0).toLocaleString('tr-TR'), '#C9A227'],
+                ['📊','Ort. Bakiye', fmtM(allUsers.length>0?Math.floor(totalMoney/allUsers.length):0), '#3CC8F0'],
+                ['💎','Toplam VIP', allUsers.filter(u=>u.premium).length, '#3CC8F0'],
+                ['₺','Toplam Altın', allUsers.reduce((s,u)=>s+(u.underCoin||0),0).toLocaleString('tr-TR'), '#3CC8F0'],
               ].map(([ic,lbl,val,c]) => (
                 <div key={lbl} style={{...cs,textAlign:'center',padding:'0.75rem',marginBottom:0}}>
                   <div style={{fontSize:'1.1rem'}}>{ic}</div>
@@ -1568,19 +1568,19 @@ function AdminPage({ profile, showNotif, onNavigate }) {
                 </div>
               ))}
             </div>
-            <div style={{fontWeight:700,color:'#EDE7DA',marginBottom:'0.5rem',fontSize:'0.82rem'}}>💎 VIP Üyeler</div>
+            <div style={{fontWeight:700,color:'#E6EDF5',marginBottom:'0.5rem',fontSize:'0.82rem'}}>💎 VIP Üyeler</div>
             {allUsers.filter(u=>u.premium).length === 0
               ? <div style={{color:'#8893A1',fontSize:'0.78rem',textAlign:'center',padding:'0.75rem'}}>Henüz VIP üye yok</div>
               : allUsers.filter(u=>u.premium).map(u=>(
                 <div key={u.id} style={{display:'flex',justifyContent:'space-between',padding:'0.35rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)',fontSize:'0.78rem'}}>
-                  <span style={{color:'#C9A227',fontWeight:700}}>💎 {u.username}</span>
+                  <span style={{color:'#3CC8F0',fontWeight:700}}>💎 {u.username}</span>
                   <span style={{color:'#8893A1'}}>{fmtM(u.money||0)}</span>
                 </div>
               ))
             }
           </div>
           <div style={cs}>
-            <div style={{fontWeight:800,color:'#EDE7DA',marginBottom:'0.65rem',fontSize:'0.85rem'}}>🏢 Holdingler</div>
+            <div style={{fontWeight:800,color:'#E6EDF5',marginBottom:'0.65rem',fontSize:'0.85rem'}}>🏢 Holdingler</div>
             {(() => {
               try {
                 const hs = JSON.parse(localStorage.getItem('rep_holdings')||'[]');
@@ -1589,8 +1589,8 @@ function AdminPage({ profile, showNotif, onNavigate }) {
                 return (
                   <div>
                     <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.5rem'}}>
-                      {[['🏢','Toplam Şirket',totalHoldings,'#C9A227'],['💰','Toplam Değer',fmtM(totalAssets),'#4C9A6B']].map(([ic,lbl,val,c])=>(
-                        <div key={lbl} style={{background:'rgba(237,231,218,0.02)',borderRadius:'10px',padding:'0.65rem',textAlign:'center'}}>
+                      {[['🏢','Toplam Şirket',totalHoldings,'#3CC8F0'],['💰','Toplam Değer',fmtM(totalAssets),'#4C9A6B']].map(([ic,lbl,val,c])=>(
+                        <div key={lbl} style={{background:'rgba(230,237,245,0.02)',borderRadius:'10px',padding:'0.65rem',textAlign:'center'}}>
                           <div style={{fontSize:'1.1rem'}}>{ic}</div>
                           <div style={{fontWeight:800,color:c}}>{val}</div>
                           <div style={{fontSize:'0.6rem',color:'#8893A1',textTransform:'uppercase'}}>{lbl}</div>
@@ -1603,13 +1603,13 @@ function AdminPage({ profile, showNotif, onNavigate }) {
             })()}
           </div>
           <div style={cs}>
-            <div style={{fontWeight:800,color:'#EDE7DA',marginBottom:'0.65rem',fontSize:'0.85rem'}}>🏛️ Partiler & Çeteler</div>
+            <div style={{fontWeight:800,color:'#E6EDF5',marginBottom:'0.65rem',fontSize:'0.85rem'}}>🏛️ Partiler & Çeteler</div>
             {(() => {
               const parties = JSON.parse(localStorage.getItem('rep_parties')||'[]');
               const gangs = JSON.parse(localStorage.getItem('rep_gangs')||'[]');
               return (
                 <div>
-                  {[['🏛️','Parti Sayısı',parties.length,'#C9A227'],['🔫','Çete/Aile',gangs.length,'#C24B43']].map(([ic,lbl,val,c])=>(
+                  {[['🏛️','Parti Sayısı',parties.length,'#3CC8F0'],['🔫','Çete/Aile',gangs.length,'#C24B43']].map(([ic,lbl,val,c])=>(
                     <div key={lbl} style={{display:'flex',justifyContent:'space-between',padding:'0.4rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)',fontSize:'0.78rem'}}>
                       <span style={{color:'#8893A1'}}>{ic} {lbl}</span>
                       <span style={{color:c,fontWeight:700}}>{val}</span>
@@ -1617,8 +1617,8 @@ function AdminPage({ profile, showNotif, onNavigate }) {
                   ))}
                   {parties.slice(0,5).map(p=>(
                     <div key={p.id} style={{display:'flex',justifyContent:'space-between',padding:'0.3rem 0',borderBottom:'1px solid rgba(255,255,255,0.03)',fontSize:'0.72rem'}}>
-                      <span style={{color:'#C9A227'}}>🏛️ {p.name}</span>
-                      <span style={{color:'#8893A1'}}>{p.memberCount||0} üye • 🪙{(p.treasury||0).toLocaleString('tr-TR')} hazine</span>
+                      <span style={{color:'#3CC8F0'}}>🏛️ {p.name}</span>
+                      <span style={{color:'#8893A1'}}>{p.memberCount||0} üye • ₺{(p.treasury||0).toLocaleString('tr-TR')} hazine</span>
                     </div>
                   ))}
                 </div>
@@ -1633,11 +1633,11 @@ function AdminPage({ profile, showNotif, onNavigate }) {
       {tab==='tools' && (
         <div>
           <div style={cs}>
-            <div style={{fontWeight:800,color:'#EDE7DA',marginBottom:'0.75rem',fontSize:'0.85rem'}}>🛠️ Sistem Araçları</div>
+            <div style={{fontWeight:800,color:'#E6EDF5',marginBottom:'0.75rem',fontSize:'0.85rem'}}>🛠️ Sistem Araçları</div>
             <div style={{display:'grid',gap:'0.5rem'}}>
               {[
-                ['↻ Oyunu Yenile', '#C9A227', ()=>window.location.reload()],
-                ['👤 Profilime Git', '#C9A227', ()=>onNavigate('profile')],
+                ['↻ Oyunu Yenile', '#3CC8F0', ()=>window.location.reload()],
+                ['👤 Profilime Git', '#3CC8F0', ()=>onNavigate('profile')],
                 ['🏠 Ana Sayfaya Git', '#4C9A6B', ()=>onNavigate('home')],
                 ['🧹 Yerel Veriyi Temizle (DİKKAT!)', '#C24B43', ()=>{ if(window.confirm('TÜM yerel veriler silinecek! Emin misin?')){localStorage.clear();window.location.reload();} }],
               ].map(([lbl,clr,fn])=>(
@@ -1648,9 +1648,9 @@ function AdminPage({ profile, showNotif, onNavigate }) {
             </div>
           </div>
           <div style={cs}>
-            <div style={{fontWeight:800,color:'#EDE7DA',marginBottom:'0.5rem',fontSize:'0.85rem'}}>ℹ️ Sistem Bilgisi</div>
+            <div style={{fontWeight:800,color:'#E6EDF5',marginBottom:'0.5rem',fontSize:'0.85rem'}}>ℹ️ Sistem Bilgisi</div>
             {[
-              ['Oyun', 'Saltanat Online v8.0'],
+              ['Oyun', 'Siyaset RP v8.0'],
               ['Kullanıcı Sayısı', allUsers.length],
               ['Online Sayısı', onlineCnt],
               ['Banlı Kullanıcı', bannedCount],
@@ -1660,7 +1660,7 @@ function AdminPage({ profile, showNotif, onNavigate }) {
             ].map(([k,v])=>(
               <div key={k} style={{display:'flex',justifyContent:'space-between',padding:'0.4rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)',fontSize:'0.78rem'}}>
                 <span style={{color:'#8893A1'}}>{k}</span>
-                <span style={{color:'#EDE7DA',fontWeight:700}}>{v}</span>
+                <span style={{color:'#E6EDF5',fontWeight:700}}>{v}</span>
               </div>
             ))}
           </div>

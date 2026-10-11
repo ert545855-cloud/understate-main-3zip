@@ -2,7 +2,7 @@
 // SALTANAT ONLINE — Lonca Ticaret Anlaşmaları
 // ═══════════════════════════════════════════════════════════════
 window.LoncaAnlasmaScreen = function LoncaAnlasmaScreen({ profile, onNavigate, showNotif }) {
-  const G='#C89B3C', BG='#0F0800', T='#F5EBD7', M='#A9A6A0', S='#2D1800', R='#B8423C', GR='#3E8C5A';
+  const G='#3CC8F0', BG='#0A0F17', T='#E6EDF5', M='#93A4B8', S='#152032', R='#B8423C', GR='#3E8C5A';
   const jwt = () => localStorage.getItem('us_jwt') || '';
 
   const [tab,    setTab]    = React.useState('open');
@@ -48,16 +48,16 @@ window.LoncaAnlasmaScreen = function LoncaAnlasmaScreen({ profile, onNavigate, s
     load();
   };
 
-  const statusColor = { pending:'#C89B3C', accepted:'#3E8C5A', rejected:'#B8423C', expired:'#A9A6A0', completed:'#60A5FA' };
+  const statusColor = { pending:'#3CC8F0', accepted:'#3E8C5A', rejected:'#B8423C', expired:'#93A4B8', completed:'#60A5FA' };
   const statusLabel = { pending:'⏳ Bekliyor', accepted:'✅ Kabul', rejected:'❌ Red', expired:'⌛ Süresi Doldu', completed:'🏁 Tamamlandı' };
 
-  const cardStyle = { background: S, borderRadius: 14, padding: '14px', marginBottom: 10, border: '1px solid rgba(200,155,60,0.18)', boxShadow: '0 2px 12px rgba(0,0,0,0.4)' };
+  const cardStyle = { background: S, borderRadius: 14, padding: '14px', marginBottom: 10, border: '1px solid rgba(60,200,240,0.18)', boxShadow: '0 2px 12px rgba(0,0,0,0.4)' };
 
   const GoodsSelect = ({ label, val, onChange }) =>
     React.createElement('div', { style:{ flex:1 }},
       React.createElement('div', { style:{ fontSize:'0.65rem', color:M, marginBottom:4 }}, label),
       React.createElement('select', { value:val, onChange:e=>onChange(e.target.value),
-        style:{ width:'100%', padding:'8px', borderRadius:8, border:'1px solid rgba(200,155,60,0.25)', background:'#1A0E00', color:T, fontSize:'0.8rem' }},
+        style:{ width:'100%', padding:'8px', borderRadius:8, border:'1px solid rgba(60,200,240,0.25)', background:'#0F1724', color:T, fontSize:'0.8rem' }},
         (data.goods||[]).map(g => React.createElement('option', { key:g, value:g }, g))
       )
     );
@@ -96,25 +96,25 @@ window.LoncaAnlasmaScreen = function LoncaAnlasmaScreen({ profile, onNavigate, s
           '❌ Reddet')
       ),
       !showActions && deal.status === 'pending' && React.createElement('button', { onClick:()=>accept(deal.id),
-        style:{ width:'100%', padding:'8px', borderRadius:9, border:'none', background:`linear-gradient(135deg,${G},#A07828)`, color:'#0F0800', fontWeight:700, cursor:'pointer' }},
+        style:{ width:'100%', padding:'8px', borderRadius:9, border:'none', background:`linear-gradient(135deg,${G},#1E8FB8)`, color:'#0A0F17', fontWeight:700, cursor:'pointer' }},
         '🤝 Bu Anlaşmayı Kabul Et')
     );
 
   return React.createElement('div', { style:{ minHeight:'100vh', background:BG, fontFamily:"'Inter',sans-serif", paddingBottom:80 }},
     // Header
-    React.createElement('div', { style:{ background:'linear-gradient(135deg,#0f0800,#2a1500)', borderBottom:'1px solid rgba(200,155,60,0.2)', padding:'14px 16px' }},
+    React.createElement('div', { style:{ background:'linear-gradient(135deg,#0A0F17,#2a1500)', borderBottom:'1px solid rgba(60,200,240,0.2)', padding:'14px 16px' }},
       React.createElement('div', { style:{ display:'flex', alignItems:'center', justifyContent:'space-between' }},
         React.createElement('div', { style:{ display:'flex', alignItems:'center', gap:10 }},
           onNavigate && React.createElement('button', { onClick:()=>onNavigate('home'),
             style:{ background:'rgba(255,255,255,0.06)', border:'1px solid rgba(255,255,255,0.1)', borderRadius:10, padding:'6px 10px', color:M, fontSize:'0.75rem', cursor:'pointer' }}, '← Geri'),
           React.createElement('span', { style:{ fontSize:'1.5rem' }}, '🤝'),
           React.createElement('div', null,
-            React.createElement('div', { style:{ fontFamily:"'Cinzel',serif", fontWeight:900, fontSize:'1.1rem', color:G }}, 'Lonca Anlaşmaları'),
+            React.createElement('div', { style:{ fontFamily:"'Rajdhani',sans-serif", fontWeight:900, fontSize:'1.1rem', color:G }}, 'Sendika Anlaşmaları'),
             React.createElement('div', { style:{ fontSize:'0.62rem', color:M }}, `Gelen Teklif: ${data.incoming?.length || 0}`)
           )
         ),
         React.createElement('button', { onClick:()=>setShowNew(true),
-          style:{ background:G, color:'#0F0800', border:'none', borderRadius:9, padding:'8px 14px', fontWeight:700, fontSize:'0.78rem', cursor:'pointer' }}, '+ Teklif')
+          style:{ background:G, color:'#0A0F17', border:'none', borderRadius:9, padding:'8px 14px', fontWeight:700, fontSize:'0.78rem', cursor:'pointer' }}, '+ Teklif')
       )
     ),
 
@@ -123,7 +123,7 @@ window.LoncaAnlasmaScreen = function LoncaAnlasmaScreen({ profile, onNavigate, s
       [['open','🌐 Açık'], ['incoming','📥 Gelen'], ['mine','📤 Tekliflerim']].map(([k,l]) =>
         React.createElement('button', { key:k, onClick:()=>setTab(k),
           style:{ flex:1, padding:'8px 4px', borderRadius:10, border:'none', cursor:'pointer', fontWeight:700, fontSize:'0.72rem',
-            background: tab===k ? G : 'rgba(255,255,255,0.05)', color: tab===k ? '#0F0800' : M }}, l)
+            background: tab===k ? G : 'rgba(255,255,255,0.05)', color: tab===k ? '#0A0F17' : M }}, l)
       )
     ),
 
@@ -134,7 +134,7 @@ window.LoncaAnlasmaScreen = function LoncaAnlasmaScreen({ profile, onNavigate, s
               React.createElement('div', { style:{ fontSize:'3rem', marginBottom:12 }}, '🤝'),
               React.createElement('div', { style:{ fontSize:'0.9rem', color:T, marginBottom:8 }}, 'Açık Teklif Yok'),
               React.createElement('button', { onClick:()=>setShowNew(true),
-                style:{ background:G, color:'#0F0800', border:'none', borderRadius:9, padding:'9px 20px', fontWeight:700, cursor:'pointer' }}, '+ İlk Teklifi Oluştur')
+                style:{ background:G, color:'#0A0F17', border:'none', borderRadius:9, padding:'9px 20px', fontWeight:700, cursor:'pointer' }}, '+ İlk Teklifi Oluştur')
             )
           : data.open.map(d => React.createElement(DealCard, { key:d.id, deal:d, showActions:false }))
       ),
@@ -152,14 +152,14 @@ window.LoncaAnlasmaScreen = function LoncaAnlasmaScreen({ profile, onNavigate, s
 
     // Yeni teklif modal
     showNew && React.createElement('div', { style:{ position:'fixed', inset:0, background:'rgba(0,0,0,0.85)', display:'flex', alignItems:'center', justifyContent:'center', zIndex:9999, padding:'1rem' }},
-      React.createElement('div', { style:{ background:'#1A0E00', borderRadius:16, padding:'1.5rem', maxWidth:400, width:'100%', border:`1px solid ${G}33`, maxHeight:'85vh', overflowY:'auto', boxShadow:`0 16px 64px rgba(0,0,0,0.7)` }},
-        React.createElement('div', { style:{ fontFamily:"'Cinzel',serif", fontSize:'1.1rem', fontWeight:800, color:G, marginBottom:16 }}, '🤝 Yeni Anlaşma Teklifi'),
+      React.createElement('div', { style:{ background:'#0F1724', borderRadius:16, padding:'1.5rem', maxWidth:400, width:'100%', border:`1px solid ${G}33`, maxHeight:'85vh', overflowY:'auto', boxShadow:`0 16px 64px rgba(0,0,0,0.7)` }},
+        React.createElement('div', { style:{ fontFamily:"'Rajdhani',sans-serif", fontSize:'1.1rem', fontWeight:800, color:G, marginBottom:16 }}, '🤝 Yeni Anlaşma Teklifi'),
         React.createElement('div', { style:{ display:'flex', gap:8, marginBottom:12 }},
           React.createElement(GoodsSelect, { label:'Sen Veriyorsun', val:form.goods_offered, onChange:v=>setForm(p=>({...p,goods_offered:v})) }),
           React.createElement('div', { style:{ flex:0.7 }},
             React.createElement('div', { style:{ fontSize:'0.65rem', color:M, marginBottom:4 }}, 'Miktar'),
             React.createElement('input', { type:'number', min:1, max:9999, value:form.amount_offered, onChange:e=>setForm(p=>({...p,amount_offered:parseInt(e.target.value)||1})),
-              style:{ width:'100%', padding:'8px', borderRadius:8, border:'1px solid rgba(200,155,60,0.25)', background:'#1A0E00', color:T, fontSize:'0.8rem' }})
+              style:{ width:'100%', padding:'8px', borderRadius:8, border:'1px solid rgba(60,200,240,0.25)', background:'#0F1724', color:T, fontSize:'0.8rem' }})
           )
         ),
         React.createElement('div', { style:{ textAlign:'center', color:G, fontSize:'1.2rem', marginBottom:10 }}, '⇄'),
@@ -168,19 +168,19 @@ window.LoncaAnlasmaScreen = function LoncaAnlasmaScreen({ profile, onNavigate, s
           React.createElement('div', { style:{ flex:0.7 }},
             React.createElement('div', { style:{ fontSize:'0.65rem', color:M, marginBottom:4 }}, 'Miktar'),
             React.createElement('input', { type:'number', min:1, max:9999, value:form.amount_requested, onChange:e=>setForm(p=>({...p,amount_requested:parseInt(e.target.value)||1})),
-              style:{ width:'100%', padding:'8px', borderRadius:8, border:'1px solid rgba(200,155,60,0.25)', background:'#1A0E00', color:T, fontSize:'0.8rem' }})
+              style:{ width:'100%', padding:'8px', borderRadius:8, border:'1px solid rgba(60,200,240,0.25)', background:'#0F1724', color:T, fontSize:'0.8rem' }})
           )
         ),
         React.createElement('div', { style:{ marginBottom:16 }},
           React.createElement('div', { style:{ fontSize:'0.65rem', color:M, marginBottom:4 }}, 'Not (isteğe bağlı)'),
           React.createElement('input', { type:'text', value:form.notes, onChange:e=>setForm(p=>({...p,notes:e.target.value})), placeholder:'Anlaşma hakkında not…',
-            style:{ width:'100%', padding:'8px', borderRadius:8, border:'1px solid rgba(200,155,60,0.25)', background:'#1A0E00', color:T, fontSize:'0.8rem', boxSizing:'border-box' }})
+            style:{ width:'100%', padding:'8px', borderRadius:8, border:'1px solid rgba(60,200,240,0.25)', background:'#0F1724', color:T, fontSize:'0.8rem', boxSizing:'border-box' }})
         ),
         React.createElement('div', { style:{ display:'flex', gap:8 }},
           React.createElement('button', { onClick:()=>setShowNew(false),
             style:{ flex:1, padding:'10px', borderRadius:9, border:`1px solid ${G}44`, background:'transparent', color:M, cursor:'pointer' }}, 'İptal'),
           React.createElement('button', { onClick:propose,
-            style:{ flex:2, padding:'10px', borderRadius:9, border:'none', background:`linear-gradient(135deg,${G},#A07828)`, color:'#0F0800', fontWeight:700, cursor:'pointer' }}, '🤝 Teklif Gönder')
+            style:{ flex:2, padding:'10px', borderRadius:9, border:'none', background:`linear-gradient(135deg,${G},#1E8FB8)`, color:'#0A0F17', fontWeight:700, cursor:'pointer' }}, '🤝 Teklif Gönder')
         )
       )
     )

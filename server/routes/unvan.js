@@ -6,20 +6,20 @@ const db = require('../services/dbService');
 
 const ALL_TITLES = [
   { id:'yolcu',      label:'Yolcu',              emoji:'🚶', req:'level', val:1  },
-  { id:'acemi',      label:'Acemi Sipahi',        emoji:'⚔️', req:'level', val:5  },
+  { id:'acemi',      label:'Acemi Zırhlı Birlik',        emoji:'⚔️', req:'level', val:5  },
   { id:'esnaf',      label:'Esnaf',               emoji:'🛒', req:'level', val:10 },
   { id:'haci',       label:'Hacı',                emoji:'🕌', req:'level', val:15 },
-  { id:'bey',        label:'Bey',                 emoji:'👑', req:'level', val:20 },
-  { id:'sipahi',     label:'Sipahi',              emoji:'🐎', req:'level', val:25 },
+  { id:'bey',        label:'Lider',                 emoji:'👑', req:'level', val:20 },
+  { id:'sipahi',     label:'Zırhlı Birlik',              emoji:'🐎', req:'level', val:25 },
   { id:'alim',       label:'Âlim',                emoji:'📜', req:'level', val:30 },
   { id:'tacir',      label:'Büyük Tâcir',         emoji:'💰', req:'money', val:100000 },
   { id:'aga',        label:'Ağa',                 emoji:'🪖', req:'level', val:35 },
-  { id:'pasa',       label:'Paşa',                emoji:'🎖️', req:'level', val:50 },
-  { id:'vezir',      label:'Vezir',               emoji:'⚜️', req:'level', val:70 },
+  { id:'pasa',       label:'General',                emoji:'🎖️', req:'level', val:50 },
+  { id:'vezir',      label:'Bakan',               emoji:'🏛️', req:'level', val:70 },
   { id:'serdar',     label:'Serdar',              emoji:'🏹', req:'level', val:60 },
   { id:'kapudan',    label:'Kaptanıderya',        emoji:'⚓', req:'merits', val:500 },
   { id:'beylerbeyi', label:'Rumeli Beylerbeyisi', emoji:'🏰', req:'level', val:80 },
-  { id:'sadrazam',   label:'Sadrazam',            emoji:'🌟', req:'level', val:99 },
+  { id:'sadrazam',   label:'Başbakan',            emoji:'🌟', req:'level', val:99 },
 ];
 
 router.get('/list', authMiddleware, asyncHandler(async (req, res) => {

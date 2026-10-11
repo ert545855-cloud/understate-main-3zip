@@ -30,15 +30,15 @@ window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, f
     }
   };
 
-  const fmtMoney = (n) => { if(!n)return "🪙0"; if(n>=1e9)return "🪙"+(n/1e9).toFixed(1)+"Mlr"; if(n>=1e6)return "🪙"+(n/1e6).toFixed(1)+"M"; if(n>=1e3)return "🪙"+(n/1e3).toFixed(0)+"K"; return "🪙"+n; };
+  const fmtMoney = (n) => { if(!n)return "₺0"; if(n>=1e9)return "₺"+(n/1e9).toFixed(1)+"Mlr"; if(n>=1e6)return "₺"+(n/1e6).toFixed(1)+"M"; if(n>=1e3)return "₺"+(n/1e3).toFixed(0)+"K"; return "₺"+n; };
 
   // ── Parti Hiyerarşisi (6 kademe) ─────────────────────────────────────────────
   const PARTY_RANKS = [
-    { id:'genel_baskan',   label:'⭐ Genel Başkan',       color:'#C9A227', icon:'⭐', maxCount:1,  desc:'Parti kurucusu ve genel yöneticisi. Tüm kararlar burada biter.',      canBeCampaign:true },
+    { id:'genel_baskan',   label:'⭐ Genel Başkan',       color:'#3CC8F0', icon:'⭐', maxCount:1,  desc:'Parti kurucusu ve genel yöneticisi. Tüm kararlar burada biter.',      canBeCampaign:true },
     { id:'baskan_yrd',     label:'🏅 Başkan Yardımcısı', color:'#F97316', icon:'🏅', maxCount:2,  desc:'Genel başkanın vekili; kampanya ve yasal süreçleri yönetir.',          canBeCampaign:true },
-    { id:'sozcu',          label:'🎙️ Parti Sözcüsü',     color:'#C9A227', icon:'🎙️', maxCount:1,  desc:'Resmi basın açıklamaları ve medya koordinasyonundan sorumlu.',         canBeCampaign:false},
-    { id:'il_baskani',     label:'🌆 İl Başkanı',         color:'#C9A227', icon:'🌆', maxCount:8,  desc:'Bölgesel örgütlenme ve seçim çalışmalarını yürütür.',                 canBeCampaign:true },
-    { id:'divan üyesi',   label:'🏛️ Divan Üyesi',       color:'#4C9A6B', icon:'🏛️', maxCount:30, desc:'Meclis oturumlarında partiyi temsil eder; yasa oylamalarına katılır.', canBeCampaign:false},
+    { id:'sozcu',          label:'🎙️ Parti Sözcüsü',     color:'#3CC8F0', icon:'🎙️', maxCount:1,  desc:'Resmi basın açıklamaları ve medya koordinasyonundan sorumlu.',         canBeCampaign:false},
+    { id:'il_baskani',     label:'🌆 İl Başkanı',         color:'#3CC8F0', icon:'🌆', maxCount:8,  desc:'Bölgesel örgütlenme ve seçim çalışmalarını yürütür.',                 canBeCampaign:true },
+    { id:'divan üyesi',   label:'🏛️ Kabine Üyesi',       color:'#4C9A6B', icon:'🏛️', maxCount:30, desc:'Meclis oturumlarında partiyi temsil eder; yasa oylamalarına katılır.', canBeCampaign:false},
     { id:'uye',            label:'👤 Üye',                color:'#5E7390', icon:'👤', maxCount:999,desc:'Genel parti üyesi.',                                                   canBeCampaign:false},
   ];
 
@@ -81,9 +81,9 @@ window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, f
 
   const LAW_TYPES = [
     {id:"economy",   label:"Ekonomi Yasası",   icon:"💰",color:"#4C9A6B"},
-    {id:"security",  label:"Güvenlik Yasası",  icon:"🛡️",color:"#C9A227"},
-    {id:"labor",     label:"İş Yasası",        icon:"🏭",color:"#C9A227"},
-    {id:"tax",       label:"Vergi Düzenlemesi",icon:"📋",color:"#C9A227"},
+    {id:"security",  label:"Güvenlik Yasası",  icon:"🛡️",color:"#3CC8F0"},
+    {id:"labor",     label:"İş Yasası",        icon:"🏭",color:"#3CC8F0"},
+    {id:"tax",       label:"Vergi Düzenlemesi",icon:"📋",color:"#3CC8F0"},
     {id:"education", label:"Eğitim Yasası",    icon:"📚",color:"#6BC48B"},
   ];
 
@@ -138,7 +138,7 @@ window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, f
     if(!isLeader) return showMsg("Sadece lider fon anlaşması yapabilir","error");
     const familyName = prompt("Fon sağlayacak aile adı:");
     if(!familyName) return;
-    const amount = parseInt(prompt("Fon miktarı (🪙):"));
+    const amount = parseInt(prompt("Fon miktarı (₺):"));
     if(!amount||isNaN(amount)) return showMsg("Geçerli miktar girin","error");
     const s = {...sponsors,[myParty.id]:[...(sponsors[myParty.id]||[]),{familyName,amount,date:Date.now()}]};
     setSponsors(s); S.save("sponsors",s);
@@ -163,7 +163,7 @@ window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, f
       <div className="ministry-header">🏛️ Parti Merkezi</div>
       <div style={{...card,textAlign:"center",padding:"2.5rem 1.5rem"}}>
         <div style={{fontSize:"2.5rem",marginBottom:"0.75rem"}}>🏛️</div>
-        <div style={{fontWeight:800,color:"#EDE7DA",fontSize:"0.95rem",marginBottom:"0.4rem"}}>Şu an bir partiye üye değilsiniz</div>
+        <div style={{fontWeight:800,color:"#E6EDF5",fontSize:"0.95rem",marginBottom:"0.4rem"}}>Şu an bir partiye üye değilsiniz</div>
         <div style={{color:"#5E7390",fontSize:"0.8rem",marginBottom:"1.25rem",lineHeight:1.5}}>
           Parti merkezini kullanabilmek için önce bir partiye katılın veya kendi partinizi kurun.
         </div>
@@ -180,7 +180,7 @@ window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, f
     <div>
       <div className="ministry-header">🏛️ {myParty.name} — Parti Merkezi</div>
       {msg&&(
-        <div style={{padding:"0.6rem 0.85rem",borderRadius:10,marginBottom:"0.75rem",background:msg.type==="success"?"rgba(76,154,107,0.12)":msg.type==="error"?"rgba(194,75,67,0.12)":"rgba(201,162,39,0.12)",border:`1px solid ${msg.type==="success"?"rgba(76,154,107,0.3)":msg.type==="error"?"rgba(194,75,67,0.3)":"rgba(201,162,39,0.3)"}`,color:msg.type==="success"?"#4C9A6B":msg.type==="error"?"#C24B43":"#C9A227",fontSize:"0.82rem",fontWeight:600}}>
+        <div style={{padding:"0.6rem 0.85rem",borderRadius:10,marginBottom:"0.75rem",background:msg.type==="success"?"rgba(76,154,107,0.12)":msg.type==="error"?"rgba(194,75,67,0.12)":"rgba(60,200,240,0.12)",border:`1px solid ${msg.type==="success"?"rgba(76,154,107,0.3)":msg.type==="error"?"rgba(194,75,67,0.3)":"rgba(60,200,240,0.3)"}`,color:msg.type==="success"?"#4C9A6B":msg.type==="error"?"#C24B43":"#3CC8F0",fontSize:"0.82rem",fontWeight:600}}>
           {msg.text}
         </div>
       )}
@@ -225,7 +225,7 @@ window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, f
                         {holders.length>0&&(
                           <div style={{marginTop:"0.25rem",display:"flex",flexWrap:"wrap",gap:"0.25rem"}}>
                             {holders.map(h=>(
-                              <span key={h} style={{background:"rgba(255,255,255,0.07)",borderRadius:5,padding:"0.05rem 0.35rem",fontSize:"0.67rem",color:"#EDE7DA",fontWeight:600}}>{h}</span>
+                              <span key={h} style={{background:"rgba(255,255,255,0.07)",borderRadius:5,padding:"0.05rem 0.35rem",fontSize:"0.67rem",color:"#E6EDF5",fontWeight:600}}>{h}</span>
                             ))}
                           </div>
                         )}
@@ -253,13 +253,13 @@ window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, f
                   return (
                     <div key={m} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"0.5rem 0",borderBottom:"1px solid rgba(255,255,255,0.04)"}}>
                       <div>
-                        <span style={{fontWeight:700,color:"#EDE7DA",fontSize:"0.85rem"}}>{m}</span>
+                        <span style={{fontWeight:700,color:"#E6EDF5",fontSize:"0.85rem"}}>{m}</span>
                         <span style={{marginLeft:6,background:`${r.color}22`,border:`1px solid ${r.color}44`,borderRadius:4,padding:"0.05rem 0.3rem",fontSize:"0.6rem",fontWeight:700,color:r.color}}>{r.label}</span>
                       </div>
                       <select
                         value={r.id}
                         onChange={e=>assignPartyRank(m,e.target.value)}
-                        style={{background:"rgba(255,255,255,0.05)",color:"#EDE7DA",border:"1px solid rgba(255,255,255,0.1)",borderRadius:7,padding:"0.3rem 0.5rem",fontSize:"0.72rem",fontFamily:"inherit",cursor:"pointer"}}
+                        style={{background:"rgba(255,255,255,0.05)",color:"#E6EDF5",border:"1px solid rgba(255,255,255,0.1)",borderRadius:7,padding:"0.3rem 0.5rem",fontSize:"0.72rem",fontFamily:"inherit",cursor:"pointer"}}
                       >
                         {PARTY_RANKS.filter(pr=>pr.id!=="genel_baskan").map(pr=>(
                           <option key={pr.id} value={pr.id} style={{background:"#111"}}>{pr.icon} {pr.label}</option>
@@ -279,14 +279,14 @@ window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, f
       {tab==="kabine"&&(
         <div>
           {/* Kabine özeti */}
-          <div style={{...card,background:"linear-gradient(135deg,rgba(201,162,39,0.06),rgba(0,0,0,0))"}}>
+          <div style={{...card,background:"linear-gradient(135deg,rgba(60,200,240,0.06),rgba(0,0,0,0))"}}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"0.5rem"}}>
               <div>
-                <div style={{fontFamily:"Syne,sans-serif",fontWeight:800,fontSize:"0.9rem",color:"#C9A227"}}>🏛️ Hükümet Kabinesi</div>
+                <div style={{fontFamily:"Syne,sans-serif",fontWeight:800,fontSize:"0.9rem",color:"#3CC8F0"}}>🏛️ Hükümet Kabinesi</div>
                 <div style={{fontSize:"0.7rem",color:"#5E7390",marginTop:"0.15rem"}}>Seçimi kazanan parti kabine pozisyonlarını doldurur</div>
               </div>
-              <div style={{background:"rgba(201,162,39,0.12)",border:"1px solid rgba(201,162,39,0.3)",borderRadius:8,padding:"0.35rem 0.65rem",textAlign:"center"}}>
-                <div style={{fontWeight:900,color:"#C9A227",fontSize:"0.95rem"}}>{Object.keys(myCabinet).length}</div>
+              <div style={{background:"rgba(60,200,240,0.12)",border:"1px solid rgba(60,200,240,0.3)",borderRadius:8,padding:"0.35rem 0.65rem",textAlign:"center"}}>
+                <div style={{fontWeight:900,color:"#3CC8F0",fontSize:"0.95rem"}}>{Object.keys(myCabinet).length}</div>
                 <div style={{fontSize:"0.55rem",color:"#5E7390"}}>ATANMIŞ</div>
               </div>
             </div>
@@ -295,11 +295,11 @@ window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, f
           {/* Bakanlık pozisyonları */}
           {(()=>{
             const FULL_CABINET = [
-              {pos:"Başbakan",           icon:"⭐", color:"#C9A227", note:"Kabineyi yönetir, hükümet sözcüsü"},
+              {pos:"Başbakan",           icon:"⭐", color:"#3CC8F0", note:"Kabineyi yönetir, hükümet sözcüsü"},
               {pos:"Ekonomi Bakanı",     icon:"💰", color:"#4C9A6B", note:"Ekonomi politikası ve bütçe"},
-              {pos:"İçişleri Bakanı",    icon:"🛡️", color:"#C9A227", note:"Güvenlik ve kolluk kuvvetleri"},
-              {pos:"Adalet Bakanı",      icon:"⚖️", color:"#C9A227", note:"Yargı ve hukuk işlemleri"},
-              {pos:"Maliye Bakanı",      icon:"📊", color:"#C9A227", note:"Vergiler ve mali kontrol"},
+              {pos:"İçişleri Bakanı",    icon:"🛡️", color:"#3CC8F0", note:"Güvenlik ve kolluk kuvvetleri"},
+              {pos:"Adalet Bakanı",      icon:"⚖️", color:"#3CC8F0", note:"Yargı ve hukuk işlemleri"},
+              {pos:"Maliye Bakanı",      icon:"📊", color:"#3CC8F0", note:"Vergiler ve mali kontrol"},
               {pos:"Zanaat Müdürü",      icon:"🏭", color:"#F97316", note:"Zanaat ve üretim sektörü"},
               {pos:"Sağlık Bakanı",      icon:"🏥", color:"#6BC48B", note:"Halk sağlığı hizmetleri"},
               {pos:"Eğitim Bakanı",      icon:"📚", color:"#818CF8", note:"Eğitim politikası"},
@@ -317,7 +317,7 @@ window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, f
                         <div style={{display:"flex",alignItems:"center",gap:"0.4rem"}}>
                           <span style={{background:`${color}18`,border:`1px solid ${color}33`,borderRadius:6,padding:"0.2rem 0.4rem",fontSize:"0.75rem"}}>{icon}</span>
                           <div>
-                            <div style={{fontSize:"0.82rem",fontWeight:700,color:"#EDE7DA"}}>{pos}</div>
+                            <div style={{fontSize:"0.82rem",fontWeight:700,color:"#E6EDF5"}}>{pos}</div>
                             <div style={{fontSize:"0.62rem",color:"#5E7390"}}>{note}</div>
                           </div>
                         </div>
@@ -328,7 +328,7 @@ window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, f
                           : <span style={{fontSize:"0.68rem",color:"#5E7390",fontStyle:"italic"}}>Atanmadı</span>
                         }
                         {isLeader&&(
-                          <button className="btn" style={{fontSize:"0.65rem",padding:"0.2rem 0.45rem",border:"1px solid rgba(201,162,39,0.25)",color:"#C9A227"}}
+                          <button className="btn" style={{fontSize:"0.65rem",padding:"0.2rem 0.45rem",border:"1px solid rgba(60,200,240,0.25)",color:"#3CC8F0"}}
                             onClick={()=>{const u=prompt(`"${pos}" için kullanıcı adı:`);if(u)assignCabinet(pos,u);}}>
                             {assignedUser?"Değiştir":"Ata"}
                           </button>
@@ -360,19 +360,19 @@ window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, f
           <div style={{...card,background:"linear-gradient(135deg,rgba(167,139,250,0.08),rgba(0,0,0,0))"}}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"0.75rem"}}>
               <div>
-                <div style={{fontFamily:"Syne,sans-serif",fontWeight:900,fontSize:"1.1rem",color:"#C9A227"}}>{myParty.name}</div>
+                <div style={{fontFamily:"Syne,sans-serif",fontWeight:900,fontSize:"1.1rem",color:"#3CC8F0"}}>{myParty.name}</div>
                 <div style={{fontSize:"0.72rem",color:"#5E7390"}}>Lider: {myParty.leader}</div>
               </div>
-              <div style={{background:"rgba(201,162,39,0.12)",border:"1px solid rgba(201,162,39,0.25)",borderRadius:8,padding:"0.4rem 0.7rem",textAlign:"center"}}>
-                <div style={{fontWeight:900,color:"#C9A227",fontSize:"1rem"}}>{myParty.seats||0}</div>
+              <div style={{background:"rgba(60,200,240,0.12)",border:"1px solid rgba(60,200,240,0.25)",borderRadius:8,padding:"0.4rem 0.7rem",textAlign:"center"}}>
+                <div style={{fontWeight:900,color:"#3CC8F0",fontSize:"1rem"}}>{myParty.seats||0}</div>
                 <div style={{fontSize:"0.6rem",color:"#5E7390"}}>KOLTUK</div>
               </div>
             </div>
             <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"0.35rem"}}>
               {[
-                {l:"Üyeler",v:(myParty.members||[]).length,c:"#C9A227"},
+                {l:"Üyeler",v:(myParty.members||[]).length,c:"#3CC8F0"},
                 {l:"Kasa",v:fmtMoney(myParty.treasury||0),c:"#4C9A6B"},
-                {l:"Etki Puanı",v:myParty.influencePoints||myParty.support||0,c:"#C9A227"},
+                {l:"Etki Puanı",v:myParty.influencePoints||myParty.support||0,c:"#3CC8F0"},
                 {l:"Teklifler",v:proposals.filter(p=>p.party===myParty.name).length,c:"#C24B43"},
               ].map(s=>(
                 <div key={s.l} style={{background:"rgba(255,255,255,0.04)",borderRadius:8,padding:"0.4rem",textAlign:"center"}}>
@@ -383,7 +383,7 @@ window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, f
             </div>
           </div>
           <button className="btn btn-primary" style={{width:"100%",marginBottom:"0.4rem"}} onClick={()=>setCurrentPage("politics")}>⚑ Tam Parti Sayfasına Git</button>
-          <button className="btn" style={{width:"100%",border:"1px solid rgba(201,162,39,0.35)",color:"#C9A227"}} onClick={()=>setCurrentPage("election_events")}>🗳️ Seçimlere Git</button>
+          <button className="btn" style={{width:"100%",border:"1px solid rgba(60,200,240,0.35)",color:"#3CC8F0"}} onClick={()=>setCurrentPage("election_events")}>🗳️ Seçimlere Git</button>
         </div>
       )}
 
@@ -436,7 +436,7 @@ window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, f
           <div>
             {/* Mevcut etki puanı */}
             <div style={{...card,background:"linear-gradient(135deg,rgba(167,139,250,0.08),rgba(0,0,0,0))",textAlign:"center",padding:"1.25rem"}}>
-              <div style={{fontFamily:"JetBrains Mono,monospace",fontWeight:900,fontSize:"2rem",color:"#C9A227"}}>{currentPoints}</div>
+              <div style={{fontFamily:"JetBrains Mono,monospace",fontWeight:900,fontSize:"2rem",color:"#3CC8F0"}}>{currentPoints}</div>
               <div style={{fontSize:"0.72rem",color:"#5E7390",marginBottom:"0.75rem"}}>ETKİ PUANI</div>
               <div style={{fontSize:"0.78rem",color:"#8899AA"}}>Etki puanı seçimlerde destek oranını, yasalarda oy ağırlığını belirler.</div>
             </div>
@@ -469,9 +469,9 @@ window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, f
                   <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:"0.35rem"}}>
                     <div>
                       <span style={{fontSize:"1.2rem",marginRight:"0.4rem"}}>{act.icon}</span>
-                      <span style={{fontWeight:700,color:"#EDE7DA",fontSize:"0.9rem"}}>{act.label}</span>
+                      <span style={{fontWeight:700,color:"#E6EDF5",fontSize:"0.9rem"}}>{act.label}</span>
                     </div>
-                    <span style={{background:"rgba(201,162,39,0.12)",border:"1px solid rgba(201,162,39,0.25)",borderRadius:6,padding:"0.15rem 0.5rem",fontSize:"0.72rem",fontWeight:700,color:"#C9A227",flexShrink:0}}>+{act.pts} puan</span>
+                    <span style={{background:"rgba(60,200,240,0.12)",border:"1px solid rgba(60,200,240,0.25)",borderRadius:6,padding:"0.15rem 0.5rem",fontSize:"0.72rem",fontWeight:700,color:"#3CC8F0",flexShrink:0}}>+{act.pts} puan</span>
                   </div>
                   <div style={{fontSize:"0.75rem",color:"#5E7390",marginBottom:"0.45rem"}}>{act.desc}</div>
                   <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
@@ -482,7 +482,7 @@ window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, f
                     {ready ? (
                       <button className="btn btn-primary" style={{fontSize:"0.78rem",padding:"0.35rem 0.8rem"}} onClick={()=>doActivity(act)}>Başlat</button>
                     ) : (
-                      <span style={{fontSize:"0.72rem",color:"#C9A227",fontFamily:"JetBrains Mono,monospace"}}>{hh>0?`${hh}s `:""}{mm}dk bekle</span>
+                      <span style={{fontSize:"0.72rem",color:"#3CC8F0",fontFamily:"JetBrains Mono,monospace"}}>{hh>0?`${hh}s `:""}{mm}dk bekle</span>
                     )}
                   </div>
                 </div>
@@ -512,7 +512,7 @@ window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, f
           {proposals.slice(0,15).map(p=>{
             const lawType = LAW_TYPES.find(lt=>lt.id===p.type)||LAW_TYPES[0];
             const hasVoted = (p.votes.for||[]).includes(cu.username)||(p.votes.against||[]).includes(cu.username);
-            const statusColor = p.status==="passed"?"#4C9A6B":p.status==="rejected"?"#C24B43":"#C9A227";
+            const statusColor = p.status==="passed"?"#4C9A6B":p.status==="rejected"?"#C24B43":"#3CC8F0";
             const statusText  = p.status==="passed"?"Kabul Edildi":p.status==="rejected"?"Reddedildi":"Oylamada";
             return (
               <div key={p.id} style={card}>
@@ -580,9 +580,9 @@ window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, f
                 <div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"0.5rem 0",borderBottom:"1px solid rgba(255,255,255,0.04)"}}>
                   <div>
                     <div style={{display:"flex",alignItems:"center",gap:"0.35rem",flexWrap:"wrap"}}>
-                      <span style={{fontWeight:700,fontSize:"0.85rem",color:"#EDE7DA"}}>{m}</span>
+                      <span style={{fontWeight:700,fontSize:"0.85rem",color:"#E6EDF5"}}>{m}</span>
                       <span style={{background:`${pr.color}22`,border:`1px solid ${pr.color}44`,borderRadius:4,padding:"0.06rem 0.35rem",fontSize:"0.6rem",fontWeight:700,color:pr.color}}>{pr.label}</span>
-                      {cabinetPos&&<span style={{background:"rgba(201,162,39,0.10)",border:"1px solid rgba(201,162,39,0.25)",borderRadius:4,padding:"0.06rem 0.35rem",fontSize:"0.6rem",fontWeight:700,color:"#C9A227"}}>🏛️ {cabinetPos}</span>}
+                      {cabinetPos&&<span style={{background:"rgba(60,200,240,0.10)",border:"1px solid rgba(60,200,240,0.25)",borderRadius:4,padding:"0.06rem 0.35rem",fontSize:"0.6rem",fontWeight:700,color:"#3CC8F0"}}>🏛️ {cabinetPos}</span>}
                     </div>
                     {m===myParty.leader&&<div style={{fontSize:"0.62rem",color:"#5E7390",marginTop:"0.15rem"}}>Genel Başkan · Parti Kurucusu</div>}
                   </div>
@@ -597,9 +597,9 @@ window.PartyCenterScreen = function PartyCenterScreen({ cu, parties, allUsers, f
           <div style={{...card,padding:"0.75rem"}}>
             <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:"0.35rem"}}>
               {[
-                {l:"Liderlik",v:PARTY_RANKS.slice(0,3).reduce((a,r)=>{const h=(myParty?.members||[]).filter(m=>getPartyRank(m).id===r.id).length;return a+h;},0),c:"#C9A227"},
-                {l:"İl Teşkilatı",v:(myParty?.members||[]).filter(m=>getPartyRank(m).id==="il_baskani").length,c:"#C9A227"},
-                {l:"Divan Üyesi",v:(myParty?.members||[]).filter(m=>getPartyRank(m).id==="divan üyesi").length,c:"#4C9A6B"},
+                {l:"Liderlik",v:PARTY_RANKS.slice(0,3).reduce((a,r)=>{const h=(myParty?.members||[]).filter(m=>getPartyRank(m).id===r.id).length;return a+h;},0),c:"#3CC8F0"},
+                {l:"İl Teşkilatı",v:(myParty?.members||[]).filter(m=>getPartyRank(m).id==="il_baskani").length,c:"#3CC8F0"},
+                {l:"Kabine Üyesi",v:(myParty?.members||[]).filter(m=>getPartyRank(m).id==="divan üyesi").length,c:"#4C9A6B"},
               ].map(s=>(
                 <div key={s.l} style={{background:"rgba(255,255,255,0.04)",borderRadius:8,padding:"0.5rem",textAlign:"center"}}>
                   <div style={{fontWeight:700,fontSize:"0.9rem",color:s.c}}>{s.v}</div>

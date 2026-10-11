@@ -28,7 +28,7 @@ function GangPage({ profile, setProfile, showNotif, typeFilter }) {
     if (profile?.party) { showNotif('🏛️ Parti üyeleri çete veya aile kuramazlar. Önce partiden ayrılın.','error'); return; }
     const actualType = typeFilter || gForm.type;
     const cost = actualType==='family' ? 500000 : 100000;
-    if ((profile?.money||0) < cost) { showNotif(`${actualType==='family'?'Aile kurmak için 🪙500.000':'Çete kurmak için 🪙100.000'} gerekli`,'error'); return; }
+    if ((profile?.money||0) < cost) { showNotif(`${actualType==='family'?'Aile kurmak için ₺500.000':'Çete kurmak için ₺100.000'} gerekli`,'error'); return; }
     const gang = {
       id:genId(), name:gForm.name.trim(), type:actualType, desc:gForm.desc,
       leaderId:uid, leaderName:profile?.username,
@@ -145,7 +145,7 @@ function GangPage({ profile, setProfile, showNotif, typeFilter }) {
     showNotif(`${myGang.type==='family'?'👨‍👩‍👧‍👦':'⚔️'} ${myGang.name} dağıtıldı`,'info');
   };
 
-  const inpSt = {width:'100%',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box'};
+  const inpSt = {width:'100%',background:'rgba(230,237,245,0.03)',border:'1px solid rgba(230,237,245,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#E6EDF5',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box'};
   const isFamily = typeFilter==='family';
   const subItems = isMyGangMatchFilter
     ? (isFamily
@@ -174,15 +174,15 @@ function GangPage({ profile, setProfile, showNotif, typeFilter }) {
                 <div style={{display:'flex',alignItems:'center',gap:'0.6rem',marginBottom:'0.5rem'}}>
                   <div style={{fontSize:'1.5rem'}}>{myGang.type==='family'?'👨‍👩‍👧‍👦':'⚔️'}</div>
                   <div>
-                    <div style={{fontWeight:900,color:'#EDE7DA',fontSize:'1rem'}}>{myGang.name}</div>
+                    <div style={{fontWeight:900,color:'#E6EDF5',fontSize:'1rem'}}>{myGang.name}</div>
                     <div style={{fontSize:'0.7rem',color:'#8893A1'}}>{myGang.memberCount} üye • Güç: {(myGang.power||10)+((myGang.weapons||0)*5)+((myGang.ammo||0)*3)} • {isGangLeader?'👑 Lidersin':'Üye'}</div>
                   </div>
                 </div>
                 <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'0.35rem',marginBottom:'0.5rem'}}>
                   {[['💰','Kasa',fmtWord(myGang.treasury||0)],['⚡','Güç',(myGang.power||10)+((myGang.weapons||0)*5)+((myGang.ammo||0)*3)],['🗺️','Bölge',myGang.territory||0]].map(([ic,lb,v])=>(
-                    <div key={lb} style={{background:'rgba(237,231,218,0.03)',borderRadius:'8px',padding:'0.4rem',textAlign:'center'}}>
+                    <div key={lb} style={{background:'rgba(230,237,245,0.03)',borderRadius:'8px',padding:'0.4rem',textAlign:'center'}}>
                       <div style={{fontSize:'0.9rem'}}>{ic}</div>
-                      <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.78rem'}}>{v}</div>
+                      <div style={{fontWeight:700,color:'#E6EDF5',fontSize:'0.78rem'}}>{v}</div>
                       <div style={{fontSize:'0.55rem',color:'#8893A1',textTransform:'uppercase'}}>{lb}</div>
                     </div>
                   ))}
@@ -196,15 +196,15 @@ function GangPage({ profile, setProfile, showNotif, typeFilter }) {
             )}
             {!myGang && (
               <div style={{marginBottom:'0.75rem'}}>
-                {!isFamily && <Btn variant='danger' size='sm' style={{width:'100%',marginBottom:'0.4rem'}} onClick={()=>{setGForm(p=>({...p,type:'gang'}));setCreateModal(true);}}>⚔️ Çete Kur (🪙2 Mlr)</Btn>}
-                {isFamily && <Btn variant='ghost' size='sm' style={{width:'100%'}} onClick={()=>{setGForm(p=>({...p,type:'family'}));setCreateModal(true);}}>👨‍👩‍👧‍👦 Aile Kur (🪙5 Mlr)</Btn>}
+                {!isFamily && <Btn variant='danger' size='sm' style={{width:'100%',marginBottom:'0.4rem'}} onClick={()=>{setGForm(p=>({...p,type:'gang'}));setCreateModal(true);}}>⚔️ Çete Kur (₺2 Mlr)</Btn>}
+                {isFamily && <Btn variant='ghost' size='sm' style={{width:'100%'}} onClick={()=>{setGForm(p=>({...p,type:'family'}));setCreateModal(true);}}>👨‍👩‍👧‍👦 Aile Kur (₺5 Mlr)</Btn>}
               </div>
             )}
             {filteredGangs.map(gang => (
-              <Card key={gang.id} style={{marginBottom:'0.5rem',padding:'0.85rem',border:`1px solid ${gang.id===myGang?.id?'rgba(194,75,67,0.3)':gang.type==='family'?'rgba(201,162,39,0.15)':'rgba(194,75,67,0.1)'}`}}>
+              <Card key={gang.id} style={{marginBottom:'0.5rem',padding:'0.85rem',border:`1px solid ${gang.id===myGang?.id?'rgba(194,75,67,0.3)':gang.type==='family'?'rgba(60,200,240,0.15)':'rgba(194,75,67,0.1)'}`}}>
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                   <div>
-                    <div style={{fontWeight:800,color:'#EDE7DA',fontSize:'0.9rem'}}>{gang.type==='family'?'👨‍👩‍👧‍👦':'⚔️'} {gang.name}</div>
+                    <div style={{fontWeight:800,color:'#E6EDF5',fontSize:'0.9rem'}}>{gang.type==='family'?'👨‍👩‍👧‍👦':'⚔️'} {gang.name}</div>
                     <div style={{fontSize:'0.7rem',color:'#8893A1'}}>{gang.memberCount} üye • Güç: {(gang.power||10)+((gang.weapons||0)*5)+((gang.ammo||0)*3)} • {fmtWord(gang.treasury||0)} kasa</div>
                   </div>
                   <div style={{display:'flex',gap:'0.3rem',alignItems:'center'}}>
@@ -227,14 +227,14 @@ function GangPage({ profile, setProfile, showNotif, typeFilter }) {
                 <Card style={{marginBottom:'0.65rem',background:'linear-gradient(135deg,rgba(194,75,67,0.08),rgba(11,21,39,0.95))'}}>
                   <div style={{display:'flex',alignItems:'center',gap:'0.5rem',marginBottom:'0.65rem'}}>
                     <div style={{fontSize:'1.5rem'}}>{myGang.type==='family'?'👨‍👩‍👧‍👦':'⚔️'}</div>
-                    <div style={{fontWeight:900,color:'#EDE7DA',fontSize:'1rem'}}>{myGang.name}</div>
+                    <div style={{fontWeight:900,color:'#E6EDF5',fontSize:'1rem'}}>{myGang.name}</div>
                     {isGangLeader&&<Tag color='red'>👑 Lider</Tag>}
                   </div>
                   <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'0.35rem',marginBottom:'0.5rem'}}>
                     {[['👑','Lider',myGang.leaderName||'?'],['👥','Üye',myGang.memberCount||1],['⚡','Güç',(myGang.power||10)+((myGang.weapons||0)*5)+((myGang.ammo||0)*3)],['💰','Kasa',fmtWord(myGang.treasury||0)]].map(([ic,lb,v])=>(
-                      <div key={lb} style={{background:'rgba(237,231,218,0.03)',borderRadius:'8px',padding:'0.4rem',textAlign:'center'}}>
+                      <div key={lb} style={{background:'rgba(230,237,245,0.03)',borderRadius:'8px',padding:'0.4rem',textAlign:'center'}}>
                         <div style={{fontSize:'0.8rem'}}>{ic}</div>
-                        <div style={{fontWeight:700,color:'#EDE7DA',fontSize:'0.7rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{v}</div>
+                        <div style={{fontWeight:700,color:'#E6EDF5',fontSize:'0.7rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{v}</div>
                         <div style={{fontSize:'0.52rem',color:'#8893A1',textTransform:'uppercase'}}>{lb}</div>
                       </div>
                     ))}
@@ -276,14 +276,14 @@ function GangPage({ profile, setProfile, showNotif, typeFilter }) {
 
                 {/* HALEF KARTI */}
                 {isGangLeader && (
-                  <Card style={{marginBottom:'0.65rem',background:'rgba(201,162,39,0.06)',border:'1px solid rgba(201,162,39,0.2)'}}>
+                  <Card style={{marginBottom:'0.65rem',background:'rgba(60,200,240,0.06)',border:'1px solid rgba(60,200,240,0.2)'}}>
                     <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.35rem'}}>
-                      <div style={{fontWeight:700,color:'#C9A227',fontSize:'0.82rem'}}>🎖️ Halef (Vasiyet)</div>
-                      <button onClick={()=>setHalefModal(true)} style={{background:'rgba(201,162,39,0.12)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'6px',padding:'2px 8px',color:'#C9A227',cursor:'pointer',fontSize:'0.68rem',fontWeight:700}}>Değiştir</button>
+                      <div style={{fontWeight:700,color:'#3CC8F0',fontSize:'0.82rem'}}>🎖️ Halef (Vasiyet)</div>
+                      <button onClick={()=>setHalefModal(true)} style={{background:'rgba(60,200,240,0.12)',border:'1px solid rgba(60,200,240,0.25)',borderRadius:'6px',padding:'2px 8px',color:'#3CC8F0',cursor:'pointer',fontSize:'0.68rem',fontWeight:700}}>Değiştir</button>
                     </div>
                     {myGang.successorId ? (
                       <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-                        <div style={{fontSize:'0.82rem',color:'#EDE7DA'}}>
+                        <div style={{fontSize:'0.82rem',color:'#E6EDF5'}}>
                           <span style={{marginRight:'0.4rem'}}>👑</span>
                           <strong>{myGang.successorName}</strong>
                           <span style={{color:'#8893A1',fontSize:'0.7rem',marginLeft:'0.4rem'}}>— Ayrıldığında otomatik lider olur</span>
@@ -297,7 +297,7 @@ function GangPage({ profile, setProfile, showNotif, typeFilter }) {
                 )}
 
                 <Card>
-                  <div style={{fontWeight:700,color:'#EDE7DA',marginBottom:'0.65rem',fontSize:'0.85rem'}}>👥 Üyeler ({myGang.memberCount||1})</div>
+                  <div style={{fontWeight:700,color:'#E6EDF5',marginBottom:'0.65rem',fontSize:'0.85rem'}}>👥 Üyeler ({myGang.memberCount||1})</div>
                   {(()=>{
                     const RANKS = ['👤 Çaylak','🔫 Asker','⚡ Kapodecima','💀 Underboss'];
                     return (myGang.members||[]).map((muid,i)=>{
@@ -308,20 +308,20 @@ function GangPage({ profile, setProfile, showNotif, typeFilter }) {
                         <div key={muid} style={{borderBottom:'1px solid rgba(255,255,255,0.04)',paddingBottom:'0.35rem',marginBottom:'0.35rem'}}>
                           <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
                             <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
-                              <div style={{width:'28px',height:'28px',borderRadius:'50%',background:isLeaderRow?'rgba(194,75,67,0.15)':isSuccessor?'rgba(201,162,39,0.15)':'rgba(255,255,255,0.06)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.85rem'}}>
+                              <div style={{width:'28px',height:'28px',borderRadius:'50%',background:isLeaderRow?'rgba(194,75,67,0.15)':isSuccessor?'rgba(60,200,240,0.15)':'rgba(255,255,255,0.06)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.85rem'}}>
                                 {isLeaderRow?'👑':isSuccessor?'🎖️':'👤'}
                               </div>
                               <div>
-                                <div style={{fontSize:'0.82rem',fontWeight:700,color:muid===uid?'#E08C87':'#EDE7DA'}}>
+                                <div style={{fontSize:'0.82rem',fontWeight:700,color:muid===uid?'#E08C87':'#E6EDF5'}}>
                                   {muid===uid?profile?.username:`Üye #${i+1}`}
-                                  {isSuccessor&&<span style={{marginLeft:'0.3rem',fontSize:'0.65rem',color:'#C9A227',fontWeight:700}}>HALEF</span>}
+                                  {isSuccessor&&<span style={{marginLeft:'0.3rem',fontSize:'0.65rem',color:'#3CC8F0',fontWeight:700}}>HALEF</span>}
                                 </div>
                                 <div style={{fontSize:'0.65rem',color:'#8893A1'}}>{memberRank}</div>
                               </div>
                             </div>
                             {isGangLeader&&!isLeaderRow&&(
                               <div style={{display:'flex',gap:'0.3rem'}}>
-                                <button onClick={()=>setRankMenuUid(rankMenuUid===muid?null:muid)} style={{background:'rgba(237,231,218,0.05)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'6px',padding:'2px 7px',color:'#8893A1',cursor:'pointer',fontSize:'0.65rem',fontWeight:700}}>Rütbe</button>
+                                <button onClick={()=>setRankMenuUid(rankMenuUid===muid?null:muid)} style={{background:'rgba(230,237,245,0.05)',border:'1px solid rgba(230,237,245,0.1)',borderRadius:'6px',padding:'2px 7px',color:'#8893A1',cursor:'pointer',fontSize:'0.65rem',fontWeight:700}}>Rütbe</button>
                                 <button onClick={()=>kickMember(muid)} style={{background:'rgba(194,75,67,0.08)',border:'1px solid rgba(194,75,67,0.2)',borderRadius:'6px',padding:'2px 8px',color:'#E08C87',cursor:'pointer',fontSize:'0.65rem',fontWeight:700}}>Çıkar</button>
                               </div>
                             )}
@@ -348,19 +348,19 @@ function GangPage({ profile, setProfile, showNotif, typeFilter }) {
 
         {sub==='attack' && (
           <div>
-            {[['🥊','Sokak Kavgası',80,'🪙500-2.000',500],['🔫','Gasp Girişimi',60,'🪙2.000-8.000',3000],['💣','Banka Soygunu',30,'🪙20K-100K',10000],['🚗','Araba Hırsızlığı',70,'🪙5.000-15.000',2000]].map(([ic,name,rate,earn,fine])=>(
+            {[['🥊','Sokak Kavgası',80,'₺500-2.000',500],['🔫','Gasp Girişimi',60,'₺2.000-8.000',3000],['💣','Banka Soygunu',30,'₺20K-100K',10000],['🚗','Araba Hırsızlığı',70,'₺5.000-15.000',2000]].map(([ic,name,rate,earn,fine])=>(
               <button key={name} onClick={()=>{
                 const success=Math.random()*100<rate;
                 const amount=success?Math.floor(Math.random()*(rate===30?80000:rate===60?6000:rate===70?10000:1500)+2000):0;
                 const penalty=success?0:fine;
                 setProfile(p=>{const np={...p,money:(p.money||0)+amount-penalty,xp:(p.xp||0)+(success?100:20)};localStorage.setItem('rep_userProfile',JSON.stringify(np));return np;});
                 showNotif(success?`🎉 Başarılı! +${fmtWord(amount)}`:`😔 Başarısız! -${fmtWord(penalty)} ceza`,success?'success':'error');
-                if (success && amount >= 20000) { try { window._pushGameEvent?.('suc_basarili', `${ic} ${name}`, `${profile?.username||'Bir çete üyesi'} başarılı! +🪙${amount.toLocaleString()} ganimet.`, ic, 'çete'); } catch(e){} }
+                if (success && amount >= 20000) { try { window._pushGameEvent?.('suc_basarili', `${ic} ${name}`, `${profile?.username||'Bir çete üyesi'} başarılı! +₺${amount.toLocaleString()} ganimet.`, ic, 'çete'); } catch(e){} }
               }}
                 style={{display:'flex',alignItems:'center',gap:'0.75rem',padding:'0.85rem',background:'rgba(20,36,60,0.8)',border:'1px solid rgba(194,75,67,0.15)',borderRadius:'12px',width:'100%',marginBottom:'0.5rem',cursor:'pointer',WebkitTapHighlightColor:'transparent'}}>
                 <span style={{fontSize:'1.5rem',width:'32px',textAlign:'center',flexShrink:0}}>{ic}</span>
                 <div style={{flex:1,textAlign:'left'}}>
-                  <div style={{fontWeight:800,color:'#EDE7DA',fontSize:'0.9rem'}}>{name}</div>
+                  <div style={{fontWeight:800,color:'#E6EDF5',fontSize:'0.9rem'}}>{name}</div>
                   <div style={{fontSize:'0.67rem',color:'#4C9A6B'}}>%{rate} başarı • Kazanç: {earn}</div>
                   <div style={{fontSize:'0.65rem',color:'#C24B43'}}>Ceza riski: {fmtWord(fine)}</div>
                 </div>
@@ -400,7 +400,7 @@ function GangPage({ profile, setProfile, showNotif, typeFilter }) {
           <div style={{marginBottom:'0.85rem'}}>
             <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.4rem',fontWeight:700}}>Açıklama (opsiyonel)</div>
             <textarea value={gForm.desc} onChange={e=>setGForm(p=>({...p,desc:e.target.value}))} placeholder="Kısa bir açıklama..." rows={2}
-              style={{width:'100%',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'14px',outline:'none',resize:'none',boxSizing:'border-box'}} />
+              style={{width:'100%',background:'rgba(230,237,245,0.03)',border:'1px solid rgba(230,237,245,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#E6EDF5',fontFamily:"'Inter',sans-serif",fontSize:'14px',outline:'none',resize:'none',boxSizing:'border-box'}} />
           </div>
           <div style={{background:'rgba(194,75,67,0.08)',border:'1px solid rgba(194,75,67,0.2)',borderRadius:'10px',padding:'0.65rem',fontSize:'0.78rem',color:'#E08C87',marginBottom:'1rem'}}>
             💡 Kurmak için gereken: {fmtWord((typeFilter||gForm.type)==='family'?5000000000:2000000000)} • Bakiye: {fmtWord(profile?.money)}
@@ -413,9 +413,9 @@ function GangPage({ profile, setProfile, showNotif, typeFilter }) {
         <Modal title="💰 Kasaya Para Yatır" onClose={()=>{setDonateModal(false);setDonateAmt('');}}>
           <div style={{marginBottom:'1rem'}}>
             <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.4rem',fontWeight:700}}>Tutar</div>
-            <input type="number" value={donateAmt} onChange={e=>setDonateAmt(e.target.value)} placeholder="🪙 Tutar" style={inpSt} />
+            <input type="number" value={donateAmt} onChange={e=>setDonateAmt(e.target.value)} placeholder="₺ Tutar" style={inpSt} />
             <div style={{display:'flex',gap:'0.4rem',marginTop:'0.5rem',flexWrap:'wrap'}}>
-              {[5000,10000,25000,50000].map(n=><button key={n} onClick={()=>setDonateAmt(String(n))} style={{padding:'0.3rem 0.65rem',borderRadius:'8px',border:'1px solid rgba(237,231,218,0.1)',background:'rgba(237,231,218,0.03)',color:'#8893A1',fontSize:'0.72rem',cursor:'pointer',fontWeight:700}}>{fmtWord(n)}</button>)}
+              {[5000,10000,25000,50000].map(n=><button key={n} onClick={()=>setDonateAmt(String(n))} style={{padding:'0.3rem 0.65rem',borderRadius:'8px',border:'1px solid rgba(230,237,245,0.1)',background:'rgba(230,237,245,0.03)',color:'#8893A1',fontSize:'0.72rem',cursor:'pointer',fontWeight:700}}>{fmtWord(n)}</button>)}
             </div>
           </div>
           <Btn variant='danger' size='full' onClick={donateToGang}>💰 Yatır</Btn>
@@ -452,22 +452,22 @@ function GangPage({ profile, setProfile, showNotif, typeFilter }) {
 
       {halefModal&&(
         <Modal title="🎖️ Halef Belirle" onClose={()=>{setHalefModal(false);setHalefTarget('');}}>
-          <div style={{background:'rgba(201,162,39,0.06)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'10px',padding:'0.65rem',fontSize:'0.78rem',color:'#C9A227',marginBottom:'1rem'}}>
+          <div style={{background:'rgba(60,200,240,0.06)',border:'1px solid rgba(60,200,240,0.25)',borderRadius:'10px',padding:'0.65rem',fontSize:'0.78rem',color:'#3CC8F0',marginBottom:'1rem'}}>
             👑 Ayrıldığında liderlik otomatik bu kişiye devredilir. İstediğinde iptal edebilirsin.
           </div>
           {myGang?.successorId && (
-            <div style={{background:'rgba(237,231,218,0.03)',borderRadius:'8px',padding:'0.5rem 0.75rem',marginBottom:'0.75rem',fontSize:'0.78rem',color:'#8893A1'}}>
-              Mevcut halef: <strong style={{color:'#C9A227'}}>{myGang.successorName}</strong>
+            <div style={{background:'rgba(230,237,245,0.03)',borderRadius:'8px',padding:'0.5rem 0.75rem',marginBottom:'0.75rem',fontSize:'0.78rem',color:'#8893A1'}}>
+              Mevcut halef: <strong style={{color:'#3CC8F0'}}>{myGang.successorName}</strong>
             </div>
           )}
           <div style={{marginBottom:'1rem'}}>
             <div style={{fontSize:'0.72rem',color:'#8893A1',marginBottom:'0.4rem',fontWeight:700}}>Yeni Halef Kullanıcı Adı</div>
             <input value={halefTarget} onChange={e=>setHalefTarget(e.target.value)} placeholder="Çete üyesinin kullanıcı adı"
-              style={{width:'100%',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box'}} />
+              style={{width:'100%',background:'rgba(230,237,245,0.03)',border:'1px solid rgba(230,237,245,0.1)',borderRadius:'10px',padding:'0.65rem 0.9rem',color:'#E6EDF5',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box'}} />
           </div>
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.5rem'}}>
             <Btn variant='ghost' size='md' onClick={()=>{setHalefModal(false);setHalefTarget('');}}>İptal</Btn>
-            <Btn variant='ghost' size='md' onClick={setGangSuccessor} style={{background:'rgba(201,162,39,0.12)',border:'1px solid rgba(201,162,39,0.25)',color:'#C9A227'}}>🎖️ Halef Belirle</Btn>
+            <Btn variant='ghost' size='md' onClick={setGangSuccessor} style={{background:'rgba(60,200,240,0.12)',border:'1px solid rgba(60,200,240,0.25)',color:'#3CC8F0'}}>🎖️ Halef Belirle</Btn>
           </div>
         </Modal>
       )}

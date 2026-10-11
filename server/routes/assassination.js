@@ -38,7 +38,7 @@ router.post('/post', authMiddleware, asyncHandler(async (req, res) => {
 
   if (global._io) {
     global._io.to(`user_${target.id}`).emit('assassination:target', {
-      message: `⚠️ Başına ${amt} 🪙 ödül kondu! 24 saat dikkatli ol.`,
+      message: `⚠️ Başına ${amt} ₺ ödül kondu! 24 saat dikkatli ol.`,
       reward: amt, by: user.username
     });
     global._io.emit('assassination:new', { contract });
@@ -85,7 +85,7 @@ router.post('/claim', authMiddleware, asyncHandler(async (req, res) => {
     killer: killer.username, target: target.username, reward: contract.reward
   });
 
-  res.json({ success: true, reward: contract.reward, killerPow, targetPow, message: `✅ Suikast başarılı! ${contract.reward} 🪙 kazandın.` });
+  res.json({ success: true, reward: contract.reward, killerPow, targetPow, message: `✅ Suikast başarılı! ${contract.reward} ₺ kazandın.` });
 }));
 
 module.exports = router;

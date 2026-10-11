@@ -1,5 +1,5 @@
 window.OyuncuAramaScreen = function({ profile, onNavigate, showNotif }) {
-  const G='#C89B3C',BG='#0F0800',T='#F5EBD7',M='#A9A6A0',S='#2D1800',GR='#3E8C5A',R='#B8423C';
+  const G='#3CC8F0',BG='#0A0F17',T='#E6EDF5',M='#93A4B8',S='#152032',GR='#3E8C5A',R='#B8423C';
   const jwt = () => localStorage.getItem('us_jwt')||'';
   const [query, setQuery] = React.useState('');
   const [results, setResults] = React.useState([]);
@@ -23,12 +23,12 @@ window.OyuncuAramaScreen = function({ profile, onNavigate, showNotif }) {
   const sendDM = (username) => { onNavigate&&onNavigate('dm'); };
 
   return React.createElement('div',{style:{minHeight:'100vh',background:BG,fontFamily:"'Inter',sans-serif",paddingBottom:80}},
-    React.createElement('div',{style:{background:'linear-gradient(135deg,#1a0800,#2d1600)',borderBottom:'1px solid rgba(200,155,60,0.2)',padding:'14px 16px'}},
+    React.createElement('div',{style:{background:'linear-gradient(135deg,#0A0F17,#0F1724)',borderBottom:'1px solid rgba(60,200,240,0.2)',padding:'14px 16px'}},
       React.createElement('div',{style:{display:'flex',alignItems:'center',gap:10}},
         onNavigate && React.createElement('button',{onClick:()=>onNavigate('home'),style:{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:10,padding:'6px 10px',color:M,fontSize:'0.75rem',cursor:'pointer'}},'← Geri'),
         React.createElement('span',{style:{fontSize:'1.5rem'}},'🔍'),
         React.createElement('div',null,
-          React.createElement('div',{style:{fontFamily:"'Cinzel',serif",fontWeight:900,fontSize:'1.1rem',color:G}},'Oyuncu Arama'),
+          React.createElement('div',{style:{fontFamily:"'Rajdhani',sans-serif",fontWeight:900,fontSize:'1.1rem',color:G}},'Oyuncu Arama'),
           React.createElement('div',{style:{fontSize:'0.62rem',color:M}},'Username ile anlık arama')
         )
       )
@@ -45,9 +45,9 @@ window.OyuncuAramaScreen = function({ profile, onNavigate, showNotif }) {
           React.createElement('div',{key:p.id},
             React.createElement('div',{
               onClick:()=>setSelected(selected?.id===p.id?null:p),
-              style:{background:selected?.id===p.id?G+'15':S,border:`1px solid ${selected?.id===p.id?G+'55':'rgba(200,155,60,0.15)'}`,borderRadius:12,padding:'12px 14px',marginBottom:8,cursor:'pointer',transition:'all 0.2s'}},
+              style:{background:selected?.id===p.id?G+'15':S,border:`1px solid ${selected?.id===p.id?G+'55':'rgba(60,200,240,0.15)'}`,borderRadius:12,padding:'12px 14px',marginBottom:8,cursor:'pointer',transition:'all 0.2s'}},
               React.createElement('div',{style:{display:'flex',alignItems:'center',gap:12}},
-                React.createElement('div',{style:{width:42,height:42,borderRadius:'50%',background:`linear-gradient(135deg,${G},#A07828)`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.1rem',fontWeight:900,color:'#0F0800',flexShrink:0}},p.username?.[0]?.toUpperCase()||'?'),
+                React.createElement('div',{style:{width:42,height:42,borderRadius:'50%',background:`linear-gradient(135deg,${G},#1E8FB8)`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.1rem',fontWeight:900,color:'#0A0F17',flexShrink:0}},p.username?.[0]?.toUpperCase()||'?'),
                 React.createElement('div',{style:{flex:1}},
                   React.createElement('div',{style:{fontWeight:700,color:T,fontSize:'0.9rem'}},p.username),
                   React.createElement('div',{style:{fontSize:'0.65rem',color:M,marginTop:2}},`Seviye ${p.level||1}${p.active_title?' • '+p.active_title:''}`)
@@ -56,7 +56,7 @@ window.OyuncuAramaScreen = function({ profile, onNavigate, showNotif }) {
               )
             ),
             // Mini profil popup
-            selected?.id===p.id && React.createElement('div',{style:{background:'rgba(45,24,0,0.95)',border:`1px solid ${G}33`,borderRadius:12,padding:'14px',marginBottom:8,marginTop:-4}},
+            selected?.id===p.id && React.createElement('div',{style:{background:'rgba(21,32,50,0.95)',border:`1px solid ${G}33`,borderRadius:12,padding:'14px',marginBottom:8,marginTop:-4}},
               React.createElement('div',{style:{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:8,marginBottom:12}},
                 [{v:p.level||1,l:'Seviye',c:G},{v:p.score||0,l:'Skor',c:'#60A5FA'},{v:p.merit_points||0,l:'Liyakat',c:'#A78BFA'}].map(st=>
                   React.createElement('div',{key:st.l,style:{textAlign:'center',background:S,borderRadius:10,padding:'8px'}},

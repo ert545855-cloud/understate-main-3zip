@@ -49,7 +49,7 @@ router.post('/start', authMiddleware, asyncHandler(async (req, res) => {
   // Sikke kontrolü
   const { rows: user } = await db.query(`SELECT money FROM users WHERE id=$1`, [req.user.id]);
   if ((user[0]?.money || 0) < def.maliyet) {
-    return res.status(400).json({ success: false, message: `Yetersiz Sikke — ${def.maliyet.toLocaleString('tr-TR')} gerekli` });
+    return res.status(400).json({ success: false, message: `Yetersiz Para — ${def.maliyet.toLocaleString('tr-TR')} gerekli` });
   }
 
   // Sikke düş

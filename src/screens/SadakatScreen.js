@@ -16,29 +16,29 @@ const SADAKAT_GOREVLER = [
   { id:'gunluk_maden',    grup:'gunluk',  emoji:'⛏️', baslik:'Madencilik',            acik:'Maden sayfasından kaynak çıkar',                odul:45,   tip:'giris' },
   { id:'gunluk_alet',     grup:'gunluk',  emoji:'⚒️', baslik:'Alet Atölyesi',         acik:'Alet Atölyesi\'nde üretim başlat',              odul:80,   tip:'giris' },
   // ── Haftalık görevler
-  { id:'haftalik_eyalet', grup:'haftalik',emoji:'🏰', baslik:'Eyalet Yöneticisi',     acik:'Eyalet haritasını 3 kez ziyaret et',            odul:300,  tip:'eyalet' },
-  { id:'haftalik_beylik', grup:'haftalik',emoji:'⚜️', baslik:'Beylik Üyesi',          acik:'Bir beyliğe katıl veya kur',                    odul:500,  tip:'beylik' },
-  { id:'haftalik_para',   grup:'haftalik',emoji:'💰', baslik:'Büyük Tüccar',          acik:'Bu hafta toplam 100.000 🪙 harca',              odul:400,  tip:'para' },
+  { id:'haftalik_eyalet', grup:'haftalik',emoji:'🏰', baslik:'Bölge Yöneticisi',     acik:'Bölge haritasını 3 kez ziyaret et',            odul:300,  tip:'eyalet' },
+  { id:'haftalik_beylik', grup:'haftalik',emoji:'🏛️', baslik:'Devlet Üyesi',          acik:'Bir devlete katıl veya kur',                    odul:500,  tip:'beylik' },
+  { id:'haftalik_para',   grup:'haftalik',emoji:'💰', baslik:'Büyük Tüccar',          acik:'Bu hafta toplam 100.000 ₺ harca',              odul:400,  tip:'para' },
   { id:'haftalik_seviye', grup:'haftalik',emoji:'⭐', baslik:'Tecrübe Kazanımı',      acik:'Bu hafta 5.000 XP kazan',                       odul:350,  tip:'xp' },
-  { id:'haftalik_lonca',  grup:'haftalik',emoji:'🔨', baslik:'Lonca Faaliyeti',       acik:'Lonca ekranını ziyaret et',                     odul:200,  tip:'lonca' },
+  { id:'haftalik_lonca',  grup:'haftalik',emoji:'🔨', baslik:'Sendika Faaliyeti',       acik:'Sendika ekranını ziyaret et',                     odul:200,  tip:'lonca' },
   { id:'haftalik_guc',    grup:'haftalik',emoji:'⚡', baslik:'Güç Gelişimi',          acik:'Bu hafta toplamda 500 Güç Puanı kazan',         odul:600,  tip:'guc' },
-  { id:'haftalik_ordu',   grup:'haftalik',emoji:'🪖', baslik:'Osmanlı Ordusu',        acik:'En az 3 asker işe al bu hafta',                 odul:450,  tip:'ordu' },
-  { id:'haftalik_sancak', grup:'haftalik',emoji:'🗺️', baslik:'Sancak Fetheden',       acik:'Beyliğine en az 1 sancak fethet',               odul:800,  tip:'beylik' },
+  { id:'haftalik_ordu',   grup:'haftalik',emoji:'🪖', baslik:'Silahlı Kuvvetler',        acik:'En az 3 asker işe al bu hafta',                 odul:450,  tip:'ordu' },
+  { id:'haftalik_sancak', grup:'haftalik',emoji:'🗺️', baslik:'Bayrak Fetheden',       acik:'Beyliğine en az 1 sancak fethet',               odul:800,  tip:'beylik' },
   // ── Özel etkinlikler (kalıcı)
   { id:'ozel_vali',       grup:'ozel',    emoji:'👑', baslik:'Vali Ol',               acik:'Bir eyaletin valisi ol',                        odul:1000, tip:'vali' },
   { id:'ozel_seviye10',   grup:'ozel',    emoji:'🏅', baslik:'10. Seviye',            acik:'Seviye 10\'a ulaş',                             odul:800,  tip:'seviye', hedef:10 },
   { id:'ozel_seviye25',   grup:'ozel',    emoji:'🦅', baslik:'25. Seviye',            acik:'Seviye 25\'e ulaş',                             odul:2000, tip:'seviye', hedef:25 },
-  { id:'ozel_milyoner',   grup:'ozel',    emoji:'💎', baslik:'Milyoner',              acik:'1.000.000 🪙 biriktir',                         odul:1500, tip:'servet' },
-  { id:'ozel_serasker',   grup:'ozel',    emoji:'⚔️', baslik:'Seraskerlik',           acik:'Osmanlı Ordusu\'ndan asker işe al',             odul:600,  tip:'ordu' },
+  { id:'ozel_milyoner',   grup:'ozel',    emoji:'💎', baslik:'Milyoner',              acik:'1.000.000 ₺ biriktir',                         odul:1500, tip:'servet' },
+  { id:'ozel_serasker',   grup:'ozel',    emoji:'⚔️', baslik:'Seraskerlik',           acik:'Silahlı Kuvvetler\'ndan asker işe al',             odul:600,  tip:'ordu' },
   { id:'ozel_demirci',    grup:'ozel',    emoji:'⚒️', baslik:'Demirci Ustası',        acik:'Alet Atölyesi\'nde Lv.3 silah üret',           odul:1200, tip:'giris' },
-  { id:'ozel_sancakbeyi', grup:'ozel',    emoji:'🏴', baslik:'Sancak Beyi',           acik:'Beyliğinle en az 3 sancak kontrol et',          odul:2500, tip:'sancak', hedef:3 },
+  { id:'ozel_sancakbeyi', grup:'ozel',    emoji:'🏴', baslik:'Bölge Valisi',           acik:'Beyliğinle en az 3 sancak kontrol et',          odul:2500, tip:'sancak', hedef:3 },
   { id:'ozel_100k_guc',   grup:'ozel',    emoji:'⚡', baslik:'Güç Mirası',            acik:'100.000 Güç Puanı\'na ulaş',                   odul:5000, tip:'guc',    hedef:100000 },
 ];
 
 const GRUP_BILGI = {
   gunluk:  { label:'Günlük Görevler',   emoji:'🌅', renk:'#3E8C5A', acik:'Her gün sıfırlanır',           periyot: 86400000 },
   haftalik:{ label:'Haftalık Hedefler', emoji:'📅', renk:'#5B8DD9', acik:'Her Pazartesi sıfırlanır',     periyot: 604800000 },
-  ozel:    { label:'Özel Etkinlikler',  emoji:'✨', renk:'#C89B3C', acik:'Kalıcı başarım ödülleri',      periyot: null },
+  ozel:    { label:'Özel Etkinlikler',  emoji:'✨', renk:'#3CC8F0', acik:'Kalıcı başarım ödülleri',      periyot: null },
 };
 
 const LS_KEY = 'rep_sadakat_gorevler';
@@ -131,11 +131,11 @@ window.SadakatScreen = function SadakatScreen({ profile, setProfile, setCurrentP
   const gruplar = ['gunluk', 'haftalik', 'ozel'];
 
   return React.createElement('div', {
-    style: { minHeight: '100vh', background: '#0F0800', fontFamily: "'Inter',sans-serif", paddingBottom: 90 }
+    style: { minHeight: '100vh', background: '#0A0F17', fontFamily: "'Inter',sans-serif", paddingBottom: 90 }
   },
     // Header
     React.createElement('div', {
-      style: { background: 'linear-gradient(135deg,#1a1000 0%,#2d1e00 50%,#1a1000 100%)', borderBottom: '1px solid rgba(200,155,60,0.25)', padding: '14px 16px' }
+      style: { background: 'linear-gradient(135deg,#0F1724 0%,#2d1e00 50%,#0F1724 100%)', borderBottom: '1px solid rgba(60,200,240,0.25)', padding: '14px 16px' }
     },
       React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 } },
         React.createElement('button', {
@@ -144,21 +144,21 @@ window.SadakatScreen = function SadakatScreen({ profile, setProfile, setCurrentP
         }, '← Geri'),
         React.createElement('div', { style: { fontSize: '1.3rem' } }, '💎'),
         React.createElement('div', null,
-          React.createElement('div', { style: { fontFamily: "'Cinzel',serif", fontWeight: 900, fontSize: '1.1rem', color: '#C89B3C' } }, 'Sadakat Puanı'),
-          React.createElement('div', { style: { fontSize: '0.65rem', color: '#8893A1', marginTop: 1 } }, 'Görevler tamamla, sadakat kazan, beylik kur')
+          React.createElement('div', { style: { fontFamily: "'Rajdhani',sans-serif", fontWeight: 900, fontSize: '1.1rem', color: '#3CC8F0' } }, 'Sadakat Puanı'),
+          React.createElement('div', { style: { fontSize: '0.65rem', color: '#8893A1', marginTop: 1 } }, 'Görevler tamamla, sadakat kazan, devlet kur')
         )
       ),
       // Puan banner
       React.createElement('div', {
-        style: { background: 'linear-gradient(135deg,rgba(200,155,60,0.15),rgba(200,155,60,0.05))', border: '1px solid rgba(200,155,60,0.3)', borderRadius: 12, padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }
+        style: { background: 'linear-gradient(135deg,rgba(60,200,240,0.15),rgba(60,200,240,0.05))', border: '1px solid rgba(60,200,240,0.3)', borderRadius: 12, padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }
       },
         React.createElement('div', null,
           React.createElement('div', { style: { fontSize: '0.65rem', color: '#8893A1', marginBottom: 2, textTransform: 'uppercase', letterSpacing: '0.1em' } }, 'Mevcut Sadakat Puanı'),
-          React.createElement('div', { style: { fontFamily: "'JetBrains Mono',monospace", fontSize: '1.8rem', fontWeight: 900, color: '#C89B3C' } }, loyaltyPoints.toLocaleString('tr-TR'))
+          React.createElement('div', { style: { fontFamily: "'JetBrains Mono',monospace", fontSize: '1.8rem', fontWeight: 900, color: '#3CC8F0' } }, loyaltyPoints.toLocaleString('tr-TR'))
         ),
         React.createElement('div', { style: { textAlign: 'right' } },
           React.createElement('div', { style: { fontSize: '2rem' } }, '💎'),
-          React.createElement('div', { style: { fontSize: '0.6rem', color: '#8893A1', marginTop: 2 } }, 'Beylik kurmak için\n150.000 gerekli')
+          React.createElement('div', { style: { fontSize: '0.6rem', color: '#8893A1', marginTop: 2 } }, 'Devlet kurmak için\n150.000 gerekli')
         )
       )
     ),
@@ -167,7 +167,7 @@ window.SadakatScreen = function SadakatScreen({ profile, setProfile, setCurrentP
     React.createElement('div', { style: { padding: '12px' } },
 
       React.createElement('div', { style: { background: 'rgba(62,140,90,0.08)', border: '1px solid rgba(62,140,90,0.2)', borderRadius: 12, padding: '10px 14px', marginBottom: 14, fontSize: '0.72rem', color: '#3E8C5A', lineHeight: 1.5 } },
-        '💡 Sadakat Puanı beylik kurma, özel unvan alma ve imparatorluk içi ayrıcalıklar için kullanılır. Puanlar her gün görevler tamamlanarak kazanılır.'
+        '💡 Sadakat Puanı devlet kurma, özel unvan alma ve devlet içi ayrıcalıklar için kullanılır. Puanlar her gün görevler tamamlanarak kazanılır.'
       ),
 
       gruplar.map(grupId => {
@@ -180,7 +180,7 @@ window.SadakatScreen = function SadakatScreen({ profile, setProfile, setCurrentP
           React.createElement('div', { style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8, padding: '0 2px' } },
             React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 6 } },
               React.createElement('span', { style: { fontSize: '1rem' } }, grup.emoji),
-              React.createElement('span', { style: { fontFamily: "'Cinzel',serif", fontSize: '0.85rem', fontWeight: 700, color: grup.renk } }, grup.label)
+              React.createElement('span', { style: { fontFamily: "'Rajdhani',sans-serif", fontSize: '0.85rem', fontWeight: 700, color: grup.renk } }, grup.label)
             ),
             React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 6 } },
               React.createElement('span', { style: { fontSize: '0.62rem', color: '#8893A1' } }, grup.acik),
@@ -212,11 +212,11 @@ window.SadakatScreen = function SadakatScreen({ profile, setProfile, setCurrentP
               },
                 React.createElement('div', { style: { fontSize: '1.5rem', flexShrink: 0 } }, tamam ? '✅' : gorev.emoji),
                 React.createElement('div', { style: { flex: 1, minWidth: 0 } },
-                  React.createElement('div', { style: { fontSize: '0.82rem', fontWeight: 700, color: tamam ? '#3E8C5A' : '#EDE7DA', marginBottom: 2 } }, gorev.baslik),
+                  React.createElement('div', { style: { fontSize: '0.82rem', fontWeight: 700, color: tamam ? '#3E8C5A' : '#E6EDF5', marginBottom: 2 } }, gorev.baslik),
                   React.createElement('div', { style: { fontSize: '0.65rem', color: '#8893A1', lineHeight: 1.4 } }, gorev.acik)
                 ),
                 React.createElement('div', { style: { textAlign: 'right', flexShrink: 0 } },
-                  React.createElement('div', { style: { fontSize: '0.78rem', fontWeight: 800, color: '#C89B3C', fontFamily: "'JetBrains Mono',monospace", marginBottom: 4 } }, `+${gorev.odul}`),
+                  React.createElement('div', { style: { fontSize: '0.78rem', fontWeight: 800, color: '#3CC8F0', fontFamily: "'JetBrains Mono',monospace", marginBottom: 4 } }, `+${gorev.odul}`),
                   tamam
                     ? React.createElement('div', { style: { fontSize: '0.6rem', color: '#3E8C5A', fontWeight: 700 } }, '✓ Alındı')
                     : React.createElement('button', {
@@ -226,9 +226,9 @@ window.SadakatScreen = function SadakatScreen({ profile, setProfile, setCurrentP
                           padding: '5px 10px',
                           borderRadius: 8,
                           border: 'none',
-                          background: (otomatik || gorev.tip === 'giris') ? '#C89B3C' : 'rgba(200,155,60,0.15)',
-                          border: `1px solid ${(otomatik || gorev.tip === 'giris') ? '#C89B3C' : 'rgba(200,155,60,0.3)'}`,
-                          color: (otomatik || gorev.tip === 'giris') ? '#0F0800' : '#C89B3C',
+                          background: (otomatik || gorev.tip === 'giris') ? '#3CC8F0' : 'rgba(60,200,240,0.15)',
+                          border: `1px solid ${(otomatik || gorev.tip === 'giris') ? '#3CC8F0' : 'rgba(60,200,240,0.3)'}`,
+                          color: (otomatik || gorev.tip === 'giris') ? '#0A0F17' : '#3CC8F0',
                           fontSize: '0.65rem',
                           fontWeight: 700,
                           cursor: yukleniyor ? 'not-allowed' : 'pointer',
@@ -243,28 +243,28 @@ window.SadakatScreen = function SadakatScreen({ profile, setProfile, setCurrentP
 
       // Nasıl kazanılır bilgi kutusu
       React.createElement('div', {
-        style: { background: 'rgba(45,24,0,0.6)', border: '1px solid rgba(200,155,60,0.15)', borderRadius: 14, padding: '14px', marginTop: 8 }
+        style: { background: 'rgba(21,32,50,0.6)', border: '1px solid rgba(60,200,240,0.15)', borderRadius: 14, padding: '14px', marginTop: 8 }
       },
-        React.createElement('div', { style: { fontFamily: "'Cinzel',serif", fontSize: '0.82rem', color: '#C89B3C', marginBottom: 10, fontWeight: 700 } }, '💎 Sadakat Puanı Kazanma Yolları'),
+        React.createElement('div', { style: { fontFamily: "'Rajdhani',sans-serif", fontSize: '0.82rem', color: '#3CC8F0', marginBottom: 10, fontWeight: 700 } }, '💎 Sadakat Puanı Kazanma Yolları'),
         [
           ['🌅', 'Günlük Giriş', 'Her gün +50 puan'],
           ['⚔️', 'PvP Dövüşü', 'Her dövüş +75 puan'],
           ['👑', 'Vali Ol', 'Bir eyalete atanın +1.000 puan'],
-          ['⚜️', 'Beylik Kur veya Katıl', '+500 puan'],
+          ['🏛️', 'Devlet Kur veya Katıl', '+500 puan'],
           ['⭐', 'Seviye Atla', '10. ve 25. seviye özel ödül'],
-          ['💰', 'Milyoner Ol', '1M Sikke biriktirince +1.500 puan'],
+          ['💰', 'Milyoner Ol', '1M Para biriktirince +1.500 puan'],
           ['⚒️', 'Alet Atölyesi', 'Silah/Zırh üret → +80/gün'],
           ['⛏️', 'Madencilik', 'Her gün maden çıkar → +45'],
           ['🌾', 'Tarım Hasatı', 'Her hasat → +60 puan'],
           ['⚡', 'Güç Mirası', '100.000 Güç Puanı → +5.000 puan'],
-          ['🏴', 'Sancak Beyi', '3 sancak kontrol et → +2.500 puan'],
-          ['🪖', 'Osmanlı Ordusu', 'Asker işe al → +600 puan'],
+          ['🏴', 'Bölge Valisi', '3 sancak kontrol et → +2.500 puan'],
+          ['🪖', 'Silahlı Kuvvetler', 'Asker işe al → +600 puan'],
           ['🏗️', 'Kariyer Çalışma', 'Her iş tamamlama → Liyakat + Sadakat'],
         ].map(([ic, baslik, acik]) =>
           React.createElement('div', { key: baslik, style: { display: 'flex', alignItems: 'center', gap: 10, padding: '6px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' } },
             React.createElement('span', { style: { fontSize: '1rem', width: 24, textAlign: 'center', flexShrink: 0 } }, ic),
             React.createElement('div', { style: { flex: 1 } },
-              React.createElement('span', { style: { fontSize: '0.75rem', fontWeight: 600, color: '#EDE7DA' } }, baslik + ' — '),
+              React.createElement('span', { style: { fontSize: '0.75rem', fontWeight: 600, color: '#E6EDF5' } }, baslik + ' — '),
               React.createElement('span', { style: { fontSize: '0.72rem', color: '#8893A1' } }, acik)
             )
           )

@@ -4,8 +4,8 @@
 function LeaderboardPage({ profile, onNavigate }) {
   const { dark } = useTheme();
   const cu = profile || {};
-  const bg = dark ? '#1A0E00' : '#F8FAFC';
-  const card = dark ? 'rgba(255,255,255,0.04)' : '#EDE7DA';
+  const bg = dark ? '#0F1724' : '#F8FAFC';
+  const card = dark ? 'rgba(255,255,255,0.04)' : '#E6EDF5';
   const border = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
   const TABS = [
     {id:'level',     label:'📈 Seviye',   apiKey:'level',     cat:null},
@@ -54,14 +54,14 @@ function LeaderboardPage({ profile, onNavigate }) {
 
   const sorted = (data[tab] || []).slice(0, 50);
   const myRank = sorted.findIndex(u => u.id === cu.id || u.username === cu.username) + 1;
-  const medal = i => i===0?{icon:'🥇',color:'#C9A227',glow:'rgba(255,215,0,0.3)'}:i===1?{icon:'🥈',color:'#C0C0C0',glow:'rgba(192,192,192,0.3)'}:i===2?{icon:'🥉',color:'#CD7F32',glow:'rgba(205,127,50,0.3)'}:null;
+  const medal = i => i===0?{icon:'🥇',color:'#3CC8F0',glow:'rgba(255,215,0,0.3)'}:i===1?{icon:'🥈',color:'#C0C0C0',glow:'rgba(192,192,192,0.3)'}:i===2?{icon:'🥉',color:'#CD7F32',glow:'rgba(205,127,50,0.3)'}:null;
 
   const fmtVal = (u) => {
     if (tab==='money')     return fmtWord(u.money || 0);
     if (tab==='level')     return `Seviye ${u.level || 1}`;
     if (tab==='score')     return Number(u.score || 0).toLocaleString('tr-TR');
     if (tab==='gang')      return u.gang_name || '—';
-    if (tab==='zenginlik') return `${Number(u.toplam_servet||0).toLocaleString('tr-TR')} 🪙`;
+    if (tab==='zenginlik') return `${Number(u.toplam_servet||0).toLocaleString('tr-TR')} ₺`;
     if (tab==='ordu')      return `${Number(u.guc_puani||0).toLocaleString('tr-TR')} ⚡`;
     if (tab==='toprak')    return `${u.eyalet_sayisi||0} 🗺️`;
     if (tab==='itibar')    return `${u.itibar_score||100} ⭐`;
@@ -71,38 +71,38 @@ function LeaderboardPage({ profile, onNavigate }) {
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%',display:'flex',flexDirection:'column',gap:'0.75rem'}}>
       <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-        <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.1rem',fontWeight:800,color:'#C9A227',letterSpacing:'0.08em'}}>🏆 SIRALAMA</div>
-        <button onClick={fetchAll} style={{background:'rgba(255,215,0,0.1)',border:'1px solid rgba(255,215,0,0.3)',borderRadius:'8px',padding:'0.3rem 0.65rem',color:'#C9A227',fontSize:'0.72rem',fontWeight:700,cursor:'pointer'}}>
+        <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:'1.1rem',fontWeight:800,color:'#3CC8F0',letterSpacing:'0.08em'}}>🏆 SIRALAMA</div>
+        <button onClick={fetchAll} style={{background:'rgba(255,215,0,0.1)',border:'1px solid rgba(255,215,0,0.3)',borderRadius:'8px',padding:'0.3rem 0.65rem',color:'#3CC8F0',fontSize:'0.72rem',fontWeight:700,cursor:'pointer'}}>
           🔄 Yenile
         </button>
       </div>
       {lastFetch > 0 && <div style={{fontSize:'0.62rem',color:'#8893A1'}}>Son güncelleme: {new Date(lastFetch).toLocaleTimeString('tr-TR')}</div>}
       {/* Temel kategoriler */}
-      <div style={{display:'flex',background:'rgba(237,231,218,0.03)',borderRadius:'12px',padding:'3px',gap:'3px'}}>
+      <div style={{display:'flex',background:'rgba(230,237,245,0.03)',borderRadius:'12px',padding:'3px',gap:'3px'}}>
         {TABS.filter(t=>!t.cat).map(t=>(
           <button key={t.id} onClick={()=>setTab(t.id)}
             style={{flex:1,padding:'0.45rem 0.2rem',borderRadius:'9px',border:'none',cursor:'pointer',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.72rem',transition:'all 0.15s',whiteSpace:'nowrap',
               background:tab===t.id?'rgba(255,215,0,0.15)':'transparent',
-              color:tab===t.id?'#C9A227':dark?'#64748B':'#94A3B8'}}>
+              color:tab===t.id?'#3CC8F0':dark?'#64748B':'#94A3B8'}}>
             {t.label}
           </button>
         ))}
       </div>
       {/* Genişletilmiş kategoriler */}
-      <div style={{display:'flex',background:'rgba(237,231,218,0.03)',borderRadius:'12px',padding:'3px',gap:'3px',flexWrap:'wrap'}}>
+      <div style={{display:'flex',background:'rgba(230,237,245,0.03)',borderRadius:'12px',padding:'3px',gap:'3px',flexWrap:'wrap'}}>
         {TABS.filter(t=>t.cat).map(t=>(
           <button key={t.id} onClick={()=>setTab(t.id)}
             style={{flex:'1 1 auto',padding:'0.4rem 0.2rem',borderRadius:'9px',border:'none',cursor:'pointer',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.68rem',transition:'all 0.15s',whiteSpace:'nowrap',
               background:tab===t.id?'rgba(255,215,0,0.15)':'transparent',
-              color:tab===t.id?'#C9A227':dark?'#64748B':'#94A3B8'}}>
+              color:tab===t.id?'#3CC8F0':dark?'#64748B':'#94A3B8'}}>
             {t.label}
           </button>
         ))}
       </div>
       {myRank>0&&(
         <div style={{background:'rgba(255,215,0,0.08)',border:'1px solid rgba(255,215,0,0.25)',borderRadius:'12px',padding:'0.65rem 1rem',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-          <span style={{fontSize:'0.8rem',color:'#C9A227',fontWeight:700}}>📍 Senin sıran</span>
-          <span style={{fontSize:'0.85rem',fontWeight:800,color:'#C9A227'}}>#{myRank} / {sorted.length}</span>
+          <span style={{fontSize:'0.8rem',color:'#3CC8F0',fontWeight:700}}>📍 Senin sıran</span>
+          <span style={{fontSize:'0.85rem',fontWeight:800,color:'#3CC8F0'}}>#{myRank} / {sorted.length}</span>
         </div>
       )}
       {loading ? (
@@ -117,15 +117,15 @@ function LeaderboardPage({ profile, onNavigate }) {
                 <div style={{minWidth:'28px',textAlign:'center'}}>
                   {m?<span style={{fontSize:'1.3rem'}}>{m.icon}</span>:<span style={{fontSize:'0.78rem',fontWeight:800,color:'#8893A1'}}>#{i+1}</span>}
                 </div>
-                <div style={{width:'34px',height:'34px',borderRadius:'50%',background:`linear-gradient(135deg,${m?.color||'#C9A227'},${m?.color||'#6366F1'}33)`,border:`2px solid ${m?.color||'rgba(255,255,255,0.1)'}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1rem',flexShrink:0}}>
+                <div style={{width:'34px',height:'34px',borderRadius:'50%',background:`linear-gradient(135deg,${m?.color||'#3CC8F0'},${m?.color||'#6366F1'}33)`,border:`2px solid ${m?.color||'rgba(255,255,255,0.1)'}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1rem',flexShrink:0}}>
                   {u.gender==='kadin'?'👩':'👨'}
                 </div>
                 <div style={{flex:1,overflow:'hidden'}}>
-                  <div style={{fontSize:'0.85rem',fontWeight:700,color:isMe?'#C9A227':dark?'#EDE7DA':'#1E293B',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{u.username}{isMe?' (Sen)':''}</div>
+                  <div style={{fontSize:'0.85rem',fontWeight:700,color:isMe?'#3CC8F0':dark?'#E6EDF5':'#1E293B',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{u.username}{isMe?' (Sen)':''}</div>
                   <div style={{fontSize:'0.67rem',color:'#8893A1'}}>{u.city||''} • Lv.{u.level||1}</div>
                 </div>
                 <div style={{textAlign:'right',flexShrink:0}}>
-                  <div style={{fontSize:'0.82rem',fontWeight:800,color:m?m.color:dark?'#EDE7DA':'#334155'}}>{fmtVal(u)}</div>
+                  <div style={{fontSize:'0.82rem',fontWeight:800,color:m?m.color:dark?'#E6EDF5':'#334155'}}>{fmtVal(u)}</div>
                 </div>
               </div>
             );

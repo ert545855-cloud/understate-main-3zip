@@ -7,7 +7,7 @@
 
 const ORDU_BIRLIKLERI = [
   {
-    id:'yeniceri', label:'Yeniçeri', emoji:'🪖',
+    id:'yeniceri', label:'Piyade', emoji:'🪖',
     aciklama:'Sultanın seçkin piyade kuvveti. Yüksek disiplin ve ağır zırh.',
     güç:50, gıdaTüketim:3, maas:2000,
     gereksinimler:{ zırh:1, kilicl1:1 },
@@ -15,19 +15,19 @@ const ORDU_BIRLIKLERI = [
     seferHız:1.0,
   },
   {
-    id:'akinci', label:'Akıncı', emoji:'🏹',
-    aciklama:'Hafif süvari keşifçiler. Sefer hızında en hızlı birimler.',
+    id:'akinci', label:'Özel Kuvvet', emoji:'🏹',
+    aciklama:'Hafif süvari keşifçiler. Harekât hızında en hızlı birimler.',
     güç:35, gıdaTüketim:4, maas:1500,
     gereksinimler:{ yayl1:1 },
     kategori:'süvari', renk:'#5B8DD9',
     seferHız:1.5, // hayvancılık eti ile +0.3 bonus
   },
   {
-    id:'sipahi', label:'Sipahi', emoji:'⚔️',
+    id:'sipahi', label:'Zırhlı Birlik', emoji:'⚔️',
     aciklama:'Tımarlı sipahiler. Orta ağır süvari, toprağa bağlı asker.',
     güç:45, gıdaTüketim:5, maas:2500,
     gereksinimler:{ kilicl1:1, kalkanl1:1 },
-    kategori:'süvari', renk:'#C89B3C',
+    kategori:'süvari', renk:'#3CC8F0',
     seferHız:1.3,
   },
   {
@@ -48,10 +48,10 @@ const ORDU_BIRLIKLERI = [
   },
   {
     id:'topcu', label:'Topçu', emoji:'💣',
-    aciklama:'Osmanlı topçu birliği. Kale yıkımında uzman, sahada ağır ateş.',
+    aciklama:'Devlet topçu birliği. Kale yıkımında uzman, sahada ağır ateş.',
     güç:70, gıdaTüketim:4, maas:4000,
     gereksinimler:{ topl1:2 },
-    kategori:'agir', renk:'#C89B3C',
+    kategori:'agir', renk:'#3CC8F0',
     seferHız:0.7,
   },
 ];
@@ -107,7 +107,7 @@ window.OttomanOrdusScreen = function OttomanOrdusScreen({ profile, setProfile, s
       }
     }
     if ((profile?.money || 0) < birlik.maas * adet) {
-      showNotif(`❌ ${birlik.label} için 🪙${(birlik.maas*adet).toLocaleString('tr-TR')} maaş gerekli`, 'error');
+      showNotif(`❌ ${birlik.label} için ₺${(birlik.maas*adet).toLocaleString('tr-TR')} maaş gerekli`, 'error');
       return;
     }
     // Aletleri düş
@@ -142,7 +142,7 @@ window.OttomanOrdusScreen = function OttomanOrdusScreen({ profile, setProfile, s
     };
     localStorage.setItem('rep_aktifSefer', JSON.stringify(yeniSefer));
     setSefer(yeniSefer);
-    showNotif(`🪖 ${bölge.emoji} ${bölge.label} seferi başladı! (${Math.round(süre/60000)} dakika)`, 'info');
+    showNotif(`🪖 ${bölge.emoji} ${bölge.label} harekâtı başladı! (${Math.round(süre/60000)} dakika)`, 'info');
     if (etStoku >= 10) showNotif('🐄 Hayvancılık eti sefer hızını artırdı!', 'success');
   };
 
@@ -161,29 +161,29 @@ window.OttomanOrdusScreen = function OttomanOrdusScreen({ profile, setProfile, s
     localStorage.removeItem('rep_aktifSefer');
     setSefer(null);
     const ödülMetin = Object.entries(ödül).map(([k,v]) => `+${v} ${k}`).join(', ');
-    showNotif(`🏆 ${sefer.bölgeLabel} seferi tamamlandı! ${ödülMetin}`, 'success');
-    try { window._pushGameEvent?.('sefer_tamamlandi', '🏆 Sefer Tamamlandı', `${profile?.username||'Bir oyuncu'} ${sefer.bölgeLabel} seferinden zaferle döndü!`, '🏆', 'sefer'); } catch(_){}
+    showNotif(`🏆 ${sefer.bölgeLabel} harekâtı tamamlandı! ${ödülMetin}`, 'success');
+    try { window._pushGameEvent?.('sefer_tamamlandi', '🏆 Harekât Tamamlandı', `${profile?.username||'Bir oyuncu'} ${sefer.bölgeLabel} seferinden zaferle döndü!`, '🏆', 'sefer'); } catch(_){}
     window._gucPuaniGuncelle?.();
   };
 
-  const GOLD = '#C89B3C';
-  const BG = '#1A0E00';
-  const SURF = '#2D1800';
+  const GOLD = '#3CC8F0';
+  const BG = '#0F1724';
+  const SURF = '#152032';
 
   return React.createElement('div', {style:{minHeight:'100vh',background:BG,fontFamily:"'Inter',sans-serif",paddingBottom:90}},
     // Header
-    React.createElement('div', {style:{background:'linear-gradient(135deg,#2D1800,#3D2200,#2D1800)',borderBottom:'1px solid rgba(200,155,60,0.3)',padding:'14px 16px 10px'}},
+    React.createElement('div', {style:{background:'linear-gradient(135deg,#152032,#152032,#152032)',borderBottom:'1px solid rgba(60,200,240,0.3)',padding:'14px 16px 10px'}},
       React.createElement('div', {style:{display:'flex',alignItems:'center',gap:10,marginBottom:8}},
         React.createElement('span', {style:{fontSize:'1.6rem'}}, '🪖'),
         React.createElement('div', null,
-          React.createElement('div', {style:{fontFamily:"'Cinzel',serif",fontWeight:900,fontSize:'1.15rem',color:GOLD}}, 'Osmanlı Ordusu'),
-          React.createElement('div', {style:{fontSize:'0.68rem',color:'#A9A6A0'}}, 'Yeniçeri · Akıncı · Sipahi · Topçu'),
+          React.createElement('div', {style:{fontFamily:"'Rajdhani',sans-serif",fontWeight:900,fontSize:'1.15rem',color:GOLD}}, 'Silahlı Kuvvetler'),
+          React.createElement('div', {style:{fontSize:'0.68rem',color:'#93A4B8'}}, 'Piyade · Özel Kuvvet · Zırhlı Birlik · Topçu'),
         ),
       ),
       React.createElement('div', {style:{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:5}},
         [
           ['⚔️','Ordu Gücü', toplamGüç.toLocaleString(), '#C24B43'],
-          ['🪖','Asker', toplamAsker.toString(), '#C89B3C'],
+          ['🪖','Asker', toplamAsker.toString(), '#3CC8F0'],
           ['🌾','Günlük Gıda', `-${günlükGıda}`, '#4C9A6B'],
           ['🐄','Et Stoku', etStoku.toString(), seferHızBonusu>0?'#4C9A6B':'#8893A1'],
         ].map(([ic,lb,v,c]) =>
@@ -194,14 +194,14 @@ window.OttomanOrdusScreen = function OttomanOrdusScreen({ profile, setProfile, s
         )
       ),
       seferHızBonusu > 0 && React.createElement('div',{style:{marginTop:6,background:'rgba(76,154,107,0.1)',border:'1px solid rgba(76,154,107,0.3)',borderRadius:7,padding:'4px 8px',fontSize:'0.65rem',color:'#4C9A6B',fontWeight:700}},
-        `🐄 Hayvancılık Bonusu: Sefer hızı +${Math.round(seferHızBonusu*100)}% (${etStoku} et stokta)`
+        `🐄 Hayvancılık Bonusu: Harekât hızı +${Math.round(seferHızBonusu*100)}% (${etStoku} et stokta)`
       ),
     ),
 
     // Tabs
-    React.createElement('div',{style:{display:'flex',background:'#1F0F00',borderBottom:'1px solid rgba(200,155,60,0.12)'}},
-      [['birlikler','🪖 Birlikler'],['sefer','🗺️ Sefer'],['besle','🌾 İaşe']].map(([id,lb])=>
-        React.createElement('button',{key:id,onClick:()=>setTab(id),style:{flex:1,padding:'10px 4px',border:'none',background:tab===id?'rgba(200,155,60,0.12)':'transparent',color:tab===id?GOLD:'#8893A1',fontWeight:700,fontSize:'0.73rem',cursor:'pointer',borderBottom:tab===id?`2px solid ${GOLD}`:'2px solid transparent'}},lb)
+    React.createElement('div',{style:{display:'flex',background:'#1F0F00',borderBottom:'1px solid rgba(60,200,240,0.12)'}},
+      [['birlikler','🪖 Birlikler'],['sefer','🗺️ Harekât'],['besle','🌾 İaşe']].map(([id,lb])=>
+        React.createElement('button',{key:id,onClick:()=>setTab(id),style:{flex:1,padding:'10px 4px',border:'none',background:tab===id?'rgba(60,200,240,0.12)':'transparent',color:tab===id?GOLD:'#8893A1',fontWeight:700,fontSize:'0.73rem',cursor:'pointer',borderBottom:tab===id?`2px solid ${GOLD}`:'2px solid transparent'}},lb)
       )
     ),
 
@@ -219,7 +219,7 @@ window.OttomanOrdusScreen = function OttomanOrdusScreen({ profile, setProfile, s
               React.createElement('div',{style:{display:'flex',alignItems:'center',gap:8}},
                 React.createElement('span',{style:{fontSize:'1.4rem'}},birlik.emoji),
                 React.createElement('div',null,
-                  React.createElement('div',{style:{fontWeight:800,color:'#EDE7DA',fontSize:'0.88rem'}},birlik.label),
+                  React.createElement('div',{style:{fontWeight:800,color:'#E6EDF5',fontSize:'0.88rem'}},birlik.label),
                   React.createElement('div',{style:{fontSize:'0.63rem',color:'#8893A1',marginTop:2}},birlik.aciklama),
                 ),
               ),
@@ -230,10 +230,10 @@ window.OttomanOrdusScreen = function OttomanOrdusScreen({ profile, setProfile, s
             ),
             React.createElement('div',{style:{display:'flex',gap:6,flexWrap:'wrap',marginBottom:8}},
               [
-                [`🪙 Maaş: ${(birlik.maas).toLocaleString('tr-TR')}`, paraBekleniyor?'#4C9A6B':'#C24B43'],
-                [`🪖 Mevcut: ${mevcut}`, '#C89B3C'],
-                birlik.seferHız!==1.0 && [`🚀 Sefer: ×${birlik.seferHız}`, '#5B8DD9'],
-              ].filter(Boolean).map(([t,c],i)=>React.createElement('span',{key:i,style:{fontSize:'0.63rem',color:c,fontWeight:700,background:`rgba(${c==='#4C9A6B'?'76,154,107':c==='#C24B43'?'194,75,67':c==='#C89B3C'?'200,155,60':'91,141,217'},0.1)`,border:`1px solid ${c}44`,borderRadius:6,padding:'2px 8px'}},t))
+                [`₺ Maaş: ${(birlik.maas).toLocaleString('tr-TR')}`, paraBekleniyor?'#4C9A6B':'#C24B43'],
+                [`🪖 Mevcut: ${mevcut}`, '#3CC8F0'],
+                birlik.seferHız!==1.0 && [`🚀 Harekât: ×${birlik.seferHız}`, '#5B8DD9'],
+              ].filter(Boolean).map(([t,c],i)=>React.createElement('span',{key:i,style:{fontSize:'0.63rem',color:c,fontWeight:700,background:`rgba(${c==='#4C9A6B'?'76,154,107':c==='#C24B43'?'194,75,67':c==='#3CC8F0'?'60,200,240':'91,141,217'},0.1)`,border:`1px solid ${c}44`,borderRadius:6,padding:'2px 8px'}},t))
             ),
             // Gereksinim
             Object.keys(birlik.gereksinimler||{}).length > 0 && React.createElement('div',{style:{fontSize:'0.63rem',color:gereksinimKarşılandı?'#4C9A6B':'#C24B43',marginBottom:6,fontWeight:700}},
@@ -248,8 +248,8 @@ window.OttomanOrdusScreen = function OttomanOrdusScreen({ profile, setProfile, s
 
       // ── Sefer ──
       tab==='sefer' && React.createElement('div', null,
-        sefer && React.createElement('div',{style:{background:'rgba(201,162,39,0.08)',border:'1px solid rgba(201,162,39,0.3)',borderRadius:12,padding:14,marginBottom:12}},
-          React.createElement('div',{style:{fontFamily:"'Cinzel',serif",fontWeight:800,color:GOLD,marginBottom:6,fontSize:'0.88rem'}}, `🚀 ${sefer.bölgeLabel} — Aktif Sefer`),
+        sefer && React.createElement('div',{style:{background:'rgba(60,200,240,0.08)',border:'1px solid rgba(60,200,240,0.3)',borderRadius:12,padding:14,marginBottom:12}},
+          React.createElement('div',{style:{fontFamily:"'Rajdhani',sans-serif",fontWeight:800,color:GOLD,marginBottom:6,fontSize:'0.88rem'}}, `🚀 ${sefer.bölgeLabel} — Aktif Harekât`),
           (() => {
             const kalan = Math.max(0, Math.ceil((sefer.bitişZamanı - sayaç) / 1000));
             const tamamlandi = sayaç >= sefer.bitişZamanı;
@@ -260,28 +260,28 @@ window.OttomanOrdusScreen = function OttomanOrdusScreen({ profile, setProfile, s
               ),
               tamamlandi
                 ? React.createElement('button',{onClick:seferTamamla,style:{width:'100%',padding:'10px',borderRadius:8,border:'none',background:'linear-gradient(135deg,#4C9A6B,#3E7A55)',color:'#FFF',fontWeight:800,fontSize:'0.88rem',cursor:'pointer'}}, '🏆 Seferi Tamamla ve Ganimeti Topla!')
-                : React.createElement('div',{style:{fontSize:'0.72rem',color:'#A9A6A0'}}, `⏳ ${Math.floor(kalan/60)}d ${kalan%60}s kaldı · %${ilerleme} tamamlandı`),
+                : React.createElement('div',{style:{fontSize:'0.72rem',color:'#93A4B8'}}, `⏳ ${Math.floor(kalan/60)}d ${kalan%60}s kaldı · %${ilerleme} tamamlandı`),
             );
           })(),
         ),
         !sefer && React.createElement('div', null,
-          React.createElement('div',{style:{fontFamily:"'Cinzel',serif",fontSize:'0.7rem',fontWeight:700,color:'#8893A1',marginBottom:10,letterSpacing:'0.1em'}}, 'SEFER HEDEFLERİ'),
+          React.createElement('div',{style:{fontFamily:"'Rajdhani',sans-serif",fontSize:'0.7rem',fontWeight:700,color:'#8893A1',marginBottom:10,letterSpacing:'0.1em'}}, 'SEFER HEDEFLERİ'),
           toplamAsker === 0 && React.createElement('div',{style:{background:'rgba(194,75,67,0.08)',border:'1px solid rgba(194,75,67,0.2)',borderRadius:10,padding:10,marginBottom:10,fontSize:'0.75rem',color:'#C24B43',fontWeight:700}},
-            '⚠️ Sefer için en az 1 asker gerekli. Birlikler sekmesinden asker al.'
+            '⚠️ Harekât için en az 1 asker gerekli. Birlikler sekmesinden asker al.'
           ),
           SEFER_BÖLGELERI.map(b => {
             const süre = b.mesafe * 60 * (1 / (1 + seferHızBonusu));
-            return React.createElement('div',{key:b.id,style:{background:SURF,border:'1px solid rgba(200,155,60,0.15)',borderRadius:12,padding:12,marginBottom:8}},
+            return React.createElement('div',{key:b.id,style:{background:SURF,border:'1px solid rgba(60,200,240,0.15)',borderRadius:12,padding:12,marginBottom:8}},
               React.createElement('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:6}},
                 React.createElement('div',null,
-                  React.createElement('div',{style:{fontWeight:800,color:'#EDE7DA',fontSize:'0.88rem'}},`${b.emoji} ${b.label}`),
+                  React.createElement('div',{style:{fontWeight:800,color:'#E6EDF5',fontSize:'0.88rem'}},`${b.emoji} ${b.label}`),
                   React.createElement('div',{style:{fontSize:'0.62rem',color:'#8893A1',marginTop:2}},`Mesafe: ${b.mesafe} · ${Math.round(süre)} dakika`),
                 ),
                 React.createElement('div',{style:{textAlign:'right'}},
                   Object.entries(b.ödül).map(([k,v])=>React.createElement('div',{key:k,style:{fontSize:'0.65rem',fontWeight:700,color:'#4C9A6B'}},`+${v} ${k}`))
                 ),
               ),
-              React.createElement('button',{onClick:()=>seferBaslat(b),disabled:!sefer&&toplamAsker===0,style:{width:'100%',padding:'8px',borderRadius:8,border:'none',background:toplamAsker>0?'linear-gradient(135deg,#C89B3C,#8B6A1A)':'rgba(255,255,255,0.05)',color:toplamAsker>0?'#0F0800':'#6B7687',fontWeight:800,fontSize:'0.8rem',cursor:toplamAsker>0?'pointer':'not-allowed'}},
+              React.createElement('button',{onClick:()=>seferBaslat(b),disabled:!sefer&&toplamAsker===0,style:{width:'100%',padding:'8px',borderRadius:8,border:'none',background:toplamAsker>0?'linear-gradient(135deg,#3CC8F0,#1E8FB8)':'rgba(255,255,255,0.05)',color:toplamAsker>0?'#0A0F17':'#6B7687',fontWeight:800,fontSize:'0.8rem',cursor:toplamAsker>0?'pointer':'not-allowed'}},
                 `🚀 Sefere Çık (${Math.round(süre)}dk)`
               ),
             );
@@ -291,30 +291,30 @@ window.OttomanOrdusScreen = function OttomanOrdusScreen({ profile, setProfile, s
 
       // ── İaşe (Beslenme) ──
       tab==='besle' && React.createElement('div', null,
-        React.createElement('div',{style:{background:SURF,border:'1px solid rgba(200,155,60,0.2)',borderRadius:12,padding:14,marginBottom:12}},
-          React.createElement('div',{style:{fontFamily:"'Cinzel',serif",fontWeight:800,color:GOLD,marginBottom:10,fontSize:'0.88rem'}}, '🌾 ORDU İAŞESİ'),
+        React.createElement('div',{style:{background:SURF,border:'1px solid rgba(60,200,240,0.2)',borderRadius:12,padding:14,marginBottom:12}},
+          React.createElement('div',{style:{fontFamily:"'Rajdhani',sans-serif",fontWeight:800,color:GOLD,marginBottom:10,fontSize:'0.88rem'}}, '🌾 ORDU İAŞESİ'),
           [
             ['🌾','Gıda Puanı (Tarım)',profile?.gidaPuani||0,'#4C9A6B'],
-            ['🐄','Et Stoku (Hayvancılık)',etStoku,'#C89B3C'],
+            ['🐄','Et Stoku (Hayvancılık)',etStoku,'#3CC8F0'],
             ['⚔️','Günlük Tüketim',günlükGıda,'#C24B43'],
             ['📅','Gıda Yeterliliği',günlükGıda>0?`${Math.floor((profile?.gidaPuani||0)/Math.max(1,günlükGıda))} gün`:'Sonsuz','#4C9A6B'],
           ].map(([ic,lb,v,c])=>React.createElement('div',{key:lb,style:{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'7px 0',borderBottom:'1px solid rgba(255,255,255,0.05)'}},
-            React.createElement('span',{style:{fontSize:'0.75rem',color:'#A9A6A0'}},`${ic} ${lb}`),
+            React.createElement('span',{style:{fontSize:'0.75rem',color:'#93A4B8'}},`${ic} ${lb}`),
             React.createElement('span',{style:{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.82rem',fontWeight:700,color:c}},typeof v==='number'?v.toLocaleString('tr-TR'):v),
           ))
         ),
         React.createElement('div',{style:{background:'rgba(76,154,107,0.08)',border:'1px solid rgba(76,154,107,0.2)',borderRadius:12,padding:14,marginBottom:10}},
-          React.createElement('div',{style:{fontFamily:"'Cinzel',serif",fontWeight:700,color:'#4C9A6B',marginBottom:8,fontSize:'0.8rem'}}, '🐄 HAYVANCILLIK BONUSLARI'),
+          React.createElement('div',{style:{fontFamily:"'Rajdhani',sans-serif",fontWeight:700,color:'#4C9A6B',marginBottom:8,fontSize:'0.8rem'}}, '🐄 HAYVANCILLIK BONUSLARI'),
           [
             ['0-9 et','Bonus yok','#8893A1'],
-            ['10-19 et','Sefer hızı +15%','#C89B3C'],
-            ['20+ et','Sefer hızı +30%','#4C9A6B'],
+            ['10-19 et','Harekât hızı +15%','#3CC8F0'],
+            ['20+ et','Harekât hızı +30%','#4C9A6B'],
           ].map(([koşul,efekt,c])=>React.createElement('div',{key:koşul,style:{display:'flex',justifyContent:'space-between',padding:'5px 0',borderBottom:'1px solid rgba(255,255,255,0.05)'}},
             React.createElement('span',{style:{fontSize:'0.72rem',color:'#8893A1'}},koşul),
             React.createElement('span',{style:{fontSize:'0.72rem',fontWeight:700,color:c}},efekt),
           ))
         ),
-        React.createElement('div',{style:{background:'rgba(200,155,60,0.05)',border:'1px solid rgba(200,155,60,0.15)',borderRadius:10,padding:10,fontSize:'0.7rem',color:'#A9A6A0',lineHeight:1.6}},
+        React.createElement('div',{style:{background:'rgba(60,200,240,0.05)',border:'1px solid rgba(60,200,240,0.15)',borderRadius:10,padding:10,fontSize:'0.7rem',color:'#93A4B8',lineHeight:1.6}},
           '💡 Tarımdan hasat yap → Gıda Puanı kazan → Ordu süresiz beslensin. Hayvancılıktan et üret → Seferlerde hız bonusu kazan.'
         ),
       ),

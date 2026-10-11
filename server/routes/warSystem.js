@@ -243,7 +243,7 @@ router.post('/repair', authMiddleware, asyncHandler(async (req, res) => {
   const u = userRows[0];
   if (!u) return res.status(404).json({ success: false, error: 'Kullanıcı bulunamadı' });
   if ((u.money || 0) < maliyet) {
-    return res.status(400).json({ success: false, error: `Onarım için ${maliyet.toLocaleString('tr-TR')} 🪙 gerekli` });
+    return res.status(400).json({ success: false, error: `Onarım için ${maliyet.toLocaleString('tr-TR')} ₺ gerekli` });
   }
 
   await db.query(`UPDATE users SET money=money-$1 WHERE id=$2`, [maliyet, req.user.id]);

@@ -7,7 +7,7 @@ window.ItibarScreen = function ItibarScreen({ profile, token, onlinePlayers }) {
   const [loading, setLoading] = React.useState('');
   const [msg, setMsg] = React.useState({ text:'', ok:true });
 
-  const ds = { bg:'#0D1117', surface:'rgba(255,255,255,0.04)', gold:'#C9A227', border:'rgba(255,255,255,0.08)', text:'#EDE7DA', muted:'#8893A1', green:'#4CAF50', red:'#FF6B6B' };
+  const ds = { bg:'#0D1117', surface:'rgba(255,255,255,0.04)', gold:'#3CC8F0', border:'rgba(255,255,255,0.08)', text:'#E6EDF5', muted:'#8893A1', green:'#4CAF50', red:'#FF6B6B' };
 
   const itibarColor = (score) => score >= 80 ? ds.green : score >= 50 ? ds.gold : ds.red;
   const itibarLabel = (score) => score >= 80 ? '😇 Güvenilir' : score >= 50 ? '😐 Şüpheli' : '😈 Güvenilmez';
@@ -73,14 +73,14 @@ window.ItibarScreen = function ItibarScreen({ profile, token, onlinePlayers }) {
 
   return React.createElement('div', { style:{ minHeight:'100vh', background:ds.bg, padding:'1rem', paddingBottom:'5rem', color:ds.text }},
     // My itibar banner
-    React.createElement('div', { style:{ background:`linear-gradient(135deg, rgba(201,162,39,0.08), transparent)`, border:`1px solid rgba(201,162,39,0.2)`, borderRadius:'14px', padding:'14px', marginBottom:'1rem', display:'flex', justifyContent:'space-between', alignItems:'center' }},
+    React.createElement('div', { style:{ background:`linear-gradient(135deg, rgba(60,200,240,0.08), transparent)`, border:`1px solid rgba(60,200,240,0.2)`, borderRadius:'14px', padding:'14px', marginBottom:'1rem', display:'flex', justifyContent:'space-between', alignItems:'center' }},
       React.createElement('div', null,
         React.createElement('div', { style:{ fontSize:'0.75rem', color:ds.muted }}, 'Senin İtibar Puanın'),
         React.createElement('div', { style:{ fontWeight:900, fontSize:'1.6rem', color:itibarColor(profile?.itibar_score ?? 100) }}, profile?.itibar_score ?? 100),
         React.createElement('div', { style:{ fontSize:'0.8rem', color:itibarColor(profile?.itibar_score ?? 100) }}, itibarLabel(profile?.itibar_score ?? 100))
       ),
       React.createElement('div', { style:{ textAlign:'right', fontSize:'0.78rem', color:ds.muted }},
-        React.createElement('div', null, '⚖️ Osmanlı Mahkemesi'),
+        React.createElement('div', null, '⚖️ Devlet Mahkemesi'),
         React.createElement('div', { style:{ marginTop:'4px' }}, '5+ oy ile karar verilir'),
         React.createElement('div', null, '%60 suçlu → 24s ban')
       )

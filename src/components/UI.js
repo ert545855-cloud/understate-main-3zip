@@ -5,8 +5,8 @@
 // ═══════════════════════════════════════════════════════
 
 // LedgerValue — rounded pill capsule stat badge (Mayor HUD style)
-function LedgerValue({ value, label, prefix='🪙', color, style={} }) {
-  var c = color || (window.DS && window.DS.gold) || '#F0B33E';
+function LedgerValue({ value, label, prefix='₺', color, style={} }) {
+  var c = color || (window.DS && window.DS.gold) || '#3CC8F0';
   return (
     <div style={{
       background: 'rgba(255,255,255,0.05)',
@@ -67,7 +67,7 @@ function PrimaryButton({ children, onClick, disabled=false, style={}, size='md' 
       onMouseDown={()=>!disabled&&setP(true)} onMouseUp={()=>setP(false)}
       onTouchStart={()=>!disabled&&setP(true)} onTouchEnd={()=>setP(false)}
       style={{
-        background: disabled ? 'rgba(240,179,62,0.18)' : p ? 'linear-gradient(180deg,#C98A1F,#B8790F)' : h ? 'linear-gradient(180deg,#FFD873,#F0B33E)' : 'linear-gradient(180deg,#FDCB5D,#F0B33E)',
+        background: disabled ? 'rgba(60,200,240,0.18)' : p ? 'linear-gradient(180deg,#1E8FB8,#1E8FB8)' : h ? 'linear-gradient(180deg,#9BE6FB,#3CC8F0)' : 'linear-gradient(180deg,#9BE6FB,#3CC8F0)',
         color: disabled ? '#8896B8' : '#241505',
         border: '1.5px solid rgba(255,255,255,0.25)',
         borderRadius: (window.DS&&window.DS.radiusPill)||'999px',
@@ -76,7 +76,7 @@ function PrimaryButton({ children, onClick, disabled=false, style={}, size='md' 
         cursor: disabled ? 'not-allowed' : 'pointer',
         display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem',
         transition: 'all 0.14s ease',
-        boxShadow: p || disabled ? 'none' : h ? '0 6px 22px rgba(240,179,62,0.55)' : '0 4px 16px rgba(240,179,62,0.35)',
+        boxShadow: p || disabled ? 'none' : h ? '0 6px 22px rgba(60,200,240,0.55)' : '0 4px 16px rgba(60,200,240,0.35)',
         WebkitTapHighlightColor: 'transparent',
         outline: 'none', position: 'relative', overflow: 'hidden',
         transform: p ? 'scale(0.96)' : 'none',
@@ -133,7 +133,7 @@ function Card({ children, style={}, onClick }) {
     <div
       onClick={onClick}
       style={{
-        background: '#2D1800',
+        background: '#152032',
         border: '1.5px solid rgba(255,255,255,0.1)',
         borderRadius: (window.DS&&window.DS.radiusLg)||'20px',
         boxShadow: '0 4px 18px rgba(3,6,20,0.4)',
@@ -146,7 +146,7 @@ window.Card = Card;
 
 // GoldDivider — thin horizontal separator
 function GoldDivider({ style={} }) {
-  return <div style={{height:'1px',background:'rgba(240,179,62,0.25)',margin:'0.75rem 0',...style}} />;
+  return <div style={{height:'1px',background:'rgba(60,200,240,0.25)',margin:'0.75rem 0',...style}} />;
 }
 window.GoldDivider = GoldDivider;
 
@@ -154,7 +154,7 @@ window.GoldDivider = GoldDivider;
 function SectionTitle({ children, style={} }) {
   return (
     <div style={{
-      fontFamily:"'Cinzel',serif",
+      fontFamily:"'Rajdhani',sans-serif",
       fontWeight:800,
       fontSize:'0.85rem',
       color:'#F2F5FA',

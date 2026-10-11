@@ -1,11 +1,11 @@
 window.GrupMesajScreen = function({ profile, onNavigate, showNotif }) {
-  const G='#C89B3C',BG='#0F0800',T='#F5EBD7',M='#A9A6A0',S='#2D1800',GR='#3E8C5A',R='#B8423C';
+  const G='#3CC8F0',BG='#0A0F17',T='#E6EDF5',M='#93A4B8',S='#152032',GR='#3E8C5A',R='#B8423C';
   const jwt = () => localStorage.getItem('us_jwt')||'';
   const ROOMS = [
     {id:'genel',    name:'🌍 Genel Sohbet',  desc:'Tüm oyuncular'},
     {id:'ticaret',  name:'💰 Ticaret Odası', desc:'Alım-satım teklifleri'},
     {id:'savas',    name:'⚔️ Savaş Odası',   desc:'Savaş stratejileri'},
-    {id:'devlet',   name:'🏛️ Divan',         desc:'Devlet meseleleri'},
+    {id:'devlet',   name:'🏛️ Kabine',         desc:'Devlet meseleleri'},
     {id:'zanaat',   name:'⚒️ Zanaat Loncası', desc:'Zanaatkârlar toplantısı'},
   ];
   const [room, setRoom] = React.useState(ROOMS[0]);
@@ -40,18 +40,18 @@ window.GrupMesajScreen = function({ profile, onNavigate, showNotif }) {
 
   return React.createElement('div',{style:{minHeight:'100vh',background:BG,fontFamily:"'Inter',sans-serif",display:'flex',flexDirection:'column'}},
     // Header
-    React.createElement('div',{style:{background:'linear-gradient(135deg,#1a0800,#2d1600)',borderBottom:'1px solid rgba(200,155,60,0.2)',padding:'14px 16px',flexShrink:0}},
+    React.createElement('div',{style:{background:'linear-gradient(135deg,#0A0F17,#0F1724)',borderBottom:'1px solid rgba(60,200,240,0.2)',padding:'14px 16px',flexShrink:0}},
       React.createElement('div',{style:{display:'flex',alignItems:'center',gap:10}},
         onNavigate&&React.createElement('button',{onClick:()=>onNavigate('home'),style:{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:10,padding:'6px 10px',color:M,fontSize:'0.75rem',cursor:'pointer'}},'← Geri'),
         React.createElement('span',{style:{fontSize:'1.5rem'}},'💬'),
         React.createElement('div',null,
-          React.createElement('div',{style:{fontFamily:"'Cinzel',serif",fontWeight:900,fontSize:'1.1rem',color:G}},room.name),
+          React.createElement('div',{style:{fontFamily:"'Rajdhani',sans-serif",fontWeight:900,fontSize:'1.1rem',color:G}},room.name),
           React.createElement('div',{style:{fontSize:'0.62rem',color:M}},room.desc)
         )
       )
     ),
     // Room tabs
-    React.createElement('div',{style:{display:'flex',gap:6,padding:'10px 12px',overflowX:'auto',borderBottom:'1px solid rgba(200,155,60,0.1)',flexShrink:0}},
+    React.createElement('div',{style:{display:'flex',gap:6,padding:'10px 12px',overflowX:'auto',borderBottom:'1px solid rgba(60,200,240,0.1)',flexShrink:0}},
       ROOMS.map(r=>
         React.createElement('button',{key:r.id,onClick:()=>setRoom(r),style:{flexShrink:0,padding:'6px 12px',borderRadius:20,border:`1px solid ${room.id===r.id?G:G+'33'}`,background:room.id===r.id?G+'22':'transparent',color:room.id===r.id?G:M,fontSize:'0.7rem',fontWeight:700,cursor:'pointer'}},r.name)
       )
@@ -81,10 +81,10 @@ window.GrupMesajScreen = function({ profile, onNavigate, showNotif }) {
       React.createElement('div',{ref:endRef})
     ),
     // Input
-    React.createElement('div',{style:{position:'fixed',bottom:68,left:0,right:0,padding:'10px 12px',background:'rgba(11,8,0,0.97)',borderTop:'1px solid rgba(200,155,60,0.15)',backdropFilter:'blur(12px)'}},
+    React.createElement('div',{style:{position:'fixed',bottom:68,left:0,right:0,padding:'10px 12px',background:'rgba(10,15,23,0.97)',borderTop:'1px solid rgba(60,200,240,0.15)',backdropFilter:'blur(12px)'}},
       React.createElement('div',{style:{display:'flex',gap:8}},
-        React.createElement('input',{value:text,onChange:e=>setText(e.target.value),onKeyDown:e=>e.key==='Enter'&&!e.shiftKey&&send(),placeholder:`${room.name}'na mesaj yaz...`,style:{flex:1,padding:'10px 14px',borderRadius:12,border:'1px solid rgba(200,155,60,0.25)',background:S,color:T,fontSize:'0.85rem',outline:'none'}}),
-        React.createElement('button',{onClick:send,disabled:!text.trim(),style:{padding:'10px 16px',borderRadius:12,border:'none',background:text.trim()?G:'rgba(255,255,255,0.1)',color:'#0F0800',fontWeight:700,fontSize:'0.9rem',cursor:text.trim()?'pointer':'not-allowed'}},'↑')
+        React.createElement('input',{value:text,onChange:e=>setText(e.target.value),onKeyDown:e=>e.key==='Enter'&&!e.shiftKey&&send(),placeholder:`${room.name}'na mesaj yaz...`,style:{flex:1,padding:'10px 14px',borderRadius:12,border:'1px solid rgba(60,200,240,0.25)',background:S,color:T,fontSize:'0.85rem',outline:'none'}}),
+        React.createElement('button',{onClick:send,disabled:!text.trim(),style:{padding:'10px 16px',borderRadius:12,border:'none',background:text.trim()?G:'rgba(255,255,255,0.1)',color:'#0A0F17',fontWeight:700,fontSize:'0.9rem',cursor:text.trim()?'pointer':'not-allowed'}},'↑')
       )
     )
   );

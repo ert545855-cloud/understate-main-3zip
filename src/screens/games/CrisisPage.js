@@ -5,18 +5,18 @@ function CrisisPage({ profile, setProfile, showNotif }) {
   const [crises, setCrises] = useLs('activeCrises', []);
   const [crisisLog, setCrisisLog] = useLs('crisisLog', []);
   const { dark } = useTheme();
-  const bg = dark ? '#1A0E00' : '#F8FAFC';
+  const bg = dark ? '#0F1724' : '#F8FAFC';
   const cu = profile || {};
   const uid = cu.uid || cu.id;
   const now = Date.now();
 
   const CRISIS_TEMPLATES = [
     {id:'earthquake',name:'Deprem',icon:'🌍',desc:'Büyük bir deprem şehri vurdu! Altyapı ciddi hasar gördü.',severity:'Kritik',color:'#C24B43',poolTarget:500000,duration:12*3600000},
-    {id:'economic',name:'Ekonomik Kriz',icon:'📉',desc:'Piyasalar çöküyor, enflasyon tırmanıyor.',severity:'Yüksek',color:'#C9A227',poolTarget:300000,duration:8*3600000},
-    {id:'pandemic',name:'Salgın Hastalık',icon:'🦠',desc:'Tehlikeli bir salgın hızla yayılıyor.',severity:'Kritik',color:'#C9A227',poolTarget:750000,duration:24*3600000},
-    {id:'political',name:'Siyasi Kriz',icon:'🏛️',desc:'Hükümet krizi derinleşiyor, meclis kilitlendi.',severity:'Orta',color:'#C9A227',poolTarget:200000,duration:6*3600000},
+    {id:'economic',name:'Ekonomik Kriz',icon:'📉',desc:'Piyasalar çöküyor, enflasyon tırmanıyor.',severity:'Yüksek',color:'#3CC8F0',poolTarget:300000,duration:8*3600000},
+    {id:'pandemic',name:'Salgın Hastalık',icon:'🦠',desc:'Tehlikeli bir salgın hızla yayılıyor.',severity:'Kritik',color:'#3CC8F0',poolTarget:750000,duration:24*3600000},
+    {id:'political',name:'Siyasi Kriz',icon:'🏛️',desc:'Hükümet krizi derinleşiyor, meclis kilitlendi.',severity:'Orta',color:'#3CC8F0',poolTarget:200000,duration:6*3600000},
     {id:'war',name:'Savaş Tehdidi',icon:'⚔️',desc:'Sınırda gerilim tırmanıyor, ordu alarma geçti.',severity:'Yüksek',color:'#C24B43',poolTarget:1000000,duration:18*3600000},
-    {id:'flood',name:'Sel Felaketi',icon:'🌊',desc:'Şiddetli yağışlar sel baskınına neden oldu.',severity:'Yüksek',color:'#C9A227',poolTarget:400000,duration:10*3600000},
+    {id:'flood',name:'Sel Felaketi',icon:'🌊',desc:'Şiddetli yağışlar sel baskınına neden oldu.',severity:'Yüksek',color:'#3CC8F0',poolTarget:400000,duration:10*3600000},
   ];
 
   useEffect(() => {
@@ -65,7 +65,7 @@ function CrisisPage({ profile, setProfile, showNotif }) {
 
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>
-      <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.3rem',fontWeight:900,color:'#C24B43',marginBottom:'0.3rem'}}>🚨 Kriz Merkezi</div>
+      <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:'1.3rem',fontWeight:900,color:'#C24B43',marginBottom:'0.3rem'}}>🚨 Kriz Merkezi</div>
       <div style={{fontSize:'0.78rem',color:'#8893A1',marginBottom:'1rem'}}>Krizler sistem tarafından otomatik oluşturulur. Havuza para katkısı yaparak çöz, XP ve Puan kazan!</div>
 
       {activeCrises.length===0 && (
@@ -92,7 +92,7 @@ function CrisisPage({ profile, setProfile, showNotif }) {
                 </div>
               </div>
               <div style={{textAlign:'right',flexShrink:0}}>
-                <div style={{fontSize:'0.72rem',color:'#C9A227',fontWeight:700}}>⏰ {timeLeft}sa</div>
+                <div style={{fontSize:'0.72rem',color:'#3CC8F0',fontWeight:700}}>⏰ {timeLeft}sa</div>
                 <Tag color='red'>{c.severity}</Tag>
               </div>
             </div>
@@ -101,7 +101,7 @@ function CrisisPage({ profile, setProfile, showNotif }) {
                 <span style={{color:'#4C9A6B',fontWeight:700}}>💰 Havuz: {fmtWord(c.poolCurrent||0)}</span>
                 <span>Hedef: {fmtWord(c.poolTarget)}</span>
               </div>
-              <div style={{height:'8px',background:'rgba(237,231,218,0.05)',borderRadius:'100px',overflow:'hidden',marginBottom:'4px'}}>
+              <div style={{height:'8px',background:'rgba(230,237,245,0.05)',borderRadius:'100px',overflow:'hidden',marginBottom:'4px'}}>
                 <div style={{height:'100%',width:`${pct}%`,background:`linear-gradient(90deg,#4C9A6B,${c.color||'#C24B43'})`,borderRadius:'100px',transition:'width 0.5s'}} />
               </div>
               <div style={{fontSize:'0.62rem',color:'#8893A1'}}>{pct}% tamamlandı • {fmtWord(remaining)} daha gerekli</div>
@@ -124,7 +124,7 @@ function CrisisPage({ profile, setProfile, showNotif }) {
       })}
 
       {crisisLog.length>0 && (
-        <div style={{background:'rgba(237,231,218,0.02)',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'12px',padding:'1rem'}}>
+        <div style={{background:'rgba(230,237,245,0.02)',border:'1px solid rgba(230,237,245,0.08)',borderRadius:'12px',padding:'1rem'}}>
           <div style={{fontWeight:700,color:'#8893A1',marginBottom:'0.5rem',fontSize:'0.85rem'}}>📋 Kriz Kayıtları</div>
           {crisisLog.slice(0,10).map((c,i)=>(
             <div key={i} style={{display:'flex',gap:'0.5rem',padding:'0.3rem 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>

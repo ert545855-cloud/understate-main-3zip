@@ -5,12 +5,12 @@
 // ═══════════════════════════════════════════════════════
 
 const BINA_TIPLERI = [
-  { id:'sur',     emoji:'🏰', ad:'Burç ve Sur',     acik:'Eyalet savunmasını +25% artırır',       maliyet:{ sikke:50000,  sure:7200  }, seviye:1, maksLevel:5, bonus:'savunma+25%/sev' },
+  { id:'sur',     emoji:'🏰', ad:'Burç ve Sur',     acik:'Bölge savunmasını +25% artırır',       maliyet:{ sikke:50000,  sure:7200  }, seviye:1, maksLevel:5, bonus:'savunma+25%/sev' },
   { id:'kisla',   emoji:'⚔️', ad:'Kışla',            acik:'Ordu eğitim kapasitesi ve gücü +20%',  maliyet:{ sikke:80000,  sure:14400 }, seviye:1, maksLevel:3, bonus:'ordu+20%/sev' },
-  { id:'pazar',   emoji:'🛒', ad:'Çarşı ve Pazar',  acik:'Eyalet vergi gelirini +30% artırır',    maliyet:{ sikke:60000,  sure:10800 }, seviye:1, maksLevel:5, bonus:'gelir+30%/sev' },
+  { id:'pazar',   emoji:'🛒', ad:'Çarşı ve Pazar',  acik:'Bölge vergi gelirini +30% artırır',    maliyet:{ sikke:60000,  sure:10800 }, seviye:1, maksLevel:5, bonus:'gelir+30%/sev' },
   { id:'cami',    emoji:'🕌', ad:'Cami ve Medrese', acik:'Sadakat puanı kazanımı +10%',           maliyet:{ sikke:40000,  sure:5400  }, seviye:1, maksLevel:3, bonus:'sadakat+10%/sev' },
   { id:'tersane', emoji:'⚓', ad:'Tersane',          acik:'Deniz ticaret geliri +40%',             maliyet:{ sikke:120000, sure:28800 }, seviye:1, maksLevel:2, bonus:'denizGelir+40%/sev' },
-  { id:'saraychı',emoji:'🏛️', ad:'Küçük Saray',     acik:'Beylik prestiji +100/gün',              maliyet:{ sikke:200000, sure:43200 }, seviye:1, maksLevel:1, bonus:'prestij+100/gün' },
+  { id:'saraychı',emoji:'🏛️', ad:'Küçük Külliye',     acik:'Devlet prestiji +100/gün',              maliyet:{ sikke:200000, sure:43200 }, seviye:1, maksLevel:1, bonus:'prestij+100/gün' },
 ];
 
 const LS_INSAAT = 'rep_eyaletInsaat';
@@ -53,7 +53,7 @@ window.EyaletInsaatScreen = function EyaletInsaatScreen({ profile, setProfile, s
   }, []);
 
   function insa(bina, eyaletId) {
-    if ((profile?.money||0) < bina.maliyet.sikke) { showNotif(`Yetersiz Sikke — ${bina.maliyet.sikke.toLocaleString('tr-TR')} gerekli`, 'error'); return; }
+    if ((profile?.money||0) < bina.maliyet.sikke) { showNotif(`Yetersiz Para — ${bina.maliyet.sikke.toLocaleString('tr-TR')} gerekli`, 'error'); return; }
     const mevcutSev = insaatlar[eyaletId]?.[bina.id] || 0;
     if (mevcutSev >= bina.maksLevel) { showNotif('Maksimum seviyeye ulaşıldı!', 'error'); return; }
     const simdikAktif = JSON.parse(localStorage.getItem('rep_aktifInsaat')||'[]');
@@ -81,15 +81,15 @@ window.EyaletInsaatScreen = function EyaletInsaatScreen({ profile, setProfile, s
     return `${Math.floor(s/3600)}s ${Math.floor((s%3600)/60)}dk`;
   }
 
-  const G='#C89B3C', BG='#0F0800', T='#F5EBD7', M='#A9A6A0';
+  const G='#3CC8F0', BG='#0A0F17', T='#E6EDF5', M='#93A4B8';
 
   return React.createElement('div', { style:{minHeight:'100vh',background:BG,fontFamily:"'Inter',sans-serif",paddingBottom:90} },
-    React.createElement('div', { style:{background:'linear-gradient(135deg,#1a1000,#2d1e00)',borderBottom:'1px solid rgba(200,155,60,0.25)',padding:'14px 16px'} },
+    React.createElement('div', { style:{background:'linear-gradient(135deg,#0F1724,#2d1e00)',borderBottom:'1px solid rgba(60,200,240,0.25)',padding:'14px 16px'} },
       React.createElement('div', { style:{display:'flex',alignItems:'center',gap:10} },
         React.createElement('button', { onClick:()=>setCurrentPage('home'), style:{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:10,padding:'6px 10px',color:M,fontSize:'0.75rem',cursor:'pointer'} }, '← Geri'),
         React.createElement('span', { style:{fontSize:'1.4rem'} }, '🏗️'),
         React.createElement('div', null,
-          React.createElement('div', { style:{fontFamily:"'Cinzel',serif",fontWeight:900,fontSize:'1.1rem',color:G} }, 'Eyalet İnşaatı'),
+          React.createElement('div', { style:{fontFamily:"'Rajdhani',sans-serif",fontWeight:900,fontSize:'1.1rem',color:G} }, 'Bölge İnşaatı'),
           React.createElement('div', { style:{fontSize:'0.62rem',color:M} }, 'Valilik ettiğin eyaletleri geliştir')
         )
       )
@@ -99,9 +99,9 @@ window.EyaletInsaatScreen = function EyaletInsaatScreen({ profile, setProfile, s
       benimsEyaletler.length === 0
         ? React.createElement('div', { style:{textAlign:'center',padding:'60px 20px'} },
             React.createElement('div', { style:{fontSize:'3rem',marginBottom:12} }, '🏰'),
-            React.createElement('div', { style:{fontFamily:"'Cinzel',serif",fontSize:'1.1rem',color:T,marginBottom:8} }, 'Eyalet Valisi Değilsiniz'),
+            React.createElement('div', { style:{fontFamily:"'Rajdhani',sans-serif",fontSize:'1.1rem',color:T,marginBottom:8} }, 'Bölge Valisi Değilsiniz'),
             React.createElement('div', { style:{fontSize:'0.78rem',color:M,lineHeight:1.6,marginBottom:16} }, 'İnşaat yapabilmek için önce bir eyalette vali olmanız gerekiyor.'),
-            React.createElement('button', { onClick:()=>setCurrentPage('eyalet_liste'), style:{background:G,border:'none',borderRadius:10,padding:'10px 20px',color:'#0F0800',fontWeight:800,fontSize:'0.8rem',cursor:'pointer'} }, '🏰 Eyaletlere Git')
+            React.createElement('button', { onClick:()=>setCurrentPage('eyalet_liste'), style:{background:G,border:'none',borderRadius:10,padding:'10px 20px',color:'#0A0F17',fontWeight:800,fontSize:'0.8rem',cursor:'pointer'} }, '🏰 Eyaletlere Git')
           )
         : React.createElement('div', null,
             // Aktif inşaatlar
@@ -111,7 +111,7 @@ window.EyaletInsaatScreen = function EyaletInsaatScreen({ profile, setProfile, s
                 const kalan = ins.bitisTs - Date.now();
                 const toplam = ins.bitisTs - ins.baslangicTs;
                 const ilerleme = Math.max(0, Math.min(100, ((toplam-kalan)/toplam)*100));
-                return React.createElement('div', { key:ins.id, style:{background:'rgba(200,155,60,0.06)',border:'1px solid rgba(200,155,60,0.2)',borderRadius:10,padding:'10px 12px',marginBottom:6} },
+                return React.createElement('div', { key:ins.id, style:{background:'rgba(60,200,240,0.06)',border:'1px solid rgba(60,200,240,0.2)',borderRadius:10,padding:'10px 12px',marginBottom:6} },
                   React.createElement('div', { style:{display:'flex',justifyContent:'space-between',marginBottom:4} },
                     React.createElement('span', { style:{fontSize:'0.78rem',fontWeight:700,color:T} }, `${ins.binaEmoji} ${ins.binaAd} — ${ins.eyaletId}`),
                     React.createElement('span', { style:{fontSize:'0.68rem',color:G,fontFamily:"'JetBrains Mono',monospace"} }, kalanSure(ins.bitisTs))
@@ -128,14 +128,14 @@ window.EyaletInsaatScreen = function EyaletInsaatScreen({ profile, setProfile, s
               React.createElement('div', { style:{display:'flex',gap:6,flexWrap:'wrap'} },
                 benimsEyaletler.map(eId =>
                   React.createElement('button', { key:eId, onClick:()=>setSecilenEyalet(secilenEyalet===eId?null:eId),
-                    style:{padding:'7px 14px',borderRadius:20,border:`1px solid ${secilenEyalet===eId?G:'rgba(255,255,255,0.1)'}`,background:secilenEyalet===eId?'rgba(200,155,60,0.15)':'rgba(255,255,255,0.03)',color:secilenEyalet===eId?G:M,fontSize:'0.72rem',fontWeight:700,cursor:'pointer'} }, `🏰 ${eId}`)
+                    style:{padding:'7px 14px',borderRadius:20,border:`1px solid ${secilenEyalet===eId?G:'rgba(255,255,255,0.1)'}`,background:secilenEyalet===eId?'rgba(60,200,240,0.15)':'rgba(255,255,255,0.03)',color:secilenEyalet===eId?G:M,fontSize:'0.72rem',fontWeight:700,cursor:'pointer'} }, `🏰 ${eId}`)
                 )
               )
             ),
 
             // Bina listesi
             secilenEyalet && React.createElement('div', null,
-              React.createElement('div', { style:{fontFamily:"'Cinzel',serif",fontSize:'0.8rem',color:G,fontWeight:700,marginBottom:8} }, `🏗️ ${secilenEyalet} — Binalar`),
+              React.createElement('div', { style:{fontFamily:"'Rajdhani',sans-serif",fontSize:'0.8rem',color:G,fontWeight:700,marginBottom:8} }, `🏗️ ${secilenEyalet} — Binalar`),
               React.createElement('div', { style:{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8} },
                 BINA_TIPLERI.map(bina => {
                   const mevcut = insaatlar[secilenEyalet]?.[bina.id] || 0;
@@ -157,8 +157,8 @@ window.EyaletInsaatScreen = function EyaletInsaatScreen({ profile, setProfile, s
                       : maksUlasti
                         ? React.createElement('div', { style:{fontSize:'0.62rem',color:'#3E8C5A',fontWeight:700,textAlign:'center'} }, '✅ Tamamlandı')
                         : React.createElement('button', { onClick:()=>insa(bina,secilenEyalet),
-                            style:{width:'100%',padding:'6px',borderRadius:8,border:'none',background:G,color:'#0F0800',fontWeight:800,fontSize:'0.65rem',cursor:'pointer'} },
-                          `İnşa Et — 🪙${bina.maliyet.sikke.toLocaleString('tr-TR')}`)
+                            style:{width:'100%',padding:'6px',borderRadius:8,border:'none',background:G,color:'#0A0F17',fontWeight:800,fontSize:'0.65rem',cursor:'pointer'} },
+                          `İnşa Et — ₺${bina.maliyet.sikke.toLocaleString('tr-TR')}`)
                   );
                 })
               )

@@ -29,9 +29,9 @@ const COUNTRIES = (() => {
   const map = {};
   try {
     const svg = fs.readFileSync(path.join(__dirname, '..', '..', 'assets', 'maps', 'world.svg'), 'utf8');
-    const re = /<path id="([A-Z0-9]{2,5})" data-name="([^"]*)" data-continent="([^"]*)" data-km2="(\d+)"/g;
+    const re = /<path id="([A-Z0-9]{2,5})" data-name="([^"]*)" data-continent="([^"]*)" data-km2="(\d+)" data-cx="([\d.]+)" data-cy="([\d.]+)"/g;
     let m;
-    while ((m = re.exec(svg))) map[m[1]] = { code: m[1], name: m[2], cont: m[3], km2: Number(m[4]) };
+    while ((m = re.exec(svg))) map[m[1]] = { code: m[1], name: m[2], cont: m[3], km2: Number(m[4]), cx: Number(m[5]), cy: Number(m[6]) };
   } catch (e) {
     logger.error('[World] assets/maps/world.svg okunamadı:', e.message);
   }
@@ -104,7 +104,7 @@ async function broadcast(action, extra) {
   } catch (e) { logger.warn('[World] yayın hatası:', e.message); }
 }
 
-function gameEvent(title, username, icon = '⚜️') {
+function gameEvent(title, username, icon = '🏛️') {
   if (!global._io) return;
   global._io.emit('gameEvent', {
     id: `evt_world_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
@@ -171,26 +171,26 @@ router.post('/conquer', authMiddleware, generalLimiter, needDb, asyncHandler(asy
   if (!country) return res.status(400).json({ success: false, error: 'Geçersiz ülke' });
 
   const beylik = leaderBeylik(await getBeyliks(), req.user.id);
-  if (!beylik) return res.status(403).json({ success: false, error: 'Fetih kararını yalnızca bir beyliğin lideri verebilir.' });
+  if (!beylik) return res.status(403).json({ success: false, error: 'Fetih kararını yalnızca bir devletin lideri verebilir.' });
 
   const cost = statsOf(country).bedel;
   let money;
   try {
     money = await withTx(async (c) => {
       const { rows: taken } = await c.query(`SELECT beylik_ad FROM world_territories WHERE country_code=$1 FOR UPDATE`, [code]);
-      if (taken.length) throw new HttpError(409, `${country.name} zaten ${taken[0].beylik_ad} beyliğinin toprağı.`);
+      if (taken.length) throw new HttpError(409, `${country.name} zaten ${taken[0].beylik_ad} devletinin toprağı.`);
       const { rows: u } = await c.query(
         `UPDATE users SET money = money - $1 WHERE id = $2 AND money >= $1 RETURNING money`, [cost, req.user.id]
       );
       if (!u.length) {
         const { rows: cur } = await c.query(`SELECT money FROM users WHERE id=$1`, [req.user.id]);
-        throw new HttpError(400, `Yetersiz sikke: ${country.name} için ${cost.toLocaleString('tr-TR')} gerekli.`,
+        throw new HttpError(400, `Yetersiz para: ${country.name} için ${cost.toLocaleString('tr-TR')} gerekli.`,
           { money: cur[0] ? Number(cur[0].money) : null, cost });
       }
       await c.query(
         `INSERT INTO world_territories (country_code, beylik_id, beylik_ad, renk, conquered_by, conquered_by_name, cost)
          VALUES ($1,$2,$3,$4,$5,$6,$7)`,
-        [code, String(beylik.id), String(beylik.ad || 'Beylik').slice(0, 80), safeColor(beylik.renk), req.user.id, req.user.username || '', cost]
+        [code, String(beylik.id), String(beylik.ad || 'Devlet').slice(0, 80), safeColor(beylik.renk), req.user.id, req.user.username || '', cost]
       );
       await c.query(
         `INSERT INTO world_territory_log (country_code, action, beylik_id, beylik_ad, user_id, username, cost)
@@ -200,12 +200,12 @@ router.post('/conquer', authMiddleware, generalLimiter, needDb, asyncHandler(asy
       return Number(u[0].money);
     });
   } catch (e) {
-    if (e && e.code === '23505') return res.status(409).json({ success: false, error: `${country.name} az önce başka bir beylik tarafından fethedildi.` });
+    if (e && e.code === '23505') return res.status(409).json({ success: false, error: `${country.name} az önce başka bir devlet tarafından fethedildi.` });
     return fail(res, e);
   }
 
   logger.info(`[World] ${req.user.username} → ${code} (${beylik.ad}) fethedildi, bedel ${cost}`);
-  gameEvent(`${beylik.ad || 'Bir beylik'} ${country.name} topraklarını fethetti`, req.user.username);
+  gameEvent(`${beylik.ad || 'Bir devlet'} ${country.name} topraklarını fethetti`, req.user.username);
   await broadcast('conquer', { code, beylikId: String(beylik.id), by: req.user.username });
   res.json({ success: true, code, cost, money, territories: await readTerritories() });
 }));
@@ -216,12 +216,12 @@ router.post('/release', authMiddleware, generalLimiter, needDb, asyncHandler(asy
   const country = COUNTRIES[code];
   if (!country) return res.status(400).json({ success: false, error: 'Geçersiz ülke' });
   const beylik = leaderBeylik(await getBeyliks(), req.user.id);
-  if (!beylik) return res.status(403).json({ success: false, error: 'Toprağı yalnızca beylik lideri bırakabilir.' });
+  if (!beylik) return res.status(403).json({ success: false, error: 'Toprağı yalnızca devlet lideri bırakabilir.' });
 
   const { rows } = await db.query(
     `DELETE FROM world_territories WHERE country_code=$1 AND beylik_id=$2 RETURNING beylik_ad`, [code, String(beylik.id)]
   );
-  if (!rows.length) return res.status(404).json({ success: false, error: `${country.name} beyliğinin toprağı değil.` });
+  if (!rows.length) return res.status(404).json({ success: false, error: `${country.name} devletinin toprağı değil.` });
   await db.query(
     `INSERT INTO world_territory_log (country_code, action, prev_beylik_id, prev_beylik_ad, user_id, username)
      VALUES ($1,'release',$2,$3,$4,$5)`,
@@ -251,7 +251,7 @@ router.post('/migrate', authMiddleware, generalLimiter, needDb, asyncHandler(asy
       RETURNING money`,
     [req.user.id, cost, code]
   );
-  if (!rows.length) return res.status(400).json({ success: false, error: `Göç için ${cost.toLocaleString('tr-TR')} sikke gerekli.`, money: Number(cur[0].money), cost });
+  if (!rows.length) return res.status(400).json({ success: false, error: `Göç için ${cost.toLocaleString('tr-TR')} para gerekli.`, money: Number(cur[0].money), cost });
   res.json({ success: true, code, cost, money: Number(rows[0].money) });
 }));
 
@@ -291,7 +291,41 @@ async function ownerOf(code) {
   return rows[0] || null;
 }
 
+/**
+ * Bir ülkenin sahibini doğrudan ayarlar (askeri harekât zaferi vb.). Sunucu içi kullanım.
+ * state: { id, ad, renk }  — byName: kayıtlarda görünen ad
+ */
+async function setOwner(code, state, byName, action = 'war', prevAd = null, userId = null) {
+  code = normCode(code);
+  if (!COUNTRIES[code] || !db.isReady() || !state || !state.id) return false;
+  await db.query(
+    `INSERT INTO world_territories (country_code, beylik_id, beylik_ad, renk, conquered_by, conquered_by_name, cost)
+     VALUES ($1,$2,$3,$4,$5,$6,0)
+     ON CONFLICT (country_code) DO UPDATE
+       SET beylik_id=EXCLUDED.beylik_id, beylik_ad=EXCLUDED.beylik_ad, renk=EXCLUDED.renk,
+           conquered_by=EXCLUDED.conquered_by, conquered_by_name=EXCLUDED.conquered_by_name, conquered_at=NOW()`,
+    [code, String(state.id), String(state.ad || 'Devlet').slice(0, 80), safeColor(state.renk), userId, byName || '']
+  );
+  await db.query(
+    `INSERT INTO world_territory_log (country_code, action, beylik_id, beylik_ad, prev_beylik_ad, user_id, username)
+     VALUES ($1,$2,$3,$4,$5,$6,$7)`,
+    [code, action, String(state.id), String(state.ad || ''), prevAd, userId, byName || '']
+  ).catch(() => {});
+  await broadcast(action, { code, beylikId: String(state.id) });
+  return true;
+}
+async function countOwned(stateId) {
+  if (!db.isReady()) return 0;
+  const { rows } = await db.query(`SELECT COUNT(*)::int AS n FROM world_territories WHERE beylik_id=$1`, [String(stateId)]);
+  return rows[0] ? rows[0].n : 0;
+}
+
 module.exports = router;
+module.exports.setOwner = setOwner;
+module.exports.countOwned = countOwned;
+module.exports.getBeyliks = getBeyliks;
+module.exports.safeColor = safeColor;
+module.exports.gameEvent = gameEvent;
 module.exports.transferAfterWar = transferAfterWar;
 module.exports.ownerOf = ownerOf;
 module.exports.COUNTRIES = COUNTRIES;

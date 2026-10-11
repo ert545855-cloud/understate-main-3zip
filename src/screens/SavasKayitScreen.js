@@ -9,10 +9,10 @@ window.SavasKayitScreen = function SavasKayitScreen({ profile, token }) {
   const [claimLoading, setClaimLoading] = React.useState('');
   const [msg, setMsg] = React.useState('');
 
-  const ds = { bg:'#0D1117', surface:'rgba(255,255,255,0.04)', gold:'#C9A227', border:'rgba(255,255,255,0.08)', text:'#EDE7DA', muted:'#8893A1', red:'#FF6B6B', green:'#4CAF50' };
+  const ds = { bg:'#0D1117', surface:'rgba(255,255,255,0.04)', gold:'#3CC8F0', border:'rgba(255,255,255,0.08)', text:'#E6EDF5', muted:'#8893A1', red:'#FF6B6B', green:'#4CAF50' };
 
   const leagueColors = { bronz:'#CD7F32', 'gümüş':'#C0C0C0', altın:'#FFD700', vezir:'#9B59B6', 'sultanî':'#E74C3C' };
-  const leagueIcons  = { bronz:'🥉', 'gümüş':'🥈', altın:'🥇', vezir:'⚜️', 'sultanî':'👑' };
+  const leagueIcons  = { bronz:'🥉', 'gümüş':'🥈', altın:'🥇', vezir:'🏛️', 'sultanî':'👑' };
 
   const fetchAll = async () => {
     try {
@@ -42,7 +42,7 @@ window.SavasKayitScreen = function SavasKayitScreen({ profile, token }) {
         body: JSON.stringify({ challengeId: id })
       });
       const d = await r.json();
-      setMsg(d.success ? `🎁 Ödül alındı! +${d.reward_money||0} 🪙 +${d.reward_xp||0} XP` : d.message || 'Hata');
+      setMsg(d.success ? `🎁 Ödül alındı! +${d.reward_money||0} ₺ +${d.reward_xp||0} XP` : d.message || 'Hata');
       if (d.success) fetchAll();
     } catch { setMsg('Hata'); }
     setClaimLoading('');
@@ -77,7 +77,7 @@ window.SavasKayitScreen = function SavasKayitScreen({ profile, token }) {
       )
     ),
 
-    msg && React.createElement('div', { style:{ background:'rgba(201,162,39,0.12)', border:`1px solid ${ds.gold}`, borderRadius:'8px', padding:'10px 14px', marginBottom:'1rem', fontSize:'0.82rem', color:ds.gold }}, msg),
+    msg && React.createElement('div', { style:{ background:'rgba(60,200,240,0.12)', border:`1px solid ${ds.gold}`, borderRadius:'8px', padding:'10px 14px', marginBottom:'1rem', fontSize:'0.82rem', color:ds.gold }}, msg),
 
     tab === 'kayit' && React.createElement('div', { style:{ display:'flex', flexDirection:'column', gap:'6px' }},
       !logs.length && React.createElement('div', { style:{ textAlign:'center', padding:'3rem', color:ds.muted }}, '📋 Henüz savaş kaydı yok.'),
@@ -98,7 +98,7 @@ window.SavasKayitScreen = function SavasKayitScreen({ profile, token }) {
             ),
             React.createElement('div', { style:{ textAlign:'right' }},
               l.loot_money > 0 && React.createElement('div', { style:{ fontSize:'0.82rem', fontWeight:700, color:iWon ? ds.green : ds.red }},
-                `${iWon ? '+' : '-'}${l.loot_money} 🪙`
+                `${iWon ? '+' : '-'}${l.loot_money} ₺`
               ),
               React.createElement('div', { style:{ fontSize:'0.7rem', color:ds.muted }},
                 new Date(l.created_at).toLocaleDateString('tr-TR')
@@ -114,7 +114,7 @@ window.SavasKayitScreen = function SavasKayitScreen({ profile, token }) {
       leaderboard.map((u, i) => {
         const isMe = String(u.id) === String(profile?.id);
         return React.createElement('div', { key:u.id,
-          style:{ background: isMe ? 'rgba(201,162,39,0.1)' : ds.surface, border:`1px solid ${isMe ? ds.gold : ds.border}`, borderRadius:'10px', padding:'10px 12px', display:'flex', alignItems:'center', gap:'10px' }},
+          style:{ background: isMe ? 'rgba(60,200,240,0.1)' : ds.surface, border:`1px solid ${isMe ? ds.gold : ds.border}`, borderRadius:'10px', padding:'10px 12px', display:'flex', alignItems:'center', gap:'10px' }},
           React.createElement('div', { style:{ fontWeight:900, fontSize:'1rem', color:ds.muted, width:'24px', textAlign:'center' }}, i+1),
           React.createElement('div', { style:{ flex:1 }},
             React.createElement('div', { style:{ fontWeight:700 }}, `${u.username}${isMe?' (Sen)':''}`),
@@ -146,7 +146,7 @@ window.SavasKayitScreen = function SavasKayitScreen({ profile, token }) {
           ),
           React.createElement('div', { style:{ display:'flex', justifyContent:'space-between', alignItems:'center' }},
             React.createElement('div', { style:{ fontSize:'0.75rem', color:ds.muted }},
-              `Ödül: ${c.reward_money ? `+${c.reward_money} 🪙` : ''} ${c.reward_xp ? `+${c.reward_xp} XP` : ''}`
+              `Ödül: ${c.reward_money ? `+${c.reward_money} ₺` : ''} ${c.reward_xp ? `+${c.reward_xp} XP` : ''}`
             ),
             done && !claimed && React.createElement('button', { onClick:()=>claimChallenge(c.id), disabled:claimLoading===c.id,
               style:{ padding:'5px 14px', borderRadius:'8px', border:'none', cursor:'pointer', fontWeight:700, fontSize:'0.8rem', background:ds.green, color:'#000' }},

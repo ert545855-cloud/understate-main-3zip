@@ -1,5 +1,5 @@
 window.FiyatGrafikScreen = function({ profile, onNavigate }) {
-  const G='#C89B3C',BG='#0F0800',T='#F5EBD7',M='#A9A6A0',S='#2D1800',GR='#3E8C5A',R='#B8423C';
+  const G='#3CC8F0',BG='#0A0F17',T='#E6EDF5',M='#93A4B8',S='#152032',GR='#3E8C5A',R='#B8423C';
   const [tab, setTab] = React.useState('grafik');
   const [selectedItem, setSelectedItem] = React.useState('bugday');
 
@@ -8,7 +8,7 @@ window.FiyatGrafikScreen = function({ profile, onNavigate }) {
     {id:'demir',    label:'🔩 Demir',      base:450,  volatility:0.12, color:'#A0AEC0'},
     {id:'baharat',  label:'🌶️ Baharat',   base:800,  volatility:0.18, color:R},
     {id:'ipek',     label:'🧵 İpek',       base:1200, volatility:0.15, color:'#F0A500'},
-    {id:'altin_m',  label:'⚜️ Altın Mad.', base:3500, volatility:0.2,  color:G},
+    {id:'altin_m',  label:'🏛️ Altın Mad.', base:3500, volatility:0.2,  color:G},
     {id:'kereste',  label:'🪵 Kereste',    base:280,  volatility:0.1,  color:'#8B5E3C'},
   ];
 
@@ -46,19 +46,19 @@ window.FiyatGrafikScreen = function({ profile, onNavigate }) {
 
   // Döviz kuru (simulated)
   const KURLAR = [
-    {from:'🪙 Sikke',  to:'⚜️ Altın', rate:'1 Altın = 50 Sikke',    change:'+2.1%', up:true},
-    {from:'⚜️ Altın',  to:'💎 Liyakat','rate':'1 Liyakat = 5 Altın', change:'-0.8%', up:false},
-    {from:'🪙 Sikke',  to:'💎 Liyakat','rate':'1 Liyakat = 250 Sikke',change:'+1.2%', up:true},
-    {from:'⚜️ Altın',  to:'🗡️ Silah',  'rate':'1 Silah = 3 Altın',   change:'+0.5%', up:true},
+    {from:'₺ Para',  to:'🏛️ Altın', rate:'1 Altın = 50 Para',    change:'+2.1%', up:true},
+    {from:'🏛️ Altın',  to:'💎 Liyakat','rate':'1 Liyakat = 5 Altın', change:'-0.8%', up:false},
+    {from:'₺ Para',  to:'💎 Liyakat','rate':'1 Liyakat = 250 Para',change:'+1.2%', up:true},
+    {from:'🏛️ Altın',  to:'🗡️ Silah',  'rate':'1 Silah = 3 Altın',   change:'+0.5%', up:true},
   ];
 
   return React.createElement('div',{style:{minHeight:'100vh',background:BG,fontFamily:"'Inter',sans-serif",paddingBottom:80}},
-    React.createElement('div',{style:{background:'linear-gradient(135deg,#1a0800,#2d1600)',borderBottom:'1px solid rgba(200,155,60,0.2)',padding:'14px 16px'}},
+    React.createElement('div',{style:{background:'linear-gradient(135deg,#0A0F17,#0F1724)',borderBottom:'1px solid rgba(60,200,240,0.2)',padding:'14px 16px'}},
       React.createElement('div',{style:{display:'flex',alignItems:'center',gap:10}},
         onNavigate&&React.createElement('button',{onClick:()=>onNavigate('home'),style:{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:10,padding:'6px 10px',color:M,fontSize:'0.75rem',cursor:'pointer'}},'← Geri'),
         React.createElement('span',{style:{fontSize:'1.5rem'}},'📊'),
         React.createElement('div',null,
-          React.createElement('div',{style:{fontFamily:"'Cinzel',serif",fontWeight:900,fontSize:'1.1rem',color:G}},'Pazar & Döviz'),
+          React.createElement('div',{style:{fontFamily:"'Rajdhani',sans-serif",fontWeight:900,fontSize:'1.1rem',color:G}},'Pazar & Döviz'),
           React.createElement('div',{style:{fontSize:'0.62rem',color:M}},'Fiyat grafiği ve kur takibi')
         )
       )
@@ -81,13 +81,13 @@ window.FiyatGrafikScreen = function({ profile, onNavigate }) {
         React.createElement('div',{style:{background:S,borderRadius:14,padding:'16px',marginBottom:12,border:`1px solid ${item.color}33`}},
           React.createElement('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:12}},
             React.createElement('div',null,
-              React.createElement('div',{style:{fontFamily:"'Cinzel',serif",fontSize:'0.8rem',color:M}},item.label),
-              React.createElement('div',{style:{fontFamily:"'JetBrains Mono',monospace",fontSize:'1.8rem',fontWeight:900,color:item.color}},`🪙${last.toLocaleString('tr-TR')}`),
+              React.createElement('div',{style:{fontFamily:"'Rajdhani',sans-serif",fontSize:'0.8rem',color:M}},item.label),
+              React.createElement('div',{style:{fontFamily:"'JetBrains Mono',monospace",fontSize:'1.8rem',fontWeight:900,color:item.color}},`₺${last.toLocaleString('tr-TR')}`),
               React.createElement('div',{style:{fontSize:'0.72rem',fontWeight:700,color:up?GR:R}},`${up?'▲':'▼'} ${Math.abs(change)}% (7g)`)
             ),
             React.createElement('div',{style:{textAlign:'right',fontSize:'0.62rem',color:M}},
-              React.createElement('div',null,`Min: 🪙${min.toLocaleString('tr-TR')}`),
-              React.createElement('div',null,`Max: 🪙${max.toLocaleString('tr-TR')}`)
+              React.createElement('div',null,`Min: ₺${min.toLocaleString('tr-TR')}`),
+              React.createElement('div',null,`Max: ₺${max.toLocaleString('tr-TR')}`)
             )
           ),
           // SVG Chart
@@ -106,18 +106,18 @@ window.FiyatGrafikScreen = function({ profile, onNavigate }) {
         ),
         // Price table
         React.createElement('div',{style:{background:S,borderRadius:14,padding:'14px',border:'1px solid rgba(255,255,255,0.06)'}},
-          React.createElement('div',{style:{fontFamily:"'Cinzel',serif",fontSize:'0.72rem',color:G,fontWeight:700,marginBottom:8}},'📋 7 Günlük Veri'),
+          React.createElement('div',{style:{fontFamily:"'Rajdhani',sans-serif",fontSize:'0.72rem',color:G,fontWeight:700,marginBottom:8}},'📋 7 Günlük Veri'),
           hist.slice().reverse().map((h,i)=>
             React.createElement('div',{key:i,style:{display:'flex',justifyContent:'space-between',padding:'6px 0',borderBottom:'1px solid rgba(255,255,255,0.05)'}},
               React.createElement('span',{style:{fontSize:'0.72rem',color:M}},h.label==='Bugün'?'🟢 Bugün':h.date),
-              React.createElement('span',{style:{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.75rem',fontWeight:700,color:i===0?item.color:T}},`🪙${h.price.toLocaleString('tr-TR')}`)
+              React.createElement('span',{style:{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.75rem',fontWeight:700,color:i===0?item.color:T}},`₺${h.price.toLocaleString('tr-TR')}`)
             )
           )
         )
       ),
       tab==='kur'&&React.createElement('div',null,
-        React.createElement('div',{style:{background:S,borderRadius:14,padding:'14px',border:'1px solid rgba(200,155,60,0.15)',marginBottom:12}},
-          React.createElement('div',{style:{fontFamily:"'Cinzel',serif",fontSize:'0.72rem',color:G,fontWeight:700,marginBottom:12}},'💱 Anlık Kurlar'),
+        React.createElement('div',{style:{background:S,borderRadius:14,padding:'14px',border:'1px solid rgba(60,200,240,0.15)',marginBottom:12}},
+          React.createElement('div',{style:{fontFamily:"'Rajdhani',sans-serif",fontSize:'0.72rem',color:G,fontWeight:700,marginBottom:12}},'💱 Anlık Kurlar'),
           KURLAR.map((k,i)=>
             React.createElement('div',{key:i,style:{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'10px 0',borderBottom:i<KURLAR.length-1?'1px solid rgba(255,255,255,0.05)':'none'}},
               React.createElement('div',null,
@@ -130,7 +130,7 @@ window.FiyatGrafikScreen = function({ profile, onNavigate }) {
         ),
         React.createElement('div',{style:{background:GR+'10',border:`1px solid ${GR}33`,borderRadius:14,padding:'12px'}},
           React.createElement('div',{style:{fontSize:'0.72rem',color:GR,fontWeight:700,marginBottom:4}},'💡 Bilgi'),
-          React.createElement('div',{style:{fontSize:'0.72rem',color:M,lineHeight:1.5}},'Kurlar her gün güncellenir. Altın → Sikke dönüşümü banka üzerinden yapılır.')
+          React.createElement('div',{style:{fontSize:'0.72rem',color:M,lineHeight:1.5}},'Kurlar her gün güncellenir. Altın → Para dönüşümü banka üzerinden yapılır.')
         )
       )
     )

@@ -14,7 +14,7 @@ const NPC_TARGETS = [
   { name: 'Ceneviz Kolonisi',           power: 1200,  reward_sikke: 9000,  reward_xp: 300, reward_merits: 20 },
   { name: 'Macar Krallığı Sınır Kalesi',power: 2500,  reward_sikke: 20000, reward_xp: 600, reward_merits: 40 },
   { name: 'Akkoyunlu Öncü Kuvvetleri', power: 2000,  reward_sikke: 16000, reward_xp: 500, reward_merits: 35 },
-  { name: 'Eflak Beyliği',              power: 1800,  reward_sikke: 14000, reward_xp: 450, reward_merits: 30 },
+  { name: 'Eflak Devleti',              power: 1800,  reward_sikke: 14000, reward_xp: 450, reward_merits: 30 },
   { name: 'İskenderi Haçlı Artıkları', power: 3500,  reward_sikke: 30000, reward_xp: 800, reward_merits: 60 },
   { name: 'Safevi İleri Karakolu',      power: 4000,  reward_sikke: 40000, reward_xp: 1000,reward_merits: 80 },
 ];
@@ -40,7 +40,7 @@ router.get('/', asyncHandler(async (req, res) => {
 // GET /api/campaigns/:id — tek sefer detayı
 router.get('/:id', asyncHandler(async (req, res) => {
   const { rows } = await sb.query(`SELECT * FROM campaigns WHERE id=$1`, [parseInt(req.params.id)]);
-  if (!rows.length) return res.status(404).json({ success: false, message: 'Sefer bulunamadı' });
+  if (!rows.length) return res.status(404).json({ success: false, message: 'Harekât bulunamadı' });
   res.json({ success: true, campaign: rows[0] });
 }));
 
@@ -85,7 +85,7 @@ router.post('/create', authMiddleware, asyncHandler(async (req, res) => {
 router.post('/:id/join', authMiddleware, asyncHandler(async (req, res) => {
   const id = parseInt(req.params.id);
   const { rows } = await sb.query(`SELECT * FROM campaigns WHERE id=$1 FOR UPDATE`, [id]);
-  if (!rows.length) return res.status(404).json({ success: false, message: 'Sefer bulunamadı' });
+  if (!rows.length) return res.status(404).json({ success: false, message: 'Harekât bulunamadı' });
   const c = rows[0];
   if (c.status !== 'recruiting') return res.status(400).json({ success: false, message: 'Kayıt kapalı' });
   const participants = c.participants || [];
@@ -100,9 +100,9 @@ router.post('/:id/join', authMiddleware, asyncHandler(async (req, res) => {
 router.post('/:id/leave', authMiddleware, asyncHandler(async (req, res) => {
   const id = parseInt(req.params.id);
   const { rows } = await sb.query(`SELECT * FROM campaigns WHERE id=$1 FOR UPDATE`, [id]);
-  if (!rows.length) return res.status(404).json({ success: false, message: 'Sefer bulunamadı' });
+  if (!rows.length) return res.status(404).json({ success: false, message: 'Harekât bulunamadı' });
   const c = rows[0];
-  if (c.status !== 'recruiting') return res.status(400).json({ success: false, message: 'Sefer başladı, ayrılamazsın' });
+  if (c.status !== 'recruiting') return res.status(400).json({ success: false, message: 'Harekât başladı, ayrılamazsın' });
   if (c.organizer_id === req.user.id) return res.status(400).json({ success: false, message: 'Organizatör ayrılamaz' });
   const participants = (c.participants || []).filter(p => p.user_id !== req.user.id);
   const totalPower   = participants.reduce((s, p) => s + (p.power || 0), 0);

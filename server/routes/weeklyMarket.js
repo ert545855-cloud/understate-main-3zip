@@ -7,9 +7,9 @@ const { asyncHandler }   = require('../middleware/asyncHandler');
 const NPC_ITEMS = [
   { id:'altin_kupa',   name:'Altın Kupa',      base_price:2000,  emoji:'🏆', desc:'Nadide bir koleksiyon.' },
   { id:'ipek_kaftan',  name:'İpek Kaftan',      base_price:3500,  emoji:'👘', desc:'Doğu\'nun en ince ipeğinden.' },
-  { id:'osmanli_hanci',name:'Osmanlı Hançeri',  base_price:5000,  emoji:'🗡️', desc:'Süslü bir savaş hatırası.' },
+  { id:'osmanli_hanci',name:'Devlet Hançeri',  base_price:5000,  emoji:'🗡️', desc:'Süslü bir savaş hatırası.' },
   { id:'baharat_kutu', name:'Baharat Kutusu',   base_price:800,   emoji:'🌶️', desc:'Hint baharatları.' },
-  { id:'ferman_kopi',  name:'Sahte Ferman',     base_price:4500,  emoji:'📜', desc:'Kim sorarsa asıl bu.' },
+  { id:'ferman_kopi',  name:'Sahte Kararname',     base_price:4500,  emoji:'📜', desc:'Kim sorarsa asıl bu.' },
   { id:'gizli_harita', name:'Gizli Harita',     base_price:6000,  emoji:'🗺️', desc:'Bilinmez bir hazineye işaret eder.' },
   { id:'amber_tesbih', name:'Amber Tespih',     base_price:1200,  emoji:'📿', desc:'Saf amberin kokusu.' },
   { id:'buyuk_ayna',   name:'Venedik Aynası',   base_price:2800,  emoji:'🪞', desc:'İtalyanların en güzel işi.' },

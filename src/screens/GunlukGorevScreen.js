@@ -2,7 +2,7 @@
 // SALTANAT ONLINE — Günlük Görev Paneli (hızlı özet)
 // ═══════════════════════════════════════════════════════════════
 window.GunlukGorevScreen = function GunlukGorevScreen({ profile, onNavigate, showNotif }) {
-  const G='#C89B3C', BG='#0F0800', T='#F5EBD7', M='#A9A6A0', S='#2D1800', GR='#3E8C5A', R='#B8423C';
+  const G='#3CC8F0', BG='#0A0F17', T='#E6EDF5', M='#93A4B8', S='#152032', GR='#3E8C5A', R='#B8423C';
 
   // Görevler localStorage'dan okun / hesapla
   const [gorevler, setGorevler] = React.useState([]);
@@ -62,13 +62,13 @@ window.GunlukGorevScreen = function GunlukGorevScreen({ profile, onNavigate, sho
   return React.createElement('div', { style:{ minHeight:'100vh', background:BG, fontFamily:"'Inter',sans-serif", paddingBottom:80 }},
 
     // Header
-    React.createElement('div', { style:{ background:'linear-gradient(135deg,#0f0800,#2a1500)', borderBottom:'1px solid rgba(200,155,60,0.2)', padding:'14px 16px' }},
+    React.createElement('div', { style:{ background:'linear-gradient(135deg,#0A0F17,#2a1500)', borderBottom:'1px solid rgba(60,200,240,0.2)', padding:'14px 16px' }},
       React.createElement('div', { style:{ display:'flex', alignItems:'center', gap:10 }},
         onNavigate && React.createElement('button', { onClick:()=>onNavigate('home'),
           style:{ background:'rgba(255,255,255,0.06)', border:'1px solid rgba(255,255,255,0.1)', borderRadius:10, padding:'6px 10px', color:M, fontSize:'0.75rem', cursor:'pointer' }}, '← Geri'),
         React.createElement('span', { style:{ fontSize:'1.5rem' }}, '📋'),
         React.createElement('div', null,
-          React.createElement('div', { style:{ fontFamily:"'Cinzel',serif", fontWeight:900, fontSize:'1.1rem', color:G }}, 'Günlük Görevler'),
+          React.createElement('div', { style:{ fontFamily:"'Rajdhani',sans-serif", fontWeight:900, fontSize:'1.1rem', color:G }}, 'Günlük Görevler'),
           React.createElement('div', { style:{ fontSize:'0.62rem', color:M }},
             `${tamamlandi}/${toplam} tamamlandı`)
         )
@@ -82,10 +82,10 @@ window.GunlukGorevScreen = function GunlukGorevScreen({ profile, onNavigate, sho
         boxShadow:`0 0 20px ${STREAK_RENK}15` }},
         React.createElement('div', { style:{ display:'flex', alignItems:'center', justifyContent:'space-between' }},
           React.createElement('div', null,
-            React.createElement('div', { style:{ fontFamily:"'Cinzel',serif", fontSize:'0.85rem', fontWeight:800, color:STREAK_RENK }}, '🔥 Giriş Serisi'),
+            React.createElement('div', { style:{ fontFamily:"'Rajdhani',sans-serif", fontSize:'0.85rem', fontWeight:800, color:STREAK_RENK }}, '🔥 Giriş Serisi'),
             React.createElement('div', { style:{ fontSize:'0.68rem', color:M, marginTop:2 }},
               streak >= 7 ? 'Muhteşem! 7+ gün seri' : streak >= 3 ? '3+ gün devam ediyor' : 'Seriyi büyüt!')),
-          React.createElement('div', { style:{ fontFamily:"'Cinzel',serif", fontSize:'2rem', fontWeight:900, color:STREAK_RENK }}, `${streak}`)
+          React.createElement('div', { style:{ fontFamily:"'Rajdhani',sans-serif", fontSize:'2rem', fontWeight:900, color:STREAK_RENK }}, `${streak}`)
         ),
         React.createElement('div', { style:{ marginTop:10 }},
           React.createElement('div', { style:{ display:'flex', gap:4 }},
@@ -102,25 +102,25 @@ window.GunlukGorevScreen = function GunlukGorevScreen({ profile, onNavigate, sho
       ),
 
       // İlerleme
-      React.createElement('div', { style:{ background:S, borderRadius:14, padding:'14px', marginBottom:12, border:'1px solid rgba(200,155,60,0.15)' }},
+      React.createElement('div', { style:{ background:S, borderRadius:14, padding:'14px', marginBottom:12, border:'1px solid rgba(60,200,240,0.15)' }},
         React.createElement('div', { style:{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:8 }},
-          React.createElement('div', { style:{ fontFamily:"'Cinzel',serif", fontSize:'0.82rem', color:G }}, `📊 Bugünkü İlerleme`),
+          React.createElement('div', { style:{ fontFamily:"'Rajdhani',sans-serif", fontSize:'0.82rem', color:G }}, `📊 Bugünkü İlerleme`),
           React.createElement('div', { style:{ fontSize:'0.9rem', fontWeight:800, color:pct===100?GR:G }}, `%${pct}`)
         ),
         React.createElement('div', { style:{ height:10, background:'rgba(255,255,255,0.06)', borderRadius:5, overflow:'hidden' }},
           React.createElement('div', { style:{ height:'100%', width:`${pct}%`, borderRadius:5, transition:'width 0.6s ease',
-            background: pct===100 ? `linear-gradient(90deg,${GR},#4CAF7A)` : `linear-gradient(90deg,${G},#E8C06A)` }})
+            background: pct===100 ? `linear-gradient(90deg,${GR},#4CAF7A)` : `linear-gradient(90deg,${G},#9BE6FB)` }})
         ),
         pct === 100 && React.createElement('div', { style:{ textAlign:'center', marginTop:8, color:GR, fontSize:'0.8rem', fontWeight:700 }},
           '🎉 Tüm görevler tamamlandı! Yarın yenilenir.')
       ),
 
       // Görev listesi
-      React.createElement('div', { style:{ fontFamily:"'Cinzel',serif", fontSize:'0.75rem', color:G, fontWeight:700, marginBottom:8 }}, '📜 Görevler'),
+      React.createElement('div', { style:{ fontFamily:"'Rajdhani',sans-serif", fontSize:'0.75rem', color:G, fontWeight:700, marginBottom:8 }}, '📜 Görevler'),
       gorevler.map(g =>
         React.createElement('div', { key:g.id, style:{
           background: g.tamamlandi ? GR+'10' : S,
-          border:`1px solid ${g.tamamlandi ? GR+'33' : 'rgba(200,155,60,0.15)'}`,
+          border:`1px solid ${g.tamamlandi ? GR+'33' : 'rgba(60,200,240,0.15)'}`,
           borderLeft:`3px solid ${g.tamamlandi ? GR : G}`,
           borderRadius:12, padding:'12px 14px', marginBottom:8,
           display:'flex', alignItems:'center', gap:12,
@@ -131,14 +131,14 @@ window.GunlukGorevScreen = function GunlukGorevScreen({ profile, onNavigate, sho
             React.createElement('div', { style:{ fontWeight:700, fontSize:'0.85rem', color: g.tamamlandi ? M : T,
               textDecoration: g.tamamlandi ? 'line-through' : 'none' }}, g.label),
             React.createElement('div', { style:{ display:'flex', gap:8, marginTop:3 }},
-              React.createElement('span', { style:{ fontSize:'0.62rem', color:G }}, `🪙${g.odul_sikke}`),
+              React.createElement('span', { style:{ fontSize:'0.62rem', color:G }}, `₺${g.odul_sikke}`),
               React.createElement('span', { style:{ fontSize:'0.62rem', color:'#60A5FA' }}, `⭐${g.odul_xp} XP`)
             )
           ),
           g.tamamlandi
             ? React.createElement('span', { style:{ fontSize:'1.2rem' }}, '✅')
             : React.createElement('button', { onClick:()=>tamamla(g.id),
-                style:{ padding:'7px 14px', borderRadius:8, border:'none', background:G, color:'#0F0800',
+                style:{ padding:'7px 14px', borderRadius:8, border:'none', background:G, color:'#0A0F17',
                   fontWeight:700, fontSize:'0.72rem', cursor:'pointer', flexShrink:0 }}, 'Tamamla')
         )
       )

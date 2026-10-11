@@ -1,24 +1,16 @@
 const OTTOMAN_TIPS = [
-  '🏛️ Osmanlı İmparatorluğu 1299\'da Söğüt\'te kuruldu ve 624 yıl hüküm sürdü.',
-  '⚔️ Yeniçeri Ocağı, Osmanlı\'nın en güçlü piyade birliği olup devşirme sistemiyle kuruldu.',
-  '🌍 İmparatorluk en geniş döneminde 3 kıtada 5.2 milyon km² toprak yönetiyordu.',
-  '📚 Süleymaniye Külliyesi; cami, medrese, darüşşifa ve hamam\'ı bir arada barındırır.',
-  '⚜️ Osmanlı padişahları aynı zamanda halife unvanını taşıdı; 1517\'den itibaren.',
-  '🪙 Osmanlı altın sikke\'si (dinar) Akdeniz ticaretinin standart parasıydı.',
-  '🏰 Topkapı Sarayı, 400 yıl boyunca yaklaşık 60.000 kişiye ev sahipliği yaptı.',
-  '🌹 Lale, Osmanlı kültüründe zenginliğin ve mükemmelliğin sembolüdür.',
-  '⚓ Osmanlı deniz kuvvetleri Akdeniz\'in kontrolünü yarım asır boyunca elinde tuttu.',
-  '📜 Tanzimat Fermanı (1839) Osmanlı\'nın ilk anayasal adımı sayılır.',
-  '🎯 Mehter, dünyanın bilinen ilk askeri bandosudur; Osmanlı\'ya özgüdür.',
-  '🏹 Okçuluk; Osmanlı Devleti\'nde hem spor hem de savaş sanatı olarak gelişti.',
-  '🌙 Osmanlı bayrağındaki hilal ve yıldız simgesi asırlık bir İslam geleneğine dayanır.',
-  '⚙️ Osmanlılar çivi kullanmadan inşa edilen ahşap camiler mühendisliğinde ustalaştı.',
-  '🎨 Osmanlı minyatür sanatı Doğu ile Batı resim tekniklerini harmanlayarak özgün bir üslup oluşturdu.',
-  '🌊 Barbaros Hayreddin Paşa, 1538\'de Preveze Savaşı\'nda Avrupa donanmalarını yendi.',
-  '🏺 İznik çinileri dünya genelinde en değerli Osmanlı el sanatı ürünleri arasındadır.',
-  '📖 Osmanlıca; Arapça, Farsça ve Türkçe sözcükleri birleştiren saray edebiyat dilidir.',
-  '🎭 Karagöz ve Hacivat; Osmanlı halk tiyatrosunun sembolik iki karakteridir.',
-  '🌺 Osmanlı mutfağı dünyanın en geniş çeşitliliğe sahip saray mutfakları arasında yer alır.',
+  '🗳️ Seçim dönemlerinde oy kullanan herkes XP kazanır; oy katsayın eğitim seviyenle artar.',
+  '🏭 Silah fabrikası tüfek üretir; tüfek olmadan asker basamazsın.',
+  '🛡️ Tank fabrikası kurmak pahalıdır ama tanklar harekâtta piyadenin 60 katı güç verir.',
+  '🌍 Dünya Haritası\'nda bir ülkeye dokun: fethet, savaş ilan et ya da göç et.',
+  '⏱️ Harekâtlar gerçek zamanlı ilerler; varış süresi uzaklığa ve en yavaş birliğe bağlıdır.',
+  '🏛️ Devlet hazinesine her üye bağış yapabilir; fabrikaları ve askeri lider kurar.',
+  '📈 Borsada erken alım yapan kazanır; şirket hisseleri oyuncu kararlarıyla dalgalanır.',
+  '⚖️ Meclis yasaları vergiyi, seferberliği ve ticareti doğrudan değiştirir.',
+  '🤝 İttifak kurmak savunmayı güçlendirir; ittifakı bozmak itibarına kalıcı leke sürer.',
+  '🎓 Eğitimini tamamla: üniversite diploması siyasi makamların kapısını açar.',
+  '🚁 İHA birlikleri hızlıdır; tek başına gönderilen İHA filosu hedefe çok daha erken varır.',
+  '🧑‍💼 Sekreterin seni adım adım yönlendirir; görevleri tamamladıkça ödül kazanırsın.',
 ];
 
 function AuthScreen({ onLogin }) {
@@ -308,8 +300,8 @@ function AuthScreen({ onLogin }) {
 
   const inputStyle = {
     width:'100%', padding:'0.85rem 1rem', borderRadius:'14px',
-    border:'1px solid rgba(237,231,218,0.1)', background:'rgba(27,33,43,0.8)',
-    color:'#EDE7DA', fontFamily:"'Inter',sans-serif", fontSize:'1rem',
+    border:'1px solid rgba(230,237,245,0.1)', background:'rgba(27,33,43,0.8)',
+    color:'#E6EDF5', fontFamily:"'Inter',sans-serif", fontSize:'1rem',
     outline:'none', boxSizing:'border-box', backdropFilter:'blur(8px)',
     WebkitAppearance:'none'
   };
@@ -318,14 +310,14 @@ function AuthScreen({ onLogin }) {
     const { profile, token } = unverifiedUser;
     return (
       <div style={{position:'fixed',inset:0,display:'flex',flexDirection:'column',overflowY:'auto',minHeight:'100dvh'}}>
-        <div style={{position:'fixed',inset:0,backgroundImage:'url(saltanat-bg.jpg)',backgroundSize:'cover',backgroundPosition:'center top',backgroundRepeat:'no-repeat',zIndex:0}} />
+        <div style={{position:'fixed',inset:0,background:'#04080F url(assets/maps/world.svg) center 30%/cover no-repeat',opacity:0.5,zIndex:0}} />
         <div style={{position:'fixed',inset:0,background:'linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.75) 45%, rgba(0,0,0,0.92) 100%)',zIndex:1}} />
         <div style={{position:'relative',zIndex:2,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',minHeight:'100dvh',padding:'2rem 1rem'}}>
-          <div style={{width:'100%',maxWidth:'420px',background:'rgba(27,33,43,0.92)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:'10px',padding:'2rem 1.5rem',backdropFilter:'blur(24px)',boxShadow:'0 24px 80px rgba(0,0,0,0.7)',textAlign:'center'}}>
+          <div style={{width:'100%',maxWidth:'420px',background:'rgba(27,33,43,0.92)',border:'1px solid rgba(60,200,240,0.25)',borderRadius:'10px',padding:'2rem 1.5rem',backdropFilter:'blur(24px)',boxShadow:'0 24px 80px rgba(0,0,0,0.7)',textAlign:'center'}}>
             <div style={{fontSize:'3rem',marginBottom:'0.75rem'}}>📧</div>
-            <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.15rem',fontWeight:800,color:'#C9A227',marginBottom:'0.5rem',letterSpacing:'0.04em'}}>E-POSTANI DOĞRULA</div>
+            <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:'1.15rem',fontWeight:800,color:'#3CC8F0',marginBottom:'0.5rem',letterSpacing:'0.04em'}}>E-POSTANI DOĞRULA</div>
             <div style={{color:'#8893A1',fontSize:'0.85rem',lineHeight:1.6,marginBottom:'1.5rem'}}>
-              <span style={{color:'#EDE7DA',fontWeight:600}}>{profile.email}</span> adresine bir doğrulama bağlantısı gönderdik.<br/>
+              <span style={{color:'#E6EDF5',fontWeight:600}}>{profile.email}</span> adresine bir doğrulama bağlantısı gönderdik.<br/>
               Maili açıp bağlantıya tıkladıktan sonra giriş yapabilirsin.
             </div>
 
@@ -338,13 +330,13 @@ function AuthScreen({ onLogin }) {
             <button
               onClick={() => doResendVerify(token)}
               disabled={resendLoading}
-              style={{width:'100%',padding:'0.9rem',borderRadius:'12px',border:'none',background:resendLoading?'rgba(201,162,39,0.25)':'rgba(201,162,39,0.12)',color:'#C9A227',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.95rem',cursor:resendLoading?'not-allowed':'pointer',marginBottom:'0.75rem',border:'1px solid rgba(201,162,39,0.3)',display:'flex',alignItems:'center',justifyContent:'center',gap:'0.5rem',transition:'all 0.2s'}}>
-              {resendLoading ? <><div style={{width:16,height:16,border:'2px solid rgba(201,162,39,0.3)',borderTopColor:'#C9A227',borderRadius:'50%',animation:'spin 0.7s linear infinite'}} /> Gönderiliyor...</> : '📨 Tekrar Gönder'}
+              style={{width:'100%',padding:'0.9rem',borderRadius:'12px',border:'none',background:resendLoading?'rgba(60,200,240,0.25)':'rgba(60,200,240,0.12)',color:'#3CC8F0',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.95rem',cursor:resendLoading?'not-allowed':'pointer',marginBottom:'0.75rem',border:'1px solid rgba(60,200,240,0.3)',display:'flex',alignItems:'center',justifyContent:'center',gap:'0.5rem',transition:'all 0.2s'}}>
+              {resendLoading ? <><div style={{width:16,height:16,border:'2px solid rgba(60,200,240,0.3)',borderTopColor:'#3CC8F0',borderRadius:'50%',animation:'spin 0.7s linear infinite'}} /> Gönderiliyor...</> : '📨 Tekrar Gönder'}
             </button>
 
             <button
               onClick={() => { _setupSocket(profile); onLogin(profile); }}
-              style={{width:'100%',padding:'0.9rem',borderRadius:'12px',border:'1px solid rgba(237,231,218,0.1)',background:'rgba(237,231,218,0.04)',color:'#8893A1',fontFamily:"'Inter',sans-serif",fontWeight:600,fontSize:'0.88rem',cursor:'pointer',marginBottom:'0.75rem',transition:'all 0.2s'}}>
+              style={{width:'100%',padding:'0.9rem',borderRadius:'12px',border:'1px solid rgba(230,237,245,0.1)',background:'rgba(230,237,245,0.04)',color:'#8893A1',fontFamily:"'Inter',sans-serif",fontWeight:600,fontSize:'0.88rem',cursor:'pointer',marginBottom:'0.75rem',transition:'all 0.2s'}}>
               Şimdilik Atla →
             </button>
 
@@ -362,10 +354,17 @@ function AuthScreen({ onLogin }) {
 
   return (
     <div style={{position:'fixed',inset:0,display:'flex',flexDirection:'column',overflowY:'auto',minHeight:'100dvh'}}>
-      {/* City background image */}
-      <div style={{position:'fixed',inset:0,backgroundImage:'url(saltanat-bg.jpg)',backgroundSize:'cover',backgroundPosition:'center top',backgroundRepeat:'no-repeat',zIndex:0}} />
-      {/* Dark overlay */}
-      <div style={{position:'fixed',inset:0,background:'linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.75) 45%, rgba(0,0,0,0.92) 100%)',zIndex:1}} />
+      {/* Arka plan: koyu dünya haritası + tarama çizgisi */}
+      <div className="auth-bg" />
+      <div className="auth-scan" />
+      <div style={{position:'fixed',inset:0,background:'radial-gradient(ellipse at 50% 30%, rgba(10,15,23,0.35) 0%, rgba(10,15,23,0.85) 60%, rgba(10,15,23,0.97) 100%)',zIndex:1}} />
+      <style>{`
+        .auth-bg{position:fixed;inset:0;z-index:0;background:#04080F url(assets/maps/world.svg) center 30%/cover no-repeat;opacity:.55;filter:saturate(.6) hue-rotate(-10deg)}
+        .auth-scan{position:fixed;left:0;right:0;top:-30%;height:30%;z-index:1;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(60,200,240,.10),transparent);animation:authScan 6s linear infinite}
+        @keyframes authScan{to{transform:translateY(430%)}}
+        @keyframes authLogo{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+        @media (prefers-reduced-motion: reduce){.auth-scan{animation:none;display:none}}
+      `}</style>
 
       {/* Content */}
       <div style={{position:'relative',zIndex:2,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',minHeight:'100dvh',padding:'env(safe-area-inset-top,1rem) 0 env(safe-area-inset-bottom,1rem)'}}>
@@ -374,24 +373,24 @@ function AuthScreen({ onLogin }) {
         <div style={{textAlign:'center',marginBottom:'1.5rem',width:'100%',padding:'0 1.5rem'}}>
           {/* Logo görseli */}
           <div style={{display:'flex',justifyContent:'center',marginBottom:'0.5rem'}}>
-            <img src="saltanat-icon.png" alt="Saltanat Online" style={{width:'clamp(90px,22vw,140px)',height:'clamp(90px,22vw,140px)',objectFit:'contain',borderRadius:'20%',boxShadow:'0 0 40px rgba(201,162,39,0.4)',border:'2px solid rgba(201,162,39,0.25)'}} />
+            <img src="assets/brand/logo.svg" alt="Siyaset RP" style={{width:'clamp(84px,20vw,120px)',height:'clamp(84px,20vw,120px)',objectFit:'contain',borderRadius:'24%',boxShadow:'0 0 40px rgba(60,200,240,0.35)',animation:'authLogo 4s ease-in-out infinite'}} />
           </div>
-          <div style={{fontFamily:"'Cinzel',serif",fontSize:'clamp(1.4rem,5vw,2.2rem)',fontWeight:900,letterSpacing:'0.15em',color:'#EDE7DA',textShadow:'0 2px 24px rgba(0,0,0,0.8)',textTransform:'uppercase',marginBottom:'0.4rem'}}>
-            SALTANAT ONLİNE
+          <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:'clamp(1.9rem,7vw,2.6rem)',fontWeight:700,letterSpacing:'0.08em',color:'#E6EDF5',textShadow:'0 2px 24px rgba(0,0,0,0.8)',marginBottom:'0.4rem',lineHeight:1}}>
+            SİYASET <span style={{color:'#3CC8F0'}}>RP</span>
           </div>
           {/* Animated loading bar */}
-          <div style={{width:'100%',maxWidth:'320px',margin:'0 auto',height:'3px',background:'rgba(237,231,218,0.12)',borderRadius:'2px',overflow:'hidden'}}>
-            <div style={{height:'100%',width:loading?`${barProgress}%`:'0%',background:'linear-gradient(90deg,#C9A227,#E5C14B,#C9A227)',borderRadius:'2px',transition:loading?'width 1.8s cubic-bezier(0.4,0,0.2,1)':'none',boxShadow:'0 0 8px rgba(201,162,39,0.8)'}} />
+          <div style={{width:'100%',maxWidth:'320px',margin:'0 auto',height:'3px',background:'rgba(230,237,245,0.12)',borderRadius:'2px',overflow:'hidden'}}>
+            <div style={{height:'100%',width:loading?`${barProgress}%`:'0%',background:'linear-gradient(90deg,#3CC8F0,#9BE6FB,#3CC8F0)',borderRadius:'2px',transition:loading?'width 1.8s cubic-bezier(0.4,0,0.2,1)':'none',boxShadow:'0 0 8px rgba(60,200,240,0.8)'}} />
           </div>
           <div style={{color:'#8893A1',fontSize:'0.65rem',letterSpacing:'0.15em',textTransform:'uppercase',fontFamily:"'Inter',sans-serif",marginTop:'0.4rem'}}>
-            Osmanlı Strateji & Rol Yapma Oyunu • v{APP_V}
+            Siyaset, strateji ve rol yapma oyunu · v{APP_V}
           </div>
         </div>
 
         {/* Panel — full width on mobile */}
         <div style={{width:'100%',maxWidth:'480px',padding:'0 1rem'}}>
           <form onSubmit={e=>{e.preventDefault();tab==='login'?doLogin():doRegister();}} autoComplete="on">
-          <div style={{background:'rgba(30,15,0,0.93)',border:'1px solid rgba(201,162,39,0.16)',borderRadius:'20px',padding:'1.85rem 1.6rem',backdropFilter:'blur(30px)',WebkitBackdropFilter:'blur(30px)',boxShadow:'0 28px 80px rgba(0,0,0,0.75), 0 0 0 1px rgba(201,162,39,0.06), inset 0 1px 0 rgba(255,255,255,0.05)'}}>
+          <div style={{background:'rgba(10,15,23,0.93)',border:'1px solid rgba(60,200,240,0.16)',borderRadius:'20px',padding:'1.85rem 1.6rem',backdropFilter:'blur(30px)',WebkitBackdropFilter:'blur(30px)',boxShadow:'0 28px 80px rgba(0,0,0,0.75), 0 0 0 1px rgba(60,200,240,0.06), inset 0 1px 0 rgba(255,255,255,0.05)'}}>
 
             {/* Tabs */}
             <div style={{display:'flex',gap:'8px',marginBottom:'1.5rem'}}>
@@ -402,10 +401,10 @@ function AuthScreen({ onLogin }) {
                     cursor:'pointer', fontFamily:"'Inter',sans-serif",
                     fontWeight:700, fontSize:'0.88rem', letterSpacing:'0.03em',
                     position:'relative', overflow:'hidden',
-                    border: tab===v ? '1.5px solid #C9A227' : '1px solid rgba(237,231,218,0.1)',
-                    background: tab===v ? 'rgba(201,162,39,0.12)' : 'rgba(237,231,218,0.04)',
-                    color: tab===v ? '#C9A227' : 'rgba(237,231,218,0.4)',
-                    boxShadow: tab===v ? '0 2px 14px rgba(201,162,39,0.2)' : 'none',
+                    border: tab===v ? '1.5px solid #3CC8F0' : '1px solid rgba(230,237,245,0.1)',
+                    background: tab===v ? 'rgba(60,200,240,0.12)' : 'rgba(230,237,245,0.04)',
+                    color: tab===v ? '#3CC8F0' : 'rgba(230,237,245,0.4)',
+                    boxShadow: tab===v ? '0 2px 14px rgba(60,200,240,0.2)' : 'none',
                   }}>
                   {l}
                 </button>
@@ -430,8 +429,8 @@ function AuthScreen({ onLogin }) {
               </div>
               <div style={{marginBottom:'1rem'}}>
                 <select value={f.city} onChange={e=>u('city',e.target.value)}
-                  style={{...inputStyle,color:f.city?'#EDE7DA':'rgba(255,255,255,0.4)'}}>
-                  {CITIES.map(c=><option key={c} value={c} style={{background:'#1B212B'}}>{c}</option>)}
+                  style={{...inputStyle,color:f.city?'#E6EDF5':'rgba(255,255,255,0.4)'}}>
+                  {CITIES.map(c=><option key={c} value={c} style={{background:'#152032'}}>{c}</option>)}
                 </select>
               </div>
               <div style={{marginBottom:'1rem'}}>
@@ -448,7 +447,7 @@ function AuthScreen({ onLogin }) {
             </>}
 
             <button type="submit" disabled={loading}
-              style={{width:'100%',padding:'1.05rem',borderRadius:'12px',border:'none',background:loading?'rgba(201,162,39,0.25)':'linear-gradient(135deg,#D4AC2E,#C9A227,#B0891A)',color:loading?'rgba(255,255,255,0.5)':'#0A0800',fontFamily:"'Cinzel',serif",fontWeight:900,fontSize:'1rem',letterSpacing:'0.14em',cursor:loading?'not-allowed':'pointer',transition:'all 0.2s ease',textTransform:'uppercase',boxShadow:loading?'none':'0 6px 28px rgba(201,162,39,0.45), inset 0 1px 0 rgba(255,255,255,0.2)',display:'flex',alignItems:'center',justifyContent:'center',gap:'0.5rem'}}>
+              style={{width:'100%',padding:'1.05rem',borderRadius:'12px',border:'none',background:loading?'rgba(60,200,240,0.25)':'linear-gradient(135deg,#3CC8F0,#3CC8F0,#1E8FB8)',color:loading?'rgba(255,255,255,0.5)':'#0A0F17',fontFamily:"'Rajdhani',sans-serif",fontWeight:900,fontSize:'1rem',letterSpacing:'0.14em',cursor:loading?'not-allowed':'pointer',transition:'all 0.2s ease',textTransform:'uppercase',boxShadow:loading?'none':'0 6px 28px rgba(60,200,240,0.45), inset 0 1px 0 rgba(255,255,255,0.2)',display:'flex',alignItems:'center',justifyContent:'center',gap:'0.5rem'}}>
               {loading ? <>
                 <div style={{width:'18px',height:'18px',border:'2.5px solid rgba(255,255,255,0.2)',borderTopColor:'rgba(255,255,255,0.7)',borderRadius:'50%',animation:'spin 0.7s linear infinite'}} />
                 <span>Lütfen bekleyin...</span>
@@ -481,16 +480,16 @@ function AuthScreen({ onLogin }) {
             >{flag}</button>
           ))}
         </div>
-        <div style={{marginTop:'0.75rem',color:'rgba(237,231,218,0.2)',fontSize:'0.68rem',textAlign:'center',position:'relative',zIndex:1,letterSpacing:'0.08em'}}>
-          🔒 Saltanat Online • Güvenli Giriş
+        <div style={{marginTop:'0.75rem',color:'rgba(230,237,245,0.2)',fontSize:'0.68rem',textAlign:'center',position:'relative',zIndex:1,letterSpacing:'0.08em'}}>
+          🔒 Siyaset RP • Güvenli Giriş
         </div>
         {/* Günün İpucu */}
-        <div style={{marginTop:'0.85rem',padding:'0.6rem 0.85rem',background:'rgba(201,162,39,0.06)',border:'1px solid rgba(201,162,39,0.15)',borderRadius:'10px',position:'relative',zIndex:1,animation:'notifIn 0.5s ease',maxWidth:'360px',alignSelf:'center',width:'calc(100% - 2rem)'}}>
-          <div style={{fontSize:'0.62rem',color:'rgba(201,162,39,0.6)',fontWeight:700,letterSpacing:'0.08em',marginBottom:'0.25rem',fontFamily:"'Cinzel',serif"}}>💡 TARİHİ BİLGİ</div>
-          <div style={{fontSize:'0.75rem',color:'rgba(237,231,218,0.65)',lineHeight:1.5}}>{OTTOMAN_TIPS[tipIdx]}</div>
+        <div style={{marginTop:'0.85rem',padding:'0.6rem 0.85rem',background:'rgba(60,200,240,0.06)',border:'1px solid rgba(60,200,240,0.15)',borderRadius:'10px',position:'relative',zIndex:1,animation:'notifIn 0.5s ease',maxWidth:'360px',alignSelf:'center',width:'calc(100% - 2rem)'}}>
+          <div style={{fontSize:'0.62rem',color:'rgba(60,200,240,0.6)',fontWeight:700,letterSpacing:'0.08em',marginBottom:'0.25rem',fontFamily:"'Rajdhani',sans-serif"}}>💡 İpucu</div>
+          <div style={{fontSize:'0.75rem',color:'rgba(230,237,245,0.65)',lineHeight:1.5}}>{OTTOMAN_TIPS[tipIdx]}</div>
           <div style={{display:'flex',justifyContent:'center',gap:'4px',marginTop:'0.4rem'}}>
             {OTTOMAN_TIPS.map((_,i) => (
-              <div key={i} onClick={()=>setTipIdx(i)} style={{width:i===tipIdx?14:5,height:4,borderRadius:'2px',background:i===tipIdx?'rgba(201,162,39,0.7)':'rgba(201,162,39,0.2)',cursor:'pointer',transition:'all 0.3s'}} />
+              <div key={i} onClick={()=>setTipIdx(i)} style={{width:i===tipIdx?14:5,height:4,borderRadius:'2px',background:i===tipIdx?'rgba(60,200,240,0.7)':'rgba(60,200,240,0.2)',cursor:'pointer',transition:'all 0.3s'}} />
             ))}
           </div>
         </div>
@@ -500,10 +499,10 @@ function AuthScreen({ onLogin }) {
       {/* ── Forgot Password Modal ─────────────────────────────────── */}
       {showForgot && (
         <div style={{position:'fixed',inset:0,zIndex:200,display:'flex',alignItems:'center',justifyContent:'center',padding:'1.25rem',background:'rgba(0,0,0,0.7)',backdropFilter:'blur(8px)'}}>
-          <div style={{background:'#1B212B',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'14px',padding:'1.75rem 1.5rem',width:'100%',maxWidth:'380px',boxShadow:'0 24px 64px rgba(0,0,0,0.6)'}}>
+          <div style={{background:'#152032',border:'1px solid rgba(230,237,245,0.08)',borderRadius:'14px',padding:'1.75rem 1.5rem',width:'100%',maxWidth:'380px',boxShadow:'0 24px 64px rgba(0,0,0,0.6)'}}>
             <div style={{textAlign:'center',marginBottom:'1.25rem'}}>
               <div style={{fontSize:'2rem',marginBottom:'0.35rem'}}>🔑</div>
-              <div style={{fontFamily:"'Cinzel',serif",fontWeight:800,color:'#EDE7DA',fontSize:'1.2rem',marginBottom:'0.25rem'}}>Şifremi Unuttum</div>
+              <div style={{fontFamily:"'Rajdhani',sans-serif",fontWeight:800,color:'#E6EDF5',fontSize:'1.2rem',marginBottom:'0.25rem'}}>Şifremi Unuttum</div>
               <div style={{fontSize:'0.78rem',color:'#8893A1'}}>E-posta adresinize sıfırlama bağlantısı göndereceğiz</div>
             </div>
             {forgotMsg && (
@@ -514,7 +513,7 @@ function AuthScreen({ onLogin }) {
             <input
               type="email" value={forgotEmail} onChange={e=>setForgotEmail(e.target.value)}
               placeholder="E-posta adresiniz"
-              style={{width:'100%',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'0.75rem 1rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box',marginBottom:'0.75rem'}}
+              style={{width:'100%',background:'rgba(230,237,245,0.03)',border:'1px solid rgba(230,237,245,0.1)',borderRadius:'10px',padding:'0.75rem 1rem',color:'#E6EDF5',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box',marginBottom:'0.75rem'}}
               onKeyDown={e=>{ if(e.key==='Enter') doForgot(); }}
             />
             <button disabled={forgotLoading || forgotMsg.startsWith('✅')} onClick={async()=>{
@@ -526,10 +525,10 @@ function AuthScreen({ onLogin }) {
                 setForgotMsg(d.success?'✅ Sıfırlama bağlantısı gönderildi! E-postanı kontrol et.':'⚠️ '+(d.message||'Hata oluştu'));
               }catch{setForgotMsg('⚠️ Bağlantı hatası');}
               setForgotLoading(false);
-            }} style={{width:'100%',padding:'0.85rem',borderRadius:'10px',border:'none',background:forgotLoading?'rgba(201,162,39,0.25)':'#C9A227',color:'#0F0800',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.95rem',cursor:forgotLoading?'not-allowed':'pointer',marginBottom:'0.5rem',transition:'all 0.2s'}}>
+            }} style={{width:'100%',padding:'0.85rem',borderRadius:'10px',border:'none',background:forgotLoading?'rgba(60,200,240,0.25)':'#3CC8F0',color:'#0A0F17',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.95rem',cursor:forgotLoading?'not-allowed':'pointer',marginBottom:'0.5rem',transition:'all 0.2s'}}>
               {forgotLoading ? 'Gönderiliyor...' : '📨 Bağlantı Gönder'}
             </button>
-            <button onClick={()=>setShowForgot(false)} style={{width:'100%',padding:'0.65rem',borderRadius:'10px',border:'1px solid rgba(237,231,218,0.08)',background:'transparent',color:'#8893A1',fontFamily:"'Inter',sans-serif",fontWeight:600,fontSize:'0.9rem',cursor:'pointer'}}>
+            <button onClick={()=>setShowForgot(false)} style={{width:'100%',padding:'0.65rem',borderRadius:'10px',border:'1px solid rgba(230,237,245,0.08)',background:'transparent',color:'#8893A1',fontFamily:"'Inter',sans-serif",fontWeight:600,fontSize:'0.9rem',cursor:'pointer'}}>
               İptal
             </button>
           </div>
@@ -539,10 +538,10 @@ function AuthScreen({ onLogin }) {
       {/* ── Reset Password Modal ──────────────────────────────────── */}
       {showReset && (
         <div style={{position:'fixed',inset:0,zIndex:200,display:'flex',alignItems:'center',justifyContent:'center',padding:'1.25rem',background:'rgba(0,0,0,0.7)',backdropFilter:'blur(8px)'}}>
-          <div style={{background:'#1B212B',border:'1px solid rgba(237,231,218,0.08)',borderRadius:'14px',padding:'1.75rem 1.5rem',width:'100%',maxWidth:'380px',boxShadow:'0 24px 64px rgba(0,0,0,0.6)'}}>
+          <div style={{background:'#152032',border:'1px solid rgba(230,237,245,0.08)',borderRadius:'14px',padding:'1.75rem 1.5rem',width:'100%',maxWidth:'380px',boxShadow:'0 24px 64px rgba(0,0,0,0.6)'}}>
             <div style={{textAlign:'center',marginBottom:'1.25rem'}}>
               <div style={{fontSize:'2rem',marginBottom:'0.35rem'}}>🔒</div>
-              <div style={{fontFamily:"'Cinzel',serif",fontWeight:800,color:'#EDE7DA',fontSize:'1.2rem',marginBottom:'0.25rem'}}>Yeni Şifre Belirle</div>
+              <div style={{fontFamily:"'Rajdhani',sans-serif",fontWeight:800,color:'#E6EDF5',fontSize:'1.2rem',marginBottom:'0.25rem'}}>Yeni Şifre Belirle</div>
               <div style={{fontSize:'0.78rem',color:'#8893A1'}}>Güçlü bir şifre seçin (min 8 karakter)</div>
             </div>
             {resetMsg && (
@@ -553,12 +552,12 @@ function AuthScreen({ onLogin }) {
             <input
               type="password" value={resetPw} onChange={e=>setResetPw(e.target.value)}
               placeholder="Yeni şifre" autoComplete="new-password"
-              style={{width:'100%',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'0.75rem 1rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box',marginBottom:'0.5rem'}}
+              style={{width:'100%',background:'rgba(230,237,245,0.03)',border:'1px solid rgba(230,237,245,0.1)',borderRadius:'10px',padding:'0.75rem 1rem',color:'#E6EDF5',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box',marginBottom:'0.5rem'}}
             />
             <input
               type="password" value={resetPw2} onChange={e=>setResetPw2(e.target.value)}
               placeholder="Yeni şifre (tekrar)" autoComplete="new-password"
-              style={{width:'100%',background:'rgba(237,231,218,0.03)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'10px',padding:'0.75rem 1rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box',marginBottom:'0.75rem'}}
+              style={{width:'100%',background:'rgba(230,237,245,0.03)',border:'1px solid rgba(230,237,245,0.1)',borderRadius:'10px',padding:'0.75rem 1rem',color:'#E6EDF5',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',boxSizing:'border-box',marginBottom:'0.75rem'}}
             />
             <button disabled={resetLoading||resetMsg.startsWith('✅')} onClick={async()=>{
               if(!resetPw||resetPw.length<6){setResetMsg('⚠️ Şifre en az 6 karakter olmalı');return;}
@@ -571,10 +570,10 @@ function AuthScreen({ onLogin }) {
                 else setResetMsg('⚠️ '+(d.message||'Hata oluştu'));
               }catch{setResetMsg('⚠️ Bağlantı hatası');}
               setResetLoading(false);
-            }} style={{width:'100%',padding:'0.85rem',borderRadius:'10px',border:'none',background:resetLoading?'rgba(201,162,39,0.3)':'#C9A227',color:'#0F0800',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.95rem',cursor:resetLoading?'not-allowed':'pointer',marginBottom:'0.5rem',transition:'all 0.2s'}}>
+            }} style={{width:'100%',padding:'0.85rem',borderRadius:'10px',border:'none',background:resetLoading?'rgba(60,200,240,0.3)':'#3CC8F0',color:'#0A0F17',fontFamily:"'Inter',sans-serif",fontWeight:700,fontSize:'0.95rem',cursor:resetLoading?'not-allowed':'pointer',marginBottom:'0.5rem',transition:'all 0.2s'}}>
               {resetLoading ? 'Güncelleniyor...' : '🔒 Şifreyi Kaydet'}
             </button>
-            <button onClick={()=>setShowReset(false)} style={{width:'100%',padding:'0.65rem',borderRadius:'10px',border:'1px solid rgba(237,231,218,0.08)',background:'transparent',color:'#8893A1',fontFamily:"'Inter',sans-serif",fontWeight:600,fontSize:'0.9rem',cursor:'pointer'}}>
+            <button onClick={()=>setShowReset(false)} style={{width:'100%',padding:'0.65rem',borderRadius:'10px',border:'1px solid rgba(230,237,245,0.08)',background:'transparent',color:'#8893A1',fontFamily:"'Inter',sans-serif",fontWeight:600,fontSize:'0.9rem',cursor:'pointer'}}>
               İptal
             </button>
           </div>

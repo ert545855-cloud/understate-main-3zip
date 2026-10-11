@@ -68,7 +68,7 @@ async function claimDaily(userId) {
     [userId, newStreak, longest, today]
   ).catch(() => {});
 
-  logger.info(`[Streak] User ${userId} streak=${newStreak} reward=+${reward.money}🪙`);
+  logger.info(`[Streak] User ${userId} streak=${newStreak} reward=+${reward.money}₺`);
   return {
     ok: true,
     streak: newStreak,

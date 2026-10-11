@@ -94,7 +94,7 @@ router.post('/referral/use', authMiddleware, async (req, res) => {
     await db.query(`UPDATE users SET money=money+2000 WHERE id=$1`, [req.user.id]).catch(() => {});
     await db.query(`UPDATE referrals SET bonus_paid=TRUE WHERE referrer_id=$1 AND referred_id=$2`,
       [ref[0].id, req.user.id]).catch(() => {});
-    res.json({ success: true, message: 'Referans bonusu uygulandı! +2.000🪙', bonus: 2000 });
+    res.json({ success: true, message: 'Referans bonusu uygulandı! +2.000₺', bonus: 2000 });
   } catch(e) {
     if (e.code === '23505') return res.json({ success: false, message: 'Referans kodu zaten kullanıldı' });
     res.status(500).json({ success: false });

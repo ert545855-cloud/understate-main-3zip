@@ -70,7 +70,7 @@ router.post('/padisah/global-collect', authMiddleware, asyncHandler(async (req, 
   } catch (_) {}
 
   if (!padisahBeylikId) {
-    return res.status(403).json({ success: false, error: 'Henüz bir Padişah ilan edilmedi' });
+    return res.status(403).json({ success: false, error: 'Henüz bir Cumhurbaşkanı ilan edilmedi' });
   }
 
   // Kullanıcının bu beyliğe üye olup olmadığını game_state üzerinden doğrula
@@ -94,7 +94,7 @@ router.post('/padisah/global-collect', authMiddleware, asyncHandler(async (req, 
   if (!yetkili) {
     return res.status(403).json({
       success: false,
-      error: 'Bu işlemi yalnızca mevcut Padişah beyliğinin üyeleri yapabilir'
+      error: 'Bu işlemi yalnızca mevcut Cumhurbaşkanı devletinin üyeleri yapabilir'
     });
   }
 
@@ -133,7 +133,7 @@ router.post('/padisah/global-collect', authMiddleware, asyncHandler(async (req, 
     });
   }
 
-  res.json({ success: true, toplandı: padisahVergi, mesaj: `${padisahVergi.toLocaleString('tr-TR')} 🪙 küresel vergi toplandı` });
+  res.json({ success: true, toplandı: padisahVergi, mesaj: `${padisahVergi.toLocaleString('tr-TR')} ₺ küresel vergi toplandı` });
 }));
 
 router.get('/summary/economy', asyncHandler(async (req, res) => {
