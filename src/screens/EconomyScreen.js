@@ -1,28 +1,28 @@
 function WorldPage({ profile, onNavigate }) {
   const sections = [
     { title:'⚔️ SAVAŞ & GÜÇ', color:'#C24B43', items:[
-      {icon:'⚔️',label:'PvP Savaş',page:'gang',sub:'Rakiple dövüş'},
+      {icon:'⚔️',label:'PvP Savaş',page:'pvp',sub:'Rakiple dövüş'},
       {icon:'💀',label:'Çeteler',page:'gang',sub:'Yeraltı dünyası'},
-      {icon:'🏰',label:'Kale Sistemi',page:'gang',sub:'Kaleleri ele geçir'},
-      {icon:'🔥',label:'Uluslar. Savaş',page:'gang',sub:'Global çatışma'},
-      {icon:'🕵️',label:'Casusluk',page:'gang',sub:'Ajan operasyonları'},
-      {icon:'⚖️',label:'Mahkeme',page:'gang',sub:'Hukuk sistemi'},
+      {icon:'🏰',label:'Kale Sistemi',page:'kale_kusatma',sub:'Kaleleri ele geçir'},
+      {icon:'🔥',label:'Uluslar. Savaş',page:'teamwar',sub:'Global çatışma'},
+      {icon:'🕵️',label:'Casusluk',page:'casus',sub:'Ajan operasyonları'},
+      {icon:'⚖️',label:'Mahkeme',page:'adalet',sub:'Hukuk sistemi'},
     ]},
     { title:'🤝 İTTİFAKLAR', color:'#C9A227', items:[
       {icon:'🤝',label:'İttifak',page:'alliance',sub:'Güç birliği'},
       {icon:'👪',label:'Aileler',page:'gang',sub:'Aile sistemi'},
-      {icon:'🗺️',label:'Arazi Savaşı',page:'gang',sub:'Toprak kontrolü'},
-      {icon:'🌍',label:'Dünya Haritası',page:'alliance',sub:'Global görünüm'},
-      {icon:'🚔',label:'Polis',page:'gang',sub:'Emniyet'},
-      {icon:'⚔️',label:'Paralı Ordu',page:'gang',sub:'Özel kuvvetler'},
+      {icon:'🗺️',label:'Arazi Savaşı',page:'bolge_savasi',sub:'Toprak kontrolü'},
+      {icon:'🌍',label:'Dünya Haritası',page:'world',sub:'Global görünüm'},
+      {icon:'🚔',label:'Polis',page:'police_ministry',sub:'Emniyet'},
+      {icon:'⚔️',label:'Paralı Ordu',page:'independent_army',sub:'Özel kuvvetler'},
     ]},
     { title:'👥 OYUNCULAR', color:'#4C9A6B', items:[
       {icon:'👥',label:'Tüm Oyuncular',page:'players',sub:'Topluluk'},
-      {icon:'🏆',label:'Liderlik',page:'players',sub:'En iyiler'},
+      {icon:'🏆',label:'Liderlik',page:'leaderboard',sub:'En iyiler'},
       {icon:'🌐',label:'Dünya Sohbeti',page:'chat',sub:'Global chat'},
       {icon:'📊',label:'İstatistikler',page:'profile',sub:'Sıralamalar'},
       {icon:'💎',label:'Premium',page:'premium',sub:'VIP üyelik'},
-      {icon:'📰',label:'Gazete',page:'chat',sub:'Haberler'},
+      {icon:'📰',label:'Gazete',page:'newspaper',sub:'Haberler'},
     ]},
   ];
   return (
@@ -61,6 +61,8 @@ function ChatPage({ profile }) {
   const [dms, setDms] = useLs('privateDMs', {});
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+  const chatBoxRef = useRef(null);
+  const chatFitH = useFitHeight(chatBoxRef, 0, 280);
 
   const cityKey = profile?.city || 'İstanbul';
   const cityMessages = (cityChats && cityChats[cityKey]) ? cityChats[cityKey] : [];
@@ -189,7 +191,7 @@ function ChatPage({ profile }) {
   ];
 
   return (
-    <div style={{display:'flex',flexDirection:'column',height:'calc(100dvh - 120px)'}}>
+    <div ref={chatBoxRef} style={{display:'flex',flexDirection:'column',height: chatFitH ? chatFitH + 'px' : 'calc(100dvh - 190px)'}}>
       {/* Tabs */}
       <div style={{display:'flex',gap:'4px',padding:'0.5rem 0.7rem',background:'rgba(6,12,24,0.97)',borderBottom:'1px solid rgba(255,255,255,0.04)',overflowX:'auto',scrollbarWidth:'none',flexShrink:0}}>
         {chatTabs.map(t => (
@@ -302,7 +304,7 @@ function ChatPage({ profile }) {
             </div>
           )}
           {/* Input */}
-          <div style={{padding:'0.5rem 0.7rem',background:'rgba(6,12,24,0.97)',borderTop:'1px solid rgba(255,255,255,0.04)',paddingBottom:'calc(0.5rem + env(safe-area-inset-bottom, 0px))',flexShrink:0}}>
+          <div style={{padding:'0.5rem 0.7rem',background:'rgba(6,12,24,0.97)',borderTop:'1px solid rgba(255,255,255,0.04)',flexShrink:0}}>
             <div style={{display:'flex',gap:'0.5rem',alignItems:'flex-end'}}>
               <button onClick={(e)=>{e.stopPropagation();setShowGifPicker(v=>!v);}} title="GIF Gönder"
                 style={{background:showGifPicker?'rgba(201,162,39,0.2)':'rgba(255,255,255,0.05)',border:`1px solid ${showGifPicker?'rgba(201,162,39,0.4)':'rgba(255,255,255,0.08)'}`,borderRadius:'12px',padding:'0.6rem 0.65rem',color:showGifPicker?'#C9A227':'#8BA0B5',cursor:'pointer',fontSize:'1rem',flexShrink:0}}>
@@ -311,7 +313,7 @@ function ChatPage({ profile }) {
               <input ref={inputRef} value={msg} onChange={e=>setMsg(e.target.value)}
                 onKeyDown={e=>e.key==='Enter'&&!e.shiftKey&&(e.preventDefault(),sendMsg())}
                 placeholder="Mesaj yaz veya URL yapıştır..." maxLength={500}
-                style={{flex:1,background:'rgba(237,231,218,0.04)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'12px',padding:'0.6rem 1rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',resize:'none'}} />
+                style={{flex:1,minWidth:0,background:'rgba(237,231,218,0.04)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'12px',padding:'0.6rem 0.8rem',color:'#EDE7DA',fontFamily:"'Inter',sans-serif",fontSize:'16px',outline:'none',resize:'none'}} />
               <button onClick={()=>sendMsg()} style={{background:'linear-gradient(135deg,#C9A227,#C9A227)',border:'none',borderRadius:'12px',padding:'0.6rem 1rem',color:'#EDE7DA',fontWeight:700,fontSize:'1rem',cursor:'pointer',flexShrink:0}}>→</button>
             </div>
           </div>

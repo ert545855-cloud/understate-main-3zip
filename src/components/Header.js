@@ -36,6 +36,7 @@ function Header({ profile, notifCount, onNotif, page, onNavigate }) {
     <div style={{
       position:'sticky', top:0, zIndex:100,
       background:'#1A0E00',
+      paddingTop:'env(safe-area-inset-top, 0px)',
       borderBottom:'1px solid rgba(255,255,255,0.1)',
       boxShadow:'0 2px 16px rgba(3,6,20,0.6)',
     }}>
@@ -57,7 +58,7 @@ function Header({ profile, notifCount, onNotif, page, onNavigate }) {
       </div>
 
       {/* Main header row */}
-      <div style={{display:'flex',alignItems:'center',padding:'0.36rem 0.75rem',gap:'0.4rem'}}>
+      <div className="hdr-row" style={{display:'flex',alignItems:'center',padding:'0.36rem 0.75rem',gap:'0.4rem',minWidth:0}}>
 
         {/* Avatar + name */}
         <div
@@ -102,7 +103,7 @@ function Header({ profile, notifCount, onNotif, page, onNavigate }) {
         </div>
 
         {/* Altın pill */}
-        <div style={{
+        <div className="hdr-altin" style={{
           display:'flex', alignItems:'center', gap:'4px',
           padding:'0.3rem 0.6rem',
           background:'rgba(200,155,60,0.06)',
@@ -164,6 +165,7 @@ function Header({ profile, notifCount, onNotif, page, onNavigate }) {
 
         {/* Online count */}
         <div
+          className="hdr-online"
           onClick={()=>onNavigate&&onNavigate('players')}
           style={{
             display:'flex', alignItems:'center', gap:'3px',

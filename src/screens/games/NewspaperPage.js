@@ -60,9 +60,9 @@ function NewspaperPage({ profile, setProfile, showNotif }) {
   return (
     <div style={{padding:'1rem',background:bg,minHeight:'100%'}}>
       <div style={{fontFamily:"'Cinzel',serif",fontSize:'1.3rem',fontWeight:900,color:'#C9A227',marginBottom:'1rem'}}>📡 Haber Ajansı & Medya</div>
-      <div style={{display:'flex',gap:'0.4rem',marginBottom:'1rem'}}>
+      <div style={{display:'flex',gap:'0.4rem',marginBottom:'1rem',overflowX:'auto',scrollbarWidth:'none',WebkitOverflowScrolling:'touch',paddingBottom:'2px'}}>
         {[{k:'read',l:'📰 Haberler'},{k:'live',l:'🔴 Canlı'},{k:'eco',l:'📊 Bülten'},{k:'write',l:'✍️ Yaz'},{k:'influence',l:'🏆 Yazarlar'}].map(t=>(
-          <button key={t.k} onClick={()=>setTab(t.k)} style={{padding:'0.4rem 1rem',borderRadius:'2rem',border:`1px solid ${tab===t.k?'#C9A227':'rgba(255,255,255,0.12)'}`,background:tab===t.k?'rgba(96,165,250,0.15)':'transparent',color:tab===t.k?'#C9A227':'#999',cursor:'pointer',fontWeight:tab===t.k?700:400,fontSize:'0.83rem',fontFamily:'inherit'}}>{t.l}</button>
+          <button key={t.k} onClick={()=>setTab(t.k)} style={{flexShrink:0,whiteSpace:'nowrap',padding:'0.4rem 0.85rem',borderRadius:'2rem',border:`1px solid ${tab===t.k?'#C9A227':'rgba(255,255,255,0.12)'}`,background:tab===t.k?'rgba(96,165,250,0.15)':'transparent',color:tab===t.k?'#C9A227':'#999',cursor:'pointer',fontWeight:tab===t.k?700:400,fontSize:'0.83rem',fontFamily:'inherit'}}>{t.l}</button>
         ))}
       </div>
 

@@ -1,22 +1,22 @@
 // Eğitim seviyesi ikon render yardımcısı (Ravenmore PNG)
 function EduIcon({ size=28 }) {
-  return React.createElement('img', { src:'/icons/64/tome.png', width:size, height:size, style:{imageRendering:'pixelated',verticalAlign:'middle'} });
+  return React.createElement('img', { src:'/public/icons/64/tome.png', width:size, height:size, style:{imageRendering:'pixelated',verticalAlign:'middle'} });
 }
 function ScrollIcon({ size=28 }) {
-  return React.createElement('img', { src:'/icons/64/scroll.png', width:size, height:size, style:{imageRendering:'pixelated',verticalAlign:'middle'} });
+  return React.createElement('img', { src:'/public/icons/64/scroll.png', width:size, height:size, style:{imageRendering:'pixelated',verticalAlign:'middle'} });
 }
 function HelmetIcon({ size=28 }) {
-  return React.createElement('img', { src:'/icons/64/helmet.png', width:size, height:size, style:{imageRendering:'pixelated',verticalAlign:'middle'} });
+  return React.createElement('img', { src:'/public/icons/64/helmet.png', width:size, height:size, style:{imageRendering:'pixelated',verticalAlign:'middle'} });
 }
 
 const EDU_LEVELS = [
-  { id:'ilkokul',      label:'İlkokul',      imgSrc:'/icons/64/scroll.png',    costPerClick:0,      clicksNeeded:50,   desc:'Temel okuma yazma',        grade:'4. Sınıf',  color:'#4C9A6B' },
-  { id:'ortaokul',     label:'Ortaokul',     imgSrc:'/icons/64/scroll.png',    costPerClick:500,    clicksNeeded:100,  desc:'Temel bilimler',           grade:'8. Sınıf',  color:'#C9A227' },
-  { id:'lise',         label:'Lise',         imgSrc:'/icons/64/tome.png',      costPerClick:1000,   clicksNeeded:200,  desc:'Sosyal ve fen bilimleri',  grade:'12. Sınıf', color:'#C9A227' },
-  { id:'universite',   label:'Üniversite',   imgSrc:'/icons/64/tome.png',      costPerClick:5000,   clicksNeeded:500,  desc:'Lisans eğitimi',           grade:'Lisans',    color:'#C9A227' },
-  { id:'yukseklisans', label:'Yüksek Lisans',imgSrc:'/icons/64/wand.png',      costPerClick:20000,  clicksNeeded:1000, desc:'Uzmanlık eğitimi',         grade:'MSc/MBA',   color:'#C24B43' },
-  { id:'doktora',      label:'Doktora',      imgSrc:'/icons/64/wand.png',      costPerClick:50000,  clicksNeeded:2000, desc:'Araştırma ve akademi',     grade:'PhD',       color:'#C24B43' },
-  { id:'profesor',     label:'Profesör',     imgSrc:'/icons/64/upg_wand.png',  costPerClick:75000,  clicksNeeded:3000, desc:'Akademik kariyer zirvesi', grade:'Prof.Dr.',  color:'#F97316' },
+  { id:'ilkokul',      label:'İlkokul',      imgSrc:'/public/icons/64/scroll.png',    costPerClick:0,      clicksNeeded:50,   desc:'Temel okuma yazma',        grade:'4. Sınıf',  color:'#4C9A6B' },
+  { id:'ortaokul',     label:'Ortaokul',     imgSrc:'/public/icons/64/scroll.png',    costPerClick:500,    clicksNeeded:100,  desc:'Temel bilimler',           grade:'8. Sınıf',  color:'#C9A227' },
+  { id:'lise',         label:'Lise',         imgSrc:'/public/icons/64/tome.png',      costPerClick:1000,   clicksNeeded:200,  desc:'Sosyal ve fen bilimleri',  grade:'12. Sınıf', color:'#C9A227' },
+  { id:'universite',   label:'Üniversite',   imgSrc:'/public/icons/64/tome.png',      costPerClick:5000,   clicksNeeded:500,  desc:'Lisans eğitimi',           grade:'Lisans',    color:'#C9A227' },
+  { id:'yukseklisans', label:'Yüksek Lisans',imgSrc:'/public/icons/64/wand.png',      costPerClick:20000,  clicksNeeded:1000, desc:'Uzmanlık eğitimi',         grade:'MSc/MBA',   color:'#C24B43' },
+  { id:'doktora',      label:'Doktora',      imgSrc:'/public/icons/64/wand.png',      costPerClick:50000,  clicksNeeded:2000, desc:'Araştırma ve akademi',     grade:'PhD',       color:'#C24B43' },
+  { id:'profesor',     label:'Profesör',     imgSrc:'/public/icons/64/upg_wand.png',  costPerClick:75000,  clicksNeeded:3000, desc:'Akademik kariyer zirvesi', grade:'Prof.Dr.',  color:'#F97316' },
 ];
 // Eğitim tıklamaları için bekleme süreleri (ms)
 // Normal: 5 dakika, VIP: 2.5 dakika, Paket: 1 saniye
@@ -548,7 +548,7 @@ function EducationPage({ profile, setProfile, showNotif }) {
         return (
           <div style={{...card,border:'1px solid rgba(201,162,39,0.3)',background:'rgba(201,162,39,0.07)',marginBottom:'0.75rem'}}>
             <div style={{display:'flex',alignItems:'center',gap:'0.4rem',marginBottom:'0.4rem'}}>
-              <img src='/icons/64/tome.png' width={18} height={18} style={{imageRendering:'pixelated'}} />
+              <img src='/public/icons/64/tome.png' width={18} height={18} style={{imageRendering:'pixelated'}} />
               <span style={{fontSize:'0.72rem',color:'#C9A227',fontWeight:700}}>Devam Eden Eğitim</span>
             </div>
             <div style={{fontWeight:800,color:'#EDE7DA',marginBottom:'0.3rem',display:'flex',alignItems:'center',gap:'0.4rem'}}>
@@ -662,7 +662,7 @@ function EducationPage({ profile, setProfile, showNotif }) {
 // ═══════════════════════════════════════════════════════
 const CITY_POSITIONS = [
   {
-    id:'vali', label:'Nahiye Valisi', icon:'🏙️', imgSrc:'/icons/64/helmet.png', color:'#C9A227', eduReq:'lise',
+    id:'vali', label:'Nahiye Valisi', icon:'🏙️', imgSrc:'/public/icons/64/helmet.png', color:'#C9A227', eduReq:'lise',
     duties:[
       {id:'butce_onay',         label:'Bütçe Onayla',        cd:24*3600000, reward:{xp:500,  money:50000,  desc:'Yıllık bütçeyi onayla'}},
       {id:'insan_kaynagi',      label:'İK Yönetimi',         cd:12*3600000, reward:{xp:300,  money:25000,  desc:'Personel ata ve çıkar'}},

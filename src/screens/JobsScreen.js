@@ -1410,6 +1410,8 @@ function TaxMunicipalityPage({ profile, setProfile, showNotif }) {
 // HARİTA / BÖLGE SAYFASI
 // ═══════════════════════════════════════════════════════
 function TerritoryMapPage({ profile, showNotif }) {
+  const terrBoxRef = React.useRef(null);
+  const terrFitH = useFitHeight(terrBoxRef, 0, 320);
   const [districts] = useLs('rep_districts', DEFAULT_DISTRICTS);
   const [mapMode, setMapMode] = useState('political');
   const [selected, setSelected] = useState(null);
@@ -1540,7 +1542,7 @@ function TerritoryMapPage({ profile, showNotif }) {
   };
 
   return (
-    <div style={{position:'relative',width:'100%',height:'calc(100dvh - 120px)',background:'#020912',overflow:'hidden',userSelect:'none'}}>
+    <div ref={terrBoxRef} style={{position:'relative',width:'100%',height: terrFitH ? terrFitH + 'px' : 'calc(100dvh - 190px)',background:'#020912',overflow:'hidden',userSelect:'none'}}>
       {/* Mode Bar */}
       <div style={{position:'absolute',top:0,left:0,right:0,zIndex:20,display:'flex',gap:'4px',padding:'0.4rem 0.5rem',background:'rgba(2,9,18,0.96)',backdropFilter:'blur(12px)',borderBottom:'1px solid rgba(0,255,80,0.08)',overflowX:'auto',scrollbarWidth:'none',flexShrink:0}}>
         {MAP_MODES.map(m=>(

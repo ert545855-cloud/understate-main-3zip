@@ -21,7 +21,7 @@ window.GameSettingsScreen = function GameSettingsScreen({ cu, setCurrentPage, on
 
   React.useEffect(() => {
     if (!audioRef.current) {
-      const a = new Audio('/sounds/Gloria_In_Ruina.mp3');
+      const a = new Audio('/public/sounds/Gloria_In_Ruina.mp3');
       a.loop    = true;
       a.volume  = volume;
       audioRef.current = a;

@@ -5,7 +5,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Saltanat Online">
@@ -32,7 +32,7 @@
 <div id="mil-banner" style="
   display:none;
   position:fixed;
-  top:0; left:50%; transform:translateX(-50%);
+  top:env(safe-area-inset-top,0px); left:50%; transform:translateX(-50%);
   width:min(100vw,480px);
   z-index:9998;
   background:linear-gradient(135deg,#1a0000 0%,#3d0000 50%,#1a0000 100%);
@@ -76,7 +76,7 @@
 <div id="mec-banner" style="
   display:none;
   position:fixed;
-  top:0; left:50%; transform:translateX(-50%);
+  top:env(safe-area-inset-top,0px); left:50%; transform:translateX(-50%);
   width:min(100vw,480px);
   z-index:9997;
   background:linear-gradient(135deg,#050d1f 0%,#0a1f4a 50%,#050d1f 100%);
@@ -94,7 +94,7 @@
     </div>
     <button onclick="document.getElementById('mec-banner').style.display='none'" style="
       background:rgba(255,255,255,0.08);border:none;border-radius:8px;
-      color:#94A3B8;font-size:0.85rem;cursor:'pointer';padding:4px 8px;flex-shrink:0;
+      color:#94A3B8;font-size:0.85rem;cursor:pointer;padding:4px 8px;flex-shrink:0;
     ">✕</button>
   </div>
   <div id="mec-banner-bar" style="height:2px;background:#60A5FA;width:100%;transform-origin:left;"></div>
@@ -211,6 +211,23 @@
     backendUrl = window.location.origin;
   }
   window._SOCKET_URL = backendUrl;
+  // APK (Capacitor) içinde sayfa https://localhost'tan açılır; '/api/...' gibi göreli istekler
+  // sunucuya ulaşamaz. Enjekte edilmiş backend URL varsa bunları otomatik olarak oraya yönlendir.
+  if (isCapacitor && injected) {
+    var _bk = String(injected).replace(/\/+$/, '');
+    var _isApi = function(u) { return typeof u === 'string' && /^\/(api|socket\.io)(\/|\?|$)/.test(u); };
+    if (window.fetch) {
+      var _origFetch = window.fetch.bind(window);
+      window.fetch = function(input, init) {
+        if (_isApi(input)) input = _bk + input;
+        return _origFetch(input, init);
+      };
+    }
+    if (navigator.sendBeacon) {
+      var _origBeacon = navigator.sendBeacon.bind(navigator);
+      navigator.sendBeacon = function(u, d) { return _origBeacon(_isApi(u) ? _bk + u : u, d); };
+    }
+  }
   window.__ENV__ = window.__ENV__ || {};
   window.__ENV__.SOCKET_URL = backendUrl;
   window.__ENV__.API_BASE    = backendUrl;
@@ -325,9 +342,9 @@ var SCREEN_FILES = [
   'src/screens/TurkeyMapScreen.js',
   'src/screens/IndependentArmyScreen.js',
   // Yeni sistemler
-  'src/screens/AletAtölyesiScreen.js',
+  'src/screens/AletAtolyesiScreen.js',
   'src/screens/OttomanOrdusScreen.js',
-  'src/screens/GücPuaniScreen.js',
+  'src/screens/GucPuaniScreen.js',
   'src/screens/TurnuvaScreen.js',
   'src/screens/TakvimScreen.js',
   'src/screens/CasusScreen.js',
@@ -374,6 +391,9 @@ var SCREEN_FILES = [
   'src/screens/ProfilKartScreen.js',
   'src/screens/GrupMesajScreen.js',
   'src/screens/PadisahlikScreen.js',
+  'src/screens/PartyCenterScreen.js',
+  'src/screens/social/GangPage.js',
+  'src/screens/WorldMapScreen.js',
 ];
 
 function _babelOne(src) {
@@ -414,9 +434,18 @@ function compileAndRun() {
     .catch(function(err) { _showError('Yükleme hatası: ' + err.message); });
 }
 
+function _whenReady(cb, tries) {
+  tries = tries || 0;
+  if (window.Babel && window.React && window.ReactDOM) return cb();
+  if (tries > 300) { _showError('Oyun dosyaları yüklenemedi. İnternet bağlantını kontrol edip yenile.'); return; }
+  setTimeout(function() { _whenReady(cb, tries + 1); }, 100);
+}
+var _booted = false;
 function boot() {
+  if (_booted) return;
+  _booted = true;
   _advanceBar(70, 'Ordu hazırlanıyor...');
-  compileAndRun();
+  _whenReady(compileAndRun);
 }
 </script>
 
@@ -514,6 +543,12 @@ function boot() {
         market.forEach(function(c) { map[c.id||c.company_id] = c; });
         applyStateUpdate('stockMarket', map);
       }).catch(function(){});
+
+    // Dünya haritası ülke sahipliği
+    fetch(base+'/api/world/territories')
+      .then(function(r) { return r.ok ? r.json() : null; })
+      .then(function(d) { if (d && d.territories) applyStateUpdate('worldMap', d.territories); })
+      .catch(function(){});
 
     // Şehir sahipliği (game state'ten)
     fetch(base+'/api/game/state')
@@ -785,7 +820,7 @@ function boot() {
       // If military banner visible, push meclis banner down
       var milB = document.getElementById('mil-banner');
       var offset = (milB && milB.style.display !== 'none') ? (milB.offsetHeight || 64) : 0;
-      b.style.top = offset + 'px';
+      b.style.top = 'calc(env(safe-area-inset-top, 0px) + ' + offset + 'px)';
       // Reset and show
       b.style.display = 'none';
       void b.offsetWidth;
@@ -853,6 +888,11 @@ function boot() {
     _socket.on('combatResult', function(data) {
       window.dispatchEvent(new CustomEvent('combat-result', { detail: data }));
       applyStateUpdate('lastCombat', data);
+    });
+
+    // Dünya haritası: ülke sahipliği sunucudan gelir (server/routes/world.js)
+    _socket.on('worldMapUpdate', function(data) {
+      if (data && data.territories) applyStateUpdate('worldMap', data.territories);
     });
 
     _socket.on('cityOwnershipUpdate', function(data) {
@@ -1034,6 +1074,7 @@ function tryBoot() {
 // local fallback — CDN başarısız olursa dener
 function _loadLocal(path, onok, onfail) {
   var s = document.createElement('script');
+  s.async = false; // yedek dosyalar sırayla çalışsın (React → ReactDOM)
   s.src = path;
   s.onload = onok;
   s.onerror = onfail || function() { console.warn('[Boot] Local da yüklenemedi: ' + path); };

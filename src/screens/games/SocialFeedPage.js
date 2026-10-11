@@ -79,14 +79,14 @@ function SocialPage({ profile, showNotif }) {
             </div>
           </div>
         )}
-        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:'0.4rem'}}>
-          <div style={{display:'flex',gap:'0.4rem',alignItems:'center'}}>
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:'0.4rem',flexWrap:'wrap'}}>
+          <div style={{display:'flex',gap:'0.4rem',alignItems:'center',minWidth:0,flex:'1 1 auto'}}>
             <button onClick={()=>setShowGifPicker(v=>!v)} title="GIF ekle"
               style={{background:showGifPicker?'rgba(167,139,250,0.2)':'rgba(255,255,255,0.05)',border:`1px solid ${showGifPicker?'rgba(167,139,250,0.5)':'rgba(255,255,255,0.1)'}`,borderRadius:'8px',padding:'0.3rem 0.55rem',color:showGifPicker?'#C9A227':'#666',cursor:'pointer',fontSize:'0.8rem',fontWeight:700}}>
               🎞️ GIF
             </button>
             <input value={postImage} onChange={e=>setPostImage(e.target.value)} placeholder="Resim URL..."
-              style={{background:'rgba(237,231,218,0.04)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'8px',padding:'0.3rem 0.6rem',color:'#EDE7DA',fontFamily:'inherit',fontSize:'0.75rem',outline:'none',width:'130px'}} />
+              style={{background:'rgba(237,231,218,0.04)',border:'1px solid rgba(237,231,218,0.1)',borderRadius:'8px',padding:'0.3rem 0.6rem',color:'#EDE7DA',fontFamily:'inherit',fontSize:'0.75rem',outline:'none',width:'130px',flex:'1 1 90px',minWidth:0}} />
           </div>
           <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
             <span style={{fontSize:'0.7rem',color:newPost.length>480?'#C24B43':'#666'}}>{newPost.length}/500</span>

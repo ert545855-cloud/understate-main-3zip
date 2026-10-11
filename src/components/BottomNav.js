@@ -67,7 +67,6 @@ const NAV_GROUPS = [
       { id:'savas_kayit',     icon:'📋', svgIcon:'trophy',      label:'Savaş Sicili', rgb:'194,75,67'  },
       { id:'beylik_savasi',   icon:'⚜️', svgIcon:'crown',       label:'Beylik Savaşı',rgb:'194,75,67'  },
       { id:'lonca_turnuva',   icon:'🏆', svgIcon:'trophy',      label:'Turnuva',      rgb:'201,162,39' },
-      { id:'world',           icon:'🌍', svgIcon:'map',         label:'Dünya',      rgb:'201,162,39' },
       { id:'npcplayers',      icon:'🤖', svgIcon:'user',        label:'NPC',        rgb:'136,147,161'},
       { id:'eyalet_harita',   icon:'🗺️', svgIcon:'map',         label:'Eyaletler',  rgb:'201,162,39' },
       { id:'valilik',         icon:'👑', svgIcon:'crown',       label:'Valilik Yönetim', rgb:'201,162,39' },
@@ -119,6 +118,7 @@ const NAV_GROUPS = [
   {
     id:'kesfet', icon:'🧭', svgIcon:'map', label:'Keşfet', rgb:'76,154,107',
     items:[
+      { id:'world',           icon:'🌍', svgIcon:'map',       label:'Dünya Haritası',  rgb:'201,162,39'  },
       { id:'yetenek_agaci',   icon:'🌳', svgIcon:'education', label:'Yetenek Ağacı',   rgb:'76,154,107'  },
       { id:'etkinlik_takvimi',icon:'📅', svgIcon:'tasks',     label:'Etkinlik Takvimi',rgb:'201,162,39'  },
       { id:'ferman',          icon:'📜', svgIcon:'law',       label:'Ferman Divanı',   rgb:'201,162,39'  },
@@ -149,6 +149,9 @@ const BN_DS = {
   radius:  22,
 };
 
+// İkon dosyası tanımlı değilse emoji göster (kırık resim yerine)
+const _bnHasIcon = (name) => !!name && typeof _ICON_MAP !== 'undefined' && !!_ICON_MAP[name];
+
 function getActiveGroup(page) {
   if (page === 'home') return 'home';
   for (const g of NAV_GROUPS) {
@@ -163,6 +166,24 @@ function BottomNav({ page, onChange, items, notifMap }) {
   const T = useT();
   const [openGroup, setOpenGroup] = React.useState(null);
   const activeGroup = getActiveGroup(page);
+
+  // Mobil: klavye açıkken (bir yazı alanı odaktayken) alt menüyü gizle — menü klavyenin
+  // üstüne yapışıp sohbet/arama kutularını kapatıyordu
+  const [kbOpen, setKbOpen] = React.useState(false);
+  React.useEffect(() => {
+    let coarse = false;
+    try { coarse = window.matchMedia('(pointer: coarse)').matches; } catch (e) {}
+    if (!coarse) return;
+    const isField = (el) => !!el && (el.tagName === 'TEXTAREA' || el.isContentEditable ||
+      (el.tagName === 'INPUT' && !/^(checkbox|radio|range|button|submit|reset|file|color|image)$/i.test(el.type || '')));
+    let t = 0;
+    const onIn  = (e) => { if (isField(e.target)) { clearTimeout(t); setKbOpen(true); } };
+    const onOut = (e) => { if (isField(e.target)) { clearTimeout(t); t = setTimeout(() => setKbOpen(false), 150); } };
+    document.addEventListener('focusin', onIn);
+    document.addEventListener('focusout', onOut);
+    return () => { clearTimeout(t); document.removeEventListener('focusin', onIn); document.removeEventListener('focusout', onOut); };
+  }, []);
+  React.useEffect(() => { try { window.dispatchEvent(new Event('us-nav-visibility')); } catch (e) {} }, [kbOpen]);
 
   const allGroupIds = new Set(NAV_GROUPS.flatMap(g => g.direct ? [g.id] : (g.items||[]).map(i=>i.id)));
   const extraItems  = (items||[]).filter(i => !allGroupIds.has(i.id));
@@ -179,7 +200,7 @@ function BottomNav({ page, onChange, items, notifMap }) {
 
   return React.createElement(React.Fragment, null,
     // ── Sub-menu panel ──────────────────────────────────
-    openGroup && currentGroup && React.createElement(React.Fragment, null,
+    !kbOpen && openGroup && currentGroup && React.createElement(React.Fragment, null,
       // Backdrop
       React.createElement('div', {
         onClick: () => setOpenGroup(null),
@@ -189,16 +210,16 @@ function BottomNav({ page, onChange, items, notifMap }) {
       React.createElement('div', {
         style: {
           position:'fixed',
-          bottom: BN_DS.navH + 12,
-          left:'50%', transform:'translateX(-50%)',
-          width:'min(96vw, 500px)',
+          bottom:`calc(${BN_DS.navH + 14}px + env(safe-area-inset-bottom, 0px))`,
+          left:8, right:8, margin:'0 auto',
+          maxWidth:500,
           zIndex:895,
           background: BN_DS.surface,
           border:`1.5px solid ${BN_DS.border}`,
           borderRadius: 20,
           padding:'16px 14px 14px',
           boxShadow:'0 -12px 48px rgba(0,0,0,0.75), 0 0 0 1px rgba(201,162,39,0.06)',
-          maxHeight:'58vh', overflowY:'auto',
+          maxHeight:'min(60vh, calc(100% - 200px))', overflowY:'auto', overscrollBehavior:'contain', WebkitOverflowScrolling:'touch',
         }
       },
         // Panel header
@@ -237,7 +258,7 @@ function BottomNav({ page, onChange, items, notifMap }) {
                 boxShadow: active ? `0 0 18px rgba(${it.rgb},0.18)` : 'none',
               }
             },
-              it.svgIcon
+              _bnHasIcon(it.svgIcon)
                 ? React.createElement(SvgIcon, { name:it.svgIcon, size:26, style:{ opacity:active?1:0.45, filter: active ? `drop-shadow(0 0 5px rgba(${it.rgb},0.8))` : 'none', transition:'all 0.15s' } })
                 : React.createElement('span', { style:{ fontSize:'1.25rem', lineHeight:1, filter:active?`drop-shadow(0 0 6px rgba(${it.rgb},0.65))`:'none', display:'inline-block', opacity:active?1:0.8 } }, it.icon),
               React.createElement('span', {
@@ -254,9 +275,10 @@ function BottomNav({ page, onChange, items, notifMap }) {
 
     // ── Main nav bar ────────────────────────────────────
     React.createElement('div', {
+      className:'us-bottomnav',
       style:{
         position:'fixed', bottom:0, left:0, right:0, zIndex:900,
-        display:'flex', justifyContent:'center',
+        display: kbOpen ? 'none' : 'flex', justifyContent:'center',
         padding:'0 8px calc(10px + env(safe-area-inset-bottom,0px)) 8px',
         pointerEvents:'none',
       }
@@ -310,7 +332,7 @@ function BottomNav({ page, onChange, items, notifMap }) {
             React.createElement('div', {
               style:{ width:32, height:32, display:'flex', alignItems:'center', justifyContent:'center', position:'relative' }
             },
-              group.svgIcon
+              _bnHasIcon(group.svgIcon)
                 ? React.createElement(SvgIcon, { name:group.svgIcon, size:24, style:{ opacity: lit?1:0.4, filter: lit ? `drop-shadow(0 0 6px rgba(${groupRgb},0.85))` : 'none', transition:'opacity 0.18s, filter 0.18s' } })
                 : React.createElement('span', { style:{ fontSize:'1.2rem', lineHeight:1, display:'inline-block', opacity: lit?1:0.5, filter: lit?`drop-shadow(0 0 7px rgba(${groupRgb},0.7))`:'none', transition:'opacity 0.18s, filter 0.18s' } }, group.icon),
               hasNotif && React.createElement('span', {

@@ -10,87 +10,112 @@ const {
 // ── Ravenmore Icon Pack — PNG ikonları (64×64) ─────────────────────────────
 const _ICON_MAP = {
   // Ekonomi & Kaynak
-  money:            '/icons/64/coin.png',
-  bank:             '/icons/64/gemBlue.png',
-  coin:             '/icons/64/coin.png',
-  gem:              '/icons/64/gemGold.png',
-  gemBlue:          '/icons/64/gemBlue.png',
-  gemGreen:         '/icons/64/gemGreen.png',
-  gemRed:           '/icons/64/gemRed.png',
-  chart:            '/icons/64/gemGreen.png',
+  money:            '/public/icons/64/coin.png',
+  bank:             '/public/icons/64/gemBlue.png',
+  coin:             '/public/icons/64/coin.png',
+  gem:              '/public/icons/64/gemGold.png',
+  gemBlue:          '/public/icons/64/gemBlue.png',
+  gemGreen:         '/public/icons/64/gemGreen.png',
+  gemRed:           '/public/icons/64/gemRed.png',
+  chart:            '/public/icons/64/gemGreen.png',
   // Devlet & Yönetim
-  government:       '/icons/64/scroll.png',
-  crown:            '/icons/64/helmet.png',
-  vote:             '/icons/64/scroll.png',
-  law:              '/icons/64/scroll.png',
-  throne:           '/icons/64/helmet.png',
+  government:       '/public/icons/64/scroll.png',
+  crown:            '/public/icons/64/helmet.png',
+  vote:             '/public/icons/64/scroll.png',
+  law:              '/public/icons/64/scroll.png',
+  throne:           '/public/icons/64/helmet.png',
   // Savaş & Ordu
-  sword:            '/icons/64/sword.png',
-  weapon:           '/icons/64/axe.png',
-  axe:              '/icons/64/axe.png',
-  shield:           '/icons/64/shield.png',
-  shieldSmall:      '/icons/64/shieldSmall.png',
-  bow:              '/icons/64/bow.png',
-  dagger:           '/icons/64/dagger.png',
-  wand:             '/icons/64/wand.png',
+  sword:            '/public/icons/64/sword.png',
+  weapon:           '/public/icons/64/axe.png',
+  axe:              '/public/icons/64/axe.png',
+  shield:           '/public/icons/64/shield.png',
+  shieldSmall:      '/public/icons/64/shieldSmall.png',
+  bow:              '/public/icons/64/bow.png',
+  dagger:           '/public/icons/64/dagger.png',
+  wand:             '/public/icons/64/wand.png',
   // Yapı & Üretim
-  factory:          '/icons/64/hammer.png',
-  hammer:           '/icons/64/hammer.png',
-  tools:            '/icons/64/tools.png',
-  mining:           '/icons/64/hammer.png',
+  factory:          '/public/icons/64/hammer.png',
+  hammer:           '/public/icons/64/hammer.png',
+  tools:            '/public/icons/64/tools.png',
+  mining:           '/public/icons/64/hammer.png',
   // İnsanlar & Sosyal
-  user:             '/icons/64/armor.png',
-  users:            '/icons/64/axeDouble.png',
-  chat:             '/icons/64/envelope.png',
-  envelope:         '/icons/64/envelope.png',
+  user:             '/public/icons/64/armor.png',
+  users:            '/public/icons/64/axeDouble.png',
+  chat:             '/public/icons/64/envelope.png',
+  envelope:         '/public/icons/64/envelope.png',
   // Ekipman & Eşya
-  briefcase:        '/icons/64/backpack.png',
-  backpack:         '/icons/64/backpack.png',
-  settings:         '/icons/64/tools.png',
-  home:             '/icons/64/shieldSmall.png',
-  heart:            '/icons/64/heart.png',
+  briefcase:        '/public/icons/64/backpack.png',
+  backpack:         '/public/icons/64/backpack.png',
+  settings:         '/public/icons/64/tools.png',
+  home:             '/public/icons/64/shieldSmall.png',
+  heart:            '/public/icons/64/heart.png',
   // Bilgi & Görev
-  education:        '/icons/64/tome.png',
-  tome:             '/icons/64/tome.png',
-  scroll:           '/icons/64/scroll.png',
-  newspaper:        '/icons/64/scroll.png',
-  tasks:            '/icons/64/scroll.png',
+  education:        '/public/icons/64/tome.png',
+  tome:             '/public/icons/64/tome.png',
+  scroll:           '/public/icons/64/scroll.png',
+  newspaper:        '/public/icons/64/scroll.png',
+  tasks:            '/public/icons/64/scroll.png',
   // Başarı & Ödül
-  trophy:           '/icons/64/gemRed.png',
+  trophy:           '/public/icons/64/gemRed.png',
   // Harita & Keşif
-  map:              '/icons/64/map.png',
-  farm:             '/icons/64/tools.png',
-  truck:            '/icons/64/swordWood.png',
+  map:              '/public/icons/64/map.png',
+  farm:             '/public/icons/64/tools.png',
+  truck:            '/public/icons/64/swordWood.png',
   // Sağlık & İksir
-  potionBlue:       '/icons/64/potionBlue.png',
-  potionGreen:      '/icons/64/potionGreen.png',
-  potionRed:        '/icons/64/potionRed.png',
+  potionBlue:       '/public/icons/64/potionBlue.png',
+  potionGreen:      '/public/icons/64/potionGreen.png',
+  potionRed:        '/public/icons/64/potionRed.png',
   // Yükseltilmiş
-  'upg-sword':      '/icons/64/upg_sword.png',
-  'upg-shield':     '/icons/64/upg_shield.png',
-  'upg-armor':      '/icons/64/upg_armor.png',
-  'upg-axe':        '/icons/64/upg_axe.png',
-  'upg-bow':        '/icons/64/upg_bow.png',
-  'upg-hammer':     '/icons/64/upg_hammer.png',
+  'upg-sword':      '/public/icons/64/upg_sword.png',
+  'upg-shield':     '/public/icons/64/upg_shield.png',
+  'upg-armor':      '/public/icons/64/upg_armor.png',
+  'upg-axe':        '/public/icons/64/upg_axe.png',
+  'upg-bow':        '/public/icons/64/upg_bow.png',
+  'upg-hammer':     '/public/icons/64/upg_hammer.png',
   // İş ikonları
-  'job-trash':      '/icons/64/tools.png',
-  'job-chef':       '/icons/64/potionGreen.png',
-  'job-porter':     '/icons/64/backpack.png',
-  'job-warehouse':  '/icons/64/backpack.png',
-  'job-miner':      '/icons/64/hammer.png',
-  'job-engineer':   '/icons/64/tools.png',
-  'job-doctor':     '/icons/64/potionRed.png',
-  'job-programmer': '/icons/64/tome.png',
-  'job-pilot':      '/icons/64/bow.png',
+  'job-trash':      '/public/icons/64/tools.png',
+  'job-chef':       '/public/icons/64/potionGreen.png',
+  'job-porter':     '/public/icons/64/backpack.png',
+  'job-warehouse':  '/public/icons/64/backpack.png',
+  'job-miner':      '/public/icons/64/hammer.png',
+  'job-engineer':   '/public/icons/64/tools.png',
+  'job-doctor':     '/public/icons/64/potionRed.png',
+  'job-programmer': '/public/icons/64/tome.png',
+  'job-pilot':      '/public/icons/64/bow.png',
 };
 function SvgIcon({ name, size=24, style={} }) {
+  const [broken, setBroken] = useState(false);
   const src = _ICON_MAP[name];
-  if (!src) return null;
-  // Ravenmore PNGs — renkli ikonlar, filter gereksiz
+  if (!src || broken) return null;
+  // Ravenmore PNGs — renkli ikonlar, filter gereksiz. Yüklenemezse alt metni göstermek yerine gizle.
   return React.createElement('img', {
-    src, alt:name, width:size, height:size,
+    src, alt:'', 'aria-hidden':true, width:size, height:size, draggable:false,
+    onError: () => setBroken(true),
     style:{ display:'inline-block', flexShrink:0, imageRendering:'pixelated', ...style }
   });
+}
+
+// ── Mobil: tam yükseklikli bölümleri (sohbet, harita) alt menünün üstüne sığdır ──
+// Sabit 'calc(100dvh - 120px)' değerleri başlık + alt menü yüksekliğini karşılamıyordu;
+// giriş kutusu / harita alt kısmı menünün arkasında kalıyordu.
+function useFitHeight(ref, gap = 8, min = 260) {
+  const [h, setH] = useState(null);
+  useEffect(() => {
+    const fit = () => {
+      const el = ref.current; if (!el) return;
+      const sc = document.querySelector('.us-page-scroll');
+      const nav = document.querySelector('.us-bottomnav');
+      const top = el.getBoundingClientRect().top + (sc ? sc.scrollTop : 0);
+      const bottom = nav && nav.offsetParent !== null ? nav.getBoundingClientRect().top : window.innerHeight;
+      setH(Math.max(min, Math.round(bottom - top - gap)));
+    };
+    fit();
+    const t = setTimeout(fit, 400);
+    window.addEventListener('resize', fit);
+    window.addEventListener('us-nav-visibility', fit);
+    return () => { clearTimeout(t); window.removeEventListener('resize', fit); window.removeEventListener('us-nav-visibility', fit); };
+  }, []);
+  return h;
 }
 
 // ═══════════════════════════════════════════════════════
@@ -757,6 +782,30 @@ function App() {
   });
   const [authed, setAuthed] = useState(() => !!localStorage.getItem('rep_userProfile'));
   const [page, setPage] = useState('home');
+  // ── Mobil gezinme: sayfa değişince en üste kaydır, Android geri tuşu uygulama içinde geri gitsin ──
+  const scrollRef = useRef(null);
+  const pageBodyRef = useRef(null);
+  const pageFromPop = useRef(false);
+  const [emptyPage, setEmptyPage] = useState(null);
+  useEffect(() => {
+    window._setPage = setPage;
+    try { history.replaceState({ page: 'home' }, ''); } catch (_) {}
+    const onPop = (e) => { pageFromPop.current = true; setPage((e.state && e.state.page) || 'home'); };
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
+  useEffect(() => {
+    if (pageFromPop.current) pageFromPop.current = false;
+    else if (!history.state || history.state.page !== page) { try { history.pushState({ page }, ''); } catch (_) {} }
+    if (scrollRef.current) scrollRef.current.scrollTop = 0;
+    setEmptyPage(null);
+    // Tanımsız/eksik sayfa → boş ekran yerine yönlendirme kartı göster
+    const t = setTimeout(() => {
+      const el = pageBodyRef.current;
+      if (el && el.childElementCount === 0) setEmptyPage(page);
+    }, 700);
+    return () => clearTimeout(t);
+  }, [page]);
   const [notifOpen, setNotifOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [toast, setToast] = useState(null);
@@ -799,7 +848,7 @@ function App() {
   const audioRef = React.useRef(null);
   useEffect(() => {
     if (!audioRef.current) {
-      audioRef.current = new Audio('/sounds/bg-music.mp3');
+      audioRef.current = new Audio('/public/sounds/bg-music.mp3');
       audioRef.current.loop = true;
       audioRef.current.volume = 0.25;
     }
@@ -1041,6 +1090,8 @@ function App() {
       // Eğer zaten bağlıysa hemen playerJoin gönder; değilse connect event'ini dinle
       if (s.connected) {
         _emitPlayerJoin(s);
+        // Bağlantı bu dinleyicilerden önce kurulduysa ilk state (beylikler vb.) kaçırılmıştır → yeniden iste
+        setTimeout(() => { try { s.emit('requestInitialState'); } catch (_) {} }, 50);
       } else {
         s.once('connect', () => _emitPlayerJoin(s));
       }
@@ -1449,8 +1500,16 @@ function App() {
           )}
 
           {/* Main scrollable content */}
-          <div style={{flex:1,overflowY:'auto',WebkitOverflowScrolling:'touch',paddingBottom:'calc(70px + env(safe-area-inset-bottom, 0px))',background:pageBg,position:'relative',contain:'layout style paint',isolation:'isolate'}}>
-          <div key={page} style={{minHeight:'100%'}}>
+          <div ref={scrollRef} className="us-page-scroll" style={{flex:1,overflowY:'auto',overflowX:'hidden',WebkitOverflowScrolling:'touch',overscrollBehaviorY:'contain',paddingBottom:'calc(140px + env(safe-area-inset-bottom, 0px))',background:pageBg,position:'relative',contain:'layout style paint',isolation:'isolate'}}>
+          {emptyPage === page && (
+            <div style={{margin:'2.5rem 1rem',padding:'1.5rem 1.25rem',borderRadius:14,background:'#1B212B',border:'1px solid rgba(201,162,39,0.2)',textAlign:'center'}}>
+              <div style={{fontSize:'2rem',marginBottom:'0.5rem'}}>🧭</div>
+              <div style={{fontFamily:"'Cinzel',serif",fontWeight:800,color:'#EDE7DA',marginBottom:'0.35rem'}}>Bu bölüm açılamadı</div>
+              <div style={{fontSize:'0.8rem',color:'#8893A1',lineHeight:1.5,marginBottom:'1rem'}}>Sayfa yüklenemedi ya da henüz hazır değil. Ana sayfaya dönüp tekrar deneyebilirsin.</div>
+              <button onClick={()=>setPage('home')} style={{padding:'0.7rem 1.4rem',borderRadius:12,border:'none',background:'#C9A227',color:'#0F0800',fontWeight:800,cursor:'pointer'}}>Ana sayfaya dön</button>
+            </div>
+          )}
+          <div key={page} ref={pageBodyRef} style={{minHeight:'100%'}}>
             {page==='home'         && <HomePage        {...pageProps} />}
             {page==='chat'         && <ChatPage        profile={profile} />}
             {page==='economy'      && <EconomyPage     {...pageProps} />}
@@ -1459,7 +1518,10 @@ function App() {
             {page==='beylik_kur'   && window.BeylikScreen && React.createElement(window.BeylikScreen, {...pageProps, allUsers:onlinePlayers||[], serverBeyliks, setServerBeyliks, savasIlanlari})}
             {page==='holdings'     && <HoldingsPage    {...pageProps} />}
             {page==='alliance'     && <AlliancePage    {...pageProps} />}
-            {page==='world'        && <WorldPage       profile={profile} onNavigate={setPage} />}
+            {page==='world'        && (window.WorldMapScreen
+                                        ? React.createElement(window.WorldMapScreen, {...pageProps, serverBeyliks, onlinePlayers})
+                                        : <WorldPage profile={profile} onNavigate={setPage} />)}
+            {page==='gang'         && typeof GangPage === 'function' && <GangPage {...pageProps} />}
             {page==='admin'        && <AdminPage       profile={profile} showNotif={showNotif} onNavigate={setPage} />}
             {page==='farm'         && <EconomyPage     {...pageProps} initialSub='farm' />}
             {page==='livestock'    && <EconomyPage     {...pageProps} initialSub='livestock' />}
@@ -1562,16 +1624,18 @@ function App() {
             {page==='profil_kart'       && window.ProfilKartScreen       && React.createElement(window.ProfilKartScreen,       {profile,onNavigate:setPage})}
             {page==='grup_mesaj'        && window.GrupMesajScreen        && React.createElement(window.GrupMesajScreen,        {profile,onNavigate:setPage,showNotif})}
             {page==='padisahlik'        && window.PadisahlikScreen       && React.createElement(window.PadisahlikScreen,       {profile,setProfile,showNotif,onNavigate:setPage})}
-            {page==='party_center'      && window.PartyCenterScreen      && React.createElement(window.PartyCenterScreen,      {profile,setProfile,showNotif,onNavigate:setPage,parties})}
+            {page==='party_center'      && window.PartyCenterScreen      && React.createElement(window.PartyCenterScreen,      {cu:profile||{},profile,setProfile,showNotif,onNavigate:setPage,setCurrentPage:setPage,allUsers:onlinePlayers||[],
+                                             parties:(()=>{ try { const v = JSON.parse(localStorage.getItem('rep_parties')||'[]'); return Array.isArray(v) ? v : Object.values(v||{}); } catch { return []; } })()})}
           </div>
           </div>
 
           <BottomNav page={page} onChange={setPage} items={navItems} notifMap={{ chat: notifications.filter(n=>n.type==='message'&&Date.now()-n.ts<300000).length }} />
 
           {/* Müzik Toggle FAB */}
-          <button onClick={()=>setMusicOn(m=>!m)} title={musicOn?'Müziği Kapat':'Müziği Aç'} style={{position:'fixed',bottom:80,right:14,width:40,height:40,borderRadius:'50%',border:'1px solid rgba(200,155,60,0.35)',background:'rgba(11,8,0,0.92)',backdropFilter:'blur(8px)',zIndex:1200,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.1rem',cursor:'pointer',boxShadow:'0 2px 12px rgba(0,0,0,0.5)',transition:'all 0.2s'}}>
+          {/* Müzik düğmesi: alt kısımda giriş kutusu / harita kontrolü olan sayfalarda gizli (üstüne biniyordu) */}
+          {!['world','chat','klanchat','dm','grup_mesaj','map','mektup'].includes(page) && <button onClick={()=>setMusicOn(m=>!m)} title={musicOn?'Müziği Kapat':'Müziği Aç'} aria-label={musicOn?'Müziği Kapat':'Müziği Aç'} style={{position:'fixed',bottom:'calc(92px + env(safe-area-inset-bottom, 0px))',right:12,opacity:0.85,width:40,height:40,borderRadius:'50%',border:'1px solid rgba(200,155,60,0.35)',background:'rgba(11,8,0,0.92)',backdropFilter:'blur(8px)',zIndex:1200,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.1rem',cursor:'pointer',boxShadow:'0 2px 12px rgba(0,0,0,0.5)',transition:'all 0.2s'}}>
             {musicOn ? '🔊' : '🔇'}
-          </button>
+          </button>}
 
           {toast && <Notif msg={toast.msg} type={toast.type} onClose={()=>setToast(null)} />}
           {notifOpen && <NotifPanel notifications={notifications} onClose={()=>setNotifOpen(false)} onClear={()=>setNotifications([])} />}
@@ -1631,8 +1695,28 @@ styleEl.textContent = `
   ::-webkit-scrollbar { width: 3px; height: 3px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: rgba(201,162,39,0.3); border-radius: 10px; }
-  input, select, textarea { -webkit-appearance: none; font-size: 16px !important; }
+  input, select, textarea { -webkit-appearance: none; font-size: 16px !important; min-width: 0; max-width: 100%; }
   button { -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; overscroll-behavior: none; }
+  /* Esnek satırlardaki 'flex:1' öğeleri içerik kadar genişleyip ekranı taşırıyordu
+     (uzun başlık/açıklama metinleri). min-width:0 ile kısalıp '…' ile kesilebilirler. */
+  [style*="flex: 1 1 0%"] { min-width: 0; }
+  /* '1fr' ızgara sütunları uzun içerikte daralmıyordu → dar ekranda taşma */
+  [style*="grid-template-columns: 1fr 1fr;"] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  [style*="grid-template-columns: 1fr 1fr 1fr;"] { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  [style*="grid-template-columns: repeat(2, 1fr)"] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  [style*="grid-template-columns: repeat(3, 1fr)"] { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  [style*="grid-template-columns: repeat(4, 1fr)"] { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+  button, a, [role="button"], input, select, textarea, label { touch-action: manipulation; }
+  img { -webkit-user-drag: none; }
+  .us-page-scroll { scrollbar-width: none; }
+  .us-page-scroll::-webkit-scrollbar { display: none; }
+  /* Dar telefonlar (≤360px): başlıktaki ikincil rozetleri gizle, isim sığsın */
+  @media (max-width: 379px) {
+    .hdr-online { display: none !important; }
+    .hdr-row { padding-left: 0.5rem !important; padding-right: 0.5rem !important; gap: 0.3rem !important; }
+  }
+  @media (max-width: 340px) { .hdr-altin { display: none !important; } }
   .bnav { scroll-behavior: smooth; }
   .bnav::-webkit-scrollbar { display: none; }
   @keyframes spin { to { transform: rotate(360deg); } }
@@ -1758,4 +1842,4 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(React.createElement(ErrorBoundary, null, React.createElement(App)));
 
 // Loading screen kapat (auth yoksa da bir süre sonra kapat)
-setTimeout(() => window._hideLoading?.(), 4000);
+setTimeout(() => window._hideLoading?.(), 600); // giriş ekranı 4 sn yükleme perdesinin arkasında beklemesin

@@ -28,13 +28,32 @@ router.post('/declare', authMiddleware, asyncHandler(async (req, res) => {
   const { attackerBeylik, defenderBeylik, defenderLeaderId } = req.body;
   if (!attackerBeylik || !defenderBeylik) return res.status(400).json({ success: false, message: 'Beylik adları gerekli' });
 
+  // Dünya haritasından ülke için savaş: hedef ülke savunan beyliğin olmalı, ilan eden saldıran beyliğin lideri olmalı
+  let targetCountry = null;
+  if (req.body.targetCountry) {
+    const world = require('./world');
+    const owner = await world.ownerOf(req.body.targetCountry);
+    if (!owner || owner.beylik_ad !== defenderBeylik)
+      return res.status(400).json({ success: false, message: 'Hedef ülke bu beyliğe ait değil' });
+    const beyliks = (await db.getGameState('beyliks').catch(() => null)) || [];
+    const mine = (Array.isArray(beyliks) ? beyliks : Object.values(beyliks)).find(b => b && b.ad === attackerBeylik);
+    if (!mine || String(mine.kurucuId) !== String(req.user.id))
+      return res.status(403).json({ success: false, message: 'Savaşı yalnızca saldıran beyliğin lideri ilan edebilir' });
+    if (mine.ad === defenderBeylik) return res.status(400).json({ success: false, message: 'Kendi beyliğine savaş açamazsın' });
+    const { rows: open } = await db.query(
+      `SELECT id FROM beylik_wars WHERE status='active' AND spoils_region=$1 LIMIT 1`, [String(req.body.targetCountry).toUpperCase()]
+    );
+    if (open.length) return res.status(409).json({ success: false, message: 'Bu ülke için zaten süren bir savaş var' });
+    targetCountry = String(req.body.targetCountry).toUpperCase().slice(0, 8);
+  }
+
   const { rows: [user] } = await db.query(`SELECT id,username,level FROM users WHERE id=$1`, [req.user.id]);
   const endsAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour window
 
   const { rows: [war] } = await db.query(`
-    INSERT INTO beylik_wars (attacker_beylik, attacker_leader_id, defender_beylik, defender_leader_id, ends_at)
-    VALUES ($1,$2,$3,$4,$5) RETURNING *`,
-    [attackerBeylik, user.id, defenderBeylik, defenderLeaderId || null, endsAt]
+    INSERT INTO beylik_wars (attacker_beylik, attacker_leader_id, defender_beylik, defender_leader_id, ends_at, spoils_region)
+    VALUES ($1,$2,$3,$4,$5,$6) RETURNING *`,
+    [attackerBeylik, user.id, defenderBeylik, defenderLeaderId || null, endsAt, targetCountry]
   );
 
   // Auto-join attacker as participant
@@ -99,6 +118,13 @@ router.post('/resolve/:id', authMiddleware, asyncHandler(async (req, res) => {
     attacker: war.attacker_beylik, defender: war.defender_beylik
   });
 
+  // Dünya haritası: ülke için açılmış savaşı saldıran kazandıysa toprak el değiştirir
+  let territoryTransferred = false;
+  if (attackerWins && war.spoils_region) {
+    try { territoryTransferred = await require('./world').transferAfterWar(war.spoils_region, war.attacker_beylik, war.defender_beylik, war.id); }
+    catch (e) { /* toprak devri başarısız olsa da savaş sonucu geçerli */ }
+  }
+
   // Padişahlık fetih sayacını artır — galip beyliği sunucu tarafında kaydeder
   if (attackerWins && war.attacker_beylik) {
     try {
@@ -107,7 +133,7 @@ router.post('/resolve/:id', authMiddleware, asyncHandler(async (req, res) => {
     } catch (_) {}
   }
 
-  res.json({ success: true, status, attackerWins, spoils });
+  res.json({ success: true, status, attackerWins, spoils, territory: war.spoils_region || null, territoryTransferred });
 }));
 
 module.exports = router;
