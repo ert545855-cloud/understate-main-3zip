@@ -18,6 +18,7 @@ const logger = require('../utils/logger');
 
 let _io = null;
 let _ready = false;
+let _retry = 0;
 
 const MIGRATIONS_DIR = path.join(__dirname, '..', 'migrations');
 
@@ -57,8 +58,8 @@ async function runMigrations() {
 async function connectDB(io) {
   if (io) _io = io;
 
-  if (!process.env.DATABASE_URL) {
-    logger.warn('DATABASE_URL tanımlanmamış — DB bağlantısı kurulamadı');
+  if (!db.isReady()) {
+    logger.warn('Veritabanı adresi tanımlanmamış (DATABASE_URL / SUPABASE_DB_URL / RDS_*) — DB bağlantısı kurulamadı');
     return;
   }
 
@@ -94,7 +95,15 @@ async function connectDB(io) {
     logger.error('PostgreSQL baglanti testi basarisiz:', err.message);
     logger.warn('DB bagli degil — veriler kalici olmayacak. Sunucu yine de calismaya devam ediyor.');
     if (_io) _io.emit('dbStatus', { status: 'error', timestamp: Date.now() });
-    // Hata firlatmiyoruz: sunucu DB olmadan da ayaga kalkmali
+    // Hata firlatmiyoruz: sunucu DB olmadan da ayaga kalkmali.
+    // Render/Supabase veritabanı deploy sırasında geç uyanabiliyor → artan aralıklarla tekrar dene
+    // (aksi halde tablolar hiç oluşmuyor ve sunucu yeniden başlatılana kadar DB'siz kalıyordu).
+    if (_retry < 8) {
+      const wait = Math.min(60000, 5000 * Math.pow(2, _retry));
+      _retry++;
+      logger.warn(`[DB] ${Math.round(wait / 1000)} sn sonra yeniden denenecek (${_retry}/8)`);
+      setTimeout(() => connectDB(), wait);
+    }
   }
 }
 

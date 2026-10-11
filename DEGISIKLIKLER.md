@@ -1,5 +1,19 @@
 # Değişiklikler
 
+## Render dağıtım düzeltmeleri
+
+- **Sunucu artık eksik ayarda çökmüyor.** `JWT_SECRET` ya da veritabanı adresi yoksa eskiden `process.exit(1)` ile kapanıyordu ve Render "Deploy failed / Exited with status 1" döngüsüne giriyordu. Şimdi sunucu açılıyor ve eksik olanı günlükte açıkça yazıyor. `/health` her durumda 200 dönüyor ve veritabanı durumunu da (`db: true/false`) gösteriyor.
+- `render.yaml`: `JWT_SECRET` artık Render tarafından otomatik üretiliyor (`generateValue: true`). Node sürümü 22 olarak sabitlendi. Kurulum `npm ci --omit=dev` ile yapılıyor.
+- **Sabit `understate.onrender.com` adresi kaldırıldı.** Servis farklı bir adla açıldığında sayfa socket ve istekleri yanlış adrese gönderiyordu, giriş isteği de CORS yüzünden 500 hatası alıyordu. Artık:
+  - `/config.js` isteğin geldiği adresi döndürüyor.
+  - CORS aynı siteden gelen isteklere her zaman izin veriyor; `*.onrender.com`, Render'ın verdiği `RENDER_EXTERNAL_URL` adresi ve APK adresi (`https://localhost`) de izinli.
+  - İzinsiz bir kaynakta 500 hatası yerine yalnızca CORS başlığı eklenmiyor.
+- Canlı ortamda `ALLOWED_ORIGINS` verilmezse varsayılan değer artık `*` değil. Yalnızca aynı site, APK ve bilinen platformlar izinli.
+- Veritabanı adresi olarak `DATABASE_URL`, `SUPABASE_DB_URL` ve `RDS_*` değişkenlerinin hepsi kabul ediliyor. Eskiden yalnızca `DATABASE_URL` sayılıyordu.
+- Veritabanı açılışta yanıt vermezse bağlantı artan aralıklarla 8 kez yeniden deneniyor. Eskiden tablolar hiç oluşmuyordu.
+- E-posta doğrulama bağlantıları `PUBLIC_URL` yoksa Render adresini kullanıyor.
+
+
 ## Siyaset RP: yeni ad, modern tema, ordu ve harekât
 
 ### Ad ve görünüm

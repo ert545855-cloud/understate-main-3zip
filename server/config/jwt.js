@@ -1,12 +1,10 @@
 const jwt = require('jsonwebtoken');
 const { ACCESS_TOKEN_EXPIRES_IN, REFRESH_TOKEN_EXPIRES_IN } = require('./constants');
 
-// ── Fail-fast: JWT_SECRET zorunlu ─────────────────────────────────────────────
+// ── JWT_SECRET: yoksa sunucuyu çökertme (Render'da deploy döngüsüne giriyordu) ──
 if (!process.env.JWT_SECRET) {
-  console.error('\n[FATAL] JWT_SECRET ortam değişkeni tanımlı değil!');
-  console.error('[FATAL] Lütfen .env dosyasına veya sunucu env\'sine JWT_SECRET ekleyin.');
-  console.error('[FATAL] Örnek: JWT_SECRET=en_az_32_karakter_uzun_rastgele_string\n');
-  process.exit(1);
+  process.env.JWT_SECRET = require('crypto').randomBytes(48).toString('hex');
+  console.error('[UYARI] JWT_SECRET tanımlı değil — geçici rastgele anahtar kullanılıyor (yeniden başlatınca oturumlar düşer).');
 }
 
 const SECRET         = process.env.JWT_SECRET;

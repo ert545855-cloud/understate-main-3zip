@@ -1,19 +1,22 @@
 require('dotenv').config({ override: true }); // .env değerleri Replit runtime env var'larını override eder
 require('express-async-errors'); // async route handler'larında try/catch zorunluluğunu kaldırır — hatalar global error handler'a düşer
 
-// ── Fail-fast: kritik env var kontrolü ───────────────────────────────────────
-// jwt.js da kontrol eder, ama burada erken yakalayıp net hata veriyoruz.
+// ── Kritik env var kontrolü ──────────────────────────────────────────────────
+// Eskiden JWT_SECRET ya da DATABASE_URL yoksa process.exit(1) ile kapanıyordu; Render'da
+// bu "Deploy failed / Exited with status 1" döngüsüne yol açıyordu ve site hiç açılmıyordu.
+// Artık sunucu her durumda ayağa kalkar, eksik olanı günlükte açıkça yazar.
 if (!process.env.JWT_SECRET) {
-  console.error('\n[FATAL] JWT_SECRET ortam değişkeni tanımlı değil!');
-  console.error('[FATAL] .env dosyasına veya sunucu ortamına ekleyin.');
-  console.error('[FATAL] Örnek: JWT_SECRET=<en_az_32_karakter_rastgele_string>\n');
-  process.exit(1);
+  process.env.JWT_SECRET = require('crypto').randomBytes(48).toString('hex');
+  console.error('\n[UYARI] JWT_SECRET tanımlı değil! Geçici rastgele bir anahtar üretildi.');
+  console.error('[UYARI] Sunucu her yeniden başladığında oyuncuların oturumu kapanır.');
+  console.error('[UYARI] Render → Environment bölümüne en az 32 karakterlik JWT_SECRET ekleyin.\n');
 }
-if (!process.env.DATABASE_URL) {
-  console.error('\n[FATAL] DATABASE_URL ortam değişkeni tanımlı değil!');
-  console.error('[FATAL] PostgreSQL bağlantı URL\'sini sağlayın.');
-  console.error('[FATAL] Örnek: DATABASE_URL=postgresql://user:pass@host:5432/dbname\n');
-  process.exit(1);
+const HAS_DB_CONFIG = !!(process.env.DATABASE_URL || process.env.SUPABASE_DB_URL ||
+  (process.env.RDS_HOSTNAME && process.env.RDS_USERNAME && process.env.RDS_PASSWORD));
+if (!HAS_DB_CONFIG) {
+  console.error('\n[UYARI] Veritabanı adresi yok (DATABASE_URL / SUPABASE_DB_URL / RDS_*).');
+  console.error('[UYARI] Sunucu açılıyor ama giriş, kayıt ve ilerleme KAYDEDİLMEZ.');
+  console.error('[UYARI] Render → Environment bölümüne DATABASE_URL ekleyin (Render Postgres "Internal Database URL" ya da Supabase).\n');
 }
 if (process.env.ALLOWED_ORIGINS === '*' && process.env.NODE_ENV === 'production') {
   console.warn('[WARN] ALLOWED_ORIGINS=* production ortamında güvensizdir. Gerçek origin listesi kullanın.');
@@ -41,50 +44,48 @@ const root = path.join(__dirname, '..');
 app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
 
 const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS
-  ? process.env.ALLOWED_ORIGINS.split(',').map(s => s.trim())
-  : ['*'];
+  ? process.env.ALLOWED_ORIGINS.split(',').map(s => s.trim()).filter(Boolean)
+  : (process.env.NODE_ENV === 'production' ? [] : ['*']);   // canlıda varsayılan: sadece aynı site + APK + bilinen platformlar
 
 const REPLIT_DEV_DOMAIN = process.env.REPLIT_DEV_DOMAIN || '';
+const RENDER_URL = (process.env.RENDER_EXTERNAL_URL || '').replace(/\/+$/, '');   // Render otomatik verir
 
-function isOriginAllowed(origin) {
+function isOriginAllowed(origin, host) {
   if (!origin) return true;
+  try { if (host && new URL(origin).host === host) return true; } catch (_) {}   // aynı site (sayfa bu sunucudan)
   if (ALLOWED_ORIGINS.includes('*')) return true;
   if (ALLOWED_ORIGINS.includes(origin)) return true;
+  if (RENDER_URL && origin === RENDER_URL) return true;
+  if (origin.endsWith('.onrender.com')) return true;
   if (REPLIT_DEV_DOMAIN && origin.endsWith(REPLIT_DEV_DOMAIN)) return true;
   if (origin.endsWith('.replit.dev') || origin.endsWith('.repl.co') || origin.endsWith('.pike.replit.dev')) return true;
+  // Capacitor APK: androidScheme 'https' → https://localhost, iOS → capacitor://localhost
   if (origin === 'capacitor://localhost' || origin.startsWith('capacitor://')) return true;
+  if (origin === 'https://localhost' || origin === 'http://localhost' || origin === 'ionic://localhost') return true;
   if (origin.endsWith('.elasticbeanstalk.com') || origin.endsWith('.amazonaws.com')) return true;
   if (origin.endsWith('.cloudfront.net')) return true;
+  if (origin.endsWith('.up.railway.app')) return true;
   return false;
 }
 
-app.use(cors({
-  origin: (origin, cb) => {
-    if (isOriginAllowed(origin)) {
-      cb(null, true);
-    } else {
-      cb(new Error('CORS: izin verilmeyen kaynak'));
-    }
-  },
-  credentials: true,
+// İzin verilmeyen kaynakta hata fırlatmak yerine CORS başlığı eklemiyoruz: tarayıcı yabancı siteyi
+// engeller, ama aynı sitedeki istekler (Render alan adı ne olursa olsun) 500 hatası almaz.
+app.use(cors((req, cb) => {
+  const origin = req.headers.origin;
+  const host = req.headers['x-forwarded-host'] || req.headers.host;
+  cb(null, { origin: isOriginAllowed(origin, host) ? true : false, credentials: true });
 }));
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true }));
 
 // ── Dinamik config (Capacitor/APK için backend URL inject) ────────────────────
 app.get('/config.js', (req, res) => {
-  let publicUrl = process.env.PUBLIC_URL || process.env.BACKEND_URL || '';
-  // Eğer PUBLIC_URL set edilmemişse, isteğin geldiği origin'i kullan
-  // Bu Mixed Content hatasını önler (http:// → https://)
-  if (!publicUrl) {
-    const proto = req.headers['x-forwarded-proto'] || req.protocol;
-    const host = req.headers['x-forwarded-host'] || req.headers.host;
-    publicUrl = `${proto}://${host}`;
-  }
-  // http:// ile başlıyorsa ve X-Forwarded-Proto https ise düzelt
-  if (publicUrl.startsWith('http://') && req.headers['x-forwarded-proto'] === 'https') {
-    publicUrl = publicUrl.replace('http://', 'https://');
-  }
+  // Sayfa bu sunucudan açıldığına göre arka uç da bu sunucudur: isteğin kendi adresini kullan.
+  // (Eskiden sabit PUBLIC_URL kullanılıyordu; Render'daki gerçek alan adı farklıysa socket ve
+  // istekler yanlış adrese gidiyordu.) APK kendi statik config.js dosyasını kullanır.
+  const proto = String(req.headers['x-forwarded-proto'] || req.protocol || 'https').split(',')[0].trim();
+  const host = req.headers['x-forwarded-host'] || req.headers.host;
+  const publicUrl = host ? `${proto}://${host}` : (process.env.PUBLIC_URL || RENDER_URL || '');
   res.set('Content-Type', 'application/javascript');
   res.set('Cache-Control', 'no-cache');
   res.send(`window.__BACKEND_URL__ = ${JSON.stringify(publicUrl)};`);
@@ -201,7 +202,7 @@ app.use('/api/military',     require('./routes/military'));       // Silahlı Ku
 // ── Supabase REST API — Admin & Upload ────────────────────────
 app.use('/api/admin/sb',     require('./routes/adminSupabase'));
 
-app.get('/health',            (_req, res) => res.json({ status: 'OK', ts: Date.now() }));
+app.get('/health',            (_req, res) => res.json({ status: 'OK', db: require('./database/connection').getConnectionStatus(), ts: Date.now() }));
 app.get('/api/admob-config',  (_req, res) => res.json(getPublicAdConfig(process.env.NODE_ENV !== 'production')));
 
 // ── Alias route'lar: eksik endpoint'ler için yönlendirme ────────────────────

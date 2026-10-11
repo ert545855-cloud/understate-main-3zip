@@ -15,7 +15,7 @@ const ADMIN_USERNAMES = (process.env.ADMIN_USERS || 'admin').split(',').map(s =>
 const EMAIL_VERIFY_EXPIRY_MS = 24 * 60 * 60 * 1000;
 
 function _baseUrl(req) {
-  return process.env.PUBLIC_URL || (req ? `${req.protocol}://${req.get('host')}` : 'http://localhost:5000');
+  return process.env.PUBLIC_URL || process.env.RENDER_EXTERNAL_URL || (req ? `${req.protocol}://${req.get('host')}` : 'http://localhost:5000');
 }
 
 function validateUsername(u) {
