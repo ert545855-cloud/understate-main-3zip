@@ -48,9 +48,12 @@ const NUMERIC_STATE_BOUNDS = {
   xp:    { min: 0,   max: 1e12 },
   hp:    { min: 0,   max: 100  },
 };
+// Sunucunun yönettiği anahtarlar istemciden yayınlanamaz (sahte harita/sahiplik önlenir)
+const SERVER_OWNED_STATE_KEYS = new Set(['worldMap']);
 function sanitizeStateUpdate(data) {
   if (!data || typeof data !== 'object' || Array.isArray(data)) return null;
   if (!data.key || typeof data.key !== 'string' || data.key.length > 64) return null;
+  if (SERVER_OWNED_STATE_KEYS.has(data.key)) return null;
   const safe = {};
   for (const k of ALLOWED_STATE_KEYS) {
     if (data[k] === undefined) continue;
@@ -142,6 +145,16 @@ function registerGameHandlers(io, socket) {
 
   // Push full game state to connecting client
   setTimeout(() => pushInitialState(socket), 800);
+
+  // İstemci dinleyicilerini bağlantıdan SONRA kurduysa (giriş ekranından sonra) ilk
+  // state'i kaçırıyordu → beylik listesi boş görünüyordu. İstemci tekrar isteyebilir.
+  let _initReqAt = 0;
+  socket.on('requestInitialState', () => {
+    const now = Date.now();
+    if (now - _initReqAt < 5000) return; // 5 sn'de bir
+    _initReqAt = now;
+    pushInitialState(socket);
+  });
 
   // ── Presence ──────────────────────────────────────────────────────────────
   socket.on('playerJoin', (data) => {
