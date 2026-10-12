@@ -426,10 +426,13 @@ async function tick() {
       }
     }
   } catch (e) {
-    logger.warn('[Military] tick hatası:', e.message);
+    // Veritabanı yokken her 4 sn'de aynı hatayı yazıp günlüğü doldurmasın: dakikada bir yaz
+    const now = Date.now();
+    if (now - _lastTickErr > 60000) { _lastTickErr = now; logger.warn('[Military] tick hatası:', e.message); }
   } finally { _ticking = false; }
 }
 let _timer = null;
+let _lastTickErr = 0;
 function init() {
   if (_timer) return;
   _timer = setInterval(tick, 4000);
